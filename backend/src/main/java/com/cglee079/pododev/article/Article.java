@@ -1,8 +1,19 @@
 package com.cglee079.pododev.article;
 
+import com.cglee079.pododev.attachfile.AttachFile;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Article {
 
@@ -16,12 +27,8 @@ public class Article {
     @Column
     private String contents;
 
-    @Column
-    private String thumbnail;
-
     @Column(name = "create_at")
     private Date createAt;
-
 
     @Column(name = "hit_cnt")
     private long hitCnt;
@@ -29,7 +36,17 @@ public class Article {
     @Column
     private boolean enabled;
 
-//    private List<AttachImage> images;
-//    private List<AttachFile> files;
+    @OneToMany
+    @JoinColumn(name = "article_seq")
+    private List<AttachFile> files;
+
+
+    /**
+     * 게시글 수정 시
+     */
+    public void update(ArticleDto.update articleReq) {
+        this.title = articleReq.getTitle();
+        this.contents = articleReq.getContents();
+    }
 
 }
