@@ -1,6 +1,7 @@
 <template>
-  <div id="wrap-articles">
+  <div id="wrapArticles">
     아티클 리스트
+    <router-link to="/articles/post">게시글작성</router-link>
   </div>
 </template>
 

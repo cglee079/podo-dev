@@ -26,7 +26,7 @@ public class ArticleService {
                 .build();
     }
 
-    public ApiResponse paging() {
+    public ApiResponse paging(int page) {
 
         return null;
     }

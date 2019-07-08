@@ -1,5 +1,6 @@
 package com.cglee079.pododev.article;
 
+import com.cglee079.pododev.article.tag.Tag;
 import com.cglee079.pododev.attachfile.AttachFile;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,6 +40,10 @@ public class Article {
     @OneToMany
     @JoinColumn(name = "article_seq")
     private List<AttachFile> files;
+
+    @OneToMany
+    @JoinColumn(name = "article_seq")
+    private List<Tag> tags;
 
 
     /**

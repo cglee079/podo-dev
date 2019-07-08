@@ -26,8 +26,8 @@ public class ArticleController {
      * 게시글 페이징
      */
     @GetMapping
-    public ApiResponse paging() {
-        return null;
+    public ApiResponse paging(int page) {
+        return articleService.paging(page);
     }
 
 
