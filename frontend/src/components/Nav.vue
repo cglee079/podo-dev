@@ -1,6 +1,6 @@
 <template>
   <div id="nav">
-    <div>Podo</div>
+    <div>Podo.logo</div>
     <div id="navMenu">
       <span>이력</span>
       <span>블로그</span>
@@ -25,5 +25,9 @@
     height: 100px;
     border-bottom: 0.5px solid #E7E7E7;
     padding: 0px 100px;
+  }
+
+  #navMenu span{
+    margin: 0px 20px;
   }
 </style>

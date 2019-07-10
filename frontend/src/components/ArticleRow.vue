@@ -38,7 +38,7 @@
     }
 
     .thumbnail{
-        margin: 5px 20px;
+        margin: 0px 20px;
         width: 150px;
     }
 
@@ -77,6 +77,7 @@
         align-items: flex-end;
         justify-content: space-between;
         color: #9199a4;
+        font-size: 0.9rem;
     }
 
     .info .tags .tag{

@@ -1,11 +1,5 @@
 <template>
     <div id="wrapArticles">
-        <div id="articleTree">
-            <div>dfdfd</div>
-            <div>dfdfd</div>
-            <div>dfdfd</div>
-            <div>dfdfd</div>
-        </div>
         <div id="articles">
             <ArticleRow :article=article></ArticleRow>
             <ArticleRow :article=article></ArticleRow>
@@ -23,6 +17,16 @@
             <ArticleRow :article=article></ArticleRow>
             <ArticleRow :article=article></ArticleRow>
             <ArticleRow :article=article></ArticleRow>
+        </div>
+        <div id="articleTags">
+            <div>#Spring</div>
+            <div>#VueJS</div>
+            <div>#JPA</div>
+            <div>#이론</div>
+            <div>#Spring</div>
+            <div>#VueJS</div>
+            <div>#JPA</div>
+            <div>#이론</div>
         </div>
     </div>
 </template>
@@ -67,8 +71,21 @@
         display: flex;
     }
 
-    #articleTree {
-        width: 20%;
+    #articleTags {
+        position: sticky;
+        margin-left: 50px;
+        width: 15%;
+    }
+
+    #articleTags div{
+        display: inline-block;
+        margin: 5px 10px;
+        cursor: pointer;
+        opacity: 0.8;
+    }
+
+    #articleTags div:hover{
+        opacity: 1;
     }
 
     #articles{
