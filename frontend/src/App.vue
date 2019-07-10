@@ -1,7 +1,9 @@
 <template>
   <div>
     <Nav></Nav>
-    <router-view></router-view>
+    <div id="main">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
@@ -26,6 +28,11 @@
 
   html, body {
     font-family: 'Noto Sans KR', sans-serif;
+  }
+
+  #main{
+    width: 1080px;
+    margin: 50px auto;
   }
 
 </style>
