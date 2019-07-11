@@ -26,7 +26,7 @@
             <span>다음글</span>
         </div>
 
-        <div id="contents">
+        <div id="contents" class="editor-contents">
             <h3>LSP, Liskov Substitution Principle<br/>
                 (리스코프 치환 원칙)</h3>
 
@@ -276,10 +276,86 @@ public class MinMax2 extends MinMax {
     }
 
     #submenus span {
+        cursor: pointer;
         margin-left: 10px;
+        font-size: 0.9rem;
     }
 
     #contents {
         margin-top: 50px;
+    }
+</style>
+
+<style scoped>
+    /*CKEditor Class */
+
+    .editor{
+        padding: 1rem 2rem;
+        max-width : var(--section-width-narrow);
+        margin : 0 auto;
+    }
+
+    .editor-contents {
+        color: #333;
+        line-height: 2.4;
+        word-break: break-all;
+    }
+
+    .editor-contents iframe{
+        margin: 2rem 0;
+    }
+
+    .editor-contents h1, .editor-contents h2, .editor-contents h3 {
+        margin: 0.3rem 0;
+    }
+
+    .editor-contents a, .editor-contents a:VISITED {
+        text-decoration: underline;
+        color: #00F;
+    }
+
+    .editor-contents ul, .editor-contents ol{
+        margin : 0.3rem 1.5rem;
+    }
+
+    .editor-contents hr{
+        border : 0.5px solid #DDD;
+    }
+
+    .editor-contents > p > img{
+        height: auto;
+        margin: 1.5rem 0;
+        border-color : #DDD;
+    }
+
+    .editor-contents code {
+        overflow-x: auto;
+        margin: 10px 1px;
+    }
+
+
+    .editor-contents .emphasize{
+        display: block;
+        border-left: 5px solid #DDD;
+        padding-left: 0.5rem;
+        margin: 1rem 0.5rem;
+        font-weight: bold;
+        font-style: italic;
+    }
+
+
+    .editor-contents .quotation{
+        display: block;
+        font-style: italic;
+        line-height: 1.7;
+        opacity: 0.9;
+        margin: 0 1rem
+    }
+
+    .editor-contents .mark{
+        padding: 1px 5px;
+        font-size: 0.95rem;
+        background: #F1F1F1;
+        border-radius: 5px;
     }
 </style>

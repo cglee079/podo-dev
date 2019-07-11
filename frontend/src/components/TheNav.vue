@@ -6,7 +6,7 @@
             <span>블로그</span>
             <span>사진</span>
         </div>
-        <div>
+        <div id="search">
             <autocomplete :search="search" @submit="submit"></autocomplete>
         </div>
     </div>
@@ -46,20 +46,29 @@
 
 <style scoped>
     #nav {
+        position: sticky;
         display: flex;
         justify-content: space-between;
         align-items: center;
         height: 100px;
-        border-bottom: 0.5px solid #E7E7E7;
+        border-bottom: 1px solid #E7E7E7;
         padding: 0px 100px;
+    }
+
+    #navMenu{
+        position : absolute;
+        left : 0;
+        right : 0;
+        text-align: center;
     }
 
     #navMenu span {
         margin: 0px 20px;
+        cursor: pointer;
     }
 
-    .autocomplete {
-        font-size: 1rem;
+    #search{
+        transform: scale(.8);
     }
 
 </style>

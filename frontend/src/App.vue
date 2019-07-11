@@ -4,20 +4,29 @@
         <div id="main">
             <router-view></router-view>
         </div>
+        <the-footer></the-footer>
     </div>
 </template>
 
 <script>
     import TheNav from '@/components/TheNav'
+    import TheFooter from '@/components/TheFooter'
 
     export default {
         components: {
-            'the-nav': TheNav
+            'the-nav': TheNav,
+            'the-footer' : TheFooter
         },
         name: 'App'
     }
 </script>
+<style scoped>
+    #main {
+        width: 1080px;
+        margin: 50px auto;
+    }
 
+</style>
 <style>
     @import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
 
@@ -41,10 +50,4 @@
     html, body {
         font-family: 'Noto Sans KR', sans-serif;
     }
-
-    #main {
-        width: 1080px;
-        margin: 50px auto;
-    }
-
 </style>
