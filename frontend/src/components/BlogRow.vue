@@ -1,5 +1,5 @@
 <template>
-    <div class="article-row">
+    <div class="blog-row">
         <img class="thumbnail"/>
         <div class="content">
             <div class="title">제목</div>
@@ -24,12 +24,12 @@
 
 <script>
     export default {
-        name: "ArticleRow"
+        name: "BlogRow"
     }
 </script>
 
 <style scoped>
-    .article-row{
+    .blog-row{
         display: flex;
         cursor: pointer;
         padding-bottom: 20px;
@@ -55,7 +55,7 @@
         margin-bottom: 10px;
     }
 
-    .article-row:hover .title{
+    .blog-row:hover .title{
         margin-left: 10px;
     }
 

@@ -1,5 +1,5 @@
 <template>
-    <div id="wrapArticle">
+    <div id="wrapBlog">
         <div id="head">
             <div id="tags">
                 <span>#태그1</span>
@@ -216,12 +216,12 @@ public class MinMax2 extends MinMax {
 
 <script>
     export default {
-        name: 'ArticleVue',
+        name: 'BlogVue',
     }
 </script>
 
 <style scoped>
-    #wrapArticle{
+    #wrapBlog{
         width: 800px;
         margin: 0px auto;
     }

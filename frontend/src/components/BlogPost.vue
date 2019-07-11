@@ -1,5 +1,5 @@
 <template>
-  <div id="wrapArticlePost">
+  <div id="wrapBlogPost">
     <ckeditor :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor>
   </div>
 </template>
