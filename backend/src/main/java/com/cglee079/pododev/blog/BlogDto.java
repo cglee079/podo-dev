@@ -1,22 +1,18 @@
-package com.cglee079.pododev.article;
+package com.cglee079.pododev.blog;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-public class ArticleDto {
+public class BlogDto {
 
+    @Getter
     public static class insert {
         private String title;
         private String contents;
-
-        public Article toArticle() {
-            return Article.builder()
-                    .title(this.title)
-                    .contents(this.contents)
-                    .build();
-        }
     }
 
     @Getter
@@ -28,13 +24,18 @@ public class ArticleDto {
 
     @Getter
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class response {
         private long seq;
+        private String desc;
         private String title;
         private String contents;
-        private Date createAt;
         private long hitCnt;
+        private Date createAt;
+        private Date updateAt;
         private boolean enabled;
+
     }
 
 

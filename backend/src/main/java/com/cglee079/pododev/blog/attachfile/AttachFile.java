@@ -1,4 +1,4 @@
-package com.cglee079.pododev.attachfile;
+package com.cglee079.pododev.blog.attachfile;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -10,8 +10,8 @@ public class AttachFile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int seq;
 
-    @Column(name = "article_seq")
-    private long articleSeq;
+    @Column(name = "blog_seq")
+    private long blogSeq;
 
     @Column
     private String filename;

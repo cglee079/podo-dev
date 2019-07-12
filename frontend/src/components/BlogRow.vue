@@ -1,14 +1,10 @@
-<template>
-    <div class="blog-row" @click="viewBlog(1)">
+<template >
+    <div class="blog-row" @click="viewBlog(blog.seq)">
         <img class="thumbnail"/>
         <div class="content">
-            <div class="title">SPRING JPA 제대로 배우기</div>
-            <div class="desc">
-                Header란? 본문 이외에 추가적인 정보를 교환할 수 있도록, HTTP 메세지 선두에 삽입되는 요소. 요청 Header Accept :
-                클라이언트가 허용하는 문서 타입 Accept-Encoding : 클라이언트가 인식 할 수 있는 인코
-                딩 User-Agent : 클라이언트의 이름과 버전 Host : 서버의 도메인 (포트 포함) Refer : 링크
-                를 제공한 페이지 정보 Cookie : 쿠키 응답 Header Server : 웹 서버의 정보 Content-type : 본문의 타입
-                Content-length : 본문의 길이 Content-Encoding : 본문의 인코딩
+            <div class="title">{{ blog.title }}</div>
+            <div class="desc" >
+                <div v-html="blog.desc" ></div>
             </div>
             <div class="info">
                 <div class="tags">
@@ -17,7 +13,7 @@
                     <span class="tag">#DFD</span>
                 </div>
                 <div class="subinfo">
-                    <span>2019-03-25</span>
+                    <span>{{ blog.createAt }}</span>
                     <span>댓글 0</span>
                 </div>
             </div>
@@ -29,11 +25,14 @@
 <script>
     export default {
         name: 'BlogRow',
-        methods : {
-            viewBlog(seq){
+        props: {
+            blog: Object
+        },
+        methods: {
+            viewBlog(seq) {
                 this.$router.push({
                     name: 'BlogView',
-                    params : {
+                    params: {
                         'seq': seq
                     }
                 })
@@ -43,7 +42,7 @@
 </script>
 
 <style scoped>
-    .blog-row{
+    .blog-row {
         display: flex;
         cursor: pointer;
         padding-bottom: 30px;
@@ -51,16 +50,16 @@
         border-bottom: 1px solid #F1F1;
     }
 
-    .thumbnail{
+    .thumbnail {
         margin: 0px 20px;
         width: 150px;
     }
 
-    .content{
+    .content {
         flex: 1;
     }
 
-    .title{
+    .title {
         color: #333;
         cursor: pointer;
         font-size: 1.25rem;
@@ -69,11 +68,11 @@
         margin-bottom: 10px;
     }
 
-    .blog-row:hover .title{
+    .blog-row:hover .title {
         margin-left: 10px;
     }
 
-    .desc{
+    .desc {
         display: box;
         overflow: hidden;
         -webkit-box-orient: vertical;
@@ -86,7 +85,7 @@
         opacity: 0.9;
     }
 
-    .info{
+    .info {
         display: flex;
         align-items: flex-end;
         justify-content: space-between;
@@ -94,14 +93,14 @@
         font-size: 0.9rem;
     }
 
-    .info .tags .tag{
+    .info .tags .tag {
         padding: 2px 5px;
-        margin-right : 4px;
+        margin-right: 4px;
     }
 
-    .info .subinfo span{
+    .info .subinfo span {
         padding: 2px 5px;
-        margin-left : 4px;
+        margin-left: 4px;
     }
 
 </style>

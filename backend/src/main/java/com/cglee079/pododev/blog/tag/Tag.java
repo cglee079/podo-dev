@@ -1,7 +1,8 @@
-package com.cglee079.pododev.article.tag;
+package com.cglee079.pododev.blog.tag;
 
 import javax.persistence.*;
 
+@Table(name = "blog_tag")
 @Entity
 public class Tag {
 
@@ -9,8 +10,8 @@ public class Tag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long seq;
 
-    @Column(name = "artilce_seq")
-    private long articleSeq;
+    @Column(name = "blog_seq")
+    private long blogSeq;
 
     @Column
     private String value;

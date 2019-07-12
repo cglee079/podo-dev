@@ -1,9 +1,9 @@
-package com.cglee079.pododev.article;
+package com.cglee079.pododev.blog;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ArticleRepository extends JpaRepository<Article, Long>{
+public interface BlogRepository extends JpaRepository<Blog, Long>{
 
 }

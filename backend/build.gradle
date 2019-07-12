@@ -1,5 +1,6 @@
 plugins {
     id 'org.springframework.boot' version '2.1.6.RELEASE'
+    id "io.franzbecker.gradle-lombok" version "1.14"
     id 'java'
 }
 
@@ -33,4 +34,8 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+
+    compile group: 'org.jsoup', name: 'jsoup', version: '1.11.3'
+
 }
+

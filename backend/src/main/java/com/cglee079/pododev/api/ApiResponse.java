@@ -6,7 +6,12 @@ import lombok.Getter;
 @Getter
 @Builder
 public class ApiResponse {
-    String code;
-    String message;
+
+    @Builder.Default
+    String code = "000";
+
+    @Builder.Default
+    String message = "success";
+
     Object data;
 }

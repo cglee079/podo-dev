@@ -1,8 +1,7 @@
 <template>
     <div id="wrapBlogs">
         <div id="blogs">
-            <blog-row v-for="i in 20" :key="i">
-            </blog-row>
+            <blog-row v-for="blog in contents" :key="blog.seq" :blog="blog"></blog-row>
         </div>
         <div id="blogTags">
             <div>#Spring</div>
@@ -27,7 +26,11 @@
         },
         data(){
             return {
-                blog : ''
+                contents : [],
+                pageSize : '',
+                currentPage : '',
+                totalElements : '',
+                totalPages : ''
             }
         },
         methods: {
@@ -36,13 +39,18 @@
              */
             loadBlog(page) {
                 this.$axios
-                    .get('http://localhost:8443/api/blogs', {
+                    .get('http://localhost:8090/api/blogs', {
                         params: {
                             'page': page
                         }
                     })
                     .then(res => {
-                        console.log(res)
+                        res = res.data.data
+                        this.contents = res.contents
+                        this.pageSize = res.pageSize
+                        this.currentPage = res.currentPage
+                        this.totalElements = res.totalElements
+                        this.totalPages = res.totalPages
                     })
                     .catch(err => {
                         console.log(err)
@@ -52,7 +60,7 @@
 
         },
         created() {
-            //this.loadBlog(0)
+            this.loadBlog(0)
         }
     }
 </script>
