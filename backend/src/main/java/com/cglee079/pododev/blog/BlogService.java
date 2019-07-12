@@ -26,7 +26,7 @@ public class BlogService {
     public BlogDto.response get(long seq) {
         Blog blog = blogRepository.findById(seq).get();
 
-        return BlogUtil.entityToResponse(blog);
+        return new BlogDto.response(blog);
     }
 
     public PageDto.response paging(int page) {
@@ -34,7 +34,7 @@ public class BlogService {
         Page<Blog> blogs = blogRepository.findAll(pageRequest);
 
         List<BlogDto.response> contents = new LinkedList<>();
-        blogs.forEach(b -> contents.add(BlogUtil.entityToResponse(b)));
+        blogs.forEach(b -> contents.add(new BlogDto.response(b)));
 
         return PageDto.response
                 .<BlogDto.response>builder()
@@ -48,7 +48,7 @@ public class BlogService {
     }
 
     public long insert(BlogDto.insert blogReq) {
-        Blog blog = BlogUtil.insertToEntity(blogReq);
+        Blog blog = blogReq.toEntity();
         blog = blogRepository.save(blog);
 
         return blog.getSeq();

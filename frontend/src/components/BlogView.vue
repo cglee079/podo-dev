@@ -12,7 +12,7 @@
 
             <div id="info">
                 <span>{{blog.createAt}}</span>
-                <span>{{blog.hitCnt}}</span>
+                <span>조회수 {{blog.hitCnt}}</span>
             </div>
         </div>
 

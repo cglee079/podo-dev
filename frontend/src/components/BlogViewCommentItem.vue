@@ -22,8 +22,8 @@
 
 <style scoped>
     .comment {
-        padding-top: 20px;
-        padding-bottom: 15px;
+        padding-top: 30px;
+        padding-bottom: 20px;
         border-bottom: 1px solid #F1F1F1;
     }
 
