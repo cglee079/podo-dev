@@ -15,7 +15,7 @@
     export default {
         components: {
             'the-nav': TheNav,
-            'the-footer' : TheFooter
+            'the-footer': TheFooter
         },
         name: 'App'
     }
@@ -23,12 +23,12 @@
 <style scoped>
     #main {
         width: 1080px;
-        margin: 50px auto;
+        margin: 50px auto 150px auto;
     }
 
 </style>
 <style>
-    @import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
+    @import url('http://fonts.googleapis.com/earlyaccess/notosanskr.css');
 
     a, abbr, acronym, address, applet, article, aside,
     audio, b, bdi, bdo, big, blockquote, body, button, canvas,
@@ -49,5 +49,14 @@
 
     html, body {
         font-family: 'Noto Sans KR', sans-serif;
+    }
+
+    textarea, input{
+        font-family: 'Noto Sans KR', sans-serif !important;
+    }
+
+    a {
+        color: inherit;
+        text-decoration: none;
     }
 </style>

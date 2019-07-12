@@ -21,7 +21,7 @@
             <span>수정</span>
             <span>삭제</span>
             <span>공유하기</span>
-            <span>목록</span>
+            <span><router-link :to="{name : 'BlogList'}">목록</router-link></span>
             <span>이전글</span>
             <span>다음글</span>
         </div>
@@ -211,12 +211,18 @@ public class MinMax2 extends MinMax {
 
         </div>
 
+        <blog-view-comment></blog-view-comment>
     </div>
 </template>
 
 <script>
+    import BlogViewComment from '@/components/BlogViewComment'
+
     export default {
         name: 'BlogVue',
+        components: {
+            'blog-view-comment' : BlogViewComment
+        }
     }
 </script>
 

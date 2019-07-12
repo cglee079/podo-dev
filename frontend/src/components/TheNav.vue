@@ -3,7 +3,7 @@
         <div>Podo.logo</div>
         <div id="navMenu">
             <span>이력</span>
-            <span>블로그</span>
+            <span><router-link :to="{name : 'BlogList'}">블로그</router-link></span>
             <span>사진</span>
         </div>
         <div id="search">

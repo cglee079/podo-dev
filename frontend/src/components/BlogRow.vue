@@ -1,10 +1,14 @@
 <template>
-    <div class="blog-row">
+    <div class="blog-row" @click="viewBlog(1)">
         <img class="thumbnail"/>
         <div class="content">
-            <div class="title">제목</div>
+            <div class="title">SPRING JPA 제대로 배우기</div>
             <div class="desc">
-                Header란? 본문 이외에 추가적인 정보를 교환할 수 있도록, HTTP 메세지 선두에 삽입되는 요소. 요청 Header Accept : 클라이언트가 허용하는 문서 타입 Accept-Encoding : 클라이언트가 인식 할 수 있는 인코딩 User-Agent : 클라이언트의 이름과 버전 Host : 서버의 도메인 (포트 포함) Refer : 링크를 제공한 페이지 정보 Cookie : 쿠키 응답 Header Server : 웹 서버의 정보 Content-type : 본문의 타입 Content-length : 본문의 길이 Content-Encoding : 본문의 인코딩
+                Header란? 본문 이외에 추가적인 정보를 교환할 수 있도록, HTTP 메세지 선두에 삽입되는 요소. 요청 Header Accept :
+                클라이언트가 허용하는 문서 타입 Accept-Encoding : 클라이언트가 인식 할 수 있는 인코
+                딩 User-Agent : 클라이언트의 이름과 버전 Host : 서버의 도메인 (포트 포함) Refer : 링크
+                를 제공한 페이지 정보 Cookie : 쿠키 응답 Header Server : 웹 서버의 정보 Content-type : 본문의 타입
+                Content-length : 본문의 길이 Content-Encoding : 본문의 인코딩
             </div>
             <div class="info">
                 <div class="tags">
@@ -24,7 +28,17 @@
 
 <script>
     export default {
-        name: "BlogRow"
+        name: 'BlogRow',
+        methods : {
+            viewBlog(seq){
+                this.$router.push({
+                    name: 'BlogView',
+                    params : {
+                        'seq': seq
+                    }
+                })
+            }
+        }
     }
 </script>
 
@@ -32,8 +46,8 @@
     .blog-row{
         display: flex;
         cursor: pointer;
-        padding-bottom: 20px;
-        margin-bottom: 20px;
+        padding-bottom: 30px;
+        margin-bottom: 30px;
         border-bottom: 1px solid #F1F1;
     }
 
@@ -65,7 +79,7 @@
         -webkit-box-orient: vertical;
         white-space: normal;
         -webkit-line-clamp: 2;
-        max-height: 3.3rem;
+        max-height: 3.2rem;
         color: #606060;
         word-break: break-all;
         margin-bottom: 15px;

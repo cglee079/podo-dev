@@ -1,22 +1,8 @@
 <template>
     <div id="wrapBlogs">
         <div id="blogs">
-            <BlogRow :blog=blog></BlogRow>
-            <BlogRow :blog=blog></BlogRow>
-            <BlogRow :blog=blog></BlogRow>
-            <BlogRow :blog=blog></BlogRow>
-            <BlogRow :blog=blog></BlogRow>
-            <BlogRow :blog=blog></BlogRow>
-            <BlogRow :blog=blog></BlogRow>
-            <BlogRow :blog=blog></BlogRow>
-            <BlogRow :blog=blog></BlogRow>
-            <BlogRow :blog=blog></BlogRow>
-            <BlogRow :blog=blog></BlogRow>
-            <BlogRow :blog=blog></BlogRow>
-            <BlogRow :blog=blog></BlogRow>
-            <BlogRow :blog=blog></BlogRow>
-            <BlogRow :blog=blog></BlogRow>
-            <BlogRow :blog=blog></BlogRow>
+            <blog-row v-for="i in 20" :key="i">
+            </blog-row>
         </div>
         <div id="blogTags">
             <div>#Spring</div>
@@ -37,7 +23,7 @@
     export default {
         name: 'BlogList',
         components: {
-            BlogRow
+            'blog-row' : BlogRow
         },
         data(){
             return {
@@ -66,7 +52,7 @@
 
         },
         created() {
-            this.loadBlog(0)
+            //this.loadBlog(0)
         }
     }
 </script>
