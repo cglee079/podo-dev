@@ -1,0 +1,12 @@
+#Server Config
+server:
+  port: 8091
+
+# Paging
+upload:
+  image:
+    dir:
+      location : C://podo-dev/upload/image
+  file:
+    dir:
+      location : C://podo-dev/upload/file

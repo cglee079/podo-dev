@@ -5,7 +5,7 @@
             <span>썸네일</span>
             <span class="item-input">
                 <img id="thumbnail-img">
-                <input type="file">
+                <input type="file" @change="fileChange" ref="thumbnail">
             </span>
         </div>
 
@@ -62,7 +62,7 @@
 
 <script>
 
-    import { Editor } from '@toast-ui/vue-editor'
+    import {Editor} from '@toast-ui/vue-editor'
 
     export default {
         name: 'app',
@@ -88,6 +88,24 @@
             }
         },
         methods: {
+            fileChange() {
+                const thumbnail = this.$refs.thumbnail.files[0];
+                const formData = new FormData();
+                formData.append('thumbnail', thumbnail);
+
+                this.$axios
+                    .post('http://localhost:8091/api/images', formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    })
+                    .then(res => {
+                        console.log(res)
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+            },
             //태그 Input 입력 시,
             keyupTagText(event) {
                 let txt = this.input.tagText
@@ -107,14 +125,19 @@
             },
 
             // Toast Editor
-            onEditorLoad() {},
-            onEditorFocus() {},
-            onEditorBlur() {},
-            onEditorChange() {},
-            onEditorStateChange() {},
+            onEditorLoad() {
+            },
+            onEditorFocus() {
+            },
+            onEditorBlur() {
+            },
+            onEditorChange() {
+            },
+            onEditorStateChange() {
+            },
 
             //게시글 수정 시 호출,
-            loadBlog(seq){
+            loadBlog(seq) {
                 this.$axios
                     .get('http://localhost:8090/api/blogs/' + seq)
                     .then(res => {
@@ -130,7 +153,7 @@
         },
         created() {
             const seq = this.$route.params.seq
-            if(seq){
+            if (seq) {
                 this.loadBlog(seq)
             }
 

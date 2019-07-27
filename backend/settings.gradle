@@ -4,3 +4,5 @@ pluginManagement {
     }
 }
 rootProject.name = 'podo-dev'
+
+include 'podo-dev-common', 'podo-dev-web', 'podo-dev-uploader'

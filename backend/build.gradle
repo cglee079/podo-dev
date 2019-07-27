@@ -1,41 +1,66 @@
-plugins {
-    id 'org.springframework.boot' version '2.1.6.RELEASE'
-    id "io.franzbecker.gradle-lombok" version "1.14"
-    id 'java'
-}
-
-apply plugin: 'io.spring.dependency-management'
-
-group = 'com.cglee079'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
-
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
+buildscript {
+    ext {
+        springBootVersion = '2.1.6.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+        classpath "io.spring.gradle:dependency-management-plugin:0.6.0.RELEASE"
+        classpath "io.franzbecker:gradle-lombok:3.1.0"
     }
 }
 
-repositories {
-    mavenCentral()
+subprojects {
+    group = 'com.cglee079'
+    version = '1.0'
+
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: "io.franzbecker.gradle-lombok"
+    apply plugin: 'io.spring.dependency-management'
+    
+
+    sourceCompatibility = '1.8'
+
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    }
 }
 
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
 
-    compileOnly 'org.projectlombok:lombok'
-
-    runtimeOnly 'mysql:mysql-connector-java'
-
-    annotationProcessor 'org.projectlombok:lombok'
-
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.security:spring-security-test'
-
-    compile group: 'org.jsoup', name: 'jsoup', version: '1.11.3'
-
+project(':podo-dev-web') {
+    dependencies {
+        compile project(':podo-dev-common')
+    }
 }
+
+project(':podo-dev-uploader') {
+    dependencies {
+        compile project(':podo-dev-common')
+    }
+}
+
+
+
 
