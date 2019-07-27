@@ -1,7 +1,6 @@
-package com.cglee079.pododev.blog;
+package com.cglee079.pododev.domain.blog;
 
-import com.cglee079.pododev.blog.tag.Tag;
-import com.cglee079.pododev.blog.attachfile.AttachFile;
+import com.cglee079.pododev.domain.blog.tag.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

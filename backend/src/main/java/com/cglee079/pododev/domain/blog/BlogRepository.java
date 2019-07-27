@@ -1,4 +1,4 @@
-package com.cglee079.pododev.blog;
+package com.cglee079.pododev.domain.blog;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

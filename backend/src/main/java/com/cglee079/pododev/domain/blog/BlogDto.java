@@ -1,4 +1,4 @@
-package com.cglee079.pododev.blog;
+package com.cglee079.pododev.domain.blog;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

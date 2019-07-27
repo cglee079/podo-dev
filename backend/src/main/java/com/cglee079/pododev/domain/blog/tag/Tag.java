@@ -1,4 +1,4 @@
-package com.cglee079.pododev.blog.tag;
+package com.cglee079.pododev.domain.blog.tag;
 
 import javax.persistence.*;
 

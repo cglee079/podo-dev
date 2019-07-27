@@ -1,4 +1,4 @@
-package com.cglee079.pododev.api;
+package com.cglee079.pododev.domain.api;
 
 import lombok.Builder;
 import lombok.Getter;

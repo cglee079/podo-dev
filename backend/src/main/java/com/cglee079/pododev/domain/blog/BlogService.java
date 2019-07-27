@@ -1,6 +1,6 @@
-package com.cglee079.pododev.blog;
+package com.cglee079.pododev.domain.blog;
 
-import com.cglee079.pododev.api.PageDto;
+import com.cglee079.pododev.domain.api.PageDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;

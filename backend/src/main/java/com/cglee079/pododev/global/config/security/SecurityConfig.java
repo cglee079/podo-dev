@@ -1,6 +1,6 @@
-package com.cglee079.pododev.security;
+package com.cglee079.pododev.global.config.security;
 
-import com.cglee079.pododev.filter.CrossDomainFilter;
+import com.cglee079.pododev.global.config.filter.CrossDomainFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

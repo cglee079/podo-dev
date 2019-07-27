@@ -18,7 +18,7 @@
 
 
         <div id="submenus">
-            <span>수정</span>
+            <span @click="clickModifyBlog(blog.seq)">수정</span>
             <span>삭제</span>
             <span>공유하기</span>
             <span><router-link :to="{name : 'BlogList'}">목록</router-link></span>
@@ -48,6 +48,14 @@
             }
         },
         methods: {
+            clickModifyBlog(seq){
+                this.$router.push({
+                    name : 'BlogModify',
+                    params: {
+                        seq :seq
+                    }
+                });
+            },
             loadBlog(seq) {
                 this.$axios
                     .get('http://localhost:8090/api/blogs/' + seq)

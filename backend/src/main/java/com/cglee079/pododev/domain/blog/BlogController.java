@@ -1,6 +1,6 @@
-package com.cglee079.pododev.blog;
+package com.cglee079.pododev.domain.blog;
 
-import com.cglee079.pododev.api.ApiResponse;
+import com.cglee079.pododev.domain.api.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,4 +1,4 @@
-package com.cglee079.pododev.blog.attachfile;
+package com.cglee079.pododev.domain.blog.attachfile;
 
 import javax.persistence.*;
 import java.util.Date;
