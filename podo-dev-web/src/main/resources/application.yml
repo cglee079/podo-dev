@@ -1,0 +1,34 @@
+#Server Config
+server:
+  port: 8090
+
+# Paging
+blog:
+  per:
+    page:
+      size: 10
+
+
+spring:
+  # Data Resource
+  datasource:
+    url: jdbc:mysql://125.186.242.83:8088/podo-dev?characterEncoding=UTF-8&serverTimezone=UTC
+    username: cglee079
+    password: lcg050179!
+    driver-class-name: com.mysql.jdbc.Driver
+
+  # Hibernate config
+  jpa:
+    database: MYSQL
+    show-sql: true
+    hibernate:
+      dialect: org.hibernate.dialect.MySQL5Dialect
+    properties:
+      hibernate:
+        format: false
+
+  # Security
+  security:
+    user:
+      name: cglee079
+      password: s12345
