@@ -25,7 +25,7 @@
 </template>
 
 <script>
-    import BlogViewCommentItem from '@/components/BlogViewCommentItem'
+    import BlogViewCommentItem from '@/components/blog/BlogViewCommentItem'
 
     export default {
         name: "BlogViewComment",

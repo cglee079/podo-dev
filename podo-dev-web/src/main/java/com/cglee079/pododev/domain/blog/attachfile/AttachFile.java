@@ -1,17 +1,23 @@
 package com.cglee079.pododev.domain.blog.attachfile;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.Date;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 @Entity
 public class AttachFile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int seq;
+    private Integer seq;
 
     @Column(name = "blog_seq")
-    private long blogSeq;
+    private Long blogSeq;
 
     @Column
     private String filename;

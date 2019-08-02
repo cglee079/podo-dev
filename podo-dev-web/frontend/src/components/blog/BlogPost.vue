@@ -56,12 +56,15 @@
                 #{{ value }}
             </span>
         </span>
+
+        <div>
+            <sub-button value="작성" @click="clickSubmit"/>
+        </div>
     </div>
 
 </template>
 
 <script>
-
     import {Editor} from '@toast-ui/vue-editor'
 
     export default {
@@ -106,6 +109,7 @@
                         console.log(err)
                     })
             },
+
             //태그 Input 입력 시,
             keyupTagText(event) {
                 let txt = this.input.tagText
@@ -139,12 +143,29 @@
             //게시글 수정 시 호출,
             loadBlog(seq) {
                 this.$axios
-                    .get('http://localhost:8090/api/blogs/' + seq)
+                    .get('/api/blogs/' + seq)
                     .then(res => {
                         const blog = res.data.data
                         this.input.title = blog.title
                         this.input.enabled = blog.enabled
                         this.editor.text = blog.contents
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+            },
+
+            clickSubmit(){
+                this.$axios
+                    .post('/api/blogs', {
+                        title: this.input.title,
+                        contents : this.editor.text,
+                        enabled: this.input.enabled,
+                        tags: this.input.tags
+                    })
+
+                    .then(res => {
+                        console.log(res)
                     })
                     .catch(err => {
                         console.log(err)

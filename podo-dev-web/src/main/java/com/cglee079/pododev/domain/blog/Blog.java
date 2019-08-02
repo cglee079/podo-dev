@@ -1,25 +1,21 @@
 package com.cglee079.pododev.domain.blog;
 
 import com.cglee079.pododev.domain.blog.tag.Tag;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
 @Getter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "blog")
 @Entity
 public class Blog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long seq;
+    private Long seq;
 
     @Column
     private String title;
@@ -28,16 +24,16 @@ public class Blog {
     private String contents;
 
     @Column(name = "hit_cnt")
-    private long hitCnt;
+    private Integer hitCnt;
 
     @Column
-    private boolean enabled;
+    private Boolean enabled;
 
 //    @OneToMany
 //    @JoinColumn(name = "blog_seq")
 //    private List<AttachFile> files;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "blog_seq")
     private List<Tag> tags;
 
@@ -48,6 +44,15 @@ public class Blog {
     @Column(name = "update_at")
     private Date updateAt;
 
+
+    @Builder
+    public Blog(String title, String contents, Boolean enabled, List<Tag> tags) {
+        this.title = title;
+        this.contents = contents;
+        this.enabled = enabled;
+        this.tags = tags;
+        this.hitCnt = 0;
+    }
 
     /**
      * 게시글 수정 시

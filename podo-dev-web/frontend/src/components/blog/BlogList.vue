@@ -23,7 +23,7 @@
 </template>
 
 <script>
-    import BlogRow from '@/components/BlogRow'
+    import BlogRow from '@/components/blog/BlogRow'
 
     export default {
         name: 'BlogList',
@@ -48,7 +48,7 @@
                 this.isLoading = true
 
                 this.$axios
-                    .get('http://localhost:8090/api/blogs', {
+                    .get('/api/blogs', {
                         params: {
                             'page': page
                         }

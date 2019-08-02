@@ -3,7 +3,6 @@ package com.cglee079.pododev.domain.blog;
 import com.cglee079.pododev.global.response.ApiResponse;
 import com.cglee079.pododev.global.response.DataResponse;
 import com.cglee079.pododev.global.response.ResponseStatus;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,7 +41,7 @@ public class BlogController {
      * 게시글 작성
      */
     @PostMapping
-    public ApiResponse insert(BlogDto.insert blogReq) {
+    public ApiResponse insert(@RequestBody BlogDto.insert blogReq) {
         blogService.insert(blogReq);
         return null;
     }
