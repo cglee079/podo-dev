@@ -1,6 +1,7 @@
 package com.cglee079.pododev.domain.blog;
 
 import com.cglee079.pododev.domain.blog.tag.Tag;
+import com.cglee079.pododev.domain.blog.tag.TagDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,19 +21,18 @@ public class BlogDto {
         private String title;
         private String contents;
         private Boolean enabled;
-        private List<String> tags;
+        private List<TagDto.insert> tags;
+
 
         public Blog toEntity() {
             List<Tag> tags = new LinkedList<>();
 
-            int idx = 0;
-            for (String value : this.tags) {
-                tags.add(
-                        Tag.builder()
-                                .val(value)
-                                .idx(idx++)
-                                .build()
-                );
+
+            this.tags.forEach(tag -> tags.add( tag.toEntity()));
+
+            int idx = 1;
+            for(Tag tag : tags){
+                tag.updateIdx(idx++);
             }
 
             return Blog.builder()
@@ -46,8 +46,11 @@ public class BlogDto {
 
     @Getter
     public static class update {
+        private Long seq;
         private String title;
         private String contents;
+        private Boolean enabled;
+        private List<TagDto.update> tags;
     }
 
 
@@ -57,7 +60,8 @@ public class BlogDto {
         private String desc;
         private String title;
         private String contents;
-        private Long hitCnt;
+        private Integer hitCnt;
+        private List<TagDto.response> tags;
         private Date createAt;
         private Date updateAt;
         private Boolean enabled;
@@ -80,6 +84,8 @@ public class BlogDto {
             this.createAt = blog.getCreateAt();
             this.updateAt = blog.getUpdateAt();
             this.enabled = blog.getEnabled();
+            this.tags = new LinkedList<>();
+            blog.getTags().forEach(tag -> tags.add(new TagDto.response(tag)));
         }
     }
 

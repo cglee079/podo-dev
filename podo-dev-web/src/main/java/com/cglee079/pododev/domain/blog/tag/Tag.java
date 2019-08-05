@@ -2,10 +2,12 @@ package com.cglee079.pododev.domain.blog.tag;
 
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "blog_tag")
 @Entity
@@ -29,5 +31,13 @@ public class Tag {
         this.blogSeq = blogSeq;
         this.val = val;
         this.idx = idx;
+    }
+
+    public void updateVal(String val) {
+        this.val = val;
+    }
+
+    public void updateIdx(int i) {
+        this.idx = i;
     }
 }

@@ -32,3 +32,9 @@ spring:
     user:
       name: cglee079
       password: s12345
+
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG

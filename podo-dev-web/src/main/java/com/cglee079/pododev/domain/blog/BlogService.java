@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -46,24 +47,24 @@ public class BlogService {
 
     }
 
-    public long insert(BlogDto.insert blogReq) {
+    public void insert(BlogDto.insert blogReq) {
         Blog blog = blogReq.toEntity();
         blog = blogRepository.save(blog);
-
-        return blog.getSeq();
     }
 
 
-    public boolean update(long seq, BlogDto.update blogReq) {
-        Blog blog = blogRepository.findById(seq).get();
+    public void update(long seq, BlogDto.update blogUpdate) {
+        Optional<Blog> blog = blogRepository.findById(seq);
 
-        blog.update(blogReq);
-        return true;
+        if(!blog.isPresent()){
+            //TODO exception
+        }
+
+        blog.get().update(blogUpdate);
     }
 
-    public boolean delete(@PathVariable long seq) {
+    public void delete(@PathVariable long seq) {
         blogRepository.deleteById(seq);
-        return true;
     }
 
 

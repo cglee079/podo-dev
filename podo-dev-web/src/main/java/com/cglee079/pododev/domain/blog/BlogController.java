@@ -3,6 +3,7 @@ package com.cglee079.pododev.domain.blog;
 import com.cglee079.pododev.global.response.ApiResponse;
 import com.cglee079.pododev.global.response.DataResponse;
 import com.cglee079.pododev.global.response.ResponseStatus;
+import com.cglee079.pododev.global.response.StatusResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,7 +44,10 @@ public class BlogController {
     @PostMapping
     public ApiResponse insert(@RequestBody BlogDto.insert blogReq) {
         blogService.insert(blogReq);
-        return null;
+
+        return StatusResponse.builder()
+                .status(ResponseStatus.SUCCESS)
+                .build();
     }
 
 
@@ -51,10 +55,12 @@ public class BlogController {
      * 게시글 수정
      */
     @PutMapping("/{seq}")
-    public ApiResponse update(@PathVariable long seq, BlogDto.update blogReq) {
+    public ApiResponse update(@PathVariable long seq, @RequestBody BlogDto.update blogReq) {
         blogService.update(seq, blogReq);
 
-        return null;
+        return StatusResponse.builder()
+                .status(ResponseStatus.SUCCESS)
+                .build();
     }
 
     /**
@@ -62,9 +68,11 @@ public class BlogController {
      */
     @DeleteMapping("/{seq}")
     public ApiResponse delete(@PathVariable long seq) {
-        boolean result = blogService.delete(seq);
+        blogService.delete(seq);
 
-        return null;
+        return StatusResponse.builder()
+                .status(ResponseStatus.SUCCESS)
+                .build();
     }
 
 

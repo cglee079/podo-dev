@@ -28,7 +28,7 @@
 
         <div class="wrapEditor">
             <editor
-                    :value="editor.text"
+                    v-model="editor.text"
                     :options="editor.options"
                     :html="editor.html"
                     :visible="editor.visible"
@@ -49,11 +49,11 @@
         </div>
 
         <span id="tags">
-            <span v-for='(value, index) in input.tags'
-                  v-bind:key="value"
+            <span v-for='(tag, index) in input.tags'
+                  v-bind:key="index"
                   @click="clickTag(index)"
                   class="tag">
-                #{{ value }}
+                #{{ tag.val }}
             </span>
         </span>
 
@@ -74,11 +74,13 @@
         },
         data() {
             return {
+                isNew: true,
+                seq: 0,
                 input: {
                     title: '제목입니다',
                     tagText: '',
                     enabled: 'true',
-                    tags: ['A', 'B'],
+                    tags: [],
                 },
                 editor: {
                     text: '<img src=http://192.168.219.103:7070/resources/image/home_icon_me.png">',
@@ -116,9 +118,24 @@
                 if (txt.endsWith(" ") || event.keyCode === 13) {
                     txt = txt.trim();
 
-                    if (!this.input.tags.includes(txt) && txt.length) {
-                        this.input.tags.push(txt)
+                    if (txt.length) {
+                        let included = false
+
+                        this.input.tags.forEach((tag) => {
+                            if (tag.val === txt) {
+                                included = true
+                                return
+                            }
+                        })
+
+                        if (!included) {
+                            const obj = {}
+                            obj.seq = undefined
+                            obj.val = txt
+                            this.input.tags.push(obj)
+                        }
                     }
+
                     this.input.tagText = ''
                 }
             },
@@ -140,31 +157,62 @@
             onEditorStateChange() {
             },
 
-            //게시글 수정 시 호출,
+            //게시글 수정 시, 게시글 정보 로딩
             loadBlog(seq) {
                 this.$axios
                     .get('/api/blogs/' + seq)
                     .then(res => {
                         const blog = res.data.data
+                        this.seq = blog.seq
                         this.input.title = blog.title
                         this.input.enabled = blog.enabled
+                        this.input.tags = blog.tags
                         this.editor.text = blog.contents
+
+                        console.log(blog)
                     })
                     .catch(err => {
                         console.log(err)
                     })
             },
 
-            clickSubmit(){
+            clickSubmit() {
+                if (this.isNew) {
+                    this.insertBlog()
+                } else {
+                    this.updateBlog()
+                }
+            },
+
+            insertBlog() {
                 this.$axios
                     .post('/api/blogs', {
                         title: this.input.title,
-                        contents : this.editor.text,
+                        contents: this.editor.text,
                         enabled: this.input.enabled,
                         tags: this.input.tags
                     })
 
                     .then(res => {
+                        this.$router.go(-1)
+                        console.log(res)
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+            },
+
+            updateBlog() {
+                this.$axios
+                    .put('/api/blogs/' + this.seq, {
+                        title: this.input.title,
+                        contents: this.editor.text,
+                        enabled: this.input.enabled,
+                        tags: this.input.tags
+                    })
+
+                    .then(res => {
+                        this.$router.go(-1)
                         console.log(res)
                     })
                     .catch(err => {
@@ -175,6 +223,7 @@
         created() {
             const seq = this.$route.params.seq
             if (seq) {
+                this.isNew = false
                 this.loadBlog(seq)
             }
 

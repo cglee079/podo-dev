@@ -20,11 +20,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web){
-        web.ignoring().antMatchers("**");
+
+        //web.ignoring().antMatchers("**");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.cors().disable();
+        http.csrf().disable();
         http.authorizeRequests().anyRequest().permitAll();
         http.addFilterBefore(new CrossDomainFilter(), SessionManagementFilter.class);
     }

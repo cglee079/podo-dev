@@ -2,8 +2,11 @@
     <div id="wrapBlog">
         <div id="head">
             <div id="tags">
-                <span>#태그1</span>
-                <span>#태그1</span>
+                <span v-for="tag in blog.tags"
+                      v-bind:key="tag.seq"
+                >
+                    {{tag.val}}
+                </span>
             </div>
 
             <div id="title">
@@ -50,11 +53,11 @@
             }
         },
         methods: {
-            clickModifyBlog(seq){
+            clickModifyBlog(seq) {
                 this.$router.push({
-                    name : 'BlogModify',
+                    name: 'BlogModify',
                     params: {
-                        seq :seq
+                        seq: seq
                     }
                 });
             },
