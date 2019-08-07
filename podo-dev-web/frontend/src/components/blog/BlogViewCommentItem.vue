@@ -2,21 +2,25 @@
     <div class="comment">
         <div class="header">
             <div class="info">
-                <a class="writer">의문의사나이</a>
-                <a class="create-at">2019-07-10</a>
+                <a class="writer">{{comment.username}}</a>
+                <a class="create-at">{{comment.createAt}}</a>
             </div>
             <div class="menu">
-                <a>수정</a>
+                <a>답글</a>
                 <a>삭제</a>
             </div>
         </div>
-        <div class="contents">오 2019년 잘해봐여</div>
+
+        <div class="contents" v-html="comment.contents"/>
     </div>
 </template>
 
 <script>
     export default {
-        name: "BlogViewCommentItem"
+        name: "BlogViewCommentItem",
+        props : {
+            comment : Object
+        }
     }
 </script>
 

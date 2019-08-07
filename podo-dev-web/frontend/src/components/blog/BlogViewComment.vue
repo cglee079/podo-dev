@@ -1,23 +1,28 @@
 <template>
     <div id="wrapComment">
-        <div id="count">댓글 (<a class="comment-cnt">1</a>)</div>
+        <div id="count">댓글 (<a class="comment-cnt">{{comments.length}}</a>)</div>
 
         <div id="comments">
-            <comment-item></comment-item>
+            <div v-for="comment in comments"
+                 v-bind:key="comment.seq"
+            >
+                <comment-item :comment="comment"/>
+            </div>
         </div>
 
+
         <div id="write">
-            <textarea id="contents" placeholder="소중한 댓글을 입력해주세요."/>
+            <textarea id="contents" placeholder="소중한 댓글을 입력해주세요." v-model="input.contents"/>
             <div id="sub">
                 <div id="user">
                     <div id="username">
-                        <input type="text" placeholder="USERNAME">
+                        <input type="text" placeholder="USERNAME" v-model="input.username">
                     </div>
                     <div id="password">
-                        <input type="password" placeholder="PASSWORD">
+                        <input type="password" placeholder="PASSWORD" v-model="input.password">
                     </div>
                 </div>
-                <div id="submit">등록</div>
+                <div id="submit" @click="clickCommentPost">등록</div>
             </div>
         </div>
 
@@ -31,7 +36,55 @@
         name: "BlogViewComment",
         components: {
             'comment-item': BlogViewCommentItem
+        },
+        props: {
+            blogSeq: Number,
+        },
+        data() {
+            return {
+                comments : [],
+                input: {
+                    username: '',
+                    password: '',
+                    contents: ''
+                }
+            }
+        },
+        methods: {
+            clickCommentPost() {
+                this.$axios
+                    .post('/api/blogs/' + this.blogSeq + "/comments", {
+                        username: this.input.username,
+                        password: this.input.password,
+                        contents: this.input.contents
+                    })
+                    .then(res => {
+                        this.$toasted.show("댓글이 등록되었습니다")
+                        this.input.contents = ''
+                        this.loadBlogComments()
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+            },
+
+            loadBlogComments() {
+                this.$axios
+                    .get('/api/blogs/' + this.blogSeq + "/comments")
+                    .then(res => {
+                        res = res.data
+                        this.comments = res.data
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+            }
+        },
+
+        created() {
+            this.loadBlogComments()
         }
+
     }
 </script>
 
@@ -62,7 +115,7 @@
         border-radius: 3px;
     }
 
-    #write #sub{
+    #write #sub {
         display: flex;
         justify-content: space-between;
     }
@@ -87,7 +140,7 @@
         border-radius: 3px;
     }
 
-    #write #sub #submit{
+    #write #sub #submit {
         display: flex;
         justify-content: center;
         align-items: center;

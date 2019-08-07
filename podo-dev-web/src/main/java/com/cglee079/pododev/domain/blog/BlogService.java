@@ -1,6 +1,7 @@
 package com.cglee079.pododev.domain.blog;
 
 import com.cglee079.pododev.global.response.PageDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 @Transactional
 public class BlogService {
@@ -21,17 +23,20 @@ public class BlogService {
     @Value("${blog.per.page.size}")
     private int pageSize;
 
-    @Autowired
-    private BlogRepository blogRepository;
+    private final BlogRepository blogRepository;
 
-    public BlogDto.response get(long seq) {
+    public BlogDto.response get(Long seq) {
         Blog blog = blogRepository.findById(seq).get();
 
         return new BlogDto.response(blog);
     }
 
-    public PageDto paging(int page) {
+    public PageDto paging(BlogDto.request request) {
+        Integer page = request.getPage();
+
         PageRequest pageRequest = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC, "seq"));
+
+        //TODO QueryDSL
         Page<Blog> blogs = blogRepository.findAll(pageRequest);
 
         List<BlogDto.response> contents = new LinkedList<>();
@@ -53,17 +58,17 @@ public class BlogService {
     }
 
 
-    public void update(long seq, BlogDto.update blogUpdate) {
+    public void update(Long seq, BlogDto.update blogUpdate) {
         Optional<Blog> blog = blogRepository.findById(seq);
 
-        if(!blog.isPresent()){
+        if (!blog.isPresent()) {
             //TODO exception
         }
 
-        blog.get().update(blogUpdate);
+        blog.get().update(blogUpdate.toEntity());
     }
 
-    public void delete(@PathVariable long seq) {
+    public void delete(@PathVariable Long seq) {
         blogRepository.deleteById(seq);
     }
 

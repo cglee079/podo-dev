@@ -1,15 +1,21 @@
 package com.cglee079.pododev.domain.blog;
 
+import com.cglee079.pododev.domain.blog.comment.Comment;
 import com.cglee079.pododev.domain.blog.tag.Tag;
-import com.cglee079.pododev.domain.blog.tag.TagDto;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Getter
+@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "blog")
 @Entity
@@ -40,11 +46,10 @@ public class Blog {
     private List<Tag> tags;
 
     @Column(name = "create_at")
-    private Date createAt;
-
+    private LocalDateTime createAt;
 
     @Column(name = "update_at")
-    private Date updateAt;
+    private LocalDateTime updateAt;
 
 
     @Builder
@@ -59,34 +64,30 @@ public class Blog {
     /**
      * 게시글 수정 시
      */
-    public void update(BlogDto.update blogUpdate) {
+    public void update(Blog blogUpdate) {
         this.title = blogUpdate.getTitle();
         this.contents = blogUpdate.getContents();
 
         this.updateTags(blogUpdate.getTags());
     }
 
-    private void updateTags(List<TagDto.update> tagUpdates) {
+    private void updateTags(List<Tag> tagUpdates) {
         Map<Long, Boolean> included = this.tags.stream().collect(Collectors.toMap(Tag::getSeq, t -> false));
         Map<Long, Tag> tagMap = this.tags.stream().collect(Collectors.toMap(Tag::getSeq, Function.identity()));
 
         tagUpdates.forEach(update -> {
             if (Objects.isNull(update.getSeq())) {
-                this.tags.add(update.toEntity());
+                this.tags.add(update);
                 return;
             }
 
             included.put(update.getSeq(), true);
-            Tag tag = tagMap.get(update.getSeq());
-            if (!Objects.isNull(tag)) {
-                tag.updateVal(update.getVal());
-            }
         });
 
         Iterator<Long> tagKeys = included.keySet().iterator();
-        while(tagKeys.hasNext()){
+        while (tagKeys.hasNext()) {
             long key = tagKeys.next();
-            if(!included.get(key)){
+            if (!included.get(key)) {
                 this.tags.remove(tagMap.get(key));
             }
         }

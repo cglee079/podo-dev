@@ -8,27 +8,25 @@
             >
                 <blog-row :blog="blog"></blog-row>
             </div>
+
         </div>
-        <div id="blogTags">
-            <div>#Spring</div>
-            <div>#VueJS</div>
-            <div>#JPA</div>
-            <div>#이론</div>
-            <div>#Spring</div>
-            <div>#VueJS</div>
-            <div>#JPA</div>
-            <div>#이론</div>
+
+        <div id="wrapTags">
+            <tag-values/>
         </div>
+
     </div>
 </template>
 
 <script>
     import BlogRow from '@/components/blog/BlogRow'
+    import BlogListTagValues from "@/components/blog/BlogListTagValues";
 
     export default {
         name: 'BlogList',
         components: {
-            'blog-row': BlogRow
+            'blog-row': BlogRow,
+            'tag-values' : BlogListTagValues
         },
         data() {
             return {
@@ -98,28 +96,20 @@
 </script>
 
 <style scoped>
+
     #wrapBlogs {
         display: flex;
-    }
-
-    #blogTags {
-        position: sticky;
-        margin-left: 50px;
-        width: 15%;
-    }
-
-    #blogTags div {
-        display: inline-block;
-        margin: 5px 10px;
-        cursor: pointer;
-        opacity: 0.8;
-    }
-
-    #blogTags div:hover {
-        opacity: 1;
     }
 
     #blogs {
         flex: 1;
     }
+
+    #wrapTags {
+        position: sticky;
+        margin-left: 50px;
+        width: 15%;
+    }
+
+
 </style>

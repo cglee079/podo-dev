@@ -1,11 +1,10 @@
 package com.cglee079.pododev.domain.blog;
 
+import com.cglee079.pododev.domain.blog.comment.CommentDto;
 import com.cglee079.pododev.domain.blog.tag.Tag;
 import com.cglee079.pododev.domain.blog.tag.TagDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.cglee079.pododev.global.util.Formatter;
+import lombok.*;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -28,10 +27,10 @@ public class BlogDto {
             List<Tag> tags = new LinkedList<>();
 
 
-            this.tags.forEach(tag -> tags.add( tag.toEntity()));
+            this.tags.forEach(tag -> tags.add(tag.toEntity()));
 
             int idx = 1;
-            for(Tag tag : tags){
+            for (Tag tag : tags) {
                 tag.updateIdx(idx++);
             }
 
@@ -46,11 +45,29 @@ public class BlogDto {
 
     @Getter
     public static class update {
-        private Long seq;
         private String title;
         private String contents;
         private Boolean enabled;
         private List<TagDto.update> tags;
+
+        public Blog toEntity() {
+
+            List<Tag> tags = new LinkedList<>();
+            this.tags.forEach(t -> tags.add(t.toEntity()));
+
+            return Blog.builder()
+                    .title(title)
+                    .contents(contents)
+                    .enabled(enabled)
+                    .tags(tags)
+                    .build();
+        }
+    }
+
+    @Setter
+    @Getter
+    public class request {
+        Integer page;
     }
 
 
@@ -62,8 +79,8 @@ public class BlogDto {
         private String contents;
         private Integer hitCnt;
         private List<TagDto.response> tags;
-        private Date createAt;
-        private Date updateAt;
+        private String createAt;
+        private String updateAt;
         private Boolean enabled;
 
         public response(Blog blog) {
@@ -81,13 +98,15 @@ public class BlogDto {
             this.desc = desc;
             this.contents = blog.getContents();
             this.hitCnt = blog.getHitCnt();
-            this.createAt = blog.getCreateAt();
-            this.updateAt = blog.getUpdateAt();
+            this.createAt = Formatter.dateTimeToStr(blog.getCreateAt());
+            this.updateAt = Formatter.dateTimeToStr(blog.getUpdateAt());
             this.enabled = blog.getEnabled();
             this.tags = new LinkedList<>();
-            blog.getTags().forEach(tag -> tags.add(new TagDto.response(tag)));
+
+            blog.getTags().forEach(tag -> this.tags.add(new TagDto.response(tag)));
         }
     }
+
 
 
 }

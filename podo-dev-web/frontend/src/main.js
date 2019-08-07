@@ -13,6 +13,14 @@ import Autocomplete from '@trevoreyre/autocomplete-vue'
 import ToastCustomViewer from "@/components/global/ToastCustomViewer";
 import SubButton from "./components/global/SubButton";
 
+import Toasted from 'vue-toasted';
+
+Vue.use(Toasted, {
+  theme: "toasted-primary",
+  position: "top-center",
+  duration: 3000
+})
+
 Vue.use(Autocomplete)
 
 Vue.config.productionTip = false

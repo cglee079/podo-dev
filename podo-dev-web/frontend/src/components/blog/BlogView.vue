@@ -33,7 +33,10 @@
             <toast-custom-viewer :value="blog.contents"/>
         </div>
 
-        <blog-view-comment value="blog.contents"></blog-view-comment>
+        <blog-view-comment
+                v-if="blog.seq"
+                :blogSeq="blog.seq"
+        />
 
 
     </div>
@@ -65,7 +68,8 @@
                 this.$axios
                     .get('/api/blogs/' + seq)
                     .then(res => {
-                        this.blog = res.data.data
+                        res = res.data
+                        this.blog = res.data
                         console.log(this.blog)
                     })
                     .catch(err => {
