@@ -1,5 +1,5 @@
 <template>
-    <div class="comment">
+    <div class="comment" :class="comment.enabled ? '' : 'disabled'">
         <div class="header">
             <div class="info">
                 <a class="writer">{{comment.username}}</a>
@@ -7,7 +7,7 @@
             </div>
             <div class="menu">
                 <a>답글</a>
-                <a>삭제</a>
+                <a @click="clickCommentDelete(comment.seq)">삭제</a>
             </div>
         </div>
 
@@ -20,6 +20,11 @@
         name: "BlogViewCommentItem",
         props : {
             comment : Object
+        },
+        methods : {
+            clickCommentDelete(commentSeq){
+                this.$emit('delete', commentSeq)
+            }
         }
     }
 </script>
@@ -29,6 +34,10 @@
         padding-top: 30px;
         padding-bottom: 20px;
         border-bottom: 1px solid #F1F1F1;
+    }
+
+    .comment.disabled {
+        opacity: 0.6;
     }
 
     .header{

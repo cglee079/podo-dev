@@ -1,5 +1,6 @@
 package com.cglee079.pododev.domain.blog.comment;
 
+import com.cglee079.pododev.domain.blog.comment.aop.CommentNotice;
 import com.cglee079.pododev.global.response.ApiResponse;
 import com.cglee079.pododev.global.response.DataResponse;
 import com.cglee079.pododev.global.response.ResponseStatus;
@@ -35,6 +36,7 @@ public class CommentController {
     /**
      * 댓글 작성
      */
+    @CommentNotice
     @PostMapping("/blogs/{blogSeq}/comments")
     public ApiResponse insert(@PathVariable Long blogSeq, @Valid @RequestBody CommentDto.insert insert) {
 
@@ -50,6 +52,7 @@ public class CommentController {
      */
     @DeleteMapping("/blogs/{blogSeq}/comments/{seq}")
     public ApiResponse delete(@PathVariable Long blogSeq, @PathVariable Long seq) {
+        commentService.delete(seq);
 
         return StatusResponse.builder()
                 .status(ResponseStatus.SUCCESS)

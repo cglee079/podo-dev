@@ -58,6 +58,10 @@
         </span>
 
         <div>
+            <post-image/>
+        </div>
+
+        <div>
             <sub-button value="작성" @click="clickSubmit"/>
         </div>
     </div>
@@ -66,11 +70,13 @@
 
 <script>
     import {Editor} from '@toast-ui/vue-editor'
+    import BlogPostImage from "./BlogPostImage";
 
     export default {
         name: 'app',
         components: {
-            'editor': Editor
+            'editor': Editor,
+            'post-image' : BlogPostImage
         },
         data() {
             return {

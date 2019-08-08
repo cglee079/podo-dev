@@ -38,3 +38,13 @@ logging:
     org:
       springframework:
         web: DEBUG
+
+
+#Telegram Notice Config
+telegram:
+  podo:
+    bot:
+      token : 509885308:AAGqgiMXRfkXWeamsta6N0nFkF0d9I_SFOI
+    user:
+      name : PodoDevBot
+      id: 503609560

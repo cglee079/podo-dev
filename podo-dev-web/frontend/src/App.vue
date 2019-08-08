@@ -23,6 +23,7 @@
 <style scoped>
     #main {
         width: 1080px;
+        min-height: 100vh;
         margin: 50px auto 150px auto;
     }
 

@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -79,4 +80,11 @@ public class CommentService {
 
     }
 
+    public void delete(Long seq) {
+        Optional<Comment> comment = commentRepository.findById(seq);
+
+        //TODO 권한 인증
+
+        comment.get().delete();
+    }
 }

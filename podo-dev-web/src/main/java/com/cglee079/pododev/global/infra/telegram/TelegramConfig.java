@@ -7,6 +7,8 @@ import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
+import javax.annotation.PostConstruct;
+
 @RequiredArgsConstructor
 @Configuration
 public class TelegramConfig {
@@ -15,16 +17,14 @@ public class TelegramConfig {
 
     @Bean
     public TelegramBotsApi telegramBotsApi() {
-        ApiContextInitializer.init();
-        TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
-
         try {
+            TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
             telegramBotsApi.registerBot(telegramClient);
+            return telegramBotsApi;
         } catch (TelegramApiRequestException e) {
             e.printStackTrace();
         }
 
-        return telegramBotsApi;
-
+        return null;
     }
 }

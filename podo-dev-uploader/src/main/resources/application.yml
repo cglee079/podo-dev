@@ -5,8 +5,8 @@ server:
 # Paging
 upload:
   image:
-    dir:
-      location : C://podo-dev/upload/image
+    url:
+    dir: C://podo-dev/upload/image
   file:
-    dir:
-      location : C://podo-dev/upload/file
+    url:
+    dir: C://podo-dev/upload/file

@@ -26,12 +26,14 @@ public class CommentDto {
         private String username;
         private String contents;
         private String createAt;
+        private Boolean enabled;
 
         public response(Comment comment) {
             this.seq = comment.getSeq();
             this.username = comment.getUsername();
             this.contents = comment.getContents();
             this.createAt = Formatter.dateTimeToStr(comment.getCreateAt());
+            this.enabled = comment.getEnabled();
         }
     }
 }

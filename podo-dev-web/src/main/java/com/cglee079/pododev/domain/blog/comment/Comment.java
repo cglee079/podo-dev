@@ -76,4 +76,10 @@ public class Comment {
     public void increaseChild() {
         this.child++;
     }
+
+    public void delete() {
+        this.contents = "삭제된 댓글입니다.";
+        this.enabled = false;
+    }
+
 }

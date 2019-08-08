@@ -6,7 +6,10 @@
             <div v-for="comment in comments"
                  v-bind:key="comment.seq"
             >
-                <comment-item :comment="comment"/>
+                <comment-item
+                        :comment="comment"
+                        @delete = "deleteBlogComment"
+                />
             </div>
         </div>
 
@@ -74,6 +77,19 @@
                     .then(res => {
                         res = res.data
                         this.comments = res.data
+                        console.log(this.comments)
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+            },
+
+            deleteBlogComment(commentSeq){
+                this.$axios
+                    .delete('/api/blogs/' + this.blogSeq + "/comments/" + commentSeq)
+                    .then(res => {
+                        this.$toasted.show("댓글이 삭제되었습니다")
+                        this.loadBlogComments()
                     })
                     .catch(err => {
                         console.log(err)
