@@ -1,12 +1,11 @@
 #Server Config
 server:
-  port: 8091
+  port: 8092
 
-# Paging
-upload:
-  image:
-    url:
-    dir: C://podo-dev/upload/image
-  file:
-    url:
-    dir: C://podo-dev/upload/file
+uploader:
+  frontend:
+    subpath: /uploaded
+  upload:
+    base:
+      dir: C://podo-dev-uploader/upload
+

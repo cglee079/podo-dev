@@ -3,13 +3,19 @@
         <div>
             <div id="btnImageUpload" @click="$refs.file.click()">사진올리기</div>
             <input ref="file" type="file" accept="image/*" multiple
-                   @change="onFileChange" style="display: none;"
+                   @change="onFileChange" style="display: none"
             />
-
         </div>
 
-        <div class="image-list">
-
+        <div id="imageList">
+            <div class="image"
+                 v-for="(image, index) in images"
+                 v-bind:key="index"
+                 @click="clickImage(index)"
+                 :class="isValidImage(image.fileStatus) ? '' : 'disabled' "
+            >
+                <img :src="image.domainUrl + image.saves.w100.path + '/' + image.saves.w100.filename"/>
+            </div>
         </div>
     </div>
 </template>
@@ -17,26 +23,59 @@
 <script>
     export default {
         name: "BlogPostImage",
-        methods : {
+        props: {
+            images: Array
+        },
+        methods: {
             onFileChange(event) {
                 //
+                const files = event.target.files
+                const index = Array.from(Array(files.length).keys())
+                for (let i of index) {
+                    this.uploadImage(files[i])
+                }
+
+            },
+
+            uploadImage(file) {
                 const config = {
                     headers: {'Content-Type': 'multipart/form-data'}
                 }
-
-                const formData = new FormData();
-                formData.append("images", event.target.files);
+                const formData = new FormData()
+                formData.append("image", file)
 
                 this.$axios
                     .post("/api/blogs/images", formData, config)
                     .then(res => {
-                        this.image = res.data.data;
-                        alert("이미지를 업로드하였습니다");
+                        res = res.data
+                        const image = res.data
+                        console.log(image)
+                        this.$emit('add', image)
                     })
                     .catch(err => {
                         console.log(err)
                     })
             },
+
+            /**
+             * 삭제된 이미지 인지 검증
+             * @param status
+             * @returns {boolean}
+             */
+            isValidImage(status) {
+                if (status === 'BE' || status === 'NEW') {
+                    return true
+                }
+                return false
+            },
+
+            removeImage(index) {
+                this.$emit('delete', index)
+            },
+
+            clickImage(index) {
+                this.removeImage(index)
+            }
         }
     }
 </script>
@@ -52,4 +91,26 @@
         align-items: center;
         cursor: pointer;
     }
+
+    #imageList {
+        display: flex;
+    }
+
+    #imageList .image, #imageList .image img {
+        width: 100px;
+        height: 100px;
+        overflow: hidden;
+    }
+
+    #imageList .image {
+        margin-top: 10px;
+        margin-right: 10px;
+        border: 1px solid #DDDDDD;
+    }
+
+    #imageList .image.disabled {
+        display: none;
+    }
+
+
 </style>

@@ -57,8 +57,12 @@
             </span>
         </span>
 
-        <div>
-            <post-image/>
+        <div id="wrapImageUpload">
+            <post-image
+                    :images="this.input.images"
+                    @add="addImage"
+                    @delete="deleteImage"
+            />
         </div>
 
         <div>
@@ -76,7 +80,7 @@
         name: 'app',
         components: {
             'editor': Editor,
-            'post-image' : BlogPostImage
+            'post-image': BlogPostImage
         },
         data() {
             return {
@@ -87,6 +91,7 @@
                     tagText: '',
                     enabled: 'true',
                     tags: [],
+                    images: [],
                 },
                 editor: {
                     text: '<img src=http://192.168.219.103:7070/resources/image/home_icon_me.png">',
@@ -173,7 +178,9 @@
                         this.input.title = blog.title
                         this.input.enabled = blog.enabled
                         this.input.tags = blog.tags
+                        this.input.images = blog.images
                         this.editor.text = blog.contents
+
 
                         console.log(blog)
                     })
@@ -196,7 +203,8 @@
                         title: this.input.title,
                         contents: this.editor.text,
                         enabled: this.input.enabled,
-                        tags: this.input.tags
+                        tags: this.input.tags,
+                        images : this.input.images
                     })
 
                     .then(res => {
@@ -214,7 +222,8 @@
                         title: this.input.title,
                         contents: this.editor.text,
                         enabled: this.input.enabled,
-                        tags: this.input.tags
+                        tags: this.input.tags,
+                        images : this.input.images
                     })
 
                     .then(res => {
@@ -224,6 +233,63 @@
                     .catch(err => {
                         console.log(err)
                     })
+            },
+
+            /**
+             * Call By Child
+             */
+            addImage(image) {
+                const src = image.domainUrl + image.saves.origin.path + "/" + image.saves.origin.filename
+
+                const tag = document.createElement("img")
+                tag.src = src
+
+                this.editor.text += "\n" + tag.outerHTML + "\n"
+                this.input.images.push(image)
+            },
+
+            deleteImage(index) {
+                const image = this.input.images[index]
+                switch (image.fileStatus) {
+                    case 'BE' :
+                        image.fileStatus = 'REMOVE'
+                        break
+                    case 'NEW' :
+                        image.fileStatus = 'UNNEW'
+                        break
+                    default :
+                        break
+                }
+
+                this.removeImageTagInEditor(image)
+            },
+
+            removeImageTagInEditor(image) {
+
+                const editorText = this.editor.text
+                const index = editorText.indexOf(image.saves.origin.filename)
+                const startTagIndex = editorText.substring(0, index).lastIndexOf("<img")
+                const endTagIndex = editorText.substring(index, editorText.length).indexOf(">") + index
+                const tag = editorText.substring(startTagIndex, endTagIndex + 1)
+
+                this.editor.text = editorText.replace(tag, "")
+
+                /**
+                 * 딜레이걸림..?
+                 */
+                // const parser  = new DOMParser();
+                // const doc  = parser.parseFromString(this.editor.text, "text/html")
+                // const images = doc.getElementsByTagName("img")
+                //
+                // const index = Array.from(new Array(images.length), (x,i) => i)
+                //
+                // for(let i of index){
+                //     if(images[i].src.indexOf(image.saves.origin.filename) != -1){
+                //         console.log(images[i].src)
+                //         images[i].remove()
+                //     }
+                // }
+                // this.editor.text = doc.body.innerHTML
             }
         },
         created() {
@@ -260,6 +326,7 @@
     }
 
     #tags .tag {
+        display: inline-block;
         cursor: pointer;
         padding: 3px 10px;
         margin: 2px 3px;
@@ -267,5 +334,8 @@
         border-radius: 3px;
     }
 
+    #wrapImageUpload {
+        margin-top: 50px;
+    }
 
 </style>
