@@ -1,10 +1,9 @@
 package com.cglee079.pododev.web.domain.blog.attachimage;
 
-import com.cglee079.pododev.web.domain.blog.FileStatus;
 import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSavedDto;
-import com.cglee079.pododev.web.global.infra.uploader.PodoUploaderClient;
-import com.cglee079.pododev.web.global.util.MyFileUtils;
+import com.cglee079.pododev.core.global.util.MyFileUtils;
 import lombok.RequiredArgsConstructor;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,9 +13,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * 로컬에 이미지 저장
@@ -31,13 +28,13 @@ public class AttachImageWriter {
     @Value("${upload.postfix.image.dir}")
     private String imageDir;
 
-    public Map<String, AttachImageSavedDto.response> makeSaveFile(MultipartFile multipartFile,  String extension) {
-        if (!MyFileUtils.isImageFile(multipartFile)) {
+    public Map<String, AttachImageSavedDto.response> makeSaveFile(MultipartFile multipartFile, String extension) {
+        if (!this.isImageFile(multipartFile)) {
             //TODO throw exception..
             return null;
         }
 
-        String dayDirPath = MyFileUtils.dayDirPath();
+        String dayDirPath = MyFileUtils.makeDatePath();
         String dirPath = dayDirPath + imageDir; // 로컬 저장경로
         String urlPath = dayDirPath + imageDir; // URL 경로
 
@@ -77,7 +74,7 @@ public class AttachImageWriter {
         String filename = MyFileUtils.makeRandFilename(extension);
 
         File resizeImage = new File(localDirPath, filename);
-        resizeImage = MyFileUtils.resizeImage(originImage, resizeImage, resizeWidth);
+        resizeImage = this.resizeImage(originImage, resizeImage, resizeWidth);
 
         ImageInfo imageInfo = getImageInfo(resizeImage);
         long filesize = resizeImage.length();
@@ -88,6 +85,33 @@ public class AttachImageWriter {
                 .filesize(filesize)
                 .imageInfo(imageInfo)
                 .build();
+
+    }
+
+
+    public boolean isImageFile(MultipartFile multipartFile) {
+        try {
+            BufferedImage bi = ImageIO.read(multipartFile.getInputStream());
+
+            if (bi == null) {
+                return false;
+            }
+
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    public File resizeImage(File originFile, File resizeFile, Integer width) {
+        try {
+            Thumbnails.of(originFile).width(width).toFile(resizeFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+            //TODO
+        }
+
+        return resizeFile;
 
     }
 

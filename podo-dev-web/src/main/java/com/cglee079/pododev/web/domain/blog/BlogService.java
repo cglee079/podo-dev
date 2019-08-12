@@ -1,8 +1,9 @@
 package com.cglee079.pododev.web.domain.blog;
 
-import com.cglee079.pododev.web.core.global.response.PageDto;
+import com.cglee079.pododev.core.global.response.PageDto;
 import com.cglee079.pododev.web.domain.blog.attachimage.AttachImageService;
-import com.cglee079.pododev.web.global.util.tempUtil;
+import com.cglee079.pododev.web.domain.blog.tag.TagService;
+import com.cglee079.pododev.web.global.util.TempUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -31,6 +32,7 @@ public class BlogService {
     private int pageSize;
 
     private final BlogRepository blogRepository;
+    private final TagService tagService;
     private final AttachImageService attachImageService;
 
     public BlogDto.response get(Long seq) {
@@ -47,10 +49,10 @@ public class BlogService {
         //TODO QueryDSL
         Page<Blog> blogs = blogRepository.findAll(pageRequest);
 
-        List<BlogDto.response> contents = new LinkedList<>();
-        blogs.forEach(b -> contents.add(new BlogDto.response(b, tempUtil.getDomainUrl(), FileStatus.BE)));
+        List<BlogDto.responseList> contents = new LinkedList<>();
+        blogs.forEach(blog-> contents.add(new BlogDto.responseList(blog)));
 
-        return PageDto.<BlogDto.response>builder()
+        return PageDto.<BlogDto.responseList>builder()
                 .contents(contents)
                 .currentPage(blogs.getPageable().getPageNumber())
                 .pageSize(blogs.getPageable().getPageSize())
@@ -63,25 +65,31 @@ public class BlogService {
     public void insert(BlogDto.insert insert) {
 
         // 이미지 저장
-        attachImageService.handleUploadImage(insert.getImages());
+        attachImageService.uploadImage(insert.getImages());
 
-        Blog blog = insert.toEntity(tempUtil.getDomainUrl() + baseUrl, uploadServerDomain);
+        Blog blog = insert.toEntity();
+        blog.updateContentDomain(TempUtil.getDomainUrl() + baseUrl, uploadServerDomain);
 
         // 블로그 저장 (이미지 제외)
-        blog = blogRepository.save(blog);
-
-
+        blogRepository.save(blog);
     }
 
 
     public void update(Long seq, BlogDto.update blogUpdate) {
-        Optional<Blog> blog = blogRepository.findById(seq);
+        Optional<Blog> blogOpt = blogRepository.findById(seq);
 
-        if (!blog.isPresent()) {
+        if (!blogOpt.isPresent()) {
             //TODO exception
         }
 
-        blog.get().update(blogUpdate.toEntity());
+        Blog blog = blogOpt.get();
+        blog.update(blogUpdate.getTitle(), blogUpdate.getContents(), blogUpdate.getEnabled());
+        blog.updateContentDomain(TempUtil.getDomainUrl() + baseUrl, uploadServerDomain);
+
+        //Update Tag
+        tagService.updateTags(seq, blogUpdate.getTags());
+        attachImageService.updateImage(seq, blogUpdate.getImages());
+
     }
 
     public void delete(@PathVariable Long seq) {

@@ -53,6 +53,7 @@
                     })
                     .then(res => {
                         res = res.data.data
+                        console.log(res.contents)
                         res.contents.forEach(item=>this.contents.push(item))
                         this.pageSize = res.pageSize
                         this.currentPage = res.currentPage

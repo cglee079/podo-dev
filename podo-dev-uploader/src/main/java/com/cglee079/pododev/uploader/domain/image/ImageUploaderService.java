@@ -1,11 +1,8 @@
 package com.cglee079.pododev.uploader.domain.image;
 
-import org.apache.commons.io.FileUtils;
+import com.cglee079.pododev.core.global.util.MyFileUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import java.io.File;
-import java.io.IOException;
 
 @Service
 public class ImageUploaderService {
@@ -14,14 +11,11 @@ public class ImageUploaderService {
     private String dir;
 
     public void saveImage(ImageDto.insert insert) {
-        File saved = new File(dir + insert.getPath(), insert.getImage().getOriginalFilename());
-        try {
-            FileUtils.forceMkdir(saved.getParentFile());
-            insert.getImage().transferTo(saved);
-        } catch (IOException e) {
-            //TODO
-            e.printStackTrace();
-        }
+        MyFileUtils.makeForceDir(dir + insert.getPath());
+        MyFileUtils.saveFile(dir + insert.getPath() + "/" +insert.getImage().getOriginalFilename(), insert.getImage());
+    }
 
+    public void deleteImage(ImageDto.delete delete) {
+        MyFileUtils.deleteFile(dir + delete.getPath(), delete.getFilename());
     }
 }

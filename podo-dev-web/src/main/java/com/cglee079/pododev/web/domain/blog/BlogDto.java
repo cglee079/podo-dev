@@ -5,7 +5,6 @@ import com.cglee079.pododev.web.domain.blog.attachimage.AttachImageDto;
 import com.cglee079.pododev.web.domain.blog.tag.Tag;
 import com.cglee079.pododev.web.domain.blog.tag.TagDto;
 import com.cglee079.pododev.web.global.util.Formatter;
-import com.cglee079.pododev.web.global.util.tempUtil;
 import lombok.*;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -25,7 +24,7 @@ public class BlogDto {
         private List<AttachImageDto.insert> images;
 
 
-        public Blog toEntity(String domainUploadUrl, String uploadServerUrl) {
+        public Blog toEntity() {
             //Tag To Entity
             List<Tag> tags = new LinkedList<>();
             this.tags.forEach(tag -> tags.add(tag.toEntity()));
@@ -46,9 +45,6 @@ public class BlogDto {
                 }
             });
 
-            //
-            this.contents = this.contents.replace(domainUploadUrl, uploadServerUrl);
-
             return Blog.builder()
                     .title(title)
                     .contents(contents)
@@ -65,19 +61,7 @@ public class BlogDto {
         private String contents;
         private Boolean enabled;
         private List<TagDto.update> tags;
-
-        public Blog toEntity() {
-
-            List<Tag> tags = new LinkedList<>();
-            this.tags.forEach(t -> tags.add(t.toEntity()));
-
-            return Blog.builder()
-                    .title(title)
-                    .contents(contents)
-                    .enabled(enabled)
-                    .tags(tags)
-                    .build();
-        }
+        private List<AttachImageDto.update> images;
     }
 
     @Setter
@@ -90,7 +74,6 @@ public class BlogDto {
     @Getter
     public static class response {
         private Long seq;
-        private String desc;
         private String title;
         private String contents;
         private Integer hitCnt;
@@ -101,18 +84,8 @@ public class BlogDto {
         private Boolean enabled;
 
         public response(Blog blog, String domainUrl, FileStatus fileStatus) {
-            String desc = "";
-            Document doc = Jsoup.parse(blog.getContents());
-            Elements els = doc.select("*");
-
-            if (els.eachText().size() > 0) {
-                desc = els.eachText().get(0);
-            }
-            desc.replace("\n", " ");
-
             this.seq = blog.getSeq();
             this.title = blog.getTitle();
-            this.desc = desc;
             this.contents = blog.getContents();
             this.hitCnt = blog.getHitCnt();
             this.createAt = Formatter.dateTimeToStr(blog.getCreateAt());
@@ -126,5 +99,35 @@ public class BlogDto {
         }
     }
 
+    @Getter
+    public static class responseList {
+        private Long seq;
+        private String desc;
+        private String title;
+        private Integer hitCnt;
+        private List<TagDto.response> tags;
+        private String createAt;
+        private String updateAt;
+        private Boolean enabled;
 
+        public responseList(Blog blog) {
+            String desc = "";
+            Document doc = Jsoup.parse(blog.getContents());
+            Elements els = doc.select("*");
+
+            if (els.eachText().size() > 0) {
+                desc = els.eachText().get(0);
+            }
+            desc.replace("\n", " ");
+
+            this.seq = blog.getSeq();
+            this.title = blog.getTitle();
+            this.desc = desc;
+            this.hitCnt = blog.getHitCnt();
+            this.createAt = Formatter.dateTimeToStr(blog.getCreateAt());
+            this.updateAt = Formatter.dateTimeToStr(blog.getUpdateAt());
+            this.enabled = blog.getEnabled();
+            this.tags = new LinkedList<>();
+        }
+    }
 }

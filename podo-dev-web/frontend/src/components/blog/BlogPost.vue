@@ -249,6 +249,7 @@
             },
 
             deleteImage(index) {
+
                 const image = this.input.images[index]
                 switch (image.fileStatus) {
                     case 'BE' :

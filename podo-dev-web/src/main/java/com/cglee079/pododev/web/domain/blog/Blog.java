@@ -2,6 +2,7 @@ package com.cglee079.pododev.web.domain.blog;
 
 import com.cglee079.pododev.web.domain.blog.attachimage.AttachImage;
 import com.cglee079.pododev.web.domain.blog.tag.Tag;
+import com.cglee079.pododev.web.global.util.TempUtil;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -37,11 +38,11 @@ public class Blog {
     @Column
     private Boolean enabled;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "blog_seq")
     private List<AttachImage> images;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "blog_seq")
     private List<Tag> tags;
 
@@ -65,37 +66,18 @@ public class Blog {
     /**
      * 게시글 수정 시
      */
-    public void update(Blog blogUpdate) {
-        this.title = blogUpdate.getTitle();
-        this.contents = blogUpdate.getContents();
-
-        this.updateTags(blogUpdate.getTags());
+    public void update(String title, String contents, Boolean enabled) {
+        this.title = title;
+        this.contents = contents;
+        this.enabled = enabled;
     }
 
-    private void updateTags(List<Tag> tagUpdates) {
-        Map<Long, Boolean> included = this.tags.stream().collect(Collectors.toMap(Tag::getSeq, t -> false));
-        Map<Long, Tag> tagMap = this.tags.stream().collect(Collectors.toMap(Tag::getSeq, Function.identity()));
-
-        tagUpdates.forEach(update -> {
-            if (Objects.isNull(update.getSeq())) {
-                this.tags.add(update);
-                return;
-            }
-            included.put(update.getSeq(), true);
-        });
-
-        int idx = 1;
-        for (Tag tag : tags) {
-            tag.updateIdx(idx++);
-        }
-
-        Iterator<Long> tagKeys = included.keySet().iterator();
-        while (tagKeys.hasNext()) {
-            long key = tagKeys.next();
-            if (!included.get(key)) {
-                this.tags.remove(tagMap.get(key));
-            }
-        }
+    /**
+     * Local Domain -> upload Server Domain
+     * @param localDomain
+     * @param uploadServerDomain
+     */
+    public void updateContentDomain(String localDomain, String uploadServerDomain) {
+        this.contents = this.contents.replace(localDomain, uploadServerDomain);
     }
-
 }

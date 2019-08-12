@@ -73,4 +73,35 @@ public class AttachImageDto {
                     .build();
         }
     }
+
+    @Getter
+    public static class update {
+        private Long seq;
+        private String key;
+        private String originName;
+        private String domainUrl;
+        private String fileStatus;
+        private Map<String, AttachImageSavedDto.update> saves;
+
+        public AttachImage toEntity(Long blogSeq) {
+            List<AttachImageSave> attachImageSaves = new LinkedList<>();
+
+            Iterator<String> keys = saves.keySet().iterator();
+            String key;
+            AttachImageSavedDto.update save;
+            while (keys.hasNext()) {
+                key = keys.next();
+                save = saves.get(key);
+
+                attachImageSaves.add(save.toEntity(key));
+            }
+
+            return AttachImage.builder()
+                    .blogSeq(blogSeq)
+                    .originKey(this.key)
+                    .originName(this.originName)
+                    .saves(attachImageSaves)
+                    .build();
+        }
+    }
 }

@@ -1,7 +1,7 @@
 package com.cglee079.pododev.web.domain.blog;
 
-import com.cglee079.pododev.web.core.global.response.*;
-import com.cglee079.pododev.web.core.global.response.ResponseStatus;
+import com.cglee079.pododev.core.global.response.ResponseStatus;
+import com.cglee079.pododev.core.global.response.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +30,7 @@ public class BlogController {
      */
     @GetMapping
     public ApiResponse paging(BlogDto.request request) {
-        PageDto<Blog> blogs = blogService.paging(request);
+        PageDto<BlogDto.responseList> blogs = blogService.paging(request);
 
         return DataResponse.builder()
                 .status(ResponseStatus.SUCCESS)

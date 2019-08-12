@@ -1,6 +1,7 @@
 package com.cglee079.pododev.web.global.infra.uploader;
 
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.*;
@@ -22,10 +23,11 @@ public class PodoUploaderClient {
     private String imageSubpath;
 
     public void uploadImages(String path, File file) {
+        log.info("Image Upload Start.... {}", file.getPath() + "/" + file.getName());
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         body.add("path", path);
-        body.add("image",  new FileSystemResource(file));
+        body.add("image", new FileSystemResource(file));
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
@@ -38,19 +40,22 @@ public class PodoUploaderClient {
         log.info("Image Upload Complete.. {}", response);
     }
 
-    public void deleteImage(String basePath, String filename) {
-        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-        body.add("image", basePath + "/" + filename);
+    public void deleteImage(String path, String filename) {
+        log.info("Image Delete Start.... {}", path + "/" + filename);
+
+        JSONObject object = new JSONObject();
+        object.put("path", path);
+        object.put("filename", filename);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(body, headers);
+        HttpEntity<String> request = new HttpEntity<>(object.toString(), headers);
 
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.exchange(serverUrl + imageSubpath, HttpMethod.DELETE, request, String.class);
 
-        log.info("Image Upload Complete.. {}", response);
+        log.info("Image Delete Complete.. {}", response);
 
     }
 }

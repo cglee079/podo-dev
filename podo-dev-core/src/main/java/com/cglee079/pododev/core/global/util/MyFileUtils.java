@@ -1,11 +1,8 @@
-package com.cglee079.pododev.web.global.util;
+package com.cglee079.pododev.core.global.util;
 
-import net.coobird.thumbnailator.Thumbnails;
-import org.apache.commons.io.FileUtils;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -18,11 +15,15 @@ public class MyFileUtils {
         return UUID.randomUUID().toString();
     }
 
-    public static String dayDirPath() {
+    public static String makeDatePath() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("/yyyy/MM/dd");
         String path = LocalDateTime.now().format(formatter);
 
         return path;
+    }
+
+    public static String makeRandFilename(String extension) {
+        return UUID.randomUUID() + "." + extension;
     }
 
     public static File saveFile(String path, MultipartFile multipartFile) {
@@ -35,36 +36,6 @@ public class MyFileUtils {
             //TODO
             throw new RuntimeException();
         }
-    }
-
-    public static String makeRandFilename(String extension) {
-        return UUID.randomUUID() + "." + extension;
-    }
-
-    public static boolean isImageFile(MultipartFile multipartFile) {
-        try {
-            BufferedImage bi = ImageIO.read(multipartFile.getInputStream());
-
-            if (bi == null) {
-                return false;
-            }
-
-            return true;
-        } catch (IOException e) {
-            return false;
-        }
-    }
-
-    public static File resizeImage(File originFile, File resizeFile, Integer width) {
-        try {
-            Thumbnails.of(originFile).width(width).toFile(resizeFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-            //TODO
-        }
-
-        return resizeFile;
-
     }
 
     public static File makeForceDir(String path) {

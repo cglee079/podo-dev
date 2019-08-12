@@ -21,8 +21,9 @@ public class TagDto {
         private Long seq;
         private String val;
 
-        public Tag toEntity() {
+        public Tag toEntity(Long blogSeq) {
             return Tag.builder()
+                    .blogSeq(blogSeq)
                     .val(val)
                     .build();
         }

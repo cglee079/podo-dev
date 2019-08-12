@@ -17,6 +17,13 @@ public class ImageDto {
     }
 
     @Getter
+    public static class delete {
+        private String path;
+        private String filename;
+    }
+
+
+    @Getter
     public static class response {
         private String filename;
         private Long filesize;
@@ -31,4 +38,6 @@ public class ImageDto {
             this.height = height;
         }
     }
+
+
 }

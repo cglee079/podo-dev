@@ -1,13 +1,11 @@
 package com.cglee079.pododev.web.domain.blog.attachimage;
 
-import com.cglee079.pododev.web.core.global.response.ApiResponse;
-import com.cglee079.pododev.web.core.global.response.DataResponse;
-import com.cglee079.pododev.web.core.global.response.ResponseStatus;
+import com.cglee079.pododev.core.global.response.ApiResponse;
+import com.cglee079.pododev.core.global.response.DataResponse;
+import com.cglee079.pododev.core.global.response.ResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpServletRequest;
 
 @RequiredArgsConstructor
 @RestController

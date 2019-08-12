@@ -1,10 +1,10 @@
 package com.cglee079.pododev.web.domain.blog.comment;
 
 import com.cglee079.pododev.web.domain.blog.comment.aop.CommentNotice;
-import com.cglee079.pododev.web.core.global.response.ApiResponse;
-import com.cglee079.pododev.web.core.global.response.DataResponse;
-import com.cglee079.pododev.web.core.global.response.ResponseStatus;
-import com.cglee079.pododev.web.core.global.response.StatusResponse;
+import com.cglee079.pododev.core.global.response.ApiResponse;
+import com.cglee079.pododev.core.global.response.DataResponse;
+import com.cglee079.pododev.core.global.response.ResponseStatus;
+import com.cglee079.pododev.core.global.response.StatusResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +27,7 @@ public class CommentController {
         List<CommentDto.response> comments = commentService.list(blogSeq);
 
         return DataResponse.builder()
-                .status(com.cglee079.pododev.web.core.global.response.ResponseStatus.SUCCESS)
+                .status(ResponseStatus.SUCCESS)
                 .data(comments)
                 .build();
     }
@@ -43,7 +43,7 @@ public class CommentController {
         commentService.insert(blogSeq, insert);
 
         return StatusResponse.builder()
-                .status(com.cglee079.pododev.web.core.global.response.ResponseStatus.SUCCESS)
+                .status(ResponseStatus.SUCCESS)
                 .build();
     }
 

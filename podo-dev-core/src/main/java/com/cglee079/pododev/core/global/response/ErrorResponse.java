@@ -1,4 +1,4 @@
-package com.cglee079.pododev.web.core.global.response;
+package com.cglee079.pododev.core.global.response;
 
 import lombok.Builder;
 import lombok.Getter;
