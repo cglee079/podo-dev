@@ -19,15 +19,15 @@ public class PodoUploaderClient {
     @Value("${podo.uploader.domain}")
     private String serverUrl;
 
-    @Value("${podo.uploader.upload.image.subpath}")
-    private String imageSubpath;
+    @Value("${podo.uploader.upload.subpath}")
+    private String subpath;
 
-    public void uploadImages(String path, File file) {
-        log.info("Image Upload Start.... {}", file.getPath() + "/" + file.getName());
+    public void upload(String path, File file) {
+        log.info("Upload Start.... {}", file.getPath() + "/" + file.getName());
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         body.add("path", path);
-        body.add("image", new FileSystemResource(file));
+        body.add("file", new FileSystemResource(file));
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
@@ -35,13 +35,13 @@ public class PodoUploaderClient {
         HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(body, headers);
 
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange(serverUrl + imageSubpath, HttpMethod.POST, request, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(serverUrl + subpath, HttpMethod.POST, request, String.class);
 
-        log.info("Image Upload Complete.. {}", response);
+        log.info("Upload Complete.. {}", response);
     }
 
-    public void deleteImage(String path, String filename) {
-        log.info("Image Delete Start.... {}", path + "/" + filename);
+    public void delete(String path, String filename) {
+        log.info("Delete Start.... {}", path + "/" + filename);
 
         JSONObject object = new JSONObject();
         object.put("path", path);
@@ -53,9 +53,9 @@ public class PodoUploaderClient {
         HttpEntity<String> request = new HttpEntity<>(object.toString(), headers);
 
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange(serverUrl + imageSubpath, HttpMethod.DELETE, request, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(serverUrl + subpath, HttpMethod.DELETE, request, String.class);
 
-        log.info("Image Delete Complete.. {}", response);
+        log.info("Delete Complete.. {}", response);
 
     }
 }

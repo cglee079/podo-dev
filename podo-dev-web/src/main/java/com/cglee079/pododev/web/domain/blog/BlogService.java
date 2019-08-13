@@ -1,6 +1,8 @@
 package com.cglee079.pododev.web.domain.blog;
 
 import com.cglee079.pododev.core.global.response.PageDto;
+import com.cglee079.pododev.web.domain.blog.attachfile.AttachFile;
+import com.cglee079.pododev.web.domain.blog.attachfile.AttachFileService;
 import com.cglee079.pododev.web.domain.blog.attachimage.AttachImageService;
 import com.cglee079.pododev.web.domain.blog.tag.TagService;
 import com.cglee079.pododev.web.global.util.TempUtil;
@@ -34,6 +36,7 @@ public class BlogService {
     private final BlogRepository blogRepository;
     private final TagService tagService;
     private final AttachImageService attachImageService;
+    private final AttachFileService attachFileService;
 
     public BlogDto.response get(Long seq) {
         Blog blog = blogRepository.findById(seq).get();
@@ -66,6 +69,7 @@ public class BlogService {
 
         // 이미지 저장
         attachImageService.uploadImage(insert.getImages());
+        attachFileService.uploadFile(insert.getFiles());
 
         Blog blog = insert.toEntity();
         blog.updateContentDomain(TempUtil.getDomainUrl() + baseUrl, uploadServerDomain);

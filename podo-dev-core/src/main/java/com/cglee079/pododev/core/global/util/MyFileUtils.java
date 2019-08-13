@@ -27,8 +27,12 @@ public class MyFileUtils {
     }
 
     public static File saveFile(String path, MultipartFile multipartFile) {
+
         try {
             File file = new File(path);
+
+            MyFileUtils.makeForceDir(file.getParentFile().getPath());
+
             multipartFile.transferTo(file);
             return file;
         } catch (IOException e) {

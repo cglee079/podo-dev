@@ -1,5 +1,6 @@
 package com.cglee079.pododev.web.domain.blog;
 
+import com.cglee079.pododev.web.domain.blog.attachfile.AttachFile;
 import com.cglee079.pododev.web.domain.blog.attachimage.AttachImage;
 import com.cglee079.pododev.web.domain.blog.tag.Tag;
 import com.cglee079.pododev.web.global.util.TempUtil;
@@ -42,6 +43,11 @@ public class Blog {
     @JoinColumn(name = "blog_seq")
     private List<AttachImage> images;
 
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "blog_seq")
+    private List<AttachFile> files;
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "blog_seq")
     private List<Tag> tags;
@@ -54,12 +60,13 @@ public class Blog {
 
 
     @Builder
-    public Blog(String title, String contents, Boolean enabled, List<Tag> tags, List<AttachImage> images) {
+    public Blog(String title, String contents, Boolean enabled, List<Tag> tags, List<AttachImage> images, List<AttachFile> files) {
         this.title = title;
         this.contents = contents;
         this.enabled = enabled;
         this.tags = tags;
         this.images = images;
+        this.files = files;
         this.hitCnt = 0;
     }
 
@@ -74,6 +81,7 @@ public class Blog {
 
     /**
      * Local Domain -> upload Server Domain
+     *
      * @param localDomain
      * @param uploadServerDomain
      */

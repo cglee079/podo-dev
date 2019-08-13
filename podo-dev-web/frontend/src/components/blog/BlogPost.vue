@@ -65,6 +65,14 @@
             />
         </div>
 
+        <div id="wrapFileUpload">
+            <post-file
+                    :files="this.input.files"
+                    @add="addFile"
+                    @delete="deleteFile"/>
+
+        </div>
+
         <div>
             <sub-button value="작성" @click="clickSubmit"/>
         </div>
@@ -75,13 +83,17 @@
 <script>
     import {Editor} from '@toast-ui/vue-editor'
     import BlogPostImage from "./BlogPostImage";
+    import BlogPostFile from "./BlogPostFile";
 
     export default {
         name: 'app',
         components: {
+            BlogPostFile,
             'editor': Editor,
-            'post-image': BlogPostImage
+            'post-image': BlogPostImage,
+            'post-file': BlogPostFile
         },
+
         data() {
             return {
                 isNew: true,
@@ -92,6 +104,7 @@
                     enabled: 'true',
                     tags: [],
                     images: [],
+                    files: []
                 },
                 editor: {
                     text: '<img src=http://192.168.219.103:7070/resources/image/home_icon_me.png">',
@@ -204,7 +217,8 @@
                         contents: this.editor.text,
                         enabled: this.input.enabled,
                         tags: this.input.tags,
-                        images : this.input.images
+                        images: this.input.images,
+                        files : this.input.files
                     })
 
                     .then(res => {
@@ -223,7 +237,8 @@
                         contents: this.editor.text,
                         enabled: this.input.enabled,
                         tags: this.input.tags,
-                        images : this.input.images
+                        images: this.input.images,
+                        files : this.input.files
                     })
 
                     .then(res => {
@@ -291,7 +306,27 @@
                 //     }
                 // }
                 // this.editor.text = doc.body.innerHTML
+            },
+
+            addFile(file) {
+                this.input.files.push(file)
+            },
+
+            deleteFile(index) {
+                const file = this.input.files[index]
+                switch (file.fileStatus) {
+                    case 'BE' :
+                        file.fileStatus = 'REMOVE'
+                        break
+                    case 'NEW' :
+                        file.fileStatus = 'UNNEW'
+                        break
+                    default :
+                        break
+                }
             }
+
+
         },
         created() {
             const seq = this.$route.params.seq
@@ -335,7 +370,7 @@
         border-radius: 3px;
     }
 
-    #wrapImageUpload {
+    #wrapImageUpload, #wrapFileUpload{
         margin-top: 50px;
     }
 

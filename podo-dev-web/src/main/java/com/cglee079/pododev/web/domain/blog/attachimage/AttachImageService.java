@@ -1,12 +1,12 @@
 package com.cglee079.pododev.web.domain.blog.attachimage;
 
-import com.cglee079.pododev.web.domain.blog.FileStatus;
-import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSavedDto;
 import com.cglee079.pododev.core.global.util.MyFileUtils;
+import com.cglee079.pododev.web.domain.blog.FileStatus;
+import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSaveDto;
+import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSaveService;
 import com.cglee079.pododev.web.global.infra.uploader.PodoUploaderClient;
 import com.cglee079.pododev.web.global.util.TempUtil;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +27,7 @@ public class AttachImageService {
 
     private final PodoUploaderClient podoUploaderClient;
     private final AttachImageRepository attachImageRepository;
-    private final AttachImageWriter attachImageWriter;
+    private final AttachImageSaveService attachImageSaveService;
 
     @Value("${upload.base.url}")
     private String baseUrl;
@@ -38,9 +38,8 @@ public class AttachImageService {
     public AttachImageDto.response saveImage(MultipartFile multipartFile) {
         String key = MyFileUtils.generateKey();
         String originName = multipartFile.getOriginalFilename();
-        String extension = FilenameUtils.getExtension(originName);
 
-        Map<String, AttachImageSavedDto.response> saves = attachImageWriter.makeSaveFile(multipartFile, extension);
+        Map<String, AttachImageSaveDto.response> saves = attachImageSaveService.makeSaveFile(multipartFile);
 
         return AttachImageDto.response.builder()
                 .key(key)
@@ -51,15 +50,19 @@ public class AttachImageService {
                 .build();
     }
 
+    /***
+     * 게시글 작성 시, 이미지 저장
+     * @param images
+     */
     public void uploadImage(List<AttachImageDto.insert> images) {
         //이미지 서버 저장
         images.forEach(image -> {
-            List<AttachImageSavedDto.insert> saves = image.getSaves().values().stream().collect(Collectors.toList());
+            List<AttachImageSaveDto.insert> saves = image.getSaves().values().stream().collect(Collectors.toList());
 
             switch (FileStatus.valueOf(image.getFileStatus())) {
                 case NEW:
                     saves.forEach(save ->
-                            podoUploaderClient.uploadImages(save.getPath(), new File(baseDir + save.getPath(), save.getFilename()))
+                            podoUploaderClient.upload(save.getPath(), new File(baseDir + save.getPath(), save.getFilename()))
                     );
                     break;
                 case BE:
@@ -72,23 +75,28 @@ public class AttachImageService {
 
     }
 
+    /**
+     * 게시글 수정 시, 이미지 수정
+     * @param blogSeq
+     * @param images
+     */
     public void updateImage(Long blogSeq, List<AttachImageDto.update> images) {
 
         images.forEach(image -> {
-            List<AttachImageSavedDto.update> saves = image.getSaves().values().stream().collect(Collectors.toList());
+            List<AttachImageSaveDto.update> saves = image.getSaves().values().stream().collect(Collectors.toList());
 
             //DB 정보 갱신
             switch (FileStatus.valueOf(image.getFileStatus())) {
                 case NEW:
                     saves.forEach(save ->
-                            podoUploaderClient.uploadImages(save.getPath(), new File(baseDir + save.getPath(), save.getFilename()))
+                            podoUploaderClient.upload(save.getPath(), new File(baseDir + save.getPath(), save.getFilename()))
                     );
 
                     attachImageRepository.save(image.toEntity(blogSeq));
                     break;
                 case REMOVE:
                     saves.forEach(save ->
-                            podoUploaderClient.deleteImage(save.getPath(), save.getFilename())
+                            podoUploaderClient.delete(save.getPath(), save.getFilename())
                     );
 
                     attachImageRepository.deleteById(image.getSeq());

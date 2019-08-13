@@ -44,6 +44,8 @@ upload:
     url: /uploaded
     dir: C://podo-dev/upload
   postfix:
+    file:
+      dir: /blogs/files
     image:
       dir: /blogs/images
 
@@ -53,8 +55,7 @@ podo:
   uploader:
     domain: http://localhost:8092
     upload:
-      image:
-        subpath: /api/images
+        subpath: /api/upload
     frontend:
       subpath: /uploaded
 

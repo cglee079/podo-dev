@@ -1,27 +1,27 @@
-package com.cglee079.pododev.uploader.domain.image;
+package com.cglee079.pododev.uploader.domain.upload;
 
 import com.cglee079.pododev.core.global.response.ApiResponse;
 import com.cglee079.pododev.core.global.response.DataResponse;
 import com.cglee079.pododev.core.global.response.ResponseStatus;
+import com.cglee079.pododev.core.global.response.StatusResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RequestMapping("/api")
 @RestController
-public class ImageUploaderController {
+public class UploadController {
 
-    private final ImageUploaderService imageUploaderService;
-
+    private final UploadService uploadService;
 
     /**
      * 이미지 저장
      */
-    @PostMapping("/images")
-    public ApiResponse uploadImage(@ModelAttribute ImageDto.insert insert) {
-       imageUploaderService.saveImage(insert);
+    @PostMapping("/upload")
+    public ApiResponse upload(@ModelAttribute UploadDto.insert insert) {
+       uploadService.save(insert);
 
-        return DataResponse.builder()
+        return StatusResponse.builder()
                 .status(ResponseStatus.SUCCESS)
                 .build();
     }
@@ -29,11 +29,11 @@ public class ImageUploaderController {
     /**
      * 이미지 삭제
      */
-    @DeleteMapping("/images")
-    public ApiResponse deleteImage(@RequestBody ImageDto.delete delete) {
-        imageUploaderService.deleteImage(delete);
+    @DeleteMapping("/upload")
+    public ApiResponse delete(@RequestBody UploadDto.delete delete) {
+        uploadService.delete(delete);
 
-        return DataResponse.builder()
+        return StatusResponse.builder()
                 .status(ResponseStatus.SUCCESS)
                 .build();
     }

@@ -4,7 +4,7 @@ import com.cglee079.pododev.web.domain.blog.attachimage.ImageInfo;
 import lombok.Builder;
 import lombok.Getter;
 
-public class AttachImageSavedDto {
+public class AttachImageSaveDto {
 
     @Getter
     public static class response {

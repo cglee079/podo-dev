@@ -1,5 +1,7 @@
 package com.cglee079.pododev.web.domain.blog;
 
+import com.cglee079.pododev.web.domain.blog.attachfile.AttachFile;
+import com.cglee079.pododev.web.domain.blog.attachfile.AttachFileDto;
 import com.cglee079.pododev.web.domain.blog.attachimage.AttachImage;
 import com.cglee079.pododev.web.domain.blog.attachimage.AttachImageDto;
 import com.cglee079.pododev.web.domain.blog.tag.Tag;
@@ -22,6 +24,7 @@ public class BlogDto {
         private Boolean enabled;
         private List<TagDto.insert> tags;
         private List<AttachImageDto.insert> images;
+        private List<AttachFileDto.insert> files;
 
 
         public Blog toEntity() {
@@ -45,11 +48,24 @@ public class BlogDto {
                 }
             });
 
+            //File to Entity
+            List<AttachFile> files = new LinkedList<>();
+            this.files.forEach(file -> {
+                switch (FileStatus.valueOf(file.getFileStatus())) {
+                    case NEW:
+                        files.add(file.toEntity());
+                        break;
+                    default:
+                        break;
+                }
+            });
+
             return Blog.builder()
                     .title(title)
                     .contents(contents)
                     .enabled(enabled)
                     .images(images)
+                    .files(files)
                     .tags(tags)
                     .build();
         }
