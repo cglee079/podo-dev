@@ -11,7 +11,7 @@
                  v-bind:key="index"
                  :class="isValidFile(file.fileStatus) ? '' : 'disabled' "
             >
-                <div class="name">[{{file.filesize}}] {{file.originName}}</div>
+                <div class="name">[{{formatFilesize(file.filesize)}}] {{file.originName}}</div>
                 <div class="btn-remove" @click="clickBtnRemove(index)">REMOVE</div>
             </div>
         </div>
@@ -19,6 +19,8 @@
 </template>
 
 <script>
+    import filesize from 'filesize'
+
     export default {
         name: "BlogPostFile",
         props: {
@@ -68,6 +70,9 @@
                 return false
             },
 
+            formatFilesize(value){
+                return filesize(value)
+            },
             removeImage(index) {
                 this.$emit('delete', index)
             },

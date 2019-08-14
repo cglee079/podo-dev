@@ -192,8 +192,8 @@
                         this.input.enabled = blog.enabled
                         this.input.tags = blog.tags
                         this.input.images = blog.images
+                        this.input.files = blog.files
                         this.editor.text = blog.contents
-
 
                         console.log(blog)
                     })

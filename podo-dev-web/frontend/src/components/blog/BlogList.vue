@@ -1,5 +1,5 @@
 <template>
-    <div id="wrapBlogs">
+    <div id="wrapBlogs" :class="$mq">
         <div id="blogs">
             <div
                     :key="blog.seq"
@@ -11,7 +11,7 @@
 
         </div>
 
-        <div id="wrapTags">
+        <div id="wrapTags" :class="$mq">
             <tag-values/>
         </div>
 
@@ -19,13 +19,13 @@
 </template>
 
 <script>
-    import BlogRow from '@/components/blog/BlogRow'
     import BlogListTagValues from "@/components/blog/BlogListTagValues";
+    import BlogListRow from "./BlogListRow";
 
     export default {
         name: 'BlogList',
         components: {
-            'blog-row': BlogRow,
+            'blog-row': BlogListRow,
             'tag-values' : BlogListTagValues
         },
         data() {
@@ -96,10 +96,13 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
     #wrapBlogs {
         display: flex;
+        &.mobile {
+            flex-flow: column-reverse;
+        }
     }
 
     #blogs {
@@ -110,6 +113,12 @@
         position: sticky;
         margin-left: 50px;
         width: 15%;
+
+        &.mobile {
+            width: 90%;
+            margin: 0px auto 30px auto;
+            text-align: center;
+        }
     }
 
 

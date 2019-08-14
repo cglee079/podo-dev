@@ -24,5 +24,6 @@
      */
     #custom-viewer .tui-editor-contents{
         font-size: 1rem !important;
+        word-break: break-all;
     }
 </style>

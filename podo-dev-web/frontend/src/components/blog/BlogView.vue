@@ -1,5 +1,5 @@
 <template>
-    <div id="wrapBlog">
+    <div id="wrapBlog" :class="$mq">
         <div id="head">
             <div id="tags">
                 <span v-for="tag in blog.tags"
@@ -29,7 +29,7 @@
             <span>다음글</span>
         </div>
 
-        <div id="contents" class="editor-contents">
+        <div id="contents">
             <toast-custom-viewer :value="blog.contents"/>
         </div>
 
@@ -84,10 +84,14 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
     #wrapBlog {
-        width: 800px;
+        max-width: 800px;
         margin: 0px auto;
+
+        &.mobile{
+            margin: 0px 20px;
+        }
     }
 
     #head {

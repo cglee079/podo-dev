@@ -78,6 +78,7 @@ public class BlogDto {
         private Boolean enabled;
         private List<TagDto.update> tags;
         private List<AttachImageDto.update> images;
+        private List<AttachFileDto.update> files;
     }
 
     @Setter
@@ -95,6 +96,7 @@ public class BlogDto {
         private Integer hitCnt;
         private List<TagDto.response> tags;
         private List<AttachImageDto.response> images;
+        private List<AttachFileDto.response> files;
         private String createAt;
         private String updateAt;
         private Boolean enabled;
@@ -109,9 +111,11 @@ public class BlogDto {
             this.enabled = blog.getEnabled();
             this.tags = new LinkedList<>();
             this.images = new LinkedList<>();
+            this.files = new LinkedList<>();
 
             blog.getTags().forEach(tag -> this.tags.add(new TagDto.response(tag)));
             blog.getImages().forEach(image -> this.images.add(new AttachImageDto.response(image, domainUrl, fileStatus)));
+            blog.getFiles().forEach(file -> this.files.add(new AttachFileDto.response(file, domainUrl, fileStatus)));
         }
     }
 

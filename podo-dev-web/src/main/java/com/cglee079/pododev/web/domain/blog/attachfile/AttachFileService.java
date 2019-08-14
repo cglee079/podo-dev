@@ -2,7 +2,6 @@ package com.cglee079.pododev.web.domain.blog.attachfile;
 
 import com.cglee079.pododev.core.global.util.MyFileUtils;
 import com.cglee079.pododev.web.domain.blog.FileStatus;
-import com.cglee079.pododev.web.domain.blog.attachimage.AttachImageRepository;
 import com.cglee079.pododev.web.global.infra.uploader.PodoUploaderClient;
 import com.cglee079.pododev.web.global.util.FileWriter;
 import com.cglee079.pododev.web.global.util.TempUtil;
@@ -24,7 +23,7 @@ public class AttachFileService {
     private String baseDir;
 
     private final PodoUploaderClient podoUploaderClient;
-    private final AttachImageRepository attachImageRepository;
+    private final AttachFileRepository attachFileRepository;
     private final FileWriter fileWriter;
 
     @Value("${upload.base.url}")
@@ -65,6 +64,24 @@ public class AttachFileService {
                     break;
                 case BE:
                 case REMOVE:
+                case UNNEW:
+                default:
+                    break;
+            }
+        });
+    }
+
+    public void updateFile(Long blogSeq, List<AttachFileDto.update> files) {
+        files.forEach(file -> {
+            switch (FileStatus.valueOf(file.getFileStatus())) {
+                case NEW:
+                    podoUploaderClient.upload(file.getPath(), new File(baseDir + file.getPath(), file.getFilename()));
+                    attachFileRepository.save(file.toEntity(blogSeq));
+                    break;
+                case REMOVE:
+                    podoUploaderClient.delete(file.getPath(), file.getFilename());
+                    attachFileRepository.deleteById(file.getSeq());
+                case BE:
                 case UNNEW:
                 default:
                     break;

@@ -1,12 +1,14 @@
 <template>
     <div id="nav">
-        <div>Podo.logo</div>
+        <div id="logo" :class="$mq">Podo.logo</div>
+
         <div id="navMenu">
             <span>이력</span>
             <span><router-link :to="{name : 'BlogList'}">블로그</router-link></span>
             <span>사진</span>
         </div>
-        <div id="search">
+
+        <div id="search" :class="$mq">
             <autocomplete :search="search" @submit="submit"></autocomplete>
         </div>
     </div>
@@ -22,14 +24,16 @@
         },
         data() {
             return {
-                countries : ['A', 'AA']
+                countries: ['A', 'AA']
             }
         },
         methods: {
             search(input) {
                 //TODO
                 //get Value From Solr
-                if (input.length < 1) { return [] }
+                if (input.length < 1) {
+                    return []
+                }
                 return this.countries.filter(country => {
                     return country.toLowerCase()
                         .startsWith(input.toLowerCase())
@@ -44,7 +48,7 @@
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
     #nav {
         position: sticky;
         display: flex;
@@ -55,10 +59,10 @@
         padding: 0px 100px;
     }
 
-    #navMenu{
-        position : absolute;
-        left : 0;
-        right : 0;
+    #navMenu {
+        position: absolute;
+        left: 0;
+        right: 0;
         text-align: center;
     }
 
@@ -67,8 +71,18 @@
         cursor: pointer;
     }
 
-    #search{
+    #logo {
+        &.tablet, &.mobile {
+            display: none;
+        }
+    }
+
+    #search {
         transform: scale(.8);
+
+        &.tablet, &.mobile {
+            display: none;
+        }
     }
 
 </style>

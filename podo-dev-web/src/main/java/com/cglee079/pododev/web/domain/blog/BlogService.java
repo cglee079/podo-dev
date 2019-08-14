@@ -67,14 +67,13 @@ public class BlogService {
 
     public void insert(BlogDto.insert insert) {
 
-        // 이미지 저장
+        // 업로드 파일
         attachImageService.uploadImage(insert.getImages());
         attachFileService.uploadFile(insert.getFiles());
 
         Blog blog = insert.toEntity();
         blog.updateContentDomain(TempUtil.getDomainUrl() + baseUrl, uploadServerDomain);
 
-        // 블로그 저장 (이미지 제외)
         blogRepository.save(blog);
     }
 
@@ -93,6 +92,7 @@ public class BlogService {
         //Update Tag
         tagService.updateTags(seq, blogUpdate.getTags());
         attachImageService.updateImage(seq, blogUpdate.getImages());
+        attachFileService.updateFile(seq, blogUpdate.getFiles());
 
     }
 

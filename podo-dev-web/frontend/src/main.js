@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
+import VueMq from 'vue-mq'
 import router from './router'
 import axios from 'axios'
 
@@ -22,6 +23,15 @@ Vue.use(Toasted, {
 })
 
 Vue.use(Autocomplete)
+
+Vue.use(VueMq, {
+  breakpoints: { // default breakpoints - customize this
+    mobile: 720,
+    tablet: 1080,
+    desktop: Infinity,
+  },
+  defaultBreakpoint: '1080' // customize this for SSR
+})
 
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios

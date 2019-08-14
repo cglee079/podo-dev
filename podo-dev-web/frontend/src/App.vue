@@ -1,7 +1,8 @@
 <template>
+
     <div>
         <the-nav></the-nav>
-        <div id="main">
+        <div id="main" :class="$mq">
             <router-view></router-view>
         </div>
         <the-footer></the-footer>
@@ -20,12 +21,18 @@
         name: 'App'
     }
 </script>
-<style scoped>
+<style scoped lang="scss">
     #main {
-        width: 1080px;
-        min-height: 100vh;
         margin: 50px auto 150px auto;
+        max-width: 1080px;
+        min-height: 100vh;
+
+        &.mobile{
+            margin: 20px auto 150px auto;
+            max-width: 100%;
+        }
     }
+
 
 </style>
 <style>
@@ -52,7 +59,7 @@
         font-family: 'Noto Sans KR', sans-serif;
     }
 
-    textarea, input{
+    textarea, input {
         font-family: 'Noto Sans KR', sans-serif !important;
     }
 

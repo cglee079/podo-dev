@@ -16,7 +16,7 @@ public class AttachFile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer seq;
+    private Long seq;
 
     @Column(name = "blog_seq")
     private Long blogSeq;

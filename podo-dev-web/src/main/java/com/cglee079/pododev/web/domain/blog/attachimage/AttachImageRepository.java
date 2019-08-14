@@ -7,6 +7,4 @@ import java.util.List;
 
 @Repository
 public interface AttachImageRepository extends JpaRepository<AttachImage, Long>{
-
-    List<AttachImage> findByBlogSeq(Long blogSeq);
 }

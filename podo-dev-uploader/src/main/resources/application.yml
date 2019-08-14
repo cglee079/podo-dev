@@ -2,10 +2,18 @@
 server:
   port: 8092
 
+spring:
+
+  # Servlet
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+
 uploader:
   frontend:
     subpath: /uploaded
   upload:
     base:
       dir: C://podo-dev-uploader/upload
-

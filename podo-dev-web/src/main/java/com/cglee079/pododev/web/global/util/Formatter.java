@@ -11,7 +11,7 @@ public class Formatter {
             return "";
         }
 
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         return time.format(dateTimeFormatter);
     }
 }

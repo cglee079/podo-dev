@@ -28,6 +28,17 @@ public class AttachFileDto {
             this.filesize = filesize;
             this.fileStatus = fileStatus;
         }
+
+        public response(AttachFile file, String domainUrl, FileStatus fileStatus) {
+            this.seq = file.getSeq();
+            this.originKey = file.getOriginKey();
+            this.filename = file.getFilename();
+            this.originName = file.getOriginName();
+            this.domainUrl = domainUrl;
+            this.path = file.getPath();
+            this.filesize = file.getFilesize();
+            this.fileStatus = fileStatus;
+        }
     }
 
     @Getter
@@ -35,7 +46,6 @@ public class AttachFileDto {
         private String originKey;
         private String filename;
         private String originName;
-        private String domainUrl;
         private String path;
         private Long filesize;
         private String fileStatus;
@@ -49,6 +59,28 @@ public class AttachFileDto {
                     .filesize(filesize)
                     .build();
 
+        }
+    }
+
+    @Getter
+    public static class update {
+        private Long seq;
+        private String originKey;
+        private String filename;
+        private String originName;
+        private String path;
+        private Long filesize;
+        private String fileStatus;
+
+        public AttachFile toEntity(Long blogSeq) {
+            return AttachFile.builder()
+                    .blogSeq(blogSeq)
+                    .originKey(originKey)
+                    .originName(originName)
+                    .path(path)
+                    .filename(filename)
+                    .filesize(filesize)
+                    .build();
         }
     }
 }
