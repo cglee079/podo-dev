@@ -18,61 +18,65 @@
 <script>
     export default {
         name: "BlogViewCommentItem",
-        props : {
-            comment : Object
+        props: {
+            comment: Object
         },
-        methods : {
-            clickCommentDelete(commentSeq){
+        methods: {
+            clickCommentDelete(commentSeq) {
                 this.$emit('delete', commentSeq)
             }
         }
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
     .comment {
         padding-top: 30px;
         padding-bottom: 20px;
         border-bottom: 1px solid #F1F1F1;
+
+        &.disabled {
+            opacity: 0.6;
+        }
+
+        .contents {
+            color: #444;
+            font-size: 0.9rem;
+            word-break: break-all;
+            word-wrap: break-word;
+        }
     }
 
-    .comment.disabled {
-        opacity: 0.6;
-    }
-
-    .header{
+    .header {
         display: flex;
         justify-content: space-between;
         margin-bottom: 10px;
-    }
 
-    .header .info .writer {
-        color: #4c2b2b;
-        font-weight: bold;
-        margin-right: 5px;
-    }
+        .info {
+            .writer {
+                color: #4c2b2b;
+                font-weight: bold;
+                margin-right: 5px;
+            }
 
-    .header .info .create-at{
-        color: #777;
-        font-size: 0.8rem;
-    }
+            .create-at {
+                color: #777;
+                font-size: 0.8rem;
+            }
 
-    .header .menu {
-        font-size: 0.8rem;
-        color: #444;
-        text-align: right;
-    }
 
-    .header .menu a {
-        margin-left: 7px;
-        cursor: pointer;
-    }
+        }
 
-    .comment .contents {
-        color: #444;
-        font-size: 0.9rem;
-        word-break: break-all;
-        word-wrap: break-word;
-    }
+        .menu {
+            font-size: 0.8rem;
+            color: #444;
+            text-align: right;
 
+            a {
+                margin-left: 7px;
+                cursor: pointer;
+            }
+        }
+
+    }
 </style>

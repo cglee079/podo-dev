@@ -130,6 +130,7 @@ public class BlogDto {
         private String desc;
         private String title;
         private Integer hitCnt;
+        private Integer commentCnt;
         private List<TagDto.response> tags;
         private String createAt;
         private String updateAt;
@@ -153,6 +154,7 @@ public class BlogDto {
             this.updateAt = Formatter.dateTimeToStr(blog.getUpdateAt());
             this.enabled = blog.getEnabled();
             this.tags = new LinkedList<>();
+            this.commentCnt = blog.getComments().size();
 
             //TODO Check Thumbnail Column..
 

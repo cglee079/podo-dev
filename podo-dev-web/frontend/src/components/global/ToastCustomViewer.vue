@@ -1,29 +1,31 @@
 <template>
     <div id="custom-viewer">
-     <viewer :value="value"/>
+        <viewer :value="value"/>
     </div>
 </template>
 
 <script>
-    import { Viewer } from '@toast-ui/vue-editor'
+    import {Viewer} from '@toast-ui/vue-editor'
 
     export default {
         name: "ToastCustomViewer",
         components: {
             'viewer': Viewer
         },
-        props : {
-            value : String
+        props: {
+            value: String
         },
     }
 </script>
 
-<style>
+<style lang="scss">
     /**
         Toast Viewer Override CSS
      */
-    #custom-viewer .tui-editor-contents{
-        font-size: 1rem !important;
-        word-break: break-all;
+    #custom-viewer {
+        .tui-editor-contents {
+            font-size: 1rem !important;
+            word-break: break-all;
+        }
     }
 </style>

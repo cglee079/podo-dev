@@ -70,7 +70,7 @@
                 return false
             },
 
-            formatFilesize(value){
+            formatFilesize(value) {
                 return filesize(value)
             },
             removeImage(index) {
@@ -84,7 +84,7 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
     #btnFileUpload {
         width: 100%;
         height: 30px;
@@ -96,25 +96,30 @@
         cursor: pointer;
     }
 
-    #fileList .file {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        border: 1px solid #CCC;
-        padding: 7px;
-        margin: 5px 0px;
+    #fileList {
+
+        .file {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid #CCC;
+            padding: 7px;
+            margin: 5px 0px;
+
+            &.disabled {
+                display: none;
+            }
+        }
+
+        .btn-remove {
+            display: inline-block;
+            padding: 5px 10px 5px 10px;
+            background: #FCC;
+            text-align: center;
+            cursor: pointer;
+        }
+
     }
 
-    #fileList .file.disabled {
-        display: none;
-    }
-
-    #fileList .btn-remove {
-        display: inline-block;
-        padding: 5px 10px 5px 10px;
-        background: #FCC;
-        text-align: center;
-        cursor: pointer;
-    }
 
 </style>

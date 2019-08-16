@@ -88,6 +88,8 @@
             },
 
             loadBlogByFilter() {
+                this.contents = []
+
                 const tag = this.$route.query.tag
                 if (tag) {
                     this.filter.tag = tag

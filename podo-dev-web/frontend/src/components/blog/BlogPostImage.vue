@@ -80,7 +80,7 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
     #btnImageUpload {
         width: 100%;
         height: 30px;
@@ -94,23 +94,26 @@
 
     #imageList {
         display: flex;
-    }
 
-    #imageList .image, #imageList .image img {
-        width: 100px;
-        height: 100px;
-        overflow: hidden;
-    }
+        .image {
+            margin-top: 10px;
+            margin-right: 10px;
+            border: 1px solid #DDDDDD;
+            width: 100px;
+            height: 100px;
+            overflow: hidden;
 
-    #imageList .image {
-        margin-top: 10px;
-        margin-right: 10px;
-        border: 1px solid #DDDDDD;
-    }
+            &.disabled {
+                display: none;
+            }
 
-    #imageList .image.disabled {
-        display: none;
-    }
+            img {
+                width: 100px;
+                height: 100px;
+                overflow: hidden;
+            }
+        }
 
+    }
 
 </style>

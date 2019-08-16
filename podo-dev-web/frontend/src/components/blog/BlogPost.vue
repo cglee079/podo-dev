@@ -2,14 +2,6 @@
     <div id="wrapBlogPost">
 
         <div class="wrapItem">
-            <span>썸네일</span>
-            <span class="item-input">
-                <img id="thumbnail-img">
-                <input type="file" @change="fileChange" ref="thumbnail">
-            </span>
-        </div>
-
-        <div class="wrapItem">
             <span>공개여부</span>
             <span>
                 <select v-model="input.enabled">

@@ -19,7 +19,7 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
     div {
         cursor: pointer;
         margin: 0px 5px;
@@ -28,11 +28,12 @@
         border: 1px solid #AAAAAA;
         text-align: center;
         display: inline-block;
+
+        &:hover{
+            background: #111111;
+            border: 1px solid #111111;
+            color: #FFFFFF;
+        }
     }
 
-    div:hover {
-        background: #111111;
-        border: 1px solid #111111;
-        color: #FFFFFF;
-    }
 </style>

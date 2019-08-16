@@ -8,7 +8,7 @@
             >
                 <comment-item
                         :comment="comment"
-                        @delete = "deleteBlogComment"
+                        @delete="deleteBlogComment"
                 />
             </div>
         </div>
@@ -45,7 +45,7 @@
         },
         data() {
             return {
-                comments : [],
+                comments: [],
                 input: {
                     username: '',
                     password: '',
@@ -84,7 +84,7 @@
                     })
             },
 
-            deleteBlogComment(commentSeq){
+            deleteBlogComment(commentSeq) {
                 this.$axios
                     .delete('/api/blogs/' + this.blogSeq + "/comments/" + commentSeq)
                     .then(res => {
@@ -104,7 +104,7 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
     #wrapComment {
         margin-top: 100px;
@@ -118,56 +118,57 @@
     /*** Comment Write ****/
     #write {
         margin-top: 20px;
-    }
 
-    #write #contents {
-        width: 100%;
-        box-sizing: border-box;
-        height: 7rem;
-        padding: 10px;
-        resize: none;
-        overflow: hidden;
-        border: 0.7px solid #E1E1E1;
-        border-radius: 3px;
-    }
+        #contents {
+            width: 100%;
+            box-sizing: border-box;
+            height: 7rem;
+            padding: 10px;
+            resize: none;
+            overflow: hidden;
+            border: 0.7px solid #E1E1E1;
+            border-radius: 3px;
+        }
 
-    #write #sub {
-        display: flex;
-        justify-content: space-between;
-    }
+        #sub {
+            display: flex;
+            justify-content: space-between;
 
-    #write #sub #user {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 5px;
-        height: 2rem;
-    }
+            #user {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 5px;
+                height: 2rem;
 
-    #write #sub #user div {
-        margin-right: 3px;
-    }
+                div {
+                    margin-right: 3px;
+                }
 
-    #write #sub #user input {
-        width: 7rem;
-        height: 2rem;
-        font-size: 0.8rem;
-        padding-left: 5px;
-        border: 1px solid #E1E1E1;
-        border-radius: 3px;
-    }
+                input {
+                    width: 7rem;
+                    height: 2rem;
+                    font-size: 0.8rem;
+                    padding-left: 5px;
+                    border: 1px solid #E1E1E1;
+                    border-radius: 3px;
+                }
+            }
 
-    #write #sub #submit {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 2rem;
-        font-size: 0.8rem;
-        padding: 0px 20px;
-        color: #FFFFFF;
-        border-radius: 3px;
-        background: #222222;
-        cursor: pointer;
+            #submit {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 2rem;
+                font-size: 0.8rem;
+                padding: 0px 20px;
+                color: #FFFFFF;
+                border-radius: 3px;
+                background: #222222;
+                cursor: pointer;
 
+            }
+
+        }
     }
 
 

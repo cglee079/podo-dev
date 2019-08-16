@@ -2,6 +2,7 @@ package com.cglee079.pododev.web.domain.blog;
 
 import com.cglee079.pododev.web.domain.blog.attachfile.AttachFile;
 import com.cglee079.pododev.web.domain.blog.attachimage.AttachImage;
+import com.cglee079.pododev.web.domain.blog.comment.Comment;
 import com.cglee079.pododev.web.domain.blog.tag.Tag;
 import com.cglee079.pododev.web.global.util.TempUtil;
 import lombok.AccessLevel;
@@ -43,10 +44,13 @@ public class Blog {
     @JoinColumn(name = "blog_seq")
     private List<AttachImage> images;
 
-
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "blog_seq")
     private List<AttachFile> files;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "blog_seq")
+    private List<Comment> comments;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "blog_seq")
