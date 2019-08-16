@@ -24,7 +24,7 @@
 <style scoped lang="scss">
     #main {
         margin: 50px auto 150px auto;
-        max-width: 1080px;
+        max-width: 960px;
         min-height: 100vh;
 
         &.mobile{

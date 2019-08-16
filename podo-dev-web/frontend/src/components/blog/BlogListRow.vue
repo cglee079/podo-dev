@@ -1,16 +1,27 @@
-<template >
+<template>
     <div class="blog-row" @click="viewBlog(blog.seq)">
-        <img class="thumbnail" :class="$mq"/>
-        <div class="content">
-            <div class="title">{{ blog.title }}</div>
+        <div class="wrap-thumbnail"
+             v-if="blog.thumbnail != null"
+             :class="$mq"
+        >
+            <img class="thumbnail"
+                 :src="blog.thumbnail"
+                 :class="$mq"/>
+        </div>
+
+        <div class="content" :class="$mq">
+            <div class="title" :class="$mq">{{ blog.title }}</div>
             <div class="desc" :class="$mq">
-                <div v-html="blog.desc" ></div>
+                <div v-html="blog.desc"></div>
             </div>
             <div class="info" :class="$mq">
                 <div class="tags">
-                    <span class="tag">#Network</span>
-                    <span class="tag">#Test</span>
-                    <span class="tag">#DFD</span>
+                    <span v-for="(tag, index) in blog.tags"
+                          v-bind:key=index
+                          class="tag"
+                    >
+                        #{{tag.val}}
+                    </span>
                 </div>
                 <div class="subinfo">
                     <span>댓글 0</span>
@@ -41,30 +52,53 @@
 </script>
 
 <style scoped lang="scss">
+    $desktop-thumbnail-width: 12rem;
+    $desktop-row-height: 8rem;
+    $mobile-thumbnail-width: 6em;
+    $mobile-row-height: 4.5rem;
+
     .blog-row {
         display: flex;
         align-items: center;
         cursor: pointer;
-        padding-bottom: 30px;
         border-bottom: 1px solid #F1F1;
-        margin: 0px 20px 30px 20px;
+        padding : 30px 20px 30px 20px;
     }
 
-    .thumbnail {
+    .wrap-thumbnail {
         border-radius: 5px;
-        margin-right: 2rem;
-        width: 10rem;
-        height: 6rem;
+        margin-right: 1.5rem;
+        width: $desktop-thumbnail-width;
+        height: $desktop-row-height;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
-        &.mobile{
+        &.mobile {
             margin-right: 1rem;
-            width: 7rem;
-            height: 5rem;
+            width: $mobile-thumbnail-width;
+            height: $mobile-row-height;
+        }
+    }
+
+    .wrap-thumbnail img.thumbnail {
+        height: $desktop-row-height;
+
+        &.mobile {
+            height: $mobile-row-height;
         }
     }
 
     .content {
         flex: 1;
+        display: flex;
+        flex-flow: column;
+        height: $desktop-row-height;
+
+        &.mobile {
+            height: $mobile-row-height;
+        }
     }
 
     .title {
@@ -77,6 +111,11 @@
         -webkit-line-clamp: 1;
         overflow: hidden;
         max-height: 1.7rem;
+
+        &.mobile {
+            font-size: 1rem;
+            margin-bottom: 3px;
+        }
     }
 
     .blog-row:hover .title {
@@ -84,7 +123,7 @@
     }
 
     .desc {
-        display: box;
+        flex: 1;
         overflow: hidden;
         -webkit-box-orient: vertical;
         white-space: normal;
@@ -94,9 +133,12 @@
         word-break: break-all;
         margin-bottom: 15px;
         opacity: 0.9;
+
         &.mobile {
             -webkit-line-clamp: 1;
             max-height: 1.6rem;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
         }
     }
 
@@ -106,6 +148,7 @@
         justify-content: space-between;
         color: #9199a4;
         font-size: 0.9rem;
+
         &.mobile {
             font-size: 0.8rem;
         }

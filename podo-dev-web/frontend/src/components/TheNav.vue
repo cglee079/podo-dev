@@ -1,11 +1,11 @@
 <template>
-    <div id="nav">
+    <div id="nav" :class="$mq">
         <div id="logo" :class="$mq">Podo.logo</div>
 
         <div id="navMenu">
             <span>이력</span>
-            <span><router-link :to="{name : 'BlogList'}">블로그</router-link></span>
-            <span>사진</span>
+            <span><router-link :to="{name : 'BlogList',}">블로그</router-link></span>
+            <span><router-link :to="{name : 'TagList'}">태그</router-link></span>
         </div>
 
         <div id="search" :class="$mq">
@@ -57,6 +57,10 @@
         height: 100px;
         border-bottom: 1px solid #E7E7E7;
         padding: 0px 100px;
+
+        &.mobile {
+            height: 80px;
+        }
     }
 
     #navMenu {

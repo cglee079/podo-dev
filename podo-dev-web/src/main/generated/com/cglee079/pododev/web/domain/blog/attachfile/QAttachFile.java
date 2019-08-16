@@ -15,7 +15,7 @@ import com.querydsl.core.types.Path;
 @Generated("com.querydsl.codegen.EntitySerializer")
 public class QAttachFile extends EntityPathBase<AttachFile> {
 
-    private static final long serialVersionUID = 1284740562L;
+    private static final long serialVersionUID = 2023401144L;
 
     public static final QAttachFile attachFile = new QAttachFile("attachFile");
 
@@ -23,13 +23,17 @@ public class QAttachFile extends EntityPathBase<AttachFile> {
 
     public final DateTimePath<java.util.Date> createAt = createDateTime("createAt", java.util.Date.class);
 
-    public final StringPath ext = createString("ext");
-
     public final StringPath filename = createString("filename");
+
+    public final NumberPath<Long> filesize = createNumber("filesize", Long.class);
+
+    public final StringPath originKey = createString("originKey");
 
     public final StringPath originName = createString("originName");
 
-    public final NumberPath<Integer> seq = createNumber("seq", Integer.class);
+    public final StringPath path = createString("path");
+
+    public final NumberPath<Long> seq = createNumber("seq", Long.class);
 
     public QAttachFile(String variable) {
         super(AttachFile.class, forVariable(variable));

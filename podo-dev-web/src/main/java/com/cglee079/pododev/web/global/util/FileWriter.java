@@ -38,7 +38,8 @@ public class FileWriter {
         String originName = originImage.getName();
         String extension = FilenameUtils.getExtension(originName);
 
-        if (extension.equalsIgnoreCase("gif")) {
+        if (extension.equalsIgnoreCase("gif")
+                || extension.equalsIgnoreCase("jfif")) {
             extension = "jpg";
         }
 

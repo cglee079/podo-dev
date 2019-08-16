@@ -6,7 +6,8 @@ import com.cglee079.pododev.core.global.response.ResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @RestController
@@ -20,10 +21,10 @@ public class TagController {
      */
     @GetMapping("/values")
     public ApiResponse listValues() {
-        List<String> values = tagService.listValues();
+        Map<String, Set<String>> mapByChosung = tagService.valuesByChosungMap();
         return DataResponse.builder()
                 .status(ResponseStatus.SUCCESS)
-                .data(values)
+                .data(mapByChosung)
                 .build();
     }
 

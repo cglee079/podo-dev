@@ -2,8 +2,6 @@ package com.cglee079.pododev.web.domain.blog;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.cglee079.pododev.web.domain.blog.tag.QTag;
-import com.cglee079.pododev.web.domain.blog.tag.Tag;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
@@ -18,7 +16,7 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.EntitySerializer")
 public class QBlog extends EntityPathBase<Blog> {
 
-    private static final long serialVersionUID = 1184305598L;
+    private static final long serialVersionUID = 16465944L;
 
     public static final QBlog blog = new QBlog("blog");
 
@@ -28,11 +26,15 @@ public class QBlog extends EntityPathBase<Blog> {
 
     public final BooleanPath enabled = createBoolean("enabled");
 
+    public final ListPath<com.cglee079.pododev.web.domain.blog.attachfile.AttachFile, com.cglee079.pododev.web.domain.blog.attachfile.QAttachFile> files = this.<com.cglee079.pododev.web.domain.blog.attachfile.AttachFile, com.cglee079.pododev.web.domain.blog.attachfile.QAttachFile>createList("files", com.cglee079.pododev.web.domain.blog.attachfile.AttachFile.class, com.cglee079.pododev.web.domain.blog.attachfile.QAttachFile.class, PathInits.DIRECT2);
+
     public final NumberPath<Integer> hitCnt = createNumber("hitCnt", Integer.class);
+
+    public final ListPath<com.cglee079.pododev.web.domain.blog.attachimage.AttachImage, com.cglee079.pododev.web.domain.blog.attachimage.QAttachImage> images = this.<com.cglee079.pododev.web.domain.blog.attachimage.AttachImage, com.cglee079.pododev.web.domain.blog.attachimage.QAttachImage>createList("images", com.cglee079.pododev.web.domain.blog.attachimage.AttachImage.class, com.cglee079.pododev.web.domain.blog.attachimage.QAttachImage.class, PathInits.DIRECT2);
 
     public final NumberPath<Long> seq = createNumber("seq", Long.class);
 
-    public final ListPath<Tag, QTag> tags = this.<Tag, QTag>createList("tags", Tag.class, QTag.class, PathInits.DIRECT2);
+    public final ListPath<com.cglee079.pododev.web.domain.blog.tag.Tag, com.cglee079.pododev.web.domain.blog.tag.QTag> tags = this.<com.cglee079.pododev.web.domain.blog.tag.Tag, com.cglee079.pododev.web.domain.blog.tag.QTag>createList("tags", com.cglee079.pododev.web.domain.blog.tag.Tag.class, com.cglee079.pododev.web.domain.blog.tag.QTag.class, PathInits.DIRECT2);
 
     public final StringPath title = createString("title");
 

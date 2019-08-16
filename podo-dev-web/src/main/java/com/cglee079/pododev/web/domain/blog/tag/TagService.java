@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -18,8 +15,46 @@ public class TagService {
 
     public final TagRepository tagRepository;
 
-    public List<String> listValues() {
-        return tagRepository.findDistinctTagValue();
+    public Map<String, Set<String>> valuesByChosungMap() {
+        List<String> values = tagRepository.findDistinctTagValue();
+
+        return byMapChosung(values);
+    }
+
+    private Map<String, Set<String>> byMapChosung(List<String> values) {
+        Map<String, Set<String>> chosungMap = new TreeMap<>();
+
+        // 일반 분해
+        final char[] KO_INIT_S = {
+                'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ',
+                'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'
+        };
+
+        values.forEach(value -> {
+
+            char ch = value.toCharArray()[0];
+            String s = null;
+
+            if (ch >= '가' && ch <= '힣') {
+                int ce = ch - '가';
+                s = String.valueOf(KO_INIT_S[ce / (588)]);
+
+            } else {
+                s = String.valueOf(ch);
+                s = s.toUpperCase();
+            }
+
+            Set<String> chosungValues = chosungMap.get(s);
+
+            if (Objects.isNull(chosungValues)) {
+                chosungValues = new TreeSet<>();
+                chosungMap.put(s, chosungValues);
+            }
+
+            chosungValues.add(value);
+        });
+
+        return chosungMap;
     }
 
     public void updateTags(Long blogSeq, List<TagDto.update> tagUpdates) {

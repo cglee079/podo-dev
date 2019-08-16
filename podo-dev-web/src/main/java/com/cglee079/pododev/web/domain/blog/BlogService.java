@@ -1,7 +1,6 @@
 package com.cglee079.pododev.web.domain.blog;
 
 import com.cglee079.pododev.core.global.response.PageDto;
-import com.cglee079.pododev.web.domain.blog.attachfile.AttachFile;
 import com.cglee079.pododev.web.domain.blog.attachfile.AttachFileService;
 import com.cglee079.pododev.web.domain.blog.attachimage.AttachImageService;
 import com.cglee079.pododev.web.domain.blog.tag.TagService;
@@ -10,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,14 +45,15 @@ public class BlogService {
 
     public PageDto paging(BlogDto.request request) {
         Integer page = request.getPage();
+        String tag = request.getTag();
 
-        PageRequest pageRequest = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC, "seq"));
+        Pageable pageable = PageRequest.of(page, pageSize);
 
         //TODO QueryDSL
-        Page<Blog> blogs = blogRepository.findAll(pageRequest);
+        Page<Blog> blogs = blogRepository.paging(pageable, tag);
 
         List<BlogDto.responseList> contents = new LinkedList<>();
-        blogs.forEach(blog-> contents.add(new BlogDto.responseList(blog)));
+        blogs.forEach(blog-> contents.add(new BlogDto.responseList(blog, uploadServerDomain)));
 
         return PageDto.<BlogDto.responseList>builder()
                 .contents(contents)

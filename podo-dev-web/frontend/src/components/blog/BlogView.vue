@@ -5,7 +5,7 @@
                 <span v-for="tag in blog.tags"
                       v-bind:key="tag.seq"
                 >
-                    {{tag.val}}
+                    #{{tag.val}}
                 </span>
             </div>
 

@@ -11,26 +11,28 @@
 
         </div>
 
-        <div id="wrapTags" :class="$mq">
-            <tag-values/>
-        </div>
-
     </div>
 </template>
 
 <script>
-    import BlogListTagValues from "@/components/blog/BlogListTagValues";
     import BlogListRow from "./BlogListRow";
 
     export default {
         name: 'BlogList',
         components: {
             'blog-row': BlogListRow,
-            'tag-values' : BlogListTagValues
+        },
+        watch: {
+            $route() {
+                this.loadBlogByFilter()
+            }
         },
         data() {
             return {
-                isLoading : false,
+                filter: {
+                    tag: undefined
+                },
+                isLoading: false,
                 contents: [],
                 pageSize: '',
                 currentPage: '',
@@ -48,13 +50,14 @@
                 this.$axios
                     .get('/api/blogs', {
                         params: {
-                            'page': page
+                            'page': page,
+                            'tag': this.filter.tag
                         }
                     })
                     .then(res => {
                         res = res.data.data
                         console.log(res.contents)
-                        res.contents.forEach(item=>this.contents.push(item))
+                        res.contents.forEach(item => this.contents.push(item))
                         this.pageSize = res.pageSize
                         this.currentPage = res.currentPage
                         this.totalElements = res.totalElements
@@ -82,17 +85,27 @@
                 ) {
                     this.loadBlog(this.currentPage + 1)
                 }
-            }
+            },
 
+            loadBlogByFilter() {
+                const tag = this.$route.query.tag
+                if (tag) {
+                    this.filter.tag = tag
+                } else {
+                    this.filter.tag = ''
+                }
+
+                this.loadBlog(0)
+            }
 
         },
         created() {
-            this.loadBlog(0)
             window.addEventListener('scroll', this.handleScroll)
+            this.loadBlogByFilter()
         },
         destroyed() {
             window.removeEventListener('scroll', this.handleScroll)
-        }
+        },
     }
 </script>
 
@@ -100,6 +113,7 @@
 
     #wrapBlogs {
         display: flex;
+
         &.mobile {
             flex-flow: column-reverse;
         }

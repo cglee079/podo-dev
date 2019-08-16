@@ -4,6 +4,7 @@ import com.cglee079.pododev.web.domain.blog.attachfile.AttachFile;
 import com.cglee079.pododev.web.domain.blog.attachfile.AttachFileDto;
 import com.cglee079.pododev.web.domain.blog.attachimage.AttachImage;
 import com.cglee079.pododev.web.domain.blog.attachimage.AttachImageDto;
+import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSave;
 import com.cglee079.pododev.web.domain.blog.tag.Tag;
 import com.cglee079.pododev.web.domain.blog.tag.TagDto;
 import com.cglee079.pododev.web.global.util.Formatter;
@@ -14,6 +15,8 @@ import org.jsoup.select.Elements;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 public class BlogDto {
 
@@ -85,6 +88,7 @@ public class BlogDto {
     @Getter
     public class request {
         Integer page;
+        String tag;
     }
 
 
@@ -122,6 +126,7 @@ public class BlogDto {
     @Getter
     public static class responseList {
         private Long seq;
+        private String thumbnail;
         private String desc;
         private String title;
         private Integer hitCnt;
@@ -130,7 +135,7 @@ public class BlogDto {
         private String updateAt;
         private Boolean enabled;
 
-        public responseList(Blog blog) {
+        public responseList(Blog blog, String uploadServerDomain) {
             String desc = "";
             Document doc = Jsoup.parse(blog.getContents());
             Elements els = doc.select("*");
@@ -148,6 +153,20 @@ public class BlogDto {
             this.updateAt = Formatter.dateTimeToStr(blog.getUpdateAt());
             this.enabled = blog.getEnabled();
             this.tags = new LinkedList<>();
+
+            //TODO Check Thumbnail Column..
+
+            List<AttachImage> images = blog.getImages();
+            if (!images.isEmpty()) {
+                List<AttachImageSave> saves = blog.getImages().get(0).getSaves();
+                Optional<AttachImageSave> thumbnailSaveOpt = saves.stream().filter(s -> s.getImageId().equals("origin")).findFirst();
+                if (thumbnailSaveOpt.isPresent()) {
+                    AttachImageSave thumbnailSave = thumbnailSaveOpt.get();
+                    this.thumbnail = uploadServerDomain + thumbnailSave.getPath() + "/" + thumbnailSave.getFilename();
+                }
+            }
+
+            blog.getTags().forEach(tag -> this.tags.add(new TagDto.response(tag)));
         }
     }
 }
