@@ -92,69 +92,75 @@
         &.mobile {
             margin: 0px 20px;
         }
-    }
 
-    #head {
-        margin: 150px 0;
+        #head {
+            margin: 150px 0;
 
-        #tags {
-            margin-bottom: 15px;
-            text-align: center;
-            font-weight: bold;
-            color: #ec5621;
-            cursor: pointer;
+            #tags {
+                margin-bottom: 15px;
+                text-align: center;
+                font-weight: bold;
+                color: #ec5621;
+                cursor: pointer;
 
-            span {
-                margin: 0px 5px;
+                span {
+                    margin: 0px 5px;
+                }
+
+            }
+
+            #title {
+                font-size: 2rem;
+                margin-bottom: 15px;
+                text-align: center;
+
+                word-break: keep-all;
+                word-wrap: break-word;
+            }
+
+            #info {
+                display: flex;
+                flex-flow: row nowrap;
+                justify-content: center;
+                align-items: center;
+                font-size: 0.75rem;
+                padding: 0 2px;
+                color: #9199A4;
+
+                span {
+                    margin: 0px 5px;
+                }
             }
 
         }
 
-        #title {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            text-align: center;
 
-            word-break: keep-all;
-            word-wrap: break-word;
-        }
+        #submenus {
+            border-top: 1px solid #9199a4;
+            border-bottom: 1px solid #ecf0f5;
+            padding: 8px 0;
 
-        #info {
             display: flex;
-            flex-flow: row nowrap;
-            justify-content: center;
             align-items: center;
-            font-size: 0.75rem;
-            padding: 0 2px;
-            color: #9199A4;
+            justify-content: flex-end;
 
             span {
-                margin: 0px 5px;
+                cursor: pointer;
+                margin-left: 10px;
+                font-size: 0.9rem;
             }
         }
 
-    }
-
-
-    #submenus {
-        border-top: 1px solid #9199a4;
-        border-bottom: 1px solid #ecf0f5;
-        padding: 8px 0;
-
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-
-        span {
-            cursor: pointer;
-            margin-left: 10px;
-            font-size: 0.9rem;
+        #contents {
+            margin-top: 50px;
+            font-size: 1rem !important;
         }
-    }
 
-    #contents {
-        margin-top: 50px;
-        font-size: 1rem !important;
+        &.mobile {
+            #head {
+                margin: 100px 0;
+            }
+        }
     }
 </style>
 

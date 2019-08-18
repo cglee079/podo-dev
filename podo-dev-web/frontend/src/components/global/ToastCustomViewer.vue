@@ -27,5 +27,14 @@
             font-size: 1rem !important;
             word-break: break-all;
         }
+
+        .tui-editor-contents pre{
+            overflow-x: auto;
+            border-radius: 5px;
+        }
+
+        .tui-editor-contents pre code{
+            white-space : unset !important;
+        }
     }
 </style>

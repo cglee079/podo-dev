@@ -188,6 +188,7 @@
                         this.editor.text = blog.contents
 
                         console.log(blog)
+                        console.log(blog.contents)
                     })
                     .catch(err => {
                         console.log(err)

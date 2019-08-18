@@ -92,4 +92,8 @@ public class Blog {
     public void updateContentDomain(String localDomain, String uploadServerDomain) {
         this.contents = this.contents.replace(localDomain, uploadServerDomain);
     }
+
+    public void setContents(String contents) {
+        this.contents = contents;
+    }
 }

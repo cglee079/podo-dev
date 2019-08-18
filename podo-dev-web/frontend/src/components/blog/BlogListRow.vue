@@ -8,9 +8,11 @@
                  :src="blog.thumbnail"/>
         </div>
 
-        <div class="content" :class="$mq">
+        <div class="content"
+             :class="$mq + ' ' + (blog.thumbnail != null ? 'small' : '')"
+        >
             <div class="title">{{ blog.title }}</div>
-            <div class="desc" v-html="blog.desc">
+            <div v-html="blog.desc" class="desc">
             </div>
             <div class="info">
                 <div class="tags">
@@ -60,7 +62,7 @@
         align-items: center;
         cursor: pointer;
         border-bottom: 1px solid #F1F1;
-        padding: 30px 20px 30px 20px;
+        padding: 30px 20px;
 
         &:hover .content .title {
             margin-left: 10px;
@@ -97,7 +99,6 @@
         flex: 1;
         display: flex;
         flex-flow: column;
-        height: $desktop-content-height;
 
         .title {
             color: #333;
@@ -135,6 +136,7 @@
 
             .tags .tag {
                 margin-right: 10px;
+                color: #ec5621;
             }
 
             .subinfo span {
@@ -145,26 +147,29 @@
 
 
         &.mobile {
-            height: $mobile-content-height;
+
+            &.small{
+                height: $mobile-content-height;
+
+                .desc{
+                    -webkit-line-clamp: 1;
+                    max-height: 1.6rem;
+                    font-size: 0.9rem;
+                    margin-bottom: 5px;
+                }
+            }
 
             .title {
                 font-size: 1rem;
                 margin-bottom: 3px;
             }
 
-            .desc {
-                -webkit-line-clamp: 1;
-                max-height: 1.6rem;
-                font-size: 0.9rem;
-                margin-bottom: 5px;
-            }
-
             .info {
                 font-size: 0.8rem;
 
-                .tags .tag:nth-child(-n+3) {
-                    display: none;
-                }
+                /*.tags .tag:nth-child(-n+3) {*/
+                /*    display: none;*/
+                /*}*/
             }
 
         }
