@@ -106,6 +106,14 @@ public class BlogService {
             contents = contents.replace("\t* ", "* ");
             contents = contents.replace("&lt;", "<");
             contents = contents.replace("&gt;", ">");
+            contents = contents.replace("<br>", "<br/>");
+            contents = contents.replace("<br/><br/>", "<br/>\n<br/>");
+            contents = contents.replace("<span class=\"mark\">", "");
+            contents = contents.replace("</span>", "");
+            contents = contents.replace("</strong>", "**");
+            contents = contents.replace("<strong>", "**");
+            contents = contents.replace("<div class=\"emphasize\">", "**");
+            contents = contents.replace("</div>", "**\n");
 
 
             b.setContents(contents);

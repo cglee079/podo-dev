@@ -18,19 +18,17 @@
             </span>
         </div>
 
-        <div class="wrapEditor">
+        <div class="wrapEditor" ref="test">
             <editor
                     v-model="editor.text"
                     :options="editor.options"
                     :html="editor.html"
                     :visible="editor.visible"
                     :height="editor.height"
-                    previewStyle="vertical"
-                    @load="onEditorLoad"
+                    :mode="editor.mode"
+                    :previewStyle="editor.previewStyle"
                     @focus="onEditorFocus"
-                    @blur="onEditorBlur"
-                    @change="onEditorChange"
-                    @stateChange="onEditorStateChange"/>
+            />
         </div>
 
         <div class="wrapItem">
@@ -80,16 +78,15 @@
     export default {
         name: 'app',
         components: {
-            BlogPostFile,
             'editor': Editor,
             'post-image': BlogPostImage,
             'post-file': BlogPostFile
         },
-
         data() {
             return {
                 isNew: true,
                 seq: 0,
+                temp: '',
                 input: {
                     title: '제목입니다',
                     tagText: '',
@@ -99,35 +96,24 @@
                     files: []
                 },
                 editor: {
-                    text: '<img src=http://192.168.219.103:7070/resources/image/home_icon_me.png">',
-                    options: {},
+                    text: '',
+                    options: {
+                        useCommandShortcut: true,
+                        useDefaultHTMLSanitizer: true,
+                        usageStatistics: true,
+                        hideModeSwitch: false,
+                    },
                     html: '',
-                    height: '700px',
-                    visible: true
+                    height: '100%',
+                    width: '100%',
+                    visible: true,
+                    mode: 'markdown',
+                    previewStyle : 'vertical'
                 }
 
             }
         },
         methods: {
-            fileChange() {
-                const thumbnail = this.$refs.thumbnail.files[0];
-                const formData = new FormData();
-                formData.append('thumbnail', thumbnail);
-
-                this.$axios
-                    .post('http://localhost:8091/api/images', formData, {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    })
-                    .then(res => {
-                        console.log(res)
-                    })
-                    .catch(err => {
-                        console.log(err)
-                    })
-            },
-
             //태그 Input 입력 시,
             keyupTagText(event) {
                 let txt = this.input.tagText
@@ -161,16 +147,8 @@
                 this.input.tags.splice(index, 1)
             },
 
-            // Toast Editor
-            onEditorLoad() {
-            },
             onEditorFocus() {
-            },
-            onEditorBlur() {
-            },
-            onEditorChange() {
-            },
-            onEditorStateChange() {
+                this.editor.text = this.editor.text.split("<br>").join("<br/>");
             },
 
             //게시글 수정 시, 게시글 정보 로딩
@@ -188,7 +166,6 @@
                         this.editor.text = blog.contents
 
                         console.log(blog)
-                        console.log(blog.contents)
                     })
                     .catch(err => {
                         console.log(err)
@@ -211,7 +188,7 @@
                         enabled: this.input.enabled,
                         tags: this.input.tags,
                         images: this.input.images,
-                        files : this.input.files
+                        files: this.input.files
                     })
 
                     .then(res => {
@@ -231,7 +208,7 @@
                         enabled: this.input.enabled,
                         tags: this.input.tags,
                         images: this.input.images,
-                        files : this.input.files
+                        files: this.input.files
                     })
 
                     .then(res => {
@@ -332,7 +309,7 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
     .wrapItem {
         width: 100%;
@@ -341,6 +318,8 @@
 
     .wrapEditor {
         margin: 40px 0px;
+        width: 100%;
+        height: 700px;
     }
 
     .wrapItem > span:nth-child(1) {
@@ -363,7 +342,7 @@
         border-radius: 3px;
     }
 
-    #wrapImageUpload, #wrapFileUpload{
+    #wrapImageUpload, #wrapFileUpload {
         margin-top: 50px;
     }
 
