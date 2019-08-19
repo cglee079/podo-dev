@@ -1,6 +1,8 @@
 <template>
     <div id="nav" :class="$mq">
-        <div id="logo" :class="$mq">Podo.logo</div>
+        <div id="logo" :class="$mq">
+            <img src="@/assets/logo4.svg" width="70px"/>
+        </div>
 
         <div id="navMenu">
             <span>이력</span>
