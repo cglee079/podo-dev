@@ -18,19 +18,9 @@
             </span>
         </div>
 
-        <div class="wrapEditor" ref="test">
-            <editor
-                    v-model="editor.text"
-                    :options="editor.options"
-                    :html="editor.html"
-                    :visible="editor.visible"
-                    :height="editor.height"
-                    :mode="editor.mode"
-                    :previewStyle="editor.previewStyle"
-                    @focus="onEditorFocus"
-            />
+        <div class="wrapEditor">
+            <div ref="editSection"></div>
         </div>
-
         <div class="wrapItem">
             <span>태그</span>
             <span>
@@ -71,14 +61,21 @@
 </template>
 
 <script>
-    import {Editor} from '@toast-ui/vue-editor'
     import BlogPostImage from "./BlogPostImage";
     import BlogPostFile from "./BlogPostFile";
+
+    // deps for editor
+    import 'codemirror/lib/codemirror.css'; // codemirror
+    import 'tui-editor/dist/tui-editor.css'; // editor ui
+    import 'tui-editor/dist/tui-editor-contents.css'; // editor content
+    import 'highlight.js/styles/github.css'; // code block highlight
+
+    import Editor from 'tui-editor';
 
     export default {
         name: 'app',
         components: {
-            'editor': Editor,
+            Editor,
             'post-image': BlogPostImage,
             'post-file': BlogPostFile
         },
@@ -87,6 +84,7 @@
                 isNew: true,
                 seq: 0,
                 temp: '',
+                editor: undefined,
                 input: {
                     title: '제목입니다',
                     tagText: '',
@@ -95,21 +93,6 @@
                     images: [],
                     files: []
                 },
-                editor: {
-                    text: '',
-                    options: {
-                        useCommandShortcut: true,
-                        useDefaultHTMLSanitizer: true,
-                        usageStatistics: true,
-                        hideModeSwitch: false,
-                    },
-                    html: '',
-                    height: '100%',
-                    width: '100%',
-                    visible: true,
-                    mode: 'markdown',
-                    previewStyle : 'vertical'
-                }
 
             }
         },
@@ -148,7 +131,9 @@
             },
 
             onEditorFocus() {
-                this.editor.text = this.editor.text.split("<br>").join("<br/>");
+            },
+
+            onEditorBlur() {
             },
 
             //게시글 수정 시, 게시글 정보 로딩
@@ -163,9 +148,7 @@
                         this.input.tags = blog.tags
                         this.input.images = blog.images
                         this.input.files = blog.files
-                        this.editor.text = blog.contents
-
-                        console.log(blog)
+                        this.editor.setMarkdown(blog.contents)
                     })
                     .catch(err => {
                         console.log(err)
@@ -184,7 +167,7 @@
                 this.$axios
                     .post('/api/blogs', {
                         title: this.input.title,
-                        contents: this.editor.text,
+                        contents: this.editor.getMarkdown(),
                         enabled: this.input.enabled,
                         tags: this.input.tags,
                         images: this.input.images,
@@ -204,7 +187,7 @@
                 this.$axios
                     .put('/api/blogs/' + this.seq, {
                         title: this.input.title,
-                        contents: this.editor.text,
+                        contents: this.editor.getMarkdown(),
                         enabled: this.input.enabled,
                         tags: this.input.tags,
                         images: this.input.images,
@@ -229,7 +212,10 @@
                 const tag = document.createElement("img")
                 tag.src = src
 
-                this.editor.text += "\n" + tag.outerHTML + "\n"
+                let text = this.editor.getMarkdown()
+                text += "\n\n" + tag.outerHTML + "\n\n"
+                this.editor.setMarkdown(text)
+
                 this.input.images.push(image)
             },
 
@@ -252,13 +238,15 @@
 
             removeImageTagInEditor(image) {
 
-                const editorText = this.editor.text
-                const index = editorText.indexOf(image.saves.origin.filename)
-                const startTagIndex = editorText.substring(0, index).lastIndexOf("<img")
-                const endTagIndex = editorText.substring(index, editorText.length).indexOf(">") + index
-                const tag = editorText.substring(startTagIndex, endTagIndex + 1)
+                let text = this.editor.getMarkdown()
+                const index = text.indexOf(image.saves.origin.filename)
+                const startTagIndex = text.substring(0, index).lastIndexOf("<img")
+                const endTagIndex = text.substring(index, text.length).indexOf(">") + index
+                const tag = text.substring(startTagIndex, endTagIndex + 1)
 
-                this.editor.text = editorText.replace(tag, "")
+                text = text.replace(tag, "")
+
+                this.editor.setMarkdown(text)
 
                 /**
                  * 딜레이걸림..?
@@ -304,7 +292,16 @@
                 this.isNew = false
                 this.loadBlog(seq)
             }
+        },
 
+        mounted() {
+            this.editor = new Editor({
+                el: this.$refs.editSection,
+                initialEditType: 'markdown',
+                previewStyle: 'vertical',
+                height: '100%',
+                width: '100%',
+            })
         }
     }
 </script>
