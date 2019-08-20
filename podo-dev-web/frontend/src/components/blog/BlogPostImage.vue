@@ -49,7 +49,6 @@
                     .then(res => {
                         res = res.data
                         const image = res.data
-                        console.log(image)
                         this.$emit('add', image)
                     })
                     .catch(err => {
@@ -76,7 +75,7 @@
             clickImage(index) {
                 this.removeImage(index)
             }
-        }
+        },
     }
 </script>
 
@@ -94,6 +93,7 @@
 
     #imageList {
         display: flex;
+        flex-wrap: wrap;
 
         .image {
             margin-top: 10px;

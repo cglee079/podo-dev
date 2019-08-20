@@ -53,9 +53,9 @@
 
 <style scoped lang="scss">
     $desktop-thumbnail-width: 12rem;
-    $desktop-content-height: 8rem;
+    $desktop-content-height: 120px;
     $mobile-thumbnail-width: 6em;
-    $mobile-content-height: 4.5rem;
+    $mobile-content-height: 70px;
 
     .blog-row {
         display: flex;
@@ -121,10 +121,9 @@
             white-space: normal;
             -webkit-line-clamp: 2;
             max-height: 3.2rem;
-            color: #606060;
+            color: #797979;
             word-break: break-all;
             margin-bottom: 15px;
-            opacity: 0.9;
         }
 
         .info {
@@ -148,20 +147,20 @@
 
         &.mobile {
 
-            &.small{
+            &.small {
                 height: $mobile-content-height;
 
-                .desc{
+                .desc {
                     -webkit-line-clamp: 1;
                     max-height: 1.6rem;
                     font-size: 0.9rem;
-                    margin-bottom: 5px;
+                    margin-bottom: 6px;
                 }
             }
 
             .title {
                 font-size: 1rem;
-                margin-bottom: 3px;
+                margin-bottom: 0px;
             }
 
             .info {
