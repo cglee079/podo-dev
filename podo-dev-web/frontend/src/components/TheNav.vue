@@ -31,7 +31,6 @@
                 <img src="@/assets/logo4.svg"/>
             </div>
 
-            <div class="mobile-nav-margin"/>
 
             <div class="mobile-nav-menu">
                 <router-link :to="{name : 'BlogList'}">이력</router-link>
@@ -43,12 +42,8 @@
                 <router-link :to="{name : 'TagList'}">태그</router-link>
             </div>
 
-            <div class="mobile-nav-margin"/>
             <div class="mobile-nav-menu"><a href="https://github.com/cglee079" target="_blank">Github</a></div>
-            <div class="mobile-nav-menu"><a href="https://www.instagram.com/cglee079" target="_blank">Instagram</a>
-            </div>
-
-            <div class="mobile-nav-margin"/>
+            <div class="mobile-nav-menu"><a href="https://www.instagram.com/cglee079" target="_blank">Instagram</a></div>
             <div class="mobile-nav-menu"><a>로그인</a></div>
 
 
@@ -271,12 +266,6 @@
                         max-height: 40%;
                         margin: 0px auto;
                     }
-                }
-
-                .mobile-nav-margin {
-                    height: 4px;
-                    background: #FBFBFB;
-                    border-top: 0.3px solid #F5F5F5;
                 }
 
                 .mobile-nav-menu {

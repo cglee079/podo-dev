@@ -5,7 +5,7 @@
              class="wrap-tag"
         >
             <div class="chosung">
-                {{key}}
+                <span>{{key}}</span>
             </div>
 
             <div class="values">
@@ -62,13 +62,17 @@
 
         div.wrap-tag {
             padding-bottom: 30px;
-            border-bottom: 1px solid #F1F1;
-            margin: 0px 20px 30px 20px;
+            margin: 0px 20px 50px 20px;
 
             div.chosung {
-                font-size: 1.7rem;
-                font-weight: bold;
                 margin-bottom: 20px;
+
+                span {
+                    font-size: 1.7rem;
+                    font-weight: bold;
+                    border-left: 5px solid #d4baba;
+                    padding-left: 10px;
+                }
             }
 
             div.values span.value {

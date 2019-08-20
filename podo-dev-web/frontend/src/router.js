@@ -16,5 +16,8 @@ export default new Router({
     { path: '/', name: 'BlogList', component: BlogList },
 
     { path: '/tags', name: 'TagList', component: TagList }
-  ]
+  ],
+  scrollBehavior() {
+    return {x: 0, y: 0}
+  }
 })

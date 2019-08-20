@@ -110,7 +110,7 @@
             }
 
             #title {
-                font-size: 2rem;
+                font-size: 1.9rem;
                 margin-bottom: 15px;
                 text-align: center;
 

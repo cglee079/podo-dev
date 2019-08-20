@@ -1,5 +1,5 @@
 <template>
-    <div id="custom-viewer">
+    <div id="custom-viewer" :class="$mq">
         <viewer :value="value"/>
     </div>
 </template>
@@ -26,15 +26,23 @@
         .tui-editor-contents {
             font-size: 1rem !important;
             word-break: break-all;
+
+            pre{
+                overflow-x: auto;
+                border-radius: 5px;
+
+                code{
+                    white-space : unset !important;
+                }
+            }
+
         }
 
-        .tui-editor-contents pre{
-            overflow-x: auto;
-            border-radius: 5px;
+        &.mobile{
+            .tui-editor-contents {
+                font-size: 0.9rem !important;
+            }
         }
 
-        .tui-editor-contents pre code{
-            white-space : unset !important;
-        }
     }
 </style>

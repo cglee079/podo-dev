@@ -40,6 +40,7 @@
         },
         methods: {
             viewBlog(seq) {
+
                 this.$router.push({
                     name: 'BlogView',
                     params: {

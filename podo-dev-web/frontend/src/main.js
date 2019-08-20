@@ -16,6 +16,7 @@ import SubButton from "./components/global/SubButton";
 
 import Toasted from 'vue-toasted';
 
+
 Vue.use(Toasted, {
   theme: "toasted-primary",
   position: "top-center",
@@ -36,6 +37,7 @@ Vue.use(VueMq, {
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 Vue.prototype.$axios.defaults.baseURL='http://localhost:8090'
+Vue.prototype.$scrollToTop = () => window.scrollTo(0,0)
 
 Vue.component('toast-custom-viewer', ToastCustomViewer)
 Vue.component('sub-button', SubButton)
