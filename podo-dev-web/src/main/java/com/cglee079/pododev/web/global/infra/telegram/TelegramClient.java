@@ -16,13 +16,13 @@ import org.telegram.telegrambots.meta.updateshandlers.SentCallback;
 @Component
 public class TelegramClient extends TelegramLongPollingBot {
 
-    @Value("${telegram.podo.bot.token}")
+    @Value("${infra.telegram.podo.bot.token}")
     private String botToken;
 
-    @Value("${telegram.podo.user.name}")
+    @Value("${infra.telegram.podo.user.name}")
     private String userName;
 
-    @Value("${telegram.podo.user.id}")
+    @Value("${infra.telegram.podo.user.id}")
     private String userId;
 
     @Override

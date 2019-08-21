@@ -3,19 +3,22 @@
   <component name="ChangeListManager">
     <list default="true" id="55ef0170-db0f-47af-b5b8-70ea1fb97f2a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/frontend/src/components/TheNav.vue" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/frontend/src/components/TheNav.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogList.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogListRow.vue" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogListRow.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogPost.vue" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogPost.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogPostFile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogPostFile.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogPostImage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogPostImage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogView.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogViewComment.vue" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogViewComment.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogViewCommentItem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogViewCommentItem.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/frontend/src/components/global/SubButton.vue" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/frontend/src/components/global/SubButton.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/frontend/src/components/global/ToastCustomViewer.vue" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/frontend/src/components/global/ToastCustomViewer.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/frontend/src/components/tag/TagList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/frontend/src/components/tag/TagList.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/Blog.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/Blog.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogRepositoryCustom.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogRepositoryCustom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogRepositoryCustomImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogRepositoryCustomImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogService.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/tag/TagRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/tag/TagRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/tag/TagService.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/tag/TagService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/telegram/TelegramClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/telegram/TelegramClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/uploader/PodoUploaderClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/uploader/PodoUploaderClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/resources/application.yml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -115,12 +118,18 @@
     </system>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
+    <leaf>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogListRow.vue">
+        <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="115" column="32" selection-start-line="115" selection-start-column="32" selection-end-line="115" selection-end-column="32" />
+            <state relative-caret-position="335">
+              <caret line="165" column="38" lean-forward="true" selection-start-line="165" selection-start-column="38" selection-end-line="165" selection-end-column="38" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="method#dd#0;class#BlogService#0" />
+                <element signature="e#8285#8286#0" expanded="true" />
+                <element signature="e#8331#8332#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -128,85 +137,84 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogList.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2002">
-              <caret line="91" selection-start-line="91" selection-end-line="91" />
+            <state relative-caret-position="1754">
+              <caret line="98" selection-start-line="98" selection-end-line="98" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/global/ToastCustomViewer.vue">
+        <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/TheNav.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="31" lean-forward="true" selection-start-line="31" selection-end-line="31" />
+            <state relative-caret-position="88">
+              <caret line="64" column="49" selection-start-line="64" selection-start-column="49" selection-end-line="64" selection-end-column="49" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/tag/TagList.vue">
+        <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="355">
-              <caret line="77" column="41" lean-forward="true" selection-start-line="77" selection-start-column="41" selection-end-line="77" selection-end-column="41" />
+            <state relative-caret-position="40">
+              <caret line="11" column="33" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="33" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/global/SubButton.vue">
+        <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/TheFooter.vue">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogRepositoryCustom.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="399">
-              <caret line="37" lean-forward="true" selection-start-line="37" selection-end-line="37" />
+            <state relative-caret-position="132">
+              <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogViewCommentItem.vue">
+        <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogRepositoryCustomImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1257">
-              <caret line="79" selection-start-line="79" selection-end-line="79" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogViewComment.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1499">
-              <caret line="170" column="9" lean-forward="true" selection-start-line="170" selection-start-column="9" selection-end-line="170" selection-end-column="9" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogView.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="377">
-              <caret line="158" column="8" selection-end-line="160" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogPostImage.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="597">
-              <caret line="118" selection-end-line="119" />
+            <state relative-caret-position="300">
+              <caret line="30" lean-forward="true" selection-start-line="30" selection-end-line="30" />
               <folding>
-                <element signature="n#style#0;n#input#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogPostFile.vue">
+        <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/solr/MySolrClient.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="443">
-              <caret line="123" selection-start-line="123" selection-end-line="123" />
+            <state relative-caret-position="49">
+              <caret line="46" column="45" selection-start-line="46" selection-start-column="33" selection-end-line="46" selection-end-column="45" />
               <folding>
-                <element signature="n#style#0;n#input#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/resources/application.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="302">
+              <caret line="85" column="27" selection-start-line="85" selection-start-column="27" selection-end-line="85" selection-end-column="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/podo-dev-web/src/test/java/com/cglee079/pododev/web/global/util/MarkdownUtilTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="286">
+              <caret line="13" column="5" lean-forward="true" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
+              <folding>
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -229,11 +237,21 @@
       <find>${uploaded.image.url}</find>
       <find>;</find>
       <find>orn</find>
+      <find>/</find>
+      <find>.mob-menus</find>
+      <find>this.editor</find>
+      <find>podo.uploader</find>
+      <find>infrauploader</find>
+      <find>title</find>
+      <find>i</find>
+      <find>id</find>
     </findStrings>
     <replaceStrings>
       <replace />
       <replace>blog</replace>
       <replace>Blog</replace>
+      <replace>#mobMenus</replace>
+      <replace>.editor</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -242,57 +260,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/AttachImageWriter.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachfile/AttachFileWriter.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/save/AttachImageWriter.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/AttachImageService.java" />
-        <option value="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/util/MyFileUtils.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/save/AttachImageSaveService.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/uploader/PodoUploaderClient.java" />
-        <option value="$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/cglee079/pododev/uploader/domain/file/ImageUploaderController.java" />
-        <option value="$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/cglee079/pododev/uploader/domain/file/FileUploaderController.java" />
-        <option value="$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/cglee079/pododev/uploader/domain/upload/FileUploaderController.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachfile/AttachFileController.java" />
-        <option value="$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/cglee079/pododev/uploader/domain/upload/UploadService.java" />
-        <option value="$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/cglee079/pododev/uploader/domain/upload/UploadController.java" />
-        <option value="$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/cglee079/pododev/uploader/domain/upload/UploadDto.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/AttachImageRepository.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachfile/AttachFileRepository.java" />
         <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachfile/AttachFileService.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/resources/application.yml" />
         <option value="$PROJECT_DIR$/podo-dev-uploader/src/main/resources/application.yml" />
         <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachfile/AttachFile.java" />
         <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachfile/AttachFileDto.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/frontend/vue.config.js" />
         <option value="$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogRow.vue" />
         <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/util/Formatter.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/frontend/src/main.js" />
         <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/util/FileWriter.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/frontend/src/router.js" />
         <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/tag/TagController.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/tag/TagService.java" />
         <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/TagRepositoryCustom.java" />
         <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/TagRepositoryCustomImpl.java" />
         <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/tag/TagRepositoryCustom.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogRepositoryCustom.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogService.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogRepository.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogRepositoryCustomImpl.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/frontend/src/App.vue" />
-        <option value="$PROJECT_DIR$/podo-dev-web/frontend/src/components/TheNav.vue" />
-        <option value="$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogList.vue" />
-        <option value="$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogPost.vue" />
         <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/Blog.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogDto.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogListRow.vue" />
-        <option value="$PROJECT_DIR$/podo-dev-web/frontend/src/components/tag/TagList.vue" />
         <option value="$PROJECT_DIR$/podo-dev-web/frontend/src/components/global/SubButton.vue" />
-        <option value="$PROJECT_DIR$/podo-dev-web/frontend/src/components/global/ToastCustomViewer.vue" />
         <option value="$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogViewCommentItem.vue" />
         <option value="$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogViewComment.vue" />
-        <option value="$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogView.vue" />
         <option value="$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogPostFile.vue" />
+        <option value="$PROJECT_DIR$/podo-dev-web/frontend/vue.config.js" />
         <option value="$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogPostImage.vue" />
+        <option value="$PROJECT_DIR$/podo-dev-web/frontend/src/App.vue" />
+        <option value="$PROJECT_DIR$/podo-dev-web/frontend/src/components/global/ToastCustomViewer.vue" />
+        <option value="$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogView.vue" />
+        <option value="$PROJECT_DIR$/podo-dev-web/frontend/src/router.js" />
+        <option value="$PROJECT_DIR$/podo-dev-web/frontend/src/components/tag/TagList.vue" />
+        <option value="$PROJECT_DIR$/podo-dev-web/frontend/src/main.js" />
+        <option value="$PROJECT_DIR$/podo-dev-web/frontend/package.json" />
+        <option value="$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogPost.vue" />
+        <option value="$PROJECT_DIR$/podo-dev-uploader/build.gradle" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/util/MarkDownUtil.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/util/MarkdownUtil.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/build.gradle" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/telegram/TelegramClient.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/uploader/PodoUploaderClient.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/solr/SolrClient.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/solr/SolrDao.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/solr/SolrSender.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogRepository.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/tag/TagRepository.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/tag/TagService.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogRepositoryCustom.java" />
+        <option value="$USER_HOME$/Desktop/solr-7.2.1/solr-7.2.1/server/solr/podo-dev/conf/data-confg.xml" />
+        <option value="$USER_HOME$/Desktop/solr-7.2.1/solr-7.2.1/server/solr/podo-dev/conf/managed-schema" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/solr/SolrDto.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogDto.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogListRow.vue" />
+        <option value="$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogList.vue" />
+        <option value="$PROJECT_DIR$/podo-dev-web/frontend/src/components/TheNav.vue" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogService.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogRepositoryCustomImpl.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/solr/MySolrClient.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/resources/application.yml" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/test/java/com/cglee079/pododev/web/global/util/MarkdownUtilTest.java" />
       </list>
     </option>
   </component>
@@ -311,7 +329,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -322,25 +339,55 @@
             <path>
               <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
               <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="podo-dev-uploader" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
             </path>
             <path>
               <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
               <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="podo-dev-uploader" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="frontend" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
+              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="frontend" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
               <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="podo-dev-uploader" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
+              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="blog" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
+              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
+              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
             </path>
             <path>
               <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
               <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="podo-dev-uploader" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
@@ -348,36 +395,94 @@
             <path>
               <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
               <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="podo-dev-uploader" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="uploader" type="462c0819:PsiDirectoryNode" />
+              <item name="web" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
               <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="podo-dev-uploader" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="uploader" type="462c0819:PsiDirectoryNode" />
-              <item name="upload" type="462c0819:PsiDirectoryNode" />
+              <item name="web" type="462c0819:PsiDirectoryNode" />
+              <item name="blog" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
               <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="podo-dev-uploader" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="uploader" type="462c0819:PsiDirectoryNode" />
+              <item name="web" type="462c0819:PsiDirectoryNode" />
+              <item name="global" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
+              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="web" type="462c0819:PsiDirectoryNode" />
+              <item name="global" type="462c0819:PsiDirectoryNode" />
               <item name="config" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
               <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="podo-dev-uploader" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="web" type="462c0819:PsiDirectoryNode" />
+              <item name="global" type="462c0819:PsiDirectoryNode" />
+              <item name="infra" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
+              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="web" type="462c0819:PsiDirectoryNode" />
+              <item name="global" type="462c0819:PsiDirectoryNode" />
+              <item name="infra" type="462c0819:PsiDirectoryNode" />
+              <item name="solr" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
+              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="web" type="462c0819:PsiDirectoryNode" />
+              <item name="global" type="462c0819:PsiDirectoryNode" />
+              <item name="infra" type="462c0819:PsiDirectoryNode" />
+              <item name="telegram" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
+              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="web" type="462c0819:PsiDirectoryNode" />
+              <item name="global" type="462c0819:PsiDirectoryNode" />
+              <item name="infra" type="462c0819:PsiDirectoryNode" />
+              <item name="uploader" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
+              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
@@ -385,7 +490,7 @@
             <path>
               <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
               <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="podo-dev-uploader" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
             </path>
@@ -393,74 +498,8 @@
               <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
               <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-            </path>
-            <path>
-              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
-              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="frontend" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
-              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="frontend" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
-              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="frontend" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
-              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="frontend" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="blog" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
-              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="frontend" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="global" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
-              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="frontend" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="tag" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
-              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
-              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-            </path>
-            <path>
-              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
-              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -468,7 +507,7 @@
               <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="web" type="462c0819:PsiDirectoryNode" />
             </path>
@@ -477,113 +516,17 @@
               <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="web" type="462c0819:PsiDirectoryNode" />
-              <item name="blog" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
-              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="web" type="462c0819:PsiDirectoryNode" />
-              <item name="blog" type="462c0819:PsiDirectoryNode" />
-              <item name="attachfile" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
-              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="web" type="462c0819:PsiDirectoryNode" />
-              <item name="blog" type="462c0819:PsiDirectoryNode" />
-              <item name="attachimage" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
-              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="web" type="462c0819:PsiDirectoryNode" />
-              <item name="blog" type="462c0819:PsiDirectoryNode" />
-              <item name="attachimage" type="462c0819:PsiDirectoryNode" />
-              <item name="save" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
-              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="web" type="462c0819:PsiDirectoryNode" />
-              <item name="blog" type="462c0819:PsiDirectoryNode" />
-              <item name="tag" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
-              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="web" type="462c0819:PsiDirectoryNode" />
-              <item name="global" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
-              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="web" type="462c0819:PsiDirectoryNode" />
-              <item name="global" type="462c0819:PsiDirectoryNode" />
-              <item name="infra" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
-              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="web" type="462c0819:PsiDirectoryNode" />
-              <item name="global" type="462c0819:PsiDirectoryNode" />
-              <item name="infra" type="462c0819:PsiDirectoryNode" />
-              <item name="uploader" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
-              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="web" type="462c0819:PsiDirectoryNode" />
-              <item name="global" type="462c0819:PsiDirectoryNode" />
               <item name="util" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
-              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -605,9 +548,8 @@
     <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.annotationProcessors" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\dev\workspace\podo-dev\podo-dev-web\frontend\src\components\tag" />
-      <recent name="C:\dev\workspace\podo-dev\podo-dev-web\frontend\src\components\blog" />
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.cglee079.pododev.domain.blog.comment" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="com.cglee079.pododev.web.domain.blog" />
@@ -620,14 +562,15 @@
       <recent name="C:\dev\workspace\podo-dev\podo-dev-web\src\main\java\com\cglee079\pododev\global\config" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.cglee079.pododev.web.global.infra.solr" />
       <recent name="com.cglee079.pododev.web.domain.blog.attachfile" />
       <recent name="com.cglee079.pododev.web.domain.blog.attachimage.save" />
       <recent name="com.cglee079.pododev.web.domain.blog.attachimage" />
       <recent name="com.cglee079.pododev.domain.blog.attachimages" />
-      <recent name="com.cglee079.pododev.domain.blog.comment.interceptor" />
     </key>
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="com.cglee079.pododev.domain.blog.comment" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\dev\workspace\podo-dev\podo-dev-web\frontend\src\components\tag" />
+      <recent name="C:\dev\workspace\podo-dev\podo-dev-web\frontend\src\components\blog" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -642,7 +585,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.PodoDevUploaderApplication (1)">
+  <component name="RunManager" selected="JUnit.MarkdownUtilTest.test_평문추출2">
     <configuration name="backend [dependencies]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -655,25 +598,6 @@
         <option name="taskNames">
           <list>
             <option value="dependencies" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
-      <method v="2" />
-    </configuration>
-    <configuration name="podo-dev:podo-dev-core [compileQuerydsl]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/podo-dev-core" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="compileQuerydsl" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -700,24 +624,37 @@
       <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="podo-dev:podo-dev-web [compileQuerydsl]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/podo-dev-web" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="compileQuerydsl" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
-      <method v="2" />
+    <configuration name="MarkdownUtilTest.test_평문추출" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="podo-dev.podo-dev-web.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.cglee079.pododev.web.global.util.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.cglee079.pododev.web.global.util" />
+      <option name="MAIN_CLASS_NAME" value="com.cglee079.pododev.web.global.util.MarkdownUtilTest" />
+      <option name="METHOD_NAME" value="test_평문추출" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MarkdownUtilTest.test_평문추출2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="podo-dev.podo-dev-web.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.cglee079.pododev.web.global.util.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.cglee079.pododev.web.global.util" />
+      <option name="MAIN_CLASS_NAME" value="com.cglee079.pododev.web.global.util.MarkdownUtilTest" />
+      <option name="METHOD_NAME" value="test_평문추출2" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="PodoDevApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="podo-dev.main" />
@@ -762,11 +699,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.MarkdownUtilTest.test_평문추출2" />
         <item itemvalue="Spring Boot.PodoDevWebApplication (1)" />
+        <item itemvalue="JUnit.MarkdownUtilTest.test_평문추출" />
         <item itemvalue="Gradle.podo-dev:podo-dev-web [clean]" />
         <item itemvalue="Gradle.backend [dependencies]" />
-        <item itemvalue="Gradle.podo-dev:podo-dev-core [compileQuerydsl]" />
-        <item itemvalue="Gradle.podo-dev:podo-dev-web [compileQuerydsl]" />
       </list>
     </recent_temporary>
   </component>
@@ -794,12 +731,42 @@
       <workItem from="1565650876904" duration="5871000" />
       <workItem from="1565737961770" duration="6122000" />
       <workItem from="1565910389532" duration="8505000" />
-      <workItem from="1565928451125" duration="3123000" />
+      <workItem from="1565928451125" duration="3407000" />
+      <workItem from="1566169250282" duration="2907000" />
+      <workItem from="1566173268219" duration="592000" />
+      <workItem from="1566173956114" duration="935000" />
+      <workItem from="1566176579819" duration="5164000" />
+      <workItem from="1566194552454" duration="595000" />
+      <workItem from="1566253960475" duration="15633000" />
+      <workItem from="1566340839733" duration="9557000" />
     </task>
     <servers />
   </component>
+  <component name="TestHistory">
+    <history-entry file="MarkdownUtilTest_test_평문추출 - 2019.08.21 at 07h 49m 35s.xml">
+      <configuration name="MarkdownUtilTest.test_평문추출" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="MarkdownUtilTest_test_평문추출 - 2019.08.21 at 07h 50m 10s.xml">
+      <configuration name="MarkdownUtilTest.test_평문추출" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="MarkdownUtilTest_test_평문추출 - 2019.08.21 at 07h 50m 14s.xml">
+      <configuration name="MarkdownUtilTest.test_평문추출" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="MarkdownUtilTest_test_평문추출 - 2019.08.21 at 07h 50m 57s.xml">
+      <configuration name="MarkdownUtilTest.test_평문추출" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="MarkdownUtilTest_test_평문추출 - 2019.08.21 at 07h 51m 42s.xml">
+      <configuration name="MarkdownUtilTest.test_평문추출" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="MarkdownUtilTest_test_평문추출2 - 2019.08.21 at 10h 22m 09s.xml">
+      <configuration name="MarkdownUtilTest.test_평문추출2" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="MarkdownUtilTest_test_평문추출2 - 2019.08.21 at 10h 22m 22s.xml">
+      <configuration name="MarkdownUtilTest.test_평문추출2" configurationId="JUnit" />
+    </history-entry>
+  </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="107750000" />
+    <option name="totallyTimeSpent" value="143417000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -814,8 +781,8 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8269551" visible="true" weight="0.29752955" />
-      <window_info id="Structure" order="1" sideWeight="0.17304492" side_tool="true" weight="0.2803437" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.82421225" visible="true" weight="0.30612245" />
+      <window_info id="Structure" order="1" sideWeight="0.17578773" side_tool="true" visible="true" weight="0.30612245" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
       <window_info id="Capture Tool" order="4" />
@@ -825,7 +792,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.329718" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49946696" weight="0.32887402" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4989339" visible="true" weight="0.31772575" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.4989339" visible="true" weight="0.3277592" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32998884" />
@@ -834,7 +801,7 @@
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5010661" side_tool="true" weight="0.30585682" />
       <window_info anchor="bottom" id="Database Changes" order="10" />
       <window_info anchor="bottom" id="Spring" order="11" weight="0.32887402" />
-      <window_info anchor="bottom" id="Terminal" order="12" weight="0.33110368" />
+      <window_info anchor="bottom" id="Terminal" order="12" weight="0.4136009" />
       <window_info anchor="bottom" id="Version Control" order="13" weight="0.32998884" />
       <window_info anchor="bottom" id="Java Enterprise" order="14" weight="0.32998884" />
       <window_info anchor="bottom" id="Messages" order="15" sideWeight="0.4989339" weight="0.32887402" />
@@ -903,185 +870,172 @@
     </SUITE>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/podo-dev-core/src/main/resources/application.yml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/resources/application.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="10" column="7" lean-forward="true" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-uploader/src/main/resources/application.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="13" column="7" selection-start-line="13" selection-start-column="7" selection-end-line="13" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/cglee079/pododev/uploader/domain/upload/UploadService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="14" selection-start-line="14" selection-end-line="14" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/response/DataResponse.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="11" column="54" selection-start-line="11" selection-start-column="54" selection-end-line="11" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/AttachImageDto.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="30" column="85" selection-start-line="30" selection-start-column="41" selection-end-line="30" selection-end-column="85" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachfile/AttachFile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="18" column="16" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachfile/AttachFileDto.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="226">
-          <caret line="65" column="18" selection-start-line="65" selection-start-column="18" selection-end-line="65" selection-end-column="18" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/vue.config.js">
+    <entry file="file://$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/cglee079/pododev/uploader/PodoDevUploaderApplication.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="110">
-          <caret line="5" column="2" selection-start-line="5" selection-start-column="2" selection-end-line="5" selection-end-column="2" />
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/util/Formatter.java">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/global/SubButton.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="17" selection-start-line="17" selection-end-line="17" />
+        <state relative-caret-position="814">
+          <caret line="37" selection-start-line="37" selection-end-line="37" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/tag/TagDto.java">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogViewCommentItem.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="32" column="24" selection-start-line="32" selection-start-column="24" selection-end-line="32" selection-end-column="24" />
+        <state relative-caret-position="1738">
+          <caret line="79" selection-start-line="79" selection-end-line="79" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/PodoDevWebApplication.java">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogViewComment.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+        <state relative-caret-position="3740">
+          <caret line="170" column="9" selection-start-line="170" selection-start-column="9" selection-end-line="170" selection-end-column="9" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/uploader/PodoUploaderClient.java">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogPostFile.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="526">
-          <caret line="39" column="5" selection-start-line="39" selection-start-column="5" selection-end-line="39" selection-end-column="5" />
+        <state relative-caret-position="2706">
+          <caret line="123" selection-start-line="123" selection-end-line="123" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/node_modules/@toast-ui/vue-editor/dist/toastui-vue-editor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="4768" selection-start-column="4767" selection-end-column="4768" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/Blog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="726">
+          <caret line="48" column="35" selection-start-line="48" selection-start-column="35" selection-end-line="48" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogPostImage.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="202">
+          <caret line="95" column="23" selection-start-line="95" selection-start-column="23" selection-end-line="95" selection-end-column="23" />
+          <folding>
+            <element signature="n#style#0;n#input#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/global/ToastCustomViewer.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="287">
+          <caret line="42" column="30" selection-start-line="42" selection-start-column="30" selection-end-line="42" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogView.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="112" column="30" selection-start-line="112" selection-start-column="30" selection-end-line="112" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/tag/TagList.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="49" column="34" selection-start-line="49" selection-start-column="34" selection-end-line="49" selection-end-column="34" />
         </state>
       </provider>
     </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-aop/5.1.8.RELEASE/c15860849c0fd44411b990181ffb1d49fb5ddf69/spring-aop-5.1.8.RELEASE-sources.jar!/org/springframework/aop/framework/CglibAopProxy.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="748" selection-start-line="748" selection-end-line="748" />
+        <state relative-caret-position="190">
+          <caret line="748" column="40" selection-start-line="748" selection-start-column="40" selection-end-line="748" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/vue.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/babel.config.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogPost.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1848">
+          <caret line="142" column="53" lean-forward="true" selection-start-line="142" selection-start-column="53" selection-end-line="142" selection-end-column="53" />
+          <folding>
+            <element signature="e#1593#1637#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-uploader/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="44">
+          <caret line="2" column="34" selection-start-line="2" selection-start-column="34" selection-end-line="2" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/test/java/com/cglee079/pododev/web/PodoDevWebApplicationTests.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/util/Formatter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/util/FileWriter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="166">
-          <caret line="42" column="30" lean-forward="true" selection-start-line="42" selection-start-column="30" selection-end-line="42" selection-end-column="30" />
+          <caret line="42" column="30" selection-start-line="42" selection-start-column="30" selection-end-line="42" selection-end-column="30" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/router.js">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/util/MarkdownUtil.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="18" selection-start-line="18" selection-end-line="18" />
+        <state relative-caret-position="154">
+          <caret line="7" column="31" selection-start-line="7" selection-start-column="31" selection-end-line="7" selection-end-column="31" />
           <folding>
-            <element signature="e#0#21#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/TheFooter.vue">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/tag/TagController.java">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/telegram/TelegramClient.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="223">
-          <caret line="23" column="69" selection-start-line="23" selection-start-column="69" selection-end-line="23" selection-end-column="69" />
+        <state relative-caret-position="308">
+          <caret line="24" column="20" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="20" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/tag/TagService.java">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/telegram/TelegramConfig.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-17">
-          <caret line="24" column="60" selection-start-line="24" selection-start-column="60" selection-end-line="24" selection-end-column="60" />
+        <state>
+          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_211/src.zip!/java/util/function/Consumer.java">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/uploader/PodoUploaderClient.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="48" column="9" selection-start-line="48" selection-start-column="9" selection-end-line="48" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/cglee079/pododev/uploader/domain/upload/UploadController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/tag/TagRepository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="7" column="11" selection-start-line="7" selection-start-column="11" selection-end-line="7" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/tag/TagRepositoryCustom.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="9" column="1" lean-forward="true" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/2.1.9.RELEASE/734111754bd8be5277a0be4f357479ee8e1c14e9/spring-data-commons-2.1.9.RELEASE-sources.jar!/org/springframework/data/repository/PagingAndSortingRepository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="46" column="7" selection-start-line="46" selection-start-column="5" selection-end-line="46" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="32" column="60" selection-start-line="32" selection-start-column="60" selection-end-line="32" selection-end-column="60" />
+        <state relative-caret-position="274">
+          <caret line="21" column="19" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="19" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1090,204 +1044,225 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogRepository.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+        <state relative-caret-position="110">
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogRepositoryCustom.java">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/tag/Tag.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="9" column="7" lean-forward="true" selection-start-line="9" selection-start-column="7" selection-end-line="9" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/tag/TagRepository.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="132">
-          <caret line="11" column="39" selection-start-line="11" selection-start-column="39" selection-end-line="11" selection-end-column="39" />
+          <caret line="9" column="23" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="265">
+          <caret line="31" column="43" selection-start-line="31" selection-start-column="43" selection-end-line="31" selection-end-column="43" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/tag/TagService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="302">
+          <caret line="93" column="22" selection-start-line="93" selection-start-column="22" selection-end-line="93" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/App.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="462">
+          <caret line="25" column="17" selection-start-line="25" selection-start-column="17" selection-end-line="25" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_211/src.zip!/java/util/stream/Stream.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="806" column="13" selection-start-line="806" selection-start-column="13" selection-end-line="806" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-core/5.1.8.RELEASE/c69e51041b6606d93b8a452714b184a8c8f5f9a6/spring-core-5.1.8.RELEASE-sources.jar!/org/springframework/cglib/proxy/MethodProxy.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="219" selection-start-line="219" selection-end-line="219" />
+        <state relative-caret-position="256">
+          <caret line="220" selection-start-line="220" selection-end-line="220" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/FileStatus.java">
+    <entry file="file://$USER_HOME$/Desktop/solr-7.2.1/solr-7.2.1/server/solr/podo-dev/conf/data-confg.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="44">
-          <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
+        <state relative-caret-position="242">
+          <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-jpa/2.1.9.RELEASE/4d29fc90c157a0c78ac6455548be98ab8e441539/spring-data-jpa-2.1.9.RELEASE-sources.jar!/org/springframework/data/jpa/repository/support/QuerydslRepositorySupport.java">
+    <entry file="file://$USER_HOME$/Downloads/managed-schema">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="56" column="34" selection-start-line="56" selection-start-column="34" selection-end-line="56" selection-end-column="34" />
+        <state relative-caret-position="308">
+          <caret line="124" column="30" selection-start-line="124" selection-start-column="5" selection-end-line="124" selection-end-column="30" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.querydsl/querydsl-core/4.2.1/f5ca41799f3695a739d5255b474fa1b68ba89371/querydsl-core-4.2.1-sources.jar!/com/querydsl/core/types/dsl/PathBuilderFactory.java">
+    <entry file="file://$USER_HOME$/Desktop/solr-7.2.1/solr-7.2.1/server/solr/podo-dev/conf/managed-schema">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="32" column="11" selection-start-line="32" selection-start-column="11" selection-end-line="32" selection-end-column="11" />
-          <folding>
-            <element signature="e#1059#1060#0" expanded="true" />
-            <element signature="e#1083#1084#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="374">
+          <caret line="116" column="30" selection-start-line="116" selection-start-column="30" selection-end-line="116" selection-end-column="30" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogService.java">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-569">
-          <caret line="25" column="32" lean-forward="true" selection-start-line="25" selection-start-column="32" selection-end-line="25" selection-end-column="32" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="242">
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogRepositoryCustomImpl.java">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/solr/SolrDto.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="31" selection-start-line="31" selection-end-line="31" />
+        <state relative-caret-position="60">
+          <caret line="11" column="11" selection-start-line="11" selection-start-column="11" selection-end-line="11" selection-end-column="11" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/TheNav.vue">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/solr/SolrSender.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="6" column="73" selection-start-line="6" selection-start-column="73" selection-end-line="6" selection-end-column="73" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/save/AttachImageSaveService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-217">
-          <caret line="46" column="2" lean-forward="true" selection-start-line="46" selection-start-column="2" selection-end-line="46" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/cglee079/pododev/uploader/PodoDevUploaderApplication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="110">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/Blog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
+        <state relative-caret-position="346">
+          <caret line="27" column="44" selection-start-line="27" selection-start-column="44" selection-end-line="27" selection-end-column="44" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogDto.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="707">
-          <caret line="156" column="56" selection-start-line="156" selection-start-column="56" selection-end-line="156" selection-end-column="56" />
+        <state relative-caret-position="201">
+          <caret line="162" column="13" lean-forward="true" selection-start-line="162" selection-start-column="13" selection-end-line="162" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogPost.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1782">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="443">
-          <caret line="29" column="10" selection-start-line="29" selection-start-column="10" selection-end-line="29" selection-end-column="10" />
+        <state relative-caret-position="506">
+          <caret line="39" column="26" selection-start-line="39" selection-start-column="14" selection-end-line="39" selection-end-column="26" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/App.vue">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/router.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="26" column="22" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="22" />
+        <state relative-caret-position="263">
+          <caret line="15" column="32" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogListRow.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="115" column="32" selection-start-line="115" selection-start-column="32" selection-end-line="115" selection-end-column="32" />
+        <state relative-caret-position="3341">
+          <caret line="182" column="10" selection-start-line="182" selection-start-column="10" selection-end-line="182" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="40">
+          <caret line="11" column="33" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/TheFooter.vue">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/TheNav.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="64" column="49" selection-start-line="64" selection-start-column="49" selection-end-line="64" selection-end-column="49" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogList.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2002">
-          <caret line="91" selection-start-line="91" selection-end-line="91" />
+        <state relative-caret-position="1754">
+          <caret line="98" selection-start-line="98" selection-end-line="98" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/tag/TagList.vue">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="355">
-          <caret line="77" column="41" lean-forward="true" selection-start-line="77" selection-start-column="41" selection-end-line="77" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/global/SubButton.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="37" lean-forward="true" selection-start-line="37" selection-end-line="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/global/ToastCustomViewer.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="31" lean-forward="true" selection-start-line="31" selection-end-line="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogViewCommentItem.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1257">
-          <caret line="79" selection-start-line="79" selection-end-line="79" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogViewComment.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1499">
-          <caret line="170" column="9" lean-forward="true" selection-start-line="170" selection-start-column="9" selection-end-line="170" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogView.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="377">
-          <caret line="158" column="8" selection-end-line="160" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogPostFile.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="443">
-          <caret line="123" selection-start-line="123" selection-end-line="123" />
+        <state relative-caret-position="335">
+          <caret line="165" column="38" lean-forward="true" selection-start-line="165" selection-start-column="38" selection-end-line="165" selection-end-column="38" />
           <folding>
-            <element signature="n#style#0;n#input#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="method#dd#0;class#BlogService#0" />
+            <element signature="e#8285#8286#0" expanded="true" />
+            <element signature="e#8331#8332#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/frontend/src/components/blog/BlogPostImage.vue">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogRepositoryCustom.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="597">
-          <caret line="118" selection-end-line="119" />
+        <state relative-caret-position="132">
+          <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogRepositoryCustomImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="30" lean-forward="true" selection-start-line="30" selection-end-line="30" />
           <folding>
-            <element signature="n#style#0;n#input#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/solr/MySolrClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="49">
+          <caret line="46" column="45" selection-start-line="46" selection-start-column="33" selection-end-line="46" selection-end-column="45" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/resources/application.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="302">
+          <caret line="85" column="27" selection-start-line="85" selection-start-column="27" selection-end-line="85" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/test/java/com/cglee079/pododev/web/global/util/MarkdownUtilTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="13" column="5" lean-forward="true" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

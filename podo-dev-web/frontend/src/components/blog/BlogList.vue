@@ -30,7 +30,8 @@
         data() {
             return {
                 filter: {
-                    tag: undefined
+                    tag: '',
+                    search : '',
                 },
                 isLoading: false,
                 contents: [],
@@ -51,7 +52,8 @@
                     .get('/api/blogs', {
                         params: {
                             'page': page,
-                            'tag': this.filter.tag
+                            'tag': this.filter.tag,
+                            'search' : this.filter.search
                         }
                     })
                     .then(res => {
@@ -90,12 +92,10 @@
             loadBlogByFilter() {
                 this.contents = []
 
-                const tag = this.$route.query.tag
-                if (tag) {
-                    this.filter.tag = tag
-                } else {
-                    this.filter.tag = ''
-                }
+                this.filter.tag = this.$route.query.tag
+                this.filter.search = this.$route.query.search
+
+                console.log(this.$route.query)
 
                 this.loadBlog(0)
             }

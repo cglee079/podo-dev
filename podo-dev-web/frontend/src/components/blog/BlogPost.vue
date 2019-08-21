@@ -64,7 +64,6 @@
     import BlogPostImage from "./BlogPostImage";
     import BlogPostFile from "./BlogPostFile";
 
-    // deps for editor
     import 'codemirror/lib/codemirror.css'; // codemirror
     import 'tui-editor/dist/tui-editor.css'; // editor ui
     import 'tui-editor/dist/tui-editor-contents.css'; // editor content
@@ -128,12 +127,6 @@
             // 태그 클릭 시, 태그 삭제
             clickTag(index) {
                 this.input.tags.splice(index, 1)
-            },
-
-            onEditorFocus() {
-            },
-
-            onEditorBlur() {
             },
 
             //게시글 수정 시, 게시글 정보 로딩

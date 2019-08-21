@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface TagRepository extends JpaRepository<Tag, Long>, TagRepositoryCustom{
     List<Tag> findByBlogSeq(Long blogSeq);
+    List<Tag> findByVal(String value);
 }

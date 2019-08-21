@@ -125,6 +125,7 @@
             color: #797979;
             word-break: break-all;
             margin-bottom: 15px;
+
         }
 
         .info {
@@ -176,4 +177,11 @@
 
     }
 
+</style>
+
+<style>
+    .desc search{
+        color: #0000FF;
+        font-weight: bold;
+    }
 </style>

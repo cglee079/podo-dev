@@ -1,16 +1,14 @@
 package com.cglee079.pododev.web.domain.blog;
 
-import com.cglee079.pododev.web.domain.blog.tag.QTag;
-import com.cglee079.pododev.web.domain.blog.tag.Tag;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Objects;
 
 public class BlogRepositoryCustomImpl extends QuerydslRepositorySupport implements BlogRepositoryCustom {
 
@@ -25,26 +23,15 @@ public class BlogRepositoryCustomImpl extends QuerydslRepositorySupport implemen
 
 
     @Override
-    public Page<Blog> paging(Pageable pageable, String tag) {
-
+    public Page<Blog> paging(Pageable pageable, List<Long> seqs) {
         JPQLQuery<Blog> query;
+        query = from(blog)
+                .where(blog.enabled.eq(true))
+                .orderBy(blog.seq.desc());
 
-        if (!StringUtils.isEmpty(tag)) {
-
-            List<Long> blogSeqs = queryFactory.select(QTag.tag.blogSeq)
-                    .distinct()
-                    .from(QTag.tag)
-                    .where(QTag.tag.val.eq(tag))
-                    .fetch();
-
-            query = from(blog)
-                    .where(blog.seq.in(blogSeqs))
-                    .orderBy(blog.seq.desc());
-        } else {
-            query = from(blog)
-                    .orderBy(blog.seq.desc());
+        if (!Objects.isNull(seqs)) {
+            query.where(blog.seq.in(seqs));
         }
-
 
         List<Blog> blogs = getQuerydsl().applyPagination(pageable, query).fetch();
 

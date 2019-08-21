@@ -16,10 +16,10 @@ import java.io.File;
 @Component
 public class PodoUploaderClient {
 
-    @Value("${podo.uploader.domain}")
+    @Value("${infra.uploader.domain}")
     private String serverUrl;
 
-    @Value("${podo.uploader.upload.subpath}")
+    @Value("${infra.uploader.upload.subpath}")
     private String subpath;
 
     public void upload(String path, File file) {

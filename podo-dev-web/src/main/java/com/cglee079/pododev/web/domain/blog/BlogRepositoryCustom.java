@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface BlogRepositoryCustom {
-    Page<Blog> paging(Pageable pageable, String tag);
+    Page<Blog> paging(Pageable pageable, List<Long> seqs);
 }

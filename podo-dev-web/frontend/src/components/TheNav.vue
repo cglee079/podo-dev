@@ -43,7 +43,8 @@
             </div>
 
             <div class="mobile-nav-menu"><a href="https://github.com/cglee079" target="_blank">Github</a></div>
-            <div class="mobile-nav-menu"><a href="https://www.instagram.com/cglee079" target="_blank">Instagram</a></div>
+            <div class="mobile-nav-menu"><a href="https://www.instagram.com/cglee079" target="_blank">Instagram</a>
+            </div>
             <div class="mobile-nav-menu"><a>로그인</a></div>
 
 
@@ -61,7 +62,7 @@
         },
         data() {
             return {
-                countries: ['A', 'AA']
+                countries: ['피카츄', 'class', 'ciba']
             }
         },
         methods: {
@@ -76,8 +77,10 @@
                         .startsWith(input.toLowerCase())
                 })
             },
+
             submit(result) {
                 console.log(result)
+                this.$router.push({name: 'BlogList', query: {search: result}})
             },
 
             /**

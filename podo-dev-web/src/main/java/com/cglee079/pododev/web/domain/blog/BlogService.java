@@ -3,7 +3,11 @@ package com.cglee079.pododev.web.domain.blog;
 import com.cglee079.pododev.core.global.response.PageDto;
 import com.cglee079.pododev.web.domain.blog.attachfile.AttachFileService;
 import com.cglee079.pododev.web.domain.blog.attachimage.AttachImageService;
+import com.cglee079.pododev.web.domain.blog.tag.QTag;
+import com.cglee079.pododev.web.domain.blog.tag.TagDto;
 import com.cglee079.pododev.web.domain.blog.tag.TagService;
+import com.cglee079.pododev.web.global.infra.solr.MySolrClient;
+import com.cglee079.pododev.web.global.infra.solr.SolrDto;
 import com.cglee079.pododev.web.global.util.TempUtil;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
@@ -16,12 +20,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.annotation.PostConstruct;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -31,7 +38,7 @@ public class BlogService {
     @Value("${upload.base.url}")
     private String baseUrl;
 
-    @Value("${podo.uploader.domain}${podo.uploader.frontend.subpath}")
+    @Value("${infra.uploader.domain}${infra.uploader.frontend.subpath}")
     private String uploadServerDomain;
 
     @Value("${blog.per.page.size}")
@@ -41,14 +48,15 @@ public class BlogService {
     private final TagService tagService;
     private final AttachImageService attachImageService;
     private final AttachFileService attachFileService;
+    private final MySolrClient mySolrClient;
 
-    @PostConstruct
-    public void dd(){
+
+    public void dd() {
         List<Blog> blogs = blogRepository.findAll();
 
-        blogs.forEach(b ->{
+        blogs.forEach(b -> {
             String contents = b.getContents();
-            if(contents.indexOf("<code") != -1){
+            if (contents.indexOf("<code") != -1) {
                 System.out.println(b.getTitle());
             }
 //            contents = contents.replace("<pre>", "");
@@ -121,6 +129,8 @@ public class BlogService {
             blogRepository.save(b);
         });
     }
+
+
     public BlogDto.response get(Long seq) {
         Blog blog = blogRepository.findById(seq).get();
 
@@ -128,16 +138,35 @@ public class BlogService {
     }
 
     public PageDto paging(BlogDto.request request) {
+        String search = request.getSearch();
         Integer page = request.getPage();
-        String tag = request.getTag();
-
+        String tagValue = request.getTag();
         Pageable pageable = PageRequest.of(page, pageSize);
 
-        //TODO QueryDSL
-        Page<Blog> blogs = blogRepository.paging(pageable, tag);
-
+        Page<Blog> blogs;
         List<BlogDto.responseList> contents = new LinkedList<>();
-        blogs.forEach(blog-> contents.add(new BlogDto.responseList(blog, uploadServerDomain)));
+
+        //List By Solr
+        if (!StringUtils.isEmpty(search)) {
+            List<SolrDto.response> results = mySolrClient.search(search);
+            List<Long> seqs = results.stream().map(SolrDto.response::getSeq).map(Long::valueOf).collect(Collectors.toList());
+            Map<String, String> desc = results.stream().collect(Collectors.toMap(SolrDto.response::getSeq, SolrDto.response::getContents));
+
+            blogs = blogRepository.paging(pageable, seqs);
+
+            blogs.forEach(blog -> contents.add(new BlogDto.responseList(blog, desc.get(blog.getSeq() + ""), uploadServerDomain)));
+
+        } else{
+            List<Long> seqs = null;
+
+            if(!StringUtils.isEmpty(tagValue)){
+                seqs = tagService.findBlogSeqByTagValue(tagValue);
+            }
+
+            blogs = blogRepository.paging(pageable, seqs);
+            blogs.forEach(blog -> contents.add(new BlogDto.responseList(blog, uploadServerDomain)));
+        }
+
 
         return PageDto.<BlogDto.responseList>builder()
                 .contents(contents)

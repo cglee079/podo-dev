@@ -90,4 +90,9 @@ public class TagService {
         }
 
     }
+
+    public List<Long> findBlogSeqByTagValue(String value) {
+        List<Tag> tags = tagRepository.findByVal(value);
+        return tags.stream().map(Tag::getBlogSeq).distinct().collect(Collectors.toList());
+    }
 }

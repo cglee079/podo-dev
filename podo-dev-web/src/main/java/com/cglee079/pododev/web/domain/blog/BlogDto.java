@@ -8,10 +8,12 @@ import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSave;
 import com.cglee079.pododev.web.domain.blog.tag.Tag;
 import com.cglee079.pododev.web.domain.blog.tag.TagDto;
 import com.cglee079.pododev.web.global.util.Formatter;
+import com.cglee079.pododev.web.global.util.MarkdownUtil;
 import lombok.*;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.springframework.util.StringUtils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -89,6 +91,7 @@ public class BlogDto {
     public class request {
         Integer page;
         String tag;
+        String search;
     }
 
 
@@ -137,18 +140,9 @@ public class BlogDto {
         private Boolean enabled;
 
         public responseList(Blog blog, String uploadServerDomain) {
-            String desc = "";
-            Document doc = Jsoup.parse(blog.getContents());
-            Elements els = doc.select("*");
-
-            if (els.eachText().size() > 0) {
-                desc = els.eachText().get(0);
-            }
-            desc.replace("\n", " ");
-
             this.seq = blog.getSeq();
             this.title = blog.getTitle();
-            this.desc = desc;
+            this.desc = MarkdownUtil.extractPlainText(blog.getContents());
             this.hitCnt = blog.getHitCnt();
             this.createAt = Formatter.dateTimeToStr(blog.getCreateAt());
             this.updateAt = Formatter.dateTimeToStr(blog.getUpdateAt());
@@ -170,5 +164,12 @@ public class BlogDto {
 
             blog.getTags().forEach(tag -> this.tags.add(new TagDto.response(tag)));
         }
+
+
+        public responseList(Blog blog, String desc, String uploadServerDomain) {
+            this(blog, uploadServerDomain);
+            this.desc = desc;
+        }
+
     }
 }
