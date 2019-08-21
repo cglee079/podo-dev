@@ -16,6 +16,7 @@ import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -97,22 +98,23 @@ public class MySolrClient {
 
     }
 
-    public JSONArray getFacets(String value) throws SolrServerException, IOException {
+    public List<String> getFacets(String value) {
         Map<String, String> param = new HashMap<>();
         param.put("q", "");
         param.put("facet", "on");
         param.put("facet.field", "contents");
         param.put("facet.prefix", value.toLowerCase());
 
-        QueryResponse response = solrSender.query(core, param);
-        List<FacetField.Count> counts = response.getFacetFields().get(0).getValues(); // CONTENTS
+        try {
+            QueryResponse response = solrSender.query(core, param);
+            List<FacetField.Count> counts = response.getFacetFields().get(0).getValues(); // CONTENTS
 
-        List<String> facets = new ArrayList<String>();
-        for (int i = 0; i < counts.size(); i++) {
-            facets.add(counts.get(i).getName());
+            return counts.stream().map(FacetField.Count::getName).collect(Collectors.toList());
+        } catch (SolrServerException | IOException e) {
+            e.printStackTrace();
+            return new LinkedList<>();
         }
 
-        return new JSONArray(facets);
     }
 
     public void dataimport() throws SolrServerException, IOException {

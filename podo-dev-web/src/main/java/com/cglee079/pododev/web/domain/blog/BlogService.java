@@ -9,7 +9,9 @@ import com.cglee079.pododev.web.domain.blog.tag.TagService;
 import com.cglee079.pododev.web.global.infra.solr.MySolrClient;
 import com.cglee079.pododev.web.global.infra.solr.SolrDto;
 import com.cglee079.pododev.web.global.util.TempUtil;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import lombok.RequiredArgsConstructor;
+import org.apache.solr.client.solrj.SolrServerException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -24,6 +26,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -156,10 +159,10 @@ public class BlogService {
 
             blogs.forEach(blog -> contents.add(new BlogDto.responseList(blog, desc.get(blog.getSeq() + ""), uploadServerDomain)));
 
-        } else{
+        } else {
             List<Long> seqs = null;
 
-            if(!StringUtils.isEmpty(tagValue)){
+            if (!StringUtils.isEmpty(tagValue)) {
                 seqs = tagService.findBlogSeqByTagValue(tagValue);
             }
 
@@ -214,4 +217,7 @@ public class BlogService {
     }
 
 
+    public List<String> facets(String value) {
+        return mySolrClient.getFacets(value);
+    }
 }

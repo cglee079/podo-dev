@@ -11,7 +11,10 @@
         </div>
 
         <div id="search">
-            <autocomplete :search="search" @submit="submit"></autocomplete>
+            <autocomplete
+                    :search="search"
+                    :get-result-value="getResultValue"
+                    @submit="submit"/>
         </div>
 
         <div id="btnMobileNavIcon" @click="clickBtnMobileNavIcon">
@@ -60,26 +63,39 @@
         components: {
             Autocomplete
         },
-        data() {
-            return {
-                countries: ['피카츄', 'class', 'ciba']
-            }
-        },
         methods: {
+            getResultValue(result) {
+                return result
+            },
+
             search(input) {
-                //TODO
-                //get Value From Solr
-                if (input.length < 1) {
-                    return []
-                }
-                return this.countries.filter(country => {
-                    return country.toLowerCase()
-                        .startsWith(input.toLowerCase())
+
+                return new Promise(resolve => {
+                    if (input.length < 1) {
+                        return resolve([])
+                    }
+
+                    this.$axios.get("/api/blogs/facets", {
+                        params: {
+                            value: input
+                        }
+                    }).then(res => {
+                        res  = res.data
+                        const facets = res.data
+                        resolve(facets)
+                    }).catch(err => {
+                        resolve([])
+                    })
                 })
+
             },
 
             submit(result) {
-                console.log(result)
+                if (!result) {
+                    this.$toasted.show("검색어를 정확히 입력해주세요")
+                    return
+                }
+
                 this.$router.push({name: 'BlogList', query: {search: result}})
             },
 

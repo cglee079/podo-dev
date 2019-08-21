@@ -126,6 +126,9 @@
             word-break: break-all;
             margin-bottom: 15px;
 
+            search {
+                color: #0000FF;
+            }
         }
 
         .info {
@@ -157,6 +160,7 @@
                     max-height: 1.6rem;
                     font-size: 0.9rem;
                     margin-bottom: 6px;
+
                 }
             }
 
@@ -180,8 +184,7 @@
 </style>
 
 <style>
-    .desc search{
+    .content .desc search {
         color: #0000FF;
-        font-weight: bold;
     }
 </style>

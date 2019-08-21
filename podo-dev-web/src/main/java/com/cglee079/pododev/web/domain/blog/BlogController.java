@@ -5,6 +5,8 @@ import com.cglee079.pododev.core.global.response.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/api/blogs")
@@ -76,5 +78,15 @@ public class BlogController {
                 .build();
     }
 
+
+    @GetMapping("/facets")
+    public ApiResponse facets(@RequestParam String value) {
+        List<String> facets = blogService.facets(value);
+
+        return DataResponse.builder()
+                .status(ResponseStatus.SUCCESS)
+                .data(facets)
+                .build();
+    }
 
 }
