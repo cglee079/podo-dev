@@ -59,19 +59,19 @@
 
 <style scoped lang="scss">
     #tags {
+        margin-top: 50px;
 
         div.wrap-tag {
             padding-bottom: 30px;
+            border-bottom: 1px solid #ecf0f5;
             margin: 0px 20px 50px 20px;
 
             div.chosung {
-                margin-bottom: 20px;
+                margin-bottom: 15px;
 
                 span {
-                    font-size: 1.7rem;
+                    font-size: 2rem;
                     font-weight: bold;
-                    border-left: 5px solid #d4baba;
-                    padding-left: 10px;
                 }
             }
 
@@ -80,6 +80,7 @@
                 font-size: 1.2rem;
                 display: inline-block;
                 margin: 5px 10px 0px 5px;
+                color: #ec5621;
             }
         }
     }

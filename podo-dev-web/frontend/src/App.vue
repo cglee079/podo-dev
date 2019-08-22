@@ -1,33 +1,37 @@
 <template>
 
     <div>
-        <the-nav></the-nav>
+        <the-nav/>
         <div id="main" :class="$mq">
             <router-view></router-view>
         </div>
-        <the-footer></the-footer>
+        <the-footer/>
+        <the-top-button/>
     </div>
 </template>
 
 <script>
     import TheNav from '@/components/TheNav'
     import TheFooter from '@/components/TheFooter'
+    import TheTopButton from "./components/TheTopButton";
 
     export default {
         components: {
             'the-nav': TheNav,
-            'the-footer': TheFooter
+            'the-footer': TheFooter,
+            'the-top-button': TheTopButton
         },
         name: 'App'
     }
 </script>
 <style scoped lang="scss">
+
     #main {
         margin: 50px auto 150px auto;
         max-width: 960px;
         min-height: 100vh;
 
-        &.mobile{
+        &.mobile {
             margin: 20px auto 150px auto;
             max-width: 100%;
         }
@@ -35,7 +39,8 @@
 
 
 </style>
-<style>
+<style lang="scss">
+
     @import url('http://fonts.googleapis.com/earlyaccess/notosanskr.css');
 
     a, abbr, acronym, address, applet, article, aside,

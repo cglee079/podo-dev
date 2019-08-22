@@ -3,18 +3,33 @@ import App from './App.vue'
 import VueMq from 'vue-mq'
 import router from './router'
 import axios from 'axios'
+import VueScrollTo from 'vue-scrollto'
 
 import '@trevoreyre/autocomplete-vue/dist/style.css'
-import 'tui-editor/dist/tui-editor.css';
-import 'tui-editor/dist/tui-editor-contents.css';
-import 'codemirror/lib/codemirror.css';
-import 'highlight.js/styles/github.css';
+import 'tui-editor/dist/tui-editor.css'
+import 'tui-editor/dist/tui-editor-contents.css'
+import 'codemirror/lib/codemirror.css'
+import 'highlight.js/styles/github.css'
 
 import Autocomplete from '@trevoreyre/autocomplete-vue'
-import ToastCustomViewer from "@/components/global/ToastCustomViewer";
-import SubButton from "./components/global/SubButton";
+import ToastCustomViewer from "@/components/global/ToastCustomViewer"
+import SubButton from "./components/global/SubButton"
 
-import Toasted from 'vue-toasted';
+import Toasted from 'vue-toasted'
+
+Vue.use(VueScrollTo, {
+  container: "body",
+  duration: 500,
+  easing: "ease",
+  offset: 0,
+  force: true,
+  cancelable: true,
+  onStart: false,
+  onDone: false,
+  onCancel: false,
+  x: false,
+  y: true
+})
 
 
 Vue.use(Toasted, {
@@ -37,7 +52,6 @@ Vue.use(VueMq, {
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 Vue.prototype.$axios.defaults.baseURL='http://localhost:8090'
-Vue.prototype.$scrollToTop = () => window.scrollTo(0,0)
 
 Vue.component('toast-custom-viewer', ToastCustomViewer)
 Vue.component('sub-button', SubButton)

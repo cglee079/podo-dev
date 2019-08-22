@@ -1,15 +1,16 @@
 <template>
     <div class="blog-row" @click="viewBlog(blog.seq)">
-        <div class="wrap-thumbnail"
-             v-if="blog.thumbnail != null"
+
+        <div v-if="blog.thumbnail != null"
              :class="$mq"
+             class="wrap-thumbnail"
         >
             <img class="thumbnail"
                  :src="blog.thumbnail"/>
         </div>
 
         <div class="content"
-             :class="$mq + ' ' + (blog.thumbnail != null ? 'small' : '')"
+             :class="$mq"
         >
             <div class="title">{{ blog.title }}</div>
             <div v-html="blog.desc" class="desc">
@@ -24,6 +25,7 @@
                     </span>
                 </div>
                 <div class="subinfo">
+                    <span>{{blog.createAt}}</span>
                     <span>댓글 {{blog.commentCnt}}</span>
                 </div>
             </div>
@@ -85,13 +87,8 @@
         }
 
         &.mobile {
+            display: none;
             margin-right: 1rem;
-            width: $mobile-thumbnail-width;
-            height: $mobile-content-height;
-
-            img.thumbnail {
-                height: $mobile-content-height;
-            }
         }
 
     }
@@ -125,10 +122,6 @@
             color: #797979;
             word-break: break-all;
             margin-bottom: 15px;
-
-            search {
-                color: #0000FF;
-            }
         }
 
         .info {
@@ -152,29 +145,12 @@
 
         &.mobile {
 
-            &.small {
-                height: $mobile-content-height;
-
-                .desc {
-                    -webkit-line-clamp: 1;
-                    max-height: 1.6rem;
-                    font-size: 0.9rem;
-                    margin-bottom: 6px;
-
-                }
-            }
-
             .title {
                 font-size: 1rem;
-                margin-bottom: 0px;
             }
 
             .info {
                 font-size: 0.8rem;
-
-                /*.tags .tag:nth-child(-n+3) {*/
-                /*    display: none;*/
-                /*}*/
             }
 
         }

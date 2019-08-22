@@ -74,7 +74,7 @@ infra:
         id: 503609560
 
   solr:
-    url: http://localhost:8983/solr/
+    url: http://125.186.242.83:8090/solr
     core:
       id: podo-dev
     query:
@@ -85,6 +85,6 @@ infra:
         frag:
           length : 10000000
         simple:
-          pre: ((start-serach))
-          post: ((end-serach))
+          pre: ((start-search))
+          post: ((end-search))
 
