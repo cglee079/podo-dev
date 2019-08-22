@@ -67,11 +67,13 @@
             margin: 0px 20px 50px 20px;
 
             div.chosung {
+                margin-left: 5px;
                 margin-bottom: 15px;
 
                 span {
-                    font-size: 2rem;
+                    font-size: 1.7rem;
                     font-weight: bold;
+                    color: #ec5621;
                 }
             }
 
@@ -80,7 +82,7 @@
                 font-size: 1.2rem;
                 display: inline-block;
                 margin: 5px 10px 0px 5px;
-                color: #ec5621;
+
             }
         }
     }
