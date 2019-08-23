@@ -40,6 +40,9 @@
 
 </style>
 <style lang="scss">
+    :root{
+        --nav-height: 65px;
+    }
 
     @import url('http://fonts.googleapis.com/earlyaccess/notosanskr.css');
 

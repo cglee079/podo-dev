@@ -17,7 +17,6 @@
                 <img src="@/assets/logo4.svg"/>
             </div>
 
-
             <div class="mobile-nav-menu">
                 <a @click="clickSearch">검색</a>
             </div>
@@ -40,30 +39,64 @@
 
         </div>
 
+        <div id="mobileSearch" ref="mobileSearch">
+            <the-nav-search
+                    placeholder="검색어를 입력해주세요"
+                    @submit="submitSearch"
+            />
+        </div>
+
     </div>
 </template>
 
 <script>
+    import TheNavSearch from "./TheNavSearch";
+
     export default {
         name: "TheNavMobile",
+        components: {
+            TheNavSearch,
+        },
         methods: {
-            clickSearch() {
-                this.$refs.theNavMobileSearch.classList.toggle("on")
-            },
-
-            onMobileMenu() {
+            lockScreen() {
                 this.$refs.bgMobileNavs.classList.add("on")
-                this.$refs.mobileNavs.classList.add("on")
-
                 document.body.style.overflow = "hidden"
                 document.body.style.touchAction = "none"
             },
 
-            offMobileMenu() {
+            unlockScreen() {
                 this.$refs.bgMobileNavs.classList.remove("on")
-                this.$refs.mobileNavs.classList.remove("on")
                 document.body.style.overflow = "unset"
                 document.body.style.touchAction = "unset"
+            },
+
+            clickSearch() {
+                this.offMobileMenu()
+                this.onSearch()
+            },
+
+            submitSearch() {
+                this.offSearch()
+            },
+
+            onSearch() {
+                this.lockScreen()
+                this.$refs.mobileSearch.classList.add("on")
+            },
+
+            offSearch() {
+                this.unlockScreen()
+                this.$refs.mobileSearch.classList.remove("on")
+            },
+
+            onMobileMenu() {
+                this.lockScreen();
+                this.$refs.mobileNavs.classList.add("on")
+            },
+
+            offMobileMenu() {
+                this.unlockScreen();
+                this.$refs.mobileNavs.classList.remove("on")
             },
 
             clickBtnMobileNavIcon() {
@@ -72,13 +105,17 @@
                 this.$el.addEventListener('click', (e) => {
                     if (e.target.id === 'bgMobileNavs') {
                         this.offMobileMenu()
+                        this.offSearch()
                     }
                 })
             }
         },
 
+        created() {
+        },
+
         mounted() {
-            const els = document.getElementsByClassName("mobile-nav-menu");
+            const els = document.getElementsByClassName("mobile-nav-menu a");
             for (let el of els) {
                 el.onclick = () => {
                     this.offMobileMenu()
@@ -88,6 +125,32 @@
 
     }
 </script>
+
+<style lang="scss">
+    .autocomplete-input {
+        height: var(--nav-height);
+        border-bottom: 1px solid #E7E7E7;
+        width: 100%;
+        padding: 0px 10px;
+    }
+
+    ul.autocomplete-result-list {
+        height: calc(100vh - var(--nav-height));
+        overflow-x: hidden;
+        overflow-y: auto;
+
+        li.autocomplete-result {
+            list-style-type: none;
+            text-align: left;
+            padding: 20px 10px;
+            border-bottom: 1px solid #ECECEC;
+
+            :hover, &[aria-selected=true] {
+                background-color: rgba(0, 0, 0, .06)
+            }
+        }
+    }
+</style>
 
 <style scoped lang="scss">
     /** 모바일 아이콘 **/
@@ -190,5 +253,24 @@
                 display: block;
             }
         }
+
+    }
+
+    #mobileSearch {
+        display: block;
+        position: fixed;
+        right: -80%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        z-index: 3;
+        text-align: right;
+        background: #FFF;
+        transition: right .3s cubic-bezier(0.215, 0.61, 0.355, 1);
+
+        &.on {
+            right: 0;
+        }
+
     }
 </style>

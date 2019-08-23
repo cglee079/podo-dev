@@ -5,13 +5,11 @@ import router from './router'
 import axios from 'axios'
 import VueScrollTo from 'vue-scrollto'
 
-import '@trevoreyre/autocomplete-vue/dist/style.css'
 import 'tui-editor/dist/tui-editor.css'
 import 'tui-editor/dist/tui-editor-contents.css'
 import 'codemirror/lib/codemirror.css'
 import 'highlight.js/styles/github.css'
 
-import Autocomplete from '@trevoreyre/autocomplete-vue'
 import ToastCustomViewer from "@/components/global/ToastCustomViewer"
 import SubButton from "./components/global/SubButton"
 
@@ -37,8 +35,6 @@ Vue.use(Toasted, {
   position: "top-center",
   duration: 3000
 })
-
-Vue.use(Autocomplete)
 
 Vue.use(VueMq, {
   breakpoints: { // default breakpoints - customize this
