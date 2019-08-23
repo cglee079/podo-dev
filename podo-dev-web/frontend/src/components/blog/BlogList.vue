@@ -95,8 +95,6 @@
                 this.filter.tag = this.$route.query.tag
                 this.filter.search = this.$route.query.search
 
-                console.log(this.$route.query)
-
                 this.loadBlog(0)
             }
 

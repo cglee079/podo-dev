@@ -17,7 +17,7 @@
                 <img src="@/assets/logo4.svg"/>
             </div>
 
-            <div class="mobile-nav-menu">
+            <div class="mobile-nav-menu search">
                 <a @click="clickSearch">검색</a>
             </div>
 
@@ -71,11 +71,11 @@
             },
 
             clickSearch() {
-                this.offMobileMenu()
                 this.onSearch()
             },
 
             submitSearch() {
+                this.offMobileMenu()
                 this.offSearch()
             },
 
@@ -115,10 +115,12 @@
         },
 
         mounted() {
-            const els = document.getElementsByClassName("mobile-nav-menu a");
+            const els = document.getElementsByClassName("mobile-nav-menu");
             for (let el of els) {
-                el.onclick = () => {
-                    this.offMobileMenu()
+                if (!el.classList.contains("search")) {
+                    el.onclick = () => {
+                        this.offMobileMenu()
+                    }
                 }
             }
         }
