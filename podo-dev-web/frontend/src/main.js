@@ -5,6 +5,9 @@ import router from './router'
 import axios from 'axios'
 import VueScrollTo from 'vue-scrollto'
 
+import Autocomplete from '@trevoreyre/autocomplete-vue'
+import '@trevoreyre/autocomplete-vue/dist/style.css'
+
 import 'tui-editor/dist/tui-editor.css'
 import 'tui-editor/dist/tui-editor-contents.css'
 import 'codemirror/lib/codemirror.css'
@@ -14,6 +17,8 @@ import ToastCustomViewer from "@/components/global/ToastCustomViewer"
 import SubButton from "./components/global/SubButton"
 
 import Toasted from 'vue-toasted'
+
+Vue.use(Autocomplete)
 
 Vue.use(VueScrollTo, {
   container: "body",

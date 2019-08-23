@@ -40,23 +40,23 @@
         </div>
 
         <div id="mobileSearch" ref="mobileSearch">
-            <the-nav-search
+            <autocomplete
+                    :search="search"
+                    :autoSelect="true"
                     placeholder="검색어를 입력해주세요"
-                    @submit="submitSearch"
-            />
+                    baseClass="autocomplete-mobile"
+                    @submit="submitSearch"/>
         </div>
 
     </div>
 </template>
 
 <script>
-    import TheNavSearch from "./TheNavSearch";
+    import search from "@/mixins/search"
 
     export default {
         name: "TheNavMobile",
-        components: {
-            TheNavSearch,
-        },
+        mixins : [search],
         methods: {
             lockScreen() {
                 this.$refs.bgMobileNavs.classList.add("on")
@@ -74,9 +74,10 @@
                 this.onSearch()
             },
 
-            submitSearch() {
+            submitSearch(input) {
                 this.offMobileMenu()
                 this.offSearch()
+                this.submit(input)
             },
 
             onSearch() {
@@ -129,19 +130,19 @@
 </script>
 
 <style lang="scss">
-    .autocomplete-input {
+    .autocomplete-mobile-input {
         height: var(--nav-height);
         border-bottom: 1px solid #E7E7E7;
         width: 100%;
         padding: 0px 10px;
     }
 
-    ul.autocomplete-result-list {
+    ul.autocomplete-mobile-result-list {
         height: calc(100vh - var(--nav-height));
         overflow-x: hidden;
         overflow-y: auto;
 
-        li.autocomplete-result {
+        li.autocomplete-mobile-result {
             list-style-type: none;
             text-align: left;
             padding: 20px 10px;

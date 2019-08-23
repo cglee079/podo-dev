@@ -13,10 +13,10 @@ public class MarkdownUtilTest {
         assertEquals("This is TXTMARK", result);
     }
 
-    @Test
-    public  void test_평문추출2(){
-        String result = MarkdownUtil.extractPlainText("``java dddd ``");
-
-        assertEquals("This is TXTMARK", result);
-    }
+//    @Test
+//    public  void test_평문추출2(){
+//        String result = MarkdownUtil.extractPlainText("``java dddd ``");
+//
+//        assertEquals("This is TXTMARK", result);
+//    }
 }

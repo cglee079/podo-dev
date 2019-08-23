@@ -7,21 +7,20 @@
         </div>
 
         <div id="search">
-            <the-nav-search
-                :beautiful="true"
-            />
+            <autocomplete
+                    :search="search"
+                    :autoSelect="true"
+                    @submit="submit"/>
         </div>
     </div>
 </template>
 
 <script>
-    import TheNavSearch from "./TheNavSearch";
+    import search from "@/mixins/search"
 
     export default {
         name: "TheNavDesktop",
-        components: {
-            TheNavSearch,
-        },
+        mixins : [search],
     }
 </script>
 
@@ -39,8 +38,8 @@
 
     }
 
-    #search {
-        transform: scale(.8);
+    #search /deep/{
+        transform: scale(0.85);
     }
 
 </style>
