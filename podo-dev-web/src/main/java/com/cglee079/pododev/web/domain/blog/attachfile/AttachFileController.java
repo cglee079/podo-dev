@@ -2,9 +2,7 @@ package com.cglee079.pododev.web.domain.blog.attachfile;
 
 import com.cglee079.pododev.core.global.response.ApiResponse;
 import com.cglee079.pododev.core.global.response.DataResponse;
-import com.cglee079.pododev.core.global.response.ResponseStatus;
-import com.cglee079.pododev.web.domain.blog.attachimage.AttachImageDto;
-import com.cglee079.pododev.web.domain.blog.attachimage.AttachImageService;
+import com.cglee079.pododev.core.global.response.ApiStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +22,7 @@ public class AttachFileController {
         AttachFileDto.response response = attachFileService.saveFile(file);
 
         return DataResponse.builder()
-                .status(ResponseStatus.SUCCESS)
+                .status(ApiStatus.SUCCESS)
                 .data(response)
                 .build();
     }

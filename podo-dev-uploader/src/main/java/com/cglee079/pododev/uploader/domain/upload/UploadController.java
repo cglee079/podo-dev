@@ -1,14 +1,16 @@
 package com.cglee079.pododev.uploader.domain.upload;
 
 import com.cglee079.pododev.core.global.response.ApiResponse;
-import com.cglee079.pododev.core.global.response.DataResponse;
-import com.cglee079.pododev.core.global.response.ResponseStatus;
+import com.cglee079.pododev.core.global.response.ApiStatus;
 import com.cglee079.pododev.core.global.response.StatusResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/uploader/file")
 @RestController
 public class UploadController {
 
@@ -17,24 +19,27 @@ public class UploadController {
     /**
      * 이미지 저장
      */
-    @PostMapping("/upload")
-    public ApiResponse upload(@ModelAttribute UploadDto.insert insert) {
-       uploadService.save(insert);
+    @PostMapping
+    public ApiResponse upload(@Validated @ModelAttribute UploadDto.insert insert) {
+        log.info("File Upload '{}', '{}', '{}'", insert.getPath(), insert.getFile().getOriginalFilename(), insert.getFile().getSize());
+        uploadService.save(insert);
 
         return StatusResponse.builder()
-                .status(ResponseStatus.SUCCESS)
+                .status(ApiStatus.SUCCESS)
                 .build();
     }
 
     /**
      * 이미지 삭제
      */
-    @DeleteMapping("/upload")
-    public ApiResponse delete(@RequestBody UploadDto.delete delete) {
+    @DeleteMapping
+    public ApiResponse delete(@Validated @RequestBody UploadDto.delete delete) {
+        log.info("File Delete '{}', '{}'", delete.getPath(), delete.getFilename());
+
         uploadService.delete(delete);
 
         return StatusResponse.builder()
-                .status(ResponseStatus.SUCCESS)
+                .status(ApiStatus.SUCCESS)
                 .build();
     }
 }

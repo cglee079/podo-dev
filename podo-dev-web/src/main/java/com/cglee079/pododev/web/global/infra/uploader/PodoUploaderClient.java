@@ -23,7 +23,7 @@ public class PodoUploaderClient {
     private String subpath;
 
     public void upload(String path, File file) {
-        log.info("Upload Start.... {}", file.getPath() + "/" + file.getName());
+        log.info("Upload Start '{}'", file.getPath() + "/" + file.getName());
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         body.add("path", path);
@@ -37,11 +37,11 @@ public class PodoUploaderClient {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.exchange(serverUrl + subpath, HttpMethod.POST, request, String.class);
 
-        log.info("Upload Complete.. {}", response);
+        log.info("Upload Response '{}'", response.toString());
     }
 
     public void delete(String path, String filename) {
-        log.info("Delete Start.... {}", path + "/" + filename);
+        log.info("Delete Start.... '{}'", path + "/" + filename);
 
         JSONObject object = new JSONObject();
         object.put("path", path);
@@ -55,7 +55,7 @@ public class PodoUploaderClient {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.exchange(serverUrl + subpath, HttpMethod.DELETE, request, String.class);
 
-        log.info("Delete Complete.. {}", response);
+        log.info("Delete Response '{}'", response.toString());
 
     }
 }

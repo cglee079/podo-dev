@@ -1,23 +1,24 @@
 package com.cglee079.pododev.web.global.infra.solr;
 
-import com.cglee079.pododev.web.domain.blog.BlogDto;
 import com.cglee079.pododev.web.global.util.MarkdownUtil;
 import lombok.RequiredArgsConstructor;
-import org.apache.solr.client.solrj.SolrClient;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.util.ClientUtils;
-import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class MySolrClient {
@@ -36,6 +37,8 @@ public class MySolrClient {
     private String hlSimplePost;
 
     public List<SolrDto.response> search(String value) {
+        log.info("Solr Search, value '{}'", value);
+
         if (StringUtils.isEmpty(value)) {
             return new LinkedList<>();
         }
@@ -49,7 +52,6 @@ public class MySolrClient {
         param.put("hl.fl", "title,contents");
         param.put("hl.simple.pre", hlSimplePre);
         param.put("hl.simple.post", hlSimplePost);
-
 
         try {
             QueryResponse response = solrSender.query(core, param);
@@ -99,6 +101,8 @@ public class MySolrClient {
     }
 
     public List<String> getFacets(String value) {
+        log.info("Solr facets, value '{}'", value);
+
         Map<String, String> param = new HashMap<>();
         param.put("q", "");
         param.put("facet", "on");

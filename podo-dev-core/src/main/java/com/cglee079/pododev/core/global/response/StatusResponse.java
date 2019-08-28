@@ -8,7 +8,7 @@ public class StatusResponse extends ApiResponse {
 
 
     @Builder
-    public StatusResponse(ResponseStatus status){
+    public StatusResponse(ApiStatus status){
         super(status);
     }
 }

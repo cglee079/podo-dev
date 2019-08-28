@@ -1,6 +1,7 @@
 package com.cglee079.pododev.web.domain.blog.tag;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -8,6 +9,7 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
 @Transactional
 @Service
@@ -58,12 +60,16 @@ public class TagService {
     }
 
     public void updateTags(Long blogSeq, List<TagDto.update> tagUpdates) {
+        log.info("Update Tag, blogSeq '{}'", blogSeq);
+
         List<Tag> tags = tagRepository.findByBlogSeq(blogSeq);
 
         Map<Long, Boolean> included = tags.stream().collect(Collectors.toMap(Tag::getSeq, t -> false));
         Map<Long, Tag> tagMap = tags.stream().collect(Collectors.toMap(Tag::getSeq, Function.identity()));
 
         tagUpdates.forEach(update -> {
+            log.info("Tag '{}'", update.getVal());
+
             //새로추가된 태그
             if (Objects.isNull(update.getSeq())) {
                 Tag tag = update.toEntity(blogSeq);

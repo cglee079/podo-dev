@@ -1,6 +1,7 @@
 package com.cglee079.pododev.web.domain.blog.comment;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 @Transactional
@@ -27,7 +29,6 @@ public class CommentService {
     }
 
     public void insert(Long blogSeq, CommentDto.insert insert) {
-
         String username = insert.getUsername();
         String password = insert.getPassword();
         String contents = insert.getContents();
@@ -35,6 +36,8 @@ public class CommentService {
 
         //새로운 댓글
         if (Objects.isNull(parentSeq)) {
+            log.info("New Comment Insert");
+
             Comment comment = Comment.builder()
                     .blogSeq(blogSeq)
                     .username(username)
@@ -52,6 +55,8 @@ public class CommentService {
 
         //댓글의 답글
         else {
+            log.info("Replay Comment Insert, parent '{}'", parentSeq);
+
             Comment parentComment = commentRepository.findById(parentSeq).get();
             Long cgroup = parentComment.getCgroup();
             Integer child = parentComment.getChild();

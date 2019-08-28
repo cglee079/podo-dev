@@ -7,6 +7,7 @@ import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSaveServ
 import com.cglee079.pododev.web.global.infra.uploader.PodoUploaderClient;
 import com.cglee079.pododev.web.global.util.TempUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
 @Transactional
 @Service
@@ -36,6 +38,8 @@ public class AttachImageService {
      * 이미지 업로드, 이미지를 우선 본서버에 저장.
      */
     public AttachImageDto.response saveImage(MultipartFile multipartFile) {
+        log.info("Save Image '{}' >> ", multipartFile.getOriginalFilename());
+
         String key = MyFileUtils.generateKey();
         String originName = multipartFile.getOriginalFilename();
 
@@ -55,8 +59,12 @@ public class AttachImageService {
      * @param images
      */
     public void uploadImage(List<AttachImageDto.insert> images) {
+        log.info("Upload Image");
+
         //이미지 서버 저장
         images.forEach(image -> {
+            log.info("Image '{}', '{}'", image.getFileStatus(), image.getOriginName());
+
             List<AttachImageSaveDto.insert> saves = image.getSaves().values().stream().collect(Collectors.toList());
 
             switch (FileStatus.valueOf(image.getFileStatus())) {
@@ -77,17 +85,22 @@ public class AttachImageService {
 
     /**
      * 게시글 수정 시, 이미지 수정
+     *
      * @param blogSeq
      * @param images
      */
     public void updateImage(Long blogSeq, List<AttachImageDto.update> images) {
+        log.info("Update Image blogSeq '{}' ", blogSeq);
 
         images.forEach(image -> {
+            log.info("Image '{}', '{}'", image.getFileStatus(), image.getOriginName());
+
             List<AttachImageSaveDto.update> saves = image.getSaves().values().stream().collect(Collectors.toList());
 
             //DB 정보 갱신
             switch (FileStatus.valueOf(image.getFileStatus())) {
                 case NEW:
+
                     saves.forEach(save ->
                             podoUploaderClient.upload(save.getPath(), new File(baseDir + save.getPath(), save.getFilename()))
                     );

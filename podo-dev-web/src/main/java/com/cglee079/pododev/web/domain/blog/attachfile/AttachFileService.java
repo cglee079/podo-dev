@@ -6,6 +6,7 @@ import com.cglee079.pododev.web.global.infra.uploader.PodoUploaderClient;
 import com.cglee079.pododev.web.global.util.FileWriter;
 import com.cglee079.pododev.web.global.util.TempUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Transactional
 @Service
@@ -37,6 +39,8 @@ public class AttachFileService {
      * 이미지 업로드, 이미지를 우선 본서버에 저장.
      */
     public AttachFileDto.response saveFile(MultipartFile multipartFile) {
+        log.info("Save File '{}'", multipartFile.getOriginalFilename());
+
         String key = MyFileUtils.generateKey();
         String originName = multipartFile.getOriginalFilename();
 
@@ -56,7 +60,10 @@ public class AttachFileService {
     }
 
     public void uploadFile(List<AttachFileDto.insert> files) {
+        log.info("Upload File ");
+
         files.forEach(file -> {
+            log.info("File '{}', '{}'", file.getFileStatus(), file.getOriginName());
 
             switch (FileStatus.valueOf(file.getFileStatus())) {
                 case NEW:
@@ -72,7 +79,11 @@ public class AttachFileService {
     }
 
     public void updateFile(Long blogSeq, List<AttachFileDto.update> files) {
+        log.info("Update File info blogSeq '{}'", blogSeq);
+
         files.forEach(file -> {
+            log.info("File '{}', '{}'", file.getFileStatus(), file.getOriginName());
+
             switch (FileStatus.valueOf(file.getFileStatus())) {
                 case NEW:
                     podoUploaderClient.upload(file.getPath(), new File(baseDir + file.getPath(), file.getFilename()));

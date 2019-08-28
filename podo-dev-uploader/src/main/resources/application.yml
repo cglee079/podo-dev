@@ -1,14 +1,18 @@
+
 #Server Config
 server:
   port: 8092
 
+
 spring:
+  profiles:
+    include: 'core'
 
   # Servlet
   servlet:
     multipart:
-      max-file-size: 10MB
-      max-request-size: 10MB
+      max-file-size: 100MB
+      max-request-size: 100MB
 
 
 uploader:
@@ -16,4 +20,8 @@ uploader:
     subpath: /uploaded
   upload:
     base:
+#      dir: /upload
       dir: C://podo-dev-uploader/upload
+
+
+

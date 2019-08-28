@@ -1,0 +1,25 @@
+logging:
+  level:
+    org:
+      springframework:
+        web: INFO
+
+--- ## Log info
+spring.profiles: logging-info
+logging:
+  file: logs/application.log
+  level:
+    root: info
+
+--- ### Log Debug
+spring.profiles: logging-debug
+logging:
+  file: logs/application.log
+  level:
+    root: DEBUG
+
+--- ### Log Daily
+
+spring.profiles: logging-daily
+logging:
+  config: classpath:logback-daily.xml

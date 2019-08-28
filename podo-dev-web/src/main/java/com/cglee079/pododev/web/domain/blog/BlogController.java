@@ -1,6 +1,6 @@
 package com.cglee079.pododev.web.domain.blog;
 
-import com.cglee079.pododev.core.global.response.ResponseStatus;
+import com.cglee079.pododev.core.global.response.ApiStatus;
 import com.cglee079.pododev.core.global.response.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +22,7 @@ public class BlogController {
         BlogDto.response blogRes = blogService.get(seq);
 
         return DataResponse.builder()
-                .status(ResponseStatus.SUCCESS)
+                .status(ApiStatus.SUCCESS)
                 .data(blogRes)
                 .build();
     }
@@ -35,7 +35,7 @@ public class BlogController {
         PageDto<BlogDto.responseList> blogs = blogService.paging(request);
 
         return DataResponse.builder()
-                .status(ResponseStatus.SUCCESS)
+                .status(ApiStatus.SUCCESS)
                 .data(blogs)
                 .build();
     }
@@ -49,7 +49,7 @@ public class BlogController {
         blogService.insert(insert);
 
         return StatusResponse.builder()
-                .status(ResponseStatus.SUCCESS)
+                .status(ApiStatus.SUCCESS)
                 .build();
     }
 
@@ -62,7 +62,7 @@ public class BlogController {
         blogService.update(seq, blogReq);
 
         return StatusResponse.builder()
-                .status(ResponseStatus.SUCCESS)
+                .status(ApiStatus.SUCCESS)
                 .build();
     }
 
@@ -74,7 +74,7 @@ public class BlogController {
         blogService.delete(seq);
 
         return StatusResponse.builder()
-                .status(ResponseStatus.SUCCESS)
+                .status(ApiStatus.SUCCESS)
                 .build();
     }
 
@@ -84,7 +84,7 @@ public class BlogController {
         List<String> facets = blogService.facets(value);
 
         return DataResponse.builder()
-                .status(ResponseStatus.SUCCESS)
+                .status(ApiStatus.SUCCESS)
                 .data(facets)
                 .build();
     }

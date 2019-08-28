@@ -8,6 +8,7 @@ import com.cglee079.pododev.web.global.infra.solr.MySolrClient;
 import com.cglee079.pododev.web.global.infra.solr.SolrDto;
 import com.cglee079.pododev.web.global.util.TempUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,6 +24,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 @Transactional

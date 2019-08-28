@@ -2,7 +2,7 @@ package com.cglee079.pododev.web.domain.blog.attachimage;
 
 import com.cglee079.pododev.core.global.response.ApiResponse;
 import com.cglee079.pododev.core.global.response.DataResponse;
-import com.cglee079.pododev.core.global.response.ResponseStatus;
+import com.cglee079.pododev.core.global.response.ApiStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,7 +19,7 @@ public class AttachImageController {
         AttachImageDto.response response = attachImageService.saveImage(image);
 
         return DataResponse.builder()
-                .status(ResponseStatus.SUCCESS)
+                .status(ApiStatus.SUCCESS)
                 .data(response)
                 .build();
     }

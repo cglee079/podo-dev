@@ -2,7 +2,7 @@ package com.cglee079.pododev.web.domain.blog.tag;
 
 import com.cglee079.pododev.core.global.response.ApiResponse;
 import com.cglee079.pododev.core.global.response.DataResponse;
-import com.cglee079.pododev.core.global.response.ResponseStatus;
+import com.cglee079.pododev.core.global.response.ApiStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +23,7 @@ public class TagController {
     public ApiResponse listValues() {
         Map<String, Set<String>> mapByChosung = tagService.valuesByChosungMap();
         return DataResponse.builder()
-                .status(ResponseStatus.SUCCESS)
+                .status(ApiStatus.SUCCESS)
                 .data(mapByChosung)
                 .build();
     }

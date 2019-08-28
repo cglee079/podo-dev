@@ -9,7 +9,7 @@ public class DataResponse extends ApiResponse {
     Object data;
 
     @Builder
-    public DataResponse(ResponseStatus status, Object data){
+    public DataResponse(ApiStatus status, Object data){
         super(status);
         this.data = data;
     }

@@ -4,6 +4,7 @@ import com.cglee079.pododev.core.global.util.MyFileUtils;
 import com.cglee079.pododev.web.domain.blog.attachimage.ImageInfo;
 import com.cglee079.pododev.web.global.util.FileWriter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @RequiredArgsConstructor
 @Transactional
 @Service
@@ -36,6 +38,7 @@ public class AttachImageSaveService {
 
 
     private Map<String, AttachImageSaveDto.response> saveFile(MultipartFile multipartFile) {
+        log.info("Save Image Each Size, '{}'", multipartFile.getOriginalFilename());
 
         String path = MyFileUtils.makeDatePath() + imageDir; // 로컬 저장경로
 
@@ -64,6 +67,7 @@ public class AttachImageSaveService {
     }
 
     private AttachImageSaveDto.response saveResizeImage(File originImage, String path, Integer resizeWidth) {
+        log.info("Resize Image, size : '{}', from : '{}'", resizeWidth, originImage.getName());
 
         File resizeImage = fileWriter.resizeImage(originImage, path, resizeWidth);
 
@@ -81,6 +85,7 @@ public class AttachImageSaveService {
 
     /**
      * 이미지 파일 검증
+     *
      * @param multipartFile
      * @return
      */
@@ -100,6 +105,7 @@ public class AttachImageSaveService {
 
     /**
      * 이미지 정보를 가져옴
+     *
      * @param file
      * @return
      */
