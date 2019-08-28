@@ -24,7 +24,7 @@ public class CommentController {
     @GetMapping("/blogs/{blogSeq}/comments")
     public ApiResponse list(@PathVariable Long blogSeq) {
 
-        List<CommentDto.response> comments = commentService.list(blogSeq);
+        final List<CommentDto.response> comments = commentService.list(blogSeq);
 
         return DataResponse.builder()
                 .status(ApiStatus.SUCCESS)

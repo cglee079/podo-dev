@@ -13,7 +13,7 @@ public class WebConfig implements WebMvcConfigurer {
     private String uploadedUrl;
 
     @Value("${upload.base.dir}")
-    protected String uploadedLocation;
+    private String uploadedLocation;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {

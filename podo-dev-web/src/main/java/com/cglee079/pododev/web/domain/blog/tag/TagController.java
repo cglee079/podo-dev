@@ -17,17 +17,17 @@ public class TagController {
     private final TagService tagService;
 
     /**
-     * 게시글 조회
+     * 태그, 초성별 조회
      */
     @GetMapping("/values")
     public ApiResponse listValues() {
-        Map<String, Set<String>> mapByChosung = tagService.valuesByChosungMap();
+        final Map<String, Set<String>> mapByChosung = tagService.valuesByChosungMap();
+
         return DataResponse.builder()
                 .status(ApiStatus.SUCCESS)
                 .data(mapByChosung)
                 .build();
     }
-
 
 
 }

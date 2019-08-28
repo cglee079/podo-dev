@@ -1,8 +1,6 @@
 package com.cglee079.pododev.web.global.config.security;
 
-import com.cglee079.pododev.web.global.config.filter.CrossDomainFilter;
-import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationContext;
+import com.cglee079.pododev.web.global.config.filter.CorsFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,7 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.session.SessionManagementFilter;
 
 //TODO Security Setting
@@ -32,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().disable();
         http.csrf().disable();
         http.authorizeRequests().anyRequest().permitAll();
-        http.addFilterBefore(new CrossDomainFilter(), SessionManagementFilter.class);
+        http.addFilterBefore(new CorsFilter(), SessionManagementFilter.class);
     }
 
     @Override
@@ -92,10 +89,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/authentication")
 //                .permitAll()
 //
-//                .antMatchers("**")
-//                .access("hasRole('ROLE_NEWSUM_ADMIN_ADMIN')") // (From Zum Google Auth)
-//
-//                .and()
 //                .addFilterBefore(new AuthFilter(securityStore()), BasicAuthenticationFilter.class)
 //                .addFilterBefore(new CORSFilter(), SessionManagementFilter.class);
 //

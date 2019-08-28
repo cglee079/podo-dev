@@ -32,7 +32,7 @@ public class BlogController {
      */
     @GetMapping
     public ApiResponse paging(BlogDto.request request) {
-        PageDto<BlogDto.responseList> blogs = blogService.paging(request);
+        final PageDto<BlogDto.responseList> blogs = blogService.paging(request);
 
         return DataResponse.builder()
                 .status(ApiStatus.SUCCESS)
@@ -81,7 +81,7 @@ public class BlogController {
 
     @GetMapping("/facets")
     public ApiResponse facets(@RequestParam String value) {
-        List<String> facets = blogService.facets(value);
+        final List<String> facets = blogService.facets(value);
 
         return DataResponse.builder()
                 .status(ApiStatus.SUCCESS)

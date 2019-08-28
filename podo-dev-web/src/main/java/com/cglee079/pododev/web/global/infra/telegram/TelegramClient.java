@@ -19,15 +19,15 @@ public class TelegramClient extends TelegramLongPollingBot {
     @Value("${infra.telegram.podo.bot.token}")
     private String botToken;
 
-    @Value("${infra.telegram.podo.user.name}")
-    private String userName;
+    @Value("${infra.telegram.podo.bot.name}")
+    private String botUsername;
 
-    @Value("${infra.telegram.podo.user.id}")
-    private String userId;
+    @Value("${infra.telegram.podo.admin.id}")
+    private String adminId;
 
     @Override
     public String getBotUsername() {
-        return userName;
+        return botUsername;
     }
 
     @Override
@@ -41,9 +41,9 @@ public class TelegramClient extends TelegramLongPollingBot {
     }
 
 
-    public void send(String message){
+    public void send(String message) {
 
-        SendMessage sendMessage = new SendMessage(userId, message);
+        final SendMessage sendMessage = new SendMessage(adminId, message);
         sendMessage.enableHtml(true);
 
         try {
@@ -61,7 +61,8 @@ public class TelegramClient extends TelegramLongPollingBot {
 
                 @Override
                 public void onException(BotApiMethod<Message> method, Exception exception) {
-
+                    exception.printStackTrace();
+                    log.info("관리자에게 알람을 전송 할 수 없습니다");
                 }
             });
 

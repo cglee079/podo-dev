@@ -14,28 +14,27 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
+@Aspect
 @RequiredArgsConstructor
 @Component
-@Aspect
-public class CommentNoticeSender {
+public class CommentNotifier {
 
     private final TelegramClient telegramClient;
     private final BlogService blogService;
-    private final String ARG_NAME_BLOG_SEQ = "blogSeq";
+    private final String BLOG_SEQ_ARG_NAME = "blogSeq";
 
     @After("@annotation(com.cglee079.pododev.web.domain.blog.comment.aop.CommentNotice)")
     public void checkRequestValidator(JoinPoint joinPoint) {
-        CommentDto.insert comment = getCommentInsert(joinPoint);
+        CommentDto.insert comment = getCommentInsertDto(joinPoint);
 
-        Long blogSeq = getBlogSeq(joinPoint);
-        String username = comment.getUsername();
-        String contents = comment.getContents();
-        BlogDto.response blog = blogService.get(blogSeq);
+        final Long blogSeq = getBlogSeq(joinPoint);
+        final String username = comment.getUsername();
+        final String contents = comment.getContents();
+        final BlogDto.response blog = blogService.get(blogSeq);
+        final StringBuilder message = new StringBuilder();
 
-        StringBuilder message = new StringBuilder();
-
-        message.append("#블로그에 댓글이 등록되었습니다.\n");
-        message.append("블로그	 : " + blog.getTitle() + "\n");
+        message.append("게시글에 댓글이 등록되었습니다.\n");
+        message.append("게시글 : " + blog.getTitle() + "\n");
         message.append("이름 : " + username + "\n");
         message.append("시간 : " + Formatter.dateTimeToStr(LocalDateTime.now()) + "\n");
         message.append("내용 :\n");
@@ -50,7 +49,7 @@ public class CommentNoticeSender {
 
         String[] params = codeSignature.getParameterNames();
         for (int i = 0; i < params.length; i++) {
-            if (params[i].equals(ARG_NAME_BLOG_SEQ)) {
+            if (params[i].equals(BLOG_SEQ_ARG_NAME)) {
                 return (Long) joinPoint.getArgs()[i];
             }
         }
@@ -58,7 +57,7 @@ public class CommentNoticeSender {
         return null;
     }
 
-    private CommentDto.insert getCommentInsert(JoinPoint joinPoint) {
+    private CommentDto.insert getCommentInsertDto(JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
 
         for (Object obj : args) {

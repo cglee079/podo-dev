@@ -3,6 +3,7 @@ package com.cglee079.pododev.web.domain.blog.attachimage.save;
 import com.cglee079.pododev.core.global.util.MyFileUtils;
 import com.cglee079.pododev.web.domain.blog.attachimage.ImageInfo;
 import com.cglee079.pododev.web.global.util.FileWriter;
+import com.cglee079.pododev.web.global.util.PathUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,14 +41,12 @@ public class AttachImageSaveService {
     private Map<String, AttachImageSaveDto.response> saveFile(MultipartFile multipartFile) {
         log.info("Save Image Each Size, '{}'", multipartFile.getOriginalFilename());
 
-        String path = MyFileUtils.makeDatePath() + imageDir; // 로컬 저장경로
-
-        Map<String, AttachImageSaveDto.response> saves = new HashMap<>();
+        final String path = PathUtil.merge(MyFileUtils.makeDatePath(), imageDir); // 로컬 저장경로
+        final Map<String, AttachImageSaveDto.response> saves = new HashMap<>();
 
         //Save Origin File
-        File originImage = fileWriter.saveFile(path, multipartFile);
-
-        ImageInfo imageInfo = getImageInfo(originImage);
+        final File originImage = fileWriter.saveFile(path, multipartFile);
+        final ImageInfo imageInfo = getImageInfo(originImage);
 
         saves.put("origin",
                 AttachImageSaveDto.response.builder()
@@ -69,15 +68,13 @@ public class AttachImageSaveService {
     private AttachImageSaveDto.response saveResizeImage(File originImage, String path, Integer resizeWidth) {
         log.info("Resize Image, size : '{}', from : '{}'", resizeWidth, originImage.getName());
 
-        File resizeImage = fileWriter.resizeImage(originImage, path, resizeWidth);
-
-        ImageInfo imageInfo = getImageInfo(resizeImage);
-        long filesize = resizeImage.length();
+        final File resizeImage = fileWriter.resizeImage(originImage, path, resizeWidth);
+        final ImageInfo imageInfo = getImageInfo(resizeImage);
 
         return AttachImageSaveDto.response.builder()
                 .filename(resizeImage.getName())
                 .path(path)
-                .filesize(filesize)
+                .filesize(resizeImage.length())
                 .imageInfo(imageInfo)
                 .build();
 

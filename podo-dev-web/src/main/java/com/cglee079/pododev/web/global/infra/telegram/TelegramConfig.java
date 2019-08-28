@@ -15,8 +15,9 @@ public class TelegramConfig {
     @Bean
     public TelegramBotsApi telegramBotsApi() {
         try {
-            TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
+            final TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
             telegramBotsApi.registerBot(telegramClient);
+            
             return telegramBotsApi;
         } catch (TelegramApiRequestException e) {
             e.printStackTrace();

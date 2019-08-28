@@ -56,7 +56,7 @@ infra:
   uploader:
     domain: http://localhost:8092
     upload:
-        subpath: /api/uploader/file
+      subpath: /api/uploader/file
     frontend:
       subpath: /uploaded
 
@@ -65,8 +65,8 @@ infra:
     podo:
       bot:
         token: 509885308:AAGqgiMXRfkXWeamsta6N0nFkF0d9I_SFOI
-      user:
         name: PodoDevBot
+      admin:
         id: 503609560
 
   solr:
@@ -79,7 +79,7 @@ infra:
           pre:
             length: 100
         frag:
-          length : 10000000
+          length: 10000000
         simple:
           pre: ((start-search))
           post: ((end-search))

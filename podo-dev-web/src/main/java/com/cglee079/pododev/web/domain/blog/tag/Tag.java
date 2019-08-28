@@ -33,10 +33,6 @@ public class Tag {
         this.idx = idx;
     }
 
-    public void updateVal(String val) {
-        this.val = val;
-    }
-
     public void updateIdx(int i) {
         this.idx = i;
     }

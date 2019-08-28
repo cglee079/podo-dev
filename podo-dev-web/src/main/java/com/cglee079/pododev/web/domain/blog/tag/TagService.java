@@ -1,5 +1,6 @@
 package com.cglee079.pododev.web.domain.blog.tag;
 
+import com.cglee079.pododev.web.global.util.ChosungUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,37 +21,20 @@ public class TagService {
     public Map<String, Set<String>> valuesByChosungMap() {
         List<String> values = tagRepository.findDistinctTagValue();
 
-        return byMapChosung(values);
+        return mapByChosung(values);
     }
 
-    private Map<String, Set<String>> byMapChosung(List<String> values) {
-        Map<String, Set<String>> chosungMap = new TreeMap<>();
+    private Map<String, Set<String>> mapByChosung(List<String> values) {
+        final Map<String, Set<String>> chosungMap = new TreeMap<>();
 
-        // 일반 분해
-        final char[] KO_INIT_S = {
-                'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ',
-                'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'
-        };
 
         values.forEach(value -> {
+            final String chosung = ChosungUtil.get(value);
 
-            char ch = value.toCharArray()[0];
-            String s = null;
-
-            if (ch >= '가' && ch <= '힣') {
-                int ce = ch - '가';
-                s = String.valueOf(KO_INIT_S[ce / (588)]);
-
-            } else {
-                s = String.valueOf(ch);
-                s = s.toUpperCase();
-            }
-
-            Set<String> chosungValues = chosungMap.get(s);
-
+            Set<String> chosungValues = chosungMap.get(chosung);
             if (Objects.isNull(chosungValues)) {
                 chosungValues = new TreeSet<>();
-                chosungMap.put(s, chosungValues);
+                chosungMap.put(chosung, chosungValues);
             }
 
             chosungValues.add(value);
@@ -62,10 +46,9 @@ public class TagService {
     public void updateTags(Long blogSeq, List<TagDto.update> tagUpdates) {
         log.info("Update Tag, blogSeq '{}'", blogSeq);
 
-        List<Tag> tags = tagRepository.findByBlogSeq(blogSeq);
-
-        Map<Long, Boolean> included = tags.stream().collect(Collectors.toMap(Tag::getSeq, t -> false));
-        Map<Long, Tag> tagMap = tags.stream().collect(Collectors.toMap(Tag::getSeq, Function.identity()));
+        final List<Tag> tags = tagRepository.findByBlogSeq(blogSeq);
+        final Map<Long, Boolean> included = tags.stream().collect(Collectors.toMap(Tag::getSeq, t -> false));
+        final Map<Long, Tag> tagMap = tags.stream().collect(Collectors.toMap(Tag::getSeq, Function.identity()));
 
         tagUpdates.forEach(update -> {
             log.info("Tag '{}'", update.getVal());
@@ -98,7 +81,7 @@ public class TagService {
     }
 
     public List<Long> findBlogSeqByTagValue(String value) {
-        List<Tag> tags = tagRepository.findByVal(value);
+        final List<Tag> tags = tagRepository.findByVal(value);
         return tags.stream().map(Tag::getBlogSeq).distinct().collect(Collectors.toList());
     }
 }

@@ -38,12 +38,12 @@ public class AttachImageService {
      * 이미지 업로드, 이미지를 우선 본서버에 저장.
      */
     public AttachImageDto.response saveImage(MultipartFile multipartFile) {
-        log.info("Save Image '{}' >> ", multipartFile.getOriginalFilename());
+        final String key = MyFileUtils.generateKey();
+        final String originName = multipartFile.getOriginalFilename();
 
-        String key = MyFileUtils.generateKey();
-        String originName = multipartFile.getOriginalFilename();
+        log.info("Save Image '{}' >> ", originName);
 
-        Map<String, AttachImageSaveDto.response> saves = attachImageSaveService.makeSaveFile(multipartFile);
+        final Map<String, AttachImageSaveDto.response> saves = attachImageSaveService.makeSaveFile(multipartFile);
 
         return AttachImageDto.response.builder()
                 .key(key)
@@ -65,7 +65,7 @@ public class AttachImageService {
         images.forEach(image -> {
             log.info("Image '{}', '{}'", image.getFileStatus(), image.getOriginName());
 
-            List<AttachImageSaveDto.insert> saves = image.getSaves().values().stream().collect(Collectors.toList());
+            final List<AttachImageSaveDto.insert> saves = image.getSaves().values().stream().collect(Collectors.toList());
 
             switch (FileStatus.valueOf(image.getFileStatus())) {
                 case NEW:
@@ -95,7 +95,7 @@ public class AttachImageService {
         images.forEach(image -> {
             log.info("Image '{}', '{}'", image.getFileStatus(), image.getOriginName());
 
-            List<AttachImageSaveDto.update> saves = image.getSaves().values().stream().collect(Collectors.toList());
+            final List<AttachImageSaveDto.update> saves = image.getSaves().values().stream().collect(Collectors.toList());
 
             //DB 정보 갱신
             switch (FileStatus.valueOf(image.getFileStatus())) {

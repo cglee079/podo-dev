@@ -29,10 +29,10 @@ public class CommentService {
     }
 
     public void insert(Long blogSeq, CommentDto.insert insert) {
-        String username = insert.getUsername();
-        String password = insert.getPassword();
-        String contents = insert.getContents();
-        Long parentSeq = insert.getParentSeq();
+        final String username = insert.getUsername();
+        final String password = insert.getPassword();
+        final String contents = insert.getContents();
+        final Long parentSeq = insert.getParentSeq();
 
         //새로운 댓글
         if (Objects.isNull(parentSeq)) {
@@ -57,15 +57,14 @@ public class CommentService {
         else {
             log.info("Replay Comment Insert, parent '{}'", parentSeq);
 
-            Comment parentComment = commentRepository.findById(parentSeq).get();
-            Long cgroup = parentComment.getCgroup();
-            Integer child = parentComment.getChild();
-            Double sort = parentComment.getSort();
-            Integer depth = parentComment.getDepth();
+            final Comment parentComment = commentRepository.findById(parentSeq).get();
+            final Long cgroup = parentComment.getCgroup();
+            final Integer child = parentComment.getChild();
+            final Double sort = parentComment.getSort();
+            final Integer depth = parentComment.getDepth();
+            final Double childSort = ((double) (child + 1) / Math.pow(10, 3 * depth)) + sort;
 
             parentComment.increaseChild();
-
-            Double childSort = ((double) (child + 1) / Math.pow(10, 3 * depth)) + sort;
 
             Comment comment = Comment.builder()
                     .blogSeq(blogSeq)
@@ -87,8 +86,11 @@ public class CommentService {
     public void delete(Long seq) {
         Optional<Comment> comment = commentRepository.findById(seq);
 
+        if(!comment.isPresent()){
+
+        }
         //TODO 권한 인증
 
-        comment.get().delete();
+        comment.get().erase();
     }
 }

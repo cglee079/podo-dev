@@ -22,28 +22,28 @@ public class FileWriter {
     private String baseDir;
 
     public File saveFile(String path, MultipartFile multipartFile) {
-        String originName = multipartFile.getOriginalFilename();
-        String extension = FilenameUtils.getExtension(originName);
+        final String originName = multipartFile.getOriginalFilename();
+        final String extension = FilenameUtils.getExtension(originName);
 
-        String dirPath = baseDir + path; // 로컬 저장경로
+        final String dirPath = PathUtil.merge(baseDir, path); // 로컬 저장경로
 
         //Save Origin File
-        String filename = MyFileUtils.makeRandFilename(extension);
-        File file = MyFileUtils.saveFile(dirPath + "/" + filename, multipartFile);
+        final String filename = MyFileUtils.makeRandFilename(extension);
+        final File file = MyFileUtils.saveFile(PathUtil.merge(dirPath, filename), multipartFile);
 
         return file;
     }
 
     public File resizeImage(File originImage, String path, Integer resizeWidth) {
-        String originName = originImage.getName();
-        String extension = FilenameUtils.getExtension(originName);
+        final String originName = originImage.getName();
 
+        String extension = FilenameUtils.getExtension(originName);
         if (extension.equalsIgnoreCase("gif")
                 || extension.equalsIgnoreCase("jfif")) {
             extension = "jpg";
         }
 
-        File resizeFile = new File(baseDir + path, MyFileUtils.makeRandFilename(extension));
+        File resizeFile = new File(PathUtil.merge(baseDir, path), MyFileUtils.makeRandFilename(extension));
 
         try {
             Thumbnails.of(originImage).width(resizeWidth).toFile(resizeFile);

@@ -4,6 +4,7 @@ import com.cglee079.pododev.core.global.util.MyFileUtils;
 import com.cglee079.pododev.web.domain.blog.FileStatus;
 import com.cglee079.pododev.web.global.infra.uploader.PodoUploaderClient;
 import com.cglee079.pododev.web.global.util.FileWriter;
+import com.cglee079.pododev.web.global.util.PathUtil;
 import com.cglee079.pododev.web.global.util.TempUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,14 +40,13 @@ public class AttachFileService {
      * 이미지 업로드, 이미지를 우선 본서버에 저장.
      */
     public AttachFileDto.response saveFile(MultipartFile multipartFile) {
-        log.info("Save File '{}'", multipartFile.getOriginalFilename());
+        final String originName = multipartFile.getOriginalFilename();
+        final String key = MyFileUtils.generateKey();
+        final String path = PathUtil.merge(MyFileUtils.makeDatePath(), fileDir);
 
-        String key = MyFileUtils.generateKey();
-        String originName = multipartFile.getOriginalFilename();
+        log.info("Save File '{}'", originName);
 
-        String path = MyFileUtils.makeDatePath() + fileDir;
-
-        File file = fileWriter.saveFile(path, multipartFile);
+        final File file = fileWriter.saveFile(path, multipartFile);
 
         return AttachFileDto.response.builder()
                 .originKey(key)

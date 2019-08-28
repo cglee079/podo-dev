@@ -89,7 +89,7 @@ public class Blog {
      * @param localDomain
      * @param uploadServerDomain
      */
-    public void updateContentDomain(String localDomain, String uploadServerDomain) {
+    public void updateContentSrc(String localDomain, String uploadServerDomain) {
         this.contents = this.contents.replace(localDomain, uploadServerDomain);
     }
 

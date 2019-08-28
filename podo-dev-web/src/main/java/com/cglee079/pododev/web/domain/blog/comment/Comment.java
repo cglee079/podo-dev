@@ -77,7 +77,7 @@ public class Comment {
         this.child++;
     }
 
-    public void delete() {
+    public void erase() {
         this.contents = "삭제된 댓글입니다.";
         this.enabled = false;
     }
