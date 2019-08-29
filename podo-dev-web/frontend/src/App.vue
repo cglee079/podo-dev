@@ -41,7 +41,7 @@
 </style>
 <style lang="scss">
     :root {
-        --nav-height: 70px;
+        --nav-height: 65px;
     }
 
     @import url('http://fonts.googleapis.com/earlyaccess/notosanskr.css');

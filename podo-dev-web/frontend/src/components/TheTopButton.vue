@@ -25,7 +25,7 @@
         width: 1.5rem;
         height: 1.5rem;
         border-radius: 2rem;
-        background: #000;
+        background: #000000;
         color: #FFF;
         font-size: 0.7rem;
         font-weight: bold;
@@ -39,7 +39,7 @@
         align-items: center;
 
         &.on {
-            opacity: 1;
+            opacity: 0.7;
         }
     }
 </style>

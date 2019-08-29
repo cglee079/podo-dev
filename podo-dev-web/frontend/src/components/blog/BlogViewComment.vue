@@ -111,6 +111,7 @@
     }
 
     #count {
+        display: none;
         font-size: 1.25rem;
         font-weight: bold;
     }
@@ -133,6 +134,7 @@
         #sub {
             display: flex;
             justify-content: space-between;
+            align-items: baseline;
 
             #user {
                 display: flex;
@@ -149,7 +151,7 @@
                     height: 2rem;
                     font-size: 0.8rem;
                     padding-left: 5px;
-                    border: 1px solid #E1E1E1;
+                    border: 0.7px solid #E1E1E1;
                     border-radius: 3px;
                 }
             }
@@ -165,7 +167,6 @@
                 border-radius: 3px;
                 background: #222222;
                 cursor: pointer;
-
             }
 
         }

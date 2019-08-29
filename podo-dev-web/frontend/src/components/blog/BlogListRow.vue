@@ -64,7 +64,7 @@
         display: flex;
         align-items: center;
         cursor: pointer;
-        border-bottom: 1px solid #F1F1;
+        border-bottom: 1px solid #F1F1F1;
         padding: 30px 20px;
 
         &:hover .content .title {
@@ -134,6 +134,7 @@
             .tags .tag {
                 margin-right: 10px;
                 color: #ec5621;
+                font-weight: bold;
             }
 
             .subinfo span {
@@ -147,6 +148,10 @@
 
             .title {
                 font-size: 1rem;
+            }
+
+            .desc {
+                font-size: 0.9rem;
             }
 
             .info {

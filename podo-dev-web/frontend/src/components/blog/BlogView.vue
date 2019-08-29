@@ -110,7 +110,7 @@
             }
 
             #title {
-                font-size: 1.9rem;
+                font-size: 2.1rem;
                 margin-bottom: 15px;
                 text-align: center;
 
@@ -158,7 +158,11 @@
 
         &.mobile {
             #head {
-                margin: 100px 0;
+                margin: 100px 10px;
+
+                #title{
+                    font-size: 1.6rem;
+                }
             }
         }
     }

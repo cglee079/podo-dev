@@ -36,6 +36,11 @@
                 }
             }
 
+            h1, h2, h3, h4, h5{
+                border-bottom: 0.5px solid #dbdbdb;
+                line-height: 2rem;
+            }
+
         }
 
         &.mobile{
