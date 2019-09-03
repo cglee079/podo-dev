@@ -58,13 +58,13 @@
         name: "TheNavMobile",
         mixins : [search],
         methods: {
-            lockScreen() {
+            onExport() {
                 this.$refs.bgMobileNavs.classList.add("on")
                 document.body.style.overflow = "hidden"
                 document.body.style.touchAction = "none"
             },
 
-            unlockScreen() {
+            offExport() {
                 this.$refs.bgMobileNavs.classList.remove("on")
                 document.body.style.overflow = "unset"
                 document.body.style.touchAction = "unset"
@@ -81,22 +81,22 @@
             },
 
             onSearch() {
-                this.lockScreen()
+                this.onExport()
                 this.$refs.mobileSearch.classList.add("on")
             },
 
             offSearch() {
-                this.unlockScreen()
+                this.offExport()
                 this.$refs.mobileSearch.classList.remove("on")
             },
 
             onMobileMenu() {
-                this.lockScreen();
+                this.onExport();
                 this.$refs.mobileNavs.classList.add("on")
             },
 
             offMobileMenu() {
-                this.unlockScreen();
+                this.offExport();
                 this.$refs.mobileNavs.classList.remove("on")
             },
 

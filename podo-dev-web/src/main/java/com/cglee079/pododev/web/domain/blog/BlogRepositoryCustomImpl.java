@@ -23,6 +23,24 @@ public class BlogRepositoryCustomImpl extends QuerydslRepositorySupport implemen
 
 
     @Override
+    public Blog findNext(Long seq) {
+        return from(blog)
+                .where(blog.seq.gt(seq))
+                .orderBy(blog.seq.asc())
+                .limit(1)
+                .fetchOne();
+    }
+
+    @Override
+    public Blog findBefore(Long seq) {
+        return from(blog)
+                .where(blog.seq.lt(seq))
+                .orderBy(blog.seq.desc())
+                .limit(1)
+                .fetchOne();
+    }
+
+    @Override
     public Page<Blog> paging(Pageable pageable, List<Long> seqs) {
         JPQLQuery<Blog> query;
         query = from(blog)

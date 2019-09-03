@@ -100,21 +100,28 @@ public class BlogDto {
         private String title;
         private String contents;
         private Integer hitCnt;
+        private String thumbnail;
         private List<TagDto.response> tags;
         private List<AttachImageDto.response> images;
         private List<AttachFileDto.response> files;
+        private Integer commentCnt;
+        private Long before;
+        private Long next;
         private String createAt;
         private String updateAt;
         private Boolean enabled;
 
-        public response(Blog blog, String domainUrl, FileStatus fileStatus) {
+        public response(Blog blog, Blog before, Blog next, String domainUrl, FileStatus fileStatus) {
             this.seq = blog.getSeq();
             this.title = blog.getTitle();
             this.contents = blog.getContents();
             this.hitCnt = blog.getHitCnt();
             this.createAt = Formatter.dateTimeToStr(blog.getCreateAt());
             this.updateAt = Formatter.dateTimeToStr(blog.getUpdateAt());
+            this.commentCnt = blog.getComments().size();
             this.enabled = blog.getEnabled();
+            this.before = !Objects.isNull(before) ? before.getSeq() : null;
+            this.next = !Objects.isNull(next) ? next.getSeq() : null;
             this.tags = new LinkedList<>();
             this.images = new LinkedList<>();
             this.files = new LinkedList<>();
@@ -122,7 +129,18 @@ public class BlogDto {
             blog.getTags().forEach(tag -> this.tags.add(new TagDto.response(tag)));
             blog.getImages().forEach(image -> this.images.add(new AttachImageDto.response(image, domainUrl, fileStatus)));
             blog.getFiles().forEach(file -> this.files.add(new AttachFileDto.response(file, domainUrl, fileStatus)));
+
+            if (!images.isEmpty()) {
+                List<AttachImageSave> saves = blog.getImages().get(0).getSaves();
+                Optional<AttachImageSave> thumbnailSaveOpt = saves.stream().filter(s -> s.getImageId().equals("origin")).findFirst();
+                if (thumbnailSaveOpt.isPresent()) {
+                    AttachImageSave thumbnailSave = thumbnailSaveOpt.get();
+                    this.thumbnail = domainUrl + thumbnailSave.getPath() + "/" + thumbnailSave.getFilename();
+                }
+            }
+
         }
+
     }
 
     @Getter
@@ -148,8 +166,6 @@ public class BlogDto {
             this.enabled = blog.getEnabled();
             this.tags = new LinkedList<>();
             this.commentCnt = blog.getComments().size();
-
-            //TODO Check Thumbnail Column..
 
             List<AttachImage> images = blog.getImages();
             if (!images.isEmpty()) {

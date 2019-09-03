@@ -22,11 +22,11 @@
 
         <div id="submenus">
             <span @click="clickModifyBlog(blog.seq)">수정</span>
-            <span>삭제</span>
-            <span>공유하기</span>
+            <span @click="clickDeleteBlog(blog.seq)">삭제</span>
+            <span @click="clickExport()">공유하기</span>
             <span><router-link :to="{name : 'BlogList'}">목록</router-link></span>
-            <span>이전글</span>
-            <span>다음글</span>
+            <span @click="clickBefore()">이전글</span>
+            <span @click="clickNext()">다음글</span>
         </div>
 
         <div id="contents">
@@ -38,21 +38,32 @@
                 :blogSeq="blog.seq"
         />
 
+        <the-export ref="export"
+                    :blog="blog"
+        />
 
     </div>
 </template>
 
 <script>
     import BlogViewComment from '@/components/blog/BlogViewComment'
+    import TheExport from "./BlogViewExport";
 
     export default {
         name: 'BlogVue',
         components: {
             'blog-view-comment': BlogViewComment,
+            'the-export': TheExport
+        },
+        watch: {
+            $route() {
+                const seq = this.$route.params.seq
+                this.loadBlog(seq)
+            }
         },
         data() {
             return {
-                blog: ''
+                blog: {},
             }
         },
         methods: {
@@ -64,6 +75,50 @@
                     }
                 });
             },
+            clickDeleteBlog(seq) {
+                this.$axios
+                    .delete('/api/blogs/' + seq)
+                    .then(res => {
+                        this.$router.push({name: 'BlogList'})
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+            },
+
+            clickExport() {
+                this.$refs.export.onExport()
+            },
+
+            clickBefore() {
+                const seq = this.blog.before
+                if (!seq) {
+                    this.$toasted.show("이전글이 없습니다")
+                    return
+                }
+                this.$router.push({
+                    name: 'BlogView',
+                    params: {
+                        'seq': seq
+                    }
+                })
+            },
+
+            clickNext() {
+                const seq = this.blog.next
+                if (!seq) {
+                    this.$toasted.show("다음글이 없습니다")
+                    return
+                }
+
+                this.$router.push({
+                    name: 'BlogView',
+                    params: {
+                        'seq': seq
+                    }
+                })
+            },
+
             loadBlog(seq) {
                 this.$axios
                     .get('/api/blogs/' + seq)
@@ -160,7 +215,7 @@
             #head {
                 margin: 100px 10px;
 
-                #title{
+                #title {
                     font-size: 1.6rem;
                 }
             }

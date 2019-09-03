@@ -123,7 +123,7 @@ public class PodoSolrClient {
 
     }
 
-    public void dataimport() throws SolrServerException, IOException {
+    public void dataimport() {
         final Map<String, String> param = new HashMap<>();
 
         param.put("qt", "/dataimport");
@@ -131,7 +131,13 @@ public class PodoSolrClient {
         param.put("clean", "true");
         param.put("commit", "true");
 
-        solrSender.query(coreId, param);
+        try {
+            solrSender.query(coreId, param);
+        } catch (SolrServerException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

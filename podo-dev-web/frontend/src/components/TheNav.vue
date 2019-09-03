@@ -6,8 +6,8 @@
 
         <the-nav-desktop id="theNavDesktop" />
         <the-nav-mobile id="theNavMobile"/>
-
     </div>
+
 </template>
 
 <script>
@@ -27,7 +27,7 @@
 <style scoped lang="scss">
 
     #nav {
-        z-index: 10000;
+        z-index: 3;
         display: flex;
         justify-content: space-between;
         align-items: center;

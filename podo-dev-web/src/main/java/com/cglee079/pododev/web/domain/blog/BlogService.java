@@ -1,11 +1,15 @@
 package com.cglee079.pododev.web.domain.blog;
 
 import com.cglee079.pododev.core.global.response.PageDto;
+import com.cglee079.pododev.web.domain.blog.aop.SolrDataImport;
+import com.cglee079.pododev.web.domain.blog.attachfile.AttachFile;
 import com.cglee079.pododev.web.domain.blog.attachfile.AttachFileService;
+import com.cglee079.pododev.web.domain.blog.attachimage.AttachImage;
 import com.cglee079.pododev.web.domain.blog.attachimage.AttachImageService;
 import com.cglee079.pododev.web.domain.blog.tag.TagService;
 import com.cglee079.pododev.web.global.infra.solr.PodoSolrClient;
 import com.cglee079.pododev.web.global.infra.solr.SolrDto;
+import com.cglee079.pododev.web.global.infra.uploader.PodoUploaderClient;
 import com.cglee079.pododev.web.global.util.TempUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,6 +48,7 @@ public class BlogService {
     private final AttachImageService attachImageService;
     private final AttachFileService attachFileService;
     private final PodoSolrClient podoSolrClient;
+    private final PodoUploaderClient podoUploaderClient;
 
 
     public BlogDto.response get(Long seq) {
@@ -53,7 +58,10 @@ public class BlogService {
             //TODO
         }
 
-        return new BlogDto.response(blog.get(), uploaderFrontendUrl, FileStatus.BE);
+        Blog next = blogRepository.findNext(seq);
+        Blog before = blogRepository.findBefore(seq);
+
+        return new BlogDto.response(blog.get(), before, next, uploaderFrontendUrl, FileStatus.BE);
     }
 
     public PageDto paging(BlogDto.request request) {
@@ -101,6 +109,7 @@ public class BlogService {
 
     }
 
+    @SolrDataImport
     public void insert(BlogDto.insert insert) {
 
         // 업로드 파일
@@ -113,7 +122,7 @@ public class BlogService {
         blogRepository.save(blog);
     }
 
-
+    @SolrDataImport
     public void update(Long seq, BlogDto.update blogUpdate) {
         final Optional<Blog> blogOpt = blogRepository.findById(seq);
 
@@ -132,8 +141,33 @@ public class BlogService {
 
     }
 
+    @SolrDataImport
     public void delete(@PathVariable Long seq) {
+        Optional<Blog> blog = blogRepository.findById(seq);
+
+        if (!blog.isPresent()) {
+            //Todo Exception
+        }
+
         blogRepository.deleteById(seq);
+
+
+        //Remove AttachFile, AttachImage
+        List<AttachImage> attachImages = blog.get().getImages();
+        List<AttachFile> attachFiles = blog.get().getFiles();
+
+        attachImages.forEach(attachImage ->
+                attachImage.getSaves().forEach(save -> {
+                            podoUploaderClient.delete(save.getPath(), save.getFilename());
+                        }
+                )
+        );
+
+        attachFiles.forEach(attachFile ->
+                podoUploaderClient.delete(attachFile.getPath(), attachFile.getFilename())
+        );
+
+
     }
 
 

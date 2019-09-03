@@ -1,5 +1,4 @@
 <template>
-
     <div>
         <the-nav/>
         <div id="main" :class="$mq">

@@ -9,5 +9,7 @@ import java.util.List;
 
 @Repository
 public interface BlogRepositoryCustom {
+    Blog findNext(Long seq);
+    Blog findBefore(Long seq);
     Page<Blog> paging(Pageable pageable, List<Long> seqs);
 }
