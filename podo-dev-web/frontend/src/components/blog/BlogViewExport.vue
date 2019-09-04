@@ -134,7 +134,8 @@
             document.head.appendChild(recaptchaScript)
 
             recaptchaScript.onload = () => {
-                Kakao.init('ff0d9af3010f7f6ab00c1efe66299e31');
+                const appKey = 'ff0d9af3010f7f6ab00c1efe66299e31'
+                Kakao.init(appKey)
             }
         }
     }

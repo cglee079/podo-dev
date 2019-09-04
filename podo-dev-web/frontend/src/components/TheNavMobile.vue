@@ -32,11 +32,16 @@
                 <router-link :to="{name : 'TagList'}">태그</router-link>
             </div>
 
+            <div v-if="isAdmin && isLogin"
+                 class="mobile-nav-menu">
+                <router-link :to="{name : 'BlogPost'}">글쓰기</router-link>
+            </div>
+
             <div class="mobile-nav-menu"><a href="https://github.com/cglee079" target="_blank">Github</a></div>
             <div class="mobile-nav-menu"><a href="https://www.instagram.com/cglee079" target="_blank">Instagram</a>
             </div>
-            <div class="mobile-nav-menu"><a>로그인</a></div>
-
+            <div v-if="!isLogin" @click="login" class="mobile-nav-menu"><a>로그인</a></div>
+            <div v-if="isLogin" @click="logout" class="mobile-nav-menu"><a>로그아웃</a></div>
         </div>
 
         <div id="mobileSearch" ref="mobileSearch">
@@ -56,8 +61,20 @@
 
     export default {
         name: "TheNavMobile",
-        mixins : [search],
+        props: {
+            isAdmin: Boolean,
+            isLogin: Boolean
+        },
+        mixins: [search],
         methods: {
+            login() {
+                this.$emit("login")
+            },
+
+            logout() {
+                this.$emit("logout")
+            },
+
             onExport() {
                 this.$refs.bgMobileNavs.classList.add("on")
                 document.body.style.overflow = "hidden"

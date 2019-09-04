@@ -3,11 +3,12 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
     testImplementation 'org.springframework.security:spring-security-test'
+
     compile group: 'org.jsoup', name: 'jsoup', version: '1.11.3'
     compile group: 'org.telegram', name: 'telegrambots', version: '4.0.0'
     compile group: 'net.coobird', name: 'thumbnailator', version: '0.4.8'
     compile group: 'com.github.rjeschke', name: 'txtmark', version: '0.13'
     compile group: 'org.apache.solr', name: 'solr-solrj', version: '7.2.1'
-
+    compile group: 'org.springframework.security.oauth.boot', name: 'spring-security-oauth2-autoconfigure', version: '2.1.5.RELEASE'
 
 }

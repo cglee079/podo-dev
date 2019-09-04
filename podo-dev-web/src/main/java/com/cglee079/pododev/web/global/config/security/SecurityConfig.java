@@ -1,8 +1,11 @@
 package com.cglee079.pododev.web.global.config.security;
 
 import com.cglee079.pododev.web.global.config.filter.CorsFilter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,16 +14,23 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.session.SessionManagementFilter;
 
-//TODO Security Setting
+import javax.servlet.Filter;
+
+@RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Override
-    public void configure(WebSecurity web){
+    @Qualifier("socialOauthFilter")
+    private final Filter socialOauthFilter;
+    private final SecurityStore securityStore;
 
+    @Override
+    public void configure(WebSecurity web) {
+        web.ignoring().antMatchers("/login/google");
         //web.ignoring().antMatchers("**");
     }
 
@@ -28,8 +38,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().disable();
         http.csrf().disable();
-        http.authorizeRequests().anyRequest().permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/blogs").hasRole(UserRole.ADMIN.name());
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/blogs/**").hasRole(UserRole.ADMIN.name());
+
         http.addFilterBefore(new CorsFilter(), SessionManagementFilter.class);
+        http.addFilterBefore(socialOauthFilter, BasicAuthenticationFilter.class);
+        http.addFilterBefore(new AuthFilter(securityStore), BasicAuthenticationFilter.class);
     }
 
     @Override
@@ -47,8 +61,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-}
 
+}
 
 
 //        import lombok.RequiredArgsConstructor;

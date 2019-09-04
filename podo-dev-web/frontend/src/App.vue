@@ -13,14 +13,48 @@
     import TheNav from '@/components/TheNav'
     import TheFooter from '@/components/TheFooter'
     import TheTopButton from "./components/TheTopButton";
+    import {mapActions} from 'vuex'
+    import {mapGetters} from 'vuex'
 
     export default {
+        name: 'App',
         components: {
             'the-nav': TheNav,
             'the-footer': TheFooter,
             'the-top-button': TheTopButton
         },
-        name: 'App'
+        computed: {
+            ...mapGetters([
+                'isLogin'
+            ])
+        },
+        methods: {
+            ...mapActions([
+                "checkLogin"
+            ])
+        },
+        mounted() {
+            // 로그인 성공 시,
+            const query = this.$route.query
+
+            if (query && query.token) {
+
+                this.checkLogin({
+                    token: query.token,
+                    callback: () => {
+                        this.$toasted.show("로그인하였습니다")
+                    }
+                })
+                this.$router.push({name: 'BlogList'})
+            }
+
+
+            // 새로 고침 시
+            const savedToken = sessionStorage.getItem("token")
+            if (savedToken) {
+                this.checkLogin({savedToken})
+            }
+        }
     }
 </script>
 <style scoped lang="scss">

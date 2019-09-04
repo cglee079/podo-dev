@@ -46,6 +46,14 @@
              * 게시글 페이징
              */
             loadBlog(page) {
+                if(this.isLoading){
+                    return
+                }
+
+                if(page === 0){
+                    this.contents = []
+                }
+
                 this.isLoading = true
 
                 this.$axios
@@ -58,7 +66,7 @@
                     })
                     .then(res => {
                         res = res.data.data
-                        console.log(res.contents)
+                        console.log(res)
                         res.contents.forEach(item => this.contents.push(item))
                         this.pageSize = res.pageSize
                         this.currentPage = res.currentPage
@@ -90,8 +98,6 @@
             },
 
             loadBlogByFilter() {
-                this.contents = []
-
                 this.filter.tag = this.$route.query.tag
                 this.filter.search = this.$route.query.search
 

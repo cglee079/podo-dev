@@ -1,5 +1,20 @@
 <template>
     <div id="tags">
+        <div id="all">
+            <span v-for="(values, key) in tags"
+                  v-bind:key="key"
+                  class="wrap-tag"
+            >
+                    <span v-for="(value, index) in values"
+                          v-bind:key="index"
+                          @click="clickTagValue(value)"
+                          class="value">
+
+                        #{{value}}
+                    </span>
+            </span>
+        </div>
+
         <div v-for="(values, key) in tags"
              v-bind:key="key"
              class="wrap-tag"
@@ -61,10 +76,27 @@
     #tags {
         margin-top: 50px;
 
+        div#all{
+            margin: 60px 20px;
+            text-align: center;
+            > span > span{
+                cursor: pointer;
+                font-size: 1.2rem;
+                display: inline-block;
+                margin: 5px 10px 0px 5px;
+                color: #555555;
+
+                &:hover{
+                    color: #000000;
+                }
+            }
+        }
+
         div.wrap-tag {
+
             padding-bottom: 30px;
             border-bottom: 1px solid #ecf0f5;
-            margin: 0px 20px 50px 20px;
+            margin: 100px 20px 50px 20px;
 
             div.chosung {
                 margin-left: 5px;
@@ -73,7 +105,6 @@
                 span {
                     font-size: 1.7rem;
                     font-weight: bold;
-                    color: #ec5621;
                 }
             }
 
@@ -82,7 +113,7 @@
                 font-size: 1.2rem;
                 display: inline-block;
                 margin: 5px 10px 0px 5px;
-
+                color: #ec5621;
             }
         }
     }

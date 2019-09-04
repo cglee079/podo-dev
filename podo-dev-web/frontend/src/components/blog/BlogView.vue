@@ -21,8 +21,8 @@
 
 
         <div id="submenus">
-            <span @click="clickModifyBlog(blog.seq)">수정</span>
-            <span @click="clickDeleteBlog(blog.seq)">삭제</span>
+            <span v-if="isAdmin && isLogin" @click="clickModifyBlog(blog.seq)">수정</span>
+            <span v-if="isAdmin && isLogin" @click="clickDeleteBlog(blog.seq)">삭제</span>
             <span @click="clickExport()">공유하기</span>
             <span><router-link :to="{name : 'BlogList'}">목록</router-link></span>
             <span @click="clickBefore()">이전글</span>
@@ -46,8 +46,9 @@
 </template>
 
 <script>
-    import BlogViewComment from '@/components/blog/BlogViewComment'
-    import TheExport from "./BlogViewExport";
+    import BlogViewComment from './BlogViewComment'
+    import TheExport from "./BlogViewExport"
+    import {mapGetters} from 'vuex'
 
     export default {
         name: 'BlogVue',
@@ -65,6 +66,11 @@
             return {
                 blog: {},
             }
+        },
+        computed: {
+            ...mapGetters([
+                'isAdmin', 'isLogin'
+            ]),
         },
         methods: {
             clickModifyBlog(seq) {

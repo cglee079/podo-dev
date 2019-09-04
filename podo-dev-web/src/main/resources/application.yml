@@ -35,11 +35,11 @@ spring:
       max-file-size: 100MB
       max-request-size: 100MB
 
-  # Security
-  security:
-    user:
-      name: cglee079
-      password: s12345
+#  # Security
+#  security:
+#    user:
+#      name: cglee079
+#      password: s12345
 
 upload:
   base:
@@ -84,3 +84,19 @@ infra:
           pre: ((start-search))
           post: ((end-search))
 
+google:
+  client:
+    clientId: 644014618387-hd23qa0hrtqvbtnfb0u3c9o9q9duq970.apps.googleusercontent.com
+    clientSecret: RxNajOBGU8TZtR-zc9pOu6uG
+    accessTokenUri: https://www.googleapis.com/oauth2/v4/token
+    userAuthorizationUri: https://accounts.google.com/o/oauth2/v2/auth
+    clientAuthenticationScheme: form
+    scope:
+      - email
+      - profile
+  resource:
+    userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
+
+security:
+  admin:
+    ids: 116440278738014640765

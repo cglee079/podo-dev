@@ -1,6 +1,7 @@
 package com.cglee079.pododev.web.global.config.security;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.Map;
 /**
  * 인메모리 인증정보를 저장하는 정보입니다.
  */
+@Component
 public class SecurityStore {
 
     private final Long expireTime;
@@ -16,8 +18,8 @@ public class SecurityStore {
     private final Map<String, Authentication> authentications;
     private final Map<String, LocalDateTime> lastConnectTime; //마지막 접속 시간
 
-    public SecurityStore(Long expireTime) {
-        this.expireTime = expireTime;
+    public SecurityStore() {
+        this.expireTime = 1000L;
         this.authentications = new HashMap<>();
         this.lastConnectTime = new HashMap<>();
     }

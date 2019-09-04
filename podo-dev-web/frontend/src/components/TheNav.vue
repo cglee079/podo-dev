@@ -4,8 +4,21 @@
             <img src="@/assets/logo4.svg" width="70px"/>
         </div>
 
-        <the-nav-desktop id="theNavDesktop" />
-        <the-nav-mobile id="theNavMobile"/>
+        <the-nav-desktop
+                id="theNavDesktop"
+                :isAdmin="isAdmin"
+                :isLogin="isLogin"
+                @login="login"
+                @logout="clickLogout"
+        />
+
+        <the-nav-mobile
+                id="theNavMobile"
+                :isAdmin="isAdmin"
+                :isLogin="isLogin"
+                @login="login"
+                @logout="clickLogout"
+        />
     </div>
 
 </template>
@@ -13,6 +26,7 @@
 <script>
     import TheNavMobile from "./TheNavMobile";
     import TheNavDesktop from "./TheNavDesktop";
+    import {mapActions, mapGetters} from 'vuex'
 
     export default {
         name: 'TheNav',
@@ -20,6 +34,25 @@
             'the-nav-desktop': TheNavDesktop,
             'the-nav-mobile': TheNavMobile,
         },
+        computed: {
+            ...mapGetters([
+                'isAdmin', 'isLogin', 'getServerUrl'
+            ])
+        },
+        methods: {
+            ...mapActions([
+                "logout"
+            ]),
+
+            clickLogout() {
+                this.logout(() => {
+                    this.$toasted.show("로그아웃 되었습니다")
+                })
+            },
+            login() {
+                window.location.href = this.getServerUrl + "/login/google"
+            }
+        }
     }
 
 </script>
@@ -27,7 +60,7 @@
 <style scoped lang="scss">
 
     #nav {
-        z-index: 3;
+        z-index: 9;
         display: flex;
         justify-content: space-between;
         align-items: center;

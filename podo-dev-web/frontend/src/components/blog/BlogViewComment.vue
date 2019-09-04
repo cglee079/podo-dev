@@ -34,6 +34,7 @@
 
 <script>
     import BlogViewCommentItem from '@/components/blog/BlogViewCommentItem'
+    import {mapGetters} from 'vuex'
 
     export default {
         name: "BlogViewComment",
@@ -52,6 +53,11 @@
                     contents: ''
                 }
             }
+        },
+        computed: {
+            ...mapGetters([
+                "isLogin", "getUser"
+            ])
         },
         methods: {
             clickCommentPost() {
@@ -94,6 +100,12 @@
                     .catch(err => {
                         console.log(err)
                     })
+            }
+        },
+
+        mounted() {
+            if (this.isLogin) {
+                this.input.username = this.getUser.name
             }
         },
 
