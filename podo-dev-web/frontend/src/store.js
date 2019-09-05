@@ -88,9 +88,6 @@ export default new Vuex.Store({
                         commit('doLogin', user)
                         sessionStorage.setItem("token", token)
 
-
-                        console.log(callback)
-
                         if(callback){
                             callback()
                         }

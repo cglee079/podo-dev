@@ -48,7 +48,7 @@ public class CommentController {
     }
 
     /**
-     * 게시글 삭제
+     * 댓글 삭제
      */
     @DeleteMapping("/blogs/{blogSeq}/comments/{seq}")
     public ApiResponse delete(@PathVariable Long blogSeq, @PathVariable Long seq) {

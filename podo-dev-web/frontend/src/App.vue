@@ -52,7 +52,7 @@
             // 새로 고침 시
             const savedToken = sessionStorage.getItem("token")
             if (savedToken) {
-                this.checkLogin({savedToken})
+                this.checkLogin({token: savedToken, callback : null})
             }
         }
     }
@@ -102,10 +102,15 @@
 
     textarea, input {
         font-family: 'Noto Sans KR', sans-serif !important;
+
+        &:disabled {
+            background: #F1F1F1;
+        }
     }
 
     a {
         color: inherit;
         text-decoration: none;
     }
+
 </style>

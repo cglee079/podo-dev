@@ -11,15 +11,16 @@
     "@toast-ui/vue-editor": "^1.1.1",
     "@trevoreyre/autocomplete-vue": "^2.0.2",
     "axios": "^0.19.0",
-    "vuex": "^3.1.1",
     "core-js": "^2.6.5",
     "filesize": "^4.1.2",
     "tui-editor": "^1.4.6",
     "vue": "^2.6.10",
+    "vue-directive-tooltip": "^1.6.2",
     "vue-mq": "^1.0.1",
     "vue-router": "^3.0.7",
     "vue-scrollto": "^2.15.0",
-    "vue-toasted": "^1.1.27"
+    "vue-toasted": "^1.1.27",
+    "vuex": "^3.1.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.9.0",

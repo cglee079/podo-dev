@@ -44,8 +44,10 @@ public class SocialLoginSuccessHandler implements AuthenticationSuccessHandler {
                 .picture(picture)
                 .build();
 
+        googleUserDetails.addAuthority(new SimpleGrantedAuthority("ROLE_" + UserRole.USER));
+
         if (adminIds.contains(googleId)) {
-            googleUserDetails.addAuthority(new SimpleGrantedAuthority("ROLE_" + UserRole.ADMIN.name()));
+            googleUserDetails.addAuthority(new SimpleGrantedAuthority("ROLE_" + UserRole.ADMIN));
         }
 
         //auth.getAuthorities().stream().forEach(au -> googleUserDetails.addAuthority(new SimpleGrantedAuthority(au.getAuthority())));

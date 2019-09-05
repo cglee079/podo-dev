@@ -49,6 +49,7 @@
     import BlogViewComment from './BlogViewComment'
     import TheExport from "./BlogViewExport"
     import {mapGetters} from 'vuex'
+    import customToast from '@/mixins/customToast'
 
     export default {
         name: 'BlogVue',
@@ -56,6 +57,7 @@
             'blog-view-comment': BlogViewComment,
             'the-export': TheExport
         },
+        mixins: [customToast],
         watch: {
             $route() {
                 const seq = this.$route.params.seq
@@ -82,14 +84,16 @@
                 });
             },
             clickDeleteBlog(seq) {
-                this.$axios
-                    .delete('/api/blogs/' + seq)
-                    .then(res => {
-                        this.$router.push({name: 'BlogList'})
-                    })
-                    .catch(err => {
-                        console.log(err)
-                    })
+                this.toastConfirm("정말 삭제하시겠습니까?", () => {
+                    this.$axios
+                        .delete('/api/blogs/' + seq)
+                        .then(res => {
+                            this.$router.push({name: 'BlogList'})
+                        })
+                        .catch(err => {
+                            console.log(err)
+                        })
+                })
             },
 
             clickExport() {

@@ -17,7 +17,15 @@ import 'highlight.js/styles/github.css'
 
 import ToastCustomViewer from "./components/global/ToastCustomViewer"
 import SubButton from "./components/global/SubButton"
+import Tooltip from 'vue-directive-tooltip';
+import 'vue-directive-tooltip/dist/vueDirectiveTooltip.css';
 
+Vue.use(Tooltip, {
+    delay: 300,
+    placement: 'right',
+    triggers: ['hover'],
+    offset: 0
+})
 
 Vue.use(Autocomplete)
 Vue.component('toast-custom-viewer', ToastCustomViewer)

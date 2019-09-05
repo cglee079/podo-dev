@@ -1,5 +1,7 @@
 package com.cglee079.pododev.web.domain.blog.comment;
 
+import com.cglee079.pododev.web.domain.auth.exception.NoAuthenticatedException;
+import com.cglee079.pododev.web.global.config.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,19 +20,24 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
 
-
     public List<CommentDto.response> list(Long blogSeq) {
         List<Comment> comments = commentRepository.findByBlogSeq(blogSeq);
         List<CommentDto.response> commentRes = new LinkedList<>();
 
-        comments.forEach(comment -> commentRes.add(new CommentDto.response(comment)));
+        comments.forEach(comment -> commentRes.add(new CommentDto.response(comment, SecurityUtil.getUserId())));
 
         return commentRes;
     }
 
     public void insert(Long blogSeq, CommentDto.insert insert) {
+        String currentUserId = SecurityUtil.getUserId();
+
+        if (Objects.isNull(currentUserId)) {
+            throw new NoAuthenticatedException();
+        }
+
+        final String userId = currentUserId;
         final String username = insert.getUsername();
-        final String password = insert.getPassword();
         final String contents = insert.getContents();
         final Long parentSeq = insert.getParentSeq();
 
@@ -41,7 +48,7 @@ public class CommentService {
             Comment comment = Comment.builder()
                     .blogSeq(blogSeq)
                     .username(username)
-                    .password(password)
+                    .userId(userId)
                     .contents(contents)
                     .child(0)
                     .depth(0)
@@ -69,7 +76,7 @@ public class CommentService {
             Comment comment = Comment.builder()
                     .blogSeq(blogSeq)
                     .username(username)
-                    .password(password)
+                    .userId(userId)
                     .contents(contents)
                     .cgroup(cgroup)
                     .child(0)
@@ -84,13 +91,25 @@ public class CommentService {
     }
 
     public void delete(Long seq) {
-        Optional<Comment> comment = commentRepository.findById(seq);
+        String currentUserId = SecurityUtil.getUserId();
 
-        if(!comment.isPresent()){
-
+        if (Objects.isNull(currentUserId)) {
+            throw new NoAuthenticatedException();
         }
-        //TODO 권한 인증
 
-        comment.get().erase();
+        Optional<Comment> commentOpt = commentRepository.findById(seq);
+
+        if (!commentOpt.isPresent()) {
+            //TODO 권한 인증
+        }
+
+        Comment comment = commentOpt.get();
+
+        if (!comment.getUserId().equals(currentUserId)) {
+            throw new NoAuthenticatedException();
+        }
+
+        comment.erase();
+
     }
 }

@@ -1,6 +1,8 @@
 package com.cglee079.pododev.web.global.config.security;
 
+import com.cglee079.pododev.web.domain.auth.exception.NoAuthenticatedException;
 import com.cglee079.pododev.web.global.config.filter.CorsFilter;
+import com.cglee079.pododev.web.global.config.security.oauth.GoogleUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +14,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -19,54 +23,31 @@ import org.springframework.security.web.session.SessionManagementFilter;
 
 import javax.servlet.Filter;
 
-@RequiredArgsConstructor
-@Configuration
-@EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityUtil extends WebSecurityConfigurerAdapter {
 
-    @Qualifier("socialOauthFilter")
-    private final Filter socialOauthFilter;
-    private final SecurityStore securityStore;
+    public static GoogleUserDetails getUser() {
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        final Object principal = authentication.getPrincipal();
 
-    @Override
-    public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/login/google");
-        //web.ignoring().antMatchers("**");
+        if (principal instanceof String) {
+            return null;
+        }
+
+        return (GoogleUserDetails) principal;
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.cors().disable();
-        http.csrf().disable();
+    public static String getUserId() {
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        final Object principal = authentication.getPrincipal();
 
-        //ADMIN 권한
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/blogs").hasRole(UserRole.ADMIN.name());
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/blogs/*").hasRole(UserRole.ADMIN.name());
+        if (principal instanceof String) {
+            return null;
+        }
 
-        //USER 권한
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/blogs/*/comment").hasRole(UserRole.USER.name());
-        http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/api/blogs/*/comment").hasRole(UserRole.USER.name());
 
-        http.addFilterBefore(new CorsFilter(), SessionManagementFilter.class);
-        http.addFilterBefore(socialOauthFilter, BasicAuthenticationFilter.class);
-        http.addFilterBefore(new AuthFilter(securityStore), BasicAuthenticationFilter.class);
+
+        return ((GoogleUserDetails) principal).getGoogleIdentifier();
     }
-
-    @Override
-    public void configure(AuthenticationManagerBuilder auth) {
-    }
-
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
 
 }
 

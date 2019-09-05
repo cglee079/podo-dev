@@ -8,6 +8,7 @@ import com.cglee079.pododev.web.global.util.Formatter;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.CodeSignature;
 import org.springframework.stereotype.Component;
@@ -23,7 +24,7 @@ public class CommentNotifier {
     private final BlogService blogService;
     private final String BLOG_SEQ_ARG_NAME = "blogSeq";
 
-    @After("@annotation(com.cglee079.pododev.web.domain.blog.comment.aop.CommentNotice)")
+    @AfterReturning("@annotation(com.cglee079.pododev.web.domain.blog.comment.aop.CommentNotice)")
     public void checkRequestValidator(JoinPoint joinPoint) {
         CommentDto.insert comment = getCommentInsertDto(joinPoint);
 
@@ -44,6 +45,12 @@ public class CommentNotifier {
 
     }
 
+    /**
+     * PathVariable 에서 BlogSeq 가져옴
+     *
+     * @param joinPoint
+     * @return
+     */
     private Long getBlogSeq(JoinPoint joinPoint) {
         CodeSignature codeSignature = (CodeSignature) joinPoint.getSignature();
 
@@ -57,6 +64,12 @@ public class CommentNotifier {
         return null;
     }
 
+    /**
+     * RequestBody 에서 Insert 데이터 가져옴
+     *
+     * @param joinPoint
+     * @return
+     */
     private CommentDto.insert getCommentInsertDto(JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
 
@@ -65,6 +78,7 @@ public class CommentNotifier {
                 return (CommentDto.insert) obj;
             }
         }
+
         return null;
     }
 }

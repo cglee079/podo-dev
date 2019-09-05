@@ -7,7 +7,7 @@
             </div>
             <div class="menu">
                 <a>답글</a>
-                <a @click="clickCommentDelete(comment.seq)">삭제</a>
+                <a v-if="comment.isMine" @click="clickCommentDelete(comment.seq)">삭제</a>
             </div>
         </div>
 

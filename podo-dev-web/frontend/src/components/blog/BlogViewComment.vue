@@ -15,19 +15,17 @@
 
 
         <div id="write">
-            <textarea id="contents" placeholder="소중한 댓글을 입력해주세요." v-model="input.contents"/>
+            <textarea id="contents" :placeholder="write.placeholder" v-model="input.contents" :disabled="!isLogin"/>
             <div id="sub">
                 <div id="user">
                     <div id="username">
-                        <input type="text" placeholder="USERNAME" v-model="input.username">
-                    </div>
-                    <div id="password">
-                        <input type="password" placeholder="PASSWORD" v-model="input.password">
+                        <input type="text" placeholder="이름" v-model="input.username" disabled/>
                     </div>
                 </div>
                 <div id="submit" @click="clickCommentPost">등록</div>
             </div>
         </div>
+
 
     </div>
 </template>
@@ -35,6 +33,7 @@
 <script>
     import BlogViewCommentItem from '@/components/blog/BlogViewCommentItem'
     import {mapGetters} from 'vuex'
+    import customToast from '@/mixins/customToast'
 
     export default {
         name: "BlogViewComment",
@@ -44,9 +43,13 @@
         props: {
             blogSeq: Number,
         },
+        mixins: [customToast],
         data() {
             return {
                 comments: [],
+                write: {
+                    placeholder: '로그인 후 댓글을 입력해주세요'
+                },
                 input: {
                     username: '',
                     password: '',
@@ -61,6 +64,10 @@
         },
         methods: {
             clickCommentPost() {
+                if (!this.isLogin) {
+                    return
+                }
+
                 this.$axios
                     .post('/api/blogs/' + this.blogSeq + "/comments", {
                         username: this.input.username,
@@ -91,21 +98,24 @@
             },
 
             deleteBlogComment(commentSeq) {
-                this.$axios
-                    .delete('/api/blogs/' + this.blogSeq + "/comments/" + commentSeq)
-                    .then(res => {
-                        this.$toasted.show("댓글이 삭제되었습니다")
-                        this.loadBlogComments()
-                    })
-                    .catch(err => {
-                        console.log(err)
-                    })
+                this.toastConfirm("정말 댓글을 삭제하시겠습니까?", () => {
+                    this.$axios
+                        .delete('/api/blogs/' + this.blogSeq + "/comments/" + commentSeq)
+                        .then(res => {
+                            this.$toasted.show("댓글이 삭제되었습니다")
+                            this.loadBlogComments()
+                        })
+                        .catch(err => {
+                            console.log(err)
+                        })
+                })
             }
         },
 
         mounted() {
             if (this.isLogin) {
                 this.input.username = this.getUser.name
+                this.write.placeholder = "댓글을 입력해주세요"
             }
         },
 

@@ -8,7 +8,6 @@ public class CommentDto {
     @Getter
     public static class insert {
         private String username;
-        private String password;
         private String contents;
         private Long parentSeq;
     }
@@ -21,13 +20,16 @@ public class CommentDto {
         private String contents;
         private String createAt;
         private Boolean enabled;
+        private Boolean isMine;
 
-        public response(Comment comment) {
+        public response(Comment comment, String currentUserId) {
             this.seq = comment.getSeq();
             this.username = comment.getUsername();
             this.contents = comment.getContents();
             this.createAt = Formatter.dateTimeToStr(comment.getCreateAt());
             this.enabled = comment.getEnabled();
+            this.isMine = comment.getUserId().equalsIgnoreCase(currentUserId);
         }
+
     }
 }

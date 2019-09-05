@@ -1,12 +1,14 @@
 <template>
     <div id="nav" :class="$mq">
         <div id="logo">
+            <router-link :to="{name : 'BlogList'}">
             <img src="@/assets/logo4.svg" width="70px"/>
+            </router-link>
         </div>
 
         <the-nav-desktop
                 id="theNavDesktop"
-                :isAdmin="isAdmin"
+                :user="getUser"
                 :isLogin="isLogin"
                 @login="login"
                 @logout="clickLogout"
@@ -25,8 +27,9 @@
 
 <script>
     import TheNavMobile from "./TheNavMobile";
-    import TheNavDesktop from "./TheNavDesktop";
+    import TheNavDesktop from "./TheNavDesktop"
     import {mapActions, mapGetters} from 'vuex'
+    import customToast from '@/mixins/customToast'
 
     export default {
         name: 'TheNav',
@@ -34,9 +37,10 @@
             'the-nav-desktop': TheNavDesktop,
             'the-nav-mobile': TheNavMobile,
         },
+        mixins: [customToast],
         computed: {
             ...mapGetters([
-                'isAdmin', 'isLogin', 'getServerUrl'
+                'isAdmin', 'isLogin', 'getServerUrl', 'getUser'
             ])
         },
         methods: {
@@ -45,8 +49,10 @@
             ]),
 
             clickLogout() {
-                this.logout(() => {
-                    this.$toasted.show("로그아웃 되었습니다")
+                this.toastConfirm("정말 로그아웃 하시겠습니까?", () => {
+                    this.logout(() => {
+                        this.$toasted.show("로그아웃 되었습니다")
+                    })
                 })
             },
             login() {

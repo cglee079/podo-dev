@@ -27,8 +27,8 @@ public class Comment {
     @Column
     private String username;
 
-    @Column
-    private String password;
+    @Column(name = "user_id")
+    private String userId;
 
     @Column
     private String contents;
@@ -56,11 +56,11 @@ public class Comment {
 
 
     @Builder
-    public Comment(Long blogSeq, String username, String password, String contents,
+    public Comment(Long blogSeq, String username, String userId, String contents,
                    Long cgroup, Integer child, Integer depth, Double sort) {
         this.blogSeq = blogSeq;
         this.username = username;
-        this.password = password;
+        this.userId = userId;
         this.contents = contents;
         this.child = child;
         this.cgroup = cgroup;
