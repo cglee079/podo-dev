@@ -81,7 +81,7 @@ export default new Vuex.Store({
                 axios
                     .get("/auth/user")
                     .then(res => {
-                        console.log(res)
+                        console.log('check login')
                         //사용자 정보 확인
                         res = res.data
                         const user = res.data

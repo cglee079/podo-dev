@@ -52,6 +52,7 @@
                 this.toastConfirm("정말 로그아웃 하시겠습니까?", () => {
                     this.logout(() => {
                         this.$toasted.show("로그아웃 되었습니다")
+                        this.$router.push({name : 'BlogList'})
                     })
                 })
             },

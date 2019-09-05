@@ -61,14 +61,23 @@
                         console.log(err)
                     })
             },
+
+            updateInput(){
+                if (this.isLogin) {
+                    this.input.username = this.getUser.name
+                    this.write.placeholder = this.placeholder
+                }
+            }
+        },
+
+
+        updated(){
+            this.updateInput()
         },
 
         mounted() {
-            if (this.isLogin) {
-                this.input.username = this.getUser.name
-                this.write.placeholder = this.placeholder
-            }
-        },
+            this.updateInput()
+        }
 
     }
 </script>

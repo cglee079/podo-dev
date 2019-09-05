@@ -20,7 +20,6 @@
                 <img src="@/assets/btn-login2.svg" id="loginIcon"/>
                 </span>
             </span>
-            <!--            <span v-if="isLogin" @click="logout">로그아웃</span>-->
             <span v-if="isLogin" @click="logout">
                 <span v-tooltip="{content:'Logout', class:'tooltip'}">
                 <img :src="user.picture" id="userIcon"/>
