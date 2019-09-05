@@ -39,7 +39,7 @@ public class SocialLoginSuccessHandler implements AuthenticationSuccessHandler {
 
         GoogleUserDetails googleUserDetails = GoogleUserDetails.builder()
                 .googleIdentifier(googleId)
-                .name(username)
+                .username(username)
                 .email(email)
                 .picture(picture)
                 .build();

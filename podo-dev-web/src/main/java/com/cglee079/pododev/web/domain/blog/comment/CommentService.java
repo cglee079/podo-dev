@@ -2,6 +2,7 @@ package com.cglee079.pododev.web.domain.blog.comment;
 
 import com.cglee079.pododev.web.domain.auth.exception.NoAuthenticatedException;
 import com.cglee079.pododev.web.global.config.security.SecurityUtil;
+import com.cglee079.pododev.web.global.config.security.oauth.GoogleUserDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
 
     public List<CommentDto.response> list(Long blogSeq) {
-        List<Comment> comments = commentRepository.findByBlogSeq(blogSeq);
+        List<Comment> comments = commentRepository.findByBlogSeqOrderByCgroupAscSortAsc(blogSeq);
         List<CommentDto.response> commentRes = new LinkedList<>();
 
         comments.forEach(comment -> commentRes.add(new CommentDto.response(comment, SecurityUtil.getUserId())));
@@ -37,7 +38,7 @@ public class CommentService {
         }
 
         final String userId = currentUserId;
-        final String username = insert.getUsername();
+        final String username = SecurityUtil.getUsername();
         final String contents = insert.getContents();
         final Long parentSeq = insert.getParentSeq();
 

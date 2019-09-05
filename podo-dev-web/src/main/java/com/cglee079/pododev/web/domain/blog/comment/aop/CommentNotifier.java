@@ -3,6 +3,7 @@ package com.cglee079.pododev.web.domain.blog.comment.aop;
 import com.cglee079.pododev.web.domain.blog.BlogDto;
 import com.cglee079.pododev.web.domain.blog.BlogService;
 import com.cglee079.pododev.web.domain.blog.comment.CommentDto;
+import com.cglee079.pododev.web.global.config.security.SecurityUtil;
 import com.cglee079.pododev.web.global.infra.telegram.TelegramClient;
 import com.cglee079.pododev.web.global.util.Formatter;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,7 @@ public class CommentNotifier {
         CommentDto.insert comment = getCommentInsertDto(joinPoint);
 
         final Long blogSeq = getBlogSeq(joinPoint);
-        final String username = comment.getUsername();
+        final String username = SecurityUtil.getUsername();
         final String contents = comment.getContents();
         final BlogDto.response blog = blogService.get(blogSeq);
         final StringBuilder message = new StringBuilder();

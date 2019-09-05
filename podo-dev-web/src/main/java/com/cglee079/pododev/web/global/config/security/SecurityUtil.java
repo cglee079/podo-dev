@@ -44,9 +44,18 @@ public class SecurityUtil extends WebSecurityConfigurerAdapter {
             return null;
         }
 
-
-
         return ((GoogleUserDetails) principal).getGoogleIdentifier();
+    }
+
+    public static String getUsername() {
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        final Object principal = authentication.getPrincipal();
+
+        if (principal instanceof String) {
+            return null;
+        }
+
+        return ((GoogleUserDetails) principal).getUsername();
     }
 
 }

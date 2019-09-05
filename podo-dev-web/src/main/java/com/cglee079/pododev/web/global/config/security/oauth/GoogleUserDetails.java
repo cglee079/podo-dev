@@ -8,22 +8,21 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 @Getter
 public class GoogleUserDetails implements UserDetails {
 
     private String googleIdentifier;
     private String email;
-    private String name;
+    private String username;
     private String picture;
     private Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
     @Builder
-    public GoogleUserDetails(String googleIdentifier, String email, String name, String picture) {
+    public GoogleUserDetails(String googleIdentifier, String email, String username, String picture) {
         this.googleIdentifier = googleIdentifier;
         this.email = email;
-        this.name = name;
+        this.username = username;
         this.picture = picture;
     }
 
@@ -39,7 +38,7 @@ public class GoogleUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.email;
+        return this.username;
     }
 
     @Override

@@ -15,10 +15,14 @@
         </div>
 
         <div id="loginMenus">
-            <span v-if="!isLogin" @click="login">로그인</span>
+            <span v-if="!isLogin" @click="login">
+                <span v-tooltip="{content:'Login By Google', class:'tooltip'}">
+                <img src="@/assets/btn-login2.svg" id="loginIcon"/>
+                </span>
+            </span>
             <!--            <span v-if="isLogin" @click="logout">로그아웃</span>-->
             <span v-if="isLogin" @click="logout">
-                <span v-tooltip="{content:'로그아웃', class:'tooltip'}">
+                <span v-tooltip="{content:'Logout', class:'tooltip'}">
                 <img :src="user.picture" id="userIcon"/>
                 </span>
             </span>
@@ -76,6 +80,12 @@
             cursor: pointer;
             font-size: 0.9rem;
             padding: 10px;
+        }
+
+        #loginIcon {
+            margin-top: 5px;
+            height: 37px;
+            border-radius: 20px;
         }
 
         #userIcon {

@@ -1,51 +1,37 @@
 <template>
-    <div id="wrapComment">
-        <div id="count">댓글 (<a class="comment-cnt">{{comments.length}}</a>)</div>
-
-        <div id="comments">
-            <div v-for="comment in comments"
-                 v-bind:key="comment.seq"
-            >
-                <comment-item
-                        :blogSeq = "blogSeq"
-                        :comment="comment"
-                        @delete="deleteBlogComment"
-                        @reload="loadBlogComments"
-                />
+    <div id="write">
+        <textarea id="contents" :placeholder="write.placeholder" v-model="input.contents" :disabled="!isLogin"/>
+        <div id="sub">
+            <div id="user">
+                <div id="username">
+                    <input type="text" placeholder="이름" v-model="input.username" disabled/>
+                </div>
             </div>
+            <div id="submit" @click="clickCommentPost">등록</div>
         </div>
-
-
-        <comment-write
-            :blogSeq="blogSeq"
-            :parentSeq="null"
-            placeholder="댓글을 입력해주세요"
-            @reload="loadBlogComments"
-        />
-
-
     </div>
 </template>
 
 <script>
-    import BlogViewCommentItem from '@/components/blog/BlogViewCommentItem'
     import {mapGetters} from 'vuex'
-    import customToast from '@/mixins/customToast'
-    import BlogViewCommentWrite from "./BlogViewCommentWrite";
 
     export default {
-        name: "BlogViewComment",
-        components: {
-            'comment-item': BlogViewCommentItem,
-            'comment-write': BlogViewCommentWrite
-        },
+        name: "BlogViewCommentWrite",
         props: {
             blogSeq: Number,
+            parentSeq: Number,
+            placeholder: String,
         },
-        mixins: [customToast],
         data() {
             return {
-                comments: [],
+                write: {
+                    placeholder: '로그인 후 댓글을 입력해주세요'
+                },
+                input: {
+                    username: '',
+                    password: '',
+                    contents: ''
+                }
             }
         },
         computed: {
@@ -54,53 +40,40 @@
             ])
         },
         methods: {
-            loadBlogComments() {
+            clickCommentPost() {
+                if (!this.isLogin) {
+                    return
+                }
+
                 this.$axios
-                    .get('/api/blogs/' + this.blogSeq + "/comments")
+                    .post('/api/blogs/' + this.blogSeq + "/comments", {
+                        username: this.input.username,
+                        contents: this.input.contents,
+                        parentSeq : this.parentSeq
+                    })
                     .then(res => {
-                        res = res.data
-                        this.comments = []
-                        this.comments = res.data
-                        console.log(this.comments)
+                        this.$toasted.show("댓글이 등록되었습니다")
+                        this.input.contents = ''
+                        this.$emit('reload')
+                        this.$emit('writeListener')
                     })
                     .catch(err => {
                         console.log(err)
                     })
             },
-
-            deleteBlogComment(commentSeq) {
-                this.toastConfirm("정말 댓글을 삭제하시겠습니까?", () => {
-                    this.$axios
-                        .delete('/api/blogs/' + this.blogSeq + "/comments/" + commentSeq)
-                        .then(res => {
-                            this.$toasted.show("댓글이 삭제되었습니다")
-                            this.loadBlogComments()
-                        })
-                        .catch(err => {
-                            console.log(err)
-                        })
-                })
-            }
         },
 
-        created() {
-            this.loadBlogComments()
-        }
+        mounted() {
+            if (this.isLogin) {
+                this.input.username = this.getUser.name
+                this.write.placeholder = this.placeholder
+            }
+        },
 
     }
 </script>
 
 <style scoped lang="scss">
-
-    #wrapComment {
-        margin-top: 100px;
-    }
-
-    #count {
-        display: none;
-        font-size: 1.25rem;
-        font-weight: bold;
-    }
 
     /*** Comment Write ****/
     #write {

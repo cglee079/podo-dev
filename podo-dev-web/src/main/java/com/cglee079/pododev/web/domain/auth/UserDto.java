@@ -17,7 +17,7 @@ public class UserDto {
         public response(GoogleUserDetails authUser) {
             this.googleIdentifier = authUser.getGoogleIdentifier();
             this.email = authUser.getEmail();
-            this.name = authUser.getName();
+            this.name = authUser.getUsername();
             this.picture = authUser.getPicture();
             this.isAdmin = false;
 
