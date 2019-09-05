@@ -86,6 +86,7 @@
             margin-top: 5px;
             height: 37px;
             border-radius: 20px;
+            opacity: 0.9;
         }
 
         #userIcon {

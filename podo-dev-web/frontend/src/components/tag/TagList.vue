@@ -83,7 +83,7 @@
                 cursor: pointer;
                 font-size: 1.2rem;
                 display: inline-block;
-                margin: 5px 10px 0px 5px;
+                margin: 10px;
                 color: #555555;
 
                 &:hover{
