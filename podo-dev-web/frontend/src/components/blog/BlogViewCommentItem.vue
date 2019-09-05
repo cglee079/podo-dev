@@ -1,9 +1,10 @@
 <template>
     <div
-            v-bind:style="{'margin-left': (comment.depth * 70) + 'px'}"
+            v-bind:style="{'margin-left': (comment.depth * 2) + 'rem'}"
             class="comment"
             :class="comment.enabled ? '' : 'disabled'"
     >
+
         <div class="header">
             <div class="info">
                 <a class="writer">{{comment.username}}</a>
@@ -15,7 +16,10 @@
             </div>
         </div>
 
-        <div class="contents" v-html="comment.contents"/>
+        <div class="contents">
+            <span v-if="comment.depth !== 0">ㄴ </span>
+            <span v-html="comment.contents"/>
+        </div>
 
         <div id="reply">
             <component
@@ -85,8 +89,7 @@
 
 <style scoped lang="scss">
     .comment {
-        padding-top: 30px;
-        padding-bottom: 20px;
+        padding: 30px 5px 25px 5px;
         border-bottom: 1px solid #F1F1F1;
 
         &.disabled {

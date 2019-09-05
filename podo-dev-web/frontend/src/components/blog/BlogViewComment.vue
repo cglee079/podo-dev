@@ -1,13 +1,17 @@
 <template>
     <div id="wrapComment">
-        <div id="count">댓글 (<a class="comment-cnt">{{comments.length}}</a>)</div>
+        <div id="count">
+            <img src="https://image.flaticon.com/icons/svg/134/134718.svg" width="30px"/>
+            (<a class="comment-cnt">{{comments.length}}</a>)
+            <div></div>
+        </div>
 
         <div id="comments">
             <div v-for="comment in comments"
                  v-bind:key="comment.seq"
             >
                 <comment-item
-                        :blogSeq = "blogSeq"
+                        :blogSeq="blogSeq"
                         :comment="comment"
                         @delete="deleteBlogComment"
                         @reload="loadBlogComments"
@@ -17,10 +21,10 @@
 
 
         <comment-write
-            :blogSeq="blogSeq"
-            :parentSeq="null"
-            placeholder="댓글을 입력해주세요"
-            @reload="loadBlogComments"
+                :blogSeq="blogSeq"
+                :parentSeq="null"
+                placeholder="댓글을 입력해주세요"
+                @reload="loadBlogComments"
         />
 
 
@@ -97,9 +101,26 @@
     }
 
     #count {
-        display: none;
+        display: flex;
+        align-items: center;
         font-size: 1.25rem;
         font-weight: bold;
+        opacity: 0.7;
+
+        img {
+            width: 27px;
+            margin-right: 7px;
+            margin-top: 2px;
+
+        }
+
+        div{
+            flex: 1;
+            height: 5px;
+            margin-left: 10px;
+            margin-top: 5px;
+            background: #E7E7E7;
+        }
     }
 
     /*** Comment Write ****/

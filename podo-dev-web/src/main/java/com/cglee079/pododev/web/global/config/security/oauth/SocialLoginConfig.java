@@ -4,6 +4,7 @@ package com.cglee079.pododev.web.global.config.security.oauth;
 import com.cglee079.pododev.web.global.config.security.SecurityStore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -39,7 +40,7 @@ public class SocialLoginConfig {
         //Google
         OAuth2ClientAuthenticationProcessingFilter google = new OAuth2ClientAuthenticationProcessingFilter("/login/google");
         google.setRestTemplate(new OAuth2RestTemplate(googleClient(), oauth2ClientContext));
-        google.setTokenServices(new UserTokenServices(googleResource().getUserInfoUri(), googleClient().getClientId()));
+        google.setTokenServices(new UserInfoTokenServices(googleResource().getUserInfoUri(), googleClient().getClientId()));
         google.setAuthenticationSuccessHandler(socialLoginSuccessHandler);
         filters.add(google);
 
