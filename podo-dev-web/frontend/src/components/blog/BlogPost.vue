@@ -116,12 +116,15 @@
                             }
                         })
 
-                        if (!included) {
-                            const obj = {}
-                            obj.seq = undefined
-                            obj.val = txt
-                            this.input.tags.push(obj)
+                        if (included) {
+                            this.$toasted.show(txt + "는 중복됩니다!")
+                            return 
                         }
+
+                        const obj = {}
+                        obj.seq = undefined
+                        obj.val = txt
+                        this.input.tags.push(obj)
                     }
 
                     this.input.tagText = ''
@@ -285,34 +288,51 @@
         },
         created() {
             const seq = this.$route.params.seq
+
             if (seq) {
                 this.isNew = false
                 this.loadBlog(seq)
             }
 
             const autoSaveKey = "autoSave_post_" + seq
-            const saveContent = localStorage.getItem(autoSaveKey)
-            if (saveContent) {
+            const saved = localStorage.getItem(autoSaveKey + "_is")
+
+            if (saved) {
+
                 this.toastConfirm("자동저장된 데이터가있습니다, 로딩하시겠습니까?",
                     () => {
+                        const saveContent = localStorage.getItem(autoSaveKey + "_content")
+                        const saveInput = JSON.parse(localStorage.getItem(autoSaveKey + "_input"))
+
                         this.editor.setMarkdown(saveContent)
-                        localStorage.removeItem(autoSaveKey)
+                        this.input = saveInput
+
+                        localStorage.removeItem(autoSaveKey + "_is")
+                        localStorage.removeItem(autoSaveKey + "_content")
+                        localStorage.removeItem(autoSaveKey + "_input")
                     },
                     () => {
-                        localStorage.removeItem(autoSaveKey)
+                        localStorage.removeItem(autoSaveKey + "_is")
+                        localStorage.removeItem(autoSaveKey + "_content")
+                        localStorage.removeItem(autoSaveKey + "_input")
                     }
                 )
             }
 
             this.autoSaveInterval = setInterval(() => {
                 const currentContent = this.editor.getMarkdown()
-                const saveContent = localStorage.getItem(autoSaveKey)
+                const currentInput = JSON.stringify(this.input)
+                const saveContent = localStorage.getItem(autoSaveKey + "_content")
+                const saveInput = localStorage.getItem(autoSaveKey + "_input")
 
-                if (currentContent !== saveContent) {
+                if ((currentContent !== saveContent) || (saveInput !== currentInput)) {
+
                     this.$toasted.show("자동저장 되었습니다")
-                    localStorage.setItem(autoSaveKey, currentContent)
+                    localStorage.setItem(autoSaveKey + "_is", "true")
+                    localStorage.setItem(autoSaveKey + "_content", currentContent)
+                    localStorage.setItem(autoSaveKey + "_input", currentInput)
                 }
-            }, 30000)
+            }, 10000)
 
 
         },
