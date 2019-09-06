@@ -10,7 +10,7 @@ export default {
          * @param description 부가설명
          * @param callback '예' 클릭 시 Callback
          */
-        toastConfirm(description, callback) {
+        toastConfirm(description, callbackOk, callbackNo) {
 
             this.$toasted.show(description, {
                     keepOnHover: true,
@@ -19,13 +19,18 @@ export default {
                         {
                             text: '아니오',
                             onClick: (e, toastObject) => {
+                                if (callbackNo) {
+                                    callbackNo()
+                                }
                                 toastObject.goAway(0);
                             }
                         },
                         {
                             text: '네',
                             onClick: (e, toastObject) => {
-                                callback();
+                                if (callbackOk) {
+                                    callbackOk()
+                                }
                                 toastObject.goAway(0);
                             }
                         }

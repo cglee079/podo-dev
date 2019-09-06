@@ -70,6 +70,8 @@
     import 'highlight.js/styles/github.css'; // code block highlight
 
     import Editor from 'tui-editor';
+    import customToast from "../../mixins/customToast";
+
 
     export default {
         name: 'app',
@@ -78,16 +80,18 @@
             'post-image': BlogPostImage,
             'post-file': BlogPostFile
         },
+        mixins: [customToast],
         data() {
             return {
                 isNew: true,
+                autoSaveInterval: undefined,
                 seq: 0,
                 temp: '',
                 editor: undefined,
                 input: {
-                    title: '제목입니다',
+                    title: '',
                     tagText: '',
-                    enabled: 'true',
+                    enabled: true,
                     tags: [],
                     images: [],
                     files: []
@@ -285,6 +289,36 @@
                 this.isNew = false
                 this.loadBlog(seq)
             }
+
+            const autoSaveKey = "autoSave_post_" + seq
+            const saveContent = localStorage.getItem(autoSaveKey)
+            if (saveContent) {
+                this.toastConfirm("자동저장된 데이터가있습니다, 로딩하시겠습니까?",
+                    () => {
+                        this.editor.setMarkdown(saveContent)
+                        localStorage.removeItem(autoSaveKey)
+                    },
+                    () => {
+                        localStorage.removeItem(autoSaveKey)
+                    }
+                )
+            }
+
+            this.autoSaveInterval = setInterval(() => {
+                const currentContent = this.editor.getMarkdown()
+                const saveContent = localStorage.getItem(autoSaveKey)
+
+                if (currentContent !== saveContent) {
+                    this.$toasted.show("자동저장 되었습니다")
+                    localStorage.setItem(autoSaveKey, currentContent)
+                }
+            }, 30000)
+
+
+        },
+
+        destroyed() {
+            clearInterval(this.autoSaveInterval)
         },
 
         mounted() {
