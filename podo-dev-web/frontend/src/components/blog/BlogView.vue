@@ -129,27 +129,22 @@
                 })
             },
 
+            increaseHitCount(seq) {
+                return new Promise((resolve, reject) => {
+                    this.$axios
+                        .post('/api/blogs/' + seq + '/hitCount')
+                        .then(res => {
+                            resolve(res)
+                        })
+                        .catch(err => {
+                            reject(err)
+                        })
+                })
+            },
+
             loadBlog(seq) {
-                const COOKIE_ID = 'blogView'
-                let hit = false
-                let blogView = JSON.parse(this.$cookies.get(COOKIE_ID))
-
-                if (!blogView) {
-                    blogView = []
-                }
-
-                if (!blogView.includes(parseInt(seq))) {
-                    hit = true
-                    blogView.push(parseInt(seq))
-                    this.$cookies.set(COOKIE_ID, JSON.stringify(blogView))
-                }
-
                 this.$axios
-                    .get('/api/blogs/' + seq, {
-                        params: {
-                            hit: hit
-                        }
-                    })
+                    .get('/api/blogs/' + seq)
                     .then(res => {
                         res = res.data
                         this.blog = res.data
@@ -160,8 +155,33 @@
                     })
             }
         },
+
         created() {
             const seq = this.$route.params.seq
+
+            const COOKIE_ID = 'blogView'
+            let blogView = JSON.parse(this.$cookies.get(COOKIE_ID))
+
+            if (!blogView) {
+                blogView = []
+            }
+
+            if (!blogView.includes(parseInt(seq))) {
+                blogView.push(parseInt(seq))
+
+                this.$cookies.set(COOKIE_ID, JSON.stringify(blogView))
+
+                this.increaseHitCount(seq)
+                    .then(res => {
+                        this.loadBlog(seq)
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+
+                return
+            }
+
             this.loadBlog(seq)
         }
     }

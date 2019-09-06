@@ -1,6 +1,5 @@
 package com.cglee079.pododev.web.domain.blog;
 
-import com.cglee079.pododev.core.global.response.ApiStatus;
 import com.cglee079.pododev.core.global.response.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,21 +13,13 @@ import java.util.List;
 @RequestMapping(value = "/api/blogs")
 public class BlogController {
 
-    public static final String BLOG_VIEW_COOKIE = "blog_view";
-
     private final BlogService blogService;
 
     /**
      * 게시글 조회
      */
     @GetMapping("/{seq}")
-    public ApiResponse get(
-            @PathVariable Long seq,
-            @RequestParam Boolean hit) {
-
-        if (hit) {
-            blogService.increaseHitCnt(seq);
-        }
+    public ApiResponse get(@PathVariable Long seq) {
 
         BlogDto.response blogRes = blogService.get(seq);
 
@@ -89,6 +80,19 @@ public class BlogController {
                 .build();
     }
 
+
+    /**
+     * 게시글 조회
+     */
+    @PostMapping("/{seq}/hitCount")
+    public ApiResponse increaseHitCnt(@PathVariable Long seq) {
+
+        blogService.increaseHitCnt(seq);
+
+        return StatusResponse.builder()
+                .status(ApiStatus.SUCCESS)
+                .build();
+    }
 
     @GetMapping("/facets")
     public ApiResponse facets(@RequestParam String value) {

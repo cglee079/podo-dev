@@ -2,7 +2,6 @@ package com.cglee079.pododev.web.global.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -37,11 +36,6 @@ public class WebConfig implements WebMvcConfigurer {
                 .addResourceLocations("file:///" + uploadedLocation + "/");
     }
 
-//    /**
-//     * XSS 방어 코드
-//     *
-//     * @param converters
-//     */
 //    @Override
 //    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
 //        Iterator<HttpMessageConverter<?>> converterIterator = converters.iterator();
@@ -56,21 +50,17 @@ public class WebConfig implements WebMvcConfigurer {
 //
 //    }
 //
-//
-//    @Bean
-//    public HttpMessageConverter<?> htmlEscapingConverter() {
+//    private HttpMessageConverter<?> htmlEscapingConverter() {
 //        ObjectMapper objectMapper = new ObjectMapper();
-//        // 3. ObjectMapper에 특수 문자 처리 기능 적용
 //        objectMapper.getFactory().setCharacterEscapes(new HTMLCharacterEscapes());
-//
-//        // 4. MessageConverter에 ObjectMapper 설정
 //        MappingJackson2HttpMessageConverter htmlEscapingConverter =
 //                new MappingJackson2HttpMessageConverter();
 //        htmlEscapingConverter.setObjectMapper(objectMapper);
 //
 //        return htmlEscapingConverter;
 //    }
-
 }
+
+
 
 
