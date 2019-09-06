@@ -64,7 +64,7 @@ public class BlogService {
         return new BlogDto.response(blog.get(), before, next, uploaderFrontendUrl, FileStatus.BE);
     }
 
-    public PageDto paging(BlogDto.request request) {
+    public PageDto paging(BlogDto.requestPaging request) {
         final String search = request.getSearch();
         final Integer page = request.getPage();
         final String tagValue = request.getTag();
@@ -173,5 +173,15 @@ public class BlogService {
 
     public List<String> facets(String value) {
         return podoSolrClient.getFacets(value);
+    }
+
+    public void increaseHitCnt(Long seq) {
+        Optional<Blog> blog = blogRepository.findById(seq);
+
+        if (!blog.isPresent()) {
+            //TODO
+        }
+
+        blog.get().increaseHitCnt();
     }
 }

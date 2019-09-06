@@ -2,16 +2,19 @@ package com.cglee079.pododev.web.domain.blog;
 
 import com.cglee079.pododev.core.global.response.ApiStatus;
 import com.cglee079.pododev.core.global.response.*;
-import com.cglee079.pododev.web.domain.blog.aop.SolrDataImport;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/api/blogs")
 public class BlogController {
+
+    public static final String BLOG_VIEW_COOKIE = "blog_view";
 
     private final BlogService blogService;
 
@@ -19,7 +22,14 @@ public class BlogController {
      * 게시글 조회
      */
     @GetMapping("/{seq}")
-    public ApiResponse get(@PathVariable Long seq) {
+    public ApiResponse get(
+            @PathVariable Long seq,
+            @RequestParam Boolean hit) {
+
+        if (hit) {
+            blogService.increaseHitCnt(seq);
+        }
+
         BlogDto.response blogRes = blogService.get(seq);
 
         return DataResponse.builder()
@@ -32,7 +42,7 @@ public class BlogController {
      * 게시글 페이징
      */
     @GetMapping
-    public ApiResponse paging(BlogDto.request request) {
+    public ApiResponse paging(BlogDto.requestPaging request) {
         final PageDto<BlogDto.responseList> blogs = blogService.paging(request);
 
         return DataResponse.builder()

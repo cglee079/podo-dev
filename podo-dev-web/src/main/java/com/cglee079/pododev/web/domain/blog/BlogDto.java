@@ -88,6 +88,12 @@ public class BlogDto {
     @Setter
     @Getter
     public class request {
+        Boolean isHit;
+    }
+
+    @Setter
+    @Getter
+    public class requestPaging {
         Integer page;
         String tag;
         String search;

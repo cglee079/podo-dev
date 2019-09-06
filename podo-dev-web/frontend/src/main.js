@@ -15,6 +15,7 @@ import 'tui-editor/dist/tui-editor-contents.css'
 import 'codemirror/lib/codemirror.css'
 import 'highlight.js/styles/github.css'
 
+import VueCookies from 'vue-cookies'
 import ToastCustomViewer from "./components/global/ToastCustomViewer"
 import SubButton from "./components/global/SubButton"
 import Tooltip from 'vue-directive-tooltip';
@@ -26,6 +27,9 @@ Vue.use(Tooltip, {
     triggers: ['hover'],
     offset: 0
 })
+
+VueCookies.config('7d')
+Vue.use(VueCookies)
 
 Vue.use(Autocomplete)
 Vue.component('toast-custom-viewer', ToastCustomViewer)

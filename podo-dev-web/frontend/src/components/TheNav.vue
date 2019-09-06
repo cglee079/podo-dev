@@ -79,6 +79,7 @@
         border-bottom: 1px solid #E7E7E7;
         padding: 0px 5%;
         position: sticky;
+        opacity: 0.95;
 
 
         #logo {

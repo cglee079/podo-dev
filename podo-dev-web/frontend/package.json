@@ -15,6 +15,7 @@
     "filesize": "^4.1.2",
     "tui-editor": "^1.4.6",
     "vue": "^2.6.10",
+    "vue-cookies": "^1.5.13",
     "vue-directive-tooltip": "^1.6.2",
     "vue-mq": "^1.0.1",
     "vue-router": "^3.0.7",

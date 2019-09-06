@@ -96,4 +96,8 @@ public class Blog {
     public void setContents(String contents) {
         this.contents = contents;
     }
+
+    public void increaseHitCnt() {
+        this.hitCnt++;
+    }
 }

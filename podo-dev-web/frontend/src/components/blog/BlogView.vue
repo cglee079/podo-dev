@@ -130,8 +130,26 @@
             },
 
             loadBlog(seq) {
+                const COOKIE_ID = 'blogView'
+                let hit = false
+                let blogView = JSON.parse(this.$cookies.get(COOKIE_ID))
+
+                if (!blogView) {
+                    blogView = []
+                }
+
+                if (!blogView.includes(parseInt(seq))) {
+                    hit = true
+                    blogView.push(parseInt(seq))
+                    this.$cookies.set(COOKIE_ID, JSON.stringify(blogView))
+                }
+
                 this.$axios
-                    .get('/api/blogs/' + seq)
+                    .get('/api/blogs/' + seq, {
+                        params: {
+                            hit: hit
+                        }
+                    })
                     .then(res => {
                         res = res.data
                         this.blog = res.data
