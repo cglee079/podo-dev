@@ -14,7 +14,7 @@
                  @click="clickImage(index)"
                  :class="isValidImage(image.fileStatus) ? '' : 'disabled' "
             >
-                <img :src="image.domainUrl + image.saves.w100.path + '/' + image.saves.w100.filename"/>
+                <img :src="image.domainUrl + image.saves.origin.path + '/' + image.saves.origin.filename"/>
             </div>
         </div>
     </div>

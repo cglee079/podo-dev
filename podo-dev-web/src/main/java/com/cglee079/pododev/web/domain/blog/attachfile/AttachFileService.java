@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.util.List;
 import java.util.Optional;
@@ -23,18 +24,33 @@ import java.util.Optional;
 @Service
 public class AttachFileService {
 
-    @Value("${upload.base.dir}")
-    private String baseDir;
-
     private final PodoUploaderClient podoUploaderClient;
     private final AttachFileRepository attachFileRepository;
     private final FileWriter fileWriter;
+
+//    @PostConstruct
+//    public void dd(){
+//        List<AttachFile> files = attachFileRepository.findAll();
+//        files.forEach(file -> {
+//            final String url = PathUtil.merge("http://upload.podo-dev.com:8090/uploaded", file.getPath(), file.getFilename());
+//            File f = fileWriter.saveFile("temp", url);
+//            Long filesize = f.length();
+//            file.setFilesize(filesize);
+//            attachFileRepository.save(file);
+//        });
+//    }
 
     @Value("${upload.base.url}")
     private String baseUrl;
 
     @Value("${upload.postfix.file.dir}")
     private String fileDir;
+
+    @Value("${upload.base.dir}")
+    private String baseDir;
+
+    @Value("${infra.uploader.domain}${infra.uploader.frontend.subpath}")
+    private String uploaderFrontendUrl;
 
 
     /**
@@ -43,7 +59,7 @@ public class AttachFileService {
     public AttachFileDto.response saveFile(MultipartFile multipartFile) {
         final String originName = multipartFile.getOriginalFilename();
         final String key = MyFileUtils.generateKey();
-        final String path = PathUtil.merge(MyFileUtils.makeDatePath(), fileDir);
+        final String path = PathUtil.merge(fileDir, MyFileUtils.makeDatePath());
 
         log.info("Save File '{}'", originName);
 
@@ -101,4 +117,13 @@ public class AttachFileService {
         });
     }
 
+    public AttachFileDto.response get(Long fileSeq) {
+        Optional<AttachFile> file = attachFileRepository.findById(fileSeq);
+
+        if (!file.isPresent()) {
+
+        }
+
+        return new AttachFileDto.response(file.get(), uploaderFrontendUrl, FileStatus.BE);
+    }
 }

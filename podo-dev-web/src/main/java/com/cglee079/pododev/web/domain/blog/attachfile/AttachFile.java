@@ -48,4 +48,8 @@ public class AttachFile {
         this.path = path;
         this.filesize = filesize;
     }
+
+    public void setFilesize(Long filesize) {
+        this.filesize = filesize;
+    }
 }

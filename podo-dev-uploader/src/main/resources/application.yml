@@ -1,7 +1,6 @@
-
 #Server Config
 server:
-  port: 8092
+  port: 8080
 
 
 spring:
@@ -16,12 +15,15 @@ spring:
 
 
 uploader:
+  security:
+    client:
+      tokens: mciGpOzzSvncQJ5IFEUNVODRyVkgL1kD
   frontend:
     subpath: /uploaded
   upload:
     base:
-#      dir: /upload
-      dir: C://podo-dev-uploader/upload
+            dir: /upload
+#      dir: C://podo-dev-uploader/upload
 
 
 

@@ -28,7 +28,7 @@ public class PodoSolrClient {
     @Value("${infra.solr.core.id}")
     private String coreId;
 
-    @Value("${infra.solr.query.hl.max.pre.length}")
+    @Value("${infra.solr.query.hl.pre.max.length}")
     private Integer maxLengthBeforeHighlight;
 
     @Value("${infra.solr.query.hl.frag.length}")

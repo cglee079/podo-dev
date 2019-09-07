@@ -11,11 +11,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -23,10 +26,29 @@ import java.util.Map;
 @Transactional
 @Service
 public class AttachImageSaveService {
+
     @Value("${upload.postfix.image.dir}")
     private String imageDir;
 
+    private final AttachImageSaveRepository attachImageSaveRepository;
     private final FileWriter fileWriter;
+
+//    @PostConstruct
+//    public void dd(){
+//        List<AttachImageSave> files = attachImageSaveRepository.findAll();
+//        files.forEach(file -> {
+//            final String url = PathUtil.merge("http://upload.podo-dev.com:8090/uploaded", file.getPath(), file.getFilename());
+//            try {
+//                File f = fileWriter.saveFile("temp", url);
+//                Long filesize = f.length();
+//                ImageInfo info = getImageInfo(f);
+//                file.update(info.getWidth(), info.getHeight(), filesize);
+//                attachImageSaveRepository.save(file);
+//            }catch (Exception e){
+//                System.out.println(url);
+//            }
+//        });
+//    }
 
     public Map<String, AttachImageSaveDto.response> makeSaveFile(MultipartFile multipartFile) {
         if (!this.isImageFile(multipartFile)) {
@@ -41,7 +63,7 @@ public class AttachImageSaveService {
     private Map<String, AttachImageSaveDto.response> saveFile(MultipartFile multipartFile) {
         log.info("Save Image Each Size, '{}'", multipartFile.getOriginalFilename());
 
-        final String path = PathUtil.merge(MyFileUtils.makeDatePath(), imageDir); // 로컬 저장경로
+        final String path = PathUtil.merge(imageDir, MyFileUtils.makeDatePath()); // 로컬 저장경로
         final Map<String, AttachImageSaveDto.response> saves = new HashMap<>();
 
         //Save Origin File

@@ -81,6 +81,7 @@ public class CommentService {
                     .contents(contents)
                     .cgroup(cgroup)
                     .child(0)
+                    .parentSeq(parentSeq)
                     .depth(depth + 1)
                     .sort(childSort)
                     .build();
@@ -101,7 +102,7 @@ public class CommentService {
         Optional<Comment> commentOpt = commentRepository.findById(seq);
 
         if (!commentOpt.isPresent()) {
-            //TODO 권한 인증
+            //TODO
         }
 
         Comment comment = commentOpt.get();
@@ -110,7 +111,28 @@ public class CommentService {
             throw new NoAuthenticatedException();
         }
 
-        comment.erase();
+        //자식이 없는 경우
+        if (comment.getChild() == 0) {
+
+            commentRepository.delete(comment);
+
+            if (!Objects.isNull(comment.getParentSeq())) {
+                Comment parent = commentRepository.findById(comment.getParentSeq()).get();
+                parent.decreaseChild();
+
+                if (parent.getChild() == 0 && parent.isErase()) {
+                    commentRepository.delete(parent);
+                }
+            }
+
+
+        }
+
+        // 자식이 있는 경우
+        else {
+            comment.erase();
+        }
+
 
     }
 }

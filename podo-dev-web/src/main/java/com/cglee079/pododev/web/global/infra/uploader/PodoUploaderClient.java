@@ -8,13 +8,18 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.client.RestTemplate;
+import sun.security.provider.certpath.OCSPResponse;
 
 import java.io.File;
 
 @Slf4j
 @Component
 public class PodoUploaderClient {
+
+    @Value("${infra.uploader.token}")
+    private String token;
 
     @Value("${infra.uploader.domain}")
     private String serverUrl;
@@ -31,11 +36,18 @@ public class PodoUploaderClient {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        headers.setBearerAuth(token);
 
         HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(body, headers);
 
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.exchange(serverUrl + subpath, HttpMethod.POST, request, String.class);
+
+        if(response.getStatusCode() != HttpStatus.OK){
+            log.error("body : {}", response.getStatusCode());
+            log.error("headers : {}", response.getHeaders());
+            log.error("body : {}", response.getBody());
+        }
 
         log.info("Upload Response '{}'", response.toString());
     }
@@ -49,6 +61,7 @@ public class PodoUploaderClient {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(token);
 
         HttpEntity<String> request = new HttpEntity<>(object.toString(), headers);
 

@@ -1,6 +1,7 @@
 package com.cglee079.pododev.web.global.util;
 
 import com.cglee079.pododev.core.global.util.MyFileUtils;
+import com.querydsl.core.util.FileUtils;
 import lombok.RequiredArgsConstructor;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.io.FilenameUtils;
@@ -8,8 +9,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
 
 /**
  * 로컬에 이미지 저장
@@ -20,6 +22,15 @@ public class FileWriter {
 
     @Value("${upload.base.dir}")
     private String baseDir;
+
+    public File saveFile(String path, String urlStr) {
+
+        final String dirPath = PathUtil.merge(baseDir, path); // 로컬 저장경로
+        final String filename = MyFileUtils.makeRandFilename("");
+
+        return MyFileUtils.saveFile(PathUtil.merge(dirPath, filename), urlStr);
+    }
+
 
     public File saveFile(String path, MultipartFile multipartFile) {
         final String originName = multipartFile.getOriginalFilename();
@@ -54,5 +65,9 @@ public class FileWriter {
 
         return resizeFile;
 
+    }
+
+    public void removeFile(String path, File file) {
+        MyFileUtils.deleteFile(PathUtil.merge(baseDir, path), file.getName());
     }
 }

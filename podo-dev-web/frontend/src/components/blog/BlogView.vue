@@ -29,6 +29,20 @@
             <span @click="clickNext()">다음글</span>
         </div>
 
+        <div id="files">
+            <div v-for="file in blog.files"
+                 v-bind:key="file.seq"
+                 class="file"
+            >
+                <!--                <a :href="file.domainUrl + file.path + '/' +file.filename">-->
+                <a href="javascript:void(0)" @click="clickFile(file.seq)">
+                    <img src="@/assets/btn-file.svg" class="file-icon"/>
+                    <span class="file-name">{{file.originName}}</span>
+                    <span class="file-size">[{{formatFilesize(file.filesize)}}]</span>
+                </a>
+            </div>
+        </div>
+
         <div id="contents">
             <toast-custom-viewer :value="blog.contents"/>
         </div>
@@ -50,6 +64,7 @@
     import TheExport from "./BlogViewExport"
     import {mapGetters} from 'vuex'
     import customToast from '@/mixins/customToast'
+    import filesize from 'filesize'
 
     export default {
         name: 'BlogVue',
@@ -71,7 +86,7 @@
         },
         computed: {
             ...mapGetters([
-                'isAdmin', 'isLogin'
+                'isAdmin', 'isLogin', 'getServerUrl'
             ]),
         },
         methods: {
@@ -127,6 +142,14 @@
                         'seq': seq
                     }
                 })
+            },
+
+            clickFile(fileSeq) {
+                window.location.href = this.getServerUrl + "/api/blogs/" + this.blog.seq + "/files/" + fileSeq
+            },
+
+            formatFilesize(value) {
+                return filesize(value)
             },
 
             increaseHitCount(seq) {
@@ -254,8 +277,44 @@
             }
         }
 
+        #files {
+            margin-top: 20px;
+            text-align: right;
+
+
+            .file {
+                margin: 5px 0px;
+                opacity: 0.95;
+                white-space: nowrap;
+
+                a {
+                    display: flex;
+                    justify-content: flex-end;
+                    align-items: center;
+
+                    .file-icon {
+                        width: 15px;
+                        margin-top: 5px;
+                    }
+
+                    .file-name {
+                        margin-left: 5px;
+                        overflow: hidden;
+                        max-width: 50%;
+                        text-overflow: ellipsis
+                    }
+
+                    .file-size {
+                        margin-left: 10px;
+                    }
+                }
+
+
+            }
+        }
+
         #contents {
-            margin-top: 50px;
+            margin-top: 70px;
             margin-bottom: 150px;
             font-size: 1rem !important;
         }

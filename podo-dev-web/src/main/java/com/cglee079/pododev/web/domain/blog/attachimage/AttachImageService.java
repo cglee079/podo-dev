@@ -6,6 +6,8 @@ import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSave;
 import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSaveDto;
 import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSaveService;
 import com.cglee079.pododev.web.global.infra.uploader.PodoUploaderClient;
+import com.cglee079.pododev.web.global.util.FileWriter;
+import com.cglee079.pododev.web.global.util.PathUtil;
 import com.cglee079.pododev.web.global.util.TempUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +38,7 @@ public class AttachImageService {
 
     @Value("${upload.base.url}")
     private String baseUrl;
+
 
     /**
      * 이미지 업로드, 이미지를 우선 본서버에 저장.

@@ -48,4 +48,10 @@ public class AttachImageSave {
         this.height = height;
         this.filesize = filesize;
     }
+
+    public void update(Integer width, Integer height, Long filesize) {
+        this.width = width;
+        this.height = height;
+        this.filesize = filesize;
+    }
 }

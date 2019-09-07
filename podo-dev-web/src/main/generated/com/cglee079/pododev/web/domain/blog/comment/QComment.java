@@ -33,13 +33,15 @@ public class QComment extends EntityPathBase<Comment> {
 
     public final BooleanPath enabled = createBoolean("enabled");
 
-    public final StringPath password = createString("password");
+    public final NumberPath<Long> parentSeq = createNumber("parentSeq", Long.class);
 
     public final NumberPath<Long> seq = createNumber("seq", Long.class);
 
     public final NumberPath<Double> sort = createNumber("sort", Double.class);
 
     public final DateTimePath<java.time.LocalDateTime> updateAt = createDateTime("updateAt", java.time.LocalDateTime.class);
+
+    public final StringPath userId = createString("userId");
 
     public final StringPath username = createString("username");
 

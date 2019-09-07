@@ -132,6 +132,7 @@ public class BlogDto {
             this.images = new LinkedList<>();
             this.files = new LinkedList<>();
 
+            this.contents = contents.replace("http://upload.podo-dev.com/", "http://upload.podo-dev.com:8090/");
             blog.getTags().forEach(tag -> this.tags.add(new TagDto.response(tag)));
             blog.getImages().forEach(image -> this.images.add(new AttachImageDto.response(image, domainUrl, fileStatus)));
             blog.getFiles().forEach(file -> this.files.add(new AttachFileDto.response(file, domainUrl, fileStatus)));

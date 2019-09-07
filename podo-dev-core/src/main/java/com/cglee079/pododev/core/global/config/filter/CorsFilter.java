@@ -1,4 +1,4 @@
-package com.cglee079.pododev.web.global.config.filter;
+package com.cglee079.pododev.core.global.config.filter;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;

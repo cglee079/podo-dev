@@ -84,7 +84,10 @@
         data() {
             return {
                 isNew: true,
-                autoSaveInterval: undefined,
+                autoSave: {
+                    key: "autoSave_post_",
+                    interval: undefined
+                },
                 seq: 0,
                 temp: '',
                 editor: undefined,
@@ -118,7 +121,7 @@
 
                         if (included) {
                             this.$toasted.show(txt + "는 중복됩니다!")
-                            return 
+                            return
                         }
 
                         const obj = {}
@@ -156,6 +159,8 @@
             },
 
             clickSubmit() {
+                this.removeSaved(this.seq)
+
                 if (this.isNew) {
                     this.insertBlog()
                 } else {
@@ -282,6 +287,14 @@
                     default :
                         break
                 }
+            },
+
+            removeSaved(seq) {
+                const autoSaveKey = this.autoSave.key + seq
+
+                localStorage.removeItem(autoSaveKey + "_is")
+                localStorage.removeItem(autoSaveKey + "_content")
+                localStorage.removeItem(autoSaveKey + "_input")
             }
 
 
@@ -294,7 +307,7 @@
                 this.loadBlog(seq)
             }
 
-            const autoSaveKey = "autoSave_post_" + seq
+            const autoSaveKey = this.autoSave.key + seq
             const saved = localStorage.getItem(autoSaveKey + "_is")
 
             if (saved) {
@@ -306,20 +319,15 @@
 
                         this.editor.setMarkdown(saveContent)
                         this.input = saveInput
-
-                        localStorage.removeItem(autoSaveKey + "_is")
-                        localStorage.removeItem(autoSaveKey + "_content")
-                        localStorage.removeItem(autoSaveKey + "_input")
+                        this.removeSaved(seq)
                     },
                     () => {
-                        localStorage.removeItem(autoSaveKey + "_is")
-                        localStorage.removeItem(autoSaveKey + "_content")
-                        localStorage.removeItem(autoSaveKey + "_input")
+                        this.removeSaved(seq)
                     }
                 )
             }
 
-            this.autoSaveInterval = setInterval(() => {
+            this.autoSave.interval = setInterval(() => {
                 const currentContent = this.editor.getMarkdown()
                 const currentInput = JSON.stringify(this.input)
                 const saveContent = localStorage.getItem(autoSaveKey + "_content")
@@ -332,13 +340,13 @@
                     localStorage.setItem(autoSaveKey + "_content", currentContent)
                     localStorage.setItem(autoSaveKey + "_input", currentInput)
                 }
-            }, 10000)
+            }, 1000 * 60 * 2)
 
 
         },
 
         destroyed() {
-            clearInterval(this.autoSaveInterval)
+            clearInterval(this.autoSave.interval)
         },
 
         mounted() {

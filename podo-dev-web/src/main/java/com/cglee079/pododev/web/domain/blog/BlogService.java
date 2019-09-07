@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import javax.annotation.PostConstruct;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +51,19 @@ public class BlogService {
     private final PodoSolrClient podoSolrClient;
     private final PodoUploaderClient podoUploaderClient;
 
+
+//    @PostConstruct
+//    public void dd(){
+//        List<Blog> blogs = blogRepository.findAll();
+//        blogs.forEach(blog -> {
+//            String content = blog.getContents();
+////            content = content.replace("/uploaded/blog/image", "http://upload.podo-dev.com/blogs/images/2019/07/10/origin");
+//            content = content.replace("/uploaded/study/image", "http://upload.podo-dev.com/uploaded/blogs/images/2019/07/10/origin");
+//            blog.setContents(content);
+//
+//            blogRepository.save(blog);
+//        });
+//    }
 
     public BlogDto.response get(Long seq) {
         Optional<Blog> blog = blogRepository.findById(seq);

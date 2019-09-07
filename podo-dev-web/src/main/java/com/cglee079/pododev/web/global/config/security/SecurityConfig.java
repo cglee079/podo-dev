@@ -1,6 +1,6 @@
 package com.cglee079.pododev.web.global.config.security;
 
-import com.cglee079.pododev.web.global.config.filter.CorsFilter;
+import com.cglee079.pododev.core.global.config.filter.CorsFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;

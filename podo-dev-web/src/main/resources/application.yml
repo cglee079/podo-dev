@@ -14,7 +14,7 @@ spring:
 
   # Data Resource
   datasource:
-    url: jdbc:mysql://125.186.242.83:8088/podo-dev?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://192.168.219.103:3307/podo-dev?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
     username: cglee079
     password: lcg050179!
     driver-class-name: com.mysql.jdbc.Driver
@@ -54,7 +54,8 @@ upload:
 
 infra:
   uploader:
-    domain: http://localhost:8092
+    token: mciGpOzzSvncQJ5IFEUNVODRyVkgL1kD
+    domain: http://upload.podo-dev.com:8090
     upload:
       subpath: /api/uploader/file
     frontend:
@@ -70,13 +71,13 @@ infra:
         id: 503609560
 
   solr:
-    url: http://125.186.242.83:8090/solr
+    url: http://192.168.219.103:8979/solr
     core:
       id: podo-dev
     query:
       hl:
-        max:
-          pre:
+        pre:
+          max:
             length: 100
         frag:
           length: 10000000
@@ -99,4 +100,4 @@ google:
 
 security:
   admin:
-    ids: 116440278738014640765
+    ids: 116440278738014640765, 116491882380204991899

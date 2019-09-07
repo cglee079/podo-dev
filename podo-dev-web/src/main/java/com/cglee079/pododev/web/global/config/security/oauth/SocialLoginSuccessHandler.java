@@ -62,7 +62,7 @@ public class SocialLoginSuccessHandler implements AuthenticationSuccessHandler {
 //                .build().toString();
 
         //Go Home
-        res.sendRedirect("http://localhost:8081?token=" + token);
+        res.sendRedirect("http://192.168.219.105:8080?token=" + token);
     }
 
 }

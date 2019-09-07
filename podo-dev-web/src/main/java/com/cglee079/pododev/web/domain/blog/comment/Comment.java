@@ -36,6 +36,9 @@ public class Comment {
     @Column
     private Integer child;
 
+    @Column(name = "parent_seq")
+    private Long parentSeq;
+
     @Column
     private Integer depth;
 
@@ -57,7 +60,7 @@ public class Comment {
 
     @Builder
     public Comment(Long blogSeq, String username, String userId, String contents,
-                   Long cgroup, Integer child, Integer depth, Double sort) {
+                   Long cgroup, Integer child, Long parentSeq, Integer depth, Double sort) {
         this.blogSeq = blogSeq;
         this.username = username;
         this.userId = userId;
@@ -65,6 +68,7 @@ public class Comment {
         this.child = child;
         this.cgroup = cgroup;
         this.depth = depth;
+        this.parentSeq = parentSeq;
         this.sort = sort;
         this.enabled = true;
     }
@@ -82,4 +86,11 @@ public class Comment {
         this.enabled = false;
     }
 
+    public void decreaseChild() {
+        this.child--;
+    }
+
+    public boolean isErase() {
+        return !this.enabled;
+    }
 }
