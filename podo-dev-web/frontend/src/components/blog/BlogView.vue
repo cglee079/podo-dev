@@ -215,8 +215,19 @@
         max-width: 800px;
         margin: 0px auto;
 
-        &.mobile {
-            margin: 0px 20px;
+        &.mobile, &.tablet {
+            #head, #submenus, #contents{
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            #head {
+                margin: 120px 10px;
+
+                #title {
+                    font-size: 1.6rem;
+                }
+            }
         }
 
         #head {
@@ -319,15 +330,6 @@
             font-size: 1rem !important;
         }
 
-        &.mobile {
-            #head {
-                margin: 100px 10px;
-
-                #title {
-                    font-size: 1.6rem;
-                }
-            }
-        }
     }
 </style>
 

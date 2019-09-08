@@ -1,37 +1,37 @@
 <template>
     <div
-            v-bind:style="{'margin-left': (comment.depth * 2) + 'rem'}"
-            class="comment"
+            v-bind:style="{'padding-left': (comment.depth * 2) + 'rem'}"
+            class="wrap-comment"
             :class="comment.enabled ? '' : 'disabled'"
     >
-
-        <div class="header">
-            <div class="info">
-                <a class="writer">{{comment.username}}</a>
-                <a class="create-at">{{comment.createAt}}</a>
+        <div class="comment">
+            <div class="header">
+                <div class="info">
+                    <a class="writer">{{comment.username}}</a>
+                    <a class="create-at">{{comment.createAt}}</a>
+                </div>
+                <div class="menu">
+                    <a v-if="comment.enabled" @click="clickReply">{{reply.message}}</a>
+                    <a v-if="comment.enabled && comment.isMine" @click="clickCommentDelete(comment.seq)">삭제</a>
+                </div>
             </div>
-            <div class="menu">
-                <a v-if="comment.enabled" @click="clickReply">{{reply.message}}</a>
-                <a v-if="comment.enabled && comment.isMine" @click="clickCommentDelete(comment.seq)">삭제</a>
+
+            <div class="contents">
+                <span v-if="comment.depth !== 0">ㄴ </span>
+                <span v-html="comment.contents"/>
+            </div>
+
+            <div id="reply">
+                <component
+                        :is="reply.comp"
+                        :blogSeq="blogSeq"
+                        :parentSeq="comment.seq"
+                        :placeholder="comment.username + ' 님에게 답글'"
+                        @reload="$emit('reload')"
+                        @writeListener="writeListener"
+                />
             </div>
         </div>
-
-        <div class="contents">
-            <span v-if="comment.depth !== 0">ㄴ </span>
-            <span v-html="comment.contents"/>
-        </div>
-
-        <div id="reply">
-            <component
-                    :is="reply.comp"
-                    :blogSeq="blogSeq"
-                    :parentSeq="comment.seq"
-                    :placeholder="comment.username + ' 님에게 답글'"
-                    @reload="$emit('reload')"
-                    @writeListener="writeListener"
-            />
-        </div>
-
     </div>
 </template>
 
@@ -88,12 +88,10 @@
 </script>
 
 <style scoped lang="scss">
-    .comment {
-        padding: 25px 20px 25px 20px;
+    .wrap-comment {
         border-bottom: 0.5px solid #F1F1F1;
-        border-radius: 5px;
 
-        &:hover{
+        &:hover {
             background: #FAFAFA;
         }
 
@@ -101,49 +99,52 @@
             opacity: 0.6;
         }
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
+        .comment {
+            padding: 25px 20px 25px 20px;
 
-            .info {
-                .writer {
-                    color: #4c2b2b;
-                    font-weight: bold;
+            .header {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 10px;
+
+                .info {
+                    .writer {
+                        color: #4c2b2b;
+                        font-weight: bold;
+                    }
+
+                    .create-at {
+                        color: #ab8888;
+                        font-size: 0.85rem;
+                        margin-left: 10px;
+                    }
+
+
                 }
 
-                .create-at {
-                    color: #ab8888;
-                    font-size: 0.85rem;
-                    margin-left: 10px;
+                .menu {
+                    font-size: 0.8rem;
+                    color: #444;
+                    text-align: right;
+
+                    a {
+                        margin-left: 7px;
+                        cursor: pointer;
+                    }
                 }
-
-
             }
 
-            .menu {
-                font-size: 0.8rem;
+            .contents {
                 color: #444;
-                text-align: right;
-
-                a {
-                    margin-left: 7px;
-                    cursor: pointer;
-                }
+                font-size: 0.9rem;
+                word-break: break-all;
+                word-wrap: break-word;
             }
-        }
 
-        .contents {
-            color: #444;
-            font-size: 0.9rem;
-            word-break: break-all;
-            word-wrap: break-word;
-        }
-
-        #reply {
-            margin-left: 30px;
+            #reply {
+                margin-left: 30px;
+            }
         }
     }
-
 
 </style>

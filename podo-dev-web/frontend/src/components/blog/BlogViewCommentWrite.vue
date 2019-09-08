@@ -1,5 +1,5 @@
 <template>
-    <div id="write">
+    <div id="write" :class="$mq">
         <textarea id="contents" :placeholder="write.placeholder" v-model="input.contents" :disabled="!isLogin"/>
         <div id="sub">
             <div id="user">
@@ -49,7 +49,7 @@
                     .post('/api/blogs/' + this.blogSeq + "/comments", {
                         username: this.input.username,
                         contents: this.input.contents,
-                        parentSeq : this.parentSeq
+                        parentSeq: this.parentSeq
                     })
                     .then(res => {
                         this.$toasted.show("댓글이 등록되었습니다")
@@ -62,7 +62,7 @@
                     })
             },
 
-            updateInput(){
+            updateInput() {
                 if (this.isLogin) {
                     this.input.username = this.getUser.name
                     this.write.placeholder = this.placeholder
@@ -71,7 +71,7 @@
         },
 
 
-        updated(){
+        updated() {
             this.updateInput()
         },
 
@@ -87,6 +87,12 @@
     /*** Comment Write ****/
     #write {
         margin-top: 20px;
+
+
+        &.mobile, &.tablet {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
 
         #contents {
             width: 100%;

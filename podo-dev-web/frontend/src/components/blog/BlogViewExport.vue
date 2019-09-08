@@ -11,7 +11,8 @@
                 <div id="exportThumbnail">
                     <div id="bgThumbnail"/>
                     <div id="thumbnail">
-                        <img :src="blog.thumbnail"/>
+                        <img v-if="blog.thumbnail" :src="blog.thumbnail"/>
+                        <img v-else src="@/assets/logo4.svg" width="50%"/>
                     </div>
                 </div>
 
@@ -154,6 +155,8 @@
                 #export {
                     width: 100%;
                     height: 100%;
+                    max-height: 100%;
+                    border-radius: unset;
                 }
             }
         }
@@ -165,7 +168,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: #000;
+            background: #000000;
             opacity: 0.8;
         }
 
@@ -184,9 +187,12 @@
             display: flex;
 
             #export {
-                width: 400px;
-                height: 70%;
+                width: 350px;
+                height: 500px;
+                max-height: 60%;
                 position: relative;
+                border-radius: 3px;
+                overflow: hidden;
 
                 display: flex;
                 flex-flow: column;
@@ -195,10 +201,10 @@
                 #btnExportExit {
                     z-index: 11;
                     position: absolute;
-                    left: 0;
+                    right: 0;
                     top: 0;
-                    margin: 8px;
-                    padding: 20px;
+                    margin: 7px;
+                    padding: 13px;
                     cursor: pointer;
 
                     span {
@@ -206,7 +212,7 @@
                         position: absolute;
                         height: 1.5px;
                         width: 100%;
-                        background: #FFF;
+                        background: #000000;
                         border-radius: 9px;
                         left: 0;
                     }
@@ -238,8 +244,7 @@
                         right: 0;
                         top: 0;
                         bottom: 0;
-                        background: #000;
-                        opacity: 0.7;
+                        background: #FFFFFF;
                     }
 
                     #thumbnail {
@@ -253,6 +258,7 @@
                         justify-content: center;
 
                         img {
+                            border-radius:  5px;
                             max-height: 70%;
                             max-width: 80%;
                         }
@@ -262,16 +268,18 @@
 
                 #menus {
                     flex: 1;
-                    background: #FFF;
-                    padding-top: 20px;
+                    background: #FFFFFF;
                     cursor: pointer;
+                    border-top: 1px solid #E7E7E7;
+                    color: #444444;
 
                     .menu {
                         display: flex;
                         align-items: center;
-                        padding: 0.3rem 2rem;
+                        padding: 8px 20px;
                         font-weight: bold;
                         cursor: pointer;
+                        border-bottom: 1px solid #E7E7E7;
 
                         img {
                             width: 30px;

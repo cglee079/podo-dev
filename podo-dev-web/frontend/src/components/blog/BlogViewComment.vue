@@ -1,5 +1,5 @@
 <template>
-    <div id="wrapComment">
+    <div id="wrapComment" :class="$mq">
         <div id="count">
             <img src="https://image.flaticon.com/icons/svg/134/134718.svg"/>
             <a class="comment-cnt">{{comments.length}}</a>
@@ -98,6 +98,13 @@
 
     #wrapComment {
         margin-top: 100px;
+
+        &.mobile, &.tablet {
+            #count{
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+        }
     }
 
     #count {
@@ -114,7 +121,7 @@
             margin-top: 2px;
         }
 
-        div{
+        div {
             flex: 1;
             height: 5px;
             margin-left: 10px;
