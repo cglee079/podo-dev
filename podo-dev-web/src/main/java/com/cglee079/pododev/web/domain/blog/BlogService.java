@@ -52,18 +52,55 @@ public class BlogService {
     private final PodoUploaderClient podoUploaderClient;
 
 
-//    @PostConstruct
-//    public void dd(){
-//        List<Blog> blogs = blogRepository.findAll();
-//        blogs.forEach(blog -> {
-//            String content = blog.getContents();
+    @PostConstruct
+    public void dd(){
+        List<Blog> blogs = blogRepository.findAll();
+        blogs.forEach(blog -> {
+            String content = blog.getContents();
 ////            content = content.replace("/uploaded/blog/image", "http://upload.podo-dev.com/blogs/images/2019/07/10/origin");
-//            content = content.replace("/uploaded/study/image", "http://upload.podo-dev.com/uploaded/blogs/images/2019/07/10/origin");
-//            blog.setContents(content);
+//            while(true) {
+//                Integer index = content.indexOf("height:");
 //
-//            blogRepository.save(blog);
-//        });
-//    }
+//                if(index == -1){
+//                    break;
+//                }
+//
+//                char[] chars = content.toCharArray();
+//                StringBuilder newC = new StringBuilder("");
+//                int i = 0;
+//
+//                for (i = 0; i < index; i++) {
+//                    newC.append(chars[i]);
+//                }
+//
+//                i += "height:".length();
+//
+//
+//                for (i = i; i < chars.length; i++) {
+//                    if (chars[i] == ';') {
+//                        break;
+//                    }
+//                }
+//
+//                i++;
+//                i++;
+//
+//                for (i = i; i < chars.length; i++) {
+//                    newC.append(chars[i]);
+//                }
+//
+//                content = newC.toString();
+//            }
+//
+//            System.out.println(content);
+
+
+
+            blog.setContents(content);
+
+            blogRepository.save(blog);
+        });
+    }
 
     public BlogDto.response get(Long seq) {
         Optional<Blog> blog = blogRepository.findById(seq);

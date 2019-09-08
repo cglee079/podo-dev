@@ -26,9 +26,6 @@ public class AttachImage {
     @Column(name = "blog_seq")
     private Long blogSeq;
 
-    @Column(name = "origin_key")
-    private String originKey;
-
     @Column(name = "origin_name")
     private String originName;
 
@@ -37,9 +34,8 @@ public class AttachImage {
     List<AttachImageSave> saves;
 
     @Builder
-    public AttachImage(Long blogSeq, String originKey, String originName, List<AttachImageSave> saves) {
+    public AttachImage(Long blogSeq, String originName, List<AttachImageSave> saves) {
         this.blogSeq = blogSeq;
-        this.originKey = originKey;
         this.originName = originName;
         this.saves = saves;
     }

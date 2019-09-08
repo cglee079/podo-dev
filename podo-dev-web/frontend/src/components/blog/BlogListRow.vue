@@ -156,6 +156,13 @@
 
             .info {
                 font-size: 0.8rem;
+
+                .tags {
+                    max-width: 40%;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
             }
 
         }

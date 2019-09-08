@@ -21,9 +21,6 @@ public class AttachFile {
     @Column(name = "blog_seq")
     private Long blogSeq;
 
-    @Column(name = "origin_key")
-    private String originKey;
-
     @Column(name = "origin_name")
     private String originName;
 
@@ -40,16 +37,11 @@ public class AttachFile {
     private Date createAt;
 
     @Builder
-    public AttachFile(String originKey, Long blogSeq, String filename, String originName, String path, Long filesize) {
-        this.originKey = originKey;
+    public AttachFile(Long blogSeq, String filename, String originName, String path, Long filesize) {
         this.blogSeq = blogSeq;
         this.filename = filename;
         this.originName = originName;
         this.path = path;
-        this.filesize = filesize;
-    }
-
-    public void setFilesize(Long filesize) {
         this.filesize = filesize;
     }
 }

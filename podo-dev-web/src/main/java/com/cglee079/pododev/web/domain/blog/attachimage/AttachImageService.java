@@ -44,7 +44,6 @@ public class AttachImageService {
      * 이미지 업로드, 이미지를 우선 본서버에 저장.
      */
     public AttachImageDto.response saveImage(MultipartFile multipartFile) {
-        final String key = MyFileUtils.generateKey();
         final String originName = multipartFile.getOriginalFilename();
 
         log.info("Save Image '{}' >> ", originName);
@@ -52,7 +51,6 @@ public class AttachImageService {
         final Map<String, AttachImageSaveDto.response> saves = attachImageSaveService.makeSaveFile(multipartFile);
 
         return AttachImageDto.response.builder()
-                .key(key)
                 .originName(originName)
                 .domainUrl(TempUtil.getDomainUrl() + baseUrl)
                 .fileStatus(FileStatus.NEW)
@@ -61,7 +59,7 @@ public class AttachImageService {
     }
 
     /***
-     * 게시글 작성 시, 이미지 저장
+     * 게시글 작성 시, 이미지 업로드 To Uplaoder Server
      * @param images
      */
     public void uploadImage(List<AttachImageDto.insert> images) {
@@ -90,7 +88,7 @@ public class AttachImageService {
     }
 
     /**
-     * 게시글 수정 시, 이미지 수정
+     * 게시글 수정 시, 첨부이미지 업데이트 To Uploader Server
      *
      * @param blogSeq
      * @param images

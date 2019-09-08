@@ -58,7 +58,6 @@ public class AttachFileService {
      */
     public AttachFileDto.response saveFile(MultipartFile multipartFile) {
         final String originName = multipartFile.getOriginalFilename();
-        final String key = MyFileUtils.generateKey();
         final String path = PathUtil.merge(fileDir, MyFileUtils.makeDatePath());
 
         log.info("Save File '{}'", originName);
@@ -66,7 +65,6 @@ public class AttachFileService {
         final File file = fileWriter.saveFile(path, multipartFile);
 
         return AttachFileDto.response.builder()
-                .originKey(key)
                 .originName(originName)
                 .domainUrl(TempUtil.getDomainUrl() + baseUrl)
                 .path(path)
@@ -76,6 +74,10 @@ public class AttachFileService {
                 .build();
     }
 
+    /**
+     * 게시글 작성 시, 첨부파일 업로드 to Uploader Server
+     * @param files
+     */
     public void uploadFile(List<AttachFileDto.insert> files) {
         log.info("Upload File ");
 
@@ -95,6 +97,11 @@ public class AttachFileService {
         });
     }
 
+    /**
+     * 게시글 수정 시, 첨부 파일 업데이트 to Uploader Server
+     * @param blogSeq
+     * @param files
+     */
     public void updateFile(Long blogSeq, List<AttachFileDto.update> files) {
         log.info("Update File info blogSeq '{}'", blogSeq);
 
@@ -121,7 +128,7 @@ public class AttachFileService {
         Optional<AttachFile> file = attachFileRepository.findById(fileSeq);
 
         if (!file.isPresent()) {
-
+            //TODO
         }
 
         return new AttachFileDto.response(file.get(), uploaderFrontendUrl, FileStatus.BE);

@@ -9,7 +9,6 @@ public class AttachFileDto {
     @Getter
     public static class response {
         private Long seq;
-        private String originKey;
         private String filename;
         private String originName;
         private String domainUrl;
@@ -18,9 +17,8 @@ public class AttachFileDto {
         private FileStatus fileStatus;
 
         @Builder
-        public response(Long seq, String originKey, String filename, String originName, String domainUrl, String path, Long filesize, FileStatus fileStatus) {
+        public response(Long seq, String filename, String originName, String domainUrl, String path, Long filesize, FileStatus fileStatus) {
             this.seq = seq;
-            this.originKey = originKey;
             this.filename = filename;
             this.originName = originName;
             this.domainUrl = domainUrl;
@@ -31,7 +29,6 @@ public class AttachFileDto {
 
         public response(AttachFile file, String domainUrl, FileStatus fileStatus) {
             this.seq = file.getSeq();
-            this.originKey = file.getOriginKey();
             this.filename = file.getFilename();
             this.originName = file.getOriginName();
             this.domainUrl = domainUrl;
@@ -43,7 +40,6 @@ public class AttachFileDto {
 
     @Getter
     public static class insert {
-        private String originKey;
         private String filename;
         private String originName;
         private String path;
@@ -52,7 +48,6 @@ public class AttachFileDto {
 
         public AttachFile toEntity() {
             return AttachFile.builder()
-                    .originKey(originKey)
                     .filename(filename)
                     .originName(originName)
                     .path(path)
@@ -65,7 +60,6 @@ public class AttachFileDto {
     @Getter
     public static class update {
         private Long seq;
-        private String originKey;
         private String filename;
         private String originName;
         private String path;
@@ -75,7 +69,6 @@ public class AttachFileDto {
         public AttachFile toEntity(Long blogSeq) {
             return AttachFile.builder()
                     .blogSeq(blogSeq)
-                    .originKey(originKey)
                     .originName(originName)
                     .path(path)
                     .filename(filename)

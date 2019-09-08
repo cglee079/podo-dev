@@ -13,15 +13,13 @@ public class AttachImageDto {
     @Getter
     public static class response {
         private Long seq;
-        private String key;
         private String originName;
         private String domainUrl;
         private FileStatus fileStatus;
         private Map<String, AttachImageSaveDto.response> saves;
 
         @Builder
-        public response(String key, String originName, String domainUrl, FileStatus fileStatus, Map<String, AttachImageSaveDto.response> saves) {
-            this.key = key;
+        public response(String originName, String domainUrl, FileStatus fileStatus, Map<String, AttachImageSaveDto.response> saves) {
             this.originName = originName;
             this.domainUrl = domainUrl;
             this.fileStatus = fileStatus;
@@ -30,7 +28,6 @@ public class AttachImageDto {
 
         public response(AttachImage image, String domainUrl, FileStatus fileStatus) {
             this.seq = image.getSeq();
-            this.key = image.getOriginKey();
             this.originName = image.getOriginName();
             this.domainUrl = domainUrl;
             this.fileStatus = fileStatus;
@@ -46,7 +43,6 @@ public class AttachImageDto {
 
     @Getter
     public static class insert {
-        private String key;
         private String originName;
         private String domainUrl;
         private String fileStatus;
@@ -67,7 +63,6 @@ public class AttachImageDto {
             }
 
             return AttachImage.builder()
-                    .originKey(this.key)
                     .originName(this.originName)
                     .saves(attachImageSaves)
                     .build();
@@ -77,7 +72,6 @@ public class AttachImageDto {
     @Getter
     public static class update {
         private Long seq;
-        private String key;
         private String originName;
         private String domainUrl;
         private String fileStatus;
@@ -98,7 +92,6 @@ public class AttachImageDto {
 
             return AttachImage.builder()
                     .blogSeq(blogSeq)
-                    .originKey(this.key)
                     .originName(this.originName)
                     .saves(attachImageSaves)
                     .build();

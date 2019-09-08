@@ -89,8 +89,13 @@
 
 <style scoped lang="scss">
     .comment {
-        padding: 30px 5px 25px 5px;
-        border-bottom: 1px solid #F1F1F1;
+        padding: 25px 20px 25px 20px;
+        border-bottom: 0.5px solid #F1F1F1;
+        border-radius: 5px;
+
+        &:hover{
+            background: #FAFAFA;
+        }
 
         &.disabled {
             opacity: 0.6;
@@ -105,12 +110,12 @@
                 .writer {
                     color: #4c2b2b;
                     font-weight: bold;
-                    margin-right: 5px;
                 }
 
                 .create-at {
-                    color: #777;
-                    font-size: 0.8rem;
+                    color: #ab8888;
+                    font-size: 0.85rem;
+                    margin-left: 10px;
                 }
 
 

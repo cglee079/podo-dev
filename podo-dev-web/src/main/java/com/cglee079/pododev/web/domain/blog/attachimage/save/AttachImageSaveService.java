@@ -79,10 +79,10 @@ public class AttachImageSaveService {
                         .build()
         );
 
-        //TODO
-        //Save Thumbnails
-        Integer resizeWidth = 100;
-        saves.put(("w" + resizeWidth), saveResizeImage(originImage, path, resizeWidth));
+
+//        //Resize Image
+//        Integer resizeWidth = 100;
+//        saves.put(("w" + resizeWidth), saveResizeImage(originImage, path, resizeWidth));
 
         return saves;
     }

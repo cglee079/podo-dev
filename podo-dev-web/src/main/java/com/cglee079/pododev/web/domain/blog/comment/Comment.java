@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -51,12 +52,9 @@ public class Comment {
     @Column
     private Boolean enabled;
 
+    @CreatedDate
     @Column(name = "create_at")
     private LocalDateTime createAt;
-
-    @Column(name = "update_at")
-    private LocalDateTime updateAt;
-
 
     @Builder
     public Comment(Long blogSeq, String username, String userId, String contents,

@@ -1,8 +1,8 @@
 <template>
     <div id="wrapComment">
         <div id="count">
-            <img src="https://image.flaticon.com/icons/svg/134/134718.svg" width="30px"/>
-            (<a class="comment-cnt">{{comments.length}}</a>)
+            <img src="https://image.flaticon.com/icons/svg/134/134718.svg"/>
+            <a class="comment-cnt">{{comments.length}}</a>
             <div></div>
         </div>
 
@@ -103,6 +103,7 @@
     #count {
         display: flex;
         align-items: center;
+        margin-bottom: 20px;
         font-size: 1.25rem;
         font-weight: bold;
         opacity: 0.7;
@@ -111,7 +112,6 @@
             width: 27px;
             margin-right: 7px;
             margin-top: 2px;
-
         }
 
         div{
@@ -119,123 +119,8 @@
             height: 5px;
             margin-left: 10px;
             margin-top: 5px;
-            background: #E7E7E7;
+            background: #F1F1F1;
         }
     }
 
-    /*** Comment Write ****/
-    #write {
-        margin-top: 20px;
-
-        #contents {
-            width: 100%;
-            box-sizing: border-box;
-            height: 7rem;
-            padding: 10px;
-            resize: none;
-            overflow: hidden;
-            border: 0.7px solid #E1E1E1;
-            border-radius: 3px;
-        }
-
-        #sub {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-
-            #user {
-                display: flex;
-                justify-content: space-between;
-                margin-top: 5px;
-                height: 2rem;
-
-                div {
-                    margin-right: 3px;
-                }
-
-                input {
-                    width: 7rem;
-                    height: 2rem;
-                    font-size: 0.8rem;
-                    padding-left: 5px;
-                    border: 0.7px solid #E1E1E1;
-                    border-radius: 3px;
-                }
-            }
-
-            #submit {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 2rem;
-                font-size: 0.8rem;
-                padding: 0px 20px;
-                color: #FFFFFF;
-                border-radius: 3px;
-                background: #222222;
-                cursor: pointer;
-            }
-
-        }
-    }
-
-
-    /*!** Comment Modify ***!*/
-    /*.comment-modify {*/
-    /*    display: flex;*/
-    /*    flex-flow: row wrap;*/
-    /*    height: 50px;*/
-    /*}*/
-
-    /*.comment-modify .comment-write-contents {*/
-    /*    flex: 1;*/
-    /*    height: 100%;*/
-    /*    resize: none;*/
-    /*    overflow: hidden;*/
-    /*    border: 0.7px solid #DDD;*/
-    /*}*/
-
-    /*.comment-modify .comment-write-submit {*/
-    /*    color: #FFF;*/
-    /*    height: 100%;*/
-    /*    padding: 0 10px;*/
-    /*    background: #222;*/
-    /*    cursor: pointer;*/
-    /*    font-size: 0.75rem;*/
-    /*}*/
-
-    /*.btn-modify.open {*/
-    /*    opacity: 1;*/
-    /*}*/
-
-
-    /*!* Comment Reply *!*/
-    /*.comment-reply {*/
-    /*    display: flex;*/
-    /*    width: 80%;*/
-    /*    margin: 5px auto;*/
-    /*    height: 20px;*/
-    /*    font-size: 0.75rem;*/
-    /*}*/
-
-    /*.comment-reply-content {*/
-    /*    flex: 1;*/
-    /*    height: 100%;*/
-    /*    overflow-y: auto;*/
-    /*    overflow-x: hidden;*/
-    /*    resize: none;*/
-    /*}*/
-
-    /*.comment-reply-submit {*/
-    /*    color: #FFF;*/
-    /*    padding: 0 10px;*/
-    /*    height: 100%;*/
-    /*    background: #222;*/
-    /*    cursor: pointer;*/
-    /*    font-size: 0.75rem;*/
-    /*}*/
-
-    /*.btn-reply.open {*/
-    /*    opacity: 1;*/
-    /*}*/
 </style>

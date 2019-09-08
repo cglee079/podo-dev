@@ -120,6 +120,7 @@ public class CommentService {
                 Comment parent = commentRepository.findById(comment.getParentSeq()).get();
                 parent.decreaseChild();
 
+                //부모가 삭제인 상태에서, 자식이 없는 경우, 부모댓글 삭제
                 if (parent.getChild() == 0 && parent.isErase()) {
                     commentRepository.delete(parent);
                 }
