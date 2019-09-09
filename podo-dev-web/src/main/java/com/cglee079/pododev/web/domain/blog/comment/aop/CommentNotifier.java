@@ -6,6 +6,7 @@ import com.cglee079.pododev.web.domain.blog.comment.CommentDto;
 import com.cglee079.pododev.web.global.config.security.SecurityUtil;
 import com.cglee079.pododev.web.global.infra.telegram.TelegramClient;
 import com.cglee079.pododev.web.global.util.Formatter;
+import com.cglee079.pododev.web.global.util.MarkdownUtil;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -39,7 +40,7 @@ public class CommentNotifier {
         message.append("이름 : " + username + "\n");
         message.append("시간 : " + Formatter.dateTimeToDateTimeStr(LocalDateTime.now()) + "\n");
         message.append("내용 :\n");
-        message.append(contents);
+        message.append(MarkdownUtil.escape(contents));
 
         telegramClient.send(message.toString());
 

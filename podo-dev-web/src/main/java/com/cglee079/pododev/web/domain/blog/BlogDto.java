@@ -168,7 +168,13 @@ public class BlogDto {
             this.updateAt = Formatter.dateTimeToBeautifulDate(blog.getUpdateAt());
             this.enabled = blog.getEnabled();
             this.tags = new LinkedList<>();
-            this.commentCnt = blog.getComments().size();
+            this.commentCnt = 0;
+
+            blog.getComments().forEach(comment -> {
+                if(comment.getEnabled()){
+                    this.commentCnt++;
+                }
+            });
 
             List<AttachImage> images = blog.getImages();
             if (!images.isEmpty()) {

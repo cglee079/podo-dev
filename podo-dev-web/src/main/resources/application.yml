@@ -104,4 +104,4 @@ security:
   oauth2:
     admin:
       ids: 116440278738014640765, 116491882380204991899
-    redirect: http://localhost:8080
+    redirect: http://localhost:8081

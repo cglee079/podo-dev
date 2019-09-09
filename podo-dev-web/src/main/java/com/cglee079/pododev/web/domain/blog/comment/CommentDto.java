@@ -1,6 +1,7 @@
 package com.cglee079.pododev.web.domain.blog.comment;
 
 import com.cglee079.pododev.web.global.util.Formatter;
+import com.cglee079.pododev.web.global.util.MarkdownUtil;
 import lombok.Getter;
 
 import javax.validation.constraints.NotEmpty;
@@ -29,7 +30,7 @@ public class CommentDto {
         public response(Comment comment, String currentUserId) {
             this.seq = comment.getSeq();
             this.username = comment.getUsername();
-            this.contents = comment.getContents();
+            this.contents = MarkdownUtil.escape(comment.getContents());
             this.depth = comment.getDepth();
             this.createAt = Formatter.dateTimeToBeautifulDate(comment.getCreateAt());
             this.enabled = comment.getEnabled();

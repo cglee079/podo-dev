@@ -23,6 +23,7 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
 
+
     public List<CommentDto.response> list(Long blogSeq) {
         List<Comment> comments = commentRepository.findByBlogSeqOrderByCgroupAscSortAsc(blogSeq);
         List<CommentDto.response> commentRes = new LinkedList<>();

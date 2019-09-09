@@ -2,7 +2,7 @@
     <div id="wrapComment" :class="$mq">
         <div id="count">
             <img src="https://image.flaticon.com/icons/svg/134/134718.svg"/>
-            <a class="comment-cnt">{{comments.length}}</a>
+            <a class="comment-cnt">{{this.commentCount}}</a>
             <div></div>
         </div>
 
@@ -55,7 +55,17 @@
         computed: {
             ...mapGetters([
                 "isLogin", "getUser"
-            ])
+            ]),
+            commentCount() {
+                let count = 0;
+                this.comments.forEach(comment => {
+                    if (comment.enabled) {
+                        count++;
+                    }
+                })
+
+                return count
+            }
         },
         methods: {
             loadBlogComments() {
@@ -100,7 +110,7 @@
         margin-top: 100px;
 
         &.mobile, &.tablet {
-            #count{
+            #count {
                 padding-left: 20px;
                 padding-right: 20px;
             }
