@@ -23,6 +23,12 @@ public class FileWriter {
     @Value("${upload.base.dir}")
     private String baseDir;
 
+    /**
+     * URL로 부터 파일 저장
+     * @param path
+     * @param urlStr
+     * @return
+     */
     public File saveFile(String path, String urlStr) {
 
         final String dirPath = PathUtil.merge(baseDir, path); // 로컬 저장경로
@@ -31,7 +37,12 @@ public class FileWriter {
         return MyFileUtils.saveFile(PathUtil.merge(dirPath, filename), urlStr);
     }
 
-
+    /**
+     * MultipartFile로 부터 파일 저장.
+     * @param path
+     * @param multipartFile
+     * @return
+     */
     public File saveFile(String path, MultipartFile multipartFile) {
         final String originName = multipartFile.getOriginalFilename();
         final String extension = FilenameUtils.getExtension(originName);
@@ -45,6 +56,13 @@ public class FileWriter {
         return file;
     }
 
+    /**
+     * 이미지 리사이징
+     * @param originImage
+     * @param path
+     * @param resizeWidth
+     * @return
+     */
     public File resizeImage(File originImage, String path, Integer resizeWidth) {
         final String originName = originImage.getName();
 

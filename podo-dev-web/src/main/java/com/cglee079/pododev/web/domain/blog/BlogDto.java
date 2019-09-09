@@ -10,10 +10,6 @@ import com.cglee079.pododev.web.domain.blog.tag.TagDto;
 import com.cglee079.pododev.web.global.util.Formatter;
 import com.cglee079.pododev.web.global.util.MarkdownUtil;
 import lombok.*;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-import org.springframework.util.StringUtils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -122,8 +118,8 @@ public class BlogDto {
             this.title = blog.getTitle();
             this.contents = blog.getContents();
             this.hitCnt = blog.getHitCnt();
-            this.createAt = Formatter.dateTimeToStr(blog.getCreateAt());
-            this.updateAt = Formatter.dateTimeToStr(blog.getUpdateAt());
+            this.createAt = Formatter.dateTimeToBeautifulDate(blog.getCreateAt());
+            this.updateAt = Formatter.dateTimeToBeautifulDate(blog.getUpdateAt());
             this.commentCnt = blog.getComments().size();
             this.enabled = blog.getEnabled();
             this.before = !Objects.isNull(before) ? before.getSeq() : null;
@@ -168,8 +164,8 @@ public class BlogDto {
             this.title = blog.getTitle();
             this.desc = MarkdownUtil.extractPlainText(blog.getContents());
             this.hitCnt = blog.getHitCnt();
-            this.createAt = Formatter.dateTimeToStr(blog.getCreateAt());
-            this.updateAt = Formatter.dateTimeToStr(blog.getUpdateAt());
+            this.createAt = Formatter.dateTimeToBeautifulDate(blog.getCreateAt());
+            this.updateAt = Formatter.dateTimeToBeautifulDate(blog.getUpdateAt());
             this.enabled = blog.getEnabled();
             this.tags = new LinkedList<>();
             this.commentCnt = blog.getComments().size();

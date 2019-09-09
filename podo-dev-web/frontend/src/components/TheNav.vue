@@ -2,7 +2,7 @@
     <div id="nav" :class="$mq">
         <div id="logo">
             <router-link :to="{name : 'BlogList'}">
-            <img src="@/assets/logo4.svg" width="70px"/>
+            <img src="@/assets/logo.svg" width="70px"/>
             </router-link>
         </div>
 

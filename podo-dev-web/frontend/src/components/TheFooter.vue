@@ -33,9 +33,9 @@
         data(){
             return {
                 images :{
-                    iconGit : require('../assets/images/icon-git.png'),
-                    iconEmail : require('../assets/images/icon-email.png'),
-                    iconInstagram : require('../assets/images/icon-instagram.png')
+                    iconGit : require('../assets/icons/icon-git.png'),
+                    iconEmail : require('../assets/icons/icon-email.png'),
+                    iconInstagram : require('../assets/icons/icon-instagram.png')
                 }
             }
         }

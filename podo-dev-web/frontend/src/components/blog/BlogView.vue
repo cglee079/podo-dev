@@ -36,7 +36,7 @@
             >
                 <!--                <a :href="file.domainUrl + file.path + '/' +file.filename">-->
                 <a href="javascript:void(0)" @click="clickFile(file.seq)">
-                    <img src="@/assets/btn-file.svg" class="file-icon"/>
+                    <img src="@/assets/btns/btn-file.svg" class="file-icon"/>
                     <span class="file-name">{{file.originName}}</span>
                     <span class="file-size">[{{formatFilesize(file.filesize)}}]</span>
                 </a>

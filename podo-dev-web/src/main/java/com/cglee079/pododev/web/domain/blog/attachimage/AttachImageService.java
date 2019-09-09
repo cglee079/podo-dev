@@ -1,14 +1,10 @@
 package com.cglee079.pododev.web.domain.blog.attachimage;
 
-import com.cglee079.pododev.core.global.util.MyFileUtils;
 import com.cglee079.pododev.web.domain.blog.FileStatus;
-import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSave;
 import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSaveDto;
 import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSaveService;
 import com.cglee079.pododev.web.global.infra.uploader.PodoUploaderClient;
-import com.cglee079.pododev.web.global.util.FileWriter;
-import com.cglee079.pododev.web.global.util.PathUtil;
-import com.cglee079.pododev.web.global.util.TempUtil;
+import com.cglee079.pododev.web.global.util.HttpUrlUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,11 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.PostConstruct;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -52,7 +46,7 @@ public class AttachImageService {
 
         return AttachImageDto.response.builder()
                 .originName(originName)
-                .domainUrl(TempUtil.getDomainUrl() + baseUrl)
+                .domainUrl(HttpUrlUtil.getSeverDomain() + baseUrl)
                 .fileStatus(FileStatus.NEW)
                 .saves(saves)
                 .build();
@@ -128,11 +122,4 @@ public class AttachImageService {
 
     }
 
-    public void removeImage(Long seq) {
-        Optional<AttachImage> img = attachImageRepository.findById(seq);
-
-        List<AttachImageSave> saves = img.get().getSaves();
-        saves.forEach(save ->  podoUploaderClient.delete(save.getPath(), save.getFilename()));
-
-    }
 }

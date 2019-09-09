@@ -26,7 +26,10 @@
                 </div>
                 <div class="subinfo">
                     <span>{{blog.createAt}}</span>
-                    <span>댓글 {{blog.commentCnt}}</span>
+                    <span class="comment">
+                        <img src="@/assets/icons/icon-comment2.svg"/>
+                        <span>{{blog.commentCnt}}</span>
+                    </span>
                 </div>
             </div>
 
@@ -137,9 +140,25 @@
                 font-weight: bold;
             }
 
-            .subinfo span {
-                padding: 2px 5px;
-                margin-left: 4px;
+            .subinfo {
+                display: flex;
+
+                > span {
+                    padding: 2px 5px;
+                    margin-left: 5px;
+
+                    &.comment {
+                        display: flex;
+                        align-items: center;
+
+                        img{
+                            width: 14px;
+                            margin-top: 1px;
+                            margin-right: 5px;
+                            opacity: 0.5;
+                        }
+                    }
+                }
             }
         }
 

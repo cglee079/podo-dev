@@ -1,7 +1,7 @@
 <template>
     <div>
         <div id="navMenus">
-            <span>이력</span>
+            <span><router-link :to="{name : 'Resume',}">이력</router-link></span>
             <span><router-link :to="{name : 'BlogList',}">블로그</router-link></span>
             <span><router-link :to="{name : 'TagList'}">태그</router-link></span>
             <span v-if="user.isAdmin && isLogin"><router-link :to="{name : 'BlogPost'}">글쓰기</router-link></span>
@@ -17,7 +17,7 @@
         <div id="loginMenus">
             <span v-if="!isLogin" @click="login">
                 <span v-tooltip="{content:'Login By Google', class:'tooltip'}">
-                <img src="@/assets/btn-login2.svg" id="loginIcon"/>
+                <img src="@/assets/btns/btn-login.svg" id="loginIcon"/>
                 </span>
             </span>
             <span v-if="isLogin" @click="logout">

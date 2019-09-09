@@ -12,18 +12,18 @@
                     <div id="bgThumbnail"/>
                     <div id="thumbnail">
                         <img v-if="blog.thumbnail" :src="blog.thumbnail"/>
-                        <img v-else src="@/assets/logo4.svg" width="50%"/>
+                        <img v-else src="@/assets/logo.svg" width="50%"/>
                     </div>
                 </div>
 
                 <div id="menus">
                     <div class="menu" @click="clickCopyUrl()">
-                        <img src="@/assets/btn-export-url.svg" width="70px"/>
+                        <img src="@/assets/btns/btn-export-url.svg" width="70px"/>
                         <span>URL 복사</span>
                     </div>
 
                     <div class="menu" @click="clickExportKakao()">
-                        <img src="@/assets/btn-export-kakaotalk.svg" width="70px"/>
+                        <img src="@/assets/btns/btn-export-kakaotalk.svg" width="70px"/>
                         <span>카카오톡 공유하기</span>
                     </div>
                 </div>

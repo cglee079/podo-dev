@@ -1,8 +1,10 @@
 package com.cglee079.pododev.web.global.config.security;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,13 +15,14 @@ import java.util.Map;
 @Component
 public class SecurityStore {
 
-    private final Long expireTime;
+
+    @Value("${security.expire.time}")
+    private Long expireTime;
 
     private final Map<String, Authentication> authentications;
     private final Map<String, LocalDateTime> lastConnectTime; //마지막 접속 시간
 
     public SecurityStore() {
-        this.expireTime = 1000L;
         this.authentications = new HashMap<>();
         this.lastConnectTime = new HashMap<>();
     }
@@ -36,7 +39,7 @@ public class SecurityStore {
         }
 
         // 계정 시간 만료
-        if(LocalDateTime.now().minusMinutes(expireTime).isAfter(lastConnectTime.get(token))){
+        if(LocalDateTime.now().minusHours(expireTime).isAfter(lastConnectTime.get(token))){
             authentications.remove(token);
             lastConnectTime.remove(token);
             return null;

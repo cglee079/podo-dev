@@ -21,7 +21,7 @@ public class AuthFilter implements Filter {
         String accessToken = httpRequest.getHeader("Authorization");
 
         if (null != accessToken) {
-            accessToken = accessToken.replace("bearer", "");
+            accessToken = accessToken.replace("Bearer", "");
             accessToken = accessToken.trim();
 
             Authentication authentication = securityStore.isAuth(accessToken);

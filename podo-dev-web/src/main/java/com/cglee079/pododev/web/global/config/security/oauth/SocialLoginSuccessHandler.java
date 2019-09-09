@@ -21,23 +21,26 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class SocialLoginSuccessHandler implements AuthenticationSuccessHandler {
 
-    @Value("${security.admin.ids}")
+    @Value("${security.oauth2.admin.ids}")
     List<String> adminIds;
+
+    @Value("${security.oauth2.redirect}")
+    String redirectUrl;
+
 
     private final SecurityStore securityStore;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest req, HttpServletResponse res, Authentication auth) throws IOException {
 
-        OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) auth;
-        Map<String, String> details = (Map<String, String>) (oAuth2Authentication.getUserAuthentication().getDetails());
-        String googleId = details.get("sub");
-        String username = details.get("name");
-        String email = details.get("email");
-        String picture = details.get("picture");
-        String token = ((OAuth2AuthenticationDetails) oAuth2Authentication.getDetails()).getTokenValue();
-
-        GoogleUserDetails googleUserDetails = GoogleUserDetails.builder()
+        final OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) auth;
+        final Map<String, String> details = (Map<String, String>) (oAuth2Authentication.getUserAuthentication().getDetails());
+        final String googleId = details.get("sub");
+        final String username = details.get("name");
+        final String email = details.get("email");
+        final String picture = details.get("picture");
+        final String token = ((OAuth2AuthenticationDetails) oAuth2Authentication.getDetails()).getTokenValue();
+        final GoogleUserDetails googleUserDetails = GoogleUserDetails.builder()
                 .googleIdentifier(googleId)
                 .username(username)
                 .email(email)
@@ -50,19 +53,12 @@ public class SocialLoginSuccessHandler implements AuthenticationSuccessHandler {
             googleUserDetails.addAuthority(new SimpleGrantedAuthority("ROLE_" + UserRole.ADMIN));
         }
 
-        //auth.getAuthorities().stream().forEach(au -> googleUserDetails.addAuthority(new SimpleGrantedAuthority(au.getAuthority())));
         GoogleAuthentication googleAuthentication = new GoogleAuthentication(googleUserDetails);
 
         securityStore.login(token, googleAuthentication);
 
-//        String uri = UriComponentsBuilder
-//                .fromUriString("/")
-//                .queryParam("token", token)
-//                .encode()
-//                .build().toString();
-
         //Go Home
-        res.sendRedirect("http://192.168.219.102:8080?token=" + token);
+        res.sendRedirect(redirectUrl + "?token=" + token);
     }
 
 }

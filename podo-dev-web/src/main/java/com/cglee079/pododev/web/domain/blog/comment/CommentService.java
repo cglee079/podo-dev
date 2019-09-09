@@ -1,6 +1,8 @@
 package com.cglee079.pododev.web.domain.blog.comment;
 
 import com.cglee079.pododev.web.domain.auth.exception.NoAuthenticatedException;
+import com.cglee079.pododev.web.domain.blog.comment.exception.InvalidCommentSeqException;
+import com.cglee079.pododev.web.domain.blog.exception.InvalidBlogSeqException;
 import com.cglee079.pododev.web.global.config.security.SecurityUtil;
 import com.cglee079.pododev.web.global.config.security.oauth.GoogleUserDetails;
 import lombok.RequiredArgsConstructor;
@@ -102,7 +104,7 @@ public class CommentService {
         Optional<Comment> commentOpt = commentRepository.findById(seq);
 
         if (!commentOpt.isPresent()) {
-            //TODO
+            throw new InvalidCommentSeqException();
         }
 
         Comment comment = commentOpt.get();

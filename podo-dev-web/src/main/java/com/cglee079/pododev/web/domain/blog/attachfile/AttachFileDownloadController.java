@@ -27,6 +27,15 @@ public class AttachFileDownloadController {
     private final AttachFileService attachFileService;
     private final FileWriter fileWriter;
 
+    /**
+     * 파일 다운로드 To OriginalName
+     *
+     * @param blogSeq
+     * @param fileSeq
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     @GetMapping("/blogs/{blogSeq}/files/{fileSeq}")
     public void downloadFile(
             @PathVariable Long blogSeq,
@@ -40,7 +49,7 @@ public class AttachFileDownloadController {
         final File file = fileWriter.saveFile(TEMP_DIRECTORY, url);
 
         if (file.exists()) {
-            byte fileByte[] = FileUtils.readFileToByteArray(file);
+            final byte fileByte[] = FileUtils.readFileToByteArray(file);
 
             response.setContentType("application/octet-stream");
             response.setContentLength(fileByte.length);

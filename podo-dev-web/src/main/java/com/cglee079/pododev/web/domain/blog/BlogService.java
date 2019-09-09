@@ -6,11 +6,12 @@ import com.cglee079.pododev.web.domain.blog.attachfile.AttachFile;
 import com.cglee079.pododev.web.domain.blog.attachfile.AttachFileService;
 import com.cglee079.pododev.web.domain.blog.attachimage.AttachImage;
 import com.cglee079.pododev.web.domain.blog.attachimage.AttachImageService;
+import com.cglee079.pododev.web.domain.blog.exception.InvalidBlogSeqException;
 import com.cglee079.pododev.web.domain.blog.tag.TagService;
 import com.cglee079.pododev.web.global.infra.solr.PodoSolrClient;
 import com.cglee079.pododev.web.global.infra.solr.SolrDto;
 import com.cglee079.pododev.web.global.infra.uploader.PodoUploaderClient;
-import com.cglee079.pododev.web.global.util.TempUtil;
+import com.cglee079.pododev.web.global.util.HttpUrlUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -53,60 +54,60 @@ public class BlogService {
 
 
     @PostConstruct
-    public void dd(){
+    public void dd() {
         List<Blog> blogs = blogRepository.findAll();
-        blogs.forEach(blog -> {
-            String content = blog.getContents();
-////            content = content.replace("/uploaded/blog/image", "http://upload.podo-dev.com/blogs/images/2019/07/10/origin");
-//            while(true) {
-//                Integer index = content.indexOf("height:");
+//        blogs.forEach(blog -> {
+//            String content = blog.getContents();
+//////            content = content.replace("/uploaded/blog/image", "http://upload.podo-dev.com/blogs/images/2019/07/10/origin");
+////            while(true) {
+////                Integer index = content.indexOf("height:");
+////
+////                if(index == -1){
+////                    break;
+////                }
+////
+////                char[] chars = content.toCharArray();
+////                StringBuilder newC = new StringBuilder("");
+////                int i = 0;
+////
+////                for (i = 0; i < index; i++) {
+////                    newC.append(chars[i]);
+////                }
+////
+////                i += "height:".length();
+////
+////
+////                for (i = i; i < chars.length; i++) {
+////                    if (chars[i] == ';') {
+////                        break;
+////                    }
+////                }
+////
+////                i++;
+////                i++;
+////
+////                for (i = i; i < chars.length; i++) {
+////                    newC.append(chars[i]);
+////                }
+////
+////                content = newC.toString();
+////            }
+////
+////            System.out.println(content);
 //
-//                if(index == -1){
-//                    break;
-//                }
-//
-//                char[] chars = content.toCharArray();
-//                StringBuilder newC = new StringBuilder("");
-//                int i = 0;
-//
-//                for (i = 0; i < index; i++) {
-//                    newC.append(chars[i]);
-//                }
-//
-//                i += "height:".length();
 //
 //
-//                for (i = i; i < chars.length; i++) {
-//                    if (chars[i] == ';') {
-//                        break;
-//                    }
-//                }
+//            blog.setContents(content);
 //
-//                i++;
-//                i++;
-//
-//                for (i = i; i < chars.length; i++) {
-//                    newC.append(chars[i]);
-//                }
-//
-//                content = newC.toString();
-//            }
-//
-//            System.out.println(content);
-
-
-
-            blog.setContents(content);
-
-            blogRepository.save(blog);
-        });
+//            blogRepository.save(blog);
+//        });
     }
 
     public BlogDto.response get(Long seq) {
         Optional<Blog> blog = blogRepository.findById(seq);
 
         if (!blog.isPresent()) {
-            //TODO
+            throw new InvalidBlogSeqException();
         }
 
         Blog next = blogRepository.findNext(seq);
@@ -168,7 +169,7 @@ public class BlogService {
         attachFileService.uploadFile(insert.getFiles());
 
         final Blog blog = insert.toEntity();
-        blog.updateContentSrc(TempUtil.getDomainUrl() + baseUrl, uploaderFrontendUrl);
+        blog.updateContentSrc(HttpUrlUtil.getSeverDomain() + baseUrl, uploaderFrontendUrl);
 
         blogRepository.save(blog);
     }
@@ -178,12 +179,12 @@ public class BlogService {
         final Optional<Blog> blogOpt = blogRepository.findById(seq);
 
         if (!blogOpt.isPresent()) {
-            //TODO exception
+            throw new InvalidBlogSeqException();
         }
 
         final Blog blog = blogOpt.get();
         blog.update(blogUpdate.getTitle(), blogUpdate.getContents(), blogUpdate.getEnabled());
-        blog.updateContentSrc(TempUtil.getDomainUrl() + baseUrl, uploaderFrontendUrl);
+        blog.updateContentSrc(HttpUrlUtil.getSeverDomain() + baseUrl, uploaderFrontendUrl);
 
         //Update Child
         tagService.updateTags(seq, blogUpdate.getTags());
@@ -197,7 +198,7 @@ public class BlogService {
         Optional<Blog> blog = blogRepository.findById(seq);
 
         if (!blog.isPresent()) {
-            //Todo Exception
+            throw new InvalidBlogSeqException();
         }
 
         blogRepository.deleteById(seq);
@@ -230,7 +231,7 @@ public class BlogService {
         Optional<Blog> blog = blogRepository.findById(seq);
 
         if (!blog.isPresent()) {
-            //TODO
+            throw new InvalidBlogSeqException();
         }
 
         blog.get().increaseHitCnt();

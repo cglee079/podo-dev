@@ -75,7 +75,7 @@ Vue.prototype.$axios.interceptors.response.use(
     err => {
         if (err.response.status == 403) {
             Vue.prototype.$toasted.show("권한이 없습니다")
-            status.actions.logout()
+            store.actions.logout()
         }
 
         const response = err.response.data

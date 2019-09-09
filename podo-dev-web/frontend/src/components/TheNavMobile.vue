@@ -14,7 +14,7 @@
         <div id="mobileNavs" ref="mobileNavs">
 
             <div id="mobileMenuHeader">
-                <img src="@/assets/logo4.svg"/>
+                <img src="@/assets/logo.svg"/>
             </div>
 
             <div class="mobile-nav-menu search">
@@ -22,7 +22,7 @@
             </div>
 
             <div class="mobile-nav-menu">
-                <router-link :to="{name : 'BlogList'}">이력</router-link>
+                <router-link :to="{name : 'Resume'}">이력</router-link>
             </div>
 
             <div class="mobile-nav-menu">

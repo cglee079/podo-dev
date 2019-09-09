@@ -76,7 +76,7 @@ export default new Vuex.Store({
         checkLogin({commit}, {token, callback}) {
 
             if (token) {
-                axios.defaults.headers.common['Authorization'] = 'bearer ' + token
+                axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
 
                 axios
                     .get("/auth/user")

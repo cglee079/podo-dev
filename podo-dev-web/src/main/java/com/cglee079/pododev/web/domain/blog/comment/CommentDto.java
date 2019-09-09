@@ -2,9 +2,7 @@ package com.cglee079.pododev.web.domain.blog.comment;
 
 import com.cglee079.pododev.web.global.util.Formatter;
 import lombok.Getter;
-import org.springframework.validation.annotation.Validated;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 
 public class CommentDto {
@@ -33,7 +31,7 @@ public class CommentDto {
             this.username = comment.getUsername();
             this.contents = comment.getContents();
             this.depth = comment.getDepth();
-            this.createAt = Formatter.dateTimeToStr(comment.getCreateAt());
+            this.createAt = Formatter.dateTimeToBeautifulDate(comment.getCreateAt());
             this.enabled = comment.getEnabled();
             this.isMine = comment.getUserId().equalsIgnoreCase(currentUserId);
         }
