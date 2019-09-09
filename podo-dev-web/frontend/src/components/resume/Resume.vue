@@ -103,8 +103,11 @@
 
 <style lang="scss" scoped>
     #resume {
-        color: #333333;
-        margin-top: 100px;
+        background: #FBFBFE;
+        border-radius: 15px;
+        padding: 100px;
+
+        color: #222222;
         cursor: default;
 
         &.mobile, &.tablet {
