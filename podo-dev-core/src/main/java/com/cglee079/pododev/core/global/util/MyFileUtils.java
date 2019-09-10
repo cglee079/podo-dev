@@ -4,12 +4,16 @@ import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
@@ -87,6 +91,19 @@ public class MyFileUtils {
         }
     }
 
+    public static File saveFile(String path, String extension, BufferedImage bufferedImage) {
+        File file = new File(path);
+        try {
+            MyFileUtils.makeForceDir(file.getParentFile().getPath());
+            ImageIO.write(bufferedImage, extension, file);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return file;
+    }
+
     public static File makeForceDir(String path) {
         File dir = new File(path);
         try {
@@ -102,4 +119,6 @@ public class MyFileUtils {
     public static void deleteFile(String path, String filename) {
         new File(path, filename).delete();
     }
+
+
 }

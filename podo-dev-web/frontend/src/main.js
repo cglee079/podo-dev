@@ -17,7 +17,6 @@ import 'highlight.js/styles/github.css'
 
 import VueCookies from 'vue-cookies'
 import ToastCustomViewer from "./components/global/ToastCustomViewer"
-import SubButton from "./components/global/SubButton"
 import Tooltip from 'vue-directive-tooltip';
 import 'vue-directive-tooltip/dist/vueDirectiveTooltip.css';
 
@@ -33,7 +32,6 @@ Vue.use(VueCookies)
 
 Vue.use(Autocomplete)
 Vue.component('toast-custom-viewer', ToastCustomViewer)
-Vue.component('sub-button', SubButton)
 
 Vue.use(VueScrollTo, {
     container: "body",

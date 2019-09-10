@@ -1,27 +1,30 @@
 <template>
-    <div class="blog-row" @click="viewBlog(blog.seq)">
+    <div class="blog-row"
+         :class="[blog.enabled ? '':'disabled', $mq]"
+         @click="viewBlog(blog.seq)"
+    >
 
         <div v-if="blog.thumbnail != null"
-             :class="$mq"
              class="wrap-thumbnail"
+             @click="viewBlog(blog.seq)"
         >
             <img class="thumbnail"
                  :src="blog.thumbnail"/>
         </div>
 
         <div class="content"
-             :class="$mq"
         >
             <div class="title">{{ blog.title }}</div>
-            <div v-html="blog.desc" class="desc">
-            </div>
+            <div v-html="blog.desc" class="desc"/>
+
             <div class="info">
                 <div class="tags">
                     <span v-for="(tag, index) in blog.tags"
                           v-bind:key=index
                           class="tag"
+                          @click.stop="clickTag(tag.val)"
                     >
-                        #{{tag.val}}
+                            #{{tag.val}}
                     </span>
                 </div>
                 <div class="subinfo">
@@ -44,6 +47,10 @@
             blog: Object
         },
         methods: {
+            clickTag(val) {
+                this.$router.push({name: 'BlogList', query: {tag: val}})
+            },
+
             viewBlog(seq) {
 
                 this.$router.push({
@@ -57,7 +64,7 @@
     }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
     $desktop-thumbnail-width: 12rem;
     $desktop-content-height: 120px;
     $mobile-thumbnail-width: 6em;
@@ -70,124 +77,132 @@
         border-bottom: 1px solid #F1F1F1;
         padding: 30px 20px;
 
-        &:hover .content .title {
-            margin-left: 10px;
-        }
-    }
-
-    .wrap-thumbnail {
-        border-radius: 5px;
-        margin-right: 1.5rem;
-        width: $desktop-thumbnail-width;
-        height: $desktop-content-height;
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        img.thumbnail {
-            height: $desktop-content-height;
+        &.disabled {
+            opacity: 0.5;
         }
 
-        &.mobile {
-            display: none;
-            margin-right: 1rem;
-        }
-
-    }
-
-    .content {
-        flex: 1;
-        display: flex;
-        flex-flow: column;
-
-        .title {
-            color: #333;
-            cursor: pointer;
-            font-size: 1.25rem;
-            font-weight: bold;
-            transition: margin .3s cubic-bezier(0.215, 0.61, 0.355, 1);
-            margin-bottom: 10px;
-            -webkit-line-clamp: 1;
-            overflow: hidden;
-            max-height: 1.7rem;
-        }
-
-        .desc {
-            flex: 1;
-            display: -webkit-box;
-            text-overflow: clip;
-            overflow: hidden;
-            -webkit-box-orient: vertical;
-            white-space: normal;
-            -webkit-line-clamp: 2;
-            max-height: 3.2rem;
-            color: #797979;
-            word-break: break-all;
-            margin-bottom: 15px;
-        }
-
-        .info {
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            color: #9199a4;
-            font-size: 0.9rem;
-
-            .tags .tag {
-                margin-right: 10px;
-                color: #ec5621;
-                font-weight: bold;
-            }
-
-            .subinfo {
-                display: flex;
-
-                > span {
-                    padding: 2px 5px;
-                    margin-left: 5px;
-
-                    &.comment {
-                        display: flex;
-                        align-items: center;
-
-                        img{
-                            width: 14px;
-                            margin-top: 1px;
-                            margin-right: 5px;
-                            opacity: 0.5;
-                        }
-                    }
+        &:hover{
+            .content{
+                .title{
+                    margin-left: 10px;
                 }
             }
         }
 
+        &.mobile, &tablet {
+            .wrap-thumbnail {
+                display: none;
+                margin-right: 1rem;
+            }
 
-        &.mobile {
+            .content {
+
+                .title {
+                    font-size: 1rem;
+                }
+
+                .desc {
+                    font-size: 0.9rem;
+                }
+
+                .info {
+                    font-size: 0.8rem;
+
+                    .tags {
+                        max-width: 40%;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+                }
+
+            }
+        }
+
+
+        .wrap-thumbnail {
+            border-radius: 5px;
+            margin-right: 1.5rem;
+            width: $desktop-thumbnail-width;
+            height: $desktop-content-height;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            img.thumbnail {
+                height: $desktop-content-height;
+            }
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            flex-flow: column;
 
             .title {
-                font-size: 1rem;
+                color: #333;
+                cursor: pointer;
+                font-size: 1.25rem;
+                font-weight: bold;
+                transition: margin .3s cubic-bezier(0.215, 0.61, 0.355, 1);
+                margin-bottom: 10px;
+                -webkit-line-clamp: 1;
+                overflow: hidden;
+                max-height: 1.7rem;
             }
 
             .desc {
-                font-size: 0.9rem;
+                display: -webkit-box;
+                text-overflow: clip;
+                overflow: hidden;
+                -webkit-box-orient: vertical;
+                white-space: normal;
+                -webkit-line-clamp: 2;
+                max-height: 3.5rem;
+                color: #797979;
+                word-break: break-all;
+                margin-bottom: 15px;
             }
 
             .info {
-                font-size: 0.8rem;
+                display: flex;
+                align-items: flex-end;
+                justify-content: space-between;
+                color: #9199a4;
+                font-size: 0.9rem;
 
-                .tags {
-                    max-width: 40%;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
+                .tags .tag {
+                    margin-right: 10px;
+                    color: #ec5621;
+                    font-weight: bold;
                 }
+
+                .subinfo {
+                    display: flex;
+
+                    > span {
+                        padding: 2px 5px;
+                        margin-left: 5px;
+
+                        &.comment {
+                            display: flex;
+                            align-items: center;
+
+                            img {
+                                width: 14px;
+                                margin-top: 1px;
+                                margin-right: 5px;
+                                opacity: 0.5;
+                            }
+                        }
+                    }
+                }
+
+
             }
-
         }
-
     }
-
 </style>
 
 <style>

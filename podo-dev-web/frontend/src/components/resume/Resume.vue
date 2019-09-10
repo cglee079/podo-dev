@@ -34,6 +34,7 @@
                         res = res.data
                         this.items = res.data
                         this.$refs.resume.classList.add("on")
+
                     })
                     .catch(err => {
                         console.log(err)
@@ -42,7 +43,7 @@
         },
         created() {
             this.loadResumes()
-        }
+        },
     }
 </script>
 
@@ -64,8 +65,13 @@
         }
 
         &.mobile, &.tablet {
-            margin-top: 50px;
+            background: unset;
+            margin-top: 40px;
             padding: 0px 20px;
+
+            /deep/ .item {
+                margin-top: 50px;
+            }
         }
 
         #name {
@@ -76,7 +82,7 @@
             }
 
             span {
-                font-size: 2.2rem;
+                font-size: 2rem;
                 font-weight: bold;
                 padding-bottom: 3px;
                 /*border-bottom: 5px solid #afa3d9;*/
@@ -94,6 +100,7 @@
             }
 
             .content {
+                font-size: 0.95rem;
                 margin-top: 20px;
                 margin-left: 15px;
 

@@ -30,7 +30,7 @@ public class CommentDto {
         public response(Comment comment, String currentUserId) {
             this.seq = comment.getSeq();
             this.username = comment.getUsername();
-            this.contents = MarkdownUtil.escape(comment.getContents());
+            this.contents = MarkdownUtil.line2br(MarkdownUtil.escape(comment.getContents()));
             this.depth = comment.getDepth();
             this.createAt = Formatter.dateTimeToBeautifulDate(comment.getCreateAt());
             this.enabled = comment.getEnabled();

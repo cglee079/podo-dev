@@ -82,16 +82,15 @@
     }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped >
 
     /*** Comment Write ****/
     #write {
         margin-top: 20px;
 
-
         &.mobile, &.tablet {
-            padding-left: 20px;
-            padding-right: 20px;
+            padding-left: 5%;
+            padding-right: 5%;
         }
 
         #contents {

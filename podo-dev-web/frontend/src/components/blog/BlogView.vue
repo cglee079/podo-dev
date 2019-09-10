@@ -210,15 +210,15 @@
     }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped >
     #wrapBlog {
         max-width: 800px;
         margin: 0px auto;
 
         &.mobile, &.tablet {
             #head, #submenus, #contents{
-                padding-left: 20px;
-                padding-right: 20px;
+                padding-left: 5%;
+                padding-right: 5%;
             }
 
             #head {

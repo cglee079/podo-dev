@@ -1,7 +1,9 @@
 <template>
     <div>
         <div>
-            <div id="btnFileUpload" @click="$refs.file.click()">파일올리기</div>
+            <div id="btnFileUpload" @click="$refs.file.click()">
+                <div>파일올리기</div>
+            </div>
             <input ref="file" type="file" multiple @change="onFileChange" style="display: none"/>
         </div>
 
@@ -84,16 +86,20 @@
     }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
     #btnFileUpload {
-        width: 100%;
         height: 30px;
         border: 1px solid #CCC;
         background: #FAFAFA;
-        display: flex;
-        justify-content: center;
-        align-items: center;
         cursor: pointer;
+        display: flex;
+
+        div {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     }
 
     #fileList {

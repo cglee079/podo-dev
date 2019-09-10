@@ -10,7 +10,11 @@ import com.cglee079.pododev.web.domain.blog.tag.TagDto;
 import com.cglee079.pododev.web.global.util.Formatter;
 import com.cglee079.pododev.web.global.util.MarkdownUtil;
 import lombok.*;
+import org.springframework.web.util.HtmlUtils;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -20,9 +24,16 @@ public class BlogDto {
 
     @Getter
     public static class insert {
+        @NotEmpty(message = "제목을 입력해주세요")
         private String title;
+
+        @NotEmpty(message = "내용을 입력해주세요")
         private String contents;
+
+        @NotNull(message = "공개여부를 입력해주세요")
         private Boolean enabled;
+
+        @Size(min = 1, message = "태그를 최소 1개를 입력해주세요")
         private List<TagDto.insert> tags;
         private List<AttachImageDto.insert> images;
         private List<AttachFileDto.insert> files;
@@ -73,10 +84,18 @@ public class BlogDto {
 
     @Getter
     public static class update {
+        @NotEmpty(message = "제목을 입력해주세요")
         private String title;
+
+        @NotEmpty(message = "내용을 입력해주세요")
         private String contents;
+
+        @NotNull(message = "공개여부를 입력해주세요")
         private Boolean enabled;
+
+        @Size(min = 1, message = "태그를 최소 1개를 입력해주세요")
         private List<TagDto.update> tags;
+
         private List<AttachImageDto.update> images;
         private List<AttachFileDto.update> files;
     }
@@ -162,7 +181,7 @@ public class BlogDto {
         public responseList(Blog blog, String uploadServerDomain) {
             this.seq = blog.getSeq();
             this.title = blog.getTitle();
-            this.desc = MarkdownUtil.extractPlainText(blog.getContents());
+            this.desc = MarkdownUtil.escape(MarkdownUtil.extractPlainText(blog.getContents()));
             this.hitCnt = blog.getHitCnt();
             this.createAt = Formatter.dateTimeToBeautifulDate(blog.getCreateAt());
             this.updateAt = Formatter.dateTimeToBeautifulDate(blog.getUpdateAt());

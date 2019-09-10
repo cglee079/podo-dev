@@ -3,9 +3,26 @@ package com.cglee079.pododev.web.global.config.security;
 import com.cglee079.pododev.web.global.config.security.oauth.GoogleUserDetails;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.List;
+
 public class SecurityUtil extends WebSecurityConfigurerAdapter {
+
+    public static Boolean isAdmin() {
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        final List<SimpleGrantedAuthority> auths = (List<SimpleGrantedAuthority>) authentication.getAuthorities();
+        for (SimpleGrantedAuthority auth : auths) {
+            if (auth.getAuthority().equals("ROLE_" + UserRole.ADMIN)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
     public static GoogleUserDetails getUser() {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -41,54 +58,3 @@ public class SecurityUtil extends WebSecurityConfigurerAdapter {
     }
 
 }
-
-
-//        import lombok.RequiredArgsConstructor;
-//        import org.springframework.context.ApplicationContext;
-//        import org.springframework.context.annotation.Bean;
-//        import org.springframework.context.annotation.Configuration;
-//        import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-//        import org.springframework.security.config.annotation.web.builders.WebSecurity;
-//        import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-//        import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-//        import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-//        import org.springframework.security.web.session.SessionManagementFilter;
-//
-//@RequiredArgsConstructor
-//@EnableWebSecurity
-//@Configuration
-//public class SecurityConfig extends WebSecurityConfigurerAdapter {
-//
-//    private final ApplicationContext context;
-//
-//    @Override
-//    public void configure(WebSecurity web) throws Exception {
-//    }
-//
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http
-//                .csrf().disable()
-//                .cors().disable()
-//
-//                .authorizeRequests()
-//                .antMatchers("/auth/login")
-//                .permitAll()
-//
-//                .antMatchers("/auth/user")
-//                .permitAll()
-//
-//                .antMatchers("/authentication")
-//                .permitAll()
-//
-//                .addFilterBefore(new AuthFilter(securityStore()), BasicAuthenticationFilter.class)
-//                .addFilterBefore(new CORSFilter(), SessionManagementFilter.class);
-//
-//    }
-//
-//    @Bean
-//    public SecurityStore securityStore() {
-//        return new SecurityStore(1000L);
-//    }
-//}
-//

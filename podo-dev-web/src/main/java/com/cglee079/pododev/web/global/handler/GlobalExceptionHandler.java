@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler({
-            NoAuthenticatedException.class
+            HandledException.class
     })
     public ResponseEntity handleException(HandledException e) {
 

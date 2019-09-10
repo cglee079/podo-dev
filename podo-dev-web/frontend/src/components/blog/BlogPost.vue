@@ -1,7 +1,7 @@
 <template>
     <div id="wrapBlogPost">
 
-        <div class="wrapItem">
+        <div class="wrap-item">
             <span>공개여부</span>
             <span>
                 <select v-model="input.enabled">
@@ -11,31 +11,17 @@
             </span>
         </div>
 
-        <div class="wrapItem">
+        <div class="wrap-item">
             <span>제목</span>
             <span>
                 <input type="text" v-model="input.title">
             </span>
         </div>
 
-        <div class="wrapEditor">
+        <div id="wrapEditor">
             <div ref="editSection"></div>
         </div>
-        <div class="wrapItem">
-            <span>태그</span>
-            <span>
-                <input type="text" v-model="input.tagText" @keyup="keyupTagText">
-            </span>
-        </div>
 
-        <span id="tags">
-            <span v-for='(tag, index) in input.tags'
-                  v-bind:key="index"
-                  @click="clickTag(index)"
-                  class="tag">
-                #{{ tag.val }}
-            </span>
-        </span>
 
         <div id="wrapImageUpload">
             <post-image
@@ -53,8 +39,28 @@
 
         </div>
 
-        <div>
-            <sub-button value="작성" @click="clickSubmit"/>
+        <div id="wrapTag" class="wrap-item">
+            <span>태그</span>
+
+            <span>
+                <input type="text" v-model="input.tagText" @keyup="keyupTagText">
+            </span>
+        </div>
+
+        <div id="tags">
+            <span v-for='(tag, index) in input.tags'
+                  v-bind:key="index"
+                  @click="clickTag(index)"
+                  class="tag">
+                #{{tag.val}}
+            </span>
+        </div>
+
+
+        <div id="submit">
+            <div @click="clickSubmit">
+                작성완료
+            </div>
         </div>
     </div>
 
@@ -84,6 +90,9 @@
         data() {
             return {
                 isNew: true,
+                config: {
+                    maxWidth: 720
+                },
                 autoSave: {
                     key: "autoSave_post_",
                     interval: undefined
@@ -213,10 +222,19 @@
              */
             addImage(image) {
                 const src = image.domainUrl + image.saves.origin.path + "/" + image.saves.origin.filename
-
                 const tag = document.createElement("img")
-                tag.src = src
 
+                let width = image.saves.origin.width
+
+                console.log(width > this.config.maxWidth)
+                if (width > this.config.maxWidth) {
+                    width = this.config.maxWidth
+                }
+
+                tag.src = src
+                tag.setAttribute("style", 'width:' + width + 'px;')
+
+                console.log(tag.outerHTML)
                 let text = this.editor.getMarkdown()
                 text += "\n\n" + tag.outerHTML + "\n\n"
                 this.editor.setMarkdown(text)
@@ -252,23 +270,6 @@
                 text = text.replace(tag, "")
 
                 this.editor.setMarkdown(text)
-
-                /**
-                 * 딜레이걸림..?
-                 */
-                // const parser  = new DOMParser();
-                // const doc  = parser.parseFromString(this.editor.text, "text/html")
-                // const images = doc.getElementsByTagName("img")
-                //
-                // const index = Array.from(new Array(images.length), (x,i) => i)
-                //
-                // for(let i of index){
-                //     if(images[i].src.indexOf(image.saves.origin.filename) != -1){
-                //         console.log(images[i].src)
-                //         images[i].remove()
-                //     }
-                // }
-                // this.editor.text = doc.body.innerHTML
             },
 
             addFile(file) {
@@ -361,41 +362,74 @@
     }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+    #wrapBlogPost {
+        #wrapEditor {
+            margin: 40px 0px;
+            width: 100%;
+            height: 700px;
+        }
 
-    .wrapItem {
-        width: 100%;
-        margin-bottom: 30px;
+        #wrapImageUpload {
+            margin-top: 10px;
+        }
+
+        #wrapFileUpload {
+            margin-top: 10px;
+        }
+
+        #wrapTag {
+            margin-top: 50px;
+        }
+
+        #tags {
+            .tag {
+                display: inline-block;
+                cursor: pointer;
+                padding: 3px 10px;
+                margin: 2px 3px;
+                background: #E7E7E7;
+                border-radius: 3px;
+            }
+        }
+
+        #submit {
+            margin-top: 50px;
+            text-align: right;
+
+            div {
+                cursor: pointer;
+                margin: 0px 5px;
+                padding: 2px 10px;
+                border-radius: 5px;
+                text-align: center;
+                display: inline-block;
+
+                background: #111111;
+                border: 1px solid #111111;
+                color: #FFFFFF;
+            }
+        }
+
+        .wrap-item {
+            width: 100%;
+            margin-bottom: 30px;
+
+            span:nth-child(1) {
+                display: inline-block;
+                width: 130px;
+            }
+
+            span:nth-child(2) {
+                > input[type=text] {
+                    width: 50%;
+                    padding: 2px 5px;
+                    border-bottom: 1px solid #DDDDDD;
+                }
+            }
+        }
+
     }
 
-    .wrapEditor {
-        margin: 40px 0px;
-        width: 100%;
-        height: 700px;
-    }
-
-    .wrapItem > span:nth-child(1) {
-        display: inline-block;
-        width: 130px;
-    }
-
-    .wrapItem > span:nth-child(2) > input[type=text] {
-        width: 50%;
-        padding: 2px 5px;
-        border-bottom: 1px solid #DDDDDD;
-    }
-
-    #tags .tag {
-        display: inline-block;
-        cursor: pointer;
-        padding: 3px 10px;
-        margin: 2px 3px;
-        background: #E7E7E7;
-        border-radius: 3px;
-    }
-
-    #wrapImageUpload, #wrapFileUpload {
-        margin-top: 50px;
-    }
 
 </style>

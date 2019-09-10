@@ -78,7 +78,6 @@
         span {
             cursor: pointer;
             font-size: 0.9rem;
-            padding: 10px;
         }
 
         #loginIcon {

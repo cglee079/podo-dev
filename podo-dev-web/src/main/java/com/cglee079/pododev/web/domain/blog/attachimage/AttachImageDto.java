@@ -11,6 +11,12 @@ import java.util.*;
 public class AttachImageDto {
 
     @Getter
+    public static class upload {
+        private String url;
+        private String base64;
+    }
+
+    @Getter
     public static class response {
         private Long seq;
         private String originName;

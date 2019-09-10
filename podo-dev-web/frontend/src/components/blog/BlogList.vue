@@ -105,7 +105,7 @@
             }
 
         },
-        created() {
+        mounted() {
             window.addEventListener('scroll', this.handleScroll)
             this.loadBlogByFilter()
         },
@@ -115,7 +115,7 @@
     }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped >
 
     #wrapBlogs {
         display: flex;

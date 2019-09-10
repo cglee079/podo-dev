@@ -33,12 +33,11 @@
                 "checkLogin"
             ])
         },
-        mounted() {
+        created() {
             // 로그인 성공 시,
             const query = this.$route.query
 
             if (query && query.token) {
-
                 this.checkLogin({
                     token: query.token,
                     callback: () => {
@@ -57,7 +56,7 @@
         }
     }
 </script>
-<style scoped lang="scss">
+<style lang="scss" scoped >
 
     #main {
         margin: 50px auto 150px auto;

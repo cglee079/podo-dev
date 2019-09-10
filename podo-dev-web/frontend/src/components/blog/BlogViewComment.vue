@@ -104,15 +104,15 @@
     }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped >
 
     #wrapComment {
         margin-top: 100px;
 
         &.mobile, &.tablet {
             #count {
-                padding-left: 20px;
-                padding-right: 20px;
+                padding-left: 5%;
+                padding-right: 5%;
             }
         }
     }

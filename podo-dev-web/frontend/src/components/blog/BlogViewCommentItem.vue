@@ -87,7 +87,7 @@
     }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped >
     .wrap-comment {
         border-bottom: 0.5px solid #F1F1F1;
 

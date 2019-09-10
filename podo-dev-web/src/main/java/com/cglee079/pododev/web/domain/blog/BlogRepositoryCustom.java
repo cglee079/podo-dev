@@ -11,5 +11,5 @@ import java.util.List;
 public interface BlogRepositoryCustom {
     Blog findNext(Long seq);
     Blog findBefore(Long seq);
-    Page<Blog> paging(Pageable pageable, List<Long> seqs);
+    Page<Blog> paging(Pageable pageable, List<Long> seqs, Boolean enabled);
 }

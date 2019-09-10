@@ -7,6 +7,7 @@ import com.cglee079.pododev.web.global.infra.uploader.PodoUploaderClient;
 import com.cglee079.pododev.web.global.util.HttpUrlUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +34,33 @@ public class AttachImageService {
     @Value("${upload.base.url}")
     private String baseUrl;
 
+    public AttachImageDto.response saveBase64(String base64) {
+        String originExtension = "PNG";
+        String originName = "image_by_paste." + originExtension;
+
+        final Map<String, AttachImageSaveDto.response> saves = attachImageSaveService.makeSaveBase64(base64, originExtension);
+
+        return AttachImageDto.response.builder()
+                .originName(originName)
+                .domainUrl(HttpUrlUtil.getSeverDomain() + baseUrl)
+                .fileStatus(FileStatus.NEW)
+                .saves(saves)
+                .build();
+    }
+
+    public AttachImageDto.response saveImageUrl(String url) {
+        final String originName = FilenameUtils.getName(url);
+
+        final Map<String, AttachImageSaveDto.response> saves = attachImageSaveService.makeSaveUrl(url);
+
+        return AttachImageDto.response.builder()
+                .originName(originName)
+                .domainUrl(HttpUrlUtil.getSeverDomain() + baseUrl)
+                .fileStatus(FileStatus.NEW)
+                .saves(saves)
+                .build();
+    }
+
 
     /**
      * 이미지 업로드, 이미지를 우선 본서버에 저장.
@@ -42,7 +70,7 @@ public class AttachImageService {
 
         log.info("Save Image '{}' >> ", originName);
 
-        final Map<String, AttachImageSaveDto.response> saves = attachImageSaveService.makeSaveFile(multipartFile);
+        final Map<String, AttachImageSaveDto.response> saves = attachImageSaveService.makeSaves(multipartFile);
 
         return AttachImageDto.response.builder()
                 .originName(originName)
@@ -121,5 +149,6 @@ public class AttachImageService {
 
 
     }
+
 
 }

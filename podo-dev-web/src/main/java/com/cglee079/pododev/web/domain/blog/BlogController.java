@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
@@ -47,7 +48,7 @@ public class BlogController {
      * 게시글 작성
      */
     @PostMapping
-    public ApiResponse insert(@RequestBody BlogDto.insert insert) {
+    public ApiResponse insert(@Valid @RequestBody BlogDto.insert insert) {
         blogService.insert(insert);
 
         return StatusResponse.builder()
@@ -60,7 +61,7 @@ public class BlogController {
      * 게시글 수정
      */
     @PutMapping("/{seq}")
-    public ApiResponse update(@PathVariable Long seq, @RequestBody BlogDto.update blogReq) {
+    public ApiResponse update(@PathVariable Long seq, @Valid @RequestBody BlogDto.update blogReq) {
         blogService.update(seq, blogReq);
 
         return StatusResponse.builder()

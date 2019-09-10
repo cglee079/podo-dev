@@ -172,7 +172,7 @@
     }
 </style>
 
-<style scoped lang="scss">
+<style lang="scss" scoped >
     /** 모바일 아이콘 **/
     #btnMobileNavIcon {
         display: block;

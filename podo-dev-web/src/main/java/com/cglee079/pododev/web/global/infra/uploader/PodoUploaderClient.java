@@ -8,6 +8,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
@@ -39,15 +40,13 @@ public class PodoUploaderClient {
         HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(body, headers);
 
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange(serverUrl + subpath, HttpMethod.POST, request, String.class);
-
-        if(response.getStatusCode() != HttpStatus.OK){
-            log.error("body : {}", response.getStatusCode());
-            log.error("headers : {}", response.getHeaders());
-            log.error("body : {}", response.getBody());
+        try {
+            ResponseEntity<String> response = restTemplate.exchange(serverUrl + subpath, HttpMethod.POST, request, String.class);
+            log.info("Upload Response '{}'", response.toString());
+        } catch (HttpClientErrorException e) {
+            e.printStackTrace();
+            throw new UploadFailException();
         }
-
-        log.info("Upload Response '{}'", response.toString());
     }
 
     public void delete(String path, String filename) {

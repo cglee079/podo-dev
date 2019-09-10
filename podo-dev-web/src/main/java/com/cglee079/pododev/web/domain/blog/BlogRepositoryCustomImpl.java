@@ -42,11 +42,14 @@ public class BlogRepositoryCustomImpl extends QuerydslRepositorySupport implemen
     }
 
     @Override
-    public Page<Blog> paging(Pageable pageable, List<Long> seqs) {
+    public Page<Blog> paging(Pageable pageable, List<Long> seqs, Boolean enabled) {
         JPQLQuery<Blog> query;
         query = from(blog)
-                .where(blog.enabled.eq(true))
                 .orderBy(blog.seq.desc());
+
+        if(!Objects.isNull(enabled)){
+            query.where(blog.enabled.eq(enabled));
+        }
 
         if (!Objects.isNull(seqs)) {
             query.where(blog.seq.in(seqs));

@@ -64,7 +64,7 @@
 
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped >
 
     #nav {
         z-index: 9;

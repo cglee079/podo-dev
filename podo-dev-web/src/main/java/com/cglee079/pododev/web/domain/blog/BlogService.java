@@ -8,6 +8,7 @@ import com.cglee079.pododev.web.domain.blog.attachimage.AttachImage;
 import com.cglee079.pododev.web.domain.blog.attachimage.AttachImageService;
 import com.cglee079.pododev.web.domain.blog.exception.InvalidBlogSeqException;
 import com.cglee079.pododev.web.domain.blog.tag.TagService;
+import com.cglee079.pododev.web.global.config.security.SecurityUtil;
 import com.cglee079.pododev.web.global.infra.solr.PodoSolrClient;
 import com.cglee079.pododev.web.global.infra.solr.SolrDto;
 import com.cglee079.pododev.web.global.infra.uploader.PodoUploaderClient;
@@ -122,6 +123,11 @@ public class BlogService {
         final String tagValue = request.getTag();
         final Pageable pageable = PageRequest.of(page, pageSize);
         final List<BlogDto.responseList> contents = new LinkedList<>();
+        Boolean enabled = true;
+
+        if (SecurityUtil.isAdmin()) {
+            enabled = null;
+        }
 
         Page<Blog> blogs;
 
@@ -131,7 +137,7 @@ public class BlogService {
             final List<Long> seqs = results.stream().map(SolrDto.response::getSeq).map(Long::valueOf).collect(Collectors.toList());
             final Map<String, String> desc = results.stream().collect(Collectors.toMap(SolrDto.response::getSeq, SolrDto.response::getContents));
 
-            blogs = blogRepository.paging(pageable, seqs);
+            blogs = blogRepository.paging(pageable, seqs, enabled);
 
             blogs.forEach(blog -> contents.add(new BlogDto.responseList(blog, desc.get(blog.getSeq() + ""), uploaderFrontendUrl)));
 
@@ -140,13 +146,13 @@ public class BlogService {
         //List By Tag
         else if (!StringUtils.isEmpty(tagValue)) {
             List<Long> seqs = tagService.findBlogSeqByTagValue(tagValue);
-            blogs = blogRepository.paging(pageable, seqs);
+            blogs = blogRepository.paging(pageable, seqs, enabled);
             blogs.forEach(blog -> contents.add(new BlogDto.responseList(blog, uploaderFrontendUrl)));
         }
 
         //List All
         else {
-            blogs = blogRepository.paging(pageable, null);
+            blogs = blogRepository.paging(pageable, null, enabled);
             blogs.forEach(blog -> contents.add(new BlogDto.responseList(blog, uploaderFrontendUrl)));
         }
 
