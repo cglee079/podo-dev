@@ -1,5 +1,6 @@
 package com.cglee079.pododev.web.global.infra.uploader;
 
+import com.cglee079.pododev.web.global.infra.uploader.exception.UploadFailException;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +27,11 @@ public class PodoUploaderClient {
     @Value("${infra.uploader.upload.subpath}")
     private String subpath;
 
+    /**
+     * Upload to Uploader Server
+     * @param path
+     * @param file
+     */
     public void upload(String path, File file) {
         log.info("Upload Start '{}'", file.getPath() + "/" + file.getName());
 
@@ -49,6 +55,11 @@ public class PodoUploaderClient {
         }
     }
 
+    /**
+     * Delete to Uploader Server
+     * @param path
+     * @param filename
+     */
     public void delete(String path, String filename) {
         log.info("Delete Start.... '{}'", path + "/" + filename);
 

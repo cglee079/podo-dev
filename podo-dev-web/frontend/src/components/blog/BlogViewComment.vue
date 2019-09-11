@@ -2,19 +2,28 @@
     <div id="wrapComment" :class="$mq">
         <div id="count">
             <img src="https://image.flaticon.com/icons/svg/134/134718.svg"/>
-            <a class="comment-cnt">{{this.commentCount}}</a>
+            <a class="comment-cnt">{{this.totalElements}}</a>
             <div></div>
         </div>
 
+        <div
+                id="btnPaging"
+                @click="loadBlogComments(page + 1, page + 1)"
+                :class="hasMoreComment ? 'on': ''"
+        >
+            이전 댓글 보기
+        </div>
+
         <div id="comments">
-            <div v-for="comment in comments"
+            <div v-for="(comment, index) in comments"
                  v-bind:key="comment.seq"
             >
                 <comment-item
                         :blogSeq="blogSeq"
+                        :index = "index"
                         :comment="comment"
                         @delete="deleteBlogComment"
-                        @reload="loadBlogComments"
+                        @reload="reloadBlogComments"
                 />
             </div>
         </div>
@@ -24,7 +33,7 @@
                 :blogSeq="blogSeq"
                 :parentSeq="null"
                 placeholder="댓글을 입력해주세요"
-                @reload="loadBlogComments"
+                @reload="reloadBlogComments"
         />
 
 
@@ -49,6 +58,11 @@
         mixins: [customToast],
         data() {
             return {
+                page: 0,
+                pageSize: 0,
+                totalElements: 0,
+                totalPages: 0,
+                isLoading: false,
                 comments: [],
             }
         },
@@ -56,55 +70,84 @@
             ...mapGetters([
                 "isLogin", "getUser"
             ]),
-            commentCount() {
-                let count = 0;
-                this.comments.forEach(comment => {
-                    if (comment.enabled) {
-                        count++;
-                    }
-                })
-
-                return count
+            hasMoreComment() {
+                return (this.page + 1) < this.totalPages
             }
         },
         methods: {
-            loadBlogComments() {
-                this.$axios
-                    .get('/api/blogs/' + this.blogSeq + "/comments")
-                    .then(res => {
-                        res = res.data
-                        this.comments = []
-                        this.comments = res.data
-                        console.log(this.comments)
-                    })
-                    .catch(err => {
-                        console.log(err)
-                    })
+            reloadBlogComments() {
+                if(this.comments.length % this.pageSize === 0){
+                    this.page++
+                }
+
+                this.comments = []
+
+                this.loadBlogComments(0, this.page)
             },
 
-            deleteBlogComment(commentSeq) {
+            loadBlogComments(page, until) {
+
+                return new Promise((resolve, reject) => {
+                    if (this.isLoading) {
+                        return
+                    }
+
+                    this.isLoading = true
+
+                    this.$axios
+                        .get('/api/blogs/' + this.blogSeq + "/comments", {
+                            params: {
+                                page: page
+                            }
+                        })
+                        .then(res => {
+                            res = res.data.data
+                            res.contents.slice().reverse().forEach(item => this.comments.unshift(item))
+                            this.page = page
+                            this.pageSize = res.pageSize
+                            this.totalElements = res.totalElements
+                            this.totalPages = res.totalPages
+                            this.isLoading = false
+                            resolve(res)
+                        })
+                        .catch(err => {
+                            console.log(err)
+                            reject(err)
+                        })
+                }).then(() => {
+                    if (page < until) {
+                        this.loadBlogComments(page + 1, until)
+                    }
+                })
+            },
+
+            deleteBlogComment(commentSeq, index) {
                 this.toastConfirm("정말 댓글을 삭제하시겠습니까?", () => {
                     this.$axios
                         .delete('/api/blogs/' + this.blogSeq + "/comments/" + commentSeq)
-                        .then(res => {
+                        .then(() => {
                             this.$toasted.show("댓글이 삭제되었습니다")
-                            this.loadBlogComments()
+                            this.comments[index].enabled = false
+                            this.comments[index].contents = "삭제된 댓글입니다"
+
+                            //this.reloadBlogComments()
                         })
                         .catch(err => {
                             console.log(err)
                         })
                 })
-            }
+            },
+
         },
 
         created() {
-            this.loadBlogComments()
+            this.loadBlogComments(0, 0)
         }
 
     }
 </script>
 
-<style lang="scss" scoped >
+<style lang="scss" scoped>
 
     #wrapComment {
         margin-top: 100px;
@@ -137,6 +180,19 @@
             margin-left: 10px;
             margin-top: 5px;
             background: #F1F1F1;
+        }
+    }
+
+    #btnPaging {
+        border-bottom: 1px solid #F1F1F1;
+        padding: 15px 0px;
+        text-align: center;
+        cursor: pointer;
+        display: none;
+        opacity: 0.9;
+
+        &.on {
+            display: block;
         }
     }
 

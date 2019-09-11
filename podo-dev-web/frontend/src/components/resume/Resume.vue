@@ -1,7 +1,22 @@
 <template>
     <div id="resume" ref="resume" :class="$mq">
         <div id="name">
-            <span>이찬구, Podo</span>
+            <span>Lee Changoo => { Podo }</span>
+        </div>
+
+        <div id="info">
+            <div>Junior, Server Developer</div>
+            <div id="link">
+                <a target="_blank" href="https://github.com/cglee079">
+                    Git
+                </a>
+                <a target="_blank" href="https://www.linkedin.com/in/changoo-lee-205662180">
+                    LinkedIn
+                </a>
+                <a href="mailto:cglee079@gmail.com">
+                    Email
+                </a>
+            </div>
         </div>
 
         <div v-for="item in items"
@@ -13,8 +28,22 @@
                     <div v-html="content"/>
                 </div>
             </div>
-
         </div>
+
+        <div id="experiences" class="item">
+            <div class="head">EXPERIENCES</div>
+            <div class="content">
+                <p v-for="exp in experiences">
+                    <a :href="exp.link" target="_blank">
+                        <span class="date">
+                            {{exp.experienceAt}}.
+                        </span>
+                        <span>{{exp.title}}</span>
+                    </a>
+                </p>
+            </div>
+        </div>
+
     </div>
 </template>
 
@@ -23,10 +52,23 @@
         name: "ResumeVue",
         data() {
             return {
+                experiences: [],
                 items: [],
             }
         },
         methods: {
+            loadResumeExperiences() {
+                this.$axios
+                    .get('/api/resumes/experiences')
+                    .then(res => {
+                        res = res.data
+                        this.experiences = res.data
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+            },
+
             loadResumes() {
                 this.$axios
                     .get('/api/resumes')
@@ -42,6 +84,7 @@
             },
         },
         created() {
+            this.loadResumeExperiences()
             this.loadResumes()
         },
     }
@@ -49,7 +92,8 @@
 
 <style lang="scss" scoped>
     #resume {
-        background: #FAFAFA;
+        background: #FCFCFC;
+        border: 1px solid #FAFAFA;
         border-radius: 15px;
         padding: 100px;
 
@@ -59,7 +103,7 @@
         margin-top: -50px;
         transition: margin 1.5s, opacity 1s;
 
-        &.on{
+        &.on {
             margin-top: 0px;
             opacity: 1;
         }
@@ -85,27 +129,57 @@
                 font-size: 2rem;
                 font-weight: bold;
                 padding-bottom: 3px;
-                /*border-bottom: 5px solid #afa3d9;*/
+            }
+        }
+
+        #info {
+            margin-top: 20px;
+
+            #link {
+                a {
+                    text-decoration: underline;
+                    cursor: pointer;
+                    margin-right: 5px;
+                }
             }
         }
 
         /deep/ .item {
             margin-top: 80px;
 
+            //Experiences Item
+            &#experiences {
+                .content {
+                    p {
+                        .date {
+                            display: inline-block;
+                            width: 110px;
+                        }
+                    }
+                }
+            }
+
             .head {
                 border-left: 5px solid #d0c0d9;
-                padding-left: 10px;
+                padding-left: 8px;
                 font-size: 1.2rem;
                 font-weight: bold;
             }
 
+
             .content {
                 font-size: 0.95rem;
                 margin-top: 20px;
-                margin-left: 15px;
+                margin-left: 0.5rem;
 
                 p {
                     margin-top: 7px;
+
+
+                }
+
+                a[href*=''] {
+                    text-decoration: underline;
                 }
 
                 div {

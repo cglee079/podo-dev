@@ -2,11 +2,16 @@
 server:
   port: 8090
 
-# Paging
 blog:
+  comment:
+    per:
+      page:
+        size: 5 # Comment Paging Size
+    max:
+      depth: 3 # Comment Max Reply Depth
   per:
     page:
-      size: 10
+      size: 10 # Blog Paging Size
 
 spring:
   profiles:

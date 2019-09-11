@@ -9,7 +9,7 @@ public class ChosungUtil {
             'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'
     };
 
-    public static String get(String value) {
+    public static String getChosung(String value) {
         final char ch = value.toCharArray()[0];
 
         //한글인 경우

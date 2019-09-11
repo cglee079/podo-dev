@@ -36,29 +36,6 @@ public class WebConfig implements WebMvcConfigurer {
                 .addResourceLocations("file:///" + uploadedLocation + "/");
     }
 
-//    @Override
-//    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-//        Iterator<HttpMessageConverter<?>> converterIterator = converters.iterator();
-//        while (converterIterator.hasNext()) {
-//            // Do NOT add new one, MUST replace
-//            HttpMessageConverter converter = converterIterator.next();
-//            if (converter.getSupportedMediaTypes().contains(MediaType.APPLICATION_JSON))
-//                converterIterator.remove();
-//        }
-//
-//        converters.add(htmlEscapingConverter());
-//
-//    }
-//
-//    private HttpMessageConverter<?> htmlEscapingConverter() {
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        objectMapper.getFactory().setCharacterEscapes(new HTMLCharacterEscapes());
-//        MappingJackson2HttpMessageConverter htmlEscapingConverter =
-//                new MappingJackson2HttpMessageConverter();
-//        htmlEscapingConverter.setObjectMapper(objectMapper);
-//
-//        return htmlEscapingConverter;
-//    }
 }
 
 

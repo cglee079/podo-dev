@@ -1,5 +1,6 @@
 package com.cglee079.pododev.web.global.infra.solr;
 
+import com.cglee079.pododev.web.global.infra.solr.exception.SolrSendException;
 import com.cglee079.pododev.web.global.util.MarkdownUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +41,7 @@ public class PodoSolrClient {
     @Value("${infra.solr.query.hl.simple.post}")
     private String hlPostfix;
 
-    public List<SolrDto.response> search(String value) {
+    public List<SolrResponse> search(String value) {
         log.info("Solr Search, value '{}'", value);
 
         if (StringUtils.isEmpty(value)) {
@@ -57,19 +58,19 @@ public class PodoSolrClient {
 
         try {
             final QueryResponse response = solrSender.query(coreId, param);
-            final List<SolrDto.response> results = response.getBeans(SolrDto.response.class);
+            final List<SolrResponse> results = response.getBeans(SolrResponse.class);
             final Map<String, Map<String, List<String>>> highlights = response.getHighlighting();
 
-            //Set Highlight;
+            //Set Highlight
             results.forEach(result -> {
                 Map<String, List<String>> hlValues = highlights.get(result.getId());
 
-//                //title에서 분석됬는지 확인
+//                //Result By Title
 //                if (hl.containsKey("title")) {
 //                    result.setTitle(hl.get("title").get(0));
 //                }
 
-                //Content 에서 분석됬는지 확인.
+                // Result By Content
                 if (hlValues.containsKey("contents")) {
 
                     String highlight = MarkdownUtil.extractPlainText(hlValues.get("contents").get(0));
@@ -94,9 +95,7 @@ public class PodoSolrClient {
             return results;
 
         } catch (SolrServerException | IOException e) {
-            //TODO
-            e.printStackTrace();
-            return new LinkedList<>();
+            throw new SolrSendException(e);
         }
 
 
@@ -117,8 +116,7 @@ public class PodoSolrClient {
 
             return counts.stream().map(FacetField.Count::getName).collect(Collectors.toList());
         } catch (SolrServerException | IOException e) {
-            e.printStackTrace();
-            return new LinkedList<>();
+            throw new SolrSendException(e);
         }
 
     }
@@ -133,10 +131,8 @@ public class PodoSolrClient {
 
         try {
             solrSender.query(coreId, param);
-        } catch (SolrServerException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (SolrServerException | IOException e) {
+            throw new SolrSendException(e);
         }
     }
 

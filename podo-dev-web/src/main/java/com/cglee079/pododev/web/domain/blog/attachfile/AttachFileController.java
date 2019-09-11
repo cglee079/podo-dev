@@ -12,12 +12,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping
 public class AttachFileController {
 
     private final AttachFileService attachFileService;
 
-    @PostMapping("/blogs/files")
+    @PostMapping("/api/blogs/files")
     public ApiResponse uploadFile(@RequestParam("file") MultipartFile file) {
         AttachFileDto.response response = attachFileService.saveFile(file);
 

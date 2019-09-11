@@ -18,6 +18,7 @@
     export default {
         name: "BlogViewCommentWrite",
         props: {
+            index : Number,
             blogSeq: Number,
             parentSeq: Number,
             placeholder: String,

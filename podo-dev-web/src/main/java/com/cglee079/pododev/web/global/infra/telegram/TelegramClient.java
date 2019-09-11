@@ -1,6 +1,7 @@
 package com.cglee079.pododev.web.global.infra.telegram;
 
-import lombok.extern.java.Log;
+import com.cglee079.pododev.web.global.infra.telegram.exception.TelegramSendException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -12,7 +13,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.updateshandlers.SentCallback;
 
-@Log
+@Slf4j
 @Component
 public class TelegramClient extends TelegramLongPollingBot {
 
@@ -40,7 +41,6 @@ public class TelegramClient extends TelegramLongPollingBot {
         //No Logic..
     }
 
-
     public void send(String message) {
 
         final SendMessage sendMessage = new SendMessage(adminId, message);
@@ -54,20 +54,20 @@ public class TelegramClient extends TelegramLongPollingBot {
                 }
 
                 @Override
-                public void onError(BotApiMethod<Message> method, TelegramApiRequestException apiException) {
-                    apiException.printStackTrace();
-                    log.info("관리자에게 알람을 전송 할 수 없습니다");
+                public void onError(BotApiMethod<Message> method, TelegramApiRequestException e) {
+                    log.error("관리자에게 알람을 전송 할 수 없습니다");
+                    throw new TelegramSendException(e);
                 }
 
                 @Override
-                public void onException(BotApiMethod<Message> method, Exception exception) {
-                    exception.printStackTrace();
-                    log.info("관리자에게 알람을 전송 할 수 없습니다");
+                public void onException(BotApiMethod<Message> method, Exception e) {
+                    log.error("관리자에게 알람을 전송 할 수 없습니다");
+                    throw new TelegramSendException(e);
                 }
             });
 
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            throw new TelegramSendException(e);
         }
 
     }

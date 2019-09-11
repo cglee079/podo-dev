@@ -42,7 +42,7 @@ public class AttachImageService {
 
         return AttachImageDto.response.builder()
                 .originName(originName)
-                .domainUrl(HttpUrlUtil.getSeverDomain() + baseUrl)
+                .uploadedUrl(HttpUrlUtil.getSeverDomain() + baseUrl)
                 .fileStatus(FileStatus.NEW)
                 .saves(saves)
                 .build();
@@ -55,7 +55,7 @@ public class AttachImageService {
 
         return AttachImageDto.response.builder()
                 .originName(originName)
-                .domainUrl(HttpUrlUtil.getSeverDomain() + baseUrl)
+                .uploadedUrl(HttpUrlUtil.getSeverDomain() + baseUrl)
                 .fileStatus(FileStatus.NEW)
                 .saves(saves)
                 .build();
@@ -74,7 +74,7 @@ public class AttachImageService {
 
         return AttachImageDto.response.builder()
                 .originName(originName)
-                .domainUrl(HttpUrlUtil.getSeverDomain() + baseUrl)
+                .uploadedUrl(HttpUrlUtil.getSeverDomain() + baseUrl)
                 .fileStatus(FileStatus.NEW)
                 .saves(saves)
                 .build();
@@ -123,10 +123,8 @@ public class AttachImageService {
 
             final List<AttachImageSaveDto.update> saves = image.getSaves().values().stream().collect(Collectors.toList());
 
-            //DB 정보 갱신
             switch (FileStatus.valueOf(image.getFileStatus())) {
                 case NEW:
-
                     saves.forEach(save ->
                             podoUploaderClient.upload(save.getPath(), new File(baseDir + save.getPath(), save.getFilename()))
                     );

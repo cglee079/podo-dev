@@ -116,6 +116,7 @@
             keyupTagText(event) {
                 let txt = this.input.tagText
                 if (txt.endsWith(" ") || event.keyCode === 13) {
+                    event.preventDefault()
                     txt = txt.trim();
 
                     if (txt.length) {
@@ -130,6 +131,7 @@
 
                         if (included) {
                             this.$toasted.show(txt + "는 중복됩니다!")
+                            this.input.tagText = ''
                             return
                         }
 
@@ -189,7 +191,7 @@
                     })
 
                     .then(res => {
-                        this.$router.go(-1)
+                        this.$router.push({name : 'BlogList'})
                         console.log(res)
                     })
                     .catch(err => {
@@ -209,7 +211,7 @@
                     })
 
                     .then(res => {
-                        this.$router.go(-1)
+                        this.$router.push({name : 'BlogList'})
                         console.log(res)
                     })
                     .catch(err => {
@@ -221,7 +223,7 @@
              * Call By Child
              */
             addImage(image) {
-                const src = image.domainUrl + image.saves.origin.path + "/" + image.saves.origin.filename
+                const src = image.uploadedUrl + image.saves.origin.path + "/" + image.saves.origin.filename
                 const tag = document.createElement("img")
 
                 let width = image.saves.origin.width

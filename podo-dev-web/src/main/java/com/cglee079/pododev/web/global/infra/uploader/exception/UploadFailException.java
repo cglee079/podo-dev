@@ -1,4 +1,4 @@
-package com.cglee079.pododev.web.global.infra.uploader;
+package com.cglee079.pododev.web.global.infra.uploader.exception;
 
 import com.cglee079.pododev.core.global.exception.HandledException;
 import com.cglee079.pododev.core.global.response.ApiStatus;

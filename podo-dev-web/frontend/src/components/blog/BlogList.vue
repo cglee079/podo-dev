@@ -8,7 +8,6 @@
             >
                 <blog-row :blog="blog"></blog-row>
             </div>
-
         </div>
 
     </div>

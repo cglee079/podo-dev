@@ -11,12 +11,12 @@ import java.util.Objects;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping
 public class AttachImageController {
 
     private final AttachImageService attachImageService;
 
-    @PostMapping(value = "/blogs/images", consumes = "multipart/form-data")
+    @PostMapping(value = "/api/blogs/images", consumes = "multipart/form-data")
     public ApiResponse uploadImages(@RequestParam("image") MultipartFile image) {
         AttachImageDto.response response = attachImageService.saveImage(image);
 
@@ -26,7 +26,7 @@ public class AttachImageController {
                 .build();
     }
 
-    @PostMapping(value = "blogs/images", consumes = "application/json;charset=UTF-8")
+    @PostMapping(value = "/api/blogs/images", consumes = "application/json;charset=UTF-8")
     public ApiResponse uploadBase64(@RequestBody AttachImageDto.upload upload) {
         AttachImageDto.response response = null;
 

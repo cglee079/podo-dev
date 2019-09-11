@@ -30,7 +30,7 @@
                     <div class="menu-delete" @click="clickImageDelete(index)">삭제</div>
                 </div>
 
-                <img :src=" image.domainUrl + image.saves.origin.path +
+                <img :src=" image.uploadedUrl + image.saves.origin.path +
                     '/' + image.saves.origin.filename"/>
             </div>
         </div>

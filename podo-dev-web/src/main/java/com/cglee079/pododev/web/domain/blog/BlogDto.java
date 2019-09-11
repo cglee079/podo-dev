@@ -9,8 +9,9 @@ import com.cglee079.pododev.web.domain.blog.tag.Tag;
 import com.cglee079.pododev.web.domain.blog.tag.TagDto;
 import com.cglee079.pododev.web.global.util.Formatter;
 import com.cglee079.pododev.web.global.util.MarkdownUtil;
-import lombok.*;
-import org.springframework.web.util.HtmlUtils;
+import com.cglee079.pododev.web.global.util.PathUtil;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -43,7 +44,7 @@ public class BlogDto {
             List<Tag> tags = new LinkedList<>();
             this.tags.forEach(tag -> tags.add(tag.toEntity()));
             int idx = 1;
-            for (Tag tag : tags) {
+            for (Tag tag : tags) { //Redefine Order
                 tag.updateIdx(idx++);
             }
 
@@ -54,6 +55,9 @@ public class BlogDto {
                     case NEW:
                         images.add(image.toEntity());
                         break;
+                    case UNNEW:
+                    case REMOVE:
+                    case BE:
                     default:
                         break;
                 }
@@ -66,6 +70,9 @@ public class BlogDto {
                     case NEW:
                         files.add(file.toEntity());
                         break;
+                    case UNNEW:
+                    case REMOVE:
+                    case BE:
                     default:
                         break;
                 }
@@ -103,15 +110,9 @@ public class BlogDto {
     @Setter
     @Getter
     public class request {
-        Boolean isHit;
-    }
-
-    @Setter
-    @Getter
-    public class requestPaging {
-        Integer page;
-        String tag;
-        String search;
+        private Integer page;
+        private String tag;
+        private String search;
     }
 
 
@@ -132,7 +133,7 @@ public class BlogDto {
         private String updateAt;
         private Boolean enabled;
 
-        public response(Blog blog, Blog before, Blog next, String domainUrl, FileStatus fileStatus) {
+        public response(Blog blog, Blog before, Blog next, String uploaderDomain, FileStatus fileStatus) {
             this.seq = blog.getSeq();
             this.title = blog.getTitle();
             this.contents = blog.getContents();
@@ -147,19 +148,21 @@ public class BlogDto {
             this.images = new LinkedList<>();
             this.files = new LinkedList<>();
 
-            this.contents = contents.replace("http://upload.podo-dev.com/", "http://upload.podo-dev.com:8090/");
             blog.getTags().forEach(tag -> this.tags.add(new TagDto.response(tag)));
-            blog.getImages().forEach(image -> this.images.add(new AttachImageDto.response(image, domainUrl, fileStatus)));
-            blog.getFiles().forEach(file -> this.files.add(new AttachFileDto.response(file, domainUrl, fileStatus)));
+            blog.getImages().forEach(image -> this.images.add(new AttachImageDto.response(image, uploaderDomain, fileStatus)));
+            blog.getFiles().forEach(file -> this.files.add(new AttachFileDto.response(file, uploaderDomain, fileStatus)));
 
             if (!images.isEmpty()) {
                 List<AttachImageSave> saves = blog.getImages().get(0).getSaves();
                 Optional<AttachImageSave> thumbnailSaveOpt = saves.stream().filter(s -> s.getImageId().equals("origin")).findFirst();
                 if (thumbnailSaveOpt.isPresent()) {
                     AttachImageSave thumbnailSave = thumbnailSaveOpt.get();
-                    this.thumbnail = domainUrl + thumbnailSave.getPath() + "/" + thumbnailSave.getFilename();
+                    this.thumbnail = PathUtil.merge(uploaderDomain, thumbnailSave.getPath(), thumbnailSave.getFilename());
                 }
             }
+
+            //TODO temp
+            this.contents = contents.replace("http://upload.podo-dev.com/", "http://upload.podo-dev.com:8090/");
 
         }
 
@@ -178,22 +181,17 @@ public class BlogDto {
         private String updateAt;
         private Boolean enabled;
 
-        public responseList(Blog blog, String uploadServerDomain) {
+        public responseList(Blog blog, String uploaderDomain) {
             this.seq = blog.getSeq();
             this.title = blog.getTitle();
             this.desc = MarkdownUtil.escape(MarkdownUtil.extractPlainText(blog.getContents()));
+            this.desc = desc.length() > 300 ? desc.substring(0, 300) : desc;
             this.hitCnt = blog.getHitCnt();
             this.createAt = Formatter.dateTimeToBeautifulDate(blog.getCreateAt());
             this.updateAt = Formatter.dateTimeToBeautifulDate(blog.getUpdateAt());
             this.enabled = blog.getEnabled();
-            this.tags = new LinkedList<>();
-            this.commentCnt = 0;
+            this.commentCnt = blog.getComments().size();
 
-            blog.getComments().forEach(comment -> {
-                if(comment.getEnabled()){
-                    this.commentCnt++;
-                }
-            });
 
             List<AttachImage> images = blog.getImages();
             if (!images.isEmpty()) {
@@ -201,13 +199,13 @@ public class BlogDto {
                 Optional<AttachImageSave> thumbnailSaveOpt = saves.stream().filter(s -> s.getImageId().equals("origin")).findFirst();
                 if (thumbnailSaveOpt.isPresent()) {
                     AttachImageSave thumbnailSave = thumbnailSaveOpt.get();
-                    this.thumbnail = uploadServerDomain + thumbnailSave.getPath() + "/" + thumbnailSave.getFilename();
+                    this.thumbnail = PathUtil.merge(uploaderDomain, thumbnailSave.getPath(), thumbnailSave.getFilename());
                 }
             }
 
+            this.tags = new LinkedList<>();
             blog.getTags().forEach(tag -> this.tags.add(new TagDto.response(tag)));
         }
-
 
         public responseList(Blog blog, String desc, String uploadServerDomain) {
             this(blog, uploadServerDomain);

@@ -2,7 +2,7 @@ package com.cglee079.pododev.web.domain.blog.attachfile;
 
 import com.cglee079.pododev.core.global.util.MyFileUtils;
 import com.cglee079.pododev.web.domain.blog.FileStatus;
-import com.cglee079.pododev.web.domain.blog.attachfile.exception.InvalidFileSeqException;
+import com.cglee079.pododev.web.domain.blog.attachfile.exception.InvalidFileException;
 import com.cglee079.pododev.web.global.infra.uploader.PodoUploaderClient;
 import com.cglee079.pododev.web.global.util.FileWriter;
 import com.cglee079.pododev.web.global.util.PathUtil;
@@ -27,18 +27,6 @@ public class AttachFileService {
     private final PodoUploaderClient podoUploaderClient;
     private final AttachFileRepository attachFileRepository;
     private final FileWriter fileWriter;
-
-//    @PostConstruct
-//    public void dd(){
-//        List<AttachFile> files = attachFileRepository.findAll();
-//        files.forEach(file -> {
-//            final String url = PathUtil.merge("http://upload.podo-dev.com:8090/uploaded", file.getPath(), file.getFilename());
-//            File f = fileWriter.saveFile("temp", url);
-//            Long filesize = f.length();
-//            file.setFilesize(filesize);
-//            attachFileRepository.save(file);
-//        });
-//    }
 
     @Value("${upload.base.url}")
     private String baseUrl;
@@ -66,7 +54,7 @@ public class AttachFileService {
 
         return AttachFileDto.response.builder()
                 .originName(originName)
-                .domainUrl(HttpUrlUtil.getSeverDomain() + baseUrl)
+                .uploadedUrl(HttpUrlUtil.getSeverDomain() + baseUrl)
                 .path(path)
                 .filename(file.getName())
                 .fileStatus(FileStatus.NEW)
@@ -128,7 +116,7 @@ public class AttachFileService {
         Optional<AttachFile> file = attachFileRepository.findById(fileSeq);
 
         if (!file.isPresent()) {
-            throw new InvalidFileSeqException();
+            throw new InvalidFileException();
         }
 
         return new AttachFileDto.response(file.get(), uploaderFrontendUrl, FileStatus.BE);

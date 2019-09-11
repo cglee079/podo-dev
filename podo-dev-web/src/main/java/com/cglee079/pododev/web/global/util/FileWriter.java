@@ -67,17 +67,23 @@ public class FileWriter {
      * @return
      */
     public File saveFile(String path, String extension, String base64) {
-        try {
-            base64 = base64.split(",")[1];
-            final byte[] imageBytes = DatatypeConverter.parseBase64Binary(base64);
-            final BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(imageBytes));
-            final String dirPath = PathUtil.merge(baseDir, path); // 로컬 저장경로
-            final String filename = MyFileUtils.makeRandFilename(extension);
 
-            return MyFileUtils.saveFile(PathUtil.merge(dirPath, filename), extension, bufferedImage);
+        BufferedImage bufferedImage;
+
+        try {
+            final String base64Split = base64.split(",")[1];
+            final byte[] imageBytes = DatatypeConverter.parseBase64Binary(base64Split);
+            bufferedImage = ImageIO.read(new ByteArrayInputStream(imageBytes));
+
         } catch (IOException e) {
             throw new InValidImageException();
         }
+
+        final String dirPath = PathUtil.merge(baseDir, path); // 로컬 저장경로
+        final String filename = MyFileUtils.makeRandFilename(extension);
+
+        return MyFileUtils.saveFile(PathUtil.merge(dirPath, filename), extension, bufferedImage);
+
     }
 
     /**

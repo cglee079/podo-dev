@@ -10,7 +10,7 @@ import com.cglee079.pododev.web.domain.blog.exception.InvalidBlogSeqException;
 import com.cglee079.pododev.web.domain.blog.tag.TagService;
 import com.cglee079.pododev.web.global.config.security.SecurityUtil;
 import com.cglee079.pododev.web.global.infra.solr.PodoSolrClient;
-import com.cglee079.pododev.web.global.infra.solr.SolrDto;
+import com.cglee079.pododev.web.global.infra.solr.SolrResponse;
 import com.cglee079.pododev.web.global.infra.uploader.PodoUploaderClient;
 import com.cglee079.pododev.web.global.util.HttpUrlUtil;
 import lombok.RequiredArgsConstructor;
@@ -117,7 +117,7 @@ public class BlogService {
         return new BlogDto.response(blog.get(), before, next, uploaderFrontendUrl, FileStatus.BE);
     }
 
-    public PageDto paging(BlogDto.requestPaging request) {
+    public PageDto paging(BlogDto.request request) {
         final String search = request.getSearch();
         final Integer page = request.getPage();
         final String tagValue = request.getTag();
@@ -125,6 +125,7 @@ public class BlogService {
         final List<BlogDto.responseList> contents = new LinkedList<>();
         Boolean enabled = true;
 
+        // If Admin, Show All Blogs (Include Disabled)
         if (SecurityUtil.isAdmin()) {
             enabled = null;
         }
@@ -133,9 +134,9 @@ public class BlogService {
 
         //List By Solr (Search)
         if (!StringUtils.isEmpty(search)) {
-            final List<SolrDto.response> results = podoSolrClient.search(search);
-            final List<Long> seqs = results.stream().map(SolrDto.response::getSeq).map(Long::valueOf).collect(Collectors.toList());
-            final Map<String, String> desc = results.stream().collect(Collectors.toMap(SolrDto.response::getSeq, SolrDto.response::getContents));
+            final List<SolrResponse> results = podoSolrClient.search(search);
+            final List<Long> seqs = results.stream().map(SolrResponse::getSeq).map(Long::valueOf).collect(Collectors.toList());
+            final Map<String, String> desc = results.stream().collect(Collectors.toMap(SolrResponse::getSeq, SolrResponse::getContents));
 
             blogs = blogRepository.paging(pageable, seqs, enabled);
 
@@ -192,7 +193,7 @@ public class BlogService {
         blog.update(blogUpdate.getTitle(), blogUpdate.getContents(), blogUpdate.getEnabled());
         blog.updateContentSrc(HttpUrlUtil.getSeverDomain() + baseUrl, uploaderFrontendUrl);
 
-        //Update Child
+        //Update Child (Tag, AttachImage, AttachFile)
         tagService.updateTags(seq, blogUpdate.getTags());
         attachImageService.updateImage(seq, blogUpdate.getImages());
         attachFileService.updateFile(seq, blogUpdate.getFiles());

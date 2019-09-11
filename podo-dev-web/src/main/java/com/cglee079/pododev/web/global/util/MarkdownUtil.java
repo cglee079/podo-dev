@@ -11,6 +11,14 @@ public class MarkdownUtil {
         return Jsoup.parse(html).text();
     }
 
+    public static String line2br(String s) {
+        return s.replace("\n", "<br/>");
+    }
+
+    public static String escape(String s) {
+        return HtmlUtils.htmlEscape(s);
+    }
+
     public static String defendXss(String s) {
         StringBuilder builder = new StringBuilder();
         boolean previousWasASpace = false;
@@ -51,13 +59,5 @@ public class MarkdownUtil {
             }
         }
         return builder.toString();
-    }
-
-    public static String line2br(String s) {
-        return s.replace("\n", "<br/>");
-    }
-
-    public static String escape(String s) {
-        return HtmlUtils.htmlEscape(s);
     }
 }

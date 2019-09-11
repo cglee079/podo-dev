@@ -29,7 +29,7 @@ public class TagService {
 
 
         values.forEach(value -> {
-            final String chosung = ChosungUtil.get(value);
+            final String chosung = ChosungUtil.getChosung(value);
 
             Set<String> chosungValues = chosungMap.get(chosung);
             if (Objects.isNull(chosungValues)) {

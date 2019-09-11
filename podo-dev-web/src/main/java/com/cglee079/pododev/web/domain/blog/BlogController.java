@@ -11,7 +11,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/api/blogs")
+@RequestMapping
 public class BlogController {
 
     private final BlogService blogService;
@@ -19,7 +19,7 @@ public class BlogController {
     /**
      * 게시글 조회
      */
-    @GetMapping("/{seq}")
+    @GetMapping("/api/blogs/{seq}")
     public ApiResponse get(@PathVariable Long seq) {
 
         BlogDto.response blogRes = blogService.get(seq);
@@ -33,8 +33,8 @@ public class BlogController {
     /**
      * 게시글 페이징
      */
-    @GetMapping
-    public ApiResponse paging(BlogDto.requestPaging request) {
+    @GetMapping("/api/blogs")
+    public ApiResponse paging(BlogDto.request request) {
         final PageDto<BlogDto.responseList> blogs = blogService.paging(request);
 
         return DataResponse.builder()
@@ -47,7 +47,7 @@ public class BlogController {
     /**
      * 게시글 작성
      */
-    @PostMapping
+    @PostMapping("/api/blogs")
     public ApiResponse insert(@Valid @RequestBody BlogDto.insert insert) {
         blogService.insert(insert);
 
@@ -60,7 +60,7 @@ public class BlogController {
     /**
      * 게시글 수정
      */
-    @PutMapping("/{seq}")
+    @PutMapping("/api/blogs/{seq}")
     public ApiResponse update(@PathVariable Long seq, @Valid @RequestBody BlogDto.update blogReq) {
         blogService.update(seq, blogReq);
 
@@ -72,7 +72,7 @@ public class BlogController {
     /**
      * 게시글 삭제
      */
-    @DeleteMapping("/{seq}")
+    @DeleteMapping("/api/blogs/{seq}")
     public ApiResponse delete(@PathVariable Long seq) {
         blogService.delete(seq);
 
@@ -85,7 +85,7 @@ public class BlogController {
     /**
      * 게시글 조회
      */
-    @PostMapping("/{seq}/hitCount")
+    @PostMapping("/api/blogs/{seq}/hitCount")
     public ApiResponse increaseHitCnt(@PathVariable Long seq) {
 
         blogService.increaseHitCnt(seq);
@@ -95,7 +95,7 @@ public class BlogController {
                 .build();
     }
 
-    @GetMapping("/facets")
+    @GetMapping("/api/blogs/facets")
     public ApiResponse facets(@RequestParam String value) {
         final List<String> facets = blogService.facets(value);
 

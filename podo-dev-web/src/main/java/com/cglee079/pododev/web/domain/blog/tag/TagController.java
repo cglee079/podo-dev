@@ -11,7 +11,7 @@ import java.util.Set;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/api/tags")
+@RequestMapping
 public class TagController {
 
     private final TagService tagService;
@@ -19,7 +19,7 @@ public class TagController {
     /**
      * 태그, 초성별 조회
      */
-    @GetMapping("/values")
+    @GetMapping("/api/tags/values")
     public ApiResponse listValues() {
         final Map<String, Set<String>> mapByChosung = tagService.valuesByChosungMap();
 

@@ -11,8 +11,8 @@
                     <a class="create-at">{{comment.createAt}}</a>
                 </div>
                 <div class="menu">
-                    <a v-if="comment.enabled" @click="clickReply">{{reply.message}}</a>
-                    <a v-if="comment.enabled && comment.isMine" @click="clickCommentDelete(comment.seq)">삭제</a>
+                    <a v-if="comment.enabled && comment.depth < config.maxDepth" @click="clickReply">{{reply.message}}</a>
+                    <a v-if="comment.enabled && comment.isMine" @click="clickCommentDelete(comment.seq, index)">삭제</a>
                 </div>
             </div>
 
@@ -25,6 +25,7 @@
                 <component
                         :is="reply.comp"
                         :blogSeq="blogSeq"
+                        :index = "index"
                         :parentSeq="comment.seq"
                         :placeholder="comment.username + ' 님에게 답글'"
                         @reload="$emit('reload')"
@@ -41,6 +42,7 @@
     export default {
         name: "BlogViewCommentItem",
         props: {
+            index : Number,
             blogSeq: Number,
             comment: Object
         },
@@ -49,6 +51,9 @@
         },
         data() {
             return {
+                config: {
+                    maxDepth : 3
+                },
                 reply: {
                     on: false,
                     message: '답글',
@@ -80,8 +85,8 @@
                 this.offReply()
             },
 
-            clickCommentDelete(commentSeq) {
-                this.$emit('delete', commentSeq)
+            clickCommentDelete(commentSeq, index) {
+                this.$emit('delete', commentSeq, index)
             }
         }
     }

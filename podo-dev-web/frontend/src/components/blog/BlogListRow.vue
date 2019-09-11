@@ -75,7 +75,7 @@
         align-items: center;
         cursor: pointer;
         border-bottom: 1px solid #F1F1F1;
-        padding: 30px 20px;
+        padding: 40px 20px;
 
         &.disabled {
             opacity: 0.5;
@@ -107,13 +107,6 @@
 
                 .info {
                     font-size: 0.8rem;
-
-                    .tags {
-                        max-width: 40%;
-                        white-space: nowrap;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                    }
                 }
 
             }
@@ -172,10 +165,17 @@
                 color: #9199a4;
                 font-size: 0.9rem;
 
-                .tags .tag {
-                    margin-right: 10px;
-                    color: #ec5621;
-                    font-weight: bold;
+                .tags {
+                    max-width: 40%;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+
+                    .tag {
+                        margin-right: 10px;
+                        color: #ec5621;
+                        font-weight: bold;
+                    }
                 }
 
                 .subinfo {

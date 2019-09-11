@@ -10,6 +10,7 @@ import java.util.*;
 
 public class AttachImageDto {
 
+    //Url or base64;
     @Getter
     public static class upload {
         private String url;
@@ -20,22 +21,22 @@ public class AttachImageDto {
     public static class response {
         private Long seq;
         private String originName;
-        private String domainUrl;
+        private String uploadedUrl;
         private FileStatus fileStatus;
         private Map<String, AttachImageSaveDto.response> saves;
 
         @Builder
-        public response(String originName, String domainUrl, FileStatus fileStatus, Map<String, AttachImageSaveDto.response> saves) {
+        public response(String originName, String uploadedUrl, FileStatus fileStatus, Map<String, AttachImageSaveDto.response> saves) {
             this.originName = originName;
-            this.domainUrl = domainUrl;
+            this.uploadedUrl = uploadedUrl;
             this.fileStatus = fileStatus;
             this.saves = saves;
         }
 
-        public response(AttachImage image, String domainUrl, FileStatus fileStatus) {
+        public response(AttachImage image, String uploadedUrl, FileStatus fileStatus) {
             this.seq = image.getSeq();
             this.originName = image.getOriginName();
-            this.domainUrl = domainUrl;
+            this.uploadedUrl = uploadedUrl;
             this.fileStatus = fileStatus;
             this.saves = new HashMap<>();
 
@@ -50,7 +51,7 @@ public class AttachImageDto {
     @Getter
     public static class insert {
         private String originName;
-        private String domainUrl;
+        private String uploadedUrl;
         private String fileStatus;
         private Map<String, AttachImageSaveDto.insert> saves;
 
@@ -58,15 +59,9 @@ public class AttachImageDto {
 
             List<AttachImageSave> attachImageSaves = new LinkedList<>();
 
-            Iterator<String> keys = saves.keySet().iterator();
-            String key;
-            AttachImageSaveDto.insert save;
-            while (keys.hasNext()) {
-                key = keys.next();
-                save = saves.get(key);
-
-                attachImageSaves.add(save.toEntity(key));
-            }
+            saves.keySet().stream().forEach(key ->
+                    attachImageSaves.add(saves.get(key).toEntity(key))
+            );
 
             return AttachImage.builder()
                     .originName(this.originName)
@@ -79,22 +74,16 @@ public class AttachImageDto {
     public static class update {
         private Long seq;
         private String originName;
-        private String domainUrl;
+        private String uploadedUrl;
         private String fileStatus;
         private Map<String, AttachImageSaveDto.update> saves;
 
         public AttachImage toEntity(Long blogSeq) {
             List<AttachImageSave> attachImageSaves = new LinkedList<>();
 
-            Iterator<String> keys = saves.keySet().iterator();
-            String key;
-            AttachImageSaveDto.update save;
-            while (keys.hasNext()) {
-                key = keys.next();
-                save = saves.get(key);
-
-                attachImageSaves.add(save.toEntity(key));
-            }
+            saves.keySet().stream().forEach(key ->
+                    attachImageSaves.add(saves.get(key).toEntity(key))
+            );
 
             return AttachImage.builder()
                     .blogSeq(blogSeq)

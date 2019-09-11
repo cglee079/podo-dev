@@ -12,15 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.nio.file.Paths;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping(value = "/api")
+@RequestMapping
 public class AttachFileDownloadController {
     public static final String TEMP_DIRECTORY = "temp";
 
@@ -36,7 +32,7 @@ public class AttachFileDownloadController {
      * @param response
      * @throws IOException
      */
-    @GetMapping("/blogs/{blogSeq}/files/{fileSeq}")
+    @GetMapping("/api/blogs/{blogSeq}/files/{fileSeq}")
     public void downloadFile(
             @PathVariable Long blogSeq,
             @PathVariable Long fileSeq,
@@ -45,7 +41,7 @@ public class AttachFileDownloadController {
     ) throws IOException {
 
         final AttachFileDto.response attachFile = attachFileService.get(fileSeq);
-        final String url = PathUtil.merge(attachFile.getDomainUrl(), attachFile.getPath(), attachFile.getFilename());
+        final String url = PathUtil.merge(attachFile.getUploadedUrl(), attachFile.getPath(), attachFile.getFilename());
         final File file = fileWriter.saveFile(TEMP_DIRECTORY, url);
 
         if (file.exists()) {

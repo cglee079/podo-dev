@@ -12,7 +12,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/api/resumes")
+@RequestMapping
 public class ResumeController {
 
 
@@ -21,7 +21,7 @@ public class ResumeController {
     /**
      * 이력 리스트 조회
      */
-    @GetMapping
+    @GetMapping(value = "/api/resumes")
     public ApiResponse list() {
 
         List<ResumeDto.response> resumes = resumeService.findAll();

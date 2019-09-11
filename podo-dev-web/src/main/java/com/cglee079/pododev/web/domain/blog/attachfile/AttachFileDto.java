@@ -11,27 +11,27 @@ public class AttachFileDto {
         private Long seq;
         private String filename;
         private String originName;
-        private String domainUrl;
+        private String uploadedUrl;
         private String path;
         private Long filesize;
         private FileStatus fileStatus;
 
         @Builder
-        public response(Long seq, String filename, String originName, String domainUrl, String path, Long filesize, FileStatus fileStatus) {
+        public response(Long seq, String filename, String originName, String uploadedUrl, String path, Long filesize, FileStatus fileStatus) {
             this.seq = seq;
             this.filename = filename;
             this.originName = originName;
-            this.domainUrl = domainUrl;
+            this.uploadedUrl = uploadedUrl;
             this.path = path;
             this.filesize = filesize;
             this.fileStatus = fileStatus;
         }
 
-        public response(AttachFile file, String domainUrl, FileStatus fileStatus) {
+        public response(AttachFile file, String uploadedUrl, FileStatus fileStatus) {
             this.seq = file.getSeq();
             this.filename = file.getFilename();
             this.originName = file.getOriginName();
-            this.domainUrl = domainUrl;
+            this.uploadedUrl = uploadedUrl;
             this.path = file.getPath();
             this.filesize = file.getFilesize();
             this.fileStatus = fileStatus;
