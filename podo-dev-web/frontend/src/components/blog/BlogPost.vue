@@ -1,5 +1,6 @@
 <template>
-    <div id="wrapBlogPost">
+    <div id="wrapBlogPost" :class="$mq">
+        <progress-bar ref="progressBar"/>
 
         <div class="wrap-item">
             <span>공개여부</span>
@@ -28,6 +29,8 @@
                     :images="this.input.images"
                     @add="addImage"
                     @delete="deleteImage"
+                    @onProgress="onProgress()"
+                    @offProgress="offProgress()"
             />
         </div>
 
@@ -35,7 +38,10 @@
             <post-file
                     :files="this.input.files"
                     @add="addFile"
-                    @delete="deleteFile"/>
+                    @delete="deleteFile"
+                    @onProgress="onProgress()"
+                    @offProgress="offProgress()"
+            />
 
         </div>
 
@@ -77,11 +83,13 @@
 
     import Editor from 'tui-editor';
     import customToast from "../../mixins/customToast";
+    import ProgressBar from "../global/ProgressBar";
 
 
     export default {
         name: 'app',
         components: {
+            ProgressBar,
             Editor,
             'post-image': BlogPostImage,
             'post-file': BlogPostFile
@@ -112,6 +120,13 @@
             }
         },
         methods: {
+            onProgress() {
+                this.$refs.progressBar.on()
+            },
+            offProgress() {
+                this.$refs.progressBar.off()
+            },
+
             //태그 Input 입력 시,
             keyupTagText(event) {
                 let txt = this.input.tagText
@@ -191,7 +206,7 @@
                     })
 
                     .then(res => {
-                        this.$router.push({name : 'BlogList'})
+                        this.$router.push({name: 'BlogList'})
                         console.log(res)
                     })
                     .catch(err => {
@@ -211,7 +226,7 @@
                     })
 
                     .then(res => {
-                        this.$router.push({name : 'BlogList'})
+                        this.$router.push({name: 'BlogList'})
                         console.log(res)
                     })
                     .catch(err => {
@@ -228,7 +243,6 @@
 
                 let width = image.saves.origin.width
 
-                console.log(width > this.config.maxWidth)
                 if (width > this.config.maxWidth) {
                     width = this.config.maxWidth
                 }
@@ -366,6 +380,11 @@
 
 <style lang="scss" scoped>
     #wrapBlogPost {
+        &.mobile, &.tablet{
+            padding-left: 5%;
+            padding-right: 5%;
+        }
+
         #wrapEditor {
             margin: 40px 0px;
             width: 100%;

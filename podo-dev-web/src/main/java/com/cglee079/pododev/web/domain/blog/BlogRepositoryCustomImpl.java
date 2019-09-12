@@ -47,7 +47,7 @@ public class BlogRepositoryCustomImpl extends QuerydslRepositorySupport implemen
         query = from(blog)
                 .orderBy(blog.seq.desc());
 
-        if(!Objects.isNull(enabled)){
+        if (!Objects.isNull(enabled)) {
             query.where(blog.enabled.eq(enabled));
         }
 
@@ -58,5 +58,14 @@ public class BlogRepositoryCustomImpl extends QuerydslRepositorySupport implemen
         List<Blog> blogs = getQuerydsl().applyPagination(pageable, query).fetch();
 
         return new PageImpl<>(blogs, pageable, query.fetchCount());
+    }
+
+    @Override
+    public List<Long> findEnabledIds() {
+
+        return this.queryFactory.select(blog.seq)
+                .from(blog)
+                .where(blog.enabled.eq(true))
+                .fetch();
     }
 }

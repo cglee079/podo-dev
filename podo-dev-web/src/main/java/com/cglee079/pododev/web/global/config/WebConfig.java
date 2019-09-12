@@ -14,10 +14,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
-    @Value("${upload.base.url}")
+    @Value("${local.web.url}")
+    private String sitemapUrl;
+
+    @Value("${local.web.dir}")
+    private String sitemapLocation;
+
+
+    @Value("${local.upload.base.url}")
     private String uploadedUrl;
 
-    @Value("${upload.base.dir}")
+    @Value("${local.upload.base.dir}")
     private String uploadedLocation;
 
     private final RequestLogInterceptor requestLogInterceptor;
@@ -34,7 +41,12 @@ public class WebConfig implements WebMvcConfigurer {
         registry
                 .addResourceHandler(uploadedUrl + "/**")
                 .addResourceLocations("file:///" + uploadedLocation + "/");
+
+        registry
+                .addResourceHandler(sitemapUrl + "/**")
+                .addResourceLocations("file:///" + sitemapLocation + "/");
     }
+
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {

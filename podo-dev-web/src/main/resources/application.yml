@@ -1,28 +1,32 @@
 #Server Config
 server:
-  port: 8080
+  port: 28443
+  http:
+    port : 28080
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-password: s12345
+    keyStoreType: PKCS12
+    keyAlias: tomcat
 
-blog:
-  comment:
-    per:
-      page:
-        size: 5 # Comment Paging Size
-    max:
-      depth: 3 # Comment Max Reply Depth
-  per:
-    page:
-      size: 10 # Blog Paging Size
+
+logging:
+  #  file: logs/application.log
+  level:
+    root: INFO
+
+
 
 spring:
   profiles:
-    include: core
-#    include: core, deploy, logging-dailly
+#    include: core
+      include: core, deploy
 
   # Data Resource
   datasource:
-    url: jdbc:mysql://192.168.219.103:3307/podo-dev?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
-    username: cglee079
-    password: lcg050179!
+    url: jdbc:mysql://192.168.219.103:3307/podo_dev?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username: podo
+    password: s12345
     driver-class-name: com.mysql.jdbc.Driver
 
   # Hibernate config
@@ -41,34 +45,50 @@ spring:
       max-file-size: 100MB
       max-request-size: 100MB
 
-#  # Security
-#  security:
-#    user:
-#      name: cglee079
-#      password: s12345
+## Blog Content Config
+blog:
+  comment:
+    per:
+      page:
+        size: 5 # Comment Paging Size
+    max:
+      depth: 3 # Comment Max Reply Depth
+  per:
+    page:
+      size: 10 # Blog Paging Size
 
-upload:
-  base:
-    url: /uploaded
-    dir: C://podo-dev/upload
-  postfix:
-    file:
-      dir: /blogs/files
-    image:
-      dir: /blogs/images
+
+## File Save Config
+local:
+  web:
+    url: /web
+    dir: C://podo-dev/web
+  upload:
+    base:
+      url: /uploaded
+      dir: C://podo-dev/uploaded
+    sub:
+      file:
+        dir: /blogs/files
+      image:
+        dir: /blogs/images
+
 
 
 infra:
+
+  ## Uploader Config
   uploader:
     token: mciGpOzzSvncQJ5IFEUNVODRyVkgL1kD
     upload:
-      domain: http://192.168.219.103:8090
+      domain: http://192.168.219.103:38080 # Loopback
       subpath: /api/uploader/file
     frontend:
-      domain: http://upload.podo-dev.com:8090
+      domain: https://upload.podo-dev.com
       subpath: /uploaded
 
 
+  ## Telegram Config
   telegram:
     podo:
       bot:
@@ -77,8 +97,9 @@ infra:
       admin:
         id: 503609560
 
+  ## Solr Config
   solr:
-    url: http://192.168.219.103:8979/solr
+    url: http://192.168.219.103:8979/solr # Loopback
     core:
       id: podo-dev
     query:
@@ -92,6 +113,9 @@ infra:
           pre: ((start-search))
           post: ((end-search))
 
+
+
+## Google Oauth
 google:
   client:
     clientId: 644014618387-hd23qa0hrtqvbtnfb0u3c9o9q9duq970.apps.googleusercontent.com
@@ -111,12 +135,8 @@ security:
   oauth2:
     admin:
       ids: 116440278738014640765, 116491882380204991899
-    redirect: http://localhost:8081/
+    redirect: https://www.podo-dev.com/#/
 
-logging:
-#  file: logs/application.log
-  level:
-    root: INFO
 
 ---
 
@@ -125,16 +145,36 @@ spring:
   jpa:
     show-sql: false
 
-upload:
-  base:
-    url: /uploaded
-    dir: /uploaded
-
 logging:
-  level:
-    root: INFO
+  config: classpath:logback-daily.xml
+
+local:
+  sitemap:
+    url: /web
+    dir: /web
+  upload:
+    base:
+      url: /uploaded
+      dir: /uploaded
 
 security:
   oauth2:
     admin:
-    redirect: http://www.podo-dev.com/#/
+    redirect: https://www.podo-dev.com/#/
+
+---
+
+spring:
+  profiles: external
+
+  datasource:
+    url: jdbc:mysql://mysql.podo-dev.com/podo_dev?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+
+infra:
+  uploader:
+    upload:
+      domain: https://upload.podo-dev.com
+
+  solr:
+    url: http://solr.podo-dev.com
+

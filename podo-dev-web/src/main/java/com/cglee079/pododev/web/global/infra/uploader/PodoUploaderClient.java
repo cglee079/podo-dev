@@ -12,7 +12,13 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import java.io.File;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 
 @Slf4j
 @Component
@@ -50,7 +56,7 @@ public class PodoUploaderClient {
             ResponseEntity<String> response = restTemplate.exchange(serverUrl + subpath, HttpMethod.POST, request, String.class);
             log.info("Upload Response '{}'", response.toString());
         } catch (HttpClientErrorException e) {
-            e.printStackTrace();
+             e.printStackTrace();
             throw new UploadFailException();
         }
     }

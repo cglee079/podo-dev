@@ -1,11 +1,18 @@
 #Server Config
 server:
-  port: 8080
-
+  port: 38443
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-password: s12345
+    keyStoreType: PKCS12
+    keyAlias: tomcat
+  http:
+    port: 38080
 
 spring:
   profiles:
-    include: 'core'
+#    include: core
+    include: core,deploy
 
   # Servlet
   servlet:
@@ -22,8 +29,22 @@ uploader:
     subpath: /uploaded
   upload:
     base:
-            dir: /upload
-#      dir: C://podo-dev-uploader/upload
+    #      dir: /upload
+      dir: C://podo-dev-uploader/upload
+---
+
+spring:
+  profiles: deploy
+  jpa:
+    show-sql: false
+
+logging:
+  config: classpath:logback-daily.xml
+
+uploader:
+  upload:
+    base:
+      dir: /uploaded
 
 
 

@@ -30,34 +30,45 @@
         },
         methods: {
             onFileChange(event) {
-                //
                 const files = event.target.files
-                const index = Array.from(Array(files.length).keys())
-                for (let i of index) {
-                    this.uploadFile(files[i])
-                }
+
+                this.uploadFile(files, 0, files.length - 1)
 
             },
 
-            uploadFile(file) {
-                const config = {
-                    headers: {'Content-Type': 'multipart/form-data'}
-                }
+            uploadFile(files, i, until) {
+                this.$emit('onProgress')
 
-                const formData = new FormData()
-                formData.append("file", file)
+                new Promise((resolve, reject) => {
+                    const config = {
+                        headers: {'Content-Type': 'multipart/form-data'}
+                    }
 
-                this.$axios
-                    .post("/api/blogs/files", formData, config)
-                    .then(res => {
-                        res = res.data
-                        const file = res.data
-                        console.log(file)
-                        this.$emit('add', file)
-                    })
-                    .catch(err => {
-                        console.log(err)
-                    })
+                    const formData = new FormData()
+                    formData.append("file", files[i])
+
+                    this.$axios
+                        .post("/api/blogs/files", formData, config)
+                        .then(res => {
+                            resolve(res)
+                        })
+                        .catch(err => {
+                            reject(err)
+                        })
+                }).then(res => {
+                    res = res.data
+                    const file = res.data
+                    this.$emit('add', file)
+                    this.$emit('offProgress')
+
+                    if (i < until) {
+                        this.uploadFile(files, i + 1, until)
+                    }
+
+                }).catch(err => {
+                    console.log(err)
+                    this.$emit('offProgress')
+                })
             },
 
             /**
@@ -120,6 +131,7 @@
         .btn-remove {
             display: inline-block;
             padding: 5px 10px 5px 10px;
+            margin-left: 10px;
             background: #FCC;
             text-align: center;
             cursor: pointer;

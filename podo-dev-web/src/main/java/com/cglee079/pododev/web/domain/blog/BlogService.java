@@ -24,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import javax.annotation.PostConstruct;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +36,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class BlogService {
 
-    @Value("${upload.base.url}")
+    @Value("${local.upload.base.url}")
     private String baseUrl;
 
     @Value("${infra.uploader.frontend.domain}${infra.uploader.frontend.subpath}")
@@ -59,45 +58,7 @@ public class BlogService {
 //        List<Blog> blogs = blogRepository.findAll();
 //        blogs.forEach(blog -> {
 //            String content = blog.getContents();
-//            content = content.replace("http://upload.podo-dev.com/", "http://upload.podo-dev.com:8090/");
-//////            content = content.replace("/uploaded/blog/image", "http://upload.podo-dev.com/blogs/images/2019/07/10/origin");
-////            while(true) {
-////                Integer index = content.indexOf("height:");
-////
-////                if(index == -1){
-////                    break;
-////                }
-////
-////                char[] chars = content.toCharArray();
-////                StringBuilder newC = new StringBuilder("");
-////                int i = 0;
-////
-////                for (i = 0; i < index; i++) {
-////                    newC.append(chars[i]);
-////                }
-////
-////                i += "height:".length();
-////
-////
-////                for (i = i; i < chars.length; i++) {
-////                    if (chars[i] == ';') {
-////                        break;
-////                    }
-////                }
-////
-////                i++;
-////                i++;
-////
-////                for (i = i; i < chars.length; i++) {
-////                    newC.append(chars[i]);
-////                }
-////
-////                content = newC.toString();
-////            }
-////
-////            System.out.println(content);
-//
-//
+//            content = content.replace("http://upload.podo-dev.com/", "https://upload.podo-dev.com/");
 //
 //            blog.setContents(content);
 //
@@ -243,5 +204,10 @@ public class BlogService {
         }
 
         blog.get().increaseHitCnt();
+    }
+
+
+    public List<Long> findEnabledIds(){
+        return blogRepository.findEnabledIds();
     }
 }

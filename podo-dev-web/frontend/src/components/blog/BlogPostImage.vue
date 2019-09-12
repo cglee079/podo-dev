@@ -117,58 +117,80 @@
                     })
             },
             onFileChange(event) {
-                //
                 const files = event.target.files
-                const index = Array.from(Array(files.length).keys())
-                for (let i of index) {
-                    this.uploadImage(files[i])
-                }
 
+                this.uploadImage(files, 0, files.length - 1)
             },
 
             uploadBase64(base64) {
+                this.$emit('onProgress')
+
                 this.$axios
                     .post("/api/blogs/images", {base64: base64})
                     .then(res => {
                         res = res.data
                         const image = res.data
                         this.$emit('add', image)
+                        this.$emit('offProgress')
                     })
                     .catch(err => {
                         console.log(err)
+                        this.$emit('offProgress')
                     })
             },
 
             uploadImageUrl(url) {
+                this.$emit('onProgress')
+
                 this.$axios
                     .post("/api/blogs/images", {url: url})
                     .then(res => {
                         res = res.data
                         const image = res.data
                         this.$emit('add', image)
+                        this.$emit('offProgress')
                     })
                     .catch(err => {
                         console.log(err)
+                        this.$emit('offProgress')
                     })
             },
 
-            uploadImage(file) {
-                const config = {
-                    headers: {'Content-Type': 'multipart/form-data'}
-                }
-                const formData = new FormData()
-                formData.append("image", file)
+            uploadImage(files, i, until) {
+                this.$emit('onProgress')
 
-                this.$axios
-                    .post("/api/blogs/images", formData, config)
-                    .then(res => {
-                        res = res.data
-                        const image = res.data
-                        this.$emit('add', image)
-                    })
-                    .catch(err => {
-                        console.log(err)
-                    })
+                new Promise((resolve, reject) => {
+
+                    const config = {
+                        headers: {'Content-Type': 'multipart/form-data'}
+                    }
+                    const formData = new FormData()
+                    formData.append("image", files[i])
+
+                    this.$axios
+                        .post("/api/blogs/images", formData, config)
+                        .then(res => {
+                            resolve(res)
+                        })
+                        .catch(err => {
+                            reject(err)
+                        })
+
+
+                }).then((res) => {
+                    res = res.data
+                    const image = res.data
+                    this.$emit('add', image)
+                    this.$emit('offProgress')
+
+                    if(i < until){
+                        this.uploadImage(files, i + 1, until)
+                    }
+
+                }).catch(err => {
+                    console.log(err)
+                    this.$emit('offProgress')
+                })
             },
 
             /**

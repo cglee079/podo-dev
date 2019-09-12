@@ -3,6 +3,7 @@ package com.cglee079.pododev.web.global.util;
 import com.cglee079.pododev.core.global.util.MyFileUtils;
 import com.cglee079.pododev.web.domain.blog.attachimage.exception.InValidImageException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,11 +20,12 @@ import java.io.IOException;
 /**
  * 로컬에 이미지 저장
  */
+@Slf4j
 @RequiredArgsConstructor
 @Component
-public class FileWriter {
+public class UploadFileWriter {
 
-    @Value("${upload.base.dir}")
+    @Value("${local.upload.base.dir}")
     private String baseDir;
 
     /**
@@ -38,6 +40,8 @@ public class FileWriter {
         final String originExtension = FilenameUtils.getExtension(originName);
         final String dirPath = PathUtil.merge(baseDir, path); // 로컬 저장경로
         final String filename = MyFileUtils.makeRandFilename(originExtension);
+
+        log.info("File Writer, Save File By Url, '{}', '{}'", dirPath, filename);
 
         return MyFileUtils.saveFile(PathUtil.merge(dirPath, filename), urlStr);
     }
@@ -54,8 +58,12 @@ public class FileWriter {
         final String extension = FilenameUtils.getExtension(originName);
         final String dirPath = PathUtil.merge(baseDir, path); // 로컬 저장경로
 
+
         //Save Origin File
         final String filename = MyFileUtils.makeRandFilename(extension);
+
+        log.info("File Writer, Save File By Multipart, '{}', '{}'", dirPath, filename);
+
         return MyFileUtils.saveFile(PathUtil.merge(dirPath, filename), multipartFile);
     }
 
@@ -81,6 +89,8 @@ public class FileWriter {
 
         final String dirPath = PathUtil.merge(baseDir, path); // 로컬 저장경로
         final String filename = MyFileUtils.makeRandFilename(extension);
+
+        log.info("File Writer, Save File By Base64, '{}', '{}'", dirPath, filename);
 
         return MyFileUtils.saveFile(PathUtil.merge(dirPath, filename), extension, bufferedImage);
 
@@ -117,6 +127,20 @@ public class FileWriter {
     }
 
     public void removeFile(String path, File file) {
-        MyFileUtils.deleteFile(PathUtil.merge(baseDir, path), file.getName());
+
+        String dirPath = PathUtil.merge(baseDir, path);
+        String filename = file.getName();
+
+        log.info("File Writer, Remove File, '{}', '{}'", dirPath, filename);
+
+        MyFileUtils.deleteFile(dirPath, filename);
+    }
+
+    public void removeDirectory(String path) {
+        String dirPath = PathUtil.merge(baseDir, path);
+
+        log.info("File Writer, Remove Directory, '{}'", dirPath);
+
+        MyFileUtils.deleteDirectory(dirPath);
     }
 }

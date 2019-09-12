@@ -6,7 +6,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        serverUrl: 'http://server.podo-dev.com:8080',
+        serverUrl: 'https://server.podo-dev.com',
         isLogin: false,
         user: {
             name: '',

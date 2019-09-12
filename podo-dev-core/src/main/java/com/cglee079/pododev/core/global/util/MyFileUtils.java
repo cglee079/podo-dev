@@ -1,6 +1,6 @@
 package com.cglee079.pododev.core.global.util;
 
-import com.cglee079.pododev.core.global.exception.SaveFileFailException;
+import com.cglee079.pododev.core.global.exception.LocalFileException;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,9 +23,9 @@ public class MyFileUtils {
         return UUID.randomUUID().toString();
     }
 
-    public static String makeDatePath() {
+    public static String makeDatePath(LocalDateTime time) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("/yyyy/MM/dd");
-        String path = LocalDateTime.now().format(formatter);
+        String path = time.format(formatter);
 
         return path;
     }
@@ -51,7 +51,7 @@ public class MyFileUtils {
 
         } catch (IOException e) {
             e.printStackTrace();
-            throw new SaveFileFailException(e);
+            throw new LocalFileException(e);
         }
     }
 
@@ -84,7 +84,7 @@ public class MyFileUtils {
 
         } catch (IOException e) {
             e.printStackTrace();
-            throw new SaveFileFailException(e);
+            throw new LocalFileException(e);
         }
     }
 
@@ -96,7 +96,7 @@ public class MyFileUtils {
             return file;
         } catch (IOException e) {
             e.printStackTrace();
-            throw new SaveFileFailException(e);
+            throw new LocalFileException(e);
         }
 
     }
@@ -108,7 +108,7 @@ public class MyFileUtils {
             return dir;
         } catch (IOException e) {
             e.printStackTrace();
-            throw new SaveFileFailException(e);
+            throw new LocalFileException(e);
         }
 
 
@@ -119,4 +119,11 @@ public class MyFileUtils {
     }
 
 
+    public static void deleteDirectory(String path) {
+        try {
+            FileUtils.deleteDirectory(new File(path));
+        } catch (IOException e) {
+            throw new LocalFileException(e);
+        }
+    }
 }

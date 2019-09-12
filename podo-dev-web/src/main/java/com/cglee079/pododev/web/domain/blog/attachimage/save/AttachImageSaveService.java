@@ -3,7 +3,7 @@ package com.cglee079.pododev.web.domain.blog.attachimage.save;
 import com.cglee079.pododev.core.global.util.MyFileUtils;
 import com.cglee079.pododev.web.domain.blog.attachimage.ImageInfo;
 import com.cglee079.pododev.web.domain.blog.attachimage.exception.InValidImageException;
-import com.cglee079.pododev.web.global.util.FileWriter;
+import com.cglee079.pododev.web.global.util.UploadFileWriter;
 import com.cglee079.pododev.web.global.util.PathUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,13 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
-import javax.xml.bind.DatatypeConverter;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -30,20 +29,20 @@ import java.util.Objects;
 @Service
 public class AttachImageSaveService {
 
-    @Value("${upload.postfix.image.dir}")
+    @Value("${local.upload.sub.image.dir}")
     private String imageDir;
 
-    private final FileWriter fileWriter;
+    private final UploadFileWriter uploadFileWriter;
 
     public Map<String, AttachImageSaveDto.response> makeSaveUrl(String url) {
         if (!this.isImageFile(url)) {
             throw new InValidImageException();
         }
 
-        final String path = PathUtil.merge(imageDir, MyFileUtils.makeDatePath()); // 로컬 저장경로
+        final String path = PathUtil.merge(imageDir, MyFileUtils.makeDatePath(LocalDateTime.now())); // 로컬 저장경로
         final Map<String, AttachImageSaveDto.response> saves = new HashMap<>();
 
-        final File originImage = fileWriter.saveFile(path, url);
+        final File originImage = uploadFileWriter.saveFile(path, url);
         final ImageInfo imageInfo = getImageInfo(originImage);
 
         saves.put("origin",
@@ -59,11 +58,11 @@ public class AttachImageSaveService {
     }
 
     public Map<String, AttachImageSaveDto.response> makeSaveBase64(String base64, String extension) {
-        final String path = PathUtil.merge(imageDir, MyFileUtils.makeDatePath()); // 로컬 저장경로
+        final String path = PathUtil.merge(imageDir, MyFileUtils.makeDatePath(LocalDateTime.now())); // 로컬 저장경로
         final Map<String, AttachImageSaveDto.response> saves = new HashMap<>();
 
         //Save Origin File
-        final File originImage = fileWriter.saveFile(path, extension, base64);
+        final File originImage = uploadFileWriter.saveFile(path, extension, base64);
         final ImageInfo imageInfo = getImageInfo(originImage);
 
         saves.put("origin",
@@ -86,11 +85,11 @@ public class AttachImageSaveService {
 
         log.info("Save Image Each Size, '{}'", multipartFile.getOriginalFilename());
 
-        final String path = PathUtil.merge(imageDir, MyFileUtils.makeDatePath()); // 로컬 저장경로
+        final String path = PathUtil.merge(imageDir, MyFileUtils.makeDatePath(LocalDateTime.now())); // 로컬 저장경로
         final Map<String, AttachImageSaveDto.response> saves = new HashMap<>();
 
         //Save Origin File
-        final File originImage = fileWriter.saveFile(path, multipartFile);
+        final File originImage = uploadFileWriter.saveFile(path, multipartFile);
         final ImageInfo imageInfo = getImageInfo(originImage);
 
         saves.put("origin",
@@ -103,17 +102,13 @@ public class AttachImageSaveService {
         );
 
 
-//        //Resize Image
-//        Integer resizeWidth = 100;
-//        saves.put(("w" + resizeWidth), saveResizeImage(originImage, path, resizeWidth));
-
         return saves;
     }
 
     private AttachImageSaveDto.response saveResizeImage(File originImage, String path, Integer resizeWidth) {
         log.info("Resize Image, size : '{}', from : '{}'", resizeWidth, originImage.getName());
 
-        final File resizeImage = fileWriter.resizeImage(originImage, path, resizeWidth);
+        final File resizeImage = uploadFileWriter.resizeImage(originImage, path, resizeWidth);
         final ImageInfo imageInfo = getImageInfo(resizeImage);
 
         return AttachImageSaveDto.response.builder()

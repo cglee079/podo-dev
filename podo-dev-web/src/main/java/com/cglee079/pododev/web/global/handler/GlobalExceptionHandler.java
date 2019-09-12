@@ -1,6 +1,6 @@
 package com.cglee079.pododev.web.global.handler;
 
-import com.cglee079.pododev.core.global.exception.MyHandledException;
+import com.cglee079.pododev.core.global.exception.HandledException;
 import com.cglee079.pododev.core.global.response.ApiStatus;
 import com.cglee079.pododev.core.global.response.ErrorsResponse;
 import org.springframework.http.HttpStatus;
@@ -17,9 +17,9 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler({
-            MyHandledException.class
+            HandledException.class
     })
-    public ResponseEntity handleException(MyHandledException e) {
+    public ResponseEntity handleException(HandledException e) {
 
         ErrorsResponse response = ErrorsResponse.singleError()
                 .status(e.getApiStatus())

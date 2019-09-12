@@ -17,7 +17,7 @@ public class UploadController {
     private final UploadService uploadService;
 
     /**
-     * 이미지 저장
+     * 파일 저장
      */
     @PostMapping
     public ApiResponse upload(@Validated @ModelAttribute UploadDto.insert insert) {
@@ -30,7 +30,7 @@ public class UploadController {
     }
 
     /**
-     * 이미지 삭제
+     * 파일 삭제
      */
     @DeleteMapping
     public ApiResponse delete(@Validated @RequestBody UploadDto.delete delete) {

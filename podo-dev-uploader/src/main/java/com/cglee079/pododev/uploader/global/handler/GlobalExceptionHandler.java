@@ -2,7 +2,7 @@ package com.cglee079.pododev.uploader.global.handler;
 
 import com.cglee079.pododev.core.global.response.ErrorsResponse;
 import com.cglee079.pododev.core.global.response.ApiStatus;
-import com.cglee079.pododev.core.global.exception.MyHandledException;
+import com.cglee079.pododev.core.global.exception.HandledException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler()
-    public ResponseEntity handleException(MyHandledException e) {
+    public ResponseEntity handleException(HandledException e) {
 
         ErrorsResponse response = ErrorsResponse.singleError()
                 .status(e.getApiStatus())

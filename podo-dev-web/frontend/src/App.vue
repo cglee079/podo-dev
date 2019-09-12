@@ -21,10 +21,12 @@
     import TheTopButton from "./components/TheTopButton";
     import {mapActions} from 'vuex'
     import {mapGetters} from 'vuex'
+    import ProgressBar from "./components/global/ProgressBar";
 
     export default {
         name: 'App',
         components: {
+            ProgressBar,
             'the-nav': TheNav,
             'the-footer': TheFooter,
             'the-top-button': TheTopButton
@@ -37,7 +39,7 @@
         methods: {
             ...mapActions([
                 "checkLogin"
-            ])
+            ]),
         },
         created() {
             // 로그인 성공 시,
@@ -57,12 +59,12 @@
             // 새로 고침 시
             const savedToken = sessionStorage.getItem("token")
             if (savedToken) {
-                this.checkLogin({token: savedToken, callback : null})
+                this.checkLogin({token: savedToken, callback: null})
             }
         }
     }
 </script>
-<style lang="scss" scoped >
+<style lang="scss" scoped>
 
     #main {
         margin: 50px auto 150px auto;
@@ -82,7 +84,7 @@
         --nav-height: 65px;
     }
 
-    @import url('http://fonts.googleapis.com/earlyaccess/notosanskr.css');
+    @import url('https://fonts.googleapis.com/earlyaccess/notosanskr.css');
 
     a, abbr, acronym, address, applet, article, aside,
     audio, b, bdi, bdo, big, blockquote, body, button, canvas,

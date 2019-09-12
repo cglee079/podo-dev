@@ -1,10 +1,10 @@
 package com.cglee079.pododev.web.domain.blog.attachimage.exception;
 
-import com.cglee079.pododev.core.global.exception.MyHandledException;
+import com.cglee079.pododev.core.global.exception.HandledException;
 import com.cglee079.pododev.core.global.response.ApiStatus;
 import org.springframework.http.HttpStatus;
 
-public class InValidImageException extends MyHandledException {
+public class InValidImageException extends HandledException {
     public InValidImageException() {
         super("유효하지 않은 이미지입니다");
     }

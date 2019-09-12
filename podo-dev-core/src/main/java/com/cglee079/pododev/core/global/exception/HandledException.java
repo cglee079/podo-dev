@@ -3,9 +3,9 @@ package com.cglee079.pododev.core.global.exception;
 import com.cglee079.pododev.core.global.response.ApiStatus;
 import org.springframework.http.HttpStatus;
 
-public abstract class MyHandledException extends RuntimeException {
+public abstract class HandledException extends RuntimeException {
 
-    public MyHandledException(String message) {
+    public HandledException(String message) {
         super(message);
     }
 

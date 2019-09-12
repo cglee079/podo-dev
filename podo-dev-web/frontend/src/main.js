@@ -1,28 +1,37 @@
 import Vue from 'vue'
 import App from './App.vue'
-import VueMq from 'vue-mq'
 import router from './router'
 import store from './store'
 import axios from 'axios'
 
-import VueScrollTo from 'vue-scrollto'
-import Toasted from 'vue-toasted'
-import Autocomplete from '@trevoreyre/autocomplete-vue'
-import '@trevoreyre/autocomplete-vue/dist/style.css'
 
+/**
+ * Toast Editor
+ */
 import 'tui-editor/dist/tui-editor.css'
 import 'tui-editor/dist/tui-editor-contents.css'
 import 'codemirror/lib/codemirror.css'
 import 'highlight.js/styles/github.css'
-
-import VueCookies from 'vue-cookies'
 import ToastCustomViewer from "./components/global/ToastCustomViewer"
-import Tooltip from 'vue-directive-tooltip';
-import 'vue-directive-tooltip/dist/vueDirectiveTooltip.css';
-import vueHeadful from 'vue-headful';
 
+/**
+ * ProgressBar
+ */
+import ProgressBar from 'vuejs-progress-bar'
+Vue.use(ProgressBar)
+
+/**
+ * Using Set Head Title
+ */
+import vueHeadful from 'vue-headful';
 Vue.component('vue-headful', vueHeadful);
 
+
+/**
+ * Beautiful Hover Tooltip
+ */
+import Tooltip from 'vue-directive-tooltip';
+import 'vue-directive-tooltip/dist/vueDirectiveTooltip.css';
 Vue.use(Tooltip, {
     delay: 300,
     placement: 'right',
@@ -30,12 +39,27 @@ Vue.use(Tooltip, {
     offset: 0
 })
 
+/**
+ * Set Cookies In Vue
+ */
+import VueCookies from 'vue-cookies'
 VueCookies.config('7d')
 Vue.use(VueCookies)
 
+
+/**
+ * AutoComplete
+ */
+import Autocomplete from '@trevoreyre/autocomplete-vue'
+import '@trevoreyre/autocomplete-vue/dist/style.css'
 Vue.use(Autocomplete)
 Vue.component('toast-custom-viewer', ToastCustomViewer)
 
+
+/**
+ * Scroll to Animation
+ */
+import VueScrollTo from 'vue-scrollto'
 Vue.use(VueScrollTo, {
     container: "body",
     duration: 500,
@@ -50,13 +74,20 @@ Vue.use(VueScrollTo, {
     y: true
 })
 
-
+/**
+ * Beautiful Alert
+ */
+import Toasted from 'vue-toasted'
 Vue.use(Toasted, {
     theme: "toasted-primary",
     position: "top-center",
     duration: 2000
 })
 
+/**
+ * Vue Dynamic Web
+ */
+import VueMq from 'vue-mq'
 Vue.use(VueMq, {
     breakpoints: { // default breakpoints - customize this
         mobile: 720,
@@ -65,6 +96,7 @@ Vue.use(VueMq, {
     },
     defaultBreakpoint: '1080' // customize this for SSR
 })
+
 
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
@@ -108,5 +140,5 @@ router.beforeEach((to, from, next) => {
 new Vue({
     router,
     store,
-    render: h => h(App),
+    render: h => h(App)
 }).$mount('#app')

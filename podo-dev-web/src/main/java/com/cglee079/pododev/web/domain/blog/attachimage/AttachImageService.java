@@ -24,15 +24,15 @@ import java.util.stream.Collectors;
 @Service
 public class AttachImageService {
 
-    @Value("${upload.base.dir}")
+    @Value("${local.upload.base.dir}")
     private String baseDir;
+
+    @Value("${local.upload.base.url}")
+    private String baseUrl;
 
     private final PodoUploaderClient podoUploaderClient;
     private final AttachImageRepository attachImageRepository;
     private final AttachImageSaveService attachImageSaveService;
-
-    @Value("${upload.base.url}")
-    private String baseUrl;
 
     public AttachImageDto.response saveBase64(String base64) {
         String originExtension = "PNG";

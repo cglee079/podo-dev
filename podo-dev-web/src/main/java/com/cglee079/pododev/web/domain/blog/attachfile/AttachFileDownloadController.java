@@ -1,6 +1,6 @@
 package com.cglee079.pododev.web.domain.blog.attachfile;
 
-import com.cglee079.pododev.web.global.util.FileWriter;
+import com.cglee079.pododev.web.global.util.UploadFileWriter;
 import com.cglee079.pododev.web.global.util.PathUtil;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FileUtils;
@@ -21,7 +21,7 @@ public class AttachFileDownloadController {
     public static final String TEMP_DIRECTORY = "temp";
 
     private final AttachFileService attachFileService;
-    private final FileWriter fileWriter;
+    private final UploadFileWriter uploadFileWriter;
 
     /**
      * 파일 다운로드 To OriginalName
@@ -42,7 +42,7 @@ public class AttachFileDownloadController {
 
         final AttachFileDto.response attachFile = attachFileService.get(fileSeq);
         final String url = PathUtil.merge(attachFile.getUploadedUrl(), attachFile.getPath(), attachFile.getFilename());
-        final File file = fileWriter.saveFile(TEMP_DIRECTORY, url);
+        final File file = uploadFileWriter.saveFile(TEMP_DIRECTORY, url);
 
         if (file.exists()) {
             final byte fileByte[] = FileUtils.readFileToByteArray(file);
@@ -56,7 +56,7 @@ public class AttachFileDownloadController {
             response.getOutputStream().close();
         }
 
-        fileWriter.removeFile(TEMP_DIRECTORY, file);
+        uploadFileWriter.removeFile(TEMP_DIRECTORY, file);
 
     }
 
