@@ -1,5 +1,6 @@
 package com.cglee079.pododev.core.global.util;
 
+import com.cglee079.pododev.core.global.exception.SaveFileFailException;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,8 +13,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
@@ -52,8 +51,7 @@ public class MyFileUtils {
 
         } catch (IOException e) {
             e.printStackTrace();
-            //TODO
-            throw new RuntimeException();
+            throw new SaveFileFailException(e);
         }
     }
 
@@ -86,8 +84,7 @@ public class MyFileUtils {
 
         } catch (IOException e) {
             e.printStackTrace();
-            //TODO
-            throw new RuntimeException();
+            throw new SaveFileFailException(e);
         }
     }
 
@@ -96,24 +93,25 @@ public class MyFileUtils {
         try {
             MyFileUtils.makeForceDir(file.getParentFile().getPath());
             ImageIO.write(bufferedImage, extension, file);
+            return file;
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+            throw new SaveFileFailException(e);
         }
 
-        return file;
     }
 
     public static File makeForceDir(String path) {
         File dir = new File(path);
         try {
             FileUtils.forceMkdir(dir);
+            return dir;
         } catch (IOException e) {
             e.printStackTrace();
-            //TODO
+            throw new SaveFileFailException(e);
         }
 
-        return dir;
+
     }
 
     public static void deleteFile(String path, String filename) {

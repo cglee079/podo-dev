@@ -1,6 +1,6 @@
 #Server Config
 server:
-  port: 8090
+  port: 8080
 
 blog:
   comment:
@@ -15,11 +15,12 @@ blog:
 
 spring:
   profiles:
-    include: 'core'
+    include: core
+#    include: core, deploy, logging-dailly
 
   # Data Resource
   datasource:
-    url: jdbc:mysql://125.186.242.83:8088/podo-dev?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://192.168.219.103:3307/podo-dev?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
     username: cglee079
     password: lcg050179!
     driver-class-name: com.mysql.jdbc.Driver
@@ -60,23 +61,24 @@ upload:
 infra:
   uploader:
     token: mciGpOzzSvncQJ5IFEUNVODRyVkgL1kD
-    domain: http://125.186.242.83:8090
     upload:
+      domain: http://192.168.219.103:8090
       subpath: /api/uploader/file
     frontend:
+      domain: http://upload.podo-dev.com:8090
       subpath: /uploaded
 
 
   telegram:
     podo:
       bot:
-        token: 509885308:AAGqgiMXRfkXWeamsta6N0nFkF0d9I_SFOI
+        token: 963473619:AAF1412LpXDNNvN7gn6qcip88-z_DVLVEVU
         name: PodoDevBot
       admin:
         id: 503609560
 
   solr:
-    url: http://125.186.242.83:8090/solr
+    url: http://192.168.219.103:8979/solr
     core:
       id: podo-dev
     query:
@@ -109,4 +111,30 @@ security:
   oauth2:
     admin:
       ids: 116440278738014640765, 116491882380204991899
-    redirect: http://localhost:8081
+    redirect: http://localhost:8081/
+
+logging:
+#  file: logs/application.log
+  level:
+    root: INFO
+
+---
+
+spring:
+  profiles: deploy
+  jpa:
+    show-sql: false
+
+upload:
+  base:
+    url: /uploaded
+    dir: /uploaded
+
+logging:
+  level:
+    root: INFO
+
+security:
+  oauth2:
+    admin:
+    redirect: http://www.podo-dev.com/#/

@@ -1,6 +1,7 @@
 module.exports = {
 
-    outputDir: '../backend/src/main/resources/static/',
+    outputDir: './build/',
+    // outputDir: '//cglee079/web/',
     assetsDir: './static/',
 
 }

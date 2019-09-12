@@ -1,13 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import router from './router'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        serverUrl: 'http://localhost:8090',
+        serverUrl: 'http://server.podo-dev.com:8080',
         isLogin: false,
         user: {
             name: '',

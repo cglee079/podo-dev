@@ -6,7 +6,10 @@
                     v-for="blog in contents"
                     class="wrap-blog-row"
             >
-                <blog-row :blog="blog"></blog-row>
+                <blog-row
+                        :blog="blog"
+                        :filter="filter"
+                />
             </div>
         </div>
 

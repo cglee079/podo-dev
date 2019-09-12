@@ -130,8 +130,15 @@
             })
 
 
+            //중복로딩 방지
+            const kakaoJs = '//developers.kakao.com/sdk/js/kakao.min.js'
+            const script = document.querySelector('script[src="' + kakaoJs + '"]')
+            if(script){
+                return
+            }
+
             const recaptchaScript = document.createElement('script')
-            recaptchaScript.setAttribute('src', "//developers.kakao.com/sdk/js/kakao.min.js")
+            recaptchaScript.setAttribute('src', kakaoJs)
             document.head.appendChild(recaptchaScript)
 
             recaptchaScript.onload = () => {

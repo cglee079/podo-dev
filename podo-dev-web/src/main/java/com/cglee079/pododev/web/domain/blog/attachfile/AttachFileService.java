@@ -37,7 +37,7 @@ public class AttachFileService {
     @Value("${upload.base.dir}")
     private String baseDir;
 
-    @Value("${infra.uploader.domain}${infra.uploader.frontend.subpath}")
+    @Value("${infra.uploader.frontend.domain}${infra.uploader.frontend.subpath}")
     private String uploaderFrontendUrl;
 
 

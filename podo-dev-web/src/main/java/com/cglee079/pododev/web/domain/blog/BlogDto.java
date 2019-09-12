@@ -162,7 +162,7 @@ public class BlogDto {
             }
 
             //TODO temp
-            this.contents = contents.replace("http://upload.podo-dev.com/", "http://upload.podo-dev.com:8090/");
+            //this.contents = contents.replace("http://upload.podo-dev.com/", "http://upload.podo-dev.com:8090/");
 
         }
 

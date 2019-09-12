@@ -22,8 +22,6 @@ public class QAttachImage extends EntityPathBase<AttachImage> {
 
     public final NumberPath<Long> blogSeq = createNumber("blogSeq", Long.class);
 
-    public final StringPath originKey = createString("originKey");
-
     public final StringPath originName = createString("originName");
 
     public final ListPath<com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSave, com.cglee079.pododev.web.domain.blog.attachimage.save.QAttachImageSave> saves = this.<com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSave, com.cglee079.pododev.web.domain.blog.attachimage.save.QAttachImageSave>createList("saves", com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSave.class, com.cglee079.pododev.web.domain.blog.attachimage.save.QAttachImageSave.class, PathInits.DIRECT2);

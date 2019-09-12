@@ -1,5 +1,11 @@
 <template>
     <div>
+        <vue-headful
+                title="Podo-dev"
+                description="Podo's Develop Blog"
+                lang="kr"
+                url="www.podo-dev.com"
+        />
         <the-nav/>
         <div id="main" :class="$mq">
             <router-view></router-view>

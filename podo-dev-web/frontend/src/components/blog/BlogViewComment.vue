@@ -14,7 +14,7 @@
             이전 댓글 보기
         </div>
 
-        <div id="comments">
+        <div id="comments" ref="comments">
             <div v-for="(comment, index) in comments"
                  v-bind:key="comment.seq"
             >
@@ -71,15 +71,16 @@
                 "isLogin", "getUser"
             ]),
             hasMoreComment() {
-                return (this.page + 1) < this.totalPages
+                return (this.page + 1) * this.pageSize < this.totalElements
             }
         },
         methods: {
             reloadBlogComments() {
-                if(this.comments.length % this.pageSize === 0){
+                if(this.page > 0 && this.comments.length % this.pageSize === 0){
                     this.page++
                 }
 
+                this.$refs.comments.classList.remove("on")
                 this.comments = []
 
                 this.loadBlogComments(0, this.page)
@@ -117,6 +118,8 @@
                 }).then(() => {
                     if (page < until) {
                         this.loadBlogComments(page + 1, until)
+                    } else{
+                        this.$refs.comments.classList.add("on")
                     }
                 })
             },
@@ -129,6 +132,11 @@
                             this.$toasted.show("댓글이 삭제되었습니다")
                             this.comments[index].enabled = false
                             this.comments[index].contents = "삭제된 댓글입니다"
+
+                            this.totalElements--
+                            if(this.totalElements % this.pageSize === 0){
+                                this.page--
+                            }
 
                             //this.reloadBlogComments()
                         })
@@ -158,41 +166,49 @@
                 padding-right: 5%;
             }
         }
-    }
 
-    #count {
-        display: flex;
-        align-items: center;
-        margin-bottom: 20px;
-        font-size: 1.25rem;
-        font-weight: bold;
-        opacity: 0.7;
+        #comments {
+            display: none;
 
-        img {
-            width: 27px;
-            margin-right: 7px;
-            margin-top: 2px;
+            &.on {
+                display: block;
+            }
         }
 
-        div {
-            flex: 1;
-            height: 5px;
-            margin-left: 10px;
-            margin-top: 5px;
-            background: #F1F1F1;
+        #count {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 1.25rem;
+            font-weight: bold;
+            opacity: 0.7;
+
+            img {
+                width: 27px;
+                margin-right: 7px;
+                margin-top: 2px;
+            }
+
+            div {
+                flex: 1;
+                height: 5px;
+                margin-left: 10px;
+                margin-top: 5px;
+                background: #F1F1F1;
+            }
         }
-    }
 
-    #btnPaging {
-        border-bottom: 1px solid #F1F1F1;
-        padding: 15px 0px;
-        text-align: center;
-        cursor: pointer;
-        display: none;
-        opacity: 0.9;
+        #btnPaging {
+            border-bottom: 1px solid #F1F1F1;
+            padding: 15px 0px;
+            text-align: center;
+            cursor: pointer;
+            display: none;
+            opacity: 0.9;
 
-        &.on {
-            display: block;
+            &.on {
+                display: block;
+            }
         }
     }
 

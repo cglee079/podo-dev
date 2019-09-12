@@ -40,7 +40,7 @@ public class BlogService {
     @Value("${upload.base.url}")
     private String baseUrl;
 
-    @Value("${infra.uploader.domain}${infra.uploader.frontend.subpath}")
+    @Value("${infra.uploader.frontend.domain}${infra.uploader.frontend.subpath}")
     private String uploaderFrontendUrl;
 
     @Value("${blog.per.page.size}")
@@ -54,11 +54,12 @@ public class BlogService {
     private final PodoUploaderClient podoUploaderClient;
 
 
-    @PostConstruct
-    public void dd() {
-        List<Blog> blogs = blogRepository.findAll();
+//    @PostConstruct
+//    public void dd() {
+//        List<Blog> blogs = blogRepository.findAll();
 //        blogs.forEach(blog -> {
 //            String content = blog.getContents();
+//            content = content.replace("http://upload.podo-dev.com/", "http://upload.podo-dev.com:8090/");
 //////            content = content.replace("/uploaded/blog/image", "http://upload.podo-dev.com/blogs/images/2019/07/10/origin");
 ////            while(true) {
 ////                Integer index = content.indexOf("height:");
@@ -102,7 +103,7 @@ public class BlogService {
 //
 //            blogRepository.save(blog);
 //        });
-    }
+//    }
 
     public BlogDto.response get(Long seq) {
         Optional<Blog> blog = blogRepository.findById(seq);

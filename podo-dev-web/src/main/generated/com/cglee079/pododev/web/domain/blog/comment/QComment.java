@@ -39,8 +39,6 @@ public class QComment extends EntityPathBase<Comment> {
 
     public final NumberPath<Double> sort = createNumber("sort", Double.class);
 
-    public final DateTimePath<java.time.LocalDateTime> updateAt = createDateTime("updateAt", java.time.LocalDateTime.class);
-
     public final StringPath userId = createString("userId");
 
     public final StringPath username = createString("username");

@@ -27,8 +27,6 @@ public class QAttachFile extends EntityPathBase<AttachFile> {
 
     public final NumberPath<Long> filesize = createNumber("filesize", Long.class);
 
-    public final StringPath originKey = createString("originKey");
-
     public final StringPath originName = createString("originName");
 
     public final StringPath path = createString("path");

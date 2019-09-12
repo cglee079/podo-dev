@@ -9,7 +9,7 @@ import Resume from "./components/resume/Resume";
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
+  mode: 'hash',
   routes: [
     { path: '/resume', name: 'Resume', component: Resume },
 

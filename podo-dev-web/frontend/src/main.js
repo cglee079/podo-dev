@@ -19,6 +19,9 @@ import VueCookies from 'vue-cookies'
 import ToastCustomViewer from "./components/global/ToastCustomViewer"
 import Tooltip from 'vue-directive-tooltip';
 import 'vue-directive-tooltip/dist/vueDirectiveTooltip.css';
+import vueHeadful from 'vue-headful';
+
+Vue.component('vue-headful', vueHeadful);
 
 Vue.use(Tooltip, {
     delay: 300,

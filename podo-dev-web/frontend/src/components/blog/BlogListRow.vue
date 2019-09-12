@@ -21,8 +21,9 @@
                 <div class="tags">
                     <span v-for="(tag, index) in blog.tags"
                           v-bind:key=index
-                          class="tag"
                           @click.stop="clickTag(tag.val)"
+                          class="tag"
+                          :class="tag.val === filter.tag ? 'on' : ''"
                     >
                             #{{tag.val}}
                     </span>
@@ -44,7 +45,8 @@
     export default {
         name: 'BlogRow',
         props: {
-            blog: Object
+            blog: Object,
+            filter: Object,
         },
         methods: {
             clickTag(val) {
@@ -81,9 +83,9 @@
             opacity: 0.5;
         }
 
-        &:hover{
-            .content{
-                .title{
+        &:hover {
+            .content {
+                .title {
                     margin-left: 10px;
                 }
             }
@@ -175,6 +177,10 @@
                         margin-right: 10px;
                         color: #ec5621;
                         font-weight: bold;
+
+                        &.on{
+                            color: #0000CC;
+                        }
                     }
                 }
 

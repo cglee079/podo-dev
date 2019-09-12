@@ -20,11 +20,14 @@
         </div>
 
         <div v-for="item in items"
+             v-bind:key="item.seq"
              class="item">
 
             <div class="head">{{item.head}}</div>
             <div class="content">
-                <div v-for="content in item.contents">
+                <div v-for="content in item.contents"
+                     v-bind:key="content.seq"
+                    >
                     <div v-html="content"/>
                 </div>
             </div>
@@ -33,7 +36,9 @@
         <div id="experiences" class="item">
             <div class="head">EXPERIENCES</div>
             <div class="content">
-                <p v-for="exp in experiences">
+                <p v-for="exp in experiences"
+                   v-bind:key="exp.seq"
+                >
                     <a :href="exp.link" target="_blank">
                         <span class="date">
                             {{exp.experienceAt}}.

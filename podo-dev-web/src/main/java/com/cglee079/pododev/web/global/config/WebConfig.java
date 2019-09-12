@@ -1,19 +1,17 @@
 package com.cglee079.pododev.web.global.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.cglee079.pododev.web.global.interceptor.RequestLogInterceptor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.util.Iterator;
-import java.util.List;
-
 @Configuration
+@RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
     @Value("${upload.base.url}")
@@ -21,6 +19,8 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Value("${upload.base.dir}")
     private String uploadedLocation;
+
+    private final RequestLogInterceptor requestLogInterceptor;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -34,6 +34,12 @@ public class WebConfig implements WebMvcConfigurer {
         registry
                 .addResourceHandler(uploadedUrl + "/**")
                 .addResourceLocations("file:///" + uploadedLocation + "/");
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(requestLogInterceptor)
+                .addPathPatterns("/**");
     }
 
 }
