@@ -29,8 +29,8 @@
                     :images="this.input.images"
                     @add="addImage"
                     @delete="deleteImage"
-                    @onProgress="onProgress()"
-                    @offProgress="offProgress()"
+                    @onProgress="onProgress"
+                    @offProgress="offProgress"
             />
         </div>
 
@@ -39,8 +39,8 @@
                     :files="this.input.files"
                     @add="addFile"
                     @delete="deleteFile"
-                    @onProgress="onProgress()"
-                    @offProgress="offProgress()"
+                    @onProgress="onProgress"
+                    @offProgress="offProgress"
             />
 
         </div>
@@ -195,6 +195,8 @@
             },
 
             insertBlog() {
+                this.onProgress()
+
                 this.$axios
                     .post('/api/blogs', {
                         title: this.input.title,
@@ -206,15 +208,17 @@
                     })
 
                     .then(res => {
+                        this.offProgress()
                         this.$router.push({name: 'BlogList'})
-                        console.log(res)
                     })
                     .catch(err => {
-                        console.log(err)
+                        this.offProgress()
                     })
             },
 
             updateBlog() {
+                this.onProgress()
+
                 this.$axios
                     .put('/api/blogs/' + this.seq, {
                         title: this.input.title,
@@ -226,11 +230,11 @@
                     })
 
                     .then(res => {
+                        this.offProgress()
                         this.$router.push({name: 'BlogList'})
-                        console.log(res)
                     })
                     .catch(err => {
-                        console.log(err)
+                        this.offProgress()
                     })
             },
 
@@ -421,7 +425,7 @@
             div {
                 cursor: pointer;
                 margin: 0px 5px;
-                padding: 2px 10px;
+                padding: 5px 15px;
                 border-radius: 5px;
                 text-align: center;
                 display: inline-block;

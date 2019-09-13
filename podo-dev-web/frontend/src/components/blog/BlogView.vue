@@ -44,7 +44,7 @@
         </div>
 
         <div id="contents">
-            <toast-custom-viewer :value="blog.contents"/>
+            <toast-custom-viewer ref="viewer" :value="blog.contents"/>
         </div>
 
         <blog-view-comment
@@ -68,6 +68,19 @@
 
     export default {
         name: 'BlogVue',
+        metaInfo() {
+            return {
+                meta: [
+                    {name: 'Description', content: this.meta.description},
+                    {name: 'Keywords', content: this.meta.keywords},
+                    //{name: 'date', content: this.meta.date},
+                    {property: 'og:title', content: this.meta.title},
+                    {property: 'og:description', content: this.meta.description},
+                    {property: 'og:url', content: this.meta.url},
+                    {property: 'og:image', content: this.meta.thumbnail},
+                ]
+            }
+        },
         components: {
             'blog-view-comment': BlogViewComment,
             'the-export': TheExport
@@ -81,6 +94,7 @@
         },
         data() {
             return {
+                meta: {},
                 blog: {},
             }
         },
@@ -98,6 +112,8 @@
                     }
                 });
             },
+
+
             clickDeleteBlog(seq) {
                 this.toastConfirm("정말 삭제하시겠습니까?", () => {
                     this.$axios
@@ -172,10 +188,26 @@
                         res = res.data
                         this.blog = res.data
                         console.log(this.blog)
+                        this.defineMeta()
                     })
                     .catch(err => {
                         console.log(err)
                     })
+            },
+
+            defineMeta(){
+                const keywords = this.blog.tags.map (tag => {
+                    return tag.val
+                })
+
+                this.meta = {
+                    title : this.blog.title,
+                    keywords : keywords.join(", "),
+                    date : this.blog.createAt,
+                    description : this.blog.desc,
+                    thumbnail : this.blog.thumbnail ? this.blog.thumbnail : '',
+                    url : window.location.href,
+                }
             }
         },
 
@@ -210,19 +242,19 @@
     }
 </script>
 
-<style lang="scss" scoped >
+<style lang="scss" scoped>
     #wrapBlog {
         max-width: 800px;
         margin: 0px auto;
 
         &.mobile, &.tablet {
-            #head, #submenus, #contents{
+            #head, #submenus, #contents {
                 padding-left: 5%;
                 padding-right: 5%;
             }
 
             #head {
-                margin: 120px 10px;
+                margin: 150px 10px;
 
                 #title {
                     font-size: 1.6rem;

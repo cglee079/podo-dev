@@ -4,7 +4,7 @@ import com.cglee079.pododev.core.global.util.MyFileUtils;
 import com.cglee079.pododev.web.domain.blog.FileStatus;
 import com.cglee079.pododev.web.domain.blog.attachfile.exception.InvalidFileException;
 import com.cglee079.pododev.web.global.infra.uploader.PodoUploaderClient;
-import com.cglee079.pododev.web.global.util.UploadFileWriter;
+import com.cglee079.pododev.web.global.util.FileWriter;
 import com.cglee079.pododev.web.global.util.PathUtil;
 import com.cglee079.pododev.web.global.util.HttpUrlUtil;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ public class AttachFileService {
 
     private final PodoUploaderClient podoUploaderClient;
     private final AttachFileRepository attachFileRepository;
-    private final UploadFileWriter uploadFileWriter;
+    private final FileWriter fileWriter;
 
     @Value("${local.upload.base.url}")
     private String baseUrl;
@@ -38,7 +38,10 @@ public class AttachFileService {
     @Value("${local.upload.base.dir}")
     private String baseDir;
 
-    @Value("${infra.uploader.frontend.domain}${infra.uploader.frontend.subpath}")
+    @Value("${infra.uploader.domain.internal}${infra.uploader.frontend.subpath}")
+    private String uploaderDownloadUrl;
+
+    @Value("${infra.uploader.domain.external}${infra.uploader.frontend.subpath}")
     private String uploaderFrontendUrl;
 
 
@@ -51,7 +54,7 @@ public class AttachFileService {
 
         log.info("Save File '{}'", originName);
 
-        final File file = uploadFileWriter.saveFile(path, multipartFile);
+        final File file = fileWriter.saveFile(path, multipartFile);
 
         return AttachFileDto.response.builder()
                 .originName(originName)
@@ -113,13 +116,13 @@ public class AttachFileService {
         });
     }
 
-    public AttachFileDto.response get(Long fileSeq) {
+    public AttachFileDto.download download(Long fileSeq) {
         Optional<AttachFile> file = attachFileRepository.findById(fileSeq);
 
         if (!file.isPresent()) {
             throw new InvalidFileException();
         }
 
-        return new AttachFileDto.response(file.get(), uploaderFrontendUrl, FileStatus.BE);
+        return new AttachFileDto.download(file.get(), uploaderDownloadUrl);
     }
 }

@@ -54,10 +54,9 @@
                     .then(res => {
                         res = res.data
                         this.tags = res.data
-                        console.log(res.data)
                     })
                     .catch(err => {
-                        console.log(err)
+                        console.error(err)
                     })
             },
 

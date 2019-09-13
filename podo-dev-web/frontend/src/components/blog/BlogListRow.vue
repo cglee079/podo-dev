@@ -50,6 +50,11 @@
         },
         methods: {
             clickTag(val) {
+                if (this.filter.tag === val) {
+                    this.$router.push({name: 'BlogList'})
+                    return
+                }
+
                 this.$router.push({name: 'BlogList', query: {tag: val}})
             },
 
@@ -178,7 +183,7 @@
                         color: #ec5621;
                         font-weight: bold;
 
-                        &.on{
+                        &.on {
                             color: #0000CC;
                         }
                     }

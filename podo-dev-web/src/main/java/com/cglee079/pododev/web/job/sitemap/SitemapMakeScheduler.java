@@ -1,6 +1,5 @@
 package com.cglee079.pododev.web.job.sitemap;
 
-import com.cglee079.pododev.web.job.tempcleaner.TempCleaner;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;

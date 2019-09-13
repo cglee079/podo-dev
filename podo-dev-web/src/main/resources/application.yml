@@ -80,11 +80,12 @@ infra:
   ## Uploader Config
   uploader:
     token: mciGpOzzSvncQJ5IFEUNVODRyVkgL1kD
+    domain:
+      internal: http://192.168.219.103:38080 # Loopback
+      external : https://upload.podo-dev.com
     upload:
-      domain: http://192.168.219.103:38080 # Loopback
       subpath: /api/uploader/file
     frontend:
-      domain: https://upload.podo-dev.com
       subpath: /uploaded
 
 
@@ -92,7 +93,7 @@ infra:
   telegram:
     podo:
       bot:
-        token: 963473619:AAF1412LpXDNNvN7gn6qcip88-z_DVLVEVU
+        token: 451179803:AAGMt05UHAUE1p4veWRws2Wz93FmV5Plvwc
         name: PodoDevBot
       admin:
         id: 503609560
@@ -135,7 +136,7 @@ security:
   oauth2:
     admin:
       ids: 116440278738014640765, 116491882380204991899
-    redirect: https://www.podo-dev.com/#/
+    redirect: http://localhost:8118/#/
 
 
 ---
@@ -174,7 +175,10 @@ infra:
   uploader:
     upload:
       domain: https://upload.podo-dev.com
-
+  telegram:
+    podo:
+      bot:
+        token: 963473619:AAF1412LpXDNNvN7gn6qcip88-z_DVLVEVU
   solr:
     url: http://solr.podo-dev.com
 

@@ -120,6 +120,7 @@ public class BlogDto {
     public static class response {
         private Long seq;
         private String title;
+        private String desc;
         private String contents;
         private Integer hitCnt;
         private String thumbnail;
@@ -136,6 +137,8 @@ public class BlogDto {
         public response(Blog blog, Blog before, Blog next, String uploaderDomain, FileStatus fileStatus) {
             this.seq = blog.getSeq();
             this.title = blog.getTitle();
+            this.desc = MarkdownUtil.escape(MarkdownUtil.extractPlainText(blog.getContents()));
+            this.desc = desc.length() > 300 ? desc.substring(0, 300) : desc;
             this.contents = blog.getContents();
             this.hitCnt = blog.getHitCnt();
             this.createAt = Formatter.dateTimeToBeautifulDate(blog.getCreateAt());

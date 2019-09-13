@@ -1,5 +1,7 @@
 <template>
     <div id="wrapComment" :class="$mq">
+        <progress-bar ref="progressBar"/>
+
         <div id="count">
             <img src="https://image.flaticon.com/icons/svg/134/134718.svg"/>
             <a class="comment-cnt">{{this.totalElements}}</a>
@@ -20,10 +22,12 @@
             >
                 <comment-item
                         :blogSeq="blogSeq"
-                        :index = "index"
+                        :index="index"
                         :comment="comment"
                         @delete="deleteBlogComment"
                         @reload="reloadBlogComments"
+                        @onProgress="onProgress"
+                        @offProgress="offProgress"
                 />
             </div>
         </div>
@@ -34,6 +38,8 @@
                 :parentSeq="null"
                 placeholder="댓글을 입력해주세요"
                 @reload="reloadBlogComments"
+                @onProgress="onProgress"
+                @offProgress="offProgress"
         />
 
 
@@ -45,10 +51,13 @@
     import {mapGetters} from 'vuex'
     import customToast from '@/mixins/customToast'
     import BlogViewCommentWrite from "./BlogViewCommentWrite";
+    import ProgressBar from "../global/ProgressBar";
+
 
     export default {
         name: "BlogViewComment",
         components: {
+            ProgressBar,
             'comment-item': BlogViewCommentItem,
             'comment-write': BlogViewCommentWrite
         },
@@ -75,8 +84,16 @@
             }
         },
         methods: {
+            onProgress() {
+                this.$refs.progressBar.on()
+            },
+
+            offProgress() {
+                this.$refs.progressBar.off()
+            },
+
             reloadBlogComments() {
-                if(this.page > 0 && this.comments.length % this.pageSize === 0){
+                if (this.page > 0 && this.comments.length % this.pageSize === 0) {
                     this.page++
                 }
 
@@ -87,6 +104,7 @@
             },
 
             loadBlogComments(page, until) {
+                this.onProgress()
 
                 return new Promise((resolve, reject) => {
                     if (this.isLoading) {
@@ -102,45 +120,56 @@
                             }
                         })
                         .then(res => {
-                            res = res.data.data
-                            res.contents.slice().reverse().forEach(item => this.comments.unshift(item))
-                            this.page = page
-                            this.pageSize = res.pageSize
-                            this.totalElements = res.totalElements
-                            this.totalPages = res.totalPages
-                            this.isLoading = false
+
                             resolve(res)
                         })
                         .catch(err => {
-                            console.log(err)
                             reject(err)
                         })
-                }).then(() => {
+                }).then((res) => {
+                    this.offProgress()
+
+                    res = res.data.data
+                    res.contents.slice().reverse().forEach(item => this.comments.unshift(item))
+                    this.page = page
+                    this.pageSize = res.pageSize
+                    this.totalElements = res.totalElements
+                    this.totalPages = res.totalPages
+                    this.isLoading = false
+
                     if (page < until) {
                         this.loadBlogComments(page + 1, until)
-                    } else{
+                    } else {
                         this.$refs.comments.classList.add("on")
                     }
+                }).catch(err => {
+                    this.offProgress()
+                    console.log(err)
                 })
             },
 
             deleteBlogComment(commentSeq, index) {
                 this.toastConfirm("정말 댓글을 삭제하시겠습니까?", () => {
+                    this.onProgress()
+
                     this.$axios
                         .delete('/api/blogs/' + this.blogSeq + "/comments/" + commentSeq)
                         .then(() => {
+                            this.offProgress()
+
                             this.$toasted.show("댓글이 삭제되었습니다")
                             this.comments[index].enabled = false
                             this.comments[index].contents = "삭제된 댓글입니다"
 
                             this.totalElements--
-                            if(this.totalElements % this.pageSize === 0){
+                            if (this.totalElements % this.pageSize === 0) {
                                 this.page--
                             }
 
                             //this.reloadBlogComments()
                         })
                         .catch(err => {
+                            this.offProgress()
                             console.log(err)
                         })
                 })
@@ -148,7 +177,7 @@
 
         },
 
-        created() {
+        mounted() {
             this.loadBlogComments(0, 0)
         }
 

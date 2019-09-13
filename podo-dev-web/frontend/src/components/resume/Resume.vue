@@ -27,7 +27,7 @@
             <div class="content">
                 <div v-for="content in item.contents"
                      v-bind:key="content.seq"
-                    >
+                >
                     <div v-html="content"/>
                 </div>
             </div>
@@ -117,6 +117,7 @@
             background: unset;
             margin-top: 40px;
             padding: 0px 20px;
+            border: none;
 
             /deep/ .item {
                 margin-top: 50px;

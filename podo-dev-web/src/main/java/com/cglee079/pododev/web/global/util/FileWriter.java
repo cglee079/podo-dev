@@ -23,7 +23,7 @@ import java.io.IOException;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class UploadFileWriter {
+public class FileWriter {
 
     @Value("${local.upload.base.dir}")
     private String baseDir;

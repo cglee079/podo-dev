@@ -38,6 +38,25 @@ public class AttachFileDto {
         }
     }
 
+
+    @Getter
+    public static class download {
+        private Long seq;
+        private String filename;
+        private String originName;
+        private String uploadedUrl;
+        private String path;
+        private Long filesize;
+
+        public download(AttachFile file, String uploadedUrl) {
+            this.filename = file.getFilename();
+            this.originName = file.getOriginName();
+            this.uploadedUrl = uploadedUrl;
+            this.path = file.getPath();
+            this.filesize = file.getFilesize();
+        }
+    }
+
     @Getter
     public static class insert {
         private String filename;

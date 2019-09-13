@@ -12,14 +12,12 @@
         name: "ProgressBar",
         methods : {
             on() {
-                console.log("on Progress")
                 this.$refs.progressBar.classList.add("on")
                 document.body.style.overflow = "hidden"
                 document.body.style.touchAction = "none"
             },
 
             off() {
-                console.log("off Progress")
                 this.$refs.progressBar.classList.remove("on")
                 document.body.style.overflow = "unset"
                 document.body.style.touchAction = "unset"

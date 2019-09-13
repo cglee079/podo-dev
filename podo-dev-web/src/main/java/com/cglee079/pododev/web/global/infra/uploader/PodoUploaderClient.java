@@ -27,7 +27,7 @@ public class PodoUploaderClient {
     @Value("${infra.uploader.token}")
     private String token;
 
-    @Value("${infra.uploader.upload.domain}")
+    @Value("${infra.uploader.domain.internal}")
     private String serverUrl;
 
     @Value("${infra.uploader.upload.subpath}")

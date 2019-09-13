@@ -1,11 +1,5 @@
 <template>
     <div>
-        <vue-headful
-                title="Podo-dev"
-                description="Podo's Develop Blog"
-                lang="kr"
-                url="www.podo-dev.com"
-        />
         <the-nav/>
         <div id="main" :class="$mq">
             <router-view></router-view>
@@ -25,6 +19,20 @@
 
     export default {
         name: 'App',
+
+        metaInfo: {
+            title: 'podo-dev',
+            htmlAttrs: {
+                lang: 'kr',
+            },
+            meta: [
+                { charset: 'utf-8'},
+                {name: 'author', content: 'podo'},
+                {property: 'og:type', content: 'website'},
+                {property: 'og:site_name', content: 'podo-dev'},
+            ]
+        },
+
         components: {
             ProgressBar,
             'the-nav': TheNav,

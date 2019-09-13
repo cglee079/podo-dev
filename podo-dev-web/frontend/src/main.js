@@ -14,18 +14,13 @@ import 'codemirror/lib/codemirror.css'
 import 'highlight.js/styles/github.css'
 import ToastCustomViewer from "./components/global/ToastCustomViewer"
 
-/**
- * ProgressBar
- */
-import ProgressBar from 'vuejs-progress-bar'
-Vue.use(ProgressBar)
 
 /**
- * Using Set Head Title
+ * Using Set MetaData
  */
-import vueHeadful from 'vue-headful';
-Vue.component('vue-headful', vueHeadful);
 
+import VueMeta from 'vue-meta'
+Vue.use(VueMeta)
 
 /**
  * Beautiful Hover Tooltip

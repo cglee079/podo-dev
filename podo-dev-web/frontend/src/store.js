@@ -80,7 +80,6 @@ export default new Vuex.Store({
                 axios
                     .get("/auth/user")
                     .then(res => {
-                        console.log('check login')
                         //사용자 정보 확인
                         res = res.data
                         const user = res.data
@@ -94,7 +93,6 @@ export default new Vuex.Store({
                     })
                     .catch(err => {
                         //사용자 정보 확인 실패
-                        console.log(err)
                         sessionStorage.removeItem("token")
                         delete axios.defaults.headers.common['Authorization'] //
                     })

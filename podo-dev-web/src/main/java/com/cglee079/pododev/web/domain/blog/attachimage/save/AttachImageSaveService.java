@@ -3,7 +3,7 @@ package com.cglee079.pododev.web.domain.blog.attachimage.save;
 import com.cglee079.pododev.core.global.util.MyFileUtils;
 import com.cglee079.pododev.web.domain.blog.attachimage.ImageInfo;
 import com.cglee079.pododev.web.domain.blog.attachimage.exception.InValidImageException;
-import com.cglee079.pododev.web.global.util.UploadFileWriter;
+import com.cglee079.pododev.web.global.util.FileWriter;
 import com.cglee079.pododev.web.global.util.PathUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +32,7 @@ public class AttachImageSaveService {
     @Value("${local.upload.sub.image.dir}")
     private String imageDir;
 
-    private final UploadFileWriter uploadFileWriter;
+    private final FileWriter fileWriter;
 
     public Map<String, AttachImageSaveDto.response> makeSaveUrl(String url) {
         if (!this.isImageFile(url)) {
@@ -42,7 +42,7 @@ public class AttachImageSaveService {
         final String path = PathUtil.merge(imageDir, MyFileUtils.makeDatePath(LocalDateTime.now())); // 로컬 저장경로
         final Map<String, AttachImageSaveDto.response> saves = new HashMap<>();
 
-        final File originImage = uploadFileWriter.saveFile(path, url);
+        final File originImage = fileWriter.saveFile(path, url);
         final ImageInfo imageInfo = getImageInfo(originImage);
 
         saves.put("origin",
@@ -62,7 +62,7 @@ public class AttachImageSaveService {
         final Map<String, AttachImageSaveDto.response> saves = new HashMap<>();
 
         //Save Origin File
-        final File originImage = uploadFileWriter.saveFile(path, extension, base64);
+        final File originImage = fileWriter.saveFile(path, extension, base64);
         final ImageInfo imageInfo = getImageInfo(originImage);
 
         saves.put("origin",
@@ -89,7 +89,7 @@ public class AttachImageSaveService {
         final Map<String, AttachImageSaveDto.response> saves = new HashMap<>();
 
         //Save Origin File
-        final File originImage = uploadFileWriter.saveFile(path, multipartFile);
+        final File originImage = fileWriter.saveFile(path, multipartFile);
         final ImageInfo imageInfo = getImageInfo(originImage);
 
         saves.put("origin",
@@ -108,7 +108,7 @@ public class AttachImageSaveService {
     private AttachImageSaveDto.response saveResizeImage(File originImage, String path, Integer resizeWidth) {
         log.info("Resize Image, size : '{}', from : '{}'", resizeWidth, originImage.getName());
 
-        final File resizeImage = uploadFileWriter.resizeImage(originImage, path, resizeWidth);
+        final File resizeImage = fileWriter.resizeImage(originImage, path, resizeWidth);
         final ImageInfo imageInfo = getImageInfo(resizeImage);
 
         return AttachImageSaveDto.response.builder()
