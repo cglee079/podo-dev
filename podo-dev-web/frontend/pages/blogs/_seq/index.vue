@@ -79,7 +79,7 @@
 
         head() {
             return {
-                title: this.meta.title,
+                title: 'podo-dev: ' + this.meta.title,
                 meta: [
                     {name: 'keywords', content: this.meta.keywords},
                     {hid:"description", name: 'description', content: this.meta.description},
