@@ -30,7 +30,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/login/google");
+
+        //web.ignoring().antMatchers("/login/google");
     }
 
     @Override
@@ -51,4 +52,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(new AuthFilter(securityStore), BasicAuthenticationFilter.class);
     }
 
- }
+}

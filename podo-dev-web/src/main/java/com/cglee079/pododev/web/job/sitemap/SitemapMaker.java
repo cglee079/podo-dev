@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.util.List;
@@ -18,9 +19,9 @@ import java.util.List;
 @Component
 public class SitemapMaker {
 
-    public static final String PODO_DEV_WEB = "https://www.podo-dev.com/#";
+    public static final String PODO_DEV_WEB = "https://www.podo-dev.com";
 
-    @Value("${local.web.dir}")
+    @Value("${local.static.dir}")
     private String siteMapDirPath;
 
     public final BlogService blogService;
@@ -38,8 +39,9 @@ public class SitemapMaker {
 
             WebSitemapGenerator wsg = new WebSitemapGenerator(PODO_DEV_WEB, new File(siteMapDirPath));
 
+            wsg.addUrl(makeUrl("/"));
             wsg.addUrl(makeUrl("/resume"));
-            wsg.addUrl(makeUrl("/tags"));
+            wsg.addUrl(makeUrl("/tag"));
 
 
             List<Long> ids = blogService.findEnabledIds();
@@ -58,7 +60,6 @@ public class SitemapMaker {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-
-
     }
+
 }

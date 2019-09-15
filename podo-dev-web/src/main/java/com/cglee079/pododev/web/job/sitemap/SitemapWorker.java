@@ -26,7 +26,7 @@ public class SitemapWorker {
     public static final String GOOGLE = "http://www.google.com/ping?sitemap=";
     public static final String PODO_DEV_SERVER = "https://server.podo-dev.com";
 
-    @Value("${local.web.url}")
+    @Value("${local.static.url}")
     private String siteMapDirUrl;
 
     private final SitemapMaker sitemapMaker;

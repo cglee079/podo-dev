@@ -7,6 +7,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Enumeration;
 
 @Slf4j
 @Component
@@ -19,6 +20,13 @@ public class RequestLogInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+//        Enumeration<String> dd = request.getHeaderNames();
+//        while(dd.hasMoreElements()){
+//            String header = dd.nextElement();
+//            log.info("'{}' : '{}'", header, request.getHeader(header));
+//        }
+
+
         String userAgent = request.getHeader("User-Agent");
         String ip = request.getRemoteAddr();
         String url = request.getRequestURI();

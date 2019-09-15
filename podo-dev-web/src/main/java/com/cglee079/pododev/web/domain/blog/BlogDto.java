@@ -138,7 +138,6 @@ public class BlogDto {
             this.seq = blog.getSeq();
             this.title = blog.getTitle();
             this.desc = MarkdownUtil.escape(MarkdownUtil.extractPlainText(blog.getContents()));
-            this.desc = desc.length() > 300 ? desc.substring(0, 300) : desc;
             this.contents = blog.getContents();
             this.hitCnt = blog.getHitCnt();
             this.createAt = Formatter.dateTimeToBeautifulDate(blog.getCreateAt());

@@ -1,61 +1,38 @@
 {
-  "name": "frontend",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
-  },
-  "dependencies": {
-    "@toast-ui/vue-editor": "^1.1.1",
-    "@trevoreyre/autocomplete-vue": "^2.0.2",
-    "axios": "^0.19.0",
-    "core-js": "^2.6.5",
-    "filesize": "^4.1.2",
-    "tui-editor": "^1.4.6",
-    "vue": "^2.6.10",
-    "vue-cookies": "^1.5.13",
-    "vue-directive-tooltip": "^1.6.2",
-    "vue-meta": "^2.2.2",
-    "vue-mq": "^1.0.1",
-    "vue-router": "^3.0.7",
-    "vue-scrollto": "^2.15.0",
-    "vue-toasted": "^1.1.27",
-    "vuex": "^3.1.1"
-  },
-  "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.9.0",
-    "@vue/cli-plugin-eslint": "^3.9.0",
-    "@vue/cli-service": "^3.9.0",
-    "babel-eslint": "^10.0.1",
-    "eslint": "^5.16.0",
-    "eslint-plugin-vue": "^5.0.0",
-    "node-sass": "^4.12.0",
-    "sass-loader": "^7.2.0",
-    "vue-template-compiler": "^2.6.10"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
+    "name": "podo-dev",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "nuxt",
+        "build": "nuxt build",
+        "start": "nuxt start",
+        "generate": "nuxt generate",
+        "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+        "precommit": "npm run lint"
     },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "rules": {},
-    "parserOptions": {
-      "parser": "babel-eslint"
+    "dependencies": {
+        "@nuxtjs/axios": "^4.0.0",
+        "@nuxtjs/toast": "^3.2.1",
+        "@nuxtjs/universal-storage": "^0.4.0",
+        "@trevoreyre/autocomplete-vue": "^2.0.2",
+        "@tui-nuxt/editor": "^1.0.0-alpha.6",
+        "axios": "^0.19.0",
+        "filesize": "^4.1.2",
+        "nuxt": "^2.9.2",
+        "nuxt-mq": "^2.0.0",
+        "vue-directive-tooltip": "^1.6.2",
+        "vue-router": "^3.0.7",
+        "vue-scrollto": "^2.15.0"
+    },
+    "devDependencies": {
+        "@vue/cli-plugin-babel": "^3.9.0",
+        "@vue/cli-service": "^3.9.0",
+        "babel-eslint": "^10.0.1",
+        "eslint": "^5.16.0",
+        "eslint-plugin-vue": "^5.0.0",
+        "eslint-friendly-formatter": "^4.0.1",
+        "eslint-loader": "^2.1.1",
+        "node-sass": "^4.12.0",
+        "sass-loader": "^7.2.0"
     }
-  },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {}
-    }
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions"
-  ]
 }

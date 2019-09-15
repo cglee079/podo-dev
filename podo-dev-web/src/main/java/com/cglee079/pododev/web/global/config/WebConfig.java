@@ -14,10 +14,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
-    @Value("${local.web.url}")
+    @Value("${local.static.url}")
     private String sitemapUrl;
 
-    @Value("${local.web.dir}")
+    @Value("${local.static.dir}")
     private String sitemapLocation;
 
 

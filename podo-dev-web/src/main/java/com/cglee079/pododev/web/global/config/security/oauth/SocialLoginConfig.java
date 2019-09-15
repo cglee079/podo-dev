@@ -31,14 +31,13 @@ public class SocialLoginConfig {
 
     private final OAuth2ClientContext oauth2ClientContext;
     private final SocialLoginSuccessHandler socialLoginSuccessHandler;
-    private final SecurityStore securityStore;
 
     @Bean("socialOauthFilter")
     Filter ssoFilter() {
         List<Filter> filters = new ArrayList<>();
 
         //Google
-        OAuth2ClientAuthenticationProcessingFilter google = new OAuth2ClientAuthenticationProcessingFilter("/login/google");
+        OAuth2ClientAuthenticationProcessingFilter google = new OAuth2ClientAuthenticationProcessingFilter("/oauth/google");
         google.setRestTemplate(new OAuth2RestTemplate(googleClient(), oauth2ClientContext));
         google.setTokenServices(new UserInfoTokenServices(googleResource().getUserInfoUri(), googleClient().getClientId()));
         google.setAuthenticationSuccessHandler(socialLoginSuccessHandler);

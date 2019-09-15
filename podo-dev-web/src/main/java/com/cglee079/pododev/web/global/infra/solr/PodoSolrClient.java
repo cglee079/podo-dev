@@ -80,6 +80,7 @@ public class PodoSolrClient {
                         highlight = highlight.substring(schIndex - maxLengthBeforeHighlight);
                     }
 
+                    highlight = MarkdownUtil.escape(highlight);
                     highlight = highlight.replace(hlPrefix, "<search>");
                     highlight = highlight.replace(hlPostfix, "</search>");
 

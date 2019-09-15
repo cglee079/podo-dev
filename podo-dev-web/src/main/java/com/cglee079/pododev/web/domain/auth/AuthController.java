@@ -19,6 +19,12 @@ public class AuthController {
 
     private final AuthService authService;
 
+
+    @GetMapping("/login/google")
+    public void loginGoogle(HttpServletResponse response) throws IOException {
+        response.sendRedirect("/oauth/google");
+    }
+
     /**
      * 로그인 후 프론트엔드 사용자 정보 갱신
      *

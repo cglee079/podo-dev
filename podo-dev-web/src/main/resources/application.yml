@@ -60,9 +60,9 @@ blog:
 
 ## File Save Config
 local:
-  web:
-    url: /web
-    dir: C://podo-dev/web
+  static:
+    url: /static
+    dir: C://podo-dev/static
   upload:
     base:
       url: /uploaded
@@ -93,7 +93,7 @@ infra:
   telegram:
     podo:
       bot:
-        token: 451179803:AAGMt05UHAUE1p4veWRws2Wz93FmV5Plvwc
+        token: 451179803:AAF9iJVw93oSgK2d9LBgYuNe_XZTCdHpLzU
         name: PodoDevBot
       admin:
         id: 503609560
@@ -136,7 +136,7 @@ security:
   oauth2:
     admin:
       ids: 116440278738014640765, 116491882380204991899
-    redirect: http://localhost:8118/#/
+    redirect: https://www.podo-dev.com:3000
 
 
 ---
@@ -150,9 +150,9 @@ logging:
   config: classpath:logback-daily.xml
 
 local:
-  sitemap:
-    url: /web
-    dir: /web
+  static:
+    url: /static
+    dir: /static
   upload:
     base:
       url: /uploaded
@@ -161,7 +161,13 @@ local:
 security:
   oauth2:
     admin:
-    redirect: https://www.podo-dev.com/#/
+    redirect: https://www.podo-dev.com
+
+infra:
+  telegram:
+    podo:
+      bot:
+        token: 963473619:AAF1412LpXDNNvN7gn6qcip88-z_DVLVEVU
 
 ---
 
@@ -175,10 +181,7 @@ infra:
   uploader:
     upload:
       domain: https://upload.podo-dev.com
-  telegram:
-    podo:
-      bot:
-        token: 963473619:AAF1412LpXDNNvN7gn6qcip88-z_DVLVEVU
+
   solr:
     url: http://solr.podo-dev.com
 
