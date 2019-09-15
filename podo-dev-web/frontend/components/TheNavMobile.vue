@@ -13,8 +13,8 @@
         <div id="bgMobileNavs" ref="bgMobileNavs"/>
         <div id="mobileNavs" ref="mobileNavs">
 
-            <div id="mobileMenuHeader">
-                <img src="@/assets/podo-dev.svg"/>
+            <div id="mobileMenuHeader" class="mobile-nav-menu">
+                <router-link :to="{name : 'index'}"><img src="@/assets/podo-dev.svg"/></router-link>
             </div>
 
             <div class="mobile-nav-menu search">
@@ -38,8 +38,9 @@
             </div>
 
             <div class="mobile-nav-menu"><a href="https://github.com/cglee079" target="_blank">Github</a></div>
-            <div class="mobile-nav-menu"><a href="https://www.instagram.com/cglee079" target="_blank">Instagram</a>
-            </div>
+            <div class="mobile-nav-menu"><a href="https://www.linkedin.com/in/changoo-lee-205662180" target="_blank">LinkedIn</a></div>
+            <div class="mobile-nav-menu"><a href="mailto:cglee079@gmail.com">Mail</a></div>
+
             <div v-if="!isLogin" @click="login" class="mobile-nav-menu"><a>로그인</a></div>
             <div v-if="isLogin" @click="logout" class="mobile-nav-menu"><a>로그아웃</a></div>
         </div>
@@ -249,6 +250,7 @@
         #mobileMenuHeader {
             background: #FFF;
             display: flex;
+            justify-content: center;
             align-items: center;
             height: 70px;
 

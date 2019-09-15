@@ -58,10 +58,9 @@
 
         head() {
             return {
+                title: "podo's resume",
                 meta: [
-                    {property: 'og:title', content: 'podo-dev'},
                     {property: 'og:description', content: "podo's resume"},
-                    {property: 'og:image', content: "/og-image.png"},
                 ]
             }
         },
@@ -104,7 +103,7 @@
 
         &.mobile, &.tablet {
             background: unset;
-            margin : 40px auto 0px auto;
+            margin: 40px auto 0px auto;
             padding: 0px 20px;
             border: none;
 

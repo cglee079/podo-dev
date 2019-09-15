@@ -43,10 +43,9 @@
         name: 'TagList',
         head() {
             return {
+                title: "podo-dev, tag",
                 meta: [
-                    {property: 'og:title', content: 'podo-dev'},
-                    {property: 'og:description', content: "podo-dev, tags"},
-                    {property: 'og:image', content: "/og-image.png"},
+                    {property: 'og:description', content: "podo-dev, tag"},
                 ]
             }
         },

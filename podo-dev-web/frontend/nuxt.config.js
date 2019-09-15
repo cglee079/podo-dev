@@ -1,5 +1,5 @@
 module.exports = {
-    debug: true,
+    // debug: true,
     build: {
         // extend (config, { isDev, isClient }) {
         //     if (isDev && isClient) {
@@ -21,7 +21,11 @@ module.exports = {
         title: 'podo-dev',
         meta: [
             {charset: 'utf-8'},
-            {name: 'viewport', content: 'width=device-width, initial-scale=1, user-scalable=no'}
+            {name: 'viewport', content: 'width=device-width, initial-scale=1, user-scalable=no'},
+            {hid: "description", property: 'description', content: 'podo-dev'},
+            {hid: "og:title", property: 'og:title', content: 'podo-dev'},
+            {hid: "og:description", property: 'og:description', content: "podo-dev"},
+            {hid: "og:image", property: 'og:image', content: "/og-image.png"}
         ],
         link: [
             {rel: 'icon', href: '/favicon.ico?v=2'},

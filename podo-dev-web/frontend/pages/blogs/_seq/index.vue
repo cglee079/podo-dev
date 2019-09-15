@@ -79,12 +79,13 @@
 
         head() {
             return {
+                title: this.meta.title,
                 meta: [
-                    {name: 'description', content: this.meta.description},
                     {name: 'keywords', content: this.meta.keywords},
-                    {property: 'og:title', content: this.meta.title},
-                    {property: 'og:description', content: this.meta.description},
-                    {property: 'og:image', content: this.meta.thumbnail},
+                    {hid:"description", name: 'description', content: this.meta.description},
+                    {hid:"og:title", property: 'og:title', content: this.meta.title},
+                    {hid:"og:description", property: 'og:description', content: this.meta.description},
+                    {hid:"og:image", property: 'og:image', content: this.meta.thumbnail},
                 ],
             }
         },

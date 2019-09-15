@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 cd /volume1/homes/cglee079/docker-build/podo-dev-nuxt
 docker stop podo-dev-nuxt
 docker rm podo-dev-nuxt

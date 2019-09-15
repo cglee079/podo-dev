@@ -17,7 +17,7 @@
 
     export default {
         name: 'App',
-
+        layout: 'blog',
         metaInfo: {
             title: 'podo-dev',
             htmlAttrs: {

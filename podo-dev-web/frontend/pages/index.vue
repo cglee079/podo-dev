@@ -9,10 +9,9 @@
         name: "index",
         head() {
             return {
+                title: "podo-dev",
                 meta: [
-                    {property: 'og:title', content: 'podo-dev'},
-                    {property: 'og:description', content: "podo-dev, blogs"},
-                    {property: 'og:image', content: "/og-image.png"},
+                    {hid:"og:description", property: 'og:description', content: "podo-dev, blogs"},
                 ]
             }
         },
