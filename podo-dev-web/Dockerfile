@@ -1,5 +1,8 @@
 FROM java:8
 WORKDIR /
-ADD podo-dev-web-1.0.jar podo-dev-web-1.0.jar
+ADD podo-dev-backend-1.0.jar podo-dev-backend-1.0.jar
 EXPOSE 8443
-CMD java -jar podo-dev-web-1.0.jar
+
+RUN echo "Asia/Seoul" > /etc/timezone
+# RUN  ["cp", "/usr/share/zoneinfo/Asia/Seoul", "/etc/localtime"]
+CMD ["java", "-jar", "podo-dev-backend-1.0.jar"]

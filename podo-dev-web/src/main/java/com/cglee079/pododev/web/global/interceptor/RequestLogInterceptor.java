@@ -28,7 +28,7 @@ public class RequestLogInterceptor extends HandlerInterceptorAdapter {
 
 
         String userAgent = request.getHeader("User-Agent");
-        String ip = request.getRemoteAddr();
+        String ip = request.getHeader("x-real-ip");
         String url = request.getRequestURI();
 
         log.info("'{}'  << '{}',  '{}'", url, ip, userAgent);

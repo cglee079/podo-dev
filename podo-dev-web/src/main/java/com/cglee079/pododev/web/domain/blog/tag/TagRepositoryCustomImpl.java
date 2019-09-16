@@ -17,7 +17,7 @@ public class TagRepositoryCustomImpl extends QuerydslRepositorySupport implement
     }
 
     @Override
-    public List<String> findDistinctTagValue() {
-        return queryFactory.selectDistinct(tag.val).from(tag).fetch();
+    public List<String> findDistinctTagValueInBlogIds(List<Long> blogIds) {
+        return queryFactory.selectDistinct(tag.val).from(tag).where(tag.blogSeq.in(blogIds)).fetch();
     }
 }

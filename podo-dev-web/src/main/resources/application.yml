@@ -19,7 +19,7 @@ logging:
 
 spring:
   profiles:
-#    include: core
+#    include: core, external
       include: core, deploy
 
   # Data Resource
@@ -136,7 +136,7 @@ security:
   oauth2:
     admin:
       ids: 116440278738014640765, 116491882380204991899
-    redirect: https://www.podo-dev.com:3000
+    redirect: https://www.podo-dev.com
 
 
 ---
@@ -175,7 +175,7 @@ spring:
   profiles: external
 
   datasource:
-    url: jdbc:mysql://mysql.podo-dev.com/podo_dev?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://125.186.242.83:8088/podo_dev?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
 
 infra:
   uploader:

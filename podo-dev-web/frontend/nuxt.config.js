@@ -1,5 +1,15 @@
 module.exports = {
-    // debug: true,
+    debug: true,
+
+    serverMiddleware: ['redirect-ssl'],
+
+    env: {
+        frontendUrl: 'https://www.podo-dev.com',
+        internalServerUrl: 'http://192.168.219.103:28080',
+        externalServerUrl: 'https://server.podo-dev.com',
+        name: 'podo-dev'
+    },
+
     build: {
         // extend (config, { isDev, isClient }) {
         //     if (isDev && isClient) {
@@ -22,7 +32,7 @@ module.exports = {
         meta: [
             {charset: 'utf-8'},
             {name: 'viewport', content: 'width=device-width, initial-scale=1, user-scalable=no'},
-            {hid: "description", property: 'description', content: 'podo-dev'},
+            {hid: "description", name: 'description', content: 'podo-dev'},
             {hid: "og:title", property: 'og:title', content: 'podo-dev'},
             {hid: "og:description", property: 'og:description', content: "podo-dev"},
             {hid: "og:image", property: 'og:image', content: "/og-image.png"}

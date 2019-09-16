@@ -8,6 +8,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.telegram.telegrambots.ApiContextInitializer;
 
+import javax.annotation.PostConstruct;
+import java.util.TimeZone;
+
 @EnableScheduling
 @EnableAspectJAutoProxy
 @SpringBootApplication(scanBasePackages = "com.cglee079.pododev")

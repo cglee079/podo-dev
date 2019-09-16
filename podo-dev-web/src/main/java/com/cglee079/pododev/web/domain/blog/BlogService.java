@@ -19,11 +19,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import javax.annotation.PostConstruct;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -51,20 +53,6 @@ public class BlogService {
     private final AttachFileService attachFileService;
     private final PodoSolrClient podoSolrClient;
     private final PodoUploaderClient podoUploaderClient;
-
-
-//    @PostConstruct
-//    public void dd() {
-//        List<Blog> blogs = blogRepository.findAll();
-//        blogs.forEach(blog -> {
-//            String content = blog.getContents();
-//            content = content.replace("http://upload.podo-dev.com/", "https://upload.podo-dev.com/");
-//
-//            blog.setContents(content);
-//
-//            blogRepository.save(blog);
-//        });
-//    }
 
     public BlogDto.response get(Long seq) {
         Optional<Blog> blog = blogRepository.findById(seq);
@@ -207,7 +195,8 @@ public class BlogService {
     }
 
 
-    public List<Long> findEnabledIds(){
+    public List<Long> findEnabledIds() {
         return blogRepository.findEnabledIds();
     }
+
 }

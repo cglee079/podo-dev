@@ -79,23 +79,26 @@
 
         head() {
             return {
-                title: 'podo-dev: ' + this.meta.title,
+                title: this.meta.title,
                 meta: [
                     {name: 'keywords', content: this.meta.keywords},
-                    {hid:"description", name: 'description', content: this.meta.description},
-                    {hid:"og:title", property: 'og:title', content: this.meta.title},
-                    {hid:"og:description", property: 'og:description', content: this.meta.description},
-                    {hid:"og:image", property: 'og:image', content: this.meta.thumbnail},
+                    {hid: "description", name: 'description', content: this.meta.description},
+                    {hid: "og:title", property: 'og:title', content: this.meta.title},
+                    {hid: "og:description", property: 'og:description', content: this.meta.description},
+                    {hid: "og:image", property: 'og:image', content: this.meta.thumbnail},
                 ],
+                link: [
+                    {rel: 'canonical', href: this.link.canonical},
+                ]
             }
         },
 
         asyncData({$axios, store, params}) {
             const seq = params.seq
 
-            let baseUrl = ''
+            let baseUrl = process.env.externalServerUrl
             if (process.server) {
-                baseUrl = store.state.config.internalServerUrl
+                baseUrl = process.env.internalServerUrl
             }
 
             return $axios.$get(baseUrl + '/api/blogs/' + seq)
@@ -106,8 +109,12 @@
                         return tag.val
                     })
 
+                    const link = {
+                        canonical: process.env.frontendUrl + "/blogs/" + blog.seq
+                    }
+
                     const meta = {
-                        title: blog.title,
+                        title: process.env.name + " : " + blog.title,
                         keywords: keywords.join(", "),
                         date: blog.createAt,
                         description: blog.desc.length > 300 ? blog.desc.substring(0, 300) : blog.desc,
@@ -116,7 +123,8 @@
 
                     return {
                         blog,
-                        meta
+                        meta,
+                        link
                     }
 
                 })
@@ -143,7 +151,6 @@
             ...mapGetters({
                 isAdmin: 'user/isAdmin',
                 isLogin: 'user/isLogin',
-                getExternalServerUrl: 'config/getExternalServerUrl'
             })
         },
 
@@ -204,7 +211,7 @@
             },
 
             clickFile(fileSeq) {
-                window.location.href = this.getExternalServerUrl + "/api/blogs/" + this.blog.seq + "/files/" + fileSeq
+                window.location.href = process.env.externalServerUrl + "/api/blogs/" + this.blog.seq + "/files/" + fileSeq
             },
 
             formatFilesize(value) {
@@ -264,7 +271,7 @@
             }
 
             #files {
-                .file{
+                .file {
                     padding-left: 5%;
                     padding-right: 5%;
                 }

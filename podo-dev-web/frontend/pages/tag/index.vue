@@ -43,10 +43,14 @@
         name: 'TagList',
         head() {
             return {
-                title: "podo-dev, tag",
+                title: process.env.name + " :  tag",
                 meta: [
-                    {property: 'og:description', content: "podo-dev, tag"},
+                    { property: 'og:description', content: "podo-dev, tag"},
+                ],
+                link: [
+                    {rel: 'canonical', href: process.env.frontendUrl + "/tag"},
                 ]
+
             }
         },
         data() {
@@ -55,9 +59,9 @@
             }
         },
         asyncData({$axios, store}) {
-            let baseUrl = ''
+            let baseUrl = process.env.externalServerUrl
             if (process.server) {
-                baseUrl = store.state.config.internalServerUrl
+                baseUrl = process.env.internalServerUrl
             }
 
             return $axios

@@ -20,6 +20,7 @@
         "filesize": "^4.1.2",
         "nuxt": "^2.9.2",
         "nuxt-mq": "^2.0.0",
+        "redirect-ssl": "^1.4.1",
         "vue-directive-tooltip": "^1.6.2",
         "vue-router": "^3.0.7",
         "vue-scrollto": "^2.15.0"

@@ -6,5 +6,5 @@ import java.util.List;
 
 @Repository
 public interface TagRepositoryCustom {
-    List<String> findDistinctTagValue();
+    List<String> findDistinctTagValueInBlogIds(List<Long> blogIds);
 }

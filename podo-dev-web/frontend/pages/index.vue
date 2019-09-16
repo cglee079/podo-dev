@@ -11,7 +11,10 @@
             return {
                 title: "podo-dev",
                 meta: [
-                    {hid:"og:description", property: 'og:description', content: "podo-dev, blogs"},
+                    {hid: "og:description", property: 'og:description', content: "podo-dev, blogs"},
+                ],
+                link: [
+                    {rel: 'canonical', href: process.env.frontendUrl},
                 ]
             }
         },

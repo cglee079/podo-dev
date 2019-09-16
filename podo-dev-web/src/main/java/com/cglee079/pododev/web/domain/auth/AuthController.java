@@ -5,9 +5,7 @@ import com.cglee079.pododev.core.global.response.ApiStatus;
 import com.cglee079.pododev.core.global.response.DataResponse;
 import com.cglee079.pododev.core.global.response.StatusResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +17,21 @@ public class AuthController {
 
     private final AuthService authService;
 
+    @ResponseBody
+    @GetMapping("/api/login-enabled")
+    public ApiResponse loginGoogle(HttpServletRequest request) throws IOException {
+        final String userAgent = request.getHeader("User-Agent");
+
+        boolean result = true;
+        if (userAgent.contains("KAKAOTALK")) {
+            result = false;
+        }
+
+        return DataResponse.builder()
+                .status(ApiStatus.SUCCESS)
+                .data(result)
+                .build();
+    }
 
     @GetMapping("/login/google")
     public void loginGoogle(HttpServletResponse response) throws IOException {

@@ -1,8 +1,10 @@
 package com.cglee079.pododev.web.domain.blog.tag;
 
+import com.cglee079.pododev.web.domain.blog.BlogService;
 import com.cglee079.pododev.web.global.util.ChosungUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,15 +13,21 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Slf4j
-@RequiredArgsConstructor
 @Transactional
 @Service
 public class TagService {
 
-    public final TagRepository tagRepository;
+    private final BlogService blogService;
+    private final TagRepository tagRepository;
+
+    public TagService(@Lazy BlogService blogService, TagRepository tagRepository) {
+        this.blogService = blogService;
+        this.tagRepository = tagRepository;
+    }
 
     public Map<String, Set<String>> valuesByChosungMap() {
-        List<String> values = tagRepository.findDistinctTagValue();
+        List<Long> blogIds = blogService.findEnabledIds();
+        List<String> values = tagRepository.findDistinctTagValueInBlogIds(blogIds);
 
         return mapByChosung(values);
     }

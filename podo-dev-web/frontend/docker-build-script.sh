@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-cd /volume1/homes/cglee079/docker-build/podo-dev-nuxt
-docker stop podo-dev-nuxt
-docker rm podo-dev-nuxt
-docker rmi podo-dev-nuxt:1.0 --force
-docker build --tag podo-dev-nuxt:1.0 .
-docker run --name podo-dev-nuxt -p 20080:3000 -v /volume1/docker/podo-dev/podo-dev-nuxt/static:/app/static podo-dev-nuxt:1.0
+cd /volume1/homes/cglee079/docker-build/podo-dev-frontend
+docker stop podo-dev-frontend
+docker rm podo-dev-frontend
+docker rmi podo-dev-frontend:1.0 --force
+docker build --tag podo-dev-frontend:1.0 .
+docker run --name podo-dev-frontend -p 20080:3000 -v /volume1/docker/podo-dev/podo-dev-frontend/static:/app/static podo-dev-frontend:1.0
 

@@ -7,20 +7,20 @@
         </div>
 
         <the-nav-desktop
-                id="theNavDesktop"
-                ref="theNavDesktop"
-                :user="getUser"
-                :isLogin="isLogin"
-                @login="login"
-                @logout="clickLogout"
+            id="theNavDesktop"
+            ref="theNavDesktop"
+            :user="getUser"
+            :isLogin="isLogin"
+            @login="login"
+            @logout="clickLogout"
         />
 
         <the-nav-mobile
-                id="theNavMobile"
-                :isAdmin="isAdmin"
-                :isLogin="isLogin"
-                @login="login"
-                @logout="clickLogout"
+            id="theNavMobile"
+            :isAdmin="isAdmin"
+            :isLogin="isLogin"
+            @login="login"
+            @logout="clickLogout"
         />
     </div>
 
@@ -42,7 +42,6 @@
                 isAdmin: 'user/isAdmin',
                 isLogin: 'user/isLogin',
                 getUser: 'user/getUser',
-                getExternalServerUrl: 'config/getExternalServerUrl'
             })
         },
         methods: {
@@ -59,7 +58,19 @@
                 })
             },
             login() {
-                window.location.href = this.getExternalServerUrl + "/login/google"
+                this.$axios.$get('/api/login-enabled')
+                    .then(res => {
+                        const result = res.data
+                        if (result) {
+                            window.location.href = process.env.externalServerUrl + "/login/google"
+                        } else {
+                            this.$toast.show("다른 브라우저로 로그인해주세요")
+                        }
+                    })
+                    .catch(err => {
+
+                    })
+
             }
         },
     }

@@ -58,9 +58,13 @@
 
         head() {
             return {
-                title: "podo's resume",
+                title: process.env.name + " : resume",
                 meta: [
+                    {hid: "description", name: 'description', content: "podo's resume"},
                     {property: 'og:description', content: "podo's resume"},
+                ],
+                link: [
+                    {rel: 'canonical', href: process.env.frontendUrl + "/resume"},
                 ]
             }
         },
@@ -74,9 +78,9 @@
 
         async asyncData({$axios, store}) {
 
-            let baseUrl = ''
+            let baseUrl = process.env.externalServerUrl
             if (process.server) {
-                baseUrl = store.state.config.internalServerUrl
+                baseUrl = process.env.internalServerUrl
             }
 
             const items = await $axios.$get(baseUrl + '/api/resumes')
