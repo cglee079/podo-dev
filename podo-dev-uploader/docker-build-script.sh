@@ -1,4 +1,4 @@
-cd /volume1/homes/cglee079/docker-build/podo-dev-uploader
+cd /volume1/docker-build/podo-dev-uploader
 docker stop podo-dev-uploader
 docker rm podo-dev-uploader
 docker rmi podo-dev-uploader:1.0

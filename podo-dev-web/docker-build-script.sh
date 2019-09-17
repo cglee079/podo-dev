@@ -1,4 +1,4 @@
-cd /volume1/homes/cglee079/docker-build/podo-dev-backend
+cd /volume1/homes/docker-build/podo-dev-backend
 docker stop podo-dev-backend
 docker rm podo-dev-backend
 docker rmi podo-dev-backend:1.0
