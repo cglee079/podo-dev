@@ -10,7 +10,7 @@ public class SitemapMakeScheduler {
 
     private final SitemapWorker sitemapWorker;
 
-    @Scheduled(cron = "0 0 0 0/1 * *")
+    @Scheduled(cron = "0 50 23 0/1 * *")
     public void doSchedule() {
         sitemapWorker.work();
     }

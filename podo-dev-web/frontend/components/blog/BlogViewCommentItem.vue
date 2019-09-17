@@ -37,7 +37,7 @@
 </template>
 
 <script>
-    import BlogViewCommentWrite from "./BlogViewCommentWrite";
+    import BlogViewCommentWrite from "./BlogViewCommentWrite"
 
     export default {
         name: "BlogViewCommentItem",

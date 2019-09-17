@@ -105,12 +105,12 @@
             },
 
             onMobileMenu() {
-                this.onExport();
+                this.onExport()
                 this.$refs.mobileNavs.classList.add("on")
             },
 
             offMobileMenu() {
-                this.offExport();
+                this.offExport()
                 this.$refs.mobileNavs.classList.remove("on")
             },
 

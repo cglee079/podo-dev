@@ -11,9 +11,9 @@
 
 <script>
     import {mapActions, mapGetters} from 'vuex'
-    import TheFooter from "../components/TheFooter";
-    import TheTopButton from "../components/TheTopButton";
-    import TheNav from "../components/TheNav";
+    import TheFooter from "../components/TheFooter"
+    import TheTopButton from "../components/TheTopButton"
+    import TheNav from "../components/TheNav"
 
     export default {
         name: 'App',
@@ -81,6 +81,8 @@
         }
     }
 </style>
+
+
 <style lang="scss">
     :root {
         --nav-height: 65px;

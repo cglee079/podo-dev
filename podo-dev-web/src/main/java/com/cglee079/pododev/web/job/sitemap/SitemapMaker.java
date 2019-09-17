@@ -24,7 +24,7 @@ public class SitemapMaker {
     @Value("${local.static.dir}")
     private String siteMapDirPath;
 
-    public final BlogService blogService;
+    private final BlogService blogService;
 
     public String makeUrl(String path) {
         return PathUtil.merge(PODO_DEV_WEB, path);

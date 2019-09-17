@@ -53,7 +53,7 @@ module.exports = {
         {src: '~plugins/toast-editor.js'}
     ],
 
-    loading: {color: '#d0c0d9'},
+    loading: {color: '#ec5621'},
 
     modules: [
         '@tui-nuxt/editor',

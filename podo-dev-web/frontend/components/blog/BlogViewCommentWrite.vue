@@ -1,5 +1,5 @@
 <template>
-    <div id="write" :class="$mq">
+    <div id="write" ref="write" :class="$mq" @click="clickWrite">
         <textarea id="contents" :placeholder="write.placeholder" v-model="input.contents" :disabled="!isLogin"/>
         <div id="sub">
             <div id="user">
@@ -13,12 +13,12 @@
 </template>
 
 <script>
-    import {mapGetters} from 'vuex'
+    import {mapGetters, mapActions} from 'vuex'
 
     export default {
         name: "BlogViewCommentWrite",
         props: {
-            index : Number,
+            index: Number,
             blogSeq: Number,
             parentSeq: Number,
             placeholder: String,
@@ -42,6 +42,10 @@
             })
         },
         methods: {
+            ...mapActions({
+                login: 'user/login'
+            }),
+
             clickCommentPost() {
                 if (!this.isLogin) {
                     return
@@ -69,6 +73,12 @@
                     this.input.username = this.getUser.name
                     this.write.placeholder = this.placeholder
                 }
+            },
+
+            clickWrite() {
+                if (!this.isLogin) {
+                    this.login()
+                }
             }
         },
 
@@ -84,7 +94,7 @@
     }
 </script>
 
-<style lang="scss" scoped >
+<style lang="scss" scoped>
 
     /*** Comment Write ****/
     #write {

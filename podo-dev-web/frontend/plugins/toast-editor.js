@@ -3,7 +3,7 @@
 // import 'codemirror/lib/codemirror.css'
 // import 'highlight.js/styles/github.css'
 
-import Vue from "vue";
-import ToastCustomViewer from "../components/global/ToastCustomViewer";
+import Vue from "vue"
+import ToastCustomViewer from "../components/global/ToastCustomViewer"
 
 Vue.component('toast-custom-viewer', ToastCustomViewer)

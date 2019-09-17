@@ -237,7 +237,12 @@
 
                     .then(res => {
                         this.offProgress()
-                        this.$router.push({name: 'index'})
+                        this.$router.push({
+                            name: 'blogs-seq',
+                            params: {
+                                seq: this.seq
+                            }
+                        });
                     })
                     .catch(err => {
                         this.offProgress()

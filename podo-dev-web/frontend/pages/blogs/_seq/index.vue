@@ -137,7 +137,8 @@
         data() {
             return {
                 meta: {},
-                blog: {}
+                blog: {},
+                link: {}
             }
         },
 

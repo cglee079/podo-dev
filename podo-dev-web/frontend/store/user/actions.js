@@ -1,4 +1,18 @@
 export default {
+    login() {
+        this.$axios.$get('/api/login-enabled')
+            .then(res => {
+                const result = res.data
+                if (result) {
+                    window.location.href = process.env.externalServerUrl + "/login/google"
+                } else {
+                    this.$toast.show("다른 브라우저로 로그인해주세요")
+                }
+            })
+            .catch(err => {
+
+            })
+    },
     /**
      * 로그아웃
      * @param commit
@@ -51,6 +65,5 @@ export default {
                 })
 
         }
-
     }
 }

@@ -13,10 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -57,7 +54,7 @@ public class PodoSolrClient {
         param.put("hl.simple.post", hlPostfix);
 
         try {
-            final QueryResponse response = solrSender.query(coreId, param);
+            final QueryResponse response = solrSender.queryMap(coreId, param);
             final List<SolrResponse> results = response.getBeans(SolrResponse.class);
             final Map<String, Map<String, List<String>>> highlights = response.getHighlighting();
 
@@ -105,17 +102,27 @@ public class PodoSolrClient {
     public List<String> getFacets(String value) {
         log.info("Solr facets, value '{}'", value);
 
-        final Map<String, String> param = new HashMap<>();
-        param.put("q", "");
-        param.put("facet", "on");
-        param.put("facet.field", "contents");
-        param.put("facet.prefix", value.toLowerCase());
+        final Map<String, String[]> param = new HashMap<>();
+        param.put("q", new String[]{""});
+        param.put("facet", new String[]{"on"});
+        param.put("facet.field", new String[]{"title", "contents"});
+        param.put("facet.prefix", new String[]{value.toLowerCase()});
 
         try {
-            QueryResponse response = solrSender.query(coreId, param);
-            List<FacetField.Count> counts = response.getFacetFields().get(0).getValues(); // CONTENTS
+            QueryResponse response = solrSender.queryMultiMap(coreId, param);
+            System.out.println(response);
+            List<FacetField.Count> titleFacet = response.getFacetFields().get(0).getValues(); // TITLE
+            List<FacetField.Count> contentFacet = response.getFacetFields().get(1).getValues(); // CONTENTS
 
-            return counts.stream().map(FacetField.Count::getName).collect(Collectors.toList());
+            List<String> value1 = titleFacet.stream().map(FacetField.Count::getName).collect(Collectors.toList());
+            List<String> value2 = contentFacet.stream().map(FacetField.Count::getName).collect(Collectors.toList());
+
+            Set<String> result = new HashSet<>();
+            result.addAll(value1);
+            result.addAll(value2);
+
+            return result.stream().sorted().collect(Collectors.toList());
+
         } catch (SolrServerException | IOException e) {
             throw new SolrSendException(e);
         }
@@ -131,7 +138,7 @@ public class PodoSolrClient {
         param.put("commit", "true");
 
         try {
-            solrSender.query(coreId, param);
+            solrSender.queryMap(coreId, param);
         } catch (SolrServerException | IOException e) {
             throw new SolrSendException(e);
         }

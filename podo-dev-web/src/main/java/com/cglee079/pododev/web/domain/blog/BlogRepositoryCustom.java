@@ -5,6 +5,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -13,4 +15,5 @@ public interface BlogRepositoryCustom {
     Blog findBefore(Long seq);
     Page<Blog> paging(Pageable pageable, List<Long> seqs, Boolean enabled);
     List<Long> findEnabledIds();
+    Boolean existUpdated(LocalDate day);
 }

@@ -19,8 +19,9 @@ public class SolrDataImportAspect {
     private final PodoSolrClient podoSolrClient;
 
     @AfterReturning("@annotation(com.cglee079.pododev.web.domain.blog.aop.SolrDataImport)")
-    public void solrDoIndex(JoinPoint joinPoint) {
+    public void doDataimport(JoinPoint joinPoint) {
         log.info("AOP, Solr Data Import By '{}'", joinPoint.getSignature().getName());
+
         podoSolrClient.dataimport();
     }
 }

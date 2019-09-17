@@ -183,5 +183,5 @@ infra:
       domain: https://upload.podo-dev.com
 
   solr:
-    url: http://solr.podo-dev.com
+    url: http://solr.podo-dev.com/solr
 

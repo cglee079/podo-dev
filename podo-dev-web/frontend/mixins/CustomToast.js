@@ -22,7 +22,7 @@ export default {
                                 if (callbackNo) {
                                     callbackNo()
                                 }
-                                toastObject.goAway(0);
+                                toastObject.goAway(0)
                             }
                         },
                         {
@@ -31,7 +31,7 @@ export default {
                                 if (callbackOk) {
                                     callbackOk()
                                 }
-                                toastObject.goAway(0);
+                                toastObject.goAway(0)
                             }
                         }
                     ]

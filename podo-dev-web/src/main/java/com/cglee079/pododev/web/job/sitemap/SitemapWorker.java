@@ -1,5 +1,6 @@
 package com.cglee079.pododev.web.job.sitemap;
 
+import com.cglee079.pododev.web.domain.blog.BlogService;
 import com.cglee079.pododev.web.global.util.HttpUrlUtil;
 import com.cglee079.pododev.web.global.util.PathUtil;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
+import java.time.LocalDate;
 
 
 /**
@@ -29,6 +31,7 @@ public class SitemapWorker {
     @Value("${local.static.url}")
     private String siteMapDirUrl;
 
+    private final BlogService blogService;
     private final SitemapMaker sitemapMaker;
     private final SitemapSender sitemapSender;
 
@@ -38,10 +41,16 @@ public class SitemapWorker {
     public void work() {
         log.info("Start Work Sitemap");
 
+        if (!blogService.existUpdated(LocalDate.now())) {
+            log.info("No Updated Blogs ");
+            return;
+        }
+
+        log.info("Detect Updated Blog ");
+
         sitemapMaker.makeSitemap();
 
-        String siteMapUrl = PathUtil.merge(PODO_DEV_SERVER, siteMapDirUrl, "sitemap.xml");;
-
+        final String siteMapUrl = PathUtil.merge(PODO_DEV_SERVER, siteMapDirUrl, "sitemap.xml");
         sitemapSender.sendRequest(GOOGLE + siteMapUrl);
     }
 

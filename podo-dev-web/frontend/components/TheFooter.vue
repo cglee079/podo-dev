@@ -21,8 +21,11 @@
         </div>
 
         <div id="copyright">
-<!--            <div>License</div>-->
-            <div>Copyrightⓒ2018 Podo</div>
+
+            <div>
+                <a>Copyrightⓒ2019 Podo</a>,
+                <router-link :to="{name : 'license'}">License</router-link>
+            </div>
         </div>
     </div>
 </template>

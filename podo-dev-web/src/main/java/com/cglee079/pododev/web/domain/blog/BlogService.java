@@ -26,6 +26,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -199,4 +201,7 @@ public class BlogService {
         return blogRepository.findEnabledIds();
     }
 
+    public Boolean existUpdated(LocalDate day) {
+        return blogRepository.existUpdated(day);
+    }
 }

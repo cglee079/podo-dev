@@ -33,7 +33,6 @@
                 const files = event.target.files
 
                 this.uploadFile(files, 0, files.length - 1)
-
             },
 
             uploadFile(files, i, until) {

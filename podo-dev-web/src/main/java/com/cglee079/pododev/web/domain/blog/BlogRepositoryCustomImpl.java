@@ -1,6 +1,8 @@
 package com.cglee079.pododev.web.domain.blog;
 
 import com.cglee079.pododev.web.domain.blog.comment.QComment;
+import com.querydsl.core.types.dsl.DateTemplate;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
@@ -8,6 +10,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -67,5 +71,14 @@ public class BlogRepositoryCustomImpl extends QuerydslRepositorySupport implemen
                 .from(blog)
                 .where(blog.enabled.eq(true))
                 .fetch();
+    }
+
+    @Override
+    public Boolean existUpdated(LocalDate time) {
+
+        return this.queryFactory.select(blog.seq)
+                .from(blog)
+                .where(blog.updateAt.between(time.atStartOfDay(), time.plusDays(1).atStartOfDay()))
+                .fetchCount() != 0;
     }
 }

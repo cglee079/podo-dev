@@ -1,12 +1,11 @@
 <template>
-    <div class="blog-row"
-         :class="[blog.enabled ? '':'disabled', $mq]"
-         @click="viewBlog(blog.seq)"
+    <router-link class="blog-row"
+                 :class="[blog.enabled ? '':'disabled', $mq]"
+                 :to="{name: 'blogs-seq', params: {'seq': blog.seq}}"
     >
 
         <div v-if="blog.thumbnail != null"
              class="wrap-thumbnail"
-             @click="viewBlog(blog.seq)"
         >
             <img class="thumbnail"
                  :src="blog.thumbnail"/>
@@ -38,7 +37,7 @@
             </div>
 
         </div>
-    </div>
+    </router-link>
 </template>
 
 <script>
@@ -58,15 +57,6 @@
                 this.$router.push({name: 'index', query: {tag: val}})
             },
 
-            viewBlog(seq) {
-
-                this.$router.push({
-                    name: 'blogs-seq',
-                    params: {
-                        'seq': seq
-                    }
-                })
-            }
         }
     }
 </script>
@@ -131,6 +121,8 @@
             align-items: center;
 
             img.thumbnail {
+                border-radius: 5px;
+                overflow: hidden;
                 height: $desktop-content-height;
             }
         }
@@ -167,13 +159,13 @@
 
             .info {
                 display: flex;
-                align-items: flex-end;
+                align-items: center;
                 justify-content: space-between;
                 color: #9199a4;
                 font-size: 0.9rem;
 
                 .tags {
-                    max-width: 40%;
+                    flex: 1;
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;

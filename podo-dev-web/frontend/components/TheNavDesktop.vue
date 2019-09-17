@@ -1,8 +1,8 @@
 <template>
     <div>
         <div id="navMenus">
-            <span><router-link :to="{name : 'resume',}">이력</router-link></span>
-            <span><router-link :to="{name : 'index',}">블로그</router-link></span>
+            <span><router-link :to="{name : 'resume'}">이력</router-link></span>
+            <span><router-link :to="{name : 'index'}">블로그</router-link></span>
             <span><router-link :to="{name : 'tag'}">태그</router-link></span>
             <span v-if="user.isAdmin && isLogin"><router-link :to="{name : 'blogs-post'}">글쓰기</router-link></span>
         </div>

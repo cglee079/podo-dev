@@ -18,6 +18,7 @@ import java.net.URLEncoder;
 @Controller
 @RequestMapping
 public class AttachFileDownloadController {
+
     public static final String TEMP_DIRECTORY = "temp";
 
     private final AttachFileService attachFileService;
