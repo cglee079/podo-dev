@@ -1,18 +1,11 @@
 package com.cglee079.pododev.web.job.sitemap;
 
 import com.cglee079.pododev.web.domain.blog.BlogService;
-import com.cglee079.pododev.web.global.util.HttpUrlUtil;
-import com.cglee079.pododev.web.global.util.PathUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.PostConstruct;
-import java.io.File;
 import java.time.LocalDate;
 
 
@@ -26,7 +19,7 @@ import java.time.LocalDate;
 public class SitemapWorker {
 
     public static final String GOOGLE = "http://www.google.com/ping?sitemap=";
-    public static final String PODO_DEV_SERVER = "https://server.podo-dev.com";
+    public static final String PODO_DEV_FRONT_SITEMAP = "https://www.podo-dev.com/sitemap.xml";
 
     @Value("${local.static.url}")
     private String siteMapDirUrl;
@@ -50,8 +43,7 @@ public class SitemapWorker {
 
         sitemapMaker.makeSitemap();
 
-        final String siteMapUrl = PathUtil.merge(PODO_DEV_SERVER, siteMapDirUrl, "sitemap.xml");
-        sitemapSender.sendRequest(GOOGLE + siteMapUrl);
+        sitemapSender.sendRequest(GOOGLE + PODO_DEV_FRONT_SITEMAP);
     }
 
 }

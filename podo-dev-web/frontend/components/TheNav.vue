@@ -9,7 +9,7 @@
         <the-nav-desktop
             id="theNavDesktop"
             ref="theNavDesktop"
-            :user="getUser"
+            :userinfo="getUserinfo"
             :isLogin="isLogin"
             @login="login"
             @logout="clickLogout"
@@ -41,7 +41,7 @@
             ...mapGetters({
                 isAdmin: 'user/isAdmin',
                 isLogin: 'user/isLogin',
-                getUser: 'user/getUser',
+                getUserinfo: 'user/getUserinfo',
             })
         },
         methods: {

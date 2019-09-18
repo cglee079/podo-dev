@@ -29,7 +29,8 @@
             <span v-if="isAdmin && isLogin" @click="clickModifyBlog(blog.seq)">수정</span>
             <span v-if="isAdmin && isLogin" @click="clickDeleteBlog(blog.seq)">삭제</span>
             <span @click="clickExport()">공유하기</span>
-            <span><router-link :to="{name : 'index'}">목록</router-link></span>
+            <span><router-link
+                :to="{name : 'index', query : { search: filter.search, tag : filter.tag}}">목록</router-link></span>
             <span @click="clickBefore()">이전글</span>
             <span @click="clickNext()">다음글</span>
         </div>
@@ -86,14 +87,15 @@
                     {hid: "og:title", property: 'og:title', content: this.meta.title},
                     {hid: "og:description", property: 'og:description', content: this.meta.description},
                     {hid: "og:image", property: 'og:image', content: this.meta.thumbnail},
+                    {hid: "og:url", property: 'og:url', content: this.meta.url},
                 ],
                 link: [
-                    {rel: 'canonical', href: this.link.canonical},
+                    {rel: 'canonical', href: this.meta.url},
                 ]
             }
         },
 
-        asyncData({$axios, store, params}) {
+        asyncData({$axios, error, params}) {
             const seq = params.seq
 
             let baseUrl = process.env.externalServerUrl
@@ -109,11 +111,8 @@
                         return tag.val
                     })
 
-                    const link = {
-                        canonical: process.env.frontendUrl + "/blogs/" + blog.seq
-                    }
-
                     const meta = {
+                        url: process.env.frontendUrl + "/blogs/" + blog.seq,
                         title: process.env.name + " : " + blog.title,
                         keywords: keywords.join(", "),
                         date: blog.createAt,
@@ -124,12 +123,14 @@
                     return {
                         blog,
                         meta,
-                        link
                     }
 
                 })
                 .catch(err => {
                     console.log(err)
+                    error({
+                        statusCode: 404
+                    })
                 })
         },
 
@@ -138,7 +139,7 @@
             return {
                 meta: {},
                 blog: {},
-                link: {}
+                filter: {}
             }
         },
 
@@ -198,6 +199,7 @@
 
             clickNext() {
                 const seq = this.blog.next
+                console.log(seq)
                 if (!seq) {
                     this.$toast.show("다음글이 없습니다")
                     return
@@ -226,11 +228,8 @@
         },
 
         mounted() {
-            if (Object.keys(this.blog).length === 0) {
-                this.$toast.show("유효하지 않은 블로그입니다")
-                this.$router.push({name: 'index'})
-                return
-            }
+            this.filter.search = this.$route.query.search
+            this.filter.tag = this.$route.query.tag
 
             const seq = this.blog.seq
             const HIT_BLOGS = 'HIT_BLOGS'

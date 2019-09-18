@@ -1,6 +1,6 @@
 export default () => ({
     isLogin: false,
-    user: {
+    userinfo: {
         name: '',
         email: '',
         picture: '',

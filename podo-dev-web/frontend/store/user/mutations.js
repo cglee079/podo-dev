@@ -1,16 +1,16 @@
 export default {
     doLogin(state, user) {
         state.isLogin = true
-        state.user.name = user.name
-        state.user.email = user.email
-        state.user.picture = user.picture
-        state.user.isAdmin = user.isAdmin
+        state.userinfo.name = user.name
+        state.userinfo.email = user.email
+        state.userinfo.picture = user.picture
+        state.userinfo.isAdmin = user.isAdmin
     },
     doLogout(state) {
         state.isLogin = false
-        state.user.name = ''
-        state.user.email = ''
-        state.user.picture = ''
-        state.user.isAdmin = false
+        state.userinfo.name = ''
+        state.userinfo.email = ''
+        state.userinfo.picture = ''
+        state.userinfo.isAdmin = false
     }
 }

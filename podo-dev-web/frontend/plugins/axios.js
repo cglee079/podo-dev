@@ -1,6 +1,6 @@
-export default ({$axios, redirect, app, store}) => {
+export default ({$axios, redirect, app}) => {
 
-    $axios.defaults.timeout = 5000
+    $axios.defaults.timeout = 2000
 
     $axios.interceptors.response.use(
 

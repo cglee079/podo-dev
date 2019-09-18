@@ -2,7 +2,7 @@
 server:
   port: 28443
   http:
-    port : 28080
+    port: 28080
   ssl:
     key-store: classpath:keystore.p12
     key-store-password: s12345
@@ -19,8 +19,8 @@ logging:
 
 spring:
   profiles:
-#    include: core, external
-      include: core, deploy
+    include: core, external
+  #    include: core, deploy
 
   # Data Resource
   datasource:
@@ -80,13 +80,11 @@ infra:
   ## Uploader Config
   uploader:
     token: mciGpOzzSvncQJ5IFEUNVODRyVkgL1kD
-    domain:
-      internal: http://192.168.219.103:38080 # Loopback
-      external : https://upload.podo-dev.com
     upload:
-      subpath: /api/uploader/file
+      internal: http://192.168.219.103:38080/api/uploader/file # Loopback
+      external: https://upload.podo-dev.com/api/uploader/file
     frontend:
-      subpath: /uploaded
+      external: https://file.podo-dev.com
 
 
   ## Telegram Config
@@ -136,7 +134,7 @@ security:
   oauth2:
     admin:
       ids: 116440278738014640765, 116491882380204991899
-    redirect: https://www.podo-dev.com
+    redirect: http://localhost:3000
 
 
 ---
@@ -178,9 +176,13 @@ spring:
     url: jdbc:mysql://125.186.242.83:8088/podo_dev?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
 
 infra:
+  ## Uploader Config
   uploader:
     upload:
-      domain: https://upload.podo-dev.com
+      internal: https://upload.podo-dev.com/api/uploader/file
+      external: https://upload.podo-dev.com/api/uploader/file
+    frontend:
+      external: https://file.podo-dev.com
 
   solr:
     url: http://solr.podo-dev.com/solr

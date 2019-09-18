@@ -12,13 +12,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 import java.io.File;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 
 @Slf4j
 @Component
@@ -27,14 +21,13 @@ public class PodoUploaderClient {
     @Value("${infra.uploader.token}")
     private String token;
 
-    @Value("${infra.uploader.domain.internal}")
+    @Value("${infra.uploader.upload.internal}")
     private String serverUrl;
 
-    @Value("${infra.uploader.upload.subpath}")
-    private String subpath;
 
     /**
      * Upload to Uploader Server
+     *
      * @param path
      * @param file
      */
@@ -53,16 +46,17 @@ public class PodoUploaderClient {
 
         RestTemplate restTemplate = new RestTemplate();
         try {
-            ResponseEntity<String> response = restTemplate.exchange(serverUrl + subpath, HttpMethod.POST, request, String.class);
+            ResponseEntity<String> response = restTemplate.exchange(serverUrl, HttpMethod.POST, request, String.class);
             log.info("Upload Response '{}'", response.toString());
         } catch (HttpClientErrorException e) {
-             e.printStackTrace();
+            e.printStackTrace();
             throw new UploadFailException();
         }
     }
 
     /**
      * Delete to Uploader Server
+     *
      * @param path
      * @param filename
      */
@@ -80,7 +74,7 @@ public class PodoUploaderClient {
         HttpEntity<String> request = new HttpEntity<>(object.toString(), headers);
 
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange(serverUrl + subpath, HttpMethod.DELETE, request, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(serverUrl, HttpMethod.DELETE, request, String.class);
 
         log.info("Delete Response '{}'", response.toString());
 

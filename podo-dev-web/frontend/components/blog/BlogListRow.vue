@@ -1,7 +1,7 @@
 <template>
     <router-link class="blog-row"
                  :class="[blog.enabled ? '':'disabled', $mq]"
-                 :to="{name: 'blogs-seq', params: {'seq': blog.seq}}"
+                 :to="{name: 'blogs-seq', params: {seq: blog.seq}, query : { search: filter.search, tag : filter.tag}}"
     >
 
         <div v-if="blog.thumbnail != null"
@@ -20,7 +20,7 @@
                 <div class="tags">
                     <span v-for="(tag, index) in blog.tags"
                           v-bind:key=index
-                          @click.stop="clickTag(tag.val)"
+                          @click.stop.prevent="clickTag(tag.val)"
                           class="tag"
                           :class="tag.val === filter.tag ? 'on' : ''"
                     >
@@ -29,7 +29,12 @@
                 </div>
                 <div class="subinfo">
                     <span>{{blog.createAt}}</span>
-                    <span class="comment">
+                    <span class="hit-count">
+                        <img src="@/assets/icons/icon-hit-count.svg"/>
+                        <span>{{blog.hitCnt}}</span>
+                    </span>
+
+                    <span class="comment-count">
                         <img src="@/assets/icons/icon-comment2.svg"/>
                         <span>{{blog.commentCnt}}</span>
                     </span>
@@ -186,9 +191,21 @@
 
                     > span {
                         padding: 2px 5px;
-                        margin-left: 5px;
+                        margin-left: 3px;
 
-                        &.comment {
+                        &.hit-count {
+                            display: none;
+                            align-items: center;
+
+                            img {
+                                width: 14px;
+                                margin-top: 1px;
+                                margin-right: 5px;
+                                opacity: 0.4;
+                            }
+                        }
+
+                        &.comment-count {
                             display: flex;
                             align-items: center;
 

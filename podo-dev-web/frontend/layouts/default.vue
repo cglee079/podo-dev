@@ -16,8 +16,6 @@
     import TheNav from "../components/TheNav"
 
     export default {
-        name: 'App',
-        layout: 'blog',
         metaInfo: {
             title: 'podo-dev',
             htmlAttrs: {
@@ -73,7 +71,7 @@
     #main {
         margin: 50px auto 150px auto;
         max-width: 960px;
-        min-height: 100vh;
+        min-height: 70vh;
 
         &.mobile {
             margin: 20px auto 150px auto;

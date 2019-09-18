@@ -1,5 +1,5 @@
 <template>
-    <div id="wrap">
+    <div id="wrap" :class="$mq">
 
         <div>
             <h1>Apache License 2.0</h1>
@@ -215,7 +215,7 @@ limitations under the License.
             <pre>
 The MIT License
 
-Copyright (c) 2019 Podo
+Copyright (c) &lt;year&gt; &lt;copyright holders&gt;
 
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -242,7 +242,20 @@ THE SOFTWARE.
 
 <script>
     export default {
-        name: "index.vue"
+        name: "license",
+
+        head() {
+            return {
+                title: process.env.name + " : license",
+                meta: [
+                    {hid: "description", name: 'description', content: "podo-dev, license"},
+                    {property: 'og:description', content: "podo-dev, license"},
+                ],
+                link: [
+                    {rel: 'canonical', href: process.env.frontendUrl + "/license"},
+                ]
+            }
+        },
     }
 </script>
 
@@ -253,20 +266,28 @@ THE SOFTWARE.
         flex-flow: column;
         align-items: center;
 
+        &.mobile, &.tablet{
+            padding-left: 5%;
+            padding-right: 5%;
+        }
+
         > div {
-            padding: 30px 100px;
+            padding: 30px 5%;
             background: #F7F7F7;
             border-radius: 5px;
             margin-bottom: 20px;
+            overflow: auto;
+
 
             h1 {
                 text-align: center;
-                margin-bottom: 10px;
+                margin-bottom: 20px;
             }
 
             pre {
                 display: inline-block;
-                margin: 0 auto;
+                word-break: break-all;
+                white-space: pre-line;
             }
         }
     }

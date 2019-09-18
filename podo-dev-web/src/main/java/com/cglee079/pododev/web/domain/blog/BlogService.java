@@ -43,7 +43,7 @@ public class BlogService {
     @Value("${local.upload.base.url}")
     private String baseUrl;
 
-    @Value("${infra.uploader.domain.external}${infra.uploader.frontend.subpath}")
+    @Value("${infra.uploader.frontend.external}")
     private String uploaderFrontendUrl;
 
     @Value("${blog.per.page.size}")

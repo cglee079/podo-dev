@@ -1,6 +1,6 @@
-export default ({app, store}) => {
+export default ({app, store: {state}}) => {
     app.router.beforeEach((to, from, next) => {
-        const isAdmin = store.getters['user/isAdmin']
+        const isAdmin = state.user.userinfo.isAdmin
 
         //권한 제어
         if (!isAdmin) {

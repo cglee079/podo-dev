@@ -14,12 +14,6 @@ import java.util.List;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    @Value("${uploader.frontend.subpath}")
-    private String frontendSubpath;
-
-    @Value("${uploader.upload.base.dir}")
-    protected String uploadedLocation;
-
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
@@ -27,15 +21,6 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
 
-    /*
-     * static Resource 핸들링,
-     */
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry
-                .addResourceHandler(frontendSubpath + "/**")
-                .addResourceLocations("file:///" + uploadedLocation + "/");
-    }
 
 
 

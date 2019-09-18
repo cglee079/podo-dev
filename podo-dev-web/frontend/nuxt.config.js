@@ -6,7 +6,8 @@ module.exports = {
     env: {
         frontendUrl: 'https://www.podo-dev.com',
         internalServerUrl: 'http://192.168.219.103:28080',
-        externalServerUrl: 'https://server.podo-dev.com',
+        //externalServerUrl: 'https://server.podo-dev.com',
+        externalServerUrl: 'http://localhost:28080',
         name: 'podo-dev'
     },
 
@@ -35,7 +36,9 @@ module.exports = {
             {hid: "description", name: 'description', content: 'podo-dev'},
             {hid: "og:title", property: 'og:title', content: 'podo-dev'},
             {hid: "og:description", property: 'og:description', content: "podo-dev"},
-            {hid: "og:image", property: 'og:image', content: "/og-image.png"}
+            {hid: "og:image", property: 'og:image', content: "/og-image.png"},
+            {hid: "og:site_name", property: 'og:site_name', content: "podo-dev"},
+            {hid: "og:type", property: 'og:type', content: "article"}
         ],
         link: [
             {rel: 'icon', href: '/favicon.ico?v=2'},
@@ -73,7 +76,8 @@ module.exports = {
     ],
 
     axios: {
-        baseURL: 'https://server.podo-dev.com',
+        //baseURL: 'https://server.podo-dev.com',
+        baseURL: 'http://localhost:28080',
         // baseURL: 'http://192.168.219.103:28080',
         proxyHeaders: false,
         credentials: false

@@ -1,6 +1,6 @@
 export default {
-    getUser(state) {
-        return state.user
+    getUserinfo(state) {
+        return state.userinfo
     },
 
     isLogin(state) {
@@ -8,6 +8,6 @@ export default {
     },
 
     isAdmin(state) {
-        return state.user.isAdmin
+        return state.userinfo.isAdmin
     }
 }

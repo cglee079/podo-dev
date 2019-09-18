@@ -38,10 +38,10 @@ public class AttachFileService {
     @Value("${local.upload.base.dir}")
     private String baseDir;
 
-    @Value("${infra.uploader.domain.internal}${infra.uploader.frontend.subpath}")
+    @Value("${infra.uploader.upload.internal}")
     private String uploaderDownloadUrl;
 
-    @Value("${infra.uploader.domain.external}${infra.uploader.frontend.subpath}")
+    @Value("${infra.uploader.frontend.external}")
     private String uploaderFrontendUrl;
 
 

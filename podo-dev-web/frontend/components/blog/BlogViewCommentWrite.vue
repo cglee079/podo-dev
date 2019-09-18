@@ -38,7 +38,7 @@
         computed: {
             ...mapGetters({
                 isLogin: 'user/isLogin',
-                getUser: 'user/getUser'
+                getUserinfo: 'user/getUserinfo'
             })
         },
         methods: {
@@ -70,7 +70,7 @@
 
             updateInput() {
                 if (this.isLogin) {
-                    this.input.username = this.getUser.name
+                    this.input.username = this.getUserinfo.name
                     this.write.placeholder = this.placeholder
                 }
             },
