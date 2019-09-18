@@ -19,8 +19,8 @@ logging:
 
 spring:
   profiles:
-    include: core, external
-  #    include: core, deploy
+#    include: core, external
+      include: core, deploy
 
   # Data Resource
   datasource:
