@@ -1,8 +1,5 @@
 package com.cglee079.pododev.web.domain.blog;
 
-import com.cglee079.pododev.web.domain.blog.comment.QComment;
-import com.querydsl.core.types.dsl.DateTemplate;
-import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
@@ -11,7 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -40,7 +36,7 @@ public class BlogRepositoryCustomImpl extends QuerydslRepositorySupport implemen
     public Blog findBefore(Long seq) {
         return from(blog)
                 .where(blog.seq.lt(seq))
-                .orderBy(blog.seq.desc())
+                .orderBy(blog.createAt.desc())
                 .limit(1)
                 .fetchOne();
     }

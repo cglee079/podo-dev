@@ -123,6 +123,6 @@ public class AttachFileService {
             throw new InvalidFileException();
         }
 
-        return new AttachFileDto.download(file.get(), uploaderDownloadUrl);
+        return new AttachFileDto.download(file.get(), uploaderFrontendUrl);
     }
 }

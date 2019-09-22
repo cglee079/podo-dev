@@ -56,6 +56,8 @@ public class BlogService {
     private final PodoSolrClient podoSolrClient;
     private final PodoUploaderClient podoUploaderClient;
 
+
+
     public BlogDto.response get(Long seq) {
         Optional<Blog> blog = blogRepository.findById(seq);
 
