@@ -38,11 +38,8 @@ public class AttachFileService {
     @Value("${local.upload.base.dir}")
     private String baseDir;
 
-    @Value("${infra.uploader.upload.internal}")
-    private String uploaderDownloadUrl;
-
-    @Value("${infra.uploader.frontend.external}")
-    private String uploaderFrontendUrl;
+    @Value("${infra.uploader.frontend.internal}")
+    private String uploaderFrontendInternalUrl;
 
 
     /**
@@ -123,6 +120,6 @@ public class AttachFileService {
             throw new InvalidFileException();
         }
 
-        return new AttachFileDto.download(file.get(), uploaderFrontendUrl);
+        return new AttachFileDto.download(file.get(), uploaderFrontendInternalUrl);
     }
 }

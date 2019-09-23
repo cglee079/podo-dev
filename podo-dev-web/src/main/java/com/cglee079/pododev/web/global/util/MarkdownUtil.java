@@ -2,6 +2,7 @@ package com.cglee079.pododev.web.global.util;
 
 import com.github.rjeschke.txtmark.Processor;
 import org.jsoup.Jsoup;
+import org.springframework.util.StringUtils;
 import org.springframework.web.util.HtmlUtils;
 
 public class MarkdownUtil {
@@ -16,6 +17,10 @@ public class MarkdownUtil {
     }
 
     public static String escape(String s) {
+        if (StringUtils.isEmpty(s)) {
+            return "";
+        }
+
         return HtmlUtils.htmlEscape(s);
     }
 

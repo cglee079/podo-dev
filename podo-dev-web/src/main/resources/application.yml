@@ -19,8 +19,8 @@ logging:
 
 spring:
   profiles:
-#    include: core, external
-      include: core, deploy
+    include: core
+#      include: core, deploy
 
   # Data Resource
   datasource:
@@ -84,6 +84,7 @@ infra:
       internal: http://192.168.219.103:38080/api/uploader/file # Loopback
       external: https://upload.podo-dev.com/api/uploader/file
     frontend:
+      internal: http://192.168.219.103:30080
       external: https://file.podo-dev.com
 
 
