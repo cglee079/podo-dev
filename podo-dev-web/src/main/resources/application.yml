@@ -20,7 +20,6 @@ logging:
 spring:
   profiles:
     include: core
-#      include: core, deploy
 
   # Data Resource
   datasource:
@@ -135,7 +134,8 @@ security:
   oauth2:
     admin:
       ids: 116440278738014640765, 116491882380204991899
-    redirect: http://localhost:3000
+#    redirect: http://local host:3000
+    redirect: https://www.podo-dev.com
 
 
 ---
@@ -144,6 +144,11 @@ spring:
   profiles: deploy
   jpa:
     show-sql: false
+
+server:
+  port: 8443
+  http:
+    port: 8080
 
 logging:
   config: classpath:logback-daily.xml

@@ -7,6 +7,7 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.Generated;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -17,9 +18,11 @@ public class QComment extends EntityPathBase<Comment> {
 
     private static final long serialVersionUID = -45471846L;
 
+    private static final PathInits INITS = PathInits.DIRECT2;
+
     public static final QComment comment = new QComment("comment");
 
-    public final NumberPath<Long> blogSeq = createNumber("blogSeq", Long.class);
+    public final com.cglee079.pododev.web.domain.blog.QBlog blog;
 
     public final NumberPath<Long> cgroup = createNumber("cgroup", Long.class);
 
@@ -44,15 +47,24 @@ public class QComment extends EntityPathBase<Comment> {
     public final StringPath username = createString("username");
 
     public QComment(String variable) {
-        super(Comment.class, forVariable(variable));
+        this(Comment.class, forVariable(variable), INITS);
     }
 
     public QComment(Path<? extends Comment> path) {
-        super(path.getType(), path.getMetadata());
+        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
     public QComment(PathMetadata metadata) {
-        super(Comment.class, metadata);
+        this(metadata, PathInits.getFor(metadata, INITS));
+    }
+
+    public QComment(PathMetadata metadata, PathInits inits) {
+        this(Comment.class, metadata, inits);
+    }
+
+    public QComment(Class<? extends Comment> type, PathMetadata metadata, PathInits inits) {
+        super(type, metadata, inits);
+        this.blog = inits.isInitialized("blog") ? new com.cglee079.pododev.web.domain.blog.QBlog(forProperty("blog")) : null;
     }
 
 }

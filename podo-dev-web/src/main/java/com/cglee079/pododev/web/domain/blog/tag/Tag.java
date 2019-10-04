@@ -1,5 +1,6 @@
 package com.cglee079.pododev.web.domain.blog.tag;
 
+import com.cglee079.pododev.web.domain.blog.Blog;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,22 +14,19 @@ import javax.persistence.*;
 @Entity
 public class Tag {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
 
-    @Column(name = "blog_seq")
-    private Long blogSeq;
+    @ManyToOne
+    @JoinColumn(name = "blog_seq")
+    private Blog blog;
 
-    @Column
     private String val;
 
-    @Column
     private Integer idx;
 
     @Builder
-    public Tag(Long blogSeq, String val, Integer idx) {
-        this.blogSeq = blogSeq;
+    public Tag(String val, Integer idx) {
         this.val = val;
         this.idx = idx;
     }
@@ -37,4 +35,8 @@ public class Tag {
         this.idx = i;
     }
 
+    public void changeBlog(Blog blog) {
+        this.blog = blog;
+        blog.addTag(this);
+    }
 }

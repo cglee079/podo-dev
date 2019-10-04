@@ -1,7 +1,6 @@
-package com.cglee079.pododev.web.job.sitemap;
+package com.cglee079.pododev.web.job.maker.sitemap;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;

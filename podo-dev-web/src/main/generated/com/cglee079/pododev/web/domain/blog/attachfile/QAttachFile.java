@@ -19,8 +19,6 @@ public class QAttachFile extends EntityPathBase<AttachFile> {
 
     public static final QAttachFile attachFile = new QAttachFile("attachFile");
 
-    public final NumberPath<Long> blogSeq = createNumber("blogSeq", Long.class);
-
     public final DateTimePath<java.util.Date> createAt = createDateTime("createAt", java.util.Date.class);
 
     public final StringPath filename = createString("filename");

@@ -16,6 +16,7 @@ import lombok.Setter;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -40,13 +41,6 @@ public class BlogDto {
         private List<AttachFileDto.insert> files;
 
         public Blog toEntity() {
-            //Tag To Entity
-            List<Tag> tags = new LinkedList<>();
-            this.tags.forEach(tag -> tags.add(tag.toEntity()));
-            int idx = 1;
-            for (Tag tag : tags) { //Redefine Order
-                tag.updateIdx(idx++);
-            }
 
             //Images to Entity
             List<AttachImage> images = new LinkedList<>();
@@ -84,7 +78,6 @@ public class BlogDto {
                     .enabled(enabled)
                     .images(images)
                     .files(files)
-                    .tags(tags)
                     .build();
         }
     }
@@ -101,10 +94,10 @@ public class BlogDto {
         private Boolean enabled;
 
         @Size(min = 1, message = "태그를 최소 1개를 입력해주세요")
-        private List<TagDto.update> tags;
+        private List<TagDto.insert> tags;
 
-        private List<AttachImageDto.update> images;
-        private List<AttachFileDto.update> files;
+        private List<AttachImageDto.insert> images;
+        private List<AttachFileDto.insert> files;
     }
 
     @Setter
@@ -174,26 +167,22 @@ public class BlogDto {
     public static class responseList {
         private Long seq;
         private String thumbnail;
-        private String desc;
         private String title;
-        private Integer hitCnt;
-        private Integer commentCnt;
-        private List<TagDto.response> tags;
+        private String desc;
         private String createAt;
         private String updateAt;
+        private Integer commentCnt;
+        private List<TagDto.response> tags;
         private Boolean enabled;
 
         public responseList(Blog blog, String uploaderDomain) {
             this.seq = blog.getSeq();
             this.title = blog.getTitle();
             this.desc = MarkdownUtil.escape(MarkdownUtil.extractPlainText(blog.getContents()));
-            this.desc = desc.length() > 300 ? desc.substring(0, 300) : desc;
-            this.hitCnt = blog.getHitCnt();
             this.createAt = Formatter.dateTimeToBeautifulDate(blog.getCreateAt());
             this.updateAt = Formatter.dateTimeToBeautifulDate(blog.getUpdateAt());
             this.enabled = blog.getEnabled();
             this.commentCnt = blog.getComments().size();
-
 
             List<AttachImage> images = blog.getImages();
             if (!images.isEmpty()) {
@@ -216,4 +205,27 @@ public class BlogDto {
 
     }
 
+
+    @Getter
+    public static class summary {
+        private Long seq;
+        private String desc;
+        private String title;
+        private List<String> tags;
+        private LocalDateTime createAt;
+        private LocalDateTime updateAt;
+        private Boolean enabled;
+
+        summary(Blog blog) {
+            this.seq = blog.getSeq();
+            this.title = blog.getTitle();
+            this.desc = MarkdownUtil.escape(MarkdownUtil.extractPlainText(blog.getContents()));
+            this.createAt = blog.getCreateAt();
+            this.updateAt = blog.getUpdateAt();
+            this.enabled = blog.getEnabled();
+            this.tags = new LinkedList<>();
+            blog.getTags().forEach(tag -> this.tags.add(tag.getVal()));
+        }
+
+    }
 }

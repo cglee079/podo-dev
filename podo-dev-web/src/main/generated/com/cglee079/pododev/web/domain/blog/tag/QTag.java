@@ -7,6 +7,7 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.Generated;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -17,9 +18,11 @@ public class QTag extends EntityPathBase<Tag> {
 
     private static final long serialVersionUID = 2012253968L;
 
+    private static final PathInits INITS = PathInits.DIRECT2;
+
     public static final QTag tag = new QTag("tag");
 
-    public final NumberPath<Long> blogSeq = createNumber("blogSeq", Long.class);
+    public final com.cglee079.pododev.web.domain.blog.QBlog blog;
 
     public final NumberPath<Integer> idx = createNumber("idx", Integer.class);
 
@@ -28,15 +31,24 @@ public class QTag extends EntityPathBase<Tag> {
     public final StringPath val = createString("val");
 
     public QTag(String variable) {
-        super(Tag.class, forVariable(variable));
+        this(Tag.class, forVariable(variable), INITS);
     }
 
     public QTag(Path<? extends Tag> path) {
-        super(path.getType(), path.getMetadata());
+        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
     public QTag(PathMetadata metadata) {
-        super(Tag.class, metadata);
+        this(metadata, PathInits.getFor(metadata, INITS));
+    }
+
+    public QTag(PathMetadata metadata, PathInits inits) {
+        this(Tag.class, metadata, inits);
+    }
+
+    public QTag(Class<? extends Tag> type, PathMetadata metadata, PathInits inits) {
+        super(type, metadata, inits);
+        this.blog = inits.isInitialized("blog") ? new com.cglee079.pododev.web.domain.blog.QBlog(forProperty("blog")) : null;
     }
 
 }

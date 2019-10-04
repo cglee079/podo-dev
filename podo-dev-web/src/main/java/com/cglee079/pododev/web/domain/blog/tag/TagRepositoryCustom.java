@@ -6,5 +6,6 @@ import java.util.List;
 
 @Repository
 public interface TagRepositoryCustom {
-    List<String> findDistinctTagValueInBlogIds(List<Long> blogIds);
+    List<String> findDistinctTagValue();
+    void deleteByBlogSeq(Long seq);
 }

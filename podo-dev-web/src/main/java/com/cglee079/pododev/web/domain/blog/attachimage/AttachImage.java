@@ -19,14 +19,9 @@ import java.util.List;
 public class AttachImage {
 
     @Id
-    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
 
-    @Column(name = "blog_seq")
-    private Long blogSeq;
-
-    @Column(name = "origin_name")
     private String originName;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -34,8 +29,7 @@ public class AttachImage {
     List<AttachImageSave> saves;
 
     @Builder
-    public AttachImage(Long blogSeq, String originName, List<AttachImageSave> saves) {
-        this.blogSeq = blogSeq;
+    public AttachImage(String originName, List<AttachImageSave> saves) {
         this.originName = originName;
         this.saves = saves;
     }

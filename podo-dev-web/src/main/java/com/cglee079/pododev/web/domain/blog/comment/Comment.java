@@ -1,5 +1,6 @@
 package com.cglee079.pododev.web.domain.blog.comment;
 
+import com.cglee079.pododev.web.domain.blog.Blog;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,34 +23,26 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
 
-    @Column(name = "blog_Seq")
-    private Long blogSeq;
+    @ManyToOne
+    @JoinColumn(name = "blog_seq")
+    private Blog blog;
 
-    @Column
     private String username;
 
-    @Column(name = "user_id")
     private String userId;
 
-    @Column
     private String contents;
 
-    @Column
     private Integer child;
 
-    @Column(name = "parent_seq")
     private Long parentSeq;
 
-    @Column
     private Integer depth;
 
-    @Column
     private Long cgroup;
 
-    @Column
     private Double sort;
 
-    @Column
     private Boolean enabled;
 
     @CreatedDate
@@ -57,9 +50,10 @@ public class Comment {
     private LocalDateTime createAt;
 
     @Builder
-    public Comment(Long blogSeq, String username, String userId, String contents,
+    public Comment(Blog blog, String username, String userId, String contents,
                    Long cgroup, Integer child, Long parentSeq, Integer depth, Double sort) {
-        this.blogSeq = blogSeq;
+
+
         this.username = username;
         this.userId = userId;
         this.contents = contents;
@@ -69,6 +63,13 @@ public class Comment {
         this.parentSeq = parentSeq;
         this.sort = sort;
         this.enabled = true;
+
+        this.changeBlog(blog);
+    }
+
+    private void changeBlog(Blog blog) {
+        this.blog = blog;
+        blog.getComments().add(this);
     }
 
     public void updateCgroup(Long seq) {

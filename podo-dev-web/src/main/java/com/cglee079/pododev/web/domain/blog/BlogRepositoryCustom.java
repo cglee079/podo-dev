@@ -14,6 +14,8 @@ public interface BlogRepositoryCustom {
     Blog findNext(Long seq);
     Blog findBefore(Long seq);
     Page<Blog> paging(Pageable pageable, List<Long> seqs, Boolean enabled);
-    List<Long> findEnabledIds();
+    List<Blog> findByEnabled(Boolean enabled);
     Boolean existUpdated(LocalDate day);
+
+    List<Blog> findBlogByTagValue(String tagValue);
 }

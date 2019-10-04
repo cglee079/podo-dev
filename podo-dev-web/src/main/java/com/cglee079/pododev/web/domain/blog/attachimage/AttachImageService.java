@@ -5,6 +5,7 @@ import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSaveDto;
 import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSaveService;
 import com.cglee079.pododev.web.global.infra.uploader.PodoUploaderClient;
 import com.cglee079.pododev.web.global.util.HttpUrlUtil;
+import com.cglee079.pododev.web.global.util.PathUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -31,7 +33,6 @@ public class AttachImageService {
     private String baseUrl;
 
     private final PodoUploaderClient podoUploaderClient;
-    private final AttachImageRepository attachImageRepository;
     private final AttachImageSaveService attachImageSaveService;
 
     public AttachImageDto.response saveBase64(String base64) {
@@ -63,7 +64,7 @@ public class AttachImageService {
 
 
     /**
-     * 이미지 업로드, 이미지를 우선 본서버에 저장.
+     * 이미지 업로드, 이미지를 로컬에 저장.
      */
     public AttachImageDto.response saveImage(MultipartFile multipartFile) {
         final String originName = multipartFile.getOriginalFilename();
@@ -85,58 +86,23 @@ public class AttachImageService {
      * @param images
      */
     public void uploadImage(List<AttachImageDto.insert> images) {
-        log.info("Upload Image");
-
-        //이미지 서버 저장
         images.forEach(image -> {
             log.info("Image '{}', '{}'", image.getFileStatus(), image.getOriginName());
 
-            final List<AttachImageSaveDto.insert> saves = image.getSaves().values().stream().collect(Collectors.toList());
+            final List<AttachImageSaveDto.insert> saves = new ArrayList<>(image.getSaves().values());
 
             switch (FileStatus.valueOf(image.getFileStatus())) {
                 case NEW:
                     saves.forEach(save ->
-                            podoUploaderClient.upload(save.getPath(), new File(baseDir + save.getPath(), save.getFilename()))
-                    );
-                    break;
-                case BE:
-                case REMOVE:
-                case UNNEW:
-                default:
-                    break;
-            }
-        });
-
-    }
-
-    /**
-     * 게시글 수정 시, 첨부이미지 업데이트 To Uploader Server
-     *
-     * @param blogSeq
-     * @param images
-     */
-    public void updateImage(Long blogSeq, List<AttachImageDto.update> images) {
-        log.info("Update Image blogSeq '{}' ", blogSeq);
-
-        images.forEach(image -> {
-            log.info("Image '{}', '{}'", image.getFileStatus(), image.getOriginName());
-
-            final List<AttachImageSaveDto.update> saves = image.getSaves().values().stream().collect(Collectors.toList());
-
-            switch (FileStatus.valueOf(image.getFileStatus())) {
-                case NEW:
-                    saves.forEach(save ->
-                            podoUploaderClient.upload(save.getPath(), new File(baseDir + save.getPath(), save.getFilename()))
+                            podoUploaderClient.upload(save.getPath(), new File(PathUtil.merge(baseDir, save.getPath()), save.getFilename()))
                     );
 
-                    attachImageRepository.save(image.toEntity(blogSeq));
                     break;
                 case REMOVE:
                     saves.forEach(save ->
                             podoUploaderClient.delete(save.getPath(), save.getFilename())
                     );
 
-                    attachImageRepository.deleteById(image.getSeq());
                     break;
                 case BE:
                 case UNNEW:

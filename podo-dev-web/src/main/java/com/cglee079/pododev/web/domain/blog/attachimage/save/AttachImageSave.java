@@ -17,26 +17,19 @@ import java.util.List;
 public class AttachImageSave {
 
     @Id
-    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
 
-    @Column(name = "image_id")
     private String imageId;
 
-    @Column
     private String filename;
 
-    @Column
     private String path;
 
-    @Column
     private Integer width;
 
-    @Column
     private Integer height;
 
-    @Column
     private Long filesize;
 
     @Builder

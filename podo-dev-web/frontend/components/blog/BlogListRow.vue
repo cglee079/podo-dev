@@ -171,7 +171,7 @@
 
                 .tags {
                     flex: 1;
-                    white-space: nowrap;
+                    max-height: 1.3rem;
                     overflow: hidden;
                     text-overflow: ellipsis;
 
@@ -184,6 +184,7 @@
                             color: #0000CC;
                         }
                     }
+
                 }
 
                 .subinfo {

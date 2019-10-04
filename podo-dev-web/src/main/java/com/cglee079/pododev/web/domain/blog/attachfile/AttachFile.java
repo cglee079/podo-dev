@@ -18,27 +18,18 @@ public class AttachFile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
 
-    @Column(name = "blog_seq")
-    private Long blogSeq;
-
-    @Column(name = "origin_name")
     private String originName;
 
-    @Column
     private String filename;
 
-    @Column
     private String path;
 
-    @Column
     private Long filesize;
 
-    @Column(name = "create_at")
     private Date createAt;
 
     @Builder
-    public AttachFile(Long blogSeq, String filename, String originName, String path, Long filesize) {
-        this.blogSeq = blogSeq;
+    public AttachFile(String filename, String originName, String path, Long filesize) {
         this.filename = filename;
         this.originName = originName;
         this.path = path;

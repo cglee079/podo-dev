@@ -1,4 +1,6 @@
 module.exports = {
+    // mode: 'spa',
+
     debug: true,
 
     serverMiddleware: ['redirect-ssl'],

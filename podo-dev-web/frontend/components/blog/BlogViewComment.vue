@@ -1,7 +1,5 @@
 <template>
     <div id="wrapComment" :class="$mq">
-        <progress-bar ref="progressBar"/>
-
         <div id="count">
             <img src="https://image.flaticon.com/icons/svg/134/134718.svg"/>
             <a class="comment-cnt">{{this.totalElements}}</a>
@@ -49,14 +47,12 @@
 <script>
     import BlogViewCommentItem from "./BlogViewCommentItem";
     import BlogViewCommentWrite from "./BlogViewCommentWrite";
-    import ProgressBar from "../global/ProgressBar";
     import {mapGetters} from 'vuex'
 
 
     export default {
         name: "BlogViewComment",
         components: {
-            ProgressBar,
             'comment-item': BlogViewCommentItem,
             'comment-write': BlogViewCommentWrite
         },
@@ -85,11 +81,11 @@
         },
         methods: {
             onProgress() {
-                this.$refs.progressBar.on()
+                this.$emit("onProgress")
             },
 
             offProgress() {
-                this.$refs.progressBar.off()
+                this.$emit("offProgress")
             },
 
             reloadBlogComments() {

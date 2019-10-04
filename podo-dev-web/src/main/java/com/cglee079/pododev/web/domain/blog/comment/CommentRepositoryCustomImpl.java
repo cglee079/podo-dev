@@ -26,7 +26,7 @@ public class CommentRepositoryCustomImpl extends QuerydslRepositorySupport imple
     @Override
     public Page<Comment> paging(Long blogSeq, Pageable pageable) {
         JPQLQuery<Comment> query = from(comment)
-                .where(comment.blogSeq.eq(blogSeq))
+                .where(comment.blog.seq.eq(blogSeq))
                 .orderBy(comment.cgroup.asc())
                 .orderBy(comment.sort.asc());
 

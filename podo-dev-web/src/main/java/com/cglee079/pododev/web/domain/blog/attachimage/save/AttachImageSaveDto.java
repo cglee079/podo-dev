@@ -37,26 +37,6 @@ public class AttachImageSaveDto {
 
     @Getter
     public static class insert {
-        private String filename;
-        private String path;
-        private Integer width;
-        private Integer height;
-        private Long filesize;
-
-        public AttachImageSave toEntity(String imageId) {
-            return AttachImageSave.builder()
-                    .filename(this.filename)
-                    .filesize(this.filesize)
-                    .imageId(imageId)
-                    .path(this.path)
-                    .width(this.width)
-                    .height(this.height)
-                    .build();
-        }
-    }
-
-    @Getter
-    public static class update {
         private Long seq;
         private String filename;
         private String path;

@@ -59,6 +59,7 @@ public class AttachFileDto {
 
     @Getter
     public static class insert {
+        private Long seq;
         private String filename;
         private String originName;
         private String path;
@@ -76,23 +77,4 @@ public class AttachFileDto {
         }
     }
 
-    @Getter
-    public static class update {
-        private Long seq;
-        private String filename;
-        private String originName;
-        private String path;
-        private Long filesize;
-        private String fileStatus;
-
-        public AttachFile toEntity(Long blogSeq) {
-            return AttachFile.builder()
-                    .blogSeq(blogSeq)
-                    .originName(originName)
-                    .path(path)
-                    .filename(filename)
-                    .filesize(filesize)
-                    .build();
-        }
-    }
 }

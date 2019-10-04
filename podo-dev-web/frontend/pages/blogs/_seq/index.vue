@@ -1,5 +1,6 @@
 <template>
     <div id="wrapBlog" :class="$mq">
+        <progress-bar ref="progressBar"/>
 
         <div id="forCrawl" style="display: none;">
             {{blog.desc}}
@@ -40,7 +41,6 @@
                  v-bind:key="file.seq"
                  class="file"
             >
-                <!--                <a :href="file.domainUrl + file.path + '/' +file.filename">-->
                 <a href="javascript:void(0)" @click="clickFile(file.seq)">
                     <img src="@/assets/btns/btn-file.svg" class="file-icon"/>
                     <span class="file-name">{{file.originName}}</span>
@@ -58,6 +58,8 @@
         <blog-view-comment
             v-if="blog.seq"
             :blogSeq="blog.seq"
+            @onProgress="onProgress"
+            @offProgress="offProgress"
         />
 
         <blog-view-export
@@ -74,6 +76,7 @@
     import BlogViewComment from "@/components/blog/BlogViewComment"
     import BlogViewExport from "@/components/blog/BlogViewExport"
     import ToastCustomViewer from "@/components/global/ToastCustomViewer"
+    import ProgressBar from "../../../components/global/ProgressBar";
 
     export default {
         name: 'BlogView',
@@ -144,6 +147,7 @@
         },
 
         components: {
+            ProgressBar,
             BlogViewComment,
             BlogViewExport,
             ToastCustomViewer
@@ -157,6 +161,14 @@
         },
 
         methods: {
+            onProgress() {
+                this.$refs.progressBar.on()
+            },
+
+            offProgress() {
+                this.$refs.progressBar.off()
+            },
+
             clickModifyBlog(seq) {
                 this.$router.push({
                     name: 'blogs-seq-post',

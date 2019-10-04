@@ -1,5 +1,7 @@
 package com.cglee079.pododev.web.domain.blog;
 
+import com.cglee079.pododev.web.domain.blog.tag.QTag;
+import com.cglee079.pododev.web.domain.blog.tag.Tag;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
@@ -61,11 +63,10 @@ public class BlogRepositoryCustomImpl extends QuerydslRepositorySupport implemen
     }
 
     @Override
-    public List<Long> findEnabledIds() {
+    public List<Blog> findByEnabled(Boolean enabled) {
 
-        return this.queryFactory.select(blog.seq)
-                .from(blog)
-                .where(blog.enabled.eq(true))
+        return from(blog)
+                .where(blog.enabled.eq(enabled))
                 .fetch();
     }
 
@@ -76,5 +77,21 @@ public class BlogRepositoryCustomImpl extends QuerydslRepositorySupport implemen
                 .from(blog)
                 .where(blog.updateAt.between(time.atStartOfDay(), time.plusDays(1).atStartOfDay()))
                 .fetchCount() != 0;
+    }
+
+    @Override
+    public List<Blog> findBlogByTagValue(String tagValue) {
+        QTag tag = QTag.tag;
+
+        List<Long> blogSeq = this.queryFactory
+                .select(tag.blog.seq)
+                .from(tag)
+                .where(tag.val.eq(tagValue))
+                .fetch();
+
+        return this.queryFactory.select(blog)
+                .from(blog)
+                .where(blog.seq.in(blogSeq))
+                .fetch();
     }
 }

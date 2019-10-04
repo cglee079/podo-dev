@@ -1,5 +1,7 @@
 <template>
     <div id="wrapBlogs" :class="$mq">
+        <progress-bar ref="progressBar"/>
+
         <div id="blogs">
             <div
                 :key="blog.seq"
@@ -17,10 +19,12 @@
 
 <script>
     import BlogListRow from "@/components/blog/BlogListRow";
+    import ProgressBar from "../global/ProgressBar";
 
     export default {
         name: 'BlogList',
         components: {
+            ProgressBar,
             'blog-row': BlogListRow,
         },
         watch: {
@@ -43,6 +47,15 @@
             }
         },
         methods: {
+            onProgress() {
+                this.$refs.progressBar.on()
+            },
+
+            offProgress() {
+                this.$refs.progressBar.off()
+            },
+
+
             /**
              * 게시글 페이징
              */
@@ -52,6 +65,7 @@
                 }
 
                 if (page === 0) {
+                    this.onProgress()
                     this.contents = []
                 }
 
@@ -72,8 +86,17 @@
                     this.totalPages = res.totalPages
                     this.isLoading = false
                     this.console.log(this.contents)
+
+                    if(page === 0){
+                        this.offProgress()
+                    }
+
                 }).catch(err => {
                     //console.log(err)
+
+                    if(page === 0){
+                        this.offProgress()
+                    }
                 })
             },
 
@@ -82,7 +105,7 @@
              */
             handleScroll() {
                 const blogRows = document.getElementsByClassName("wrap-blog-row")
-                const lastBlogRow = blogRows.item(blogRows.length - 1)
+                const lastBlogRow = blogRows.item(blogRows.length - this.pageSize + 1)
 
                 const scrollBottom = window.pageYOffset + window.innerHeight
 

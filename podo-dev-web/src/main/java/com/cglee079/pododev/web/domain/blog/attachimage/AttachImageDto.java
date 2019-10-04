@@ -50,6 +50,7 @@ public class AttachImageDto {
 
     @Getter
     public static class insert {
+        private Long seq;
         private String originName;
         private String uploadedUrl;
         private String fileStatus;
@@ -64,29 +65,6 @@ public class AttachImageDto {
             );
 
             return AttachImage.builder()
-                    .originName(this.originName)
-                    .saves(attachImageSaves)
-                    .build();
-        }
-    }
-
-    @Getter
-    public static class update {
-        private Long seq;
-        private String originName;
-        private String uploadedUrl;
-        private String fileStatus;
-        private Map<String, AttachImageSaveDto.update> saves;
-
-        public AttachImage toEntity(Long blogSeq) {
-            List<AttachImageSave> attachImageSaves = new LinkedList<>();
-
-            saves.keySet().stream().forEach(key ->
-                    attachImageSaves.add(saves.get(key).toEntity(key))
-            );
-
-            return AttachImage.builder()
-                    .blogSeq(blogSeq)
                     .originName(this.originName)
                     .saves(attachImageSaves)
                     .build();

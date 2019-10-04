@@ -25,6 +25,7 @@
                 word-break: break-all;
 
                 pre {
+                    marign : 10px 0 8px 0px;
                     overflow-x: auto;
                     border-radius: 5px;
 

@@ -2,6 +2,7 @@ package com.cglee079.pododev.web.domain.blog;
 
 import com.cglee079.pododev.web.domain.blog.attachfile.AttachFile;
 import com.cglee079.pododev.web.domain.blog.attachimage.AttachImage;
+import com.cglee079.pododev.web.domain.blog.attachimage.AttachImageDto;
 import com.cglee079.pododev.web.domain.blog.comment.Comment;
 import com.cglee079.pododev.web.domain.blog.tag.Tag;
 import lombok.AccessLevel;
@@ -23,57 +24,48 @@ import java.util.*;
 @Entity
 public class Blog {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
 
-    @Column
     private String title;
 
-    @Column
     private String contents;
 
-    @Column(name = "hit_cnt")
     private Integer hitCnt;
 
-    @Column
     private Boolean enabled;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "blog_seq")
-    private List<AttachImage> images;
+    private List<AttachImage> images = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "blog_seq")
-    private List<AttachFile> files;
+    private List<AttachFile> files = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "blog_seq")
-    private List<Comment> comments;
+    @OneToMany(mappedBy = "blog")
+    private List<Tag> tags = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "blog_seq")
-    private List<Tag> tags;
+    @OneToMany(mappedBy = "blog")
+    private List<Comment> comments = new ArrayList<>();
 
     @CreatedDate
-    @Column(name = "create_at")
     private LocalDateTime createAt;
 
     @LastModifiedDate
-    @Column(name = "update_at")
     private LocalDateTime updateAt;
 
 
     @Builder
-    public Blog(String title, String contents, Boolean enabled, List<Tag> tags, List<AttachImage> images, List<AttachFile> files) {
+    public Blog(String title, String contents, Boolean enabled, List<AttachImage> images, List<AttachFile> files) {
         this.title = title;
         this.contents = contents;
         this.enabled = enabled;
-        this.tags = tags;
         this.images = images;
         this.files = files;
         this.hitCnt = 0;
     }
+
 
     /**
      * 게시글 수정 시
@@ -94,11 +86,27 @@ public class Blog {
         this.contents = this.contents.replace(localDomain, uploadServerDomain);
     }
 
-    public void setContents(String contents) {
-        this.contents = contents;
-    }
-
     public void increaseHitCnt() {
         this.hitCnt++;
+    }
+
+    public void addTag(Tag tag) {
+        this.tags.add(tag);
+    }
+
+    public void addImage(AttachImage image) {
+        this.images.add(image);
+    }
+
+    public void removeImage(Long seq) {
+        this.images.remove(this.images.stream().filter(image -> image.getSeq().equals(seq)).findFirst().get());
+    }
+
+    public void addFile(AttachFile file) {
+        this.files.add(file);
+    }
+
+    public void removeFile(Long seq) {
+        this.images.remove(this.images.stream().filter(image -> image.getSeq().equals(seq)).findFirst().get());
     }
 }

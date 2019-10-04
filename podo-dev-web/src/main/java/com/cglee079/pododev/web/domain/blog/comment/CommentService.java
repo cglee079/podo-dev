@@ -2,6 +2,8 @@ package com.cglee079.pododev.web.domain.blog.comment;
 
 import com.cglee079.pododev.core.global.response.PageDto;
 import com.cglee079.pododev.web.domain.auth.exception.NoAuthenticatedException;
+import com.cglee079.pododev.web.domain.blog.Blog;
+import com.cglee079.pododev.web.domain.blog.BlogRepository;
 import com.cglee079.pododev.web.domain.blog.comment.exception.InvalidCommentException;
 import com.cglee079.pododev.web.domain.blog.comment.exception.MaxDepthCommentException;
 import com.cglee079.pododev.web.global.config.security.SecurityUtil;
@@ -25,6 +27,7 @@ import java.util.Optional;
 @Transactional
 public class CommentService {
 
+    private final BlogRepository blogRepository;
     private final CommentRepository commentRepository;
 
     @Value("${blog.comment.max.depth}")
@@ -61,12 +64,15 @@ public class CommentService {
     }
 
     public void insert(Long blogSeq, CommentDto.insert insert) {
+
         final String currentUserId = SecurityUtil.getUserId();
 
         if (Objects.isNull(currentUserId)) {
             throw new NoAuthenticatedException();
         }
 
+
+        final Blog blog = blogRepository.findById(blogSeq).get();
         final String userId = currentUserId;
         final String username = SecurityUtil.getUsername();
         final String contents = insert.getContents();
@@ -77,7 +83,7 @@ public class CommentService {
             log.info("New Comment Insert");
 
             Comment comment = Comment.builder()
-                    .blogSeq(blogSeq)
+                    .blog(blog)
                     .username(username)
                     .userId(userId)
                     .contents(contents)
@@ -110,7 +116,7 @@ public class CommentService {
             parentComment.increaseChild();
 
             Comment comment = Comment.builder()
-                    .blogSeq(blogSeq)
+                    .blog(blog)
                     .username(username)
                     .userId(userId)
                     .contents(contents)

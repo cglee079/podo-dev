@@ -15,20 +15,6 @@ public class TagDto {
         }
     }
 
-
-    @Getter
-    public static class update {
-        private Long seq;
-        private String val;
-
-        public Tag toEntity(Long blogSeq) {
-            return Tag.builder()
-                    .blogSeq(blogSeq)
-                    .val(val)
-                    .build();
-        }
-    }
-
     @Getter
     public static class response {
         private Long seq;

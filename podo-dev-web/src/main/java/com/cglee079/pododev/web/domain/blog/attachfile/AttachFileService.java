@@ -64,11 +64,11 @@ public class AttachFileService {
     }
 
     /**
-     * 게시글 작성 시, 첨부파일 업로드 to Uploader Server
+     * 게시글 수정 시, 첨부 파일 업데이트 to Uploader Server
      * @param files
      */
     public void uploadFile(List<AttachFileDto.insert> files) {
-        log.info("Upload File ");
+        log.info("Update Files");
 
         files.forEach(file -> {
             log.info("File '{}', '{}'", file.getFileStatus(), file.getOriginName());
@@ -76,35 +76,9 @@ public class AttachFileService {
             switch (FileStatus.valueOf(file.getFileStatus())) {
                 case NEW:
                     podoUploaderClient.upload(file.getPath(), new File(baseDir + file.getPath(), file.getFilename()));
-                    break;
-                case BE:
-                case REMOVE:
-                case UNNEW:
-                default:
-                    break;
-            }
-        });
-    }
-
-    /**
-     * 게시글 수정 시, 첨부 파일 업데이트 to Uploader Server
-     * @param blogSeq
-     * @param files
-     */
-    public void updateFile(Long blogSeq, List<AttachFileDto.update> files) {
-        log.info("Update File info blogSeq '{}'", blogSeq);
-
-        files.forEach(file -> {
-            log.info("File '{}', '{}'", file.getFileStatus(), file.getOriginName());
-
-            switch (FileStatus.valueOf(file.getFileStatus())) {
-                case NEW:
-                    podoUploaderClient.upload(file.getPath(), new File(baseDir + file.getPath(), file.getFilename()));
-                    attachFileRepository.save(file.toEntity(blogSeq));
                     break;
                 case REMOVE:
                     podoUploaderClient.delete(file.getPath(), file.getFilename());
-                    attachFileRepository.deleteById(file.getSeq());
                 case BE:
                 case UNNEW:
                 default:

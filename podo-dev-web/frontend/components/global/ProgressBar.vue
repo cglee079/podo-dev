@@ -34,7 +34,7 @@
         left: 0;
         right: 0;
         z-index: 5000;
-        background: rgba(0, 0, 0, 0.25);
+        background: rgba(0, 0, 0, 0.08);
         display: none;
 
         &.on {

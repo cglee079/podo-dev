@@ -69,6 +69,7 @@
 
 <style lang="scss" scoped>
     #main {
+        overflow-x: hidden;
         margin: 50px auto 150px auto;
         max-width: 960px;
         min-height: 70vh;
