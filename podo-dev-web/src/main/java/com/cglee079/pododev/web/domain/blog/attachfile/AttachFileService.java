@@ -25,7 +25,6 @@ import java.util.Optional;
 @Service
 public class AttachFileService {
 
-    private final PodoUploaderClient podoUploaderClient;
     private final AttachFileRepository attachFileRepository;
     private final FileWriter fileWriter;
 
@@ -34,9 +33,6 @@ public class AttachFileService {
 
     @Value("${local.upload.sub.file.dir}")
     private String fileDir;
-
-    @Value("${local.upload.base.dir}")
-    private String baseDir;
 
     @Value("${infra.uploader.frontend.internal}")
     private String uploaderFrontendInternalUrl;
@@ -61,30 +57,6 @@ public class AttachFileService {
                 .fileStatus(FileStatus.NEW)
                 .filesize(file.length())
                 .build();
-    }
-
-    /**
-     * 게시글 수정 시, 첨부 파일 업데이트 to Uploader Server
-     * @param files
-     */
-    public void uploadFile(List<AttachFileDto.insert> files) {
-        log.info("Update Files");
-
-        files.forEach(file -> {
-            log.info("File '{}', '{}'", file.getFileStatus(), file.getOriginName());
-
-            switch (FileStatus.valueOf(file.getFileStatus())) {
-                case NEW:
-                    podoUploaderClient.upload(file.getPath(), new File(baseDir + file.getPath(), file.getFilename()));
-                    break;
-                case REMOVE:
-                    podoUploaderClient.delete(file.getPath(), file.getFilename());
-                case BE:
-                case UNNEW:
-                default:
-                    break;
-            }
-        });
     }
 
     public AttachFileDto.download download(Long fileSeq) {

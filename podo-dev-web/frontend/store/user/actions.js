@@ -1,6 +1,6 @@
 export default {
     login() {
-        this.$axios.$get('/api/login-enabled')
+        this.$axios.$get('/login/enabled')
             .then(res => {
                 const result = res.data
                 if (result) {
@@ -19,7 +19,7 @@ export default {
      */
     logout({commit}, callback) {
         this.$axios
-            .$post("/auth/logout")
+            .$post("/logout")
             .then(res => {
                 delete this.$axios.defaults.headers.common['Authorization'] //
 
@@ -45,7 +45,7 @@ export default {
             this.$axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
 
             this.$axios
-                .$get("/auth/user")
+                .$get("/api/user")
                 .then(res => {
                     //사용자 정보 확인
                     const user = res.data

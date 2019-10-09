@@ -1,7 +1,5 @@
 package com.cglee079.pododev.web.domain.blog.tag;
 
-import com.cglee079.pododev.web.domain.blog.Blog;
-import com.cglee079.pododev.web.domain.blog.BlogRepository;
 import com.cglee079.pododev.web.global.util.ChosungUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,18 +7,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Transactional
 @RequiredArgsConstructor
 @Service
-public class TagService {
+public class BlogTagService {
 
-    private final TagRepository tagRepository;
+    private final BlogTagRepository blogTagRepository;
 
     public Map<String, Set<String>> valuesByChosungMap() {
-        List<String> values = tagRepository.findDistinctTagValue();
+        List<String> values = blogTagRepository.findDistinctTagValue();
 
         return mapByChosung(values);
     }

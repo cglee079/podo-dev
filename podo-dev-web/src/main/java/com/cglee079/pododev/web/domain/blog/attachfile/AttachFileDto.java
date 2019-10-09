@@ -1,5 +1,6 @@
 package com.cglee079.pododev.web.domain.blog.attachfile;
 
+import com.cglee079.pododev.web.domain.blog.Blog;
 import com.cglee079.pododev.web.domain.blog.FileStatus;
 import lombok.Builder;
 import lombok.Getter;
@@ -66,8 +67,9 @@ public class AttachFileDto {
         private Long filesize;
         private String fileStatus;
 
-        public AttachFile toEntity() {
+        public AttachFile toEntity(Blog blog) {
             return AttachFile.builder()
+                    .blog(blog)
                     .filename(filename)
                     .originName(originName)
                     .path(path)

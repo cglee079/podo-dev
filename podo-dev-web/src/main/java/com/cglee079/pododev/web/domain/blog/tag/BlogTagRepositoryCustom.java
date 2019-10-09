@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface TagRepositoryCustom {
+public interface BlogTagRepositoryCustom {
     List<String> findDistinctTagValue();
-    void deleteByBlogSeq(Long seq);
 }

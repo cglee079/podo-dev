@@ -1,5 +1,6 @@
 package com.cglee079.pododev.web.domain.blog.attachimage;
 
+import com.cglee079.pododev.web.domain.blog.Blog;
 import com.cglee079.pododev.web.domain.blog.FileStatus;
 import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSave;
 import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSaveDto;
@@ -56,17 +57,12 @@ public class AttachImageDto {
         private String fileStatus;
         private Map<String, AttachImageSaveDto.insert> saves;
 
-        public AttachImage toEntity() {
+        public AttachImage toEntity(Blog blog) {
 
-            List<AttachImageSave> attachImageSaves = new LinkedList<>();
-
-            saves.keySet().stream().forEach(key ->
-                    attachImageSaves.add(saves.get(key).toEntity(key))
-            );
 
             return AttachImage.builder()
+                    .blog(blog)
                     .originName(this.originName)
-                    .saves(attachImageSaves)
                     .build();
         }
     }

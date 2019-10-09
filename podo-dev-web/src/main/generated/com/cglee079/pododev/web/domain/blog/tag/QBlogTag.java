@@ -11,18 +11,26 @@ import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
- * QTag is a Querydsl query type for Tag
+ * QBlogTag is a Querydsl query type for BlogTag
  */
 @Generated("com.querydsl.codegen.EntitySerializer")
-public class QTag extends EntityPathBase<Tag> {
+public class QBlogTag extends EntityPathBase<BlogTag> {
 
-    private static final long serialVersionUID = 2012253968L;
+    private static final long serialVersionUID = 992510222L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
-    public static final QTag tag = new QTag("tag");
+    public static final QBlogTag blogTag = new QBlogTag("blogTag");
+
+    public final com.cglee079.pododev.web.domain.QBaseEntity _super = new com.cglee079.pododev.web.domain.QBaseEntity(this);
 
     public final com.cglee079.pododev.web.domain.blog.QBlog blog;
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createAt = _super.createAt;
+
+    //inherited
+    public final StringPath createBy = _super.createBy;
 
     public final NumberPath<Integer> idx = createNumber("idx", Integer.class);
 
@@ -30,23 +38,23 @@ public class QTag extends EntityPathBase<Tag> {
 
     public final StringPath val = createString("val");
 
-    public QTag(String variable) {
-        this(Tag.class, forVariable(variable), INITS);
+    public QBlogTag(String variable) {
+        this(BlogTag.class, forVariable(variable), INITS);
     }
 
-    public QTag(Path<? extends Tag> path) {
+    public QBlogTag(Path<? extends BlogTag> path) {
         this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
-    public QTag(PathMetadata metadata) {
+    public QBlogTag(PathMetadata metadata) {
         this(metadata, PathInits.getFor(metadata, INITS));
     }
 
-    public QTag(PathMetadata metadata, PathInits inits) {
-        this(Tag.class, metadata, inits);
+    public QBlogTag(PathMetadata metadata, PathInits inits) {
+        this(BlogTag.class, metadata, inits);
     }
 
-    public QTag(Class<? extends Tag> type, PathMetadata metadata, PathInits inits) {
+    public QBlogTag(Class<? extends BlogTag> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.blog = inits.isInitialized("blog") ? new com.cglee079.pododev.web.domain.blog.QBlog(forProperty("blog")) : null;
     }

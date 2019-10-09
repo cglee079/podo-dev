@@ -20,13 +20,21 @@ public class QBlog extends EntityPathBase<Blog> {
 
     public static final QBlog blog = new QBlog("blog");
 
+    public final com.cglee079.pododev.web.domain.QUpdatableBaseEntity _super = new com.cglee079.pododev.web.domain.QUpdatableBaseEntity(this);
+
     public final ListPath<com.cglee079.pododev.web.domain.blog.comment.Comment, com.cglee079.pododev.web.domain.blog.comment.QComment> comments = this.<com.cglee079.pododev.web.domain.blog.comment.Comment, com.cglee079.pododev.web.domain.blog.comment.QComment>createList("comments", com.cglee079.pododev.web.domain.blog.comment.Comment.class, com.cglee079.pododev.web.domain.blog.comment.QComment.class, PathInits.DIRECT2);
 
     public final StringPath contents = createString("contents");
 
-    public final DateTimePath<java.time.LocalDateTime> createAt = createDateTime("createAt", java.time.LocalDateTime.class);
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createAt = _super.createAt;
+
+    //inherited
+    public final StringPath createBy = _super.createBy;
 
     public final BooleanPath enabled = createBoolean("enabled");
+
+    public final BooleanPath feeded = createBoolean("feeded");
 
     public final ListPath<com.cglee079.pododev.web.domain.blog.attachfile.AttachFile, com.cglee079.pododev.web.domain.blog.attachfile.QAttachFile> files = this.<com.cglee079.pododev.web.domain.blog.attachfile.AttachFile, com.cglee079.pododev.web.domain.blog.attachfile.QAttachFile>createList("files", com.cglee079.pododev.web.domain.blog.attachfile.AttachFile.class, com.cglee079.pododev.web.domain.blog.attachfile.QAttachFile.class, PathInits.DIRECT2);
 
@@ -36,11 +44,15 @@ public class QBlog extends EntityPathBase<Blog> {
 
     public final NumberPath<Long> seq = createNumber("seq", Long.class);
 
-    public final ListPath<com.cglee079.pododev.web.domain.blog.tag.Tag, com.cglee079.pododev.web.domain.blog.tag.QTag> tags = this.<com.cglee079.pododev.web.domain.blog.tag.Tag, com.cglee079.pododev.web.domain.blog.tag.QTag>createList("tags", com.cglee079.pododev.web.domain.blog.tag.Tag.class, com.cglee079.pododev.web.domain.blog.tag.QTag.class, PathInits.DIRECT2);
+    public final ListPath<com.cglee079.pododev.web.domain.blog.tag.BlogTag, com.cglee079.pododev.web.domain.blog.tag.QBlogTag> tags = this.<com.cglee079.pododev.web.domain.blog.tag.BlogTag, com.cglee079.pododev.web.domain.blog.tag.QBlogTag>createList("tags", com.cglee079.pododev.web.domain.blog.tag.BlogTag.class, com.cglee079.pododev.web.domain.blog.tag.QBlogTag.class, PathInits.DIRECT2);
 
     public final StringPath title = createString("title");
 
-    public final DateTimePath<java.time.LocalDateTime> updateAt = createDateTime("updateAt", java.time.LocalDateTime.class);
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> updateAt = _super.updateAt;
+
+    //inherited
+    public final StringPath updateBy = _super.updateBy;
 
     public QBlog(String variable) {
         super(Blog.class, forVariable(variable));

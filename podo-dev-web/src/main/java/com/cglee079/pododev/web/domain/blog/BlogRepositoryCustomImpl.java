@@ -1,7 +1,6 @@
 package com.cglee079.pododev.web.domain.blog;
 
-import com.cglee079.pododev.web.domain.blog.tag.QTag;
-import com.cglee079.pododev.web.domain.blog.tag.Tag;
+import com.cglee079.pododev.web.domain.blog.tag.QBlogTag;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
@@ -70,18 +69,17 @@ public class BlogRepositoryCustomImpl extends QuerydslRepositorySupport implemen
                 .fetch();
     }
 
-    @Override
-    public Boolean existUpdated(LocalDate time) {
+    public List<Blog> findByFeeded(Boolean feeded) {
 
-        return this.queryFactory.select(blog.seq)
-                .from(blog)
-                .where(blog.updateAt.between(time.atStartOfDay(), time.plusDays(1).atStartOfDay()))
-                .fetchCount() != 0;
+        return from(blog)
+                .where(blog.feeded.eq(feeded))
+                .where(blog.enabled.eq(true))
+                .fetch();
     }
 
     @Override
     public List<Blog> findBlogByTagValue(String tagValue) {
-        QTag tag = QTag.tag;
+        QBlogTag tag = QBlogTag.blogTag;
 
         List<Long> blogSeq = this.queryFactory
                 .select(tag.blog.seq)

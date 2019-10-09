@@ -1,5 +1,6 @@
 package com.cglee079.pododev.web.domain.blog.tag;
 
+import com.cglee079.pododev.web.domain.BaseEntity;
 import com.cglee079.pododev.web.domain.blog.Blog;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -12,9 +13,10 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "blog_tag")
 @Entity
-public class Tag {
+public class BlogTag extends BaseEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
 
     @ManyToOne
@@ -26,7 +28,8 @@ public class Tag {
     private Integer idx;
 
     @Builder
-    public Tag(String val, Integer idx) {
+    public BlogTag(Blog blog, String val, Integer idx) {
+        this.blog = blog;
         this.val = val;
         this.idx = idx;
     }
@@ -35,8 +38,4 @@ public class Tag {
         this.idx = i;
     }
 
-    public void changeBlog(Blog blog) {
-        this.blog = blog;
-        blog.addTag(this);
-    }
 }

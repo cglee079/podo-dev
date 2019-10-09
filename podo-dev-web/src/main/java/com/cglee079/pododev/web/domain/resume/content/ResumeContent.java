@@ -12,14 +12,10 @@ import javax.persistence.*;
 @Entity
 public class ResumeContent {
 
-    @Id
-    @Column
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
 
-    @Column
     private String content;
 
-    @Column
     private  Integer sort;
 }

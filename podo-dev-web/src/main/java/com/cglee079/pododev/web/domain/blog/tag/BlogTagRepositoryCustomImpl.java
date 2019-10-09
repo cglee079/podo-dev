@@ -5,14 +5,14 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 import java.util.List;
 
-public class TagRepositoryCustomImpl extends QuerydslRepositorySupport implements TagRepositoryCustom {
+public class BlogTagRepositoryCustomImpl extends QuerydslRepositorySupport implements BlogTagRepositoryCustom {
 
-    private QTag tag;
+    private QBlogTag tag;
     private final JPAQueryFactory queryFactory;
 
-    public TagRepositoryCustomImpl(JPAQueryFactory queryFactory) {
-        super(Tag.class);
-        this.tag = QTag.tag;
+    public BlogTagRepositoryCustomImpl(JPAQueryFactory queryFactory) {
+        super(BlogTag.class);
+        this.tag = QBlogTag.blogTag;
         this.queryFactory = queryFactory;
     }
 
@@ -21,11 +21,5 @@ public class TagRepositoryCustomImpl extends QuerydslRepositorySupport implement
         return queryFactory.selectDistinct(tag.val).where(tag.blog.enabled.eq(true)).from(tag).fetch();
     }
 
-    @Override
-    public void deleteByBlogSeq(Long blogSeq) {
-        queryFactory.delete(tag)
-                .where(tag.blog.seq.eq(blogSeq))
-                .execute();
-    }
 
 }

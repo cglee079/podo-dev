@@ -1,5 +1,6 @@
 package com.cglee079.pododev.web.domain.blog.attachimage.save;
 
+import com.cglee079.pododev.web.domain.blog.attachimage.AttachImage;
 import com.cglee079.pododev.web.domain.blog.attachimage.ImageInfo;
 import lombok.Builder;
 import lombok.Getter;
@@ -44,11 +45,12 @@ public class AttachImageSaveDto {
         private Integer height;
         private Long filesize;
 
-        public AttachImageSave toEntity(String imageId) {
+        public AttachImageSave toEntity(AttachImage attachImage, String imageId) {
             return AttachImageSave.builder()
+                    .attachImage(attachImage)
+                    .imageId(imageId)
                     .filename(this.filename)
                     .filesize(this.filesize)
-                    .imageId(imageId)
                     .path(this.path)
                     .width(this.width)
                     .height(this.height)

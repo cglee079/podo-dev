@@ -1,5 +1,7 @@
 package com.cglee079.pododev.web.domain.blog.attachimage.save;
 
+import com.cglee079.pododev.web.domain.BaseEntity;
+import com.cglee079.pododev.web.domain.blog.attachimage.AttachImage;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,11 +16,15 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "blog_image_save")
 @Entity
-public class AttachImageSave {
+public class AttachImageSave extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "blog_image_seq")
+    private AttachImage attachImage;
 
     private String imageId;
 
@@ -33,9 +39,10 @@ public class AttachImageSave {
     private Long filesize;
 
     @Builder
-    public AttachImageSave(String imageId, String filename, String path, Integer width, Integer height, Long filesize) {
-        this.imageId = imageId;
+    public AttachImageSave(AttachImage attachImage, String imageId, String filename, String path, Integer width, Integer height, Long filesize) {
+        this.attachImage = attachImage;
         this.filename = filename;
+        this.imageId = imageId;
         this.path = path;
         this.width = width;
         this.height = height;

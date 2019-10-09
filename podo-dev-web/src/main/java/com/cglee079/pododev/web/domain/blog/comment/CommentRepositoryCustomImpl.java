@@ -1,11 +1,9 @@
 package com.cglee079.pododev.web.domain.blog.comment;
 
-import com.cglee079.pododev.web.domain.blog.tag.Tag;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
@@ -17,7 +15,7 @@ public class CommentRepositoryCustomImpl extends QuerydslRepositorySupport imple
     private final JPAQueryFactory queryFactory;
 
     public CommentRepositoryCustomImpl(JPAQueryFactory queryFactory) {
-        super(Tag.class);
+        super(Comment.class);
         this.comment = QComment.comment;
         this.queryFactory = queryFactory;
     }

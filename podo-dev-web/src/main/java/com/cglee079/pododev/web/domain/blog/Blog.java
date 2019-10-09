@@ -1,30 +1,27 @@
 package com.cglee079.pododev.web.domain.blog;
 
+import com.cglee079.pododev.web.domain.UpdatableBaseEntity;
 import com.cglee079.pododev.web.domain.blog.attachfile.AttachFile;
 import com.cglee079.pododev.web.domain.blog.attachimage.AttachImage;
-import com.cglee079.pododev.web.domain.blog.attachimage.AttachImageDto;
 import com.cglee079.pododev.web.domain.blog.comment.Comment;
-import com.cglee079.pododev.web.domain.blog.tag.Tag;
+import com.cglee079.pododev.web.domain.blog.tag.BlogTag;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
-@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "blog")
 @Entity
-public class Blog {
+public class Blog extends UpdatableBaseEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
 
     private String title;
@@ -33,39 +30,30 @@ public class Blog {
 
     private Integer hitCnt;
 
+    private Boolean feeded;
+
     private Boolean enabled;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "blog_seq")
+    @OneToMany(mappedBy = "blog")
     private List<AttachImage> images = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "blog_seq")
+    @OneToMany(mappedBy = "blog")
     private List<AttachFile> files = new ArrayList<>();
 
     @OneToMany(mappedBy = "blog")
-    private List<Tag> tags = new ArrayList<>();
+    private List<BlogTag> tags = new ArrayList<>();
 
     @OneToMany(mappedBy = "blog")
     private List<Comment> comments = new ArrayList<>();
 
-    @CreatedDate
-    private LocalDateTime createAt;
-
-    @LastModifiedDate
-    private LocalDateTime updateAt;
-
-
     @Builder
-    public Blog(String title, String contents, Boolean enabled, List<AttachImage> images, List<AttachFile> files) {
+    public Blog(String title, String contents, Boolean enabled) {
         this.title = title;
         this.contents = contents;
         this.enabled = enabled;
-        this.images = images;
-        this.files = files;
         this.hitCnt = 0;
+        this.feeded = false;
     }
-
 
     /**
      * 게시글 수정 시
@@ -74,6 +62,11 @@ public class Blog {
         this.title = title;
         this.contents = contents;
         this.enabled = enabled;
+        this.feeded = false;
+    }
+
+    public void doFeeded() {
+        this.feeded = true;
     }
 
     /**
@@ -90,23 +83,28 @@ public class Blog {
         this.hitCnt++;
     }
 
-    public void addTag(Tag tag) {
+    public void addTag(BlogTag tag) {
         this.tags.add(tag);
     }
 
-    public void addImage(AttachImage image) {
+    public void addAttachImage(AttachImage image) {
         this.images.add(image);
     }
 
-    public void removeImage(Long seq) {
-        this.images.remove(this.images.stream().filter(image -> image.getSeq().equals(seq)).findFirst().get());
+    public void removeAttachImage(AttachImage attachImage) {
+        this.images.remove(attachImage);
     }
 
-    public void addFile(AttachFile file) {
+    public void addAttachFile(AttachFile file) {
         this.files.add(file);
     }
 
-    public void removeFile(Long seq) {
-        this.images.remove(this.images.stream().filter(image -> image.getSeq().equals(seq)).findFirst().get());
+    public void removeAttachFile(AttachFile attachFile) {
+        this.files.remove(attachFile);
+    }
+
+
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
     }
 }

@@ -15,13 +15,10 @@ import java.util.List;
 public class Resume {
 
     @Id
-    @Column
     private String id;
 
-    @Column
     private String head;
 
-    @Column
     private Integer sort;
 
     @OneToMany

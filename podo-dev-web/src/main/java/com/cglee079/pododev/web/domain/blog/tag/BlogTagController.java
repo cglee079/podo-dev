@@ -12,16 +12,16 @@ import java.util.Set;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping
-public class TagController {
+public class BlogTagController {
 
-    private final TagService tagService;
+    private final BlogTagService blogTagService;
 
     /**
      * 태그, 초성별 조회
      */
     @GetMapping("/api/tags/values")
     public ApiResponse listValues() {
-        final Map<String, Set<String>> mapByChosung = tagService.valuesByChosungMap();
+        final Map<String, Set<String>> mapByChosung = blogTagService.valuesByChosungMap();
 
         return DataResponse.builder()
                 .status(ApiStatus.SUCCESS)

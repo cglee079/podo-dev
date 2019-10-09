@@ -8,7 +8,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.time.LocalDate;
 import java.util.List;
 
 @Slf4j
@@ -20,11 +19,11 @@ public class MakeScheduler {
     private final BlogService blogService;
 
 
-    @Scheduled(cron = "0 50 23 0/1 * *")
+    @Scheduled(cron = "0 */30 * * * *")
     public void doSchedule() {
         log.info("Start MakeWork Schedule");
 
-        if (!blogService.existUpdated(LocalDate.now())) {
+        if (!blogService.existByFeeded(false)) {
             log.info("No Updated Blogs");
             return;
         }
@@ -32,8 +31,12 @@ public class MakeScheduler {
         log.info("Detect Updated Blog, Start MakeWork");
 
         List<BlogDto.summary> blogs = blogService.findEnabled();
-        workers.forEach(w -> w.doWork(blogs));
-    }
 
+        //Feed
+        workers.forEach(w -> w.doWork(blogs));
+
+
+        blogs.forEach(blog -> blogService.completeFeeded());
+    }
 
 }

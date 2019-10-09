@@ -1,5 +1,7 @@
 package com.cglee079.pododev.web.domain.blog.attachfile;
 
+import com.cglee079.pododev.web.domain.BaseEntity;
+import com.cglee079.pododev.web.domain.blog.Blog;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,11 +14,15 @@ import java.util.Date;
 @Table(name = "blog_file")
 @Getter
 @Entity
-public class AttachFile {
+public class AttachFile extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "blog_seq")
+    private Blog blog;
 
     private String originName;
 
@@ -26,13 +32,13 @@ public class AttachFile {
 
     private Long filesize;
 
-    private Date createAt;
-
     @Builder
-    public AttachFile(String filename, String originName, String path, Long filesize) {
+    public AttachFile(Blog blog, String filename, String originName, String path, Long filesize) {
+        this.blog = blog;
         this.filename = filename;
         this.originName = originName;
         this.path = path;
         this.filesize = filesize;
     }
+
 }

@@ -1,5 +1,7 @@
 package com.cglee079.pododev.web.global.config.security.oauth;
 
+import com.cglee079.pododev.web.domain.user.UserDto;
+import com.cglee079.pododev.web.domain.user.UserService;
 import com.cglee079.pododev.web.global.config.security.SecurityStore;
 import com.cglee079.pododev.web.global.config.security.UserRole;
 import lombok.RequiredArgsConstructor;
@@ -22,12 +24,12 @@ import java.util.Map;
 public class SocialLoginSuccessHandler implements AuthenticationSuccessHandler {
 
     @Value("${security.oauth2.admin.ids}")
-    List<String> adminIds;
+    private List<String> adminIds;
 
     @Value("${security.oauth2.redirect}")
-    String redirectUrl;
+    private String redirectUrl;
 
-
+    private final UserService userService;
     private final SecurityStore securityStore;
 
     @Override
@@ -47,6 +49,16 @@ public class SocialLoginSuccessHandler implements AuthenticationSuccessHandler {
                 .picture(picture)
                 .build();
 
+
+        userService.save(
+                UserDto.insert.builder()
+                        .userId(googleId)
+                        .email(email)
+                        .name(username)
+                        .picture(picture)
+                        .build()
+        );
+
         googleUserDetails.addAuthority(new SimpleGrantedAuthority("ROLE_" + UserRole.USER));
 
         if (adminIds.contains(googleId)) {
@@ -55,7 +67,9 @@ public class SocialLoginSuccessHandler implements AuthenticationSuccessHandler {
 
         GoogleAuthentication googleAuthentication = new GoogleAuthentication(googleUserDetails);
 
+
         securityStore.login(token, googleAuthentication);
+
 
         //Go Home
         res.sendRedirect(redirectUrl + "?token=" + token);

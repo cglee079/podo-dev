@@ -1,6 +1,8 @@
 package com.cglee079.pododev.web.domain.blog.comment;
 
+import com.cglee079.pododev.web.domain.BaseEntity;
 import com.cglee079.pododev.web.domain.blog.Blog;
+import com.cglee079.pododev.web.domain.user.User;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,23 +15,22 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Getter
-@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "blog_comment")
 @Entity
-public class Comment {
+public class Comment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "blog_seq")
     private Blog blog;
 
-    private String username;
-
-    private String userId;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "userId")
+    private User user;
 
     private String contents;
 
@@ -45,17 +46,12 @@ public class Comment {
 
     private Boolean enabled;
 
-    @CreatedDate
-    @Column(name = "create_at")
-    private LocalDateTime createAt;
-
     @Builder
-    public Comment(Blog blog, String username, String userId, String contents,
+    public Comment(Blog blog, User user, String contents,
                    Long cgroup, Integer child, Long parentSeq, Integer depth, Double sort) {
 
-
-        this.username = username;
-        this.userId = userId;
+        this.blog = blog;
+        this.user = user;
         this.contents = contents;
         this.child = child;
         this.cgroup = cgroup;
@@ -63,13 +59,6 @@ public class Comment {
         this.parentSeq = parentSeq;
         this.sort = sort;
         this.enabled = true;
-
-        this.changeBlog(blog);
-    }
-
-    private void changeBlog(Blog blog) {
-        this.blog = blog;
-        blog.getComments().add(this);
     }
 
     public void updateCgroup(Long seq) {

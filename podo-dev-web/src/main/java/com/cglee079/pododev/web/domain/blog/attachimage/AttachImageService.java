@@ -26,13 +26,9 @@ import java.util.stream.Collectors;
 @Service
 public class AttachImageService {
 
-    @Value("${local.upload.base.dir}")
-    private String baseDir;
-
     @Value("${local.upload.base.url}")
     private String baseUrl;
 
-    private final PodoUploaderClient podoUploaderClient;
     private final AttachImageSaveService attachImageSaveService;
 
     public AttachImageDto.response saveBase64(String base64) {
@@ -79,39 +75,6 @@ public class AttachImageService {
                 .fileStatus(FileStatus.NEW)
                 .saves(saves)
                 .build();
-    }
-
-    /***
-     * 게시글 작성 시, 이미지 업로드 To Uplaoder Server
-     * @param images
-     */
-    public void uploadImage(List<AttachImageDto.insert> images) {
-        images.forEach(image -> {
-            log.info("Image '{}', '{}'", image.getFileStatus(), image.getOriginName());
-
-            final List<AttachImageSaveDto.insert> saves = new ArrayList<>(image.getSaves().values());
-
-            switch (FileStatus.valueOf(image.getFileStatus())) {
-                case NEW:
-                    saves.forEach(save ->
-                            podoUploaderClient.upload(save.getPath(), new File(PathUtil.merge(baseDir, save.getPath()), save.getFilename()))
-                    );
-
-                    break;
-                case REMOVE:
-                    saves.forEach(save ->
-                            podoUploaderClient.delete(save.getPath(), save.getFilename())
-                    );
-
-                    break;
-                case BE:
-                case UNNEW:
-                default:
-                    break;
-            }
-        });
-
-
     }
 
 

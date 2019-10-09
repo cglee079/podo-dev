@@ -18,7 +18,19 @@ public class QAttachImage extends EntityPathBase<AttachImage> {
 
     private static final long serialVersionUID = 2140893736L;
 
+    private static final PathInits INITS = PathInits.DIRECT2;
+
     public static final QAttachImage attachImage = new QAttachImage("attachImage");
+
+    public final com.cglee079.pododev.web.domain.QBaseEntity _super = new com.cglee079.pododev.web.domain.QBaseEntity(this);
+
+    public final com.cglee079.pododev.web.domain.blog.QBlog blog;
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createAt = _super.createAt;
+
+    //inherited
+    public final StringPath createBy = _super.createBy;
 
     public final StringPath originName = createString("originName");
 
@@ -27,15 +39,24 @@ public class QAttachImage extends EntityPathBase<AttachImage> {
     public final NumberPath<Long> seq = createNumber("seq", Long.class);
 
     public QAttachImage(String variable) {
-        super(AttachImage.class, forVariable(variable));
+        this(AttachImage.class, forVariable(variable), INITS);
     }
 
     public QAttachImage(Path<? extends AttachImage> path) {
-        super(path.getType(), path.getMetadata());
+        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
     public QAttachImage(PathMetadata metadata) {
-        super(AttachImage.class, metadata);
+        this(metadata, PathInits.getFor(metadata, INITS));
+    }
+
+    public QAttachImage(PathMetadata metadata, PathInits inits) {
+        this(AttachImage.class, metadata, inits);
+    }
+
+    public QAttachImage(Class<? extends AttachImage> type, PathMetadata metadata, PathInits inits) {
+        super(type, metadata, inits);
+        this.blog = inits.isInitialized("blog") ? new com.cglee079.pododev.web.domain.blog.QBlog(forProperty("blog")) : null;
     }
 
 }

@@ -22,6 +22,8 @@ public class QComment extends EntityPathBase<Comment> {
 
     public static final QComment comment = new QComment("comment");
 
+    public final com.cglee079.pododev.web.domain.QBaseEntity _super = new com.cglee079.pododev.web.domain.QBaseEntity(this);
+
     public final com.cglee079.pododev.web.domain.blog.QBlog blog;
 
     public final NumberPath<Long> cgroup = createNumber("cgroup", Long.class);
@@ -30,7 +32,11 @@ public class QComment extends EntityPathBase<Comment> {
 
     public final StringPath contents = createString("contents");
 
-    public final DateTimePath<java.time.LocalDateTime> createAt = createDateTime("createAt", java.time.LocalDateTime.class);
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createAt = _super.createAt;
+
+    //inherited
+    public final StringPath createBy = _super.createBy;
 
     public final NumberPath<Integer> depth = createNumber("depth", Integer.class);
 
@@ -42,9 +48,7 @@ public class QComment extends EntityPathBase<Comment> {
 
     public final NumberPath<Double> sort = createNumber("sort", Double.class);
 
-    public final StringPath userId = createString("userId");
-
-    public final StringPath username = createString("username");
+    public final com.cglee079.pododev.web.domain.user.QUser user;
 
     public QComment(String variable) {
         this(Comment.class, forVariable(variable), INITS);
@@ -65,6 +69,7 @@ public class QComment extends EntityPathBase<Comment> {
     public QComment(Class<? extends Comment> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.blog = inits.isInitialized("blog") ? new com.cglee079.pododev.web.domain.blog.QBlog(forProperty("blog")) : null;
+        this.user = inits.isInitialized("user") ? new com.cglee079.pododev.web.domain.user.QUser(forProperty("user")) : null;
     }
 
 }

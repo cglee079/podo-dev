@@ -1,4 +1,4 @@
-package com.cglee079.pododev.web.domain.auth.exception;
+package com.cglee079.pododev.web.domain.user.exception;
 
 import com.cglee079.pododev.core.global.exception.HandledException;
 import com.cglee079.pododev.core.global.response.ApiStatus;

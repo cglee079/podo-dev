@@ -1,7 +1,9 @@
 package com.cglee079.pododev.web.domain.blog.comment;
 
 import com.cglee079.pododev.core.global.response.PageDto;
-import com.cglee079.pododev.web.domain.auth.exception.NoAuthenticatedException;
+import com.cglee079.pododev.web.domain.user.User;
+import com.cglee079.pododev.web.domain.user.UserRepository;
+import com.cglee079.pododev.web.domain.user.exception.NoAuthenticatedException;
 import com.cglee079.pododev.web.domain.blog.Blog;
 import com.cglee079.pododev.web.domain.blog.BlogRepository;
 import com.cglee079.pododev.web.domain.blog.comment.exception.InvalidCommentException;
@@ -29,6 +31,7 @@ public class CommentService {
 
     private final BlogRepository blogRepository;
     private final CommentRepository commentRepository;
+    private final UserRepository userRepository;
 
     @Value("${blog.comment.max.depth}")
     private Integer maxCommentDepth;
@@ -71,10 +74,8 @@ public class CommentService {
             throw new NoAuthenticatedException();
         }
 
-
+        final User user = userRepository.findByUserId(currentUserId).get();
         final Blog blog = blogRepository.findById(blogSeq).get();
-        final String userId = currentUserId;
-        final String username = SecurityUtil.getUsername();
         final String contents = insert.getContents();
         final Long parentSeq = insert.getParentSeq();
 
@@ -84,15 +85,15 @@ public class CommentService {
 
             Comment comment = Comment.builder()
                     .blog(blog)
-                    .username(username)
-                    .userId(userId)
+                    .user(user)
                     .contents(contents)
                     .child(0)
                     .depth(0)
                     .sort(Double.valueOf(1))
                     .build();
 
-            comment = commentRepository.save(comment);
+            insertComment(blog, comment);
+
             comment.updateCgroup(comment.getSeq());
 
         }
@@ -117,8 +118,7 @@ public class CommentService {
 
             Comment comment = Comment.builder()
                     .blog(blog)
-                    .username(username)
-                    .userId(userId)
+                    .user(user)
                     .contents(contents)
                     .cgroup(cgroup)
                     .child(0)
@@ -127,10 +127,15 @@ public class CommentService {
                     .sort(childSort)
                     .build();
 
-            commentRepository.save(comment);
+            insertComment(blog, comment);
         }
 
 
+    }
+
+    private void insertComment(Blog blog, Comment comment) {
+        commentRepository.save(comment);
+        blog.addComment(comment);
     }
 
     /**
@@ -154,7 +159,7 @@ public class CommentService {
         Comment comment = commentOpt.get();
 
         // No Auth Error
-        if (!comment.getUserId().equals(currentUserId)) {
+        if (!comment.getCreateBy().equals(currentUserId)) {
             throw new NoAuthenticatedException();
         }
 
