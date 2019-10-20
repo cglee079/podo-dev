@@ -8,6 +8,5 @@ public class TimeUtil {
 
     public static Date localDateTimeToDate(LocalDateTime time) {
         return Date.from(time.atZone(ZoneId.systemDefault()).toInstant());
-
     }
 }

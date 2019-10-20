@@ -19,11 +19,11 @@ public class BlogTagDto {
 
     @Getter
     public static class response {
-        private Long seq;
+        private Long id;
         private String val;
 
         public response(BlogTag blogTag) {
-            this.seq = blogTag.getSeq();
+            this.id = blogTag.getId();
             this.val = blogTag.getVal();
         }
     }

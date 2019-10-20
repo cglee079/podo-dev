@@ -32,9 +32,9 @@ public class QBlogTag extends EntityPathBase<BlogTag> {
     //inherited
     public final StringPath createBy = _super.createBy;
 
-    public final NumberPath<Integer> idx = createNumber("idx", Integer.class);
+    public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final NumberPath<Long> seq = createNumber("seq", Long.class);
+    public final NumberPath<Integer> idx = createNumber("idx", Integer.class);
 
     public final StringPath val = createString("val");
 

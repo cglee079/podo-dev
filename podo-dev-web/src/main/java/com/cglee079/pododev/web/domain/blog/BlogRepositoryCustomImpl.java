@@ -25,35 +25,35 @@ public class BlogRepositoryCustomImpl extends QuerydslRepositorySupport implemen
 
 
     @Override
-    public Blog findNext(Long seq) {
+    public Blog findNext(Long id) {
         return from(blog)
-                .where(blog.seq.gt(seq))
-                .orderBy(blog.seq.asc())
+                .where(blog.id.gt(id))
+                .orderBy(blog.id.asc())
                 .limit(1)
                 .fetchOne();
     }
 
     @Override
-    public Blog findBefore(Long seq) {
+    public Blog findBefore(Long id) {
         return from(blog)
-                .where(blog.seq.lt(seq))
+                .where(blog.id.lt(id))
                 .orderBy(blog.createAt.desc())
                 .limit(1)
                 .fetchOne();
     }
 
     @Override
-    public Page<Blog> paging(Pageable pageable, List<Long> seqs, Boolean enabled) {
+    public Page<Blog> paging(Pageable pageable, List<Long> ids, Boolean enabled) {
         JPQLQuery<Blog> query;
         query = from(blog)
-                .orderBy(blog.seq.desc());
+                .orderBy(blog.id.desc());
 
         if (!Objects.isNull(enabled)) {
             query.where(blog.enabled.eq(enabled));
         }
 
-        if (!Objects.isNull(seqs)) {
-            query.where(blog.seq.in(seqs));
+        if (!Objects.isNull(ids)) {
+            query.where(blog.id.in(ids));
         }
 
         List<Blog> blogs = getQuerydsl().applyPagination(pageable, query).fetch();
@@ -81,15 +81,15 @@ public class BlogRepositoryCustomImpl extends QuerydslRepositorySupport implemen
     public List<Blog> findBlogByTagValue(String tagValue) {
         QBlogTag tag = QBlogTag.blogTag;
 
-        List<Long> blogSeq = this.queryFactory
-                .select(tag.blog.seq)
+        List<Long> blogId = this.queryFactory
+                .select(tag.blog.id)
                 .from(tag)
                 .where(tag.val.eq(tagValue))
                 .fetch();
 
         return this.queryFactory.select(blog)
                 .from(blog)
-                .where(blog.seq.in(blogSeq))
+                .where(blog.id.in(blogId))
                 .fetch();
     }
 }

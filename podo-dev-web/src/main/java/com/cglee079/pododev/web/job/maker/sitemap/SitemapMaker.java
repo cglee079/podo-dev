@@ -45,7 +45,7 @@ public class SitemapMaker {
             blogs.forEach(blog -> {
 
                 try {
-                    wsg.addUrl(makeUrl("/blogs/" + blog.getSeq()));
+                    wsg.addUrl(makeUrl("/blogs/" + blog.getId()));
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }

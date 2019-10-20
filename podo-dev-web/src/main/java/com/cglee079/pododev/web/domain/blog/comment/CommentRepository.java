@@ -7,6 +7,6 @@ import java.util.List;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long>, CommentRepositoryCustom {
-    int countByBlogSeq(Long blogSeq);
+    int countByBlogId(Long blogId);
 }
 

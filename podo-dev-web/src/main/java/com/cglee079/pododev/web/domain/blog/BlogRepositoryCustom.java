@@ -11,11 +11,11 @@ import java.util.List;
 
 @Repository
 public interface BlogRepositoryCustom {
-    Blog findNext(Long seq);
+    Blog findNext(Long id);
 
-    Blog findBefore(Long seq);
+    Blog findBefore(Long id);
 
-    Page<Blog> paging(Pageable pageable, List<Long> seqs, Boolean enabled);
+    Page<Blog> paging(Pageable pageable, List<Long> ids, Boolean enabled);
 
     List<Blog> findByEnabled(Boolean enabled);
 

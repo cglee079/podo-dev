@@ -32,11 +32,11 @@ public class QAttachImage extends EntityPathBase<AttachImage> {
     //inherited
     public final StringPath createBy = _super.createBy;
 
+    public final NumberPath<Long> id = createNumber("id", Long.class);
+
     public final StringPath originName = createString("originName");
 
     public final ListPath<com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSave, com.cglee079.pododev.web.domain.blog.attachimage.save.QAttachImageSave> saves = this.<com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSave, com.cglee079.pododev.web.domain.blog.attachimage.save.QAttachImageSave>createList("saves", com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSave.class, com.cglee079.pododev.web.domain.blog.attachimage.save.QAttachImageSave.class, PathInits.DIRECT2);
-
-    public final NumberPath<Long> seq = createNumber("seq", Long.class);
 
     public QAttachImage(String variable) {
         this(AttachImage.class, forVariable(variable), INITS);

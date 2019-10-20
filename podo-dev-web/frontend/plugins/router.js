@@ -4,7 +4,7 @@ export default ({app, store: {state}}) => {
 
         //권한 제어
         if (!isAdmin) {
-            if (to.name === 'blogs-post' || to.name === 'blogs-seq-post') {
+            if (to.name === 'blogs-post' || to.name === 'blogs-id-post') {
                 next({name: 'index'})
                 return
             }

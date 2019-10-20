@@ -36,11 +36,11 @@ public class QAttachFile extends EntityPathBase<AttachFile> {
 
     public final NumberPath<Long> filesize = createNumber("filesize", Long.class);
 
+    public final NumberPath<Long> id = createNumber("id", Long.class);
+
     public final StringPath originName = createString("originName");
 
     public final StringPath path = createString("path");
-
-    public final NumberPath<Long> seq = createNumber("seq", Long.class);
 
     public QAttachFile(String variable) {
         this(AttachFile.class, forVariable(variable), INITS);

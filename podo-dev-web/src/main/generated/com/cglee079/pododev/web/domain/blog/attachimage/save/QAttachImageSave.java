@@ -38,11 +38,11 @@ public class QAttachImageSave extends EntityPathBase<AttachImageSave> {
 
     public final NumberPath<Integer> height = createNumber("height", Integer.class);
 
+    public final NumberPath<Long> id = createNumber("id", Long.class);
+
     public final StringPath imageId = createString("imageId");
 
     public final StringPath path = createString("path");
-
-    public final NumberPath<Long> seq = createNumber("seq", Long.class);
 
     public final NumberPath<Integer> width = createNumber("width", Integer.class);
 

@@ -7,6 +7,10 @@ import org.springframework.web.util.HtmlUtils;
 
 public class MarkdownUtil {
 
+    public static String toHtml(String value) {
+        return Processor.process(value);
+    }
+
     public static String extractPlainText(String value) {
         String html = Processor.process(value);
         return Jsoup.parse(html).text();

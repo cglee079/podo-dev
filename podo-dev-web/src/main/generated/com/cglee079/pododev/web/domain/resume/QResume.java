@@ -22,9 +22,11 @@ public class QResume extends EntityPathBase<Resume> {
 
     public final StringPath head = createString("head");
 
-    public final StringPath id = createString("id");
+    public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final ListPath<com.cglee079.pododev.web.domain.resume.content.ResumeContent, com.cglee079.pododev.web.domain.resume.content.QResumeContent> resumeContents = this.<com.cglee079.pododev.web.domain.resume.content.ResumeContent, com.cglee079.pododev.web.domain.resume.content.QResumeContent>createList("resumeContents", com.cglee079.pododev.web.domain.resume.content.ResumeContent.class, com.cglee079.pododev.web.domain.resume.content.QResumeContent.class, PathInits.DIRECT2);
+
+    public final StringPath resumeKey = createString("resumeKey");
 
     public final NumberPath<Integer> sort = createNumber("sort", Integer.class);
 

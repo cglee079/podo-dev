@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class AttachImageDto {
 
@@ -20,7 +21,7 @@ public class AttachImageDto {
 
     @Getter
     public static class response {
-        private Long seq;
+        private Long id;
         private String originName;
         private String uploadedUrl;
         private FileStatus fileStatus;
@@ -35,15 +36,15 @@ public class AttachImageDto {
         }
 
         public response(AttachImage image, String uploadedUrl, FileStatus fileStatus) {
-            this.seq = image.getSeq();
+            this.id = image.getId();
             this.originName = image.getOriginName();
             this.uploadedUrl = uploadedUrl;
             this.fileStatus = fileStatus;
             this.saves = new HashMap<>();
 
-            image.getSaves().forEach(save -> {
-                this.saves.put(save.getImageId(), new AttachImageSaveDto.response(save));
-            });
+            image.getSaves().forEach(save ->
+                    this.saves.put(save.getImageId(), new AttachImageSaveDto.response(save))
+            );
 
         }
 
@@ -51,19 +52,28 @@ public class AttachImageDto {
 
     @Getter
     public static class insert {
-        private Long seq;
+        private Long id;
         private String originName;
         private String uploadedUrl;
         private String fileStatus;
         private Map<String, AttachImageSaveDto.insert> saves;
 
-        public AttachImage toEntity(Blog blog) {
+        public AttachImage toEntity() {
 
+            List<AttachImageSave> attachImageSaves = saves.keySet().stream()
+                    .map(key -> saves.get(key).toEntity(key))
+                    .collect(Collectors.toList());
 
-            return AttachImage.builder()
-                    .blog(blog)
+            AttachImage attachImage = AttachImage.builder()
+                    .saves(attachImageSaves)
                     .originName(this.originName)
                     .build();
+
+            attachImageSaves.forEach(save -> save.changeAttachImage(attachImage));
+
+            return attachImage;
         }
+
+
     }
 }

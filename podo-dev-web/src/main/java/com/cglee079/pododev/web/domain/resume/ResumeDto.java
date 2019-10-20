@@ -10,13 +10,13 @@ public class ResumeDto {
 
     @Getter
     public static class response {
-        private String id;
+        private String resumeKey;
         private String head;
         private Integer sort;
         private List<String> contents;
 
         public response(Resume resume) {
-            this.id = resume.getId();
+            this.resumeKey = resume.getResumeKey();
             this.head = resume.getHead();
             this.sort = resume.getSort();
             this.contents = new LinkedList<>();

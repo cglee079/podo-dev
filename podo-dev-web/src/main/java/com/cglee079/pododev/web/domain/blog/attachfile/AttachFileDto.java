@@ -9,7 +9,7 @@ public class AttachFileDto {
 
     @Getter
     public static class response {
-        private Long seq;
+        private Long id;
         private String filename;
         private String originName;
         private String uploadedUrl;
@@ -18,8 +18,8 @@ public class AttachFileDto {
         private FileStatus fileStatus;
 
         @Builder
-        public response(Long seq, String filename, String originName, String uploadedUrl, String path, Long filesize, FileStatus fileStatus) {
-            this.seq = seq;
+        public response(Long id, String filename, String originName, String uploadedUrl, String path, Long filesize, FileStatus fileStatus) {
+            this.id = id;
             this.filename = filename;
             this.originName = originName;
             this.uploadedUrl = uploadedUrl;
@@ -29,7 +29,7 @@ public class AttachFileDto {
         }
 
         public response(AttachFile file, String uploadedUrl, FileStatus fileStatus) {
-            this.seq = file.getSeq();
+            this.id = file.getId();
             this.filename = file.getFilename();
             this.originName = file.getOriginName();
             this.uploadedUrl = uploadedUrl;
@@ -42,7 +42,7 @@ public class AttachFileDto {
 
     @Getter
     public static class download {
-        private Long seq;
+        private Long id;
         private String filename;
         private String originName;
         private String uploadedUrl;
@@ -60,16 +60,15 @@ public class AttachFileDto {
 
     @Getter
     public static class insert {
-        private Long seq;
+        private Long id;
         private String filename;
         private String originName;
         private String path;
         private Long filesize;
         private String fileStatus;
 
-        public AttachFile toEntity(Blog blog) {
+        public AttachFile toEntity() {
             return AttachFile.builder()
-                    .blog(blog)
                     .filename(filename)
                     .originName(originName)
                     .path(path)

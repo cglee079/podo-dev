@@ -17,10 +17,10 @@ public class BlogTag extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long seq;
+    private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "blog_seq")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "blog_id")
     private Blog blog;
 
     private String val;

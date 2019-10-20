@@ -23,10 +23,10 @@ public class MakeScheduler {
     public void doSchedule() {
         log.info("Start MakeWork Schedule");
 
-        if (!blogService.existByFeeded(false)) {
-            log.info("No Updated Blogs");
-            return;
-        }
+//        if (!blogService.existByFeeded(false)) {
+//            log.info("No Updated Blogs");
+//            return;
+//        }
 
         log.info("Detect Updated Blog, Start MakeWork");
 
@@ -36,7 +36,12 @@ public class MakeScheduler {
         workers.forEach(w -> w.doWork(blogs));
 
 
-        blogs.forEach(blog -> blogService.completeFeeded());
+        blogService.completeFeeded();
+    }
+
+    @PostConstruct
+    public void dd(){
+        this.doSchedule();
     }
 
 }

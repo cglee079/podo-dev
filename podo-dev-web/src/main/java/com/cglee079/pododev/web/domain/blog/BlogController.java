@@ -19,10 +19,10 @@ public class BlogController {
     /**
      * 게시글 조회
      */
-    @GetMapping("/api/blogs/{seq}")
-    public ApiResponse get(@PathVariable Long seq) {
+    @GetMapping("/api/blogs/{id}")
+    public ApiResponse get(@PathVariable Long id) {
 
-        BlogDto.response blogRes = blogService.get(seq);
+        BlogDto.response blogRes = blogService.get(id);
 
         return DataResponse.builder()
                 .status(ApiStatus.SUCCESS)
@@ -60,9 +60,9 @@ public class BlogController {
     /**
      * 게시글 수정
      */
-    @PutMapping("/api/blogs/{seq}")
-    public ApiResponse update(@PathVariable Long seq, @Valid @RequestBody BlogDto.update blogReq) {
-        blogService.update(seq, blogReq);
+    @PutMapping("/api/blogs/{id}")
+    public ApiResponse update(@PathVariable Long id, @Valid @RequestBody BlogDto.update blogReq) {
+        blogService.update(id, blogReq);
 
         return StatusResponse.builder()
                 .status(ApiStatus.SUCCESS)
@@ -72,9 +72,9 @@ public class BlogController {
     /**
      * 게시글 삭제
      */
-    @DeleteMapping("/api/blogs/{seq}")
-    public ApiResponse delete(@PathVariable Long seq) {
-        blogService.delete(seq);
+    @DeleteMapping("/api/blogs/{id}")
+    public ApiResponse delete(@PathVariable Long id) {
+        blogService.delete(id);
 
         return StatusResponse.builder()
                 .status(ApiStatus.SUCCESS)
@@ -85,10 +85,10 @@ public class BlogController {
     /**
      * 게시글 조회
      */
-    @PostMapping("/api/blogs/{seq}/hitCount")
-    public ApiResponse increaseHitCnt(@PathVariable Long seq) {
+    @PostMapping("/api/blogs/{id}/hitCount")
+    public ApiResponse increaseHitCnt(@PathVariable Long id) {
 
-        blogService.increaseHitCnt(seq);
+        blogService.increaseHitCnt(id);
 
         return StatusResponse.builder()
                 .status(ApiStatus.SUCCESS)

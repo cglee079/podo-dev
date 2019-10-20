@@ -27,21 +27,16 @@ public class AttachFileDownloadController {
     /**
      * 파일 다운로드 To OriginalName
      *
-     * @param blogSeq
-     * @param fileSeq
-     * @param request
-     * @param response
-     * @throws IOException
      */
-    @GetMapping("/api/blogs/{blogSeq}/files/{fileSeq}")
+    @GetMapping("/api/blogs/{blogId}/files/{fileId}")
     public void downloadFile(
-            @PathVariable Long blogSeq,
-            @PathVariable Long fileSeq,
+            @PathVariable Long blogId,
+            @PathVariable Long fileId,
             HttpServletRequest request,
             HttpServletResponse response
     ) throws IOException {
 
-        final AttachFileDto.download attachFile = attachFileService.download(fileSeq);
+        final AttachFileDto.download attachFile = attachFileService.download(fileId);
         final String url = PathUtil.merge(attachFile.getUploadedUrl(), attachFile.getPath(), attachFile.getFilename());
         final File file = fileWriter.saveFile(TEMP_DIRECTORY, url);
 

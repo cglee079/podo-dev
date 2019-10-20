@@ -18,10 +18,10 @@ public class CommentController {
     /**
      * 댓글 조회
      */
-    @GetMapping("/api/blogs/{blogSeq}/comments")
-    public ApiResponse paging(@PathVariable Long blogSeq, CommentDto.request request) {
+    @GetMapping("/api/blogs/{blogId}/comments")
+    public ApiResponse paging(@PathVariable Long blogId, CommentDto.request request) {
 
-        final PageDto<CommentDto.response> comments = commentService.paging(blogSeq, request);
+        final PageDto<CommentDto.response> comments = commentService.paging(blogId, request);
 
         return DataResponse.builder()
                 .status(ApiStatus.SUCCESS)
@@ -34,10 +34,10 @@ public class CommentController {
      * 댓글 작성
      */
     @CommentNotice
-    @PostMapping("/api/blogs/{blogSeq}/comments")
-    public ApiResponse insert(@PathVariable Long blogSeq, @Valid @RequestBody CommentDto.insert insert) {
+    @PostMapping("/api/blogs/{blogId}/comments")
+    public ApiResponse insert(@PathVariable Long blogId, @Valid @RequestBody CommentDto.insert insert) {
 
-        commentService.insert(blogSeq, insert);
+        commentService.insert(blogId, insert);
 
         return StatusResponse.builder()
                 .status(ApiStatus.SUCCESS)
@@ -47,9 +47,9 @@ public class CommentController {
     /**
      * 댓글 삭제
      */
-    @DeleteMapping("/api/blogs/{blogSeq}/comments/{seq}")
-    public ApiResponse delete(@PathVariable Long blogSeq, @PathVariable Long seq) {
-        commentService.delete(seq);
+    @DeleteMapping("/api/blogs/{blogId}/comments/{id}")
+    public ApiResponse delete(@PathVariable Long blogId, @PathVariable Long id) {
+        commentService.delete(id);
 
         return StatusResponse.builder()
                 .status(ApiStatus.SUCCESS)

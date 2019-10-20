@@ -2,13 +2,12 @@ package com.cglee079.pododev.web.domain.blog;
 
 import com.cglee079.pododev.core.global.response.PageDto;
 import com.cglee079.pododev.web.domain.blog.aop.SolrDataImport;
-import com.cglee079.pododev.web.domain.blog.attachfile.*;
-import com.cglee079.pododev.web.domain.blog.attachimage.*;
-import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSave;
-import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSaveDto;
-import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSaveRepository;
+import com.cglee079.pododev.web.domain.blog.attachfile.AttachFile;
+import com.cglee079.pododev.web.domain.blog.attachfile.AttachFileUploader;
+import com.cglee079.pododev.web.domain.blog.attachimage.AttachImage;
+import com.cglee079.pododev.web.domain.blog.attachimage.AttachImageUploader;
 import com.cglee079.pododev.web.domain.blog.comment.CommentRepository;
-import com.cglee079.pododev.web.domain.blog.exception.InvalidBlogSeqException;
+import com.cglee079.pododev.web.domain.blog.exception.InvalidBlogIdException;
 import com.cglee079.pododev.web.domain.blog.tag.BlogTag;
 import com.cglee079.pododev.web.domain.blog.tag.BlogTagDto;
 import com.cglee079.pododev.web.domain.blog.tag.BlogTagRepository;
@@ -26,7 +25,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -55,22 +53,19 @@ public class BlogService {
 
     private final CommentRepository commentRepository;
     private final BlogTagRepository blogTagRepository;
-    private final AttachImageRepository attachImageRepository;
-    private final AttachFileRepository attachFileRepository;
-    private final AttachImageSaveRepository attachImageSaveRepository;
 
     private final PodoSolrClient podoSolrClient;
 
 
-    public BlogDto.response get(Long seq) {
-        Optional<Blog> blog = blogRepository.findById(seq);
+    public BlogDto.response get(Long id) {
+        Optional<Blog> blog = blogRepository.findById(id);
 
         if (!blog.isPresent()) {
-            throw new InvalidBlogSeqException();
+            throw new InvalidBlogIdException();
         }
 
-        Blog next = blogRepository.findNext(seq);
-        Blog before = blogRepository.findBefore(seq);
+        Blog next = blogRepository.findNext(id);
+        Blog before = blogRepository.findBefore(id);
 
         return new BlogDto.response(blog.get(), before, next, uploaderFrontendUrl, FileStatus.BE);
     }
@@ -93,19 +88,19 @@ public class BlogService {
         //Filter By Search(검색)
         if (!StringUtils.isEmpty(search)) {
             final List<SolrResponse> results = podoSolrClient.search(search);
-            final List<Long> seqs = results.stream().map(SolrResponse::getSeq).map(Long::valueOf).collect(Collectors.toList());
-            final Map<String, String> desc = results.stream().collect(Collectors.toMap(SolrResponse::getSeq, SolrResponse::getContents));
+            final List<Long> ids = results.stream().map(SolrResponse::getBlogId).map(Long::valueOf).collect(Collectors.toList());
+            final Map<String, String> desc = results.stream().collect(Collectors.toMap(SolrResponse::getBlogId, SolrResponse::getContents));
 
-            blogs = blogRepository.paging(pageable, seqs, enabled);
+            blogs = blogRepository.paging(pageable, ids, enabled);
 
-            blogs.forEach(blog -> contents.add(new BlogDto.responseList(blog, desc.get(blog.getSeq().toString()), uploaderFrontendUrl)));
+            blogs.forEach(blog -> contents.add(new BlogDto.responseList(blog, desc.get(blog.getId().toString()), uploaderFrontendUrl)));
 
         }
 
         //Filter By Tag
         else if (!StringUtils.isEmpty(tagValue)) {
-            List<Long> seqs = blogRepository.findBlogByTagValue(tagValue).stream().map(Blog::getSeq).collect(Collectors.toList());
-            blogs = blogRepository.paging(pageable, seqs, enabled);
+            List<Long> ids = blogRepository.findBlogByTagValue(tagValue).stream().map(Blog::getId).collect(Collectors.toList());
+            blogs = blogRepository.paging(pageable, ids, enabled);
             blogs.forEach(blog -> contents.add(new BlogDto.responseList(blog, uploaderFrontendUrl)));
         }
 
@@ -136,8 +131,6 @@ public class BlogService {
         final Blog blog = insert.toEntity();
         blog.updateContentSrc(HttpUrlUtil.getSeverDomain() + baseUrl, uploaderFrontendUrl);
 
-        blogRepository.save(blog);
-
         //태그 저장
         int idx = 1;
         for (BlogTagDto.insert tagInsert : insert.getTags()) {
@@ -147,19 +140,16 @@ public class BlogService {
             blog.addTag(tag);
         }
 
-        insert.getFiles().forEach(file -> this.addAttachFile(blog, file));
-        insert.getImages().forEach(image -> this.addAttachImage(blog, image));
-
-
+        blogRepository.save(blog);
     }
 
     @SolrDataImport
-    public void update(Long seq, BlogDto.update update) {
+    public void update(Long id, BlogDto.update update) {
 
-        final Optional<Blog> blogOpt = blogRepository.findById(seq);
+        final Optional<Blog> blogOpt = blogRepository.findById(id);
 
         if (!blogOpt.isPresent()) {
-            throw new InvalidBlogSeqException();
+            throw new InvalidBlogIdException();
         }
 
         final Blog blog = blogOpt.get();
@@ -187,10 +177,10 @@ public class BlogService {
         update.getImages().forEach(image -> {
             switch (FileStatus.valueOf(image.getFileStatus())) {
                 case NEW:
-                    addAttachImage(blog, image);
+                    blog.addAttachImage(image.toEntity());
                     break;
                 case REMOVE:
-                    removeAttachImage(blog, image);
+                    blog.removeAttachImage(image.getId());
                 case UNNEW:
                 case BE:
                 default:
@@ -201,10 +191,10 @@ public class BlogService {
         update.getFiles().forEach(file -> {
             switch (FileStatus.valueOf(file.getFileStatus())) {
                 case NEW:
-                    addAttachFile(blog, file);
+                    blog.addAttachFile(file.toEntity());
                     break;
                 case REMOVE:
-                    removeAttachFile(blog, file);
+                    blog.removeAttachFile(file.getId());
                 case BE:
                 case UNNEW:
                 default:
@@ -215,73 +205,26 @@ public class BlogService {
 
     }
 
-    private void removeAttachImage(Blog blog, AttachImageDto.insert image) {
-        final AttachImage attachImage = attachImageRepository.findById(image.getSeq()).get();
-
-        attachImage.getSaves().forEach(save -> {
-            attachImageSaveRepository.delete(save);
-            attachImage.removeImageSave(save);
-        });
-
-        attachImageRepository.delete(attachImage);
-
-        blog.removeAttachImage(attachImage);
-    }
-
-    private void removeAttachFile(Blog blog, AttachFileDto.insert file) {
-        final AttachFile attachFile = attachFileRepository.findById(file.getSeq()).get();
-        attachFileRepository.delete(attachFile);
-        blog.removeAttachFile(attachFile);
-    }
-
-
-    private void addAttachFile(Blog blog, AttachFileDto.insert file) {
-        AttachFile attachFile = file.toEntity(blog);
-        attachFileRepository.save(attachFile);
-        blog.addAttachFile(attachFile);
-    }
-
-    private void addAttachImage(Blog blog, AttachImageDto.insert image) {
-        AttachImage attachImage = image.toEntity(blog);
-
-        attachImageRepository.save(attachImage);
-        blog.addAttachImage(attachImage);
-
-        Map<String, AttachImageSaveDto.insert> saves = image.getSaves();
-        saves.keySet().forEach(key -> {
-            final AttachImageSave attachImageSave = saves.get(key).toEntity(attachImage, key);
-            attachImageSaveRepository.save(attachImageSave);
-            attachImage.addImageSave(attachImageSave);
-        });
-    }
-
-
     @SolrDataImport
-    public void delete(Long blogSeq) {
-        final Optional<Blog> blogOptional = blogRepository.findById(blogSeq);
+    public void delete(Long blogId) {
+        final Optional<Blog> blogOptional = blogRepository.findById(blogId);
 
         if (!blogOptional.isPresent()) {
-            throw new InvalidBlogSeqException();
+            throw new InvalidBlogIdException();
         }
 
         final Blog blog = blogOptional.get();
-        final List<AttachImage> attachImages = blog.getImages();
-        final List<AttachFile> attachFiles = blog.getFiles();
+        final List<AttachImage> attachImages = blog.getAttachImages();
+        final List<AttachFile> attachFiles = blog.getAttachFiles();
 
-        attachImages.forEach(attachImage -> {
-            attachImage.getSaves().forEach(save -> {
-                        attachImageUploader.deleteImageFile(save.getPath(), save.getFilename());
-                        attachImageSaveRepository.delete(save);
-                    }
-            );
-
-            attachImageRepository.delete(attachImage);
-
-        });
+        attachImages.forEach(attachImage ->
+                attachImage.getSaves().forEach(save ->
+                        attachImageUploader.deleteImageFile(save.getPath(), save.getFilename())
+                )
+        );
 
         attachFiles.forEach(attachFile -> {
             attachFileUploader.deleteFile(attachFile.getPath(), attachFile.getFilename());
-            attachFileRepository.delete(attachFile);
         });
 
 
@@ -289,7 +232,6 @@ public class BlogService {
         commentRepository.deleteAll(blog.getComments());
 
         blogRepository.delete(blog);
-
     }
 
     /**
@@ -305,13 +247,13 @@ public class BlogService {
     /**
      * 게시글 조회수 +1
      *
-     * @param seq
+     * @param id
      */
-    public void increaseHitCnt(Long seq) {
-        Optional<Blog> blog = blogRepository.findById(seq);
+    public void increaseHitCnt(Long id) {
+        Optional<Blog> blog = blogRepository.findById(id);
 
         if (!blog.isPresent()) {
-            throw new InvalidBlogSeqException();
+            throw new InvalidBlogIdException();
         }
 
         blog.get().increaseHitCnt();
@@ -339,6 +281,6 @@ public class BlogService {
     }
 
     public void completeFeeded() {
-        blogRepository.findByFeeded(false).forEach( blog -> blog.doFeeded());
+        blogRepository.findByFeeded(false).forEach(blog -> blog.doFeeded());
     }
 }

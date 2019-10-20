@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -22,7 +23,7 @@ public class Blog extends UpdatableBaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long seq;
+    private Long id;
 
     private String title;
 
@@ -34,11 +35,11 @@ public class Blog extends UpdatableBaseEntity {
 
     private Boolean enabled;
 
-    @OneToMany(mappedBy = "blog")
-    private List<AttachImage> images = new ArrayList<>();
+    @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AttachImage> attachImages = new ArrayList<>();
 
-    @OneToMany(mappedBy = "blog")
-    private List<AttachFile> files = new ArrayList<>();
+    @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AttachFile> attachFiles = new ArrayList<>();
 
     @OneToMany(mappedBy = "blog")
     private List<BlogTag> tags = new ArrayList<>();
@@ -47,10 +48,13 @@ public class Blog extends UpdatableBaseEntity {
     private List<Comment> comments = new ArrayList<>();
 
     @Builder
-    public Blog(String title, String contents, Boolean enabled) {
+    public Blog(List<AttachImage> attachImages, List<AttachFile> attachFiles,
+                String title, String contents, Boolean enabled) {
         this.title = title;
         this.contents = contents;
         this.enabled = enabled;
+        this.attachImages = attachImages;
+        this.attachFiles = attachFiles;
         this.hitCnt = 0;
         this.feeded = false;
     }
@@ -87,24 +91,37 @@ public class Blog extends UpdatableBaseEntity {
         this.tags.add(tag);
     }
 
-    public void addAttachImage(AttachImage image) {
-        this.images.add(image);
-    }
-
-    public void removeAttachImage(AttachImage attachImage) {
-        this.images.remove(attachImage);
-    }
-
-    public void addAttachFile(AttachFile file) {
-        this.files.add(file);
-    }
-
-    public void removeAttachFile(AttachFile attachFile) {
-        this.files.remove(attachFile);
-    }
-
-
     public void addComment(Comment comment) {
         this.comments.add(comment);
+    }
+
+    void addAttachImage(AttachImage attachImage) {
+        this.attachImages.add(attachImage);
+        attachImage.changeBlog(this);
+    }
+
+    public void removeAttachImage(Long imageId) {
+        final Optional<AttachImage> attachImageOptional = this.attachImages.stream().filter(image -> image.getId().equals(imageId)).findFirst();
+
+        if (attachImageOptional.isPresent()) {
+            final AttachImage attachImage = attachImageOptional.get();
+            this.attachImages.remove(attachImage);
+            attachImage.changeBlog(null);
+        }
+    }
+
+    public void addAttachFile(AttachFile attachFile) {
+        this.attachFiles.add(attachFile);
+        attachFile.changeBlog(this);
+    }
+
+    public void removeAttachFile(Long fileId) {
+        final Optional<AttachFile> attachFileOptional = this.attachFiles.stream().filter(file -> file.getId().equals(fileId)).findFirst();
+
+        if (attachFileOptional.isPresent()) {
+            final AttachFile attachFile = attachFileOptional.get();
+            this.attachFiles.remove(attachFile);
+            attachFile.changeBlog(null);
+        }
     }
 }

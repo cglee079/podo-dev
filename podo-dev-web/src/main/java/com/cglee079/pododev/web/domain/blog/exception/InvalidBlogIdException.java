@@ -4,9 +4,9 @@ import com.cglee079.pododev.core.global.exception.HandledException;
 import com.cglee079.pododev.core.global.response.ApiStatus;
 import org.springframework.http.HttpStatus;
 
-public class InvalidBlogSeqException extends HandledException {
+public class InvalidBlogIdException extends HandledException {
 
-    public InvalidBlogSeqException() {
+    public InvalidBlogIdException() {
         super("유효하지 않은 블로그 ID 입니다");
     }
 

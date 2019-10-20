@@ -34,10 +34,6 @@ public class JpaConfig {
 
                 final Object principal = authentication.getPrincipal();
 
-                if (principal instanceof String) {
-                    return Optional.of((String) principal);
-                }
-
                 if (principal instanceof GoogleUserDetails) {
                     final GoogleUserDetails userDetails = (GoogleUserDetails) principal;
                     return Optional.of(userDetails.getGoogleIdentifier());

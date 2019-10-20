@@ -7,12 +7,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -22,10 +18,10 @@ public class Comment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long seq;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "blog_seq")
+    @JoinColumn(name = "blog_id")
     private Blog blog;
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -36,7 +32,7 @@ public class Comment extends BaseEntity {
 
     private Integer child;
 
-    private Long parentSeq;
+    private Long parentId;
 
     private Integer depth;
 
@@ -48,7 +44,7 @@ public class Comment extends BaseEntity {
 
     @Builder
     public Comment(Blog blog, User user, String contents,
-                   Long cgroup, Integer child, Long parentSeq, Integer depth, Double sort) {
+                   Long cgroup, Integer child, Long parentId, Integer depth, Double sort) {
 
         this.blog = blog;
         this.user = user;
@@ -56,13 +52,13 @@ public class Comment extends BaseEntity {
         this.child = child;
         this.cgroup = cgroup;
         this.depth = depth;
-        this.parentSeq = parentSeq;
+        this.parentId = parentId;
         this.sort = sort;
         this.enabled = true;
     }
 
-    public void updateCgroup(Long seq) {
-        this.cgroup = seq;
+    public void updateCgroup(Long id) {
+        this.cgroup = id;
     }
 
     public void increaseChild() {

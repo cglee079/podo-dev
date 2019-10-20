@@ -9,6 +9,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.telegram.telegrambots.ApiContextInitializer;
 
 import javax.annotation.PostConstruct;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.TimeZone;
 
 @EnableScheduling
@@ -21,6 +23,8 @@ public class PodoDevWebApplication {
     public PodoDevWebApplication() {
         //Telegram Api Initial
         ApiContextInitializer.init();
+
+        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
     }
 
     public static void main(String[] args) {

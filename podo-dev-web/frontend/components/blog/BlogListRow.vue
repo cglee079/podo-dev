@@ -1,7 +1,7 @@
 <template>
     <router-link class="blog-row"
                  :class="[blog.enabled ? '':'disabled', $mq]"
-                 :to="{name: 'blogs-seq', params: {seq: blog.seq}, query : { search: filter.search, tag : filter.tag}}"
+                 :to="{name: 'blogs-id', params: {id: blog.id}, query : { search: filter.search, tag : filter.tag}}"
     >
 
         <div v-if="blog.thumbnail != null"

@@ -15,13 +15,13 @@ public class ResumeExperienceDto {
 
     @Getter
     public static class response {
-        private Long seq;
+        private Long id;
         private String title;
         private String link;
         private String experienceAt;
 
         public response(ResumeExperience resumeExperience) {
-            this.seq = resumeExperience.getSeq();
+            this.id = resumeExperience.getId();
             this.title = resumeExperience.getTitle();
             this.link = resumeExperience.getLink();
             this.experienceAt = Formatter.dateTimeToBeautifulDate(resumeExperience.getExperienceAt());

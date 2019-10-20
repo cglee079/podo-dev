@@ -22,6 +22,10 @@ public class QBlog extends EntityPathBase<Blog> {
 
     public final com.cglee079.pododev.web.domain.QUpdatableBaseEntity _super = new com.cglee079.pododev.web.domain.QUpdatableBaseEntity(this);
 
+    public final ListPath<com.cglee079.pododev.web.domain.blog.attachfile.AttachFile, com.cglee079.pododev.web.domain.blog.attachfile.QAttachFile> attachFiles = this.<com.cglee079.pododev.web.domain.blog.attachfile.AttachFile, com.cglee079.pododev.web.domain.blog.attachfile.QAttachFile>createList("attachFiles", com.cglee079.pododev.web.domain.blog.attachfile.AttachFile.class, com.cglee079.pododev.web.domain.blog.attachfile.QAttachFile.class, PathInits.DIRECT2);
+
+    public final ListPath<com.cglee079.pododev.web.domain.blog.attachimage.AttachImage, com.cglee079.pododev.web.domain.blog.attachimage.QAttachImage> attachImages = this.<com.cglee079.pododev.web.domain.blog.attachimage.AttachImage, com.cglee079.pododev.web.domain.blog.attachimage.QAttachImage>createList("attachImages", com.cglee079.pododev.web.domain.blog.attachimage.AttachImage.class, com.cglee079.pododev.web.domain.blog.attachimage.QAttachImage.class, PathInits.DIRECT2);
+
     public final ListPath<com.cglee079.pododev.web.domain.blog.comment.Comment, com.cglee079.pododev.web.domain.blog.comment.QComment> comments = this.<com.cglee079.pododev.web.domain.blog.comment.Comment, com.cglee079.pododev.web.domain.blog.comment.QComment>createList("comments", com.cglee079.pododev.web.domain.blog.comment.Comment.class, com.cglee079.pododev.web.domain.blog.comment.QComment.class, PathInits.DIRECT2);
 
     public final StringPath contents = createString("contents");
@@ -36,13 +40,9 @@ public class QBlog extends EntityPathBase<Blog> {
 
     public final BooleanPath feeded = createBoolean("feeded");
 
-    public final ListPath<com.cglee079.pododev.web.domain.blog.attachfile.AttachFile, com.cglee079.pododev.web.domain.blog.attachfile.QAttachFile> files = this.<com.cglee079.pododev.web.domain.blog.attachfile.AttachFile, com.cglee079.pododev.web.domain.blog.attachfile.QAttachFile>createList("files", com.cglee079.pododev.web.domain.blog.attachfile.AttachFile.class, com.cglee079.pododev.web.domain.blog.attachfile.QAttachFile.class, PathInits.DIRECT2);
-
     public final NumberPath<Integer> hitCnt = createNumber("hitCnt", Integer.class);
 
-    public final ListPath<com.cglee079.pododev.web.domain.blog.attachimage.AttachImage, com.cglee079.pododev.web.domain.blog.attachimage.QAttachImage> images = this.<com.cglee079.pododev.web.domain.blog.attachimage.AttachImage, com.cglee079.pododev.web.domain.blog.attachimage.QAttachImage>createList("images", com.cglee079.pododev.web.domain.blog.attachimage.AttachImage.class, com.cglee079.pododev.web.domain.blog.attachimage.QAttachImage.class, PathInits.DIRECT2);
-
-    public final NumberPath<Long> seq = createNumber("seq", Long.class);
+    public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final ListPath<com.cglee079.pododev.web.domain.blog.tag.BlogTag, com.cglee079.pododev.web.domain.blog.tag.QBlogTag> tags = this.<com.cglee079.pododev.web.domain.blog.tag.BlogTag, com.cglee079.pododev.web.domain.blog.tag.QBlogTag>createList("tags", com.cglee079.pododev.web.domain.blog.tag.BlogTag.class, com.cglee079.pododev.web.domain.blog.tag.QBlogTag.class, PathInits.DIRECT2);
 

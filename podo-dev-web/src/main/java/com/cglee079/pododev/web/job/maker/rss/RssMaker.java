@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,7 +25,7 @@ public class RssMaker {
 
     public static final String PODO_DEV_WEB = "https://www.podo-dev.com";
     public static final String PODO_TITLE = "podo-dev";
-    public static final String PODO_DESC = "podo의 기술블로그";
+    public static final String PODO_DESC = "Podo's Blog, Web, Server, Backend";
     public static final String PODO_AUTHOR = "Podo";
 
 
@@ -44,16 +45,23 @@ public class RssMaker {
         feed.setManagingEditor(PODO_AUTHOR);
         feed.setLanguage("ko");
 
-        List<SyndEntry> entries = new LinkedList<>();
+        final SyndImage syndImage = new SyndImageImpl();
+        syndImage.setTitle(PODO_TITLE);
+        syndImage.setUrl(PathUtil.merge(PODO_DEV_WEB, "podo-dev.jpg"));
+        syndImage.setLink(PODO_DEV_WEB);
+        syndImage.setDescription(PODO_DESC);
 
+        feed.setImage(syndImage);
+
+
+        List<SyndEntry> entries = new LinkedList<>();
 
         blogs.forEach(blog -> {
             SyndEntry entry = new SyndEntryImpl();
 
             //Define Desc
             SyndContent description = new SyndContentImpl();
-            description.setType("text/plain");
-            description.setValue(blog.getDesc());
+            description.setValue(blog.getContentHtml());
 
             //Define Categories
             List<SyndCategory> categories = blog.getTags()
@@ -67,7 +75,7 @@ public class RssMaker {
 
             entry.setTitle(blog.getTitle());
             entry.setDescription(description);
-            entry.setLink(PathUtil.merge(PODO_DEV_WEB, "/blogs", blog.getSeq().toString()));
+            entry.setLink(PathUtil.merge(PODO_DEV_WEB, "/blogs", blog.getId().toString()));
             entry.setPublishedDate(TimeUtil.localDateTimeToDate(blog.getUpdateAt()));
             entry.setCategories(categories);
             entry.setAuthor(PODO_AUTHOR);

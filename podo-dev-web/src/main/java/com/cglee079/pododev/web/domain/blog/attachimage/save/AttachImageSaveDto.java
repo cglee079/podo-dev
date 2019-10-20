@@ -9,7 +9,7 @@ public class AttachImageSaveDto {
 
     @Getter
     public static class response {
-        private Long seq;
+        private Long id;
         private String filename;
         private String path;
         private Integer width;
@@ -17,8 +17,8 @@ public class AttachImageSaveDto {
         private Long filesize;
 
         @Builder
-        public response(Long seq, String filename, String path, ImageInfo imageInfo, Long filesize) {
-            this.seq = seq;
+        public response(Long id, String filename, String path, ImageInfo imageInfo, Long filesize) {
+            this.id = id;
             this.filename = filename;
             this.path = path;
             this.width = imageInfo.getWidth();
@@ -27,7 +27,7 @@ public class AttachImageSaveDto {
         }
 
         public response(AttachImageSave save) {
-            this.seq = save.getSeq();
+            this.id = save.getId();
             this.filename = save.getFilename();
             this.path = save.getPath();
             this.width = save.getWidth();
@@ -38,16 +38,15 @@ public class AttachImageSaveDto {
 
     @Getter
     public static class insert {
-        private Long seq;
+        private Long id;
         private String filename;
         private String path;
         private Integer width;
         private Integer height;
         private Long filesize;
 
-        public AttachImageSave toEntity(AttachImage attachImage, String imageId) {
+        public AttachImageSave toEntity(String imageId) {
             return AttachImageSave.builder()
-                    .attachImage(attachImage)
                     .imageId(imageId)
                     .filename(this.filename)
                     .filesize(this.filesize)

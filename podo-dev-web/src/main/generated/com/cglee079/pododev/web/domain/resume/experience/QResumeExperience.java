@@ -21,9 +21,9 @@ public class QResumeExperience extends EntityPathBase<ResumeExperience> {
 
     public final DateTimePath<java.time.LocalDateTime> experienceAt = createDateTime("experienceAt", java.time.LocalDateTime.class);
 
-    public final StringPath link = createString("link");
+    public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final NumberPath<Long> seq = createNumber("seq", Long.class);
+    public final StringPath link = createString("link");
 
     public final StringPath title = createString("title");
 

@@ -16,10 +16,10 @@
 
         <div id="comments" ref="comments">
             <div v-for="(comment, index) in comments"
-                 v-bind:key="comment.seq"
+                 v-bind:key="comment.id"
             >
                 <comment-item
-                        :blogSeq="blogSeq"
+                        :blogId="blogId"
                         :index="index"
                         :comment="comment"
                         @delete="deleteBlogComment"
@@ -32,8 +32,8 @@
 
 
         <comment-write
-                :blogSeq="blogSeq"
-                :parentSeq="null"
+                :blogId="blogId"
+                :parentId="null"
                 placeholder="댓글을 입력해주세요"
                 @reload="reloadBlogComments"
                 @onProgress="onProgress"
@@ -57,7 +57,7 @@
             'comment-write': BlogViewCommentWrite
         },
         props: {
-            blogSeq: Number,
+            blogId: Number,
         },
         data() {
             return {
@@ -110,7 +110,7 @@
                     this.isLoading = true
 
                     this.$axios
-                        .$get('/api/blogs/' + this.blogSeq + "/comments", {
+                        .$get('/api/blogs/' + this.blogId + "/comments", {
                             params: {
                                 page: page
                             }
@@ -144,12 +144,12 @@
                 })
             },
 
-            deleteBlogComment(commentSeq, index) {
+            deleteBlogComment(commentId, index) {
                 this.toastConfirm("정말 댓글을 삭제하시겠습니까?", () => {
                     this.onProgress()
 
                     this.$axios
-                        .$delete('/api/blogs/' + this.blogSeq + "/comments/" + commentSeq)
+                        .$delete('/api/blogs/' + this.blogId + "/comments/" + commentId)
                         .then(() => {
                             this.offProgress()
 

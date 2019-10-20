@@ -19,8 +19,8 @@
         name: "BlogViewCommentWrite",
         props: {
             index: Number,
-            blogSeq: Number,
-            parentSeq: Number,
+            blogId: Number,
+            parentId: Number,
             placeholder: String,
         },
         data() {
@@ -52,10 +52,10 @@
                 }
 
                 this.$axios
-                    .$post('/api/blogs/' + this.blogSeq + "/comments", {
+                    .$post('/api/blogs/' + this.blogId + "/comments", {
                         username: this.input.username,
                         contents: this.input.contents,
-                        parentSeq: this.parentSeq
+                        parentId: this.parentId
                     })
                     .then(res => {
                         this.$toast.show("댓글이 등록되었습니다")

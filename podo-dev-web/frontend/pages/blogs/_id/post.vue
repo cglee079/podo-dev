@@ -1,6 +1,6 @@
 <template>
     <blog-post
-        :seq="seq"
+        :id="id"
     />
 </template>
 
@@ -14,11 +14,11 @@
         },
         data(){
             return {
-                seq : null,
+                id : null,
             }
         },
         created() {
-            this.seq = parseInt(this.$route.params.seq)
+            this.id = parseInt(this.$route.params.id)
         },
     }
 </script>

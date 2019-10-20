@@ -20,13 +20,13 @@ public class CommentDto {
         @NotEmpty(message = "내용을 입력해주세요")
         private String contents;
 
-        private Long parentSeq;
+        private Long parentId;
     }
 
 
     @Getter
     public static class response {
-        private Long seq;
+        private Long id;
         private String username;
         private String contents;
         private String createAt;
@@ -35,7 +35,7 @@ public class CommentDto {
         private Boolean isMine;
 
         public response(Comment comment, String currentUserId) {
-            this.seq = comment.getSeq();
+            this.id = comment.getId();
             this.username = comment.getUser().getUsername();
             this.contents = MarkdownUtil.line2br(MarkdownUtil.escape(comment.getContents()));
             this.depth = comment.getDepth();

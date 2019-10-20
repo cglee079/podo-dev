@@ -93,10 +93,10 @@
             'post-file': BlogPostFile
         },
         props: {
-            seq: Number
+            id: Number
         },
         watch: {
-            seq(value) {
+            id(value) {
                 this.isNew = false
                 this.loadBlog(value)
             }
@@ -156,7 +156,7 @@
                         }
 
                         const obj = {}
-                        obj.seq = undefined
+                        obj.id = undefined
                         obj.val = txt
                         this.input.tags.push(obj)
                     }
@@ -171,9 +171,9 @@
             },
 
             //게시글 수정 시, 게시글 정보 로딩
-            loadBlog(seq) {
+            loadBlog(id) {
                 this.$axios
-                    .$get('/api/blogs/' + this.seq)
+                    .$get('/api/blogs/' + this.id)
                     .then(res => {
                         console.log(res)
                         const blog = res.data
@@ -191,7 +191,7 @@
             },
 
             clickSubmit() {
-                this.removeSaved(this.seq)
+                this.removeSaved(this.id)
 
                 if (this.isNew) {
                     this.insertBlog()
@@ -226,7 +226,7 @@
                 this.onProgress()
 
                 this.$axios
-                    .$put('/api/blogs/' + this.seq, {
+                    .$put('/api/blogs/' + this.id, {
                         title: this.input.title,
                         contents: this.input.contents,
                         enabled: this.input.enabled,
@@ -238,9 +238,9 @@
                     .then(res => {
                         this.offProgress()
                         this.$router.push({
-                            name: 'blogs-seq',
+                            name: 'blogs-id',
                             params: {
-                                seq: this.seq
+                                id: this.id
                             }
                         });
                     })
@@ -318,8 +318,8 @@
                 }
             },
 
-            removeSaved(seq) {
-                const autoSaveKey = this.autoSave.key + seq
+            removeSaved(id) {
+                const autoSaveKey = this.autoSave.key + id
 
                 this.$storage.removeLocalStorage(autoSaveKey + "_is")
                 this.$storage.removeLocalStorage(autoSaveKey + "_input")
@@ -329,16 +329,16 @@
         },
         created() {
 
-            const seq = this.seq ? this.seq : null
+            const id = this.id ? this.id : null
 
-            if (seq) {
+            if (id) {
                 this.isNew = false
-                this.loadBlog(seq)
+                this.loadBlog(id)
             }
 
             if (process.client) {
-                const seq = this.seq ? this.seq : ''
-                const autoSaveKey = this.autoSave.key + seq
+                const id = this.id ? this.id : ''
+                const autoSaveKey = this.autoSave.key + id
 
                 const isSave = this.$storage.getLocalStorage(autoSaveKey + "_is")
                 const saveInput = this.$storage.getLocalStorage(autoSaveKey + "_input")
@@ -349,10 +349,10 @@
                     this.toastConfirm("자동저장된 데이터가있습니다, 로딩하시겠습니까?",
                         () => {
                             this.input = saveInput
-                            this.removeSaved(seq)
+                            this.removeSaved(id)
                         },
                         () => {
-                            this.removeSaved(seq)
+                            this.removeSaved(id)
                         }
                     )
                 }
@@ -363,8 +363,8 @@
 
         mounted() {
             if (process.client) {
-                const seq = this.seq ? this.seq : ''
-                const autoSaveKey = this.autoSave.key + seq
+                const id = this.id ? this.id : ''
+                const autoSaveKey = this.autoSave.key + id
 
                 //Setting Interval
                 this.autoSave.interval = setInterval(() => {

@@ -17,15 +17,12 @@ public class ResumeExperience {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long seq;
+    private Long id;
 
-    @Column
     private String title;
 
-    @Column
     private String link;
 
-    @Column(name = "experience_at")
     private LocalDateTime experienceAt;
 
 }

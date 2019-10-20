@@ -17,7 +17,7 @@ import java.io.Serializable;
 public class User extends UpdatableBaseEntity implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long seq;
+    private Long id;
 
     @Column(unique = true)
     private String userId;

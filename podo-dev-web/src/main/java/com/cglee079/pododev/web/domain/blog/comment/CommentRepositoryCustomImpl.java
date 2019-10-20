@@ -1,5 +1,7 @@
 package com.cglee079.pododev.web.domain.blog.comment;
 
+import com.cglee079.pododev.web.domain.blog.Blog;
+import com.cglee079.pododev.web.domain.blog.QBlog;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
@@ -22,9 +24,10 @@ public class CommentRepositoryCustomImpl extends QuerydslRepositorySupport imple
 
 
     @Override
-    public Page<Comment> paging(Long blogSeq, Pageable pageable) {
+    public Page<Comment> paging(Long blogId, Pageable pageable) {
         JPQLQuery<Comment> query = from(comment)
-                .where(comment.blog.seq.eq(blogSeq))
+                .join(comment.blog, QBlog.blog).fetchJoin()
+                .where(comment.blog.id.eq(blogId)).fetchJoin()
                 .orderBy(comment.cgroup.asc())
                 .orderBy(comment.sort.asc());
 

@@ -12,7 +12,7 @@
                 </div>
                 <div class="menu">
                     <a v-if="comment.enabled && comment.depth < config.maxDepth" @click="clickReply">{{reply.message}}</a>
-                    <a v-if="comment.enabled && comment.isMine" @click="clickCommentDelete(comment.seq, index)">삭제</a>
+                    <a v-if="comment.enabled && comment.isMine" @click="clickCommentDelete(comment.id, index)">삭제</a>
                 </div>
             </div>
 
@@ -24,9 +24,9 @@
             <div id="reply">
                 <component
                         :is="reply.comp"
-                        :blogSeq="blogSeq"
+                        :blogId="blogId"
                         :index = "index"
-                        :parentSeq="comment.seq"
+                        :parentId="comment.id"
                         :placeholder="comment.username + ' 님에게 답글'"
                         @reload="$emit('reload')"
                         @writeListener="writeListener"
@@ -43,7 +43,7 @@
         name: "BlogViewCommentItem",
         props: {
             index : Number,
-            blogSeq: Number,
+            blogId: Number,
             comment: Object
         },
         components: {
@@ -85,8 +85,8 @@
                 this.offReply()
             },
 
-            clickCommentDelete(commentSeq, index) {
-                this.$emit('delete', commentSeq, index)
+            clickCommentDelete(commentId, index) {
+                this.$emit('delete', commentId, index)
             }
         }
     }

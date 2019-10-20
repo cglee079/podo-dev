@@ -9,7 +9,7 @@
         <div id="head">
             <div id="tags">
                 <span v-for="tag in blog.tags"
-                      v-bind:key="tag.seq"
+                      v-bind:key="tag.id"
                 >
                     #{{tag.val}}
                 </span>
@@ -27,8 +27,8 @@
 
 
         <div id="submenus">
-            <span v-if="isAdmin && isLogin" @click="clickModifyBlog(blog.seq)">수정</span>
-            <span v-if="isAdmin && isLogin" @click="clickDeleteBlog(blog.seq)">삭제</span>
+            <span v-if="isAdmin && isLogin" @click="clickModifyBlog(blog.id)">수정</span>
+            <span v-if="isAdmin && isLogin" @click="clickDeleteBlog(blog.id)">삭제</span>
             <span @click="clickExport()">공유하기</span>
             <span><router-link
                 :to="{name : 'index', query : { search: filter.search, tag : filter.tag}}">목록</router-link></span>
@@ -38,10 +38,10 @@
 
         <div id="files">
             <div v-for="file in blog.files"
-                 v-bind:key="file.seq"
+                 v-bind:id="file.id"
                  class="file"
             >
-                <a href="javascript:void(0)" @click="clickFile(file.seq)">
+                <a href="javascript:void(0)" @click="clickFile(file.id)">
                     <img src="@/assets/btns/btn-file.svg" class="file-icon"/>
                     <span class="file-name">{{file.originName}}</span>
                     <span class="file-size">[{{formatFilesize(file.filesize)}}]</span>
@@ -56,8 +56,8 @@
         </div>
 
         <blog-view-comment
-            v-if="blog.seq"
-            :blogSeq="blog.seq"
+            v-if="blog.id"
+            :blogId="blog.id"
             @onProgress="onProgress"
             @offProgress="offProgress"
         />
@@ -76,7 +76,7 @@
     import BlogViewComment from "@/components/blog/BlogViewComment"
     import BlogViewExport from "@/components/blog/BlogViewExport"
     import ToastCustomViewer from "@/components/global/ToastCustomViewer"
-    import ProgressBar from "../../../components/global/ProgressBar";
+    import ProgressBar from "@/components/global/ProgressBar";
 
     export default {
         name: 'BlogView',
@@ -99,14 +99,14 @@
         },
 
         asyncData({$axios, error, params}) {
-            const seq = params.seq
+            const id = params.id
 
             let baseUrl = process.env.externalServerUrl
             if (process.server) {
                 baseUrl = process.env.internalServerUrl
             }
 
-            return $axios.$get(baseUrl + '/api/blogs/' + seq)
+            return $axios.$get(baseUrl + '/api/blogs/' + id)
                 .then(res => {
                     const blog = res.data
 
@@ -115,7 +115,7 @@
                     })
 
                     const meta = {
-                        url: process.env.frontendUrl + "/blogs/" + blog.seq,
+                        url: process.env.frontendUrl + "/blogs/" + blog.id,
                         title: process.env.name + " : " + blog.title,
                         keywords: keywords.join(", "),
                         date: blog.createAt,
@@ -169,19 +169,19 @@
                 this.$refs.progressBar.off()
             },
 
-            clickModifyBlog(seq) {
+            clickModifyBlog(id) {
                 this.$router.push({
-                    name: 'blogs-seq-post',
+                    name: 'blogs-id-post',
                     params: {
-                        seq: seq
+                        id: id
                     }
                 });
             },
 
-            clickDeleteBlog(seq) {
+            clickDeleteBlog(id) {
                 this.toastConfirm("정말 삭제하시겠습니까?", () => {
                     this.$axios
-                        .delete('/api/blogs/' + seq)
+                        .delete('/api/blogs/' + id)
                         .then(res => {
                             this.$router.push({name: 'index'})
                         })
@@ -196,45 +196,44 @@
             },
 
             clickBefore() {
-                const seq = this.blog.before
-                if (!seq) {
+                const id = this.blog.before
+                if (!id) {
                     this.$toast.show("이전글이 없습니다")
                     return
                 }
                 this.$router.push({
-                    name: 'blogs-seq',
+                    name: 'blogs-id',
                     params: {
-                        'seq': seq
+                        'id': id
                     }
                 })
             },
 
             clickNext() {
-                const seq = this.blog.next
-                console.log(seq)
-                if (!seq) {
+                const id = this.blog.next
+                if (!id) {
                     this.$toast.show("다음글이 없습니다")
                     return
                 }
 
                 this.$router.push({
-                    name: 'blogs-seq',
+                    name: 'blogs-id',
                     params: {
-                        'seq': seq
+                        'id': id
                     }
                 })
             },
 
-            clickFile(fileSeq) {
-                window.location.href = process.env.externalServerUrl + "/api/blogs/" + this.blog.seq + "/files/" + fileSeq
+            clickFile(fileId) {
+                window.location.href = process.env.externalServerUrl + "/api/blogs/" + this.blog.id + "/files/" + fileId
             },
 
             formatFilesize(value) {
                 return filesize(value)
             },
 
-            increaseHitCount(seq) {
-                this.$axios.$post('/api/blogs/' + seq + '/hitCount')
+            increaseHitCount(id) {
+                this.$axios.$post('/api/blogs/' + id + '/hitCount')
             },
 
         },
@@ -243,7 +242,7 @@
             this.filter.search = this.$route.query.search
             this.filter.tag = this.$route.query.tag
 
-            const seq = this.blog.seq
+            const id = this.blog.id
             const HIT_BLOGS = 'HIT_BLOGS'
             let hitBlogs = this.$storage.getLocalStorage(HIT_BLOGS)
 
@@ -251,12 +250,12 @@
                 hitBlogs = []
             }
 
-            if (!hitBlogs.includes(seq)) {
-                hitBlogs.push(seq)
+            if (!hitBlogs.includes(id)) {
+                hitBlogs.push(id)
 
                 this.$storage.setLocalStorage(HIT_BLOGS, hitBlogs)
 
-                this.increaseHitCount(seq)
+                this.increaseHitCount(id)
             }
         }
 

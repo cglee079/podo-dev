@@ -23,16 +23,16 @@ public class CommentNotifier {
 
     private final TelegramClient telegramClient;
     private final BlogService blogService;
-    private final String BLOG_SEQ_ARG_NAME = "blogSeq";
+    private final String BLOG_ID_ARG_NAME = "blogId";
 
     @AfterReturning("@annotation(com.cglee079.pododev.web.domain.blog.comment.aop.CommentNotice)")
     public void checkRequestValidator(JoinPoint joinPoint) {
         CommentDto.insert comment = getCommentInsertDto(joinPoint);
 
-        final Long blogSeq = getBlogSeq(joinPoint);
+        final Long blogId = getBlogId(joinPoint);
         final String username = SecurityUtil.getUsername();
         final String contents = comment.getContents();
-        final BlogDto.response blog = blogService.get(blogSeq);
+        final BlogDto.response blog = blogService.get(blogId);
         final StringBuilder message = new StringBuilder();
 
         message.append("게시글에 댓글이 등록되었습니다.\n");
@@ -47,17 +47,17 @@ public class CommentNotifier {
     }
 
     /**
-     * PathVariable 에서 BlogSeq 가져옴
+     * PathVariable 에서 BlogId 가져옴
      *
      * @param joinPoint
      * @return
      */
-    private Long getBlogSeq(JoinPoint joinPoint) {
+    private Long getBlogId(JoinPoint joinPoint) {
         CodeSignature codeSignature = (CodeSignature) joinPoint.getSignature();
 
         String[] params = codeSignature.getParameterNames();
         for (int i = 0; i < params.length; i++) {
-            if (params[i].equals(BLOG_SEQ_ARG_NAME)) {
+            if (params[i].equals(BLOG_ID_ARG_NAME)) {
                 return (Long) joinPoint.getArgs()[i];
             }
         }

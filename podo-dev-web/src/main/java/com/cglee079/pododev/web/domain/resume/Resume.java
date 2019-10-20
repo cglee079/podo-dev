@@ -15,14 +15,16 @@ import java.util.List;
 public class Resume {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String resumeKey;
 
     private String head;
 
     private Integer sort;
 
-    @OneToMany
-    @OrderBy(value="sort")
-    @JoinColumn(name = "resume_id")
+    @OrderBy(value = "sort")
+    @OneToMany(mappedBy = "resume")
     private List<ResumeContent> resumeContents;
 }

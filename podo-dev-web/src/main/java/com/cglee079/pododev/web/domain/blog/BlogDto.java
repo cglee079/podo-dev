@@ -5,6 +5,7 @@ import com.cglee079.pododev.web.domain.blog.attachfile.AttachFileDto;
 import com.cglee079.pododev.web.domain.blog.attachimage.AttachImage;
 import com.cglee079.pododev.web.domain.blog.attachimage.AttachImageDto;
 import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSave;
+import com.cglee079.pododev.web.domain.blog.tag.BlogTag;
 import com.cglee079.pododev.web.domain.blog.tag.BlogTagDto;
 import com.cglee079.pododev.web.global.util.Formatter;
 import com.cglee079.pododev.web.global.util.MarkdownUtil;
@@ -20,6 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class BlogDto {
 
@@ -40,12 +42,32 @@ public class BlogDto {
         private List<AttachFileDto.insert> files;
 
         public Blog toEntity() {
+            //Images to Entity
+            List<AttachImage> images = this.images.stream()
+                    .filter(image -> FileStatus.valueOf(image.getFileStatus()) == FileStatus.NEW)
+                    .map(AttachImageDto.insert::toEntity)
+                    .collect(Collectors.toList());
 
-            return Blog.builder()
+
+            //File to Entity
+            List<AttachFile> files = this.files.stream()
+                    .filter(image -> FileStatus.valueOf(image.getFileStatus()) == FileStatus.NEW)
+                    .map(AttachFileDto.insert::toEntity)
+                    .collect(Collectors.toList());
+
+            final Blog blog = Blog.builder()
+                    .attachImages(images)
+                    .attachFiles(files)
                     .title(title)
                     .contents(contents)
                     .enabled(enabled)
                     .build();
+
+            images.forEach(image -> image.changeBlog(blog));
+            files.forEach(file -> file.changeBlog(blog));
+
+            return blog;
+
         }
     }
 
@@ -78,7 +100,7 @@ public class BlogDto {
 
     @Getter
     public static class response {
-        private Long seq;
+        private Long id;
         private String title;
         private String desc;
         private String contents;
@@ -95,7 +117,7 @@ public class BlogDto {
         private Boolean enabled;
 
         public response(Blog blog, Blog before, Blog next, String uploaderDomain, FileStatus fileStatus) {
-            this.seq = blog.getSeq();
+            this.id = blog.getId();
             this.title = blog.getTitle();
             this.desc = MarkdownUtil.escape(MarkdownUtil.extractPlainText(blog.getContents()));
             this.contents = blog.getContents();
@@ -104,18 +126,18 @@ public class BlogDto {
             this.updateAt = Formatter.dateTimeToBeautifulDate(blog.getUpdateAt());
             this.commentCnt = blog.getComments().size();
             this.enabled = blog.getEnabled();
-            this.before = !Objects.isNull(before) ? before.getSeq() : null;
-            this.next = !Objects.isNull(next) ? next.getSeq() : null;
+            this.before = !Objects.isNull(before) ? before.getId() : null;
+            this.next = !Objects.isNull(next) ? next.getId() : null;
             this.tags = new LinkedList<>();
             this.images = new LinkedList<>();
             this.files = new LinkedList<>();
 
             blog.getTags().forEach(tag -> this.tags.add(new BlogTagDto.response(tag)));
-            blog.getImages().forEach(image -> this.images.add(new AttachImageDto.response(image, uploaderDomain, fileStatus)));
-            blog.getFiles().forEach(file -> this.files.add(new AttachFileDto.response(file, uploaderDomain, fileStatus)));
+            blog.getAttachImages().forEach(image -> this.images.add(new AttachImageDto.response(image, uploaderDomain, fileStatus)));
+            blog.getAttachFiles().forEach(file -> this.files.add(new AttachFileDto.response(file, uploaderDomain, fileStatus)));
 
             if (!images.isEmpty()) {
-                List<AttachImageSave> saves = blog.getImages().get(0).getSaves();
+                List<AttachImageSave> saves = blog.getAttachImages().get(0).getSaves();
                 Optional<AttachImageSave> thumbnailSaveOpt = saves.stream().filter(s -> s.getImageId().equals("origin")).findFirst();
                 if (thumbnailSaveOpt.isPresent()) {
                     AttachImageSave thumbnailSave = thumbnailSaveOpt.get();
@@ -132,7 +154,7 @@ public class BlogDto {
 
     @Getter
     public static class responseList {
-        private Long seq;
+        private Long id;
         private String thumbnail;
         private String title;
         private String desc;
@@ -143,7 +165,7 @@ public class BlogDto {
         private Boolean enabled;
 
         public responseList(Blog blog, String uploaderDomain) {
-            this.seq = blog.getSeq();
+            this.id = blog.getId();
             this.title = blog.getTitle();
             this.desc = MarkdownUtil.escape(MarkdownUtil.extractPlainText(blog.getContents()));
             this.createAt = Formatter.dateTimeToBeautifulDate(blog.getCreateAt());
@@ -151,9 +173,9 @@ public class BlogDto {
             this.enabled = blog.getEnabled();
             this.commentCnt = blog.getComments().size();
 
-            List<AttachImage> images = blog.getImages();
+            List<AttachImage> images = blog.getAttachImages();
             if (!images.isEmpty()) {
-                List<AttachImageSave> saves = blog.getImages().get(0).getSaves();
+                List<AttachImageSave> saves = blog.getAttachImages().get(0).getSaves();
                 Optional<AttachImageSave> thumbnailSaveOpt = saves.stream().filter(s -> s.getImageId().equals("origin")).findFirst();
                 if (thumbnailSaveOpt.isPresent()) {
                     AttachImageSave thumbnailSave = thumbnailSaveOpt.get();
@@ -175,8 +197,9 @@ public class BlogDto {
 
     @Getter
     public static class summary {
-        private Long seq;
+        private Long id;
         private String desc;
+        private String contentHtml;
         private String title;
         private List<String> tags;
         private LocalDateTime createAt;
@@ -184,14 +207,14 @@ public class BlogDto {
         private Boolean enabled;
 
         summary(Blog blog) {
-            this.seq = blog.getSeq();
+            this.id = blog.getId();
             this.title = blog.getTitle();
             this.desc = MarkdownUtil.escape(MarkdownUtil.extractPlainText(blog.getContents()));
             this.createAt = blog.getCreateAt();
             this.updateAt = blog.getUpdateAt();
             this.enabled = blog.getEnabled();
-            this.tags = new LinkedList<>();
-            blog.getTags().forEach(tag -> this.tags.add(tag.getVal()));
+            this.contentHtml = MarkdownUtil.toHtml(blog.getContents());
+            this.tags = blog.getTags().stream().map(BlogTag::getVal).collect(Collectors.toList());
         }
 
     }

@@ -20,10 +20,10 @@ public class AttachImageSave extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long seq;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "blog_image_seq")
+    @JoinColumn(name = "blog_image_id")
     private AttachImage attachImage;
 
     private String imageId;
@@ -39,8 +39,7 @@ public class AttachImageSave extends BaseEntity {
     private Long filesize;
 
     @Builder
-    public AttachImageSave(AttachImage attachImage, String imageId, String filename, String path, Integer width, Integer height, Long filesize) {
-        this.attachImage = attachImage;
+    public AttachImageSave(String imageId, String filename, String path, Integer width, Integer height, Long filesize) {
         this.filename = filename;
         this.imageId = imageId;
         this.path = path;
@@ -49,4 +48,7 @@ public class AttachImageSave extends BaseEntity {
         this.filesize = filesize;
     }
 
+    public void changeAttachImage(AttachImage attachImage) {
+        this.attachImage = attachImage;
+    }
 }

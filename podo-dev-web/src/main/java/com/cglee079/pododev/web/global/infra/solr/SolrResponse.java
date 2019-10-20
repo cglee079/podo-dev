@@ -11,8 +11,8 @@ public class SolrResponse {
     @Field("id")
     private String id;
 
-    @Field("seq")
-    private String seq;
+    @Field("blog_id")
+    private String blogId;
 
     @Field("title")
     private String title;

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -20,28 +21,25 @@ public class AttachImage extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long seq;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "blog_seq")
+    @JoinColumn(name = "blog_id")
     private Blog blog;
 
     private String originName;
 
-    @OneToMany(mappedBy = "attachImage")
+    @OneToMany(mappedBy = "attachImage", cascade = CascadeType.ALL, orphanRemoval = true)
     List<AttachImageSave> saves = new ArrayList<>();
 
     @Builder
-    public AttachImage(Blog blog, String originName) {
-        this.blog = blog;
+    public AttachImage(List<AttachImageSave> saves, String originName) {
+        this.saves = saves;
         this.originName = originName;
     }
 
-    public void addImageSave(AttachImageSave attachImageSave) {
-        this.saves.add(attachImageSave);
+    public void changeBlog(Blog blog) {
+        this.blog = blog;
     }
 
-    public void removeImageSave(AttachImageSave save) {
-        this.saves.remove(save);
-    }
 }

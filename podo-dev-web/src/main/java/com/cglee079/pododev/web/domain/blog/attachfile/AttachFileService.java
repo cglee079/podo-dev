@@ -59,8 +59,8 @@ public class AttachFileService {
                 .build();
     }
 
-    public AttachFileDto.download download(Long fileSeq) {
-        Optional<AttachFile> file = attachFileRepository.findById(fileSeq);
+    public AttachFileDto.download download(Long fileId) {
+        Optional<AttachFile> file = attachFileRepository.findById(fileId);
 
         if (!file.isPresent()) {
             throw new InvalidFileException();

@@ -42,9 +42,9 @@ public class QComment extends EntityPathBase<Comment> {
 
     public final BooleanPath enabled = createBoolean("enabled");
 
-    public final NumberPath<Long> parentSeq = createNumber("parentSeq", Long.class);
+    public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final NumberPath<Long> seq = createNumber("seq", Long.class);
+    public final NumberPath<Long> parentId = createNumber("parentId", Long.class);
 
     public final NumberPath<Double> sort = createNumber("sort", Double.class);
 

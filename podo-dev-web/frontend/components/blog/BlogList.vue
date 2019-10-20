@@ -4,7 +4,7 @@
 
         <div id="blogs">
             <div
-                :key="blog.seq"
+                :key="blog.id"
                 v-for="blog in contents"
                 class="wrap-blog-row"
             >
@@ -85,15 +85,12 @@
                     this.totalElements = res.totalElements
                     this.totalPages = res.totalPages
                     this.isLoading = false
-                    this.console.log(this.contents)
 
                     if(page === 0){
                         this.offProgress()
                     }
 
                 }).catch(err => {
-                    //console.log(err)
-
                     if(page === 0){
                         this.offProgress()
                     }

@@ -1,5 +1,6 @@
 package com.cglee079.pododev.web.domain;
 
+import com.cglee079.pododev.web.domain.blog.attachimage.AttachImage;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -22,4 +23,5 @@ public abstract class BaseEntity {
 
     @CreatedDate
     private LocalDateTime createAt;
+
 }
