@@ -2,10 +2,6 @@
     <div id="wrapBlog" :class="$mq">
         <progress-bar ref="progressBar"/>
 
-        <div id="forCrawl" style="display: none;">
-            {{blog.desc}}
-        </div>
-
         <div id="head">
             <div id="tags">
                 <span v-for="tag in blog.tags"
@@ -15,9 +11,9 @@
                 </span>
             </div>
 
-            <div id="title">
+            <h1 id="title">
                 {{blog.title}}
-            </div>
+            </h1>
 
             <div id="info">
                 <span>{{blog.createAt}}</span>
@@ -309,7 +305,7 @@
                 font-size: 2.1rem;
                 margin-bottom: 15px;
                 text-align: center;
-
+                font-weight: bold;
                 word-break: keep-all;
                 word-wrap: break-word;
             }

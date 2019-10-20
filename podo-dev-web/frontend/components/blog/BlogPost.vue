@@ -263,6 +263,7 @@
                 }
 
                 tag.src = src
+                tag.setAttribute("alt", image.originName)
                 tag.setAttribute("style", 'width:' + width + 'px;')
 
                 this.input.contents += "\n\n" + tag.outerHTML + "\n\n"

@@ -56,7 +56,7 @@ public class AttachImageWriter {
 
         //Save Origin File
         final String originPath = PathUtil.merge(path, ORIGIN_IMAGE_ID);
-        final File originImage = fileWriter.saveFile(path, extension, base64);
+        final File originImage = fileWriter.saveFile(originPath, extension, base64);
         saves.put(ORIGIN_IMAGE_ID, makeOrigin(originPath, originImage));
 
         return saves;

@@ -26,7 +26,7 @@ public class AttachImageService {
     private final AttachImageWriter attachImageWriter;
 
     public AttachImageDto.response saveBase64(String base64) {
-        String originExtension = "PNG";
+        String originExtension = "png";
         String originName = "image_by_paste." + originExtension;
 
         final Map<String, AttachImageSave> saves = attachImageWriter.makeSaveBase64(base64, originExtension);
