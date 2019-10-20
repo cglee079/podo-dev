@@ -16,7 +16,6 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -27,57 +26,43 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Transactional
 @Service
-public class AttachImageSaveService {
+public class AttachImageWriter {
+
+    public static final String ORIGIN_IMAGE_ID = "origin";
 
     @Value("${local.upload.sub.image.dir}")
     private String imageDir;
 
     private final FileWriter fileWriter;
 
-    public Map<String, AttachImageSaveDto.response> makeSaveUrl(String url) {
+    public Map<String, AttachImageSave> makeSaveUrl(String url) {
         if (!this.isImageFile(url)) {
             throw new InValidImageException();
         }
 
         final String path = PathUtil.merge(imageDir, MyFileUtils.makeDatePath(LocalDateTime.now())); // 로컬 저장경로
-        final Map<String, AttachImageSaveDto.response> saves = new HashMap<>();
+        final Map<String, AttachImageSave> saves = new HashMap<>();
 
-        final File originImage = fileWriter.saveFile(path, url);
-        final ImageInfo imageInfo = getImageInfo(originImage);
-
-        saves.put("origin",
-                AttachImageSaveDto.response.builder()
-                        .filename(originImage.getName())
-                        .path(path)
-                        .filesize(originImage.length())
-                        .imageInfo(imageInfo)
-                        .build()
-        );
+        final String originPath = PathUtil.merge(path, ORIGIN_IMAGE_ID);
+        final File originImage = fileWriter.saveFile(originPath, url);
+        saves.put(ORIGIN_IMAGE_ID, makeOrigin(originPath, originImage));
 
         return saves;
     }
 
-    public Map<String, AttachImageSaveDto.response> makeSaveBase64(String base64, String extension) {
+    public Map<String, AttachImageSave> makeSaveBase64(String base64, String extension) {
         final String path = PathUtil.merge(imageDir, MyFileUtils.makeDatePath(LocalDateTime.now())); // 로컬 저장경로
-        final Map<String, AttachImageSaveDto.response> saves = new HashMap<>();
+        final Map<String, AttachImageSave> saves = new HashMap<>();
 
         //Save Origin File
+        final String originPath = PathUtil.merge(path, ORIGIN_IMAGE_ID);
         final File originImage = fileWriter.saveFile(path, extension, base64);
-        final ImageInfo imageInfo = getImageInfo(originImage);
-
-        saves.put("origin",
-                AttachImageSaveDto.response.builder()
-                        .filename(originImage.getName())
-                        .path(path)
-                        .filesize(originImage.length())
-                        .imageInfo(imageInfo)
-                        .build()
-        );
+        saves.put(ORIGIN_IMAGE_ID, makeOrigin(originPath, originImage));
 
         return saves;
     }
 
-    public Map<String, AttachImageSaveDto.response> makeSaves(MultipartFile multipartFile) {
+    public Map<String, AttachImageSave> makeSaves(MultipartFile multipartFile) {
         if (!this.isImageFile(multipartFile)) {
             //TODO throw exception..
             return null;
@@ -86,36 +71,43 @@ public class AttachImageSaveService {
         log.info("Save Image Each Size, '{}'", multipartFile.getOriginalFilename());
 
         final String path = PathUtil.merge(imageDir, MyFileUtils.makeDatePath(LocalDateTime.now())); // 로컬 저장경로
-        final Map<String, AttachImageSaveDto.response> saves = new HashMap<>();
+        final Map<String, AttachImageSave> saves = new HashMap<>();
 
         //Save Origin File
-        final File originImage = fileWriter.saveFile(path, multipartFile);
-        final ImageInfo imageInfo = getImageInfo(originImage);
-
-        saves.put("origin",
-                AttachImageSaveDto.response.builder()
-                        .filename(originImage.getName())
-                        .path(path)
-                        .filesize(originImage.length())
-                        .imageInfo(imageInfo)
-                        .build()
-        );
+        final String originPath = PathUtil.merge(path, ORIGIN_IMAGE_ID);
+        final File originImage = fileWriter.saveFile(originPath, multipartFile);
+        saves.put(ORIGIN_IMAGE_ID, makeOrigin(originPath, originImage));
 
 
         return saves;
     }
 
-    private AttachImageSaveDto.response saveResizeImage(File originImage, String path, Integer resizeWidth) {
+
+    private AttachImageSave makeOrigin(String path, File originImage) {
+        final ImageInfo imageInfo = getImageInfo(originImage);
+
+        return AttachImageSave.builder()
+                .imageId(ORIGIN_IMAGE_ID)
+                .filename(originImage.getName())
+                .path(path)
+                .filesize(originImage.length())
+                .height(imageInfo.getHeight())
+                .width(imageInfo.getWidth())
+                .build();
+    }
+
+    private AttachImageSave saveResizeImage(File originImage, String path, Integer resizeWidth) {
         log.info("Resize Image, size : '{}', from : '{}'", resizeWidth, originImage.getName());
 
         final File resizeImage = fileWriter.resizeImage(originImage, path, resizeWidth);
         final ImageInfo imageInfo = getImageInfo(resizeImage);
 
-        return AttachImageSaveDto.response.builder()
+        return AttachImageSave.builder()
                 .filename(resizeImage.getName())
                 .path(path)
                 .filesize(resizeImage.length())
-                .imageInfo(imageInfo)
+                .height(imageInfo.getHeight())
+                .width(imageInfo.getWidth())
                 .build();
 
     }
@@ -160,9 +152,6 @@ public class AttachImageSaveService {
 
             return true;
 
-        } catch (MalformedURLException e) {
-            return false;
-
         } catch (IOException e) {
             return false;
         }
@@ -183,7 +172,7 @@ public class AttachImageSaveService {
                     .build();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("이미지 파일 정보를 가져 올 수 없습니다");
             //TODO
             throw new RuntimeException();
         }

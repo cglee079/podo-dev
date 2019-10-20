@@ -1,7 +1,7 @@
 package com.cglee079.pododev.web.domain.blog.attachimage;
 
 import com.cglee079.pododev.web.domain.blog.FileStatus;
-import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSaveDto;
+import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSave;
 import com.cglee079.pododev.web.global.infra.uploader.PodoUploaderClient;
 import com.cglee079.pododev.web.global.util.PathUtil;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +31,7 @@ public class AttachImageUploader {
         images.forEach(image -> {
             log.info("Image '{}', '{}'", image.getFileStatus(), image.getOriginName());
 
-            final List<AttachImageSaveDto.insert> saves = new ArrayList<>(image.getSaves().values());
+            final List<AttachImageSave> saves = new ArrayList<>(image.getSaves().values());
 
             switch (FileStatus.valueOf(image.getFileStatus())) {
                 case NEW:

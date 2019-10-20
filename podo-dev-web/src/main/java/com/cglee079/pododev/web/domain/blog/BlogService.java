@@ -6,6 +6,7 @@ import com.cglee079.pododev.web.domain.blog.attachfile.AttachFile;
 import com.cglee079.pododev.web.domain.blog.attachfile.AttachFileUploader;
 import com.cglee079.pododev.web.domain.blog.attachimage.AttachImage;
 import com.cglee079.pododev.web.domain.blog.attachimage.AttachImageUploader;
+import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSaveEntity;
 import com.cglee079.pododev.web.domain.blog.comment.CommentRepository;
 import com.cglee079.pododev.web.domain.blog.exception.InvalidBlogIdException;
 import com.cglee079.pododev.web.domain.blog.tag.BlogTag;
@@ -218,8 +219,9 @@ public class BlogService {
         final List<AttachFile> attachFiles = blog.getAttachFiles();
 
         attachImages.forEach(attachImage ->
-                attachImage.getSaves().forEach(save ->
-                        attachImageUploader.deleteImageFile(save.getPath(), save.getFilename())
+                attachImage.getSaves().stream()
+                        .map(AttachImageSaveEntity::getAttachImageSave)
+                        .forEach(save -> attachImageUploader.deleteImageFile(save.getPath(), save.getFilename())
                 )
         );
 

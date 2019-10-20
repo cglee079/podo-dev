@@ -1,11 +1,9 @@
 package com.cglee079.pododev.web.domain.blog.attachimage;
 
 import com.cglee079.pododev.web.domain.blog.FileStatus;
-import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSaveDto;
-import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSaveService;
-import com.cglee079.pododev.web.global.infra.uploader.PodoUploaderClient;
+import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSave;
+import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageWriter;
 import com.cglee079.pododev.web.global.util.HttpUrlUtil;
-import com.cglee079.pododev.web.global.util.PathUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
@@ -14,11 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -29,13 +23,13 @@ public class AttachImageService {
     @Value("${local.upload.base.url}")
     private String baseUrl;
 
-    private final AttachImageSaveService attachImageSaveService;
+    private final AttachImageWriter attachImageWriter;
 
     public AttachImageDto.response saveBase64(String base64) {
         String originExtension = "PNG";
         String originName = "image_by_paste." + originExtension;
 
-        final Map<String, AttachImageSaveDto.response> saves = attachImageSaveService.makeSaveBase64(base64, originExtension);
+        final Map<String, AttachImageSave> saves = attachImageWriter.makeSaveBase64(base64, originExtension);
 
         return AttachImageDto.response.builder()
                 .originName(originName)
@@ -48,7 +42,7 @@ public class AttachImageService {
     public AttachImageDto.response saveImageUrl(String url) {
         final String originName = FilenameUtils.getName(url);
 
-        final Map<String, AttachImageSaveDto.response> saves = attachImageSaveService.makeSaveUrl(url);
+        final Map<String, AttachImageSave> saves = attachImageWriter.makeSaveUrl(url);
 
         return AttachImageDto.response.builder()
                 .originName(originName)
@@ -67,7 +61,7 @@ public class AttachImageService {
 
         log.info("Save Image '{}' >> ", originName);
 
-        final Map<String, AttachImageSaveDto.response> saves = attachImageSaveService.makeSaves(multipartFile);
+        final Map<String, AttachImageSave> saves = attachImageWriter.makeSaves(multipartFile);
 
         return AttachImageDto.response.builder()
                 .originName(originName)

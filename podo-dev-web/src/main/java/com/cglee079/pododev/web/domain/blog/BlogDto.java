@@ -5,6 +5,7 @@ import com.cglee079.pododev.web.domain.blog.attachfile.AttachFileDto;
 import com.cglee079.pododev.web.domain.blog.attachimage.AttachImage;
 import com.cglee079.pododev.web.domain.blog.attachimage.AttachImageDto;
 import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSave;
+import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSaveEntity;
 import com.cglee079.pododev.web.domain.blog.tag.BlogTag;
 import com.cglee079.pododev.web.domain.blog.tag.BlogTagDto;
 import com.cglee079.pododev.web.global.util.Formatter;
@@ -137,7 +138,10 @@ public class BlogDto {
             blog.getAttachFiles().forEach(file -> this.files.add(new AttachFileDto.response(file, uploaderDomain, fileStatus)));
 
             if (!images.isEmpty()) {
-                List<AttachImageSave> saves = blog.getAttachImages().get(0).getSaves();
+                List<AttachImageSave> saves = blog.getAttachImages().get(0).getSaves().stream()
+                        .map(AttachImageSaveEntity::getAttachImageSave)
+                        .collect(Collectors.toList());
+
                 Optional<AttachImageSave> thumbnailSaveOpt = saves.stream().filter(s -> s.getImageId().equals("origin")).findFirst();
                 if (thumbnailSaveOpt.isPresent()) {
                     AttachImageSave thumbnailSave = thumbnailSaveOpt.get();
@@ -175,7 +179,10 @@ public class BlogDto {
 
             List<AttachImage> images = blog.getAttachImages();
             if (!images.isEmpty()) {
-                List<AttachImageSave> saves = blog.getAttachImages().get(0).getSaves();
+                List<AttachImageSave> saves = blog.getAttachImages().get(0).getSaves().stream()
+                        .map(AttachImageSaveEntity::getAttachImageSave)
+                        .collect(Collectors.toList());
+
                 Optional<AttachImageSave> thumbnailSaveOpt = saves.stream().filter(s -> s.getImageId().equals("origin")).findFirst();
                 if (thumbnailSaveOpt.isPresent()) {
                     AttachImageSave thumbnailSave = thumbnailSaveOpt.get();

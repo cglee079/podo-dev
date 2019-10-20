@@ -32,7 +32,7 @@ public class SitemapMakeWorker implements MakeWorker {
      */
     public void doWork(List<BlogDto.summary> blogs) {
         sitemapMaker.makeSitemap(blogs);
-        //sitemapSender.sendRequest(GOOGLE + PODO_DEV_FRONT_SITEMAP);
+        sitemapSender.sendRequest(GOOGLE + PODO_DEV_FRONT_SITEMAP);
     }
 
 }
