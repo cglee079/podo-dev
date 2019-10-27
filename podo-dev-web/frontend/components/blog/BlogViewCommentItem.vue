@@ -2,7 +2,7 @@
     <div
             v-bind:style="{'padding-left': (comment.depth * 2) + 'rem'}"
             class="wrap-comment"
-            :class="comment.enabled ? '' : 'disabled'"
+            :class="[comment.enabled ? '' : 'disabled', $mq]"
     >
         <div class="comment">
             <div class="header">
@@ -95,6 +95,11 @@
 <style lang="scss" scoped >
     .wrap-comment {
         border-bottom: 0.5px solid #F1F1F1;
+
+        &.mobile, &.tablet {
+            margin-left: 5%;
+            margin-right: 5%;
+        }
 
         &:hover {
             background: #FAFAFA;

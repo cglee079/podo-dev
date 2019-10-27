@@ -1,5 +1,7 @@
 <template>
-    <blog-list/>
+    <section>
+        <blog-list/>
+    </section>
 </template>
 
 <script>

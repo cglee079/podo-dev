@@ -13,6 +13,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,8 +35,11 @@ public class RssMaker {
     @Value("${local.static.dir}")
     private String staticDirPath;
 
-    public void makeRss(List<BlogDto.summary> blogs) {
+    public void makeRss(List<BlogDto.feed> blogs) {
+
         log.info("Start Make Rss");
+
+        Collections.reverse(blogs);
 
         SyndFeed feed = new SyndFeedImpl();
         feed.setFeedType("rss_2.0");
@@ -52,7 +58,6 @@ public class RssMaker {
         syndImage.setDescription(PODO_DESC);
 
         feed.setImage(syndImage);
-
 
         List<SyndEntry> entries = new LinkedList<>();
 
@@ -76,7 +81,7 @@ public class RssMaker {
             entry.setTitle(blog.getTitle());
             entry.setDescription(description);
             entry.setLink(PathUtil.merge(PODO_DEV_WEB, "/blogs", blog.getId().toString()));
-            entry.setPublishedDate(TimeUtil.localDateTimeToDate(blog.getUpdateAt()));
+            entry.setPublishedDate(TimeUtil.localDateTimeToDate(blog.getUpdateAt().plus(9, ChronoUnit.HOURS)));
             entry.setCategories(categories);
             entry.setAuthor(PODO_AUTHOR);
 
@@ -86,10 +91,18 @@ public class RssMaker {
 
         feed.setEntries(entries);
 
-        SyndFeedOutput output = new SyndFeedOutput();
+        final SyndFeedOutput output = new SyndFeedOutput();
 
         try {
-            output.output(feed, new File(PathUtil.merge(staticDirPath, "feed.xml")));
+            final File file = new File(PathUtil.merge(staticDirPath, "feed.xml"));
+            final Path path = file.toPath();
+            output.output(feed, file);
+
+            //일단 이렇게 처리 GMT를 +0900으로 변환. 라이브러리상에서 표시를 바꾸는 방법이없음.
+            String content = new String(Files.readAllBytes(path));
+            content = content.replaceAll("GMT", "+0900");
+            Files.write(path, content.getBytes());
+
         } catch (IOException e) {
             log.error("RSS 파일을 저장하는데 실패하였습니다,  {}", e.getMessage());
         } catch (FeedException e) {

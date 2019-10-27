@@ -182,7 +182,7 @@
 <style lang="scss" scoped>
 
     #wrapComment {
-        margin-top: 100px;
+        margin-top: 70px;
 
         &.mobile, &.tablet {
             #count {

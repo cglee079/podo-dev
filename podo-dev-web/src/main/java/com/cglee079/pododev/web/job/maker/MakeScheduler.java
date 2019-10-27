@@ -23,14 +23,14 @@ public class MakeScheduler {
     public void doSchedule() {
         log.info("Start MakeWork Schedule");
 
-        if (!blogService.existByFeeded(false)) {
+        if (!blogService.hasNoFeeded(false)) {
             log.info("No Updated Blogs");
             return;
         }
 
         log.info("Detect Updated Blog, Start MakeWork");
 
-        List<BlogDto.summary> blogs = blogService.findEnabled();
+        List<BlogDto.feed> blogs = blogService.findEnabled();
 
         //Feed
         workers.forEach(w -> w.doWork(blogs));

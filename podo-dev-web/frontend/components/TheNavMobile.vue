@@ -37,9 +37,9 @@
                 <router-link :to="{name : 'blogs-post'}">글쓰기</router-link>
             </div>
 
-            <div class="mobile-nav-menu"><a href="https://github.com/cglee079" target="_blank">Github</a></div>
-            <div class="mobile-nav-menu"><a href="https://www.linkedin.com/in/changoo-lee-205662180" target="_blank">LinkedIn</a></div>
-            <div class="mobile-nav-menu"><a href="mailto:cglee079@gmail.com">Mail</a></div>
+            <div class="mobile-nav-menu"><a href="https://github.com/cglee079" target="_blank">GITHUB</a></div>
+            <div class="mobile-nav-menu"><a href="https://www.linkedin.com/in/changoo-lee-205662180" target="_blank">LINKEDIN</a></div>
+            <div class="mobile-nav-menu"><a href="mailto:cglee079@gmail.com">MAIL</a></div>
 
             <div v-if="!isLogin" @click="login" class="mobile-nav-menu"><a>로그인</a></div>
             <div v-if="isLogin" @click="logout" class="mobile-nav-menu"><a>로그아웃</a></div>

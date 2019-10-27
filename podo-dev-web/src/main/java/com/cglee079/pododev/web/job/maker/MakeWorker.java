@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface MakeWorker {
 
-    void doWork(List<BlogDto.summary> blogs);
+    void doWork(List<BlogDto.feed> blogs);
 }

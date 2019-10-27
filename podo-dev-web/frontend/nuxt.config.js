@@ -5,6 +5,12 @@ module.exports = {
 
     serverMiddleware: ['redirect-ssl'],
 
+    router: {
+        scrollBehavior (to, from, savedPosition) {
+            return { x: 0, y: 0 }
+        }
+    },
+
     env: {
         frontendUrl: 'https://www.podo-dev.com',
         internalServerUrl: 'http://192.168.219.103:28080',
@@ -34,13 +40,16 @@ module.exports = {
         title: 'podo-dev',
         meta: [
             {charset: 'utf-8'},
-            {name: 'viewport', content: 'width=device-width, initial-scale=1, user-scalable=no'},
+            {name: 'viewport', content: 'user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width'},
             {hid: "description", name: 'description', content: 'podo-dev'},
+            {hid: "article:media_name", property: 'article:media_name', content: 'podo-dev'},
             {hid: "og:title", property: 'og:title', content: 'podo-dev'},
             {hid: "og:description", property: 'og:description', content: "podo-dev"},
             {hid: "og:image", property: 'og:image', content: "/og-image.png"},
             {hid: "og:site_name", property: 'og:site_name', content: "podo-dev"},
-            {hid: "og:type", property: 'og:type', content: "article"}
+            {hid: "og:type", property: 'og:type', content: "article"},
+            {hid: "by", property: 'by', content: "podo"},
+            {hid: "referrer", property: 'referrer', content: "always"}
         ],
         link: [
             {rel: 'icon', href: '/favicon.ico?v=2'},
@@ -62,6 +71,7 @@ module.exports = {
     loading: {color: '#ec5621'},
 
     modules: [
+        '@nuxtjs/markdownit',
         '@tui-nuxt/editor',
         '@nuxtjs/axios',
         '@nuxtjs/toast',
@@ -103,6 +113,17 @@ module.exports = {
         localStorage: {
             prefix: 'podo-dev_'
         },
+    },
+
+    markdownit: {
+        preset: 'default',
+        linkify: true,
+        breaks: true,
+        use: [
+            'markdown-it-div',
+            'markdown-it-attrs'
+        ],
+        injected: true
     }
 
 

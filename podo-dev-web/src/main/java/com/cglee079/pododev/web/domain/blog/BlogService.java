@@ -3,8 +3,10 @@ package com.cglee079.pododev.web.domain.blog;
 import com.cglee079.pododev.core.global.response.PageDto;
 import com.cglee079.pododev.web.domain.blog.aop.SolrDataImport;
 import com.cglee079.pododev.web.domain.blog.attachfile.AttachFile;
+import com.cglee079.pododev.web.domain.blog.attachfile.AttachFileDto;
 import com.cglee079.pododev.web.domain.blog.attachfile.AttachFileUploader;
 import com.cglee079.pododev.web.domain.blog.attachimage.AttachImage;
+import com.cglee079.pododev.web.domain.blog.attachimage.AttachImageDto;
 import com.cglee079.pododev.web.domain.blog.attachimage.AttachImageUploader;
 import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSaveEntity;
 import com.cglee079.pododev.web.domain.blog.comment.CommentRepository;
@@ -26,10 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -47,6 +46,9 @@ public class BlogService {
     @Value("${blog.per.page.size}")
     private Integer pageSize;
 
+    @Value("${blog.relates.size}")
+    private Integer relatesSize;
+
     private final BlogRepository blogRepository;
 
     private final AttachImageUploader attachImageUploader;
@@ -59,16 +61,27 @@ public class BlogService {
 
 
     public BlogDto.response get(Long id) {
-        Optional<Blog> blog = blogRepository.findById(id);
+        Optional<Blog> blogOptional = blogRepository.findById(id);
 
-        if (!blog.isPresent()) {
+        if (!blogOptional.isPresent()) {
             throw new InvalidBlogIdException();
         }
 
-        Blog next = blogRepository.findNext(id);
-        Blog before = blogRepository.findBefore(id);
+        final Blog blog = blogOptional.get();
 
-        return new BlogDto.response(blog.get(), before, next, uploaderFrontendUrl, FileStatus.BE);
+        final Blog next = blogRepository.findNext(id);
+        final Blog before = blogRepository.findBefore(id);
+
+        final List<String> tagValues = blog.getTags().stream()
+                .map(BlogTag::getVal)
+                .collect(Collectors.toList());
+
+        final List<Blog> relates = blogRepository.findBlogByTagValues(tagValues.get(0), tagValues.subList(1, tagValues.size()))
+                .stream()
+                .limit(relatesSize)
+                .collect(Collectors.toList());
+
+        return new BlogDto.response(blog, before, next, relates, uploaderFrontendUrl, FileStatus.BE);
     }
 
     public PageDto paging(BlogDto.request request) {
@@ -89,7 +102,11 @@ public class BlogService {
         //Filter By Search(검색)
         if (!StringUtils.isEmpty(search)) {
             final List<SolrResponse> results = podoSolrClient.search(search);
-            final List<Long> ids = results.stream().map(SolrResponse::getBlogId).map(Long::valueOf).collect(Collectors.toList());
+            final List<Long> ids = results.stream()
+                    .map(SolrResponse::getBlogId)
+                    .map(Long::valueOf)
+                    .collect(Collectors.toList());
+
             final Map<String, String> desc = results.stream().collect(Collectors.toMap(SolrResponse::getBlogId, SolrResponse::getContents));
 
             blogs = blogRepository.paging(pageable, ids, enabled);
@@ -100,7 +117,10 @@ public class BlogService {
 
         //Filter By Tag
         else if (!StringUtils.isEmpty(tagValue)) {
-            List<Long> ids = blogRepository.findBlogByTagValue(tagValue).stream().map(Blog::getId).collect(Collectors.toList());
+            List<Long> ids = blogRepository.findBlogByTagValues(tagValue, null).stream()
+                    .map(Blog::getId)
+                    .collect(Collectors.toList());
+
             blogs = blogRepository.paging(pageable, ids, enabled);
             blogs.forEach(blog -> contents.add(new BlogDto.responseList(blog, uploaderFrontendUrl)));
         }
@@ -130,18 +150,23 @@ public class BlogService {
         attachFileUploader.uploadFile(insert.getFiles());
 
         final Blog blog = insert.toEntity();
+
         blog.updateContentSrc(HttpUrlUtil.getSeverDomain() + baseUrl, uploaderFrontendUrl);
 
         //태그 저장
+        insertBlogTags(insert.getTags(), blog);
+
+        blogRepository.save(blog);
+    }
+
+    private void insertBlogTags(List<BlogTagDto.insert> tags, Blog blog) {
         int idx = 1;
-        for (BlogTagDto.insert tagInsert : insert.getTags()) {
+        for (BlogTagDto.insert tagInsert : tags) {
             BlogTag tag = tagInsert.toEntity(blog);
             tag.updateIdx(idx++);
             blogTagRepository.save(tag);
             blog.addTag(tag);
         }
-
-        blogRepository.save(blog);
     }
 
     @SolrDataImport
@@ -162,34 +187,15 @@ public class BlogService {
         blog.update(update.getTitle(), update.getContents(), update.getEnabled());
         blog.updateContentSrc(HttpUrlUtil.getSeverDomain() + baseUrl, uploaderFrontendUrl);
 
-        //기존 태그 삭제
-        blog.getTags().forEach(blogTagRepository::delete);
-
-        //새로운 태그 저장
-        int idx = 1;
-        for (BlogTagDto.insert tagInsert : update.getTags()) {
-            BlogTag tag = tagInsert.toEntity(blog);
-            tag.updateIdx(idx++);
-            blogTagRepository.save(tag);
-            blog.addTag(tag);
-        }
+        updateBlogTags(update.getTags(), blog);
+        updateAttachImages(update.getImages(), blog);
+        updateAttachFiles(update.getFiles(), blog);
 
 
-        update.getImages().forEach(image -> {
-            switch (FileStatus.valueOf(image.getFileStatus())) {
-                case NEW:
-                    blog.addAttachImage(image.toEntity());
-                    break;
-                case REMOVE:
-                    blog.removeAttachImage(image.getId());
-                case UNNEW:
-                case BE:
-                default:
-                    break;
-            }
-        });
+    }
 
-        update.getFiles().forEach(file -> {
+    private void updateAttachFiles(List<AttachFileDto.insert> files, Blog blog) {
+        files.forEach(file -> {
             switch (FileStatus.valueOf(file.getFileStatus())) {
                 case NEW:
                     blog.addAttachFile(file.toEntity());
@@ -202,8 +208,36 @@ public class BlogService {
                     break;
             }
         });
+    }
 
+    private void updateAttachImages(List<AttachImageDto.insert> images, Blog blog) {
+        images.forEach(image -> {
+            switch (FileStatus.valueOf(image.getFileStatus())) {
+                case NEW:
+                    blog.addAttachImage(image.toEntity());
+                    break;
+                case REMOVE:
+                    blog.removeAttachImage(image.getId());
+                case UNNEW:
+                case BE:
+                default:
+                    break;
+            }
+        });
+    }
 
+    private void updateBlogTags(List<BlogTagDto.insert> tags, Blog blog) {
+        //기존 태그 삭제
+        blog.getTags().forEach(blogTagRepository::delete);
+
+        //새로운 태그 저장
+        int idx = 1;
+        for (BlogTagDto.insert tagInsert : tags) {
+            BlogTag tag = tagInsert.toEntity(blog);
+            tag.updateIdx(idx++);
+            blogTagRepository.save(tag);
+            blog.addTag(tag);
+        }
     }
 
     @SolrDataImport
@@ -215,25 +249,29 @@ public class BlogService {
         }
 
         final Blog blog = blogOptional.get();
-        final List<AttachImage> attachImages = blog.getAttachImages();
-        final List<AttachFile> attachFiles = blog.getAttachFiles();
 
-        attachImages.forEach(attachImage ->
-                attachImage.getSaves().stream()
-                        .map(AttachImageSaveEntity::getAttachImageSave)
-                        .forEach(save -> attachImageUploader.deleteImageFile(save.getPath(), save.getFilename())
-                )
-        );
-
-        attachFiles.forEach(attachFile -> {
-            attachFileUploader.deleteFile(attachFile.getPath(), attachFile.getFilename());
-        });
-
+        deleteAttachImages(blog.getAttachImages());
+        deleteAttachFiles(blog.getAttachFiles());
 
         blogTagRepository.deleteAll(blog.getTags());
         commentRepository.deleteAll(blog.getComments());
 
         blogRepository.delete(blog);
+    }
+
+    private void deleteAttachFiles(List<AttachFile> attachFiles) {
+        attachFiles.forEach(attachFile -> {
+            attachFileUploader.deleteFile(attachFile.getPath(), attachFile.getFilename());
+        });
+    }
+
+    private void deleteAttachImages(List<AttachImage> attachImages) {
+        attachImages.forEach(attachImage ->
+                attachImage.getSaves().stream()
+                        .map(AttachImageSaveEntity::getAttachImageSave)
+                        .forEach(save -> attachImageUploader.deleteImageFile(save.getPath(), save.getFilename())
+                        )
+        );
     }
 
     /**
@@ -249,16 +287,16 @@ public class BlogService {
     /**
      * 게시글 조회수 +1
      *
-     * @param id
+     * @param blogId
      */
-    public void increaseHitCnt(Long id) {
-        Optional<Blog> blog = blogRepository.findById(id);
+    public void increaseHitCnt(Long blogId) {
+        Optional<Blog> blogOptional = blogRepository.findById(blogId);
 
-        if (!blog.isPresent()) {
+        if (!blogOptional.isPresent()) {
             throw new InvalidBlogIdException();
         }
 
-        blog.get().increaseHitCnt();
+        blogOptional.get().increaseHitCnt();
     }
 
 
@@ -267,9 +305,11 @@ public class BlogService {
      *
      * @return
      */
-    public List<BlogDto.summary> findEnabled() {
+    public List<BlogDto.feed> findEnabled() {
         List<Blog> blogs = blogRepository.findByEnabled(true);
-        return blogs.stream().map(BlogDto.summary::new).collect(Collectors.toList());
+        return blogs.stream()
+                .map(BlogDto.feed::new)
+                .collect(Collectors.toList());
     }
 
 
@@ -278,11 +318,11 @@ public class BlogService {
      *
      * @return
      */
-    public Boolean existByFeeded(Boolean feeded) {
+    public Boolean hasNoFeeded(Boolean feeded) {
         return blogRepository.findByFeeded(feeded).size() != 0;
     }
 
     public void completeFeeded() {
-        blogRepository.findByFeeded(false).forEach(blog -> blog.doFeeded());
+        blogRepository.findByFeeded(false).forEach(Blog::doFeeded);
     }
 }

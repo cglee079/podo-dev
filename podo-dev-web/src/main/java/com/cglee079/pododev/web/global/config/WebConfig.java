@@ -1,5 +1,6 @@
 package com.cglee079.pododev.web.global.config;
 
+import com.cglee079.pododev.web.global.interceptor.BlogViewLogInterceptor;
 import com.cglee079.pododev.web.global.interceptor.RequestLogInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,7 +21,6 @@ public class WebConfig implements WebMvcConfigurer {
     @Value("${local.static.dir}")
     private String sitemapLocation;
 
-
     @Value("${local.upload.base.url}")
     private String uploadedUrl;
 
@@ -28,6 +28,7 @@ public class WebConfig implements WebMvcConfigurer {
     private String uploadedLocation;
 
     private final RequestLogInterceptor requestLogInterceptor;
+    private final BlogViewLogInterceptor blogViewLogInterceptor;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -52,6 +53,9 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(requestLogInterceptor)
                 .addPathPatterns("/**");
+
+        registry.addInterceptor(blogViewLogInterceptor)
+                .addPathPatterns("/api/blogs/*/comments");
     }
 
 }

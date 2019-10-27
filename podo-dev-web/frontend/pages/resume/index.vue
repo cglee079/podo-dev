@@ -1,5 +1,5 @@
 <template>
-    <div id="resume" :class="$mq">
+    <section id="resume" :class="$mq">
         <div id="name">
             <span>Lee Changoo => { Podo }</span>
         </div>
@@ -49,7 +49,7 @@
             </div>
         </div>
 
-    </div>
+    </section>
 </template>
 
 <script>

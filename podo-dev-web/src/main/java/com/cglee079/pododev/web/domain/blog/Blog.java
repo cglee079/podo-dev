@@ -124,4 +124,5 @@ public class Blog extends UpdatableBaseEntity {
             attachFile.changeBlog(null);
         }
     }
+
 }

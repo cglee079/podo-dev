@@ -11,6 +11,7 @@ import com.cglee079.pododev.web.domain.blog.tag.BlogTagDto;
 import com.cglee079.pododev.web.global.util.Formatter;
 import com.cglee079.pododev.web.global.util.MarkdownUtil;
 import com.cglee079.pododev.web.global.util.PathUtil;
+import com.cglee079.pododev.web.global.util.TimeUtil;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -107,6 +108,7 @@ public class BlogDto {
         private String contents;
         private Integer hitCnt;
         private String thumbnail;
+        private List<BlogDto.relates> relates;
         private List<BlogTagDto.response> tags;
         private List<AttachImageDto.response> images;
         private List<AttachFileDto.response> files;
@@ -117,7 +119,7 @@ public class BlogDto {
         private String updateAt;
         private Boolean enabled;
 
-        public response(Blog blog, Blog before, Blog next, String uploaderDomain, FileStatus fileStatus) {
+        public response(Blog blog, Blog before, Blog next, List<Blog> relates, String uploaderDomain, FileStatus fileStatus) {
             this.id = blog.getId();
             this.title = blog.getTitle();
             this.desc = MarkdownUtil.escape(MarkdownUtil.extractPlainText(blog.getContents()));
@@ -129,13 +131,21 @@ public class BlogDto {
             this.enabled = blog.getEnabled();
             this.before = !Objects.isNull(before) ? before.getId() : null;
             this.next = !Objects.isNull(next) ? next.getId() : null;
-            this.tags = new LinkedList<>();
-            this.images = new LinkedList<>();
-            this.files = new LinkedList<>();
+            this.relates = relates.stream()
+                    .map(BlogDto.relates::new)
+                    .collect(Collectors.toList());
 
-            blog.getTags().forEach(tag -> this.tags.add(new BlogTagDto.response(tag)));
-            blog.getAttachImages().forEach(image -> this.images.add(new AttachImageDto.response(image, uploaderDomain, fileStatus)));
-            blog.getAttachFiles().forEach(file -> this.files.add(new AttachFileDto.response(file, uploaderDomain, fileStatus)));
+            this.tags = blog.getTags().stream()
+                    .map(BlogTagDto.response::new)
+                    .collect(Collectors.toList());
+
+            this.images = blog.getAttachImages().stream()
+                    .map(image -> new AttachImageDto.response(image, uploaderDomain, fileStatus))
+                    .collect(Collectors.toList());
+            this.files = blog.getAttachFiles().stream()
+                    .map(file -> new AttachFileDto.response(file, uploaderDomain, fileStatus))
+                    .collect(Collectors.toList());
+
 
             if (!images.isEmpty()) {
                 List<AttachImageSave> saves = blog.getAttachImages().get(0).getSaves().stream()
@@ -148,9 +158,6 @@ public class BlogDto {
                     this.thumbnail = PathUtil.merge(uploaderDomain, thumbnailSave.getPath(), thumbnailSave.getFilename());
                 }
             }
-
-            //TODO temp
-            //this.contents = contents.replace("http://upload.podo-dev.com/", "http://upload.podo-dev.com:8090/");
 
         }
 
@@ -201,9 +208,25 @@ public class BlogDto {
 
     }
 
+    @Getter
+    public static class relates {
+        private Long id;
+        private String title;
+        private Integer commentCount;
+        private String createAt;
+        private String updateAt;
+
+        public relates(Blog blog) {
+            this.id = blog.getId();
+            this.title = blog.getTitle();
+            this.commentCount = blog.getComments().size();
+            this.createAt = Formatter.dateTimeToBeautifulDate(blog.getCreateAt());
+            this.updateAt = Formatter.dateTimeToBeautifulDate(blog.getUpdateAt());
+        }
+    }
 
     @Getter
-    public static class summary {
+    public static class feed {
         private Long id;
         private String desc;
         private String contentHtml;
@@ -213,7 +236,7 @@ public class BlogDto {
         private LocalDateTime updateAt;
         private Boolean enabled;
 
-        summary(Blog blog) {
+        feed(Blog blog) {
             this.id = blog.getId();
             this.title = blog.getTitle();
             this.desc = MarkdownUtil.escape(MarkdownUtil.extractPlainText(blog.getContents()));

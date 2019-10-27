@@ -1,6 +1,13 @@
 <template>
     <div id="custom-viewer" :class="$mq">
-        <TuiEditorViewer :value="value"/>
+        <div v-html="this.$md.render(value)"
+             ref="serverOnly"
+             class="tui-editor-contents">
+        </div>
+
+        <client-only>
+            <TuiEditorViewer :value="value"/>
+        </client-only>
     </div>
 </template>
 
@@ -10,6 +17,9 @@
         props: {
             value: String
         },
+        mounted() {
+            this.$refs.serverOnly.innerHTML = ''
+        }
     }
 </script>
 
@@ -25,7 +35,7 @@
                 word-break: break-all;
 
                 pre {
-                    marign : 10px 0 8px 0px;
+                    marign: 10px 0 8px 0px;
                     overflow-x: auto;
                     border-radius: 5px;
 
@@ -39,7 +49,7 @@
                     line-height: 2rem;
                 }
 
-                img{
+                img {
                     border-color: #DDDDDD;
                     border-radius: 5px;
                 }

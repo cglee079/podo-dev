@@ -2,7 +2,6 @@ package com.cglee079.pododev.web.job.maker.sitemap;
 
 import com.cglee079.pododev.core.global.util.MyFileUtils;
 import com.cglee079.pododev.web.domain.blog.BlogDto;
-import com.cglee079.pododev.web.domain.blog.BlogService;
 import com.cglee079.pododev.web.global.util.PathUtil;
 import com.redfin.sitemapgenerator.WebSitemapGenerator;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +27,7 @@ public class SitemapMaker {
         return PathUtil.merge(PODO_DEV_WEB, path);
     }
 
-    public void makeSitemap(List<BlogDto.summary> blogs) {
+    public void makeSitemap(List<BlogDto.feed> blogs) {
         log.info("Start Make Sitemap");
 
         try {

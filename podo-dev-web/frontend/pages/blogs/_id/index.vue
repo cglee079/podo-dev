@@ -1,69 +1,75 @@
 <template>
-    <div id="wrapBlog" :class="$mq">
+    <section id="wrapBlog" :class="$mq">
         <progress-bar ref="progressBar"/>
-
-        <div id="head">
-            <div id="tags">
-                <span v-for="tag in blog.tags"
-                      v-bind:key="tag.id"
-                >
-                    #{{tag.val}}
-                </span>
-            </div>
-
-            <h1 id="title">
-                {{blog.title}}
-            </h1>
-
-            <div id="info">
-                <span>{{blog.createAt}}</span>
-                <span>조회수 {{blog.hitCnt}}</span>
-            </div>
-        </div>
-
-
-        <div id="submenus">
-            <span v-if="isAdmin && isLogin" @click="clickModifyBlog(blog.id)">수정</span>
-            <span v-if="isAdmin && isLogin" @click="clickDeleteBlog(blog.id)">삭제</span>
-            <span @click="clickExport()">공유하기</span>
-            <span><router-link
-                :to="{name : 'index', query : { search: filter.search, tag : filter.tag}}">목록</router-link></span>
-            <span @click="clickBefore()">이전글</span>
-            <span @click="clickNext()">다음글</span>
-        </div>
-
-        <div id="files">
-            <div v-for="file in blog.files"
-                 v-bind:id="file.id"
-                 class="file"
-            >
-                <a href="javascript:void(0)" @click="clickFile(file.id)">
-                    <img src="@/assets/btns/btn-file.svg" class="file-icon"/>
-                    <span class="file-name">{{file.originName}}</span>
-                    <span class="file-size">[{{formatFilesize(file.filesize)}}]</span>
-                </a>
-            </div>
-        </div>
-
-        <div id="contents">
-            <client-only>
-                <toast-custom-viewer ref="viewer" :value="blog.contents"/>
-            </client-only>
-        </div>
-
-        <blog-view-comment
-            v-if="blog.id"
-            :blogId="blog.id"
-            @onProgress="onProgress"
-            @offProgress="offProgress"
-        />
-
         <blog-view-export
             ref="export"
             :blog="blog"
         />
 
-    </div>
+        <div>
+            <div id="head">
+                <div id="tags">
+                <span v-for="tag in blog.tags"
+                      v-bind:key="tag.id"
+                >
+                    <router-link :to="{name: 'index', query: {tag: tag.val}}"> #{{tag.val}}</router-link>
+                </span>
+                </div>
+
+                <h1 id="title">
+                    {{blog.title}}
+                </h1>
+
+                <div id="info">
+                    <span>{{blog.createAt}}</span>
+                    <span>조회수 {{blog.hitCnt}}</span>
+                </div>
+            </div>
+
+            <div id="submenus">
+                <span v-if="isAdmin && isLogin" @click="clickModifyBlog(blog.id)">수정</span>
+                <span v-if="isAdmin && isLogin" @click="clickDeleteBlog(blog.id)">삭제</span>
+                <span @click="clickExport()">공유하기</span>
+                <span><router-link
+                    :to="{name : 'index', query : { search: filter.search, tag : filter.tag}}">목록</router-link></span>
+                <span @click="clickBefore()">이전글</span>
+                <span @click="clickNext()">다음글</span>
+            </div>
+
+            <div id="files">
+                <div v-for="file in blog.files"
+                     v-bind:key="file.id"
+                     class="file"
+                >
+                    <span @click="clickFile(file.id)">
+                        <img src="@/assets/btns/btn-file.svg" class="file-icon"/>
+                        <span class="file-name">{{file.originName}}</span>
+                        <span class="file-size">[{{formatFilesize(file.filesize)}}]</span>
+                    </span>
+                </div>
+            </div>
+
+            <div id="contents">
+                <toast-custom-viewer ref="viewer" :value="blog.contents"/>
+            </div>
+
+            <blog-view-relates
+                :blogId="blog.id"
+                :blogTitle="blog.title"
+                :relates="blog.relates"
+            />
+
+            <blog-view-comment
+                v-if="blog.id"
+                :blogId="blog.id"
+                @onProgress="onProgress"
+                @offProgress="offProgress"
+            />
+
+
+        </div>
+
+    </section>
 </template>
 
 <script>
@@ -71,11 +77,40 @@
     import filesize from 'filesize'
     import BlogViewComment from "@/components/blog/BlogViewComment"
     import BlogViewExport from "@/components/blog/BlogViewExport"
+    import BlogViewRelates from "@/components/blog/BlogViewRelates"
     import ToastCustomViewer from "@/components/global/ToastCustomViewer"
     import ProgressBar from "@/components/global/ProgressBar";
 
     export default {
         name: 'BlogView',
+        components: {
+            ProgressBar,
+            BlogViewComment,
+            BlogViewExport,
+            BlogViewRelates,
+            ToastCustomViewer
+        },
+
+        mounted() {
+            this.filter.search = this.$route.query.search
+            this.filter.tag = this.$route.query.tag
+
+            const id = this.blog.id
+            const HIT_BLOGS = 'HIT_BLOGS'
+            let hitBlogs = this.$storage.getLocalStorage(HIT_BLOGS)
+
+            if (!hitBlogs) {
+                hitBlogs = []
+            }
+
+            if (!hitBlogs.includes(id)) {
+                hitBlogs.push(id)
+
+                this.$storage.setLocalStorage(HIT_BLOGS, hitBlogs)
+
+                this.increaseHitCount(id)
+            }
+        },
 
         head() {
             return {
@@ -87,6 +122,16 @@
                     {hid: "og:description", property: 'og:description', content: this.meta.description},
                     {hid: "og:image", property: 'og:image', content: this.meta.thumbnail},
                     {hid: "og:url", property: 'og:url', content: this.meta.url},
+                    {hid: "article:mobile_url", property: 'article:mobile_url', content: this.meta.url},
+                    {hid: "article:pc_url", property: 'article:pc_url', content: this.meta.url},
+                    {hid: "article:pc_view_url", property: 'article:pc_view_url', content: this.meta.url},
+                    {
+                        hid: "article:talk_channel_view_url",
+                        property: 'article:talk_channel_view_url',
+                        content: this.meta.url
+                    },
+                    {hid: "plink", property: 'plink', content: this.meta.url},
+                    {hid: "dg:plink", property: 'dg:plink', content: this.meta.url},
                 ],
                 link: [
                     {rel: 'canonical', href: this.meta.url},
@@ -114,9 +159,10 @@
                         url: process.env.frontendUrl + "/blogs/" + blog.id,
                         title: process.env.name + " : " + blog.title,
                         keywords: keywords.join(", "),
-                        date: blog.createAt,
                         description: blog.desc.length > 300 ? blog.desc.substring(0, 300) : blog.desc,
                         thumbnail: blog.thumbnail ? blog.thumbnail : '/og-image.png',
+                        createAt: blog.createAt,
+                        updateAt: blog.updateAt,
                     }
 
                     return {
@@ -142,12 +188,6 @@
             }
         },
 
-        components: {
-            ProgressBar,
-            BlogViewComment,
-            BlogViewExport,
-            ToastCustomViewer
-        },
 
         computed: {
             ...mapGetters({
@@ -234,26 +274,7 @@
 
         },
 
-        mounted() {
-            this.filter.search = this.$route.query.search
-            this.filter.tag = this.$route.query.tag
 
-            const id = this.blog.id
-            const HIT_BLOGS = 'HIT_BLOGS'
-            let hitBlogs = this.$storage.getLocalStorage(HIT_BLOGS)
-
-            if (!hitBlogs) {
-                hitBlogs = []
-            }
-
-            if (!hitBlogs.includes(id)) {
-                hitBlogs.push(id)
-
-                this.$storage.setLocalStorage(HIT_BLOGS, hitBlogs)
-
-                this.increaseHitCount(id)
-            }
-        }
 
     }
 </script>
@@ -281,6 +302,7 @@
                 .file {
                     padding-left: 5%;
                     padding-right: 5%;
+
                 }
             }
         }
@@ -293,7 +315,6 @@
                 text-align: center;
                 font-weight: bold;
                 color: #ec5621;
-                cursor: pointer;
 
                 span {
                     margin: 0px 5px;
@@ -353,10 +374,11 @@
                 opacity: 0.95;
                 white-space: nowrap;
 
-                a {
+                > span {
                     display: flex;
                     justify-content: flex-end;
                     align-items: center;
+                    cursor: pointer;
 
                     .file-icon {
                         width: 15px;

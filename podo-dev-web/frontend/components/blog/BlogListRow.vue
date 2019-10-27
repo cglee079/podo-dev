@@ -7,14 +7,14 @@
         <div v-if="blog.thumbnail != null"
              class="wrap-thumbnail"
         >
-            <img class="thumbnail"
-                 :src="blog.thumbnail"/>
+            <img :src="blog.thumbnail" class="thumbnail"/>
         </div>
 
         <div class="content"
         >
             <div class="title">{{ blog.title }}</div>
-            <div v-html="blog.desc" class="desc"/>
+
+            <div v-html="blog.desc" class="desc"></div>
 
             <div class="info">
                 <div class="tags">
@@ -22,7 +22,7 @@
                           v-bind:key=index
                           @click.stop.prevent="clickTag(tag.val)"
                           class="tag"
-                          :class="tag.val === filter.tag ? 'on' : ''"
+                          :class="filter.tag && (tag.val.toUpperCase() === filter.tag.toUpperCase()) ? 'on' : ''"
                     >
                             #{{tag.val}}
                     </span>
@@ -168,62 +168,63 @@
                 justify-content: space-between;
                 color: #9199a4;
                 font-size: 0.9rem;
+            }
 
-                .tags {
-                    flex: 1;
-                    max-height: 1.3rem;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
+            .info .tags {
+                flex: 1;
+                max-height: 1.3rem;
+                overflow: hidden;
+                text-overflow: ellipsis;
 
-                    .tag {
-                        margin-right: 10px;
-                        color: #ec5621;
-                        font-weight: bold;
+                .tag {
+                    margin-right: 10px;
+                    color: #ec5621;
+                    font-weight: bold;
 
-                        &.on {
-                            color: #0000CC;
-                        }
+                    &.on {
+                        color: #0000CC;
                     }
+                }
+            }
+
+            .subinfo {
+                display: flex;
+
+                > span {
+                    padding: 2px 5px;
+                    margin-left: 3px;
 
                 }
 
-                .subinfo {
+                > span.hit-count {
+                    display: none;
+                    align-items: center;
+
+                    img {
+                        width: 14px;
+                        margin-top: 1px;
+                        margin-right: 5px;
+                        opacity: 0.4;
+                    }
+                }
+
+
+                > span.comment-count {
                     display: flex;
+                    align-items: center;
 
-                    > span {
-                        padding: 2px 5px;
-                        margin-left: 3px;
-
-                        &.hit-count {
-                            display: none;
-                            align-items: center;
-
-                            img {
-                                width: 14px;
-                                margin-top: 1px;
-                                margin-right: 5px;
-                                opacity: 0.4;
-                            }
-                        }
-
-                        &.comment-count {
-                            display: flex;
-                            align-items: center;
-
-                            img {
-                                width: 14px;
-                                margin-top: 1px;
-                                margin-right: 5px;
-                                opacity: 0.5;
-                            }
-                        }
+                    img {
+                        width: 14px;
+                        margin-top: 1px;
+                        margin-right: 5px;
+                        opacity: 0.5;
                     }
                 }
-
-
             }
         }
+
     }
+
 </style>
 
 <style>

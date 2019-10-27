@@ -1,5 +1,5 @@
 <template>
-    <div id="nav" :class="$mq">
+    <header id="nav" :class="$mq">
         <div id="logo">
             <router-link :to="{name : 'index'}">
                 <img src="@/assets/podo-dev.svg" width="70px"/>
@@ -22,7 +22,7 @@
             @login="login"
             @logout="clickLogout"
         />
-    </div>
+    </header>
 
 </template>
 

@@ -1,9 +1,9 @@
 <template>
     <div>
         <the-nav/>
-        <div id="main" :class="$mq">
+        <article id="main" :class="$mq">
             <nuxt/>
-        </div>
+        </article>
         <the-footer/>
         <the-top-button/>
     </div>

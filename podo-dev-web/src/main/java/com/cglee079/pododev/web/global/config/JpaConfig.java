@@ -40,7 +40,7 @@ public class JpaConfig {
                 }
             }
 
-            return Optional.of("Anonymous");
+            return Optional.of("");
         }
     }
 }

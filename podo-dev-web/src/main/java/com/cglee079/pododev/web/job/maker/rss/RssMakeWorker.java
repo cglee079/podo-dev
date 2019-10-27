@@ -21,7 +21,7 @@ public class RssMakeWorker implements MakeWorker {
     private final RssMaker rssMaker;
 
     @Override
-    public void doWork(List<BlogDto.summary> blogs) {
+    public void doWork(List<BlogDto.feed> blogs) {
         rssMaker.makeRss(blogs);
     }
 }

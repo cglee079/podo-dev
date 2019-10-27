@@ -1,16 +1,21 @@
 package com.cglee079.pododev.web.domain.blog;
 
+import com.cglee079.pododev.web.domain.blog.tag.BlogTag;
 import com.cglee079.pododev.web.domain.blog.tag.QBlogTag;
+import com.querydsl.core.Query;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
+import org.springframework.security.core.parameters.P;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class BlogRepositoryCustomImpl extends QuerydslRepositorySupport implements BlogRepositoryCustom {
 
@@ -78,18 +83,29 @@ public class BlogRepositoryCustomImpl extends QuerydslRepositorySupport implemen
     }
 
     @Override
-    public List<Blog> findBlogByTagValue(String tagValue) {
+    public List<Blog> findBlogByTagValues(String firstTagValue, List<String> otherTags) {
         QBlogTag tag = QBlogTag.blogTag;
+
+        BooleanExpression booleanExpression = tag.val.eq(firstTagValue);
+
+        if (!Objects.isNull(otherTags)) {
+            for (String tagValue : otherTags) {
+                booleanExpression.or(tag.val.eq(tagValue));
+            }
+        }
 
         List<Long> blogId = this.queryFactory
                 .select(tag.blog.id)
                 .from(tag)
-                .where(tag.val.eq(tagValue))
+                .where(booleanExpression)
                 .fetch();
 
         return this.queryFactory.select(blog)
                 .from(blog)
                 .where(blog.id.in(blogId))
+                .where(blog.enabled.eq(true))
+                .orderBy(blog.id.desc())
                 .fetch();
     }
+
 }

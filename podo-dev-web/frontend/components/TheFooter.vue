@@ -1,5 +1,5 @@
 <template>
-    <div id="footer">
+    <footer id="footer">
         <div class="contacts">
             <span class="contact">
                 <a target="_blank" href="https://github.com/cglee079">
@@ -27,7 +27,7 @@
                 <router-link :to="{name : 'license'}">License</router-link>
             </div>
         </div>
-    </div>
+    </footer>
 </template>
 
 <script>

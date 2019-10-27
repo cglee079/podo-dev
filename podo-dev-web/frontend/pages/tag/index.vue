@@ -1,5 +1,5 @@
 <template>
-    <div id="tags">
+    <section id="tags">
         <div id="all">
             <span v-for="(values, key) in tags"
                   v-bind:key="key"
@@ -34,7 +34,7 @@
             </div>
 
         </div>
-    </div>
+    </section>
 </template>
 
 <script>
