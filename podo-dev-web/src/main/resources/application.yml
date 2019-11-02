@@ -1,0 +1,166 @@
+#Server Config
+server:
+  port: 28443
+  http:
+    port: 28080
+
+
+logging:
+  #  file: logs/application.log
+  level:
+    root: INFO
+#    org.hibernate.SQL: debug
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
+      multiline: false
+      logging: slf4j
+      #log-file: spy.log
+      #log-format: # custom log format
+
+
+spring:
+  profiles:
+    include: secret, core
+
+  # Hibernate config
+  jpa:
+    database: MYSQL
+    hibernate:
+      dialect: org.hibernate.dialect.MySQL5Dialect
+    properties:
+      hibernate:
+        fomat_sql: true
+        #        show_sql: true
+        default_batch_fetch_size: 20
+
+
+  # Servlet
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+## Blog Content Config
+blog:
+  relates:
+    size: 5
+
+  comment:
+    per:
+      page:
+        size: 5 # Comment Paging Size
+    max:
+      depth: 3 # Comment Max Reply Depth
+    recent:
+      size: 10
+  per:
+    page:
+      size: 10 # Blog Paging Size
+
+
+## File Save Config
+local:
+  static:
+    url: /static
+    dir: C://podo-dev/static
+  upload:
+    base:
+      url: /uploaded
+      dir: C://podo-dev/uploaded
+    sub:
+      file:
+        dir: /blogs/files
+      image:
+        dir: /blogs/images
+
+
+
+infra:
+
+  ## Uploader Config
+  uploader:
+    upload:
+      internal: http://192.168.219.103:38080/api/uploader/file # Loopback
+      external: https://upload.podo-dev.com/api/uploader/file
+    frontend:
+      internal: http://192.168.219.103:30080
+      external: https://file.podo-dev.com
+
+
+  ## Telegram Config
+  telegram:
+    podo:
+      bot:
+        name: PodoDevBot
+      admin:
+        id: 503609560
+
+  ## Solr Config
+  solr:
+    url: http://192.168.219.103:8979/solr # Loopback
+    core:
+      id: podo-dev
+    query:
+      hl:
+        pre:
+          max:
+            length: 100
+        frag:
+          length: 10000000
+        simple:
+          pre: ((start-search))
+          post: ((end-search))
+
+
+
+---
+
+spring:
+  profiles: deploy
+  jpa:
+    show-sql: false
+
+server:
+  port: 8443
+  http:
+    port: 8080
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: false
+
+local:
+  static:
+    url: /static
+    dir: /static
+  upload:
+    base:
+      url: /uploaded
+      dir: /uploaded
+
+security:
+  oauth2:
+    admin:
+    redirect: https://www.podo-dev.com
+
+---
+
+spring:
+  profiles: external
+
+infra:
+  ## Uploader Config
+  uploader:
+    upload:
+      internal: https://upload.podo-dev.com/api/uploader/file
+      external: https://upload.podo-dev.com/api/uploader/file
+    frontend:
+      external: https://file.podo-dev.com
+
+  solr:
+    url: http://solr.podo-dev.com/solr
+
