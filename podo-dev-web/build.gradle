@@ -1,5 +1,5 @@
 archivesBaseName = 'podo-dev-backend'
-version = '1.0'
+version = ''
 
 bootJar {
     enabled = true

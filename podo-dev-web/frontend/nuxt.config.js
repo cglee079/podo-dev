@@ -5,12 +5,6 @@ module.exports = {
 
     serverMiddleware: ['redirect-ssl'],
 
-    router: {
-        scrollBehavior(to, from, savedPosition) {
-            return {x: 0, y: 0}
-        }
-    },
-
     env: {
         frontendUrl: 'https://www.podo-dev.com',
         internalServerUrl: 'http://192.168.219.103:28080',
