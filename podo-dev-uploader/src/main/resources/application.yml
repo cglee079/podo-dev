@@ -1,0 +1,39 @@
+#Server Config
+server:
+  port: 38443
+  http:
+    port: 38080
+
+spring:
+  profiles:
+#    include: secret, core
+    include: secret, core,deploy
+
+  # Servlet
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+
+uploader:
+  frontend:
+    subpath: /uploaded
+  upload:
+    base:
+    #      dir: /upload
+      dir: C://podo-dev-uploader/upload
+---
+
+spring:
+  profiles: secret, deploy
+  jpa:
+    show-sql: false
+
+uploader:
+  upload:
+    base:
+      dir: /uploaded
+
+
+

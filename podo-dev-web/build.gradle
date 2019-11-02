@@ -1,0 +1,32 @@
+archivesBaseName = 'podo-dev-backend'
+version = ''
+
+bootJar {
+    enabled = true
+}
+
+jar {
+    enabled = false
+}
+
+compileQuerydsl {
+    enabled = true
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.7'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    implementation group: 'com.rometools', name: 'rome', version: '1.12.0'
+    implementation group: 'org.jsoup', name: 'jsoup', version: '1.11.3'
+    implementation group: 'org.telegram', name: 'telegrambots', version: '4.0.0'
+    implementation group: 'net.coobird', name: 'thumbnailator', version: '0.4.8'
+    implementation group: 'com.github.rjeschke', name: 'txtmark', version: '0.13'
+    implementation group: 'org.apache.solr', name: 'solr-solrj', version: '7.2.1'
+    implementation group: 'org.springframework.security.oauth.boot', name: 'spring-security-oauth2-autoconfigure', version: '2.1.5.RELEASE'
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'
+    implementation group: 'com.google.code', name: 'sitemapgen4j', version: '1.0.1'
+}
