@@ -17,9 +17,6 @@ spring:
 
 
 uploader:
-  security:
-    client:
-      tokens: mciGpOzzSvncQJ5IFEUNVODRyVkgL1kD
   frontend:
     subpath: /uploaded
   upload:
@@ -32,9 +29,6 @@ spring:
   profiles: secret, deploy
   jpa:
     show-sql: false
-
-logging:
-  config: classpath:logback-daily.xml
 
 uploader:
   upload:
