@@ -110,7 +110,7 @@ public class BlogRepositoryCustomImpl extends QuerydslRepositorySupport implemen
     }
 
     @Override
-    public List<Blog> getArchive() {
+    public List<Blog> findAllEnabled() {
         return this.queryFactory.select(blog)
                 .from(blog)
                 .where(blog.enabled.eq(true))

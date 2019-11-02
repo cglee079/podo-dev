@@ -18,7 +18,11 @@ public class BlogTagRepositoryCustomImpl extends QuerydslRepositorySupport imple
 
     @Override
     public List<String> findDistinctTagValue() {
-        return queryFactory.selectDistinct(tag.val).where(tag.blog.enabled.eq(true)).from(tag).fetch();
+        return queryFactory.selectDistinct(tag.val)
+                .from(tag)
+                .where(tag.blog.enabled.eq(true))
+                .orderBy(tag.val.asc())
+                .fetch();
     }
 
 

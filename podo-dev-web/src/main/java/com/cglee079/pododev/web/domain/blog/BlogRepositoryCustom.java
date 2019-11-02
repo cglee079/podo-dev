@@ -20,5 +20,5 @@ public interface BlogRepositoryCustom {
 
     List<Blog> findBlogByTagValues(String first, List<String> otherTags);
 
-    List<Blog> getArchive();
+    List<Blog> findAllEnabled();
 }

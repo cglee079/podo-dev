@@ -38,7 +38,7 @@ public class SitemapMaker {
 
             wsg.addUrl(makeUrl("/"));
             wsg.addUrl(makeUrl("/resume"));
-            wsg.addUrl(makeUrl("/tag"));
+            wsg.addUrl(makeUrl("/log"));
 
 
             blogs.forEach(blog -> {

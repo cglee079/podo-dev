@@ -63,12 +63,12 @@ public class BlogService {
 
 
     public Map<Integer, List<BlogDto.archive>> getArchive() {
-        final List<Blog> blogs = blogRepository.getArchive();
+        final List<Blog> blogs = blogRepository.findAllEnabled();
 
-        return toMapByYear(blogs);
+        return toMapByPublishYear(blogs);
     }
 
-    private Map<Integer, List<BlogDto.archive>> toMapByYear(List<Blog> blogs) {
+    private Map<Integer, List<BlogDto.archive>> toMapByPublishYear(List<Blog> blogs) {
         final Map<Integer, List<BlogDto.archive>> mapByYear = new TreeMap<>();
 
         blogs.forEach(blog -> {
