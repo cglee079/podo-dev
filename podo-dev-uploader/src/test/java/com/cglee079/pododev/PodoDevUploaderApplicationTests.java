@@ -1,4 +1,4 @@
-package com.cglee079.pododev.uploader;
+package com.cglee079.pododev;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

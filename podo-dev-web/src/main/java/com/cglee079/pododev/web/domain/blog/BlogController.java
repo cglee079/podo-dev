@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -15,6 +16,20 @@ import java.util.List;
 public class BlogController {
 
     private final BlogService blogService;
+
+    /**
+     * 게시글 조회
+     */
+    @GetMapping("/api/blogs/archive")
+    public ApiResponse getArchive() {
+
+        Map<Integer, List<BlogDto.archive>> archive = blogService.getArchive();
+
+        return DataResponse.builder()
+                .status(ApiStatus.SUCCESS)
+                .data(archive)
+                .build();
+    }
 
     /**
      * 게시글 조회

@@ -21,7 +21,7 @@
                 </h1>
 
                 <div id="info">
-                    <span>{{blog.createAt}}</span>
+                    <span>{{blog.publishAt}}</span>
                     <span>조회수 {{blog.hitCnt}}</span>
                 </div>
             </div>
@@ -92,7 +92,7 @@
         },
 
         mounted() {
-            this.filter.search = this.$route.query.search
+            this.filter.search = this.$route.query.searchw
             this.filter.tag = this.$route.query.tag
 
             const id = this.blog.id
@@ -125,11 +125,7 @@
                     {hid: "article:mobile_url", property: 'article:mobile_url', content: this.meta.url},
                     {hid: "article:pc_url", property: 'article:pc_url', content: this.meta.url},
                     {hid: "article:pc_view_url", property: 'article:pc_view_url', content: this.meta.url},
-                    {
-                        hid: "article:talk_channel_view_url",
-                        property: 'article:talk_channel_view_url',
-                        content: this.meta.url
-                    },
+                    {hid: "article:talk_channel_view_url", property: 'article:talk_channel_view_url', content: this.meta.url },
                     {hid: "plink", property: 'plink', content: this.meta.url},
                     {hid: "dg:plink", property: 'dg:plink', content: this.meta.url},
                 ],
@@ -162,6 +158,7 @@
                         description: blog.desc.length > 300 ? blog.desc.substring(0, 300) : blog.desc,
                         thumbnail: blog.thumbnail ? blog.thumbnail : '/og-image.png',
                         createAt: blog.createAt,
+                        publishAt: blog.publishAt,
                         updateAt: blog.updateAt,
                     }
 

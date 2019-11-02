@@ -1,4 +1,4 @@
-package com.cglee079.pododev.uploader;
+package com.cglee079.pododev;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

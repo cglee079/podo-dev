@@ -11,7 +11,6 @@ import com.cglee079.pododev.web.domain.blog.tag.BlogTagDto;
 import com.cglee079.pododev.web.global.util.Formatter;
 import com.cglee079.pododev.web.global.util.MarkdownUtil;
 import com.cglee079.pododev.web.global.util.PathUtil;
-import com.cglee079.pododev.web.global.util.TimeUtil;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -36,7 +35,7 @@ public class BlogDto {
         private String contents;
 
         @NotNull(message = "공개여부를 입력해주세요")
-        private Boolean enabled;
+        private BlogStatus status;
 
         @Size(min = 1, message = "태그를 최소 1개를 입력해주세요")
         private List<BlogTagDto.insert> tags;
@@ -62,8 +61,12 @@ public class BlogDto {
                     .attachFiles(files)
                     .title(title)
                     .contents(contents)
-                    .enabled(enabled)
+                    .enabled(status != BlogStatus.INVISIBLE)
                     .build();
+
+            if (status == BlogStatus.PUBLISH) {
+                blog.publish(LocalDateTime.now());
+            }
 
             images.forEach(image -> image.changeBlog(blog));
             files.forEach(file -> file.changeBlog(blog));
@@ -82,7 +85,7 @@ public class BlogDto {
         private String contents;
 
         @NotNull(message = "공개여부를 입력해주세요")
-        private Boolean enabled;
+        private BlogStatus status;
 
         @Size(min = 1, message = "태그를 최소 1개를 입력해주세요")
         private List<BlogTagDto.insert> tags;
@@ -108,6 +111,8 @@ public class BlogDto {
         private String contents;
         private Integer hitCnt;
         private String thumbnail;
+        private Boolean enabled;
+        private String publishAt;
         private List<BlogDto.relates> relates;
         private List<BlogTagDto.response> tags;
         private List<AttachImageDto.response> images;
@@ -117,7 +122,6 @@ public class BlogDto {
         private Long next;
         private String createAt;
         private String updateAt;
-        private Boolean enabled;
 
         public response(Blog blog, Blog before, Blog next, List<Blog> relates, String uploaderDomain, FileStatus fileStatus) {
             this.id = blog.getId();
@@ -125,6 +129,7 @@ public class BlogDto {
             this.desc = MarkdownUtil.escape(MarkdownUtil.extractPlainText(blog.getContents()));
             this.contents = blog.getContents();
             this.hitCnt = blog.getHitCnt();
+            this.publishAt = Objects.isNull(blog.getPublishAt()) ? "발행전" : Formatter.dateTimeToBeautifulDate(blog.getPublishAt());
             this.createAt = Formatter.dateTimeToBeautifulDate(blog.getCreateAt());
             this.updateAt = Formatter.dateTimeToBeautifulDate(blog.getUpdateAt());
             this.commentCnt = blog.getComments().size();
@@ -226,12 +231,26 @@ public class BlogDto {
     }
 
     @Getter
+    public static class archive {
+        private Long id;
+        private String title;
+        private String publishAt;
+
+        public archive(Blog blog) {
+            this.id = blog.getId();
+            this.title = blog.getTitle();
+            this.publishAt = Formatter.dateTimeToBeautifulDate(blog.getCreateAt());
+        }
+    }
+
+    @Getter
     public static class feed {
         private Long id;
         private String desc;
         private String contentHtml;
         private String title;
         private List<String> tags;
+        private LocalDateTime publishAt;
         private LocalDateTime createAt;
         private LocalDateTime updateAt;
         private Boolean enabled;
@@ -240,6 +259,7 @@ public class BlogDto {
             this.id = blog.getId();
             this.title = blog.getTitle();
             this.desc = MarkdownUtil.escape(MarkdownUtil.extractPlainText(blog.getContents()));
+            this.publishAt = blog.getPublishAt();
             this.createAt = blog.getCreateAt();
             this.updateAt = blog.getUpdateAt();
             this.enabled = blog.getEnabled();

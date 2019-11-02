@@ -16,29 +16,9 @@ public class BlogTagService {
 
     private final BlogTagRepository blogTagRepository;
 
-    public Map<String, Set<String>> valuesByChosungMap() {
+    public List<String> getAll() {
         List<String> values = blogTagRepository.findDistinctTagValue();
 
-        return mapByChosung(values);
+        return values;
     }
-
-    private Map<String, Set<String>> mapByChosung(List<String> values) {
-        final Map<String, Set<String>> chosungMap = new TreeMap<>();
-
-
-        values.forEach(value -> {
-            final String chosung = ChosungUtil.getChosung(value);
-
-            Set<String> chosungValues = chosungMap.get(chosung);
-            if (Objects.isNull(chosungValues)) {
-                chosungValues = new TreeSet<>();
-                chosungMap.put(chosung, chosungValues);
-            }
-
-            chosungValues.add(value);
-        });
-
-        return chosungMap;
-    }
-
 }

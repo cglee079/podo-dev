@@ -36,4 +36,15 @@ public class CommentRepositoryCustomImpl extends QuerydslRepositorySupport imple
         return new PageImpl<>(comments, pageable, query.fetchCount());
     }
 
+    @Override
+    public List<Comment> findRecentComments(int size) {
+        return from(comment)
+                .join(comment.blog, QBlog.blog).fetchJoin()
+                .where(comment.enabled.eq(true))
+                .where(comment.byAdmin.eq(false))
+                .orderBy(comment.createAt.desc())
+                .limit(size)
+                .fetch();
+    }
+
 }

@@ -11,6 +11,7 @@ import com.cglee079.pododev.web.domain.blog.attachimage.AttachImageUploader;
 import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSaveEntity;
 import com.cglee079.pododev.web.domain.blog.comment.CommentRepository;
 import com.cglee079.pododev.web.domain.blog.exception.InvalidBlogIdException;
+import com.cglee079.pododev.web.domain.blog.exception.PublishNotYetException;
 import com.cglee079.pododev.web.domain.blog.tag.BlogTag;
 import com.cglee079.pododev.web.domain.blog.tag.BlogTagDto;
 import com.cglee079.pododev.web.domain.blog.tag.BlogTagRepository;
@@ -28,6 +29,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -38,7 +40,7 @@ import java.util.stream.Collectors;
 public class BlogService {
 
     @Value("${local.upload.base.url}")
-    private String baseUrl;
+    private String uploadBaseUrl;
 
     @Value("${infra.uploader.frontend.external}")
     private String uploaderFrontendUrl;
@@ -60,6 +62,31 @@ public class BlogService {
     private final PodoSolrClient podoSolrClient;
 
 
+    public Map<Integer, List<BlogDto.archive>> getArchive() {
+        final List<Blog> blogs = blogRepository.getArchive();
+
+        return toMapByYear(blogs);
+    }
+
+    private Map<Integer, List<BlogDto.archive>> toMapByYear(List<Blog> blogs) {
+        final Map<Integer, List<BlogDto.archive>> mapByYear = new TreeMap<>();
+
+        blogs.forEach(blog -> {
+            int year = blog.getPublishAt().getYear();
+
+            List<BlogDto.archive> blogArchives = mapByYear.get(year);
+
+            if (Objects.isNull(blogArchives)) {
+                blogArchives = new ArrayList<>();
+                mapByYear.put(year, blogArchives);
+            }
+
+            blogArchives.add(new BlogDto.archive(blog));
+        });
+
+        return mapByYear;
+    }
+
     public BlogDto.response get(Long id) {
         Optional<Blog> blogOptional = blogRepository.findById(id);
 
@@ -76,13 +103,48 @@ public class BlogService {
                 .map(BlogTag::getVal)
                 .collect(Collectors.toList());
 
-        final List<Blog> relates = blogRepository.findBlogByTagValues(tagValues.get(0), tagValues.subList(1, tagValues.size()))
-                .stream()
-                .limit(relatesSize)
-                .collect(Collectors.toList());
+
+        final List<Blog> relates = getRelates(tagValues);
 
         return new BlogDto.response(blog, before, next, relates, uploaderFrontendUrl, FileStatus.BE);
     }
+
+    private List<Blog> getRelates(List<String> tagValues) {
+        List<Blog> relates = blogRepository.findBlogByTagValues(tagValues.get(0), tagValues.subList(1, tagValues.size()));
+
+
+        //중복되는 태그가 많을수록 상위 순위
+        Map<Blog, Integer> scores = new HashMap<>();
+
+        tagValues.forEach(tag ->
+                relates.forEach(relate -> {
+                    List<String> tags = relate.getTags().stream()
+                            .map(BlogTag::getVal)
+                            .collect(Collectors.toList());
+
+                    if (tags.contains(tag)) {
+                        scores.merge(relate, 1, Integer::sum);
+                    }
+                })
+        );
+
+        return scores.entrySet().stream()
+                .sorted((e1, e2) -> {
+                    int sort = e2.getValue().compareTo(e1.getValue()); //역순
+
+                    if (sort != 0) {
+                        return sort;
+                    }
+
+                    //태그 순위가 같을 경우 발행일순
+                    return e2.getKey().getPublishAt().compareTo(e1.getKey().getPublishAt());
+                })
+                .map(Map.Entry::getKey)
+                .limit(relatesSize)
+                .collect(Collectors.toList());
+
+    }
+
 
     public PageDto paging(BlogDto.request request) {
         final String search = request.getSearch();
@@ -144,6 +206,9 @@ public class BlogService {
 
     @SolrDataImport
     public void insert(BlogDto.insert insert) {
+        if (!BlogValidator.validateBlogStatus(false, insert.getStatus())) {
+            throw new PublishNotYetException();
+        }
 
         //첨부파일 업로드
         attachImageUploader.uploadImage(insert.getImages());
@@ -151,7 +216,7 @@ public class BlogService {
 
         final Blog blog = insert.toEntity();
 
-        blog.updateContentSrc(HttpUrlUtil.getSeverDomain() + baseUrl, uploaderFrontendUrl);
+        blog.changeContents(updateAttachLinkToUploadFront(blog.getContents()));
 
         //태그 저장
         insertBlogTags(insert.getTags(), blog);
@@ -180,19 +245,41 @@ public class BlogService {
 
         final Blog blog = blogOpt.get();
 
+        if (!BlogValidator.validateBlogStatus(blog.isPublished(), update.getStatus())) {
+            throw new PublishNotYetException();
+        }
+
         //첨부파일 업로드
         attachImageUploader.uploadImage(update.getImages());
         attachFileUploader.uploadFile(update.getFiles());
 
-        blog.update(update.getTitle(), update.getContents(), update.getEnabled());
-        blog.updateContentSrc(HttpUrlUtil.getSeverDomain() + baseUrl, uploaderFrontendUrl);
+        blog.changeTitle(update.getTitle());
+        blog.changeContents(updateAttachLinkToUploadFront(update.getContents()));
 
+        updateBlogStatus(update.getStatus(), blog);
         updateBlogTags(update.getTags(), blog);
         updateAttachImages(update.getImages(), blog);
         updateAttachFiles(update.getFiles(), blog);
 
-
     }
+
+    private String updateAttachLinkToUploadFront(String str) {
+        return str.replace(HttpUrlUtil.getSeverDomain() + uploadBaseUrl, uploaderFrontendUrl);
+    }
+
+    private void updateBlogStatus(BlogStatus status, Blog blog) {
+        switch (status) {
+            case PUBLISH:
+                blog.publish(LocalDateTime.now());
+                break;
+            case VISIBLE:
+                blog.enable();
+                break;
+            case INVISIBLE:
+                blog.disable();
+        }
+    }
+
 
     private void updateAttachFiles(List<AttachFileDto.insert> files, Blog blog) {
         files.forEach(file -> {
@@ -302,10 +389,8 @@ public class BlogService {
 
     /**
      * 노출 게시글 조회
-     *
-     * @return
      */
-    public List<BlogDto.feed> findEnabled() {
+    public List<BlogDto.feed> findByEnabled() {
         List<Blog> blogs = blogRepository.findByEnabled(true);
         return blogs.stream()
                 .map(BlogDto.feed::new)
@@ -314,15 +399,15 @@ public class BlogService {
 
 
     /**
-     * 웹피드 되어아할 게시글이 있는가?
-     *
-     * @return
+     * 웹피드 되어야할 게시글이 있는가?
      */
-    public Boolean hasNoFeeded(Boolean feeded) {
+    public Boolean hasYetNotFeed(Boolean feeded) {
         return blogRepository.findByFeeded(feeded).size() != 0;
     }
 
-    public void completeFeeded() {
+    public void completeFeed() {
         blogRepository.findByFeeded(false).forEach(Blog::doFeeded);
     }
+
+
 }

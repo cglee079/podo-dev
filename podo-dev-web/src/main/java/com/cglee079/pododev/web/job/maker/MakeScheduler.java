@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Slf4j
@@ -23,20 +22,20 @@ public class MakeScheduler {
     public void doSchedule() {
         log.info("Start MakeWork Schedule");
 
-        if (!blogService.hasNoFeeded(false)) {
+        if (!blogService.hasYetNotFeed(false)) {
             log.info("No Updated Blogs");
             return;
         }
 
         log.info("Detect Updated Blog, Start MakeWork");
 
-        List<BlogDto.feed> blogs = blogService.findEnabled();
+        List<BlogDto.feed> blogs = blogService.findByEnabled();
 
         //Feed
         workers.forEach(w -> w.doWork(blogs));
 
 
-        blogService.completeFeeded();
+        blogService.completeFeed();
     }
 
 

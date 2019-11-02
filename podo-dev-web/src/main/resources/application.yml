@@ -3,11 +3,6 @@ server:
   port: 28443
   http:
     port: 28080
-  ssl:
-    key-store: classpath:keystore.p12
-    key-store-password: s12345
-    keyStoreType: PKCS12
-    keyAlias: tomcat
 
 
 logging:
@@ -28,14 +23,7 @@ decorator:
 
 spring:
   profiles:
-    include: core
-
-  # Data Resource
-  datasource:
-    url: jdbc:mysql://192.168.219.103:3307/podo_dev?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
-    username: podo
-    password: s12345
-    driver-class-name: com.mysql.jdbc.Driver
+    include: secret, core
 
   # Hibernate config
   jpa:
@@ -58,7 +46,7 @@ spring:
 ## Blog Content Config
 blog:
   relates:
-    size: 6
+    size: 5
 
   comment:
     per:
@@ -66,6 +54,8 @@ blog:
         size: 5 # Comment Paging Size
     max:
       depth: 3 # Comment Max Reply Depth
+    recent:
+      size: 10
   per:
     page:
       size: 10 # Blog Paging Size
@@ -92,7 +82,6 @@ infra:
 
   ## Uploader Config
   uploader:
-    token: mciGpOzzSvncQJ5IFEUNVODRyVkgL1kD
     upload:
       internal: http://192.168.219.103:38080/api/uploader/file # Loopback
       external: https://upload.podo-dev.com/api/uploader/file
@@ -105,7 +94,6 @@ infra:
   telegram:
     podo:
       bot:
-        token: 451179803:AAF9iJVw93oSgK2d9LBgYuNe_XZTCdHpLzU
         name: PodoDevBot
       admin:
         id: 503609560
@@ -128,30 +116,6 @@ infra:
 
 
 
-## Google Oauth
-google:
-  client:
-    clientId: 644014618387-hd23qa0hrtqvbtnfb0u3c9o9q9duq970.apps.googleusercontent.com
-    clientSecret: RxNajOBGU8TZtR-zc9pOu6uG
-    accessTokenUri: https://www.googleapis.com/oauth2/v4/token
-    userAuthorizationUri: https://accounts.google.com/o/oauth2/v2/auth
-    clientAuthenticationScheme: form
-    scope:
-      - email
-      - profile
-  resource:
-    userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
-
-security:
-  expire:
-    time: 24 # Hours
-  oauth2:
-    admin:
-      ids: 116440278738014640765, 116491882380204991899
-    #    redirect: http://localhost:3000
-    redirect: https://www.podo-dev.com
-
-
 ---
 
 spring:
@@ -163,9 +127,6 @@ server:
   port: 8443
   http:
     port: 8080
-
-logging:
-  config: classpath:logback-daily.xml
 
 decorator:
   datasource:
@@ -186,19 +147,10 @@ security:
     admin:
     redirect: https://www.podo-dev.com
 
-infra:
-  telegram:
-    podo:
-      bot:
-        token: 963473619:AAF1412LpXDNNvN7gn6qcip88-z_DVLVEVU
-
 ---
 
 spring:
   profiles: external
-
-  datasource:
-    url: jdbc:mysql://125.186.242.83:8088/podo_dev?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
 
 infra:
   ## Uploader Config

@@ -172,8 +172,6 @@
 
                 p {
                     margin-top: 7px;
-
-
                 }
 
                 a[href*=''] {

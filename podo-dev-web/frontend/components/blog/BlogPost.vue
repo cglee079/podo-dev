@@ -5,9 +5,10 @@
         <div class="wrap-item">
             <span>공개여부</span>
             <span>
-                <select v-model="input.enabled">
-                    <option value="true">공개</option>
-                    <option value="false">비공개</option>
+                <select v-model="input.status">
+                    <option value="PUBLISH">발행(발행일갱신)</option>
+                    <option value="VISIBLE">공개</option>
+                    <option value="INVISIBLE">비공개</option>
                 </select>
             </span>
         </div>
@@ -116,7 +117,7 @@
                     title: '',
                     contents: '',
                     tagText: '',
-                    enabled: true,
+                    status: 'INVISIBLE',
                     tags: [],
                     images: [],
                     files: []
@@ -178,12 +179,11 @@
                         console.log(res)
                         const blog = res.data
                         this.input.title = blog.title
-                        this.input.enabled = blog.enabled
+                        this.input.status = blog.enabled ? 'VISIBLE' : 'INVISIBLE'
                         this.input.tags = blog.tags
                         this.input.images = blog.images
                         this.input.files = blog.files
                         this.input.contents = blog.contents
-
                     })
                     .catch(err => {
                         console.log(err)
@@ -191,6 +191,23 @@
             },
 
             clickSubmit() {
+                if (this.input.status === 'PUBLISH') {
+                    this.toastConfirm(
+                        "정말 발행하시겠습니까?",
+                        () => { //OK
+                            this.submit()
+                        },
+                        () => { // NO
+                            this.input.status = 'VISIBLE'
+                            this.submit()
+                        }
+                    )
+                } else {
+                    this.submit()
+                }
+            },
+
+            submit() {
                 this.removeSaved(this.id)
 
                 if (this.isNew) {
@@ -207,17 +224,17 @@
                     .$post('/api/blogs', {
                         title: this.input.title,
                         contents: this.input.contents,
-                        enabled: this.input.enabled,
+                        status: this.input.status,
                         tags: this.input.tags,
                         images: this.input.images,
                         files: this.input.files
                     })
 
-                    .then(res => {
+                    .then(() => {
                         this.offProgress()
                         this.$router.push({name: 'index'})
                     })
-                    .catch(err => {
+                    .catch(() => {
                         this.offProgress()
                     })
             },
@@ -229,13 +246,13 @@
                     .$put('/api/blogs/' + this.id, {
                         title: this.input.title,
                         contents: this.input.contents,
-                        enabled: this.input.enabled,
+                        status: this.input.status,
                         tags: this.input.tags,
                         images: this.input.images,
                         files: this.input.files
                     })
 
-                    .then(res => {
+                    .then(() => {
                         this.offProgress()
                         this.$router.push({
                             name: 'blogs-id',
@@ -244,7 +261,7 @@
                             }
                         });
                     })
-                    .catch(err => {
+                    .catch(() => {
                         this.offProgress()
                     })
             },

@@ -42,9 +42,12 @@ public class Comment extends BaseEntity {
 
     private Boolean enabled;
 
+    private Boolean byAdmin;
+
     @Builder
-    public Comment(Blog blog, User user, String contents,
-                   Long cgroup, Integer child, Long parentId, Integer depth, Double sort) {
+    public Comment(Blog blog, User user, String contents, Long cgroup,
+                   Integer child, Long parentId, Integer depth, Double sort,
+                   Boolean byAdmin) {
 
         this.blog = blog;
         this.user = user;
@@ -54,6 +57,7 @@ public class Comment extends BaseEntity {
         this.depth = depth;
         this.parentId = parentId;
         this.sort = sort;
+        this.byAdmin = byAdmin;
         this.enabled = true;
     }
 

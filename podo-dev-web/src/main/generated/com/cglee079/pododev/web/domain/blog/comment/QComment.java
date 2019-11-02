@@ -26,6 +26,8 @@ public class QComment extends EntityPathBase<Comment> {
 
     public final com.cglee079.pododev.web.domain.blog.QBlog blog;
 
+    public final BooleanPath byAdmin = createBoolean("byAdmin");
+
     public final NumberPath<Long> cgroup = createNumber("cgroup", Long.class);
 
     public final NumberPath<Integer> child = createNumber("child", Integer.class);

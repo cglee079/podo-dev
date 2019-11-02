@@ -15,6 +15,21 @@ public class CommentController {
 
     private final CommentService commentService;
 
+
+    /**
+     * 댓글 조회
+     */
+    @GetMapping("/api/comments/recent")
+    public ApiResponse getRecentComment() {
+
+        final List<CommentDto.summary> comments = commentService.getRecentComments();
+
+        return DataResponse.builder()
+                .status(ApiStatus.SUCCESS)
+                .data(comments)
+                .build();
+    }
+
     /**
      * 댓글 조회
      */

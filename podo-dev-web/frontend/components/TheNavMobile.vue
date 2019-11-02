@@ -29,7 +29,7 @@
                 <router-link :to="{name : 'index'}">블로그</router-link>
             </div>
             <div class="mobile-nav-menu">
-                <router-link :to="{name : 'tag'}">태그</router-link>
+                <router-link :to="{name : 'log'}">로그</router-link>
             </div>
 
             <div v-if="isAdmin && isLogin"
@@ -255,7 +255,7 @@
             height: 70px;
 
             img {
-                width: 40%;
+                max-width: 5rem;
                 max-height: 40%;
                 margin: 0px auto;
             }

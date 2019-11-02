@@ -44,6 +44,8 @@ public class QBlog extends EntityPathBase<Blog> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
+    public final DateTimePath<java.time.LocalDateTime> publishAt = createDateTime("publishAt", java.time.LocalDateTime.class);
+
     public final ListPath<com.cglee079.pododev.web.domain.blog.tag.BlogTag, com.cglee079.pododev.web.domain.blog.tag.QBlogTag> tags = this.<com.cglee079.pododev.web.domain.blog.tag.BlogTag, com.cglee079.pododev.web.domain.blog.tag.QBlogTag>createList("tags", com.cglee079.pododev.web.domain.blog.tag.BlogTag.class, com.cglee079.pododev.web.domain.blog.tag.QBlogTag.class, PathInits.DIRECT2);
 
     public final StringPath title = createString("title");

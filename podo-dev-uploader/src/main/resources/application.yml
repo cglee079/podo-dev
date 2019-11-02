@@ -1,18 +1,13 @@
 #Server Config
 server:
   port: 38443
-  ssl:
-    key-store: classpath:keystore.p12
-    key-store-password: s12345
-    keyStoreType: PKCS12
-    keyAlias: tomcat
   http:
     port: 38080
 
 spring:
   profiles:
-#    include: core
-    include: core,deploy
+#    include: secret, core
+    include: secret, core,deploy
 
   # Servlet
   servlet:
@@ -34,7 +29,7 @@ uploader:
 ---
 
 spring:
-  profiles: deploy
+  profiles: secret, deploy
   jpa:
     show-sql: false
 

@@ -1,5 +1,6 @@
 package com.cglee079.pododev.web.domain.blog;
 
+import com.cglee079.pododev.web.domain.blog.comment.QComment;
 import com.cglee079.pododev.web.domain.blog.tag.BlogTag;
 import com.cglee079.pododev.web.domain.blog.tag.QBlogTag;
 import com.querydsl.core.Query;
@@ -105,6 +106,15 @@ public class BlogRepositoryCustomImpl extends QuerydslRepositorySupport implemen
                 .where(blog.id.in(blogId))
                 .where(blog.enabled.eq(true))
                 .orderBy(blog.id.desc())
+                .fetch();
+    }
+
+    @Override
+    public List<Blog> getArchive() {
+        return this.queryFactory.select(blog)
+                .from(blog)
+                .where(blog.enabled.eq(true))
+                .orderBy(blog.publishAt.desc())
                 .fetch();
     }
 

@@ -6,8 +6,8 @@ module.exports = {
     serverMiddleware: ['redirect-ssl'],
 
     router: {
-        scrollBehavior (to, from, savedPosition) {
-            return { x: 0, y: 0 }
+        scrollBehavior(to, from, savedPosition) {
+            return {x: 0, y: 0}
         }
     },
 
@@ -15,7 +15,9 @@ module.exports = {
         frontendUrl: 'https://www.podo-dev.com',
         internalServerUrl: 'http://192.168.219.103:28080',
         externalServerUrl: 'https://server.podo-dev.com',
+        // internalServerUrl: 'http://192.168.219.104:28080',
         // externalServerUrl: 'http://localhost:28080',
+
         name: 'podo-dev'
     },
 
@@ -40,7 +42,10 @@ module.exports = {
         title: 'podo-dev',
         meta: [
             {charset: 'utf-8'},
-            {name: 'viewport', content: 'user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width'},
+            {
+                name: 'viewport',
+                content: 'user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width'
+            },
             {hid: "description", name: 'description', content: 'podo-dev'},
             {hid: "article:media_name", property: 'article:media_name', content: 'podo-dev'},
             {hid: "og:title", property: 'og:title', content: 'podo-dev'},

@@ -22,6 +22,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -39,6 +41,17 @@ public class CommentService {
     @Value("${blog.comment.per.page.size}")
     private Integer pageSize;
 
+    @Value("${blog.comment.recent.size}")
+    private Integer recentCommentSize;
+
+    public List<CommentDto.summary> getRecentComments() {
+        List<Comment> comments = commentRepository.findRecentComments(recentCommentSize);
+
+        return comments.stream()
+                .map(CommentDto.summary::new)
+                .collect(Collectors.toList());
+    }
+
     public PageDto<CommentDto.response> paging(Long blogId, CommentDto.request request) {
 
         final Integer page = request.getPage();
@@ -53,9 +66,9 @@ public class CommentService {
 
         final Pageable pageable = PageRequest.of(newPage, pageSize);
         final Page<Comment> comments = commentRepository.paging(blogId, pageable);
-        final List<CommentDto.response> commentRes = new LinkedList<>();
-
-        comments.forEach(comment -> commentRes.add(new CommentDto.response(comment, SecurityUtil.getUserId())));
+        final List<CommentDto.response> commentRes = comments.stream()
+                .map(comment -> new CommentDto.response(comment, SecurityUtil.getUserId()))
+                .collect(Collectors.toList());
 
         return PageDto.<CommentDto.response>builder()
                 .contents(commentRes)
@@ -89,7 +102,8 @@ public class CommentService {
                     .contents(contents)
                     .child(0)
                     .depth(0)
-                    .sort(Double.valueOf(1))
+                    .sort(1d)
+                    .byAdmin(SecurityUtil.isAdmin())
                     .build();
 
             insertComment(blog, comment);
@@ -125,6 +139,7 @@ public class CommentService {
                     .parentId(parentId)
                     .depth(depth + 1)
                     .sort(childSort)
+                    .byAdmin(SecurityUtil.isAdmin())
                     .build();
 
             insertComment(blog, comment);
@@ -191,6 +206,4 @@ public class CommentService {
             }
         }
     }
-
-
 }

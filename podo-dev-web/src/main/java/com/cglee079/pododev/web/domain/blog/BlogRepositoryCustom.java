@@ -19,4 +19,6 @@ public interface BlogRepositoryCustom {
     List<Blog> findByFeeded(Boolean feeded);
 
     List<Blog> findBlogByTagValues(String first, List<String> otherTags);
+
+    List<Blog> getArchive();
 }

@@ -37,9 +37,9 @@ public class RssMaker {
 
     public void makeRss(List<BlogDto.feed> blogs) {
 
-        log.info("Start Make Rss");
+        List<BlogDto.feed> reverseBlogs = new LinkedList<>(blogs);
 
-        Collections.reverse(blogs);
+        Collections.reverse(reverseBlogs);
 
         SyndFeed feed = new SyndFeedImpl();
         feed.setFeedType("rss_2.0");
@@ -61,7 +61,7 @@ public class RssMaker {
 
         List<SyndEntry> entries = new LinkedList<>();
 
-        blogs.forEach(blog -> {
+        reverseBlogs.forEach(blog -> {
             SyndEntry entry = new SyndEntryImpl();
 
             //Define Desc
@@ -81,7 +81,7 @@ public class RssMaker {
             entry.setTitle(blog.getTitle());
             entry.setDescription(description);
             entry.setLink(PathUtil.merge(PODO_DEV_WEB, "/blogs", blog.getId().toString()));
-            entry.setPublishedDate(TimeUtil.localDateTimeToDate(blog.getUpdateAt().plus(9, ChronoUnit.HOURS)));
+            entry.setPublishedDate(TimeUtil.localDateTimeToDate(blog.getPublishAt().plus(9, ChronoUnit.HOURS)));
             entry.setCategories(categories);
             entry.setAuthor(PODO_AUTHOR);
 

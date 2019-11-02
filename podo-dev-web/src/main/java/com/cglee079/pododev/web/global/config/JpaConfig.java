@@ -40,7 +40,7 @@ public class JpaConfig {
                 }
             }
 
-            return Optional.of("");
+            return Optional.of("Server");
         }
     }
 }

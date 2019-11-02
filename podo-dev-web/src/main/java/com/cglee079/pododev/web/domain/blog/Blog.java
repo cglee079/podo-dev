@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -34,6 +35,8 @@ public class Blog extends UpdatableBaseEntity {
     private Boolean feeded;
 
     private Boolean enabled;
+
+    private LocalDateTime publishAt;
 
     @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AttachImage> attachImages = new ArrayList<>();
@@ -62,15 +65,35 @@ public class Blog extends UpdatableBaseEntity {
     /**
      * 게시글 수정 시
      */
-    public void update(String title, String contents, Boolean enabled) {
+    public void changeTitle(String title) {
         this.title = title;
+        this.feeded = false;
+    }
+
+    public void changeContents(String contents) {
         this.contents = contents;
-        this.enabled = enabled;
         this.feeded = false;
     }
 
     public void doFeeded() {
         this.feeded = true;
+    }
+
+    public void publish(LocalDateTime dateTime) {
+        this.enabled = true;
+        this.publishAt = dateTime;
+    }
+
+    public void disable() {
+        this.enabled = false;
+    }
+
+    public void enable() {
+        this.enabled = true;
+    }
+
+    public Boolean isPublished() {
+        return this.publishAt != null;
     }
 
     /**
@@ -79,9 +102,6 @@ public class Blog extends UpdatableBaseEntity {
      * @param localDomain
      * @param uploadServerDomain
      */
-    public void updateContentSrc(String localDomain, String uploadServerDomain) {
-        this.contents = this.contents.replace(localDomain, uploadServerDomain);
-    }
 
     public void increaseHitCnt() {
         this.hitCnt++;
@@ -124,5 +144,6 @@ public class Blog extends UpdatableBaseEntity {
             attachFile.changeBlog(null);
         }
     }
+
 
 }
