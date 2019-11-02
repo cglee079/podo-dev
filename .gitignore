@@ -2,6 +2,8 @@
 HELP.md
 .gradle
 build/
+application-secret.yml
+logs/**
 
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**
