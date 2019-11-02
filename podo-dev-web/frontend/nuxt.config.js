@@ -67,7 +67,7 @@ module.exports = {
         {src: '~plugins/toast-editor.js'}
     ],
 
-    loading: {color: '#ec5621'},
+    loading: {color: '#036dd6'},
 
     modules: [
         '@nuxtjs/markdownit',
@@ -83,7 +83,7 @@ module.exports = {
                 tablet: 1080,
                 desktop: Infinity,
             },
-            defaultBreakpoint: 'mobile' // customize this for SSR
+            defaultBreakpoint: 'desktop' // customize this for SSR
         }]
     ],
 

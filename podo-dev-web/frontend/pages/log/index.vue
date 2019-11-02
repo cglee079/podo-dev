@@ -115,10 +115,11 @@
 
 <style lang="scss" scoped>
     #logs {
-        margin: 0px 50px;
+        max-width: 800px;
+        margin: 0px auto;
 
         &.tablet, &.mobile {
-            margin: 0px 20px;
+            padding: 0px 20px;
         }
     }
 

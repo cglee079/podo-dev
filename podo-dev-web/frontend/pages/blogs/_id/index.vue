@@ -278,7 +278,7 @@
 
 <style lang="scss" scoped>
     #wrapBlog {
-        max-width: 800px;
+        max-width: var(--max-width);
         margin: 0px auto;
 
         &.mobile, &.tablet {

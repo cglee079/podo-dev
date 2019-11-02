@@ -97,6 +97,9 @@
 
 <style lang="scss" scoped>
     #resume {
+        max-width: var(--max-width);
+        margin: 0px auto;
+
         background: #FCFCFC;
         border: 1px solid #FAFAFA;
         border-radius: 15px;

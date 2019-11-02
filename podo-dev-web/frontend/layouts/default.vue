@@ -85,9 +85,9 @@
 <style lang="scss">
     :root {
         --nav-height: 65px;
+        --max-width: 800px;
+        --wild-max-width: 900px;
     }
-
-    /*@import url('https://fonts.googleapis.com/earlyaccess/notosanskr.css');*/
 
     a, abbr, acronym, address, applet, article, aside,
     audio, b, bdi, bdo, big, blockquote, body, button, canvas,
