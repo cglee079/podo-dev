@@ -52,7 +52,7 @@ public class BlogRepositoryCustomImpl extends QuerydslRepositorySupport implemen
     public Page<Blog> paging(Pageable pageable, List<Long> ids, Boolean enabled) {
         JPQLQuery<Blog> query;
         query = from(blog)
-                .orderBy(blog.id.desc());
+                .orderBy(blog.publishAt.desc());
 
         if (!Objects.isNull(enabled)) {
             query.where(blog.enabled.eq(enabled));

@@ -28,7 +28,7 @@
                 <div v-for="content in item.contents"
                      v-bind:key="content.id"
                 >
-                    <div v-html="content"/>
+                    <div v-html="content"></div>
                 </div>
             </div>
         </div>
@@ -40,9 +40,7 @@
                    v-bind:key="exp.id"
                 >
                     <a :href="exp.link" target="_blank">
-                        <span class="date">
-                            {{exp.experienceAt}}.
-                        </span>
+                        <span class="date">{{exp.experienceAt}}.</span>
                         <span>{{exp.title}}</span>
                     </a>
                 </p>

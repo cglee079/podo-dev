@@ -83,7 +83,7 @@ module.exports = {
                 tablet: 1080,
                 desktop: Infinity,
             },
-            defaultBreakpoint: 'desktop' // customize this for SSR
+            defaultBreakpoint: 'mobile' // customize this for SSR
         }]
     ],
 

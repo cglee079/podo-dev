@@ -5,9 +5,11 @@
             <span v-for="tag in tags"
                   v-bind:key="tag"
                   class="tag"
-                  @click="clickTagValue(tag)"
             >
+                <router-link :to="{name: 'index', query: {tag: tag}}">
                 #{{tag}}
+                </router-link>
+
             </span>
         </div>
 
@@ -16,11 +18,12 @@
             <div v-for="comment in recentComments"
                  v-bind:key="comment.id"
                  class="comment"
-                 @click="clickComment(comment.blogId)"
             >
-                <div class="username">{{comment.username}}</div>
-                <div class="contents">{{comment.contents}}</div>
-                <div class="create-at">{{comment.createAt}}</div>
+                <router-link :to="{name: 'blogs-id', params: {id: comment.blogId}}">
+                    <div class="username">{{comment.username}}</div>
+                    <div class="contents">{{comment.contents}}</div>
+                    <div class="create-at">{{comment.createAt}}</div>
+                </router-link>
             </div>
         </div>
 
@@ -37,15 +40,12 @@
                 <div class="values">
                     <div v-for="blog in archive[key]"
                          v-bind:key="blog.id"
-                         @click="clickArchiveBlog(blog.id)"
                          class="blog">
 
-                        <div class="title">
-                            <span>
-                            {{blog.title}}
-                            </span>
-                        </div>
-                        <div class="publish-at">{{blog.publishAt}}</div>
+                        <router-link :to="{name: 'blogs-id', params: {id: blog.id}}">
+                            <div class="title"><span> {{blog.title}}</span></div>
+                            <div class="publish-at">{{blog.publishAt}}</div>
+                        </router-link>
                     </div>
                 </div>
 
@@ -96,20 +96,6 @@
             }
         },
 
-        methods: {
-            clickTagValue(value) {
-                this.$router.push({name: 'index', query: {tag: value}})
-            },
-
-            clickComment(blogId) {
-                this.$router.push({name: 'blogs-id', params: {id: blogId}})
-            },
-
-            clickArchiveBlog(blogId) {
-                this.$router.push({name: 'blogs-id', params: {id: blogId}})
-            }
-
-        },
     }
 </script>
 
@@ -152,7 +138,7 @@
     }
 
     #logs div#recentComments {
-        > div.comment {
+        > div.comment > a {
             display: flex;
             margin: 10px 0px;
             font-size: 0.95rem;
@@ -206,7 +192,7 @@
 
             > .values {
 
-                > .blog {
+                > .blog > a {
                     font-size: 0.95rem;
                     margin: 5px 0px;
                     display: flex;
