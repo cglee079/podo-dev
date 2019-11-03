@@ -146,7 +146,7 @@
                 margin-bottom: 10px;
                 -webkit-line-clamp: 1;
                 overflow: hidden;
-                max-height: 1.7rem;
+                max-height: 1.75rem;
             }
 
             .desc {

@@ -28,7 +28,7 @@
                 <div v-for="content in item.contents"
                      v-bind:key="content.id"
                 >
-                    <div v-html="content"></div>
+                    <toast-custom-viewer :value="content"/>
                 </div>
             </div>
         </div>
@@ -51,9 +51,13 @@
 </template>
 
 <script>
+    import ToastCustomViewer from "@/components/global/ToastCustomViewer"
+
     export default {
         name: "Resume",
-
+        components: {
+            ToastCustomViewer,
+        },
         head() {
             return {
                 title: process.env.name + " : resume",
