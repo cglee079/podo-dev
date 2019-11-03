@@ -34,7 +34,7 @@ public class BlogRepositoryCustomImpl extends QuerydslRepositorySupport implemen
     public Blog findNext(Long id) {
         return from(blog)
                 .where(blog.id.gt(id))
-                .orderBy(blog.id.asc())
+                .orderBy(blog.publishAt.asc())
                 .limit(1)
                 .fetchOne();
     }
@@ -43,7 +43,7 @@ public class BlogRepositoryCustomImpl extends QuerydslRepositorySupport implemen
     public Blog findBefore(Long id) {
         return from(blog)
                 .where(blog.id.lt(id))
-                .orderBy(blog.createAt.desc())
+                .orderBy(blog.publishAt.desc())
                 .limit(1)
                 .fetchOne();
     }

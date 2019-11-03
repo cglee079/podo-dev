@@ -64,8 +64,7 @@ public class AttachImageWriter {
 
     public Map<String, AttachImageSave> makeSaves(MultipartFile multipartFile) {
         if (!this.isImageFile(multipartFile)) {
-            //TODO throw exception..
-            return null;
+            throw new InValidImageException();
         }
 
         log.info("Save Image Each Size, '{}'", multipartFile.getOriginalFilename());
@@ -173,8 +172,7 @@ public class AttachImageWriter {
 
         } catch (IOException e) {
             log.error("이미지 파일 정보를 가져 올 수 없습니다");
-            //TODO
-            throw new RuntimeException();
+            throw new InValidImageException();
         }
     }
 }

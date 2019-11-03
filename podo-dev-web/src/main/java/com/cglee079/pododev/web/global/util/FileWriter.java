@@ -2,6 +2,7 @@ package com.cglee079.pododev.web.global.util;
 
 import com.cglee079.pododev.core.global.util.MyFileUtils;
 import com.cglee079.pododev.web.domain.blog.attachimage.exception.InValidImageException;
+import com.cglee079.pododev.web.global.exception.FailImageResizeException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
@@ -118,8 +119,7 @@ public class FileWriter {
         try {
             Thumbnails.of(originImage).width(resizeWidth).toFile(resizeFile);
         } catch (IOException e) {
-            e.printStackTrace();
-            //TODO
+            throw new FailImageResizeException();
         }
 
         return resizeFile;

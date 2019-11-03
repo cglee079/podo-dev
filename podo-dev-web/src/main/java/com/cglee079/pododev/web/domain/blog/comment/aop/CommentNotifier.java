@@ -15,6 +15,7 @@ import org.aspectj.lang.reflect.CodeSignature;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Aspect
 @RequiredArgsConstructor
@@ -29,18 +30,29 @@ public class CommentNotifier {
     public void checkRequestValidator(JoinPoint joinPoint) {
         CommentDto.insert comment = getCommentInsertDto(joinPoint);
 
+        if (Objects.isNull(comment)) {
+            //
+            throw new RuntimeException();
+        }
+
         final Long blogId = getBlogId(joinPoint);
         final String username = SecurityUtil.getUsername();
         final String contents = comment.getContents();
         final BlogDto.response blog = blogService.get(blogId);
         final StringBuilder message = new StringBuilder();
 
-        message.append("게시글에 댓글이 등록되었습니다.\n");
-        message.append("게시글 : " + blog.getTitle() + "\n");
-        message.append("이름 : " + username + "\n");
-        message.append("시간 : " + Formatter.dateTimeToDateTimeStr(LocalDateTime.now()) + "\n");
-        message.append("내용 :\n");
-        message.append(MarkdownUtil.escape(contents));
+        message.append("#게시글에 댓글이 등록되었습니다.\n")
+                .append("게시글 : ")
+                .append(blog.getTitle())
+                .append("\n")
+                .append("이름 : ")
+                .append(username)
+                .append("\n")
+                .append("시간 : ")
+                .append(Formatter.dateTimeToDateTimeStr(LocalDateTime.now()))
+                .append("\n")
+                .append("내용 :\n")
+                .append(MarkdownUtil.escape(contents));
 
         telegramClient.send(message.toString());
 
