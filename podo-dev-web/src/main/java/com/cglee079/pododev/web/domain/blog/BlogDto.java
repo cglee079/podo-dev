@@ -175,6 +175,7 @@ public class BlogDto {
         private String title;
         private String desc;
         private String createAt;
+        private String publishAt;
         private String updateAt;
         private Integer commentCnt;
         private List<BlogTagDto.response> tags;
@@ -185,6 +186,7 @@ public class BlogDto {
             this.title = blog.getTitle();
             this.desc = MarkdownUtil.escape(MarkdownUtil.extractPlainText(blog.getContents()));
             this.createAt = Formatter.dateTimeToBeautifulDate(blog.getCreateAt());
+            this.publishAt = Formatter.dateTimeToBeautifulDate(blog.getPublishAt());
             this.updateAt = Formatter.dateTimeToBeautifulDate(blog.getUpdateAt());
             this.enabled = blog.getEnabled();
             this.commentCnt = blog.getComments().size();
@@ -239,7 +241,7 @@ public class BlogDto {
         public archive(Blog blog) {
             this.id = blog.getId();
             this.title = blog.getTitle();
-            this.publishAt = Formatter.dateTimeToBeautifulDate(blog.getCreateAt());
+            this.publishAt = Formatter.dateTimeToBeautifulDate(blog.getPublishAt());
         }
     }
 

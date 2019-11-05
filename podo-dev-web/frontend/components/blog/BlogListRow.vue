@@ -28,7 +28,7 @@
                     </span>
                 </div>
                 <div class="subinfo">
-                    <span>{{blog.createAt}}</span>
+                    <span>{{blog.publishAt}}</span>
                     <span class="hit-count">
                         <img src="@/assets/icons/icon-hit-count.svg"/>
                         <span>{{blog.hitCnt}}</span>
