@@ -64,10 +64,6 @@ public class BlogDto {
                     .enabled(status != BlogStatus.INVISIBLE)
                     .build();
 
-            if (status == BlogStatus.PUBLISH) {
-                blog.publish(LocalDateTime.now());
-            }
-
             images.forEach(image -> image.changeBlog(blog));
             files.forEach(file -> file.changeBlog(blog));
 
@@ -129,7 +125,7 @@ public class BlogDto {
             this.desc = MarkdownUtil.escape(MarkdownUtil.extractPlainText(blog.getContents()));
             this.contents = blog.getContents();
             this.hitCnt = blog.getHitCnt();
-            this.publishAt = Objects.isNull(blog.getPublishAt()) ? "발행전" : Formatter.dateTimeToBeautifulDate(blog.getPublishAt());
+            this.publishAt = Formatter.dateTimeToBeautifulDate(blog.getPublishAt());
             this.createAt = Formatter.dateTimeToBeautifulDate(blog.getCreateAt());
             this.updateAt = Formatter.dateTimeToBeautifulDate(blog.getUpdateAt());
             this.commentCnt = blog.getComments().size();
@@ -147,6 +143,7 @@ public class BlogDto {
             this.images = blog.getAttachImages().stream()
                     .map(image -> new AttachImageDto.response(image, uploaderDomain, fileStatus))
                     .collect(Collectors.toList());
+
             this.files = blog.getAttachFiles().stream()
                     .map(file -> new AttachFileDto.response(file, uploaderDomain, fileStatus))
                     .collect(Collectors.toList());
@@ -204,8 +201,10 @@ public class BlogDto {
                 }
             }
 
-            this.tags = new LinkedList<>();
-            blog.getTags().forEach(tag -> this.tags.add(new BlogTagDto.response(tag)));
+            this.tags = blog.getTags().stream()
+                    .map(BlogTagDto.response::new)
+                    .collect(Collectors.toList());
+
         }
 
         public responseList(Blog blog, String desc, String uploadServerDomain) {
@@ -237,11 +236,13 @@ public class BlogDto {
         private Long id;
         private String title;
         private String publishAt;
+        private Boolean enabled;
 
         public archive(Blog blog) {
             this.id = blog.getId();
             this.title = blog.getTitle();
             this.publishAt = Formatter.dateTimeToBeautifulDate(blog.getPublishAt());
+            this.enabled = blog.getEnabled();
         }
     }
 

@@ -18,7 +18,9 @@ public interface BlogRepositoryCustom {
 
     List<Blog> findByFeeded(Boolean feeded);
 
-    List<Blog> findBlogByTagValues(String first, List<String> otherTags);
+    List<Blog> findByTagValues(String first, List<String> otherTags);
 
-    List<Blog> findAllEnabled();
+    List<Blog> findAllByOrderByPublishAtDesc();
+
+    List<Blog> findAllByEnabledAndOrderByPublishAtDesc(boolean enabled);
 }

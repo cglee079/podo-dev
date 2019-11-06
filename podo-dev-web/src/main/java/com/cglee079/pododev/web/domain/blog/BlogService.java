@@ -63,9 +63,11 @@ public class BlogService {
 
 
     public Map<Integer, List<BlogDto.archive>> getArchive() {
-        final List<Blog> blogs = blogRepository.findAllEnabled();
+        if (SecurityUtil.isAdmin()) {
+            return toMapByPublishYear(blogRepository.findAllByOrderByPublishAtDesc() );
+        }
 
-        return toMapByPublishYear(blogs);
+        return toMapByPublishYear(blogRepository.findAllByEnabledAndOrderByPublishAtDesc(true));
     }
 
     private Map<Integer, List<BlogDto.archive>> toMapByPublishYear(List<Blog> blogs) {
@@ -88,7 +90,7 @@ public class BlogService {
     }
 
     public BlogDto.response get(Long id) {
-        Optional<Blog> blogOptional = blogRepository.findById(id);
+        final Optional<Blog> blogOptional = blogRepository.findById(id);
 
         if (!blogOptional.isPresent()) {
             throw new InvalidBlogIdException();
@@ -110,7 +112,12 @@ public class BlogService {
     }
 
     private List<Blog> getRelates(List<String> tagValues) {
-        List<Blog> relates = blogRepository.findBlogByTagValues(tagValues.get(0), tagValues.subList(1, tagValues.size()));
+
+        if (tagValues.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        List<Blog> relates = blogRepository.findByTagValues(tagValues.get(0), tagValues.subList(1, tagValues.size()));
 
 
         //중복되는 태그가 많을수록 상위 순위
@@ -179,7 +186,7 @@ public class BlogService {
 
         //Filter By Tag
         else if (!StringUtils.isEmpty(tagValue)) {
-            List<Long> ids = blogRepository.findBlogByTagValues(tagValue, null).stream()
+            List<Long> ids = blogRepository.findByTagValues(tagValue, null).stream()
                     .map(Blog::getId)
                     .collect(Collectors.toList());
 

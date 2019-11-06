@@ -84,7 +84,7 @@ public class BlogRepositoryCustomImpl extends QuerydslRepositorySupport implemen
     }
 
     @Override
-    public List<Blog> findBlogByTagValues(String firstTagValue, List<String> otherTags) {
+    public List<Blog> findByTagValues(String firstTagValue, List<String> otherTags) {
         QBlogTag tag = QBlogTag.blogTag;
 
         BooleanExpression booleanExpression = tag.val.eq(firstTagValue);
@@ -110,10 +110,18 @@ public class BlogRepositoryCustomImpl extends QuerydslRepositorySupport implemen
     }
 
     @Override
-    public List<Blog> findAllEnabled() {
+    public List<Blog> findAllByEnabledAndOrderByPublishAtDesc(boolean enabled) {
         return this.queryFactory.select(blog)
                 .from(blog)
-                .where(blog.enabled.eq(true))
+                .where(blog.enabled.eq(enabled))
+                .orderBy(blog.publishAt.desc())
+                .fetch();
+    }
+
+    @Override
+    public List<Blog> findAllByOrderByPublishAtDesc() {
+        return this.queryFactory.select(blog)
+                .from(blog)
                 .orderBy(blog.publishAt.desc())
                 .fetch();
     }

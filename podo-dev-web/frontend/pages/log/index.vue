@@ -40,7 +40,9 @@
                 <div class="values">
                     <div v-for="blog in archive[key]"
                          v-bind:key="blog.id"
-                         class="blog">
+                         class="blog"
+                         :class="blog.enabled ? '' : 'disabled'"
+                    >
 
                         <router-link :to="{name: 'blogs-id', params: {id: blog.id}}">
                             <div class="title"><span> {{blog.title}}</span></div>
@@ -192,36 +194,42 @@
 
             > .values {
 
-                > .blog > a {
-                    font-size: 0.95rem;
-                    margin: 5px 0px;
-                    display: flex;
-                    cursor: pointer;
-                    border-bottom: 1px solid #FFFFFF;
-                    color: #333333;
-
-                    &:hover {
-                        color: #111111;
-                        border-bottom: 1px solid #222222;
+                > .blog {
+                    &.disabled {
+                        opacity: 0.5;
                     }
 
-                    > .title {
-                        flex: 1;
-                        display: -webkit-box;
+                    > a {
+                        font-size: 0.95rem;
+                        margin: 5px 0px;
+                        display: flex;
+                        cursor: pointer;
+                        border-bottom: 1px solid #FFFFFF;
+                        color: #333333;
 
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        max-height: 1.45rem;
-                        -webkit-box-orient: vertical;
-                        white-space: normal;
-                        -webkit-line-clamp: 1;
-                        word-break: break-all;
-                    }
+                        &:hover {
+                            color: #111111;
+                            border-bottom: 1px solid #222222;
+                        }
 
-                    > .publish-at {
-                        min-width: 150px;
-                        text-align: right;
-                        font-size: 0.9rem;
+                        > .title {
+                            flex: 1;
+                            display: -webkit-box;
+
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            max-height: 1.45rem;
+                            -webkit-box-orient: vertical;
+                            white-space: normal;
+                            -webkit-line-clamp: 1;
+                            word-break: break-all;
+                        }
+
+                        > .publish-at {
+                            min-width: 150px;
+                            text-align: right;
+                            font-size: 0.9rem;
+                        }
                     }
                 }
             }
