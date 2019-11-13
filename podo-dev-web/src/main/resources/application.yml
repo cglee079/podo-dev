@@ -110,9 +110,6 @@ infra:
             length: 100
         frag:
           length: 10000000
-        simple:
-          pre: ((start-search))
-          post: ((end-search))
 
 
 

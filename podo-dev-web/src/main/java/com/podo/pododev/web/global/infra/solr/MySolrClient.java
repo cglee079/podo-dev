@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.apache.solr.client.solrj.util.ClientUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -32,12 +31,6 @@ public class MySolrClient {
     @Value("${infra.solr.query.hl.frag.length}")
     private String hlFragLength;
 
-    @Value("${infra.solr.query.hl.simple.pre}")
-    private String hlPrefix;
-
-    @Value("${infra.solr.query.hl.simple.post}")
-    private String hlPostfix;
-
     public List<BlogSearchVo> search(String value) {
         log.info("Solr Search, value '{}'", value);
 
@@ -45,7 +38,7 @@ public class MySolrClient {
             return Collections.emptyList();
         }
 
-        final Map<String, String> param = createSearchParam(value);
+        final Map<String, String> param = MySolrParameter.createSearchParam(value, hlFragLength);
 
         try {
             final QueryResponse response = solrSender.queryMap(coreId, param);
@@ -87,14 +80,14 @@ public class MySolrClient {
 
             String highlight = MarkdownUtil.extractPlainText(hlValues.get("contents").get(0));
 
-            int schIndex = highlight.indexOf(hlPrefix);
+            int schIndex = highlight.indexOf(MySolrParameter.HIGHLIGHT_PREFIX);
             if (schIndex > maxLengthBeforeHighlight) {
                 highlight = highlight.substring(schIndex - maxLengthBeforeHighlight);
             }
 
             highlight = MarkdownUtil.escape(highlight);
-            highlight = highlight.replace(hlPrefix, "<search>");
-            highlight = highlight.replace(hlPostfix, "</search>");
+            highlight = highlight.replace(MySolrParameter.HIGHLIGHT_PREFIX, "<search>");
+            highlight = highlight.replace(MySolrParameter.HIGHLIGHT_POSTFIX, "</search>");
 
             return highlight;
         } else {
@@ -106,7 +99,7 @@ public class MySolrClient {
     public List<String> getFacets(String value) {
         log.info("Solr facets, value '{}'", value);
 
-        final Map<String, String[]> param = createFacetParam(value);
+        final Map<String, String[]> param = MySolrParameter.createFacetParam(value);
 
         try {
             QueryResponse response = solrSender.queryMultiMap(coreId, param);
@@ -132,7 +125,7 @@ public class MySolrClient {
     }
 
     public void dataimport() {
-        final Map<String, String> param = createDateImportParam();
+        final Map<String, String> param = MySolrParameter.createDateImportParam();
 
         try {
             solrSender.queryMap(coreId, param);
@@ -141,36 +134,6 @@ public class MySolrClient {
         }
     }
 
-    private Map<String, String> createSearchParam(String value) {
-        final Map<String, String> param = new HashMap<>();
-        param.put("q", ClientUtils.encodeLocalParamVal("(title:" + value + " OR " + "contents: " + value + ")"));
-        param.put("hl", "on");
-        param.put("hl.fragsize", hlFragLength);
-        param.put("hl.fl", "title,contents");
-        param.put("hl.simple.pre", hlPrefix);
-        param.put("hl.simple.post", hlPostfix);
-        return param;
-    }
-
-    private Map<String, String[]> createFacetParam(String value) {
-        final Map<String, String[]> param = new HashMap<>();
-        param.put("q", new String[]{""});
-        param.put("facet", new String[]{"on"});
-        param.put("facet.field", new String[]{"title", "contents"});
-        param.put("facet.prefix", new String[]{value.toLowerCase()});
-        return param;
-    }
-
-
-    private Map<String, String> createDateImportParam() {
-        final Map<String, String> param = new HashMap<>();
-
-        param.put("qt", "/dataimport");
-        param.put("command", "full-import");
-        param.put("clean", "true");
-        param.put("commit", "true");
-        return param;
-    }
 
 }
 
