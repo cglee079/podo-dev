@@ -2,79 +2,160 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="55ef0170-db0f-47af-b5b8-70ea1fb97f2a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/podo/pododev/uploader/global/config/security/UserRole.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/config/security/UserRole.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/exception/HandledException.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/exception/ResponsibleException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/exception/LocalFileException.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/exception/LocalFileException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/response/DataResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/response/DataResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/util/MyFileUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/util/MyFileUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/cglee079/pododev/uploader/domain/upload/UploadService.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/cglee079/pododev/uploader/domain/upload/UploadService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/cglee079/pododev/uploader/global/handler/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/cglee079/pododev/uploader/global/handler/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-core/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-core/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/config/filter/CorsFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/exception/LocalFileException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/exception/ResponsibleException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/response/ApiResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/response/ApiStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/response/DataResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/response/ErrorsResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/response/ListResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/response/PageDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/response/StatusResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/util/FormatUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/podo/pododev/core/util/FormatUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/util/HttpUrlUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/podo/pododev/core/util/HttpUrlUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/util/MarkdownUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/podo/pododev/core/util/MarkdownUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/util/MyFileUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/podo/pododev/core/util/MyFileUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/util/MyRequestUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/podo/pododev/core/util/MyRequestUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/util/MyStringUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/podo/pododev/core/util/MyStringUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/util/PathUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/podo/pododev/core/util/PathUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/util/TimeUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/podo/pododev/core/util/TimeUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-uploader/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-uploader/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-uploader/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-uploader/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-uploader/logs/application.2019-09-12.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/cglee079/pododev/PodoDevUploaderApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/podo/pododev/PodoDevUploaderApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/cglee079/pododev/uploader/domain/upload/UploadController.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/podo/pododev/uploader/domain/upload/UploadController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/cglee079/pododev/uploader/domain/upload/UploadDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/podo/pododev/uploader/domain/upload/UploadDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/cglee079/pododev/uploader/domain/upload/UploadService.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/podo/pododev/uploader/domain/upload/UploadService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/cglee079/pododev/uploader/global/config/HttpServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/podo/pododev/uploader/global/config/HttpServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/cglee079/pododev/uploader/global/config/WebConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/podo/pododev/uploader/global/config/WebConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/cglee079/pododev/uploader/global/config/security/AuthFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/podo/pododev/uploader/global/config/security/AuthFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/cglee079/pododev/uploader/global/config/security/ClientAuth.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/podo/pododev/uploader/global/config/security/ClientAuth.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/cglee079/pododev/uploader/global/config/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/podo/pododev/uploader/global/config/security/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/cglee079/pododev/uploader/global/config/security/UserRole.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/cglee079/pododev/uploader/global/handler/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-uploader/src/main/java/com/podo/pododev/uploader/global/handler/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-uploader/src/test/java/com/cglee079/pododev/PodoDevUploaderApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-uploader/src/test/java/com/podo/pododev/PodoDevUploaderApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/podo-dev-web/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/Blog.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/Blog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogApiController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/repository/BlogRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogRepositoryCustom.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/repository/BlogRepositoryCustom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogRepositoryCustomImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/repository/BlogRepositoryCustomImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/aop/SolrDataImportAspect.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/aop/SolrDataImportAspect.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachfile/AttachFileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachfile/AttachFileApiController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachfile/AttachFileDownloadController.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachfile/AttachFileDownloadController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachfile/AttachFileService.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachfile/AttachFileService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachfile/exception/InvalidFileException.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachfile/exception/InvalidFileException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/AttachImageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/AttachImageApiController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/AttachImageDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/AttachImageDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/AttachImageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/AttachImageService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/AttachImageUploader.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/AttachImageUploader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/ImageInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/ImageInfoVo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/exception/InValidImageException.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/exception/InValidImageException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/save/AttachImageWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/AttachImageWriter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/comment/CommentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/comment/CommentApiController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/comment/CommentDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/comment/CommentDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/comment/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/comment/CommentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/comment/aop/CommentNotifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/comment/aop/CommentNotifier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/comment/exception/InvalidCommentException.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/comment/exception/InvalidCommentException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/comment/exception/MaxDepthCommentException.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/comment/exception/MaxDepthCommentException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/exception/InvalidBlogIdException.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/exception/InvalidBlogIdException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/exception/PublishNotYetException.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/exception/PublishNotYetException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/tag/BlogTag.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/tag/BlogTag.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/tag/BlogTagController.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/tag/BlogTagApiController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/tag/BlogTagService.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/tag/BlogTagService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/ResumeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/ResumeApiController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/ResumeDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/ResumeDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/ResumeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/ResumeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/experience/ResumeExperience.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/experience/ResumeExperience.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/experience/ResumeExperienceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/experience/ResumeExperienceApiController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/experience/ResumeExperienceDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/experience/ResumeExperienceDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/experience/ResumeExperienceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/experience/ResumeExperienceService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/user/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/user/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/user/UserApiController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/user/UserDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/user/UserDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/user/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/user/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/user/exception/NoAuthenticatedException.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/user/exception/NoAuthenticatedException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/exception/FailImageResizeException.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/exception/FailImageResizeException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/handler/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/handler/GlobalExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/solr/PodoSolrClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/solr/MySolrClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/solr/exception/SolrSendException.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/solr/exception/SolrSendException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/telegram/exception/TelegramSendException.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/telegram/exception/TelegramSendException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/uploader/PodoUploaderClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/uploader/PodoUploaderClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/uploader/exception/UploadFailException.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/uploader/exception/UploadFailException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/util/ChosungUtil.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/util/FileWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/util/writer/FileWriter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/util/Formatter.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/util/FormatUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/util/HttpUrlUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/util/HttpUrlUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/util/MarkdownUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/util/MarkdownUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/util/PathUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/util/PathUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/util/TimeUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/util/TimeUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/job/maker/MakeScheduler.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/job/maker/WorkScheduler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/job/maker/MakeWorker.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/job/maker/Worker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/job/maker/rss/RssMakeWorker.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/job/maker/rss/RssMakeWorker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/job/maker/rss/RssMaker.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/job/maker/rss/RssMaker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/job/maker/sitemap/SitemapMakeWorker.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/job/maker/sitemap/SitemapMakeWorker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/job/maker/sitemap/SitemapMaker.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/job/maker/sitemap/SitemapMaker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/job/tempcleaner/TempCleaner.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/job/tempcleaner/TempCleaner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/test/java/com/cglee079/pododev/web/global/util/MarkdownUtilTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/test/java/com/cglee079/pododev/web/global/util/MarkdownUtilTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/PodoDevWebApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/PodoDevWebApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/BaseEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/BaseEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/UpdatableBaseEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/UpdatableBaseEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/auth/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/auth/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/Blog.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/Blog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/BlogApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/BlogDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/BlogStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/BlogValidator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/FileStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/FileStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/aop/SolrDataImport.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/aop/SolrDataImport.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/aop/SolrDataImportAspect.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/aop/SolrDataImportAspect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachfile/AttachFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachfile/AttachFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachfile/AttachFileApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachfile/AttachFileApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachfile/AttachFileDownloadController.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachfile/AttachFileDownloadController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachfile/AttachFileDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachfile/AttachFileDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachfile/AttachFileRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachfile/AttachFileRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachfile/AttachFileService.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachfile/AttachFileService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachfile/AttachFileUploader.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachfile/AttachFileUploader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachfile/exception/InvalidFileException.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachfile/exception/InvalidFileException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/AttachImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachimage/AttachImage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/AttachImageApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachimage/AttachImageApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/AttachImageDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachimage/AttachImageDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/AttachImageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachimage/AttachImageService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/AttachImageUploader.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachimage/AttachImageUploader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/AttachImageValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachimage/AttachImageValidator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/AttachImageWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachimage/AttachImageWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/ImageInfoVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachimage/ImageInfoVo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/exception/InValidImageException.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachimage/exception/InvalidImageException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/save/AttachImageSave.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachimage/save/AttachImageSave.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/save/AttachImageSaveEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachimage/save/AttachImageSaveEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/comment/Comment.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/comment/Comment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/comment/CommentApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/comment/CommentApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/comment/CommentDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/comment/CommentDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/comment/CommentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/comment/CommentRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/comment/CommentRepositoryCustom.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/comment/CommentRepositoryCustom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/comment/CommentRepositoryCustomImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/comment/CommentRepositoryCustomImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/comment/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/comment/CommentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/comment/aop/CommentNotice.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/comment/aop/CommentNotice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/comment/aop/CommentNotifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/comment/aop/CommentNotifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/comment/exception/InvalidCommentException.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/comment/exception/InvalidCommentException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/comment/exception/MaxDepthCommentException.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/comment/exception/MaxDepthCommentException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/exception/InvalidBlogIdException.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/exception/InvalidBlogIdException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/exception/PublishNotYetException.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/exception/PublishNotYetException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/repository/BlogRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/repository/BlogRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/repository/BlogRepositoryCustom.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/repository/BlogRepositoryCustom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/repository/BlogRepositoryCustomImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/repository/BlogRepositoryCustomImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/service/BlogFeedService.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/service/BlogFeedService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/service/BlogReadService.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/service/BlogReadService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/service/BlogWriteService.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/service/BlogWriteService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/tag/BlogTag.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/tag/BlogTag.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/tag/BlogTagApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/tag/BlogTagApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/tag/BlogTagDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/tag/BlogTagDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/tag/BlogTagRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/tag/BlogTagRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/tag/BlogTagRepositoryCustom.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/tag/BlogTagRepositoryCustom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/tag/BlogTagRepositoryCustomImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/tag/BlogTagRepositoryCustomImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/tag/BlogTagService.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/tag/BlogTagService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/Resume.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/resume/Resume.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/ResumeApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/resume/ResumeApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/ResumeDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/resume/ResumeDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/ResumeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/resume/ResumeRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/ResumeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/resume/ResumeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/content/ResumeContent.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/resume/content/ResumeContent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/experience/ResumeExperience.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/resume/experience/ResumeExperience.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/experience/ResumeExperienceApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/resume/experience/ResumeExperienceApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/experience/ResumeExperienceDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/resume/experience/ResumeExperienceDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/experience/ResumeExperienceRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/resume/experience/ResumeExperienceRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/experience/ResumeExperienceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/resume/experience/ResumeExperienceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/user/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/user/UserApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/user/UserApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/user/UserDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/user/UserDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/user/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/user/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/user/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/user/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/user/exception/NoAuthenticatedException.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/user/exception/NoAuthenticatedException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/config/HttpServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/config/HttpServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/config/JpaConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/config/JpaConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/config/QuerydslConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/config/QuerydslConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/config/WebConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/config/WebConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/config/security/AuthFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/config/security/AuthFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/config/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/config/security/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/config/security/SecurityStore.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/config/security/SecurityStore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/config/security/SecurityUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/config/security/SecurityUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/config/security/UserRole.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/config/security/oauth/GoogleAuthentication.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/config/security/oauth/GoogleAuthentication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/config/security/oauth/GoogleUserDetails.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/config/security/oauth/GoogleUserDetails.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/config/security/oauth/SocialLoginConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/config/security/oauth/SocialLoginConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/config/security/oauth/SocialLoginSuccessHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/config/security/oauth/SocialLoginSuccessHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/exception/FailImageResizeException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/handler/GlobalExceptionHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/solr/MySolrClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/infra/solr/MySolrClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/solr/SolrResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/infra/solr/SolrResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/solr/SolrSender.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/infra/solr/SolrSender.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/solr/exception/SolrSendException.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/infra/solr/exception/SolrSendException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/telegram/TelegramClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/infra/telegram/TelegramClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/telegram/TelegramConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/infra/telegram/TelegramConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/telegram/exception/TelegramSendException.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/infra/telegram/exception/TelegramSendException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/uploader/PodoUploaderClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/infra/uploader/PodoUploaderClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/uploader/exception/UploadFailException.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/infra/uploader/exception/UploadFailException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/interceptor/BlogViewLogInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/interceptor/BlogViewLogInterceptor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/interceptor/RequestLogInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/interceptor/RequestLogInterceptor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/util/writer/AbstractWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/util/writer/AbstractWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/util/writer/FileWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/util/writer/FileWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/job/maker/WorkScheduler.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/job/WorkScheduler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/job/maker/Worker.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/job/Worker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/job/maker/rss/RssMakeWorker.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/job/maker/rss/RssMakeMakeExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/job/maker/rss/RssMaker.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/job/maker/rss/RssMaker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/job/maker/sitemap/SitemapMakeWorker.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/job/maker/sitemap/SitemapMakeExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/job/maker/sitemap/SitemapMaker.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/job/maker/sitemap/SitemapMaker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/job/maker/sitemap/SitemapSender.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/job/maker/sitemap/SitemapSender.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/job/tempcleaner/TempCleaner.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/job/tempcleaner/TempCleanWorker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/job/tempcleaner/TempCleanerScheduler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/test/java/com/cglee079/pododev/PodoDevWebApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/test/java/com/podo/pododev/PodoDevWebApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/podo-dev-web/src/test/java/com/cglee079/pododev/web/global/util/MarkdownUtilTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/podo-dev-web/src/test/java/com/podo/pododev/web/global/util/MarkdownUtilTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -91,6 +172,9 @@
     <ignored path="$PROJECT_DIR$/podo-dev-core/.gradle/" />
     <ignored path="$PROJECT_DIR$/podo-dev-core/build/" />
     <ignored path="$PROJECT_DIR$/podo-dev-core/out/" />
+    <ignored path="$PROJECT_DIR$/podo-dev-rest-client/.gradle/" />
+    <ignored path="$PROJECT_DIR$/podo-dev-rest-client/build/" />
+    <ignored path="$PROJECT_DIR$/podo-dev-rest-client/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -149,6 +233,17 @@
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="podo-dev" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="podo-dev" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="podo-dev" type="f1a62948:ProjectNode" />
                 <item name="podo-dev-web" type="2d1252cf:ModuleNode" />
               </path>
               <path>
@@ -187,25 +282,98 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/build.gradle">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/BlogValidator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="10" selection-end-line="75" />
+            <state relative-caret-position="44">
+              <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/podo-dev-web/Dockerfile">
-          <provider selected="true" editor-type-id="text-editor" />
+        <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/exception/InvalidBlogIdException.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="220">
+              <caret line="12" column="11" lean-forward="true" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="11" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/podo-dev-web/build.gradle">
+        <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/comment/CommentApiController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-765">
-              <caret line="11" selection-start-line="11" selection-end-line="11" />
+            <state relative-caret-position="233">
+              <caret line="38" column="75" selection-start-line="38" selection-start-column="75" selection-end-line="38" selection-end-column="75" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/comment/CommentService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="44">
+              <caret line="2" column="11" selection-start-line="2" selection-start-column="11" selection-end-line="2" selection-end-column="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachimage/AttachImageApiController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-229">
+              <caret line="23" column="28" selection-start-line="23" selection-start-column="28" selection-end-line="23" selection-end-column="28" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachimage/AttachImageService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="176">
+              <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/auth/AuthController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="330">
+              <caret line="15" column="5" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachfile/AttachFileApiController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-167">
+              <caret line="4" column="29" selection-start-line="4" selection-start-column="29" selection-end-line="4" selection-end-column="29" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/podo-dev-rest-client/src/main/java/com/podo/pododev/core/rest/handler/GlobalExceptionHandler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="299">
+              <caret line="42" column="37" selection-start-line="42" selection-start-column="37" selection-end-line="42" selection-end-column="37" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/podo-dev-rest-client/src/main/java/com/podo/pododev/core/rest/response/ApiStatus.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="166">
+              <caret line="11" column="41" selection-end-line="25" />
             </state>
           </provider>
         </entry>
@@ -225,7 +393,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>;</find>
       <find>orn</find>
       <find>/</find>
       <find>.mob-menus</find>
@@ -255,6 +422,7 @@
       <find>정말 삭제</find>
       <find>&quot;image_by_paste.&quot;</find>
       <find>baseDir</find>
+      <find>cra</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -274,45 +442,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/util/AbstractWriter.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/util/FileWriter.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/experience/ResumeExperienceApiController.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogReadService.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogService.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogFeedService.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogWriteService.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/service/BlogReadService.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/service/BlogFeedService.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/Blog.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/service/BlogWriteService.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/repository/BlogRepositoryCustomImpl.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/tag/BlogTagService.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/tag/BlogTag.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/ResumeService.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/ResumeDto.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/Resume.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/user/UserApiController.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/user/UserDto.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/user/User.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/user/UserService.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/user/exception/NoAuthenticatedException.java" />
-        <option value="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/exception/HandledException.java" />
-        <option value="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/exception/ResponsibleException.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/job/maker/MakeScheduler.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/job/maker/sitemap/SitemapMakeWorker.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/job/maker/WorkScheduler.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/solr/exception/SolrSendException.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/solr/PodoSolrParameterCreator.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/solr/PodoSolrClient.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/solr/MySolrClient.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/uploader/PodoUploaderClient.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/uploader/exception/UploadFailException.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/util/MarkdownUtil.java" />
-        <option value="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/util/TimeUtil.java" />
-        <option value="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/util/MyFileUtils.java" />
-        <option value="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/util/MyRequestUtil.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/AttachImageWriter.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/ImageInfoVo.java" />
         <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/AttachImageDto.java" />
         <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/AttachImageApiController.java" />
         <option value="$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/response/ListResponse.java" />
@@ -323,8 +452,47 @@
         <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachfile/AttachFileApiController.java" />
         <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/experience/ResumeExperience.java" />
         <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/experience/ResumeExperienceService.java" />
-        <option value="$PROJECT_DIR$/podo-dev-web/build.gradle" />
+        <option value="$PROJECT_DIR$/settings.gradle" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/job/maker/WorkScheduler.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/job/tempcleaner/TempCleanerScheduler.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/job/tempcleaner/TempCleanWorker.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/job/Worker.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/job/WorkScheduler.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/job/maker/FeedWorker.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/job/maker/rss/RssMakeExecutor.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/job/maker/Executor.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/job/maker/sitemap/SitemapExecutor.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/job/maker/FeedMakeExecutor.java" />
         <option value="$PROJECT_DIR$/build.gradle" />
+        <option value="$PROJECT_DIR$/podo-dev-web/build.gradle" />
+        <option value="$PROJECT_DIR$/podo-dev-web/Dockerfile" />
+        <option value="$PROJECT_DIR$/podo-dev-uploader/Dockerfile" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/config/filter/CorsFilter.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/config/security/SecurityConfig.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/config/security/oauth/GoogleUserDetails.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/config/security/oauth/SocialLoginSuccessHandler.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/user/exception/NoAuthenticatedException.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/exception/InvalidBlogIdException.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/exception/PublishNotYetException.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/comment/exception/MaxDepthCommentException.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/comment/exception/InvalidCommentException.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachimage/exception/InValidImageException.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachimage/exception/InvalidImageException.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachfile/exception/InvalidFileException.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/auth/AuthApiController.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/auth/AuthController.java" />
+        <option value="$PROJECT_DIR$/podo-dev-rest-client/build.gradle" />
+        <option value="$PROJECT_DIR$/podo-dev-core/build.gradle" />
+        <option value="$PROJECT_DIR$/podo-dev-uploader/build.gradle" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/BlogApiController.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/service/BlogReadService.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/service/BlogWriteService.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/comment/CommentApiController.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/comment/CommentService.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachimage/AttachImageApiController.java" />
+        <option value="$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachfile/AttachFileApiController.java" />
+        <option value="$PROJECT_DIR$/podo-dev-rest-client/src/main/java/com/podo/pododev/core/rest/handler/GlobalExceptionHandler.java" />
+        <option value="$PROJECT_DIR$/podo-dev-rest-client/src/main/java/com/podo/pododev/core/rest/response/ApiStatus.java" />
       </list>
     </option>
   </component>
@@ -340,7 +508,7 @@
       <select />
     </treeState>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-7" />
     <option name="width" value="1934" />
     <option name="height" value="1047" />
@@ -364,25 +532,90 @@
             <path>
               <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
               <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="podo-dev-core" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-rest-client" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
             </path>
             <path>
               <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
               <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="podo-dev-core" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-rest-client" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
               <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="podo-dev-core" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-rest-client" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
             </path>
             <path>
               <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
               <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="podo-dev-core" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-rest-client" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
+              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-rest-client" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="rest" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
+              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-rest-client" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="rest" type="462c0819:PsiDirectoryNode" />
+              <item name="exception" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
+              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-rest-client" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="rest" type="462c0819:PsiDirectoryNode" />
+              <item name="handler" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
+              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-rest-client" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="rest" type="462c0819:PsiDirectoryNode" />
+              <item name="response" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
+              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+            </path>
+            <path>
+              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
+              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
+              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+            </path>
+            <path>
+              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
+              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
@@ -391,14 +624,132 @@
               <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
               <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="pododev" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
+              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="pododev" type="462c0819:PsiDirectoryNode" />
+              <item name="web" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
+              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="pododev" type="462c0819:PsiDirectoryNode" />
+              <item name="web" type="462c0819:PsiDirectoryNode" />
+              <item name="domain" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
+              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="pododev" type="462c0819:PsiDirectoryNode" />
+              <item name="web" type="462c0819:PsiDirectoryNode" />
+              <item name="domain" type="462c0819:PsiDirectoryNode" />
+              <item name="auth" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
+              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="pododev" type="462c0819:PsiDirectoryNode" />
+              <item name="web" type="462c0819:PsiDirectoryNode" />
+              <item name="domain" type="462c0819:PsiDirectoryNode" />
+              <item name="blog" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
+              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="pododev" type="462c0819:PsiDirectoryNode" />
+              <item name="web" type="462c0819:PsiDirectoryNode" />
+              <item name="domain" type="462c0819:PsiDirectoryNode" />
+              <item name="blog" type="462c0819:PsiDirectoryNode" />
+              <item name="repository" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
+              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="pododev" type="462c0819:PsiDirectoryNode" />
+              <item name="web" type="462c0819:PsiDirectoryNode" />
+              <item name="domain" type="462c0819:PsiDirectoryNode" />
+              <item name="blog" type="462c0819:PsiDirectoryNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
+              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="pododev" type="462c0819:PsiDirectoryNode" />
+              <item name="web" type="462c0819:PsiDirectoryNode" />
+              <item name="domain" type="462c0819:PsiDirectoryNode" />
+              <item name="blog" type="462c0819:PsiDirectoryNode" />
+              <item name="tag" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
+              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="pododev" type="462c0819:PsiDirectoryNode" />
+              <item name="web" type="462c0819:PsiDirectoryNode" />
+              <item name="global" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
+              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="pododev" type="462c0819:PsiDirectoryNode" />
+              <item name="web" type="462c0819:PsiDirectoryNode" />
+              <item name="job" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="podo-dev" type="b2602c69:ProjectViewProjectNode" />
+              <item name="podo-dev" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="podo-dev-web" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="CatdeaLogs" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -427,8 +778,10 @@
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="com.cglee079.pododev.domain.blog.comment" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\dev\podo\podo-dev-web\frontend\static" />
+      <recent name="C:\dev\workspace\podo-dev\podo-dev-web\frontend\src\components\tag" />
+      <recent name="C:\dev\workspace\podo-dev\podo-dev-web\frontend\src\components\blog" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="com.cglee079.pododev.web.domain.blog.attachimage" />
@@ -443,16 +796,14 @@
       <recent name="C:\dev\podo\podo-dev-web\frontend\static" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.podo.pododev.web.domain.auth" />
+      <recent name="com.podo.pododev.web.global.config.filter" />
       <recent name="com.cglee079.pododev.core.global.response" />
       <recent name="com.cglee079.pododev.web.global.infra.solr" />
       <recent name="com.cglee079.pododev.web.domain.blog" />
-      <recent name="com.cglee079.pododev.web.global.util" />
-      <recent name="com.cglee079.pododev.web.domain.blog.attachimage.save" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\dev\podo\podo-dev-web\frontend\static" />
-      <recent name="C:\dev\workspace\podo-dev\podo-dev-web\frontend\src\components\tag" />
-      <recent name="C:\dev\workspace\podo-dev\podo-dev-web\frontend\src\components\blog" />
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.cglee079.pododev.domain.blog.comment" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -473,7 +824,7 @@
     </option>
     <option name="contentProportion" value="0.2332251" />
   </component>
-  <component name="RunManager" selected="Gradle.podo:podo-dev-web [compileQuerydsl]">
+  <component name="RunManager" selected="Gradle.podo-dev [clean]">
     <configuration name="PodoDevWebApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.cglee079.pododev.PodoDevWebApplication" />
       <module name="podo-dev.podo-dev-web.main" />
@@ -487,10 +838,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="podo:podo-dev-web [bootJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="podo-dev [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/podo-dev-web" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="externalSystemIdString" value="GRADLE" />
         <option name="scriptParameters" />
         <option name="taskDescriptions">
@@ -498,7 +849,7 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value="bootJar" />
+            <option value="clean" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -563,20 +914,52 @@
       <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
       <method v="2" />
     </configuration>
+    <configuration name="PodoDevUploaderApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="podo-dev.podo-dev-uploader.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.podo.pododev.PodoDevUploaderApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PodoDevUploaderApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="podo-dev.podo-dev-uploader.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.cglee079.pododev.PodoDevUploaderApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PodoDevWebApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="podo-dev.podo-dev-web.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.podo.pododev.PodoDevWebApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PodoDevWebApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="podo-dev.podo-dev-web.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.cglee079.pododev.PodoDevWebApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="Application.PodoDevWebApplication" />
-      <item itemvalue="Gradle.podo:podo-dev-web [bootJar]" />
       <item itemvalue="Gradle.podo:podo-dev-web [classes]" />
       <item itemvalue="Gradle.podo:podo-dev-web [clean]" />
       <item itemvalue="Gradle.podo:podo-dev-web [compileQuerydsl]" />
+      <item itemvalue="Spring Boot.PodoDevUploaderApplication" />
+      <item itemvalue="Spring Boot.PodoDevWebApplication" />
+      <item itemvalue="Spring Boot.PodoDevUploaderApplication (1)" />
+      <item itemvalue="Spring Boot.PodoDevWebApplication (1)" />
+      <item itemvalue="Gradle.podo-dev [clean]" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.podo-dev [clean]" />
         <item itemvalue="Application.PodoDevWebApplication" />
         <item itemvalue="Gradle.podo:podo-dev-web [classes]" />
         <item itemvalue="Gradle.podo:podo-dev-web [compileQuerydsl]" />
         <item itemvalue="Gradle.podo:podo-dev-web [clean]" />
-        <item itemvalue="Gradle.podo:podo-dev-web [bootJar]" />
       </list>
     </recent_temporary>
   </component>
@@ -620,6 +1003,7 @@
       <workItem from="1572053370651" duration="22401000" />
       <workItem from="1572100327082" duration="6809000" />
       <workItem from="1572659253291" duration="17402000" />
+      <workItem from="1573623787053" duration="2522000" />
     </task>
     <servers />
   </component>
@@ -650,7 +1034,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="280529000" />
+    <option name="totallyTimeSpent" value="283142000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -673,17 +1057,15 @@
       <window_info id="UI Designer" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info id="Web" order="7" side_tool="true" />
-      <window_info anchor="bottom" id="Run with VisualVM" />
-      <window_info anchor="bottom" id="Debug with VisualVM" />
-      <window_info anchor="bottom" id="Run Dashboard" order="0" sideWeight="0.4989339" weight="0.2624729" />
+      <window_info anchor="bottom" id="Run Dashboard" order="0" sideWeight="0.4989339" weight="0.26155582" />
       <window_info anchor="bottom" id="Message" order="1" />
-      <window_info anchor="bottom" id="Find" order="2" visible="true" weight="0.2085682" />
-      <window_info anchor="bottom" id="Run" order="3" sideWeight="0.4989339" weight="0.3286334" />
+      <window_info anchor="bottom" id="Find" order="2" weight="0.2085682" />
+      <window_info anchor="bottom" id="Run" order="3" sideWeight="0.4989339" weight="0.32807216" />
       <window_info anchor="bottom" id="Debug" order="4" sideWeight="0.4989339" weight="0.3275488" />
       <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="7" sideWeight="0.49946696" weight="0.329718" />
-      <window_info anchor="bottom" id="Build" order="8" sideWeight="0.4989339" weight="0.3286334" />
+      <window_info anchor="bottom" id="Build" order="8" sideWeight="0.4989339" visible="true" weight="0.32807216" />
       <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50053304" side_tool="true" weight="0.23210412" />
       <window_info anchor="bottom" id="Database Changes" order="11" />
@@ -693,6 +1075,8 @@
       <window_info anchor="bottom" id="Messages" order="15" sideWeight="0.4989339" weight="0.2483731" />
       <window_info anchor="bottom" id="TypeScript" order="16" />
       <window_info anchor="bottom" id="Java Enterprise" order="17" sideWeight="0.4989339" weight="0.329718" />
+      <window_info anchor="bottom" id="Run with VisualVM" order="18" />
+      <window_info anchor="bottom" id="Debug with VisualVM" order="19" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -700,7 +1084,7 @@
       <window_info anchor="right" id="Capture Analysis" order="4" />
       <window_info anchor="right" id="Key Promoter X" order="5" weight="0.32975295" />
       <window_info anchor="right" id="Maven" order="6" weight="0.32995737" />
-      <window_info anchor="right" id="Gradle" order="7" weight="0.19829424" />
+      <window_info anchor="right" id="Gradle" order="7" visible="true" weight="0.19784947" />
       <window_info anchor="right" id="Database" order="8" weight="0.32975295" />
       <window_info anchor="right" id="Palette&#9;" order="9" />
       <window_info anchor="right" id="Theme Preview" order="10" />
@@ -773,49 +1157,49 @@
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/AttachImageApiController.java</url>
+          <url>file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachimage/AttachImageApiController.java</url>
           <line>13</line>
           <properties />
           <option name="timeStamp" value="17" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/uploader/PodoUploaderClient.java</url>
+          <url>file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/infra/uploader/PodoUploaderClient.java</url>
           <line>35</line>
           <properties />
           <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/AttachImageWriter.java</url>
+          <url>file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachimage/AttachImageWriter.java</url>
           <line>52</line>
           <properties />
           <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/AttachImageService.java</url>
+          <url>file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachimage/AttachImageService.java</url>
           <line>32</line>
           <properties />
           <option name="timeStamp" value="28" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/AttachImageService.java</url>
+          <url>file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachimage/AttachImageService.java</url>
           <line>34</line>
           <properties />
           <option name="timeStamp" value="29" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/util/MyFileUtils.java</url>
+          <url>file://$PROJECT_DIR$/podo-dev-core/src/main/java/com/podo/pododev/core/util/MyFileUtils.java</url>
           <line>89</line>
           <properties />
           <option name="timeStamp" value="30" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/service/BlogFeedService.java</url>
+          <url>file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/service/BlogFeedService.java</url>
           <line>40</line>
           <properties />
           <option name="timeStamp" value="32" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/solr/MySolrClient.java</url>
+          <url>file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/infra/solr/MySolrClient.java</url>
           <line>58</line>
           <properties />
           <option name="timeStamp" value="33" />
@@ -834,368 +1218,402 @@
     </SUITE>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/job/maker/rss/RssMaker.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-176">
-          <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/job/maker/rss/RssMakeWorker.java">
+    <entry file="file://$PROJECT_DIR$/settings.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="264">
-          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
+          <caret line="12" selection-start-line="12" selection-end-line="12" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/job/maker/sitemap/SitemapMakeWorker.java">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/job/tempcleaner/TempCleanerScheduler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="137">
-          <caret line="18" column="45" selection-start-line="18" selection-start-column="45" selection-end-line="18" selection-end-column="45" />
+        <state relative-caret-position="132">
+          <caret line="8" column="34" selection-start-line="8" selection-start-column="34" selection-end-line="8" selection-end-column="34" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/solr/exception/SolrSendException.java">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/job/Worker.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="9" column="17" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
+        <state relative-caret-position="132">
+          <caret line="8" column="9" selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/job/tempcleaner/TempCleanWorker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="56">
+          <caret line="18" selection-start-line="18" selection-end-line="20" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/job/WorkScheduler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="339">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/job/maker/FeedWorker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="559">
+          <caret line="36" column="39" selection-start-line="36" selection-start-column="39" selection-end-line="36" selection-end-column="39" />
           <folding>
-            <element signature="e#344#345#0" expanded="true" />
-            <element signature="e#388#389#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/solr/PodoSolrParameterCreator.java">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/job/maker/rss/RssMaker.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="51" selection-start-line="51" selection-end-line="51" />
+        <state relative-caret-position="198">
+          <caret line="37" column="23" selection-start-line="37" selection-start-column="16" selection-end-line="37" selection-end-column="23" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/solr/MySolrClient.java">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/job/maker/rss/RssMakeMakeExecutor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="163">
-          <caret line="41" column="33" lean-forward="true" selection-start-line="41" selection-start-column="33" selection-end-line="41" selection-end-column="33" />
+        <state relative-caret-position="264">
+          <caret line="18" column="54" selection-start-line="18" selection-start-column="54" selection-end-line="18" selection-end-column="54" />
+          <folding>
+            <element signature="e#513#514#0" expanded="true" />
+            <element signature="e#552#553#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/telegram/TelegramConfig.java">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/job/maker/sitemap/SitemapMakeExecutor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="383">
+          <caret line="34" column="1" selection-start-line="34" selection-start-column="1" selection-end-line="34" selection-end-column="1" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/job/maker/FeedMakeExecutor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="132">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+          <caret line="6" column="17" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/exception/ResponsibleException.java">
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="339">
+          <caret line="60" selection-start-line="60" selection-end-line="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/Dockerfile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="6" column="37" selection-start-line="6" selection-start-column="37" selection-end-line="6" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-uploader/Dockerfile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="110">
+          <caret line="5" column="37" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/config/WebConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-695">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-core/src/main/java/com/podo/pododev/core/global/config/filter/CorsFilter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="88">
-          <caret line="5" column="22" selection-start-line="5" selection-start-column="22" selection-end-line="5" selection-end-column="22" />
+          <caret line="7" column="16" lean-forward="true" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="16" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-core/5.1.8.RELEASE/c69e51041b6606d93b8a452714b184a8c8f5f9a6/spring-core-5.1.8.RELEASE-sources.jar!/org/springframework/core/NestedRuntimeException.java">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/config/filter/CorsFilter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="223">
-          <caret line="75" column="18" selection-start-line="75" selection-start-column="18" selection-end-line="75" selection-end-column="18" />
-          <folding>
-            <element signature="e#2456#2457#0" expanded="true" />
-            <element signature="e#2535#2536#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="88">
+          <caret line="7" column="31" selection-end-line="39" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/uploader/PodoUploaderClient.java">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/config/security/SecurityConfig.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="51" column="35" lean-forward="true" selection-start-line="51" selection-start-column="35" selection-end-line="51" selection-end-column="35" />
+        <state relative-caret-position="198">
+          <caret line="9" column="38" selection-start-line="9" selection-start-column="38" selection-end-line="9" selection-end-column="38" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/interceptor/BlogViewLogInterceptor.java">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/config/security/SecurityUtil.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+        <state relative-caret-position="88">
+          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/interceptor/RequestLogInterceptor.java">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/config/security/SecurityStore.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
+        <state relative-caret-position="176">
           <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/util/FormatUtil.java">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/config/security/AuthFilter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+        <state relative-caret-position="110">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/util/HttpUrlUtil.java">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/config/security/oauth/SocialLoginConfig.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+        <state relative-caret-position="188">
+          <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/util/MarkdownUtil.java">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/config/security/oauth/SocialLoginSuccessHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+        <state relative-caret-position="233">
+          <caret line="44" column="22" lean-forward="true" selection-start-line="44" selection-start-column="22" selection-end-line="44" selection-end-column="22" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/util/PathUtil.java">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/config/security/oauth/GoogleUserDetails.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+        <state relative-caret-position="110">
+          <caret line="12" column="22" lean-forward="true" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="22" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/util/ChosungUtil.java">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/user/UserService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="23" column="34" lean-forward="true" selection-start-line="23" selection-start-column="34" selection-end-line="23" selection-end-column="34" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/user/exception/NoAuthenticatedException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="44">
+          <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
+          <folding>
+            <element signature="e#338#339#0" expanded="true" />
+            <element signature="e#378#379#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/exception/PublishNotYetException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="19" column="29" selection-start-line="19" selection-start-column="29" selection-end-line="19" selection-end-column="29" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#334#335#0" expanded="true" />
+            <element signature="e#383#384#0" expanded="true" />
+            <element signature="e#438#439#0" expanded="true" />
+            <element signature="e#483#484#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/comment/exception/MaxDepthCommentException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="21" column="36" selection-start-line="21" selection-start-column="36" selection-end-line="21" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/comment/exception/InvalidCommentException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="308">
+          <caret line="20" selection-end-line="22" />
+          <folding>
+            <element signature="e#525#526#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachimage/exception/InvalidImageException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="6" column="16" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachfile/exception/InvalidFileException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="308">
+          <caret line="22" selection-start-line="22" selection-end-line="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/auth/AuthApiController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="60" selection-start-line="60" selection-end-line="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-rest-client/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="22">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-core/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="33" selection-start-column="33" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-264">
+          <caret selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-uploader/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="7" column="4" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/BlogApiController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="352">
+          <caret line="55" column="71" selection-start-line="55" selection-start-column="71" selection-end-line="55" selection-end-column="71" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/service/BlogReadService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="44">
+          <caret line="2" column="11" selection-start-line="2" selection-start-column="11" selection-end-line="2" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/service/BlogFeedService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-141">
+          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/service/BlogWriteService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="101">
+          <caret line="201" column="14" selection-start-line="201" selection-start-column="14" selection-end-line="201" selection-end-column="14" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/Blog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="30" lean-forward="true" selection-start-line="30" selection-end-line="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/BlogValidator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="44">
           <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/util/TimeUtil.java">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/exception/InvalidBlogIdException.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/util/MyFileUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
+        <state relative-caret-position="220">
+          <caret line="12" column="11" lean-forward="true" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="11" />
           <folding>
-            <element signature="e#3226#3227#0" expanded="true" />
-            <element signature="e#3275#3276#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/util/MyRequestUtil.java">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/comment/CommentApiController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="7" selection-start-line="7" selection-end-line="7" />
+        <state relative-caret-position="233">
+          <caret line="38" column="75" selection-start-line="38" selection-start-column="75" selection-end-line="38" selection-end-column="75" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/util/writer/AbstractWriter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/util/writer/FileWriter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-50">
-          <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/uploader/exception/UploadFailException.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/telegram/exception/TelegramSendException.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/global/infra/telegram/TelegramClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="22">
-          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/FileStatus.java">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/comment/CommentService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="44">
-          <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
+          <caret line="2" column="11" selection-start-line="2" selection-start-column="11" selection-end-line="2" selection-end-column="11" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/AttachImageWriter.java">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachimage/AttachImageApiController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="96" lean-forward="true" selection-start-line="96" selection-end-line="96" />
+        <state relative-caret-position="-229">
+          <caret line="23" column="28" selection-start-line="23" selection-start-column="28" selection-end-line="23" selection-end-column="28" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/ImageInfoVo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/AttachImageDto.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="64" selection-start-line="64" selection-end-line="64" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/AttachImage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/ResumeApiController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="115">
-          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/response/DataResponse.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="44" selection-start-column="44" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/response/ApiResponse.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="110">
-          <caret line="5" column="22" selection-start-line="5" selection-start-column="22" selection-end-line="5" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/AttachImageValidator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="990">
-          <caret line="66" lean-forward="true" selection-start-line="66" selection-end-line="66" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/AttachImageUploader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="46" selection-start-line="46" selection-end-line="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/AttachImageService.java">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachimage/AttachImageService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="176">
           <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachimage/AttachImageApiController.java">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/auth/AuthController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="726">
-          <caret line="40" column="9" lean-forward="true" selection-start-line="40" selection-start-column="9" selection-end-line="40" selection-end-column="9" />
+        <state relative-caret-position="330">
+          <caret line="15" column="5" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/comment/CommentApiController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-233">
-          <caret line="42" column="24" selection-start-line="42" selection-start-column="24" selection-end-line="42" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/BlogApiController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="69" column="22" lean-forward="true" selection-start-line="69" selection-start-column="22" selection-end-line="69" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-core/src/main/java/com/cglee079/pododev/core/global/response/ListResponse.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="23" column="1" lean-forward="true" selection-start-line="23" selection-start-column="1" selection-end-line="23" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachfile/AttachFileApiController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="25" column="24" selection-start-line="25" selection-start-column="24" selection-end-line="25" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachfile/AttachFileRepository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="110">
-          <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachfile/AttachFileDto.java">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/global/exception/FailImageResizeException.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="88">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+          <caret line="6" column="55" lean-forward="true" selection-start-line="6" selection-start-column="55" selection-end-line="6" selection-end-column="55" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/blog/attachfile/AttachFileService.java">
+    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/podo/pododev/web/domain/blog/attachfile/AttachFileApiController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-435">
-          <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
+        <state relative-caret-position="-167">
+          <caret line="4" column="29" selection-start-line="4" selection-start-column="29" selection-end-line="4" selection-end-column="29" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/content/ResumeContent.java">
+    <entry file="file://$PROJECT_DIR$/podo-dev-rest-client/src/main/java/com/podo/pododev/core/rest/handler/GlobalExceptionHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
-          <caret line="25" column="25" lean-forward="true" selection-start-line="25" selection-start-column="25" selection-end-line="25" selection-end-column="25" />
+        <state relative-caret-position="299">
+          <caret line="42" column="37" selection-start-line="42" selection-start-column="37" selection-end-line="42" selection-end-column="37" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/experience/ResumeExperience.java">
+    <entry file="file://$PROJECT_DIR$/podo-dev-rest-client/src/main/java/com/podo/pododev/core/rest/response/ApiStatus.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="15" selection-start-line="15" selection-end-line="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/experience/ResumeExperienceDto.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/src/main/java/com/cglee079/pododev/web/domain/resume/experience/ResumeExperienceService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="22" column="21" lean-forward="true" selection-start-line="22" selection-start-column="21" selection-end-line="22" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/Dockerfile">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/podo-dev-web/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-765">
-          <caret line="11" selection-start-line="11" selection-end-line="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="10" selection-end-line="75" />
+        <state relative-caret-position="166">
+          <caret line="11" column="41" selection-end-line="25" />
         </state>
       </provider>
     </entry>

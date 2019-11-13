@@ -1,3 +1,4 @@
+archivesBaseName = 'podo-dev-core'
 
 bootJar{
     enabled = false

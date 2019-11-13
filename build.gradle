@@ -58,18 +58,6 @@ subprojects {
 }
 
 
-project(':podo-dev-web') {
-    dependencies {
-        compile project(':podo-dev-core')
-    }
-}
-
-project(':podo-dev-uploader') {
-    dependencies {
-        compile project(':podo-dev-core')
-    }
-}
-
 
 
 
