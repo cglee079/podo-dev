@@ -16,7 +16,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class RssMakeMakeExecutor implements FeedMakeExecutor {
+public class RssMakeExecutor implements FeedMakeExecutor {
 
     private final RssMaker rssMaker;
 

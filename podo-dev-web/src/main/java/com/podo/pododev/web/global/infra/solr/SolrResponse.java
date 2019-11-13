@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.solr.client.solrj.beans.Field;
 
-@Setter
 @Getter
 public class SolrResponse {
 
@@ -19,4 +18,8 @@ public class SolrResponse {
 
     @Field("contents")
     private String contents;
+
+    public void changeContents(String contents) {
+        this.contents = contents;
+    }
 }

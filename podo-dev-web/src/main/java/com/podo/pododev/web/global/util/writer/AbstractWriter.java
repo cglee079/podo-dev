@@ -14,7 +14,7 @@ public class AbstractWriter {
     @Value("${local.upload.base.dir}")
     private String baseDir;
 
-    protected final String mergeLocalBaseLocation(String filepath) {
+    final String mergeLocalBaseLocation(String filepath) {
         return PathUtil.merge(baseDir, filepath);
     }
 

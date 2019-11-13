@@ -38,7 +38,7 @@ public class MySolrClient {
     @Value("${infra.solr.query.hl.simple.post}")
     private String hlPostfix;
 
-    public List<SolrResponse> search(String value) {
+    public List<BlogSearchVo> search(String value) {
         log.info("Solr Search, value '{}'", value);
 
         if (StringUtils.isEmpty(value)) {
@@ -49,47 +49,57 @@ public class MySolrClient {
 
         try {
             final QueryResponse response = solrSender.queryMap(coreId, param);
-            final List<SolrResponse> results = response.getBeans(SolrResponse.class);
+            final List<SolrResponse> responseValues = response.getBeans(SolrResponse.class);
             final Map<String, Map<String, List<String>>> highlights = response.getHighlighting();
 
+            final List<BlogSearchVo> blogSearchVos = new ArrayList<>();
+
             //Set Highlight
-            results.forEach(result -> {
-                Map<String, List<String>> hlValues = highlights.get(result.getId());
+            for (SolrResponse responseValue : responseValues) {
+                final String blogId = responseValue.getBlogId();
 
-//                //Result By Title
-//                if (hl.containsKey("title")) {
-//                    result.setTitle(hl.get("title").get(0));
-//                }
+                Map<String, List<String>> hlValues = highlights.get(responseValue.getId());
 
-                // Result By Content
-                if (hlValues.containsKey("contents")) {
+                final String contents = getHighlightContents(hlValues, responseValue.getContents());
+                final String title = getHighlightBlogTitle(hlValues, responseValue.getTitle());
 
-                    String highlight = MarkdownUtil.extractPlainText(hlValues.get("contents").get(0));
+                blogSearchVos.add(new BlogSearchVo(blogId, title, contents));
+            }
 
-                    int schIndex = highlight.indexOf(hlPrefix);
-                    if (schIndex > maxLengthBeforeHighlight) {
-                        highlight = highlight.substring(schIndex - maxLengthBeforeHighlight);
-                    }
-
-                    highlight = MarkdownUtil.escape(highlight);
-                    highlight = highlight.replace(hlPrefix, "<search>");
-                    highlight = highlight.replace(hlPostfix, "</search>");
-
-                    result.setContents(highlight);
-                } else {
-                    result.setContents(MarkdownUtil.extractPlainText(result.getContents()));
-                }
-
-
-            });
-
-
-            return results;
+            return blogSearchVos;
 
         } catch (SolrServerException | IOException e) {
             throw new SolrSendException(e);
         }
 
+
+    }
+
+    private String getHighlightBlogTitle(Map<String, List<String>> hlValues, String existTitle) {
+        if (hlValues.containsKey("title")) {
+            return hlValues.get("title").get(0);
+        }
+        return existTitle;
+    }
+
+    private String getHighlightContents(Map<String, List<String>> hlValues, String existContents) {
+        if (hlValues.containsKey("contents")) {
+
+            String highlight = MarkdownUtil.extractPlainText(hlValues.get("contents").get(0));
+
+            int schIndex = highlight.indexOf(hlPrefix);
+            if (schIndex > maxLengthBeforeHighlight) {
+                highlight = highlight.substring(schIndex - maxLengthBeforeHighlight);
+            }
+
+            highlight = MarkdownUtil.escape(highlight);
+            highlight = highlight.replace(hlPrefix, "<search>");
+            highlight = highlight.replace(hlPostfix, "</search>");
+
+            return highlight;
+        } else {
+            return MarkdownUtil.extractPlainText(existContents);
+        }
 
     }
 

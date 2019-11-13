@@ -8,6 +8,7 @@ import com.podo.pododev.web.domain.blog.FileStatus;
 import com.podo.pododev.web.domain.blog.exception.InvalidBlogIdException;
 import com.podo.pododev.web.domain.blog.tag.BlogTag;
 import com.podo.pododev.web.global.config.security.SecurityUtil;
+import com.podo.pododev.web.global.infra.solr.BlogSearchVo;
 import com.podo.pododev.web.global.infra.solr.MySolrClient;
 import com.podo.pododev.web.global.infra.solr.SolrResponse;
 import lombok.RequiredArgsConstructor;
@@ -188,18 +189,17 @@ public class BlogReadService {
     }
 
     private PageDto<BlogDto.responseList> pagingBySearch(String search, Pageable pageable, Boolean enabled) {
-        final List<SolrResponse> results = mySolrClient.search(search);
+        final List<BlogSearchVo> results = mySolrClient.search(search);
         final List<Long> ids = results.stream()
-                .map(SolrResponse::getBlogId)
-                .map(Long::valueOf)
+                .map(BlogSearchVo::getBlogId)
                 .collect(Collectors.toList());
 
-        final Map<String, String> desc = results.stream().collect(Collectors.toMap(SolrResponse::getBlogId, SolrResponse::getContents));
+        final Map<Long, String> desc = results.stream().collect(Collectors.toMap(BlogSearchVo::getBlogId, BlogSearchVo::getContents));
 
         final Page<Blog> blogs = blogRepository.paging(pageable, ids, enabled);
 
         final List<BlogDto.responseList> contents = blogs.stream()
-                .map(blog -> new BlogDto.responseList(blog, desc.get(blog.getId().toString()), uploaderFrontendUrl))
+                .map(blog -> new BlogDto.responseList(blog, desc.get(blog.getId()), uploaderFrontendUrl))
                 .collect(Collectors.toList());
 
         return PageDto.<BlogDto.responseList>builder()

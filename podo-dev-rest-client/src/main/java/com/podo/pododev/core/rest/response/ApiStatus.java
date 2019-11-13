@@ -9,12 +9,12 @@ public enum ApiStatus {
 
     SUCCESS("000", "success"),
 
-    ERR_INVALID("400", "Not Valid Input"),
-    ERR_ID_DUPLICATE("401", "Id duplicate"),
+    ERR_INVALID("400", "유효하지 않은 값입니다"),
+    ERR_ID_DUPLICATE("401", "중복되는 값입니다"),
 
-    ERR_SERVER_ERROR("500", "Server Error"),
-    ERR_UPLOAD("510", "Upload Server Error"),
-    ERR_SOLR("511", "Solr Error"),
+    ERR_SERVER_ERROR("500", "서버 에러"),
+    ERR_UPLOAD("510", "업로드 서버 에러"),
+    ERR_SOLR("520", "검색 서버 에러"),
     ERR_TELEGRAM("512", "Telegram Error"),
     ERR_SAVE("513", "Save File to Server Error");
 
