@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping
-public class AttachFileController {
+public class AttachFileApiController {
 
     private final AttachFileService attachFileService;
 
@@ -23,7 +23,7 @@ public class AttachFileController {
 
         return DataResponse.builder()
                 .status(ApiStatus.SUCCESS)
-                .data(response)
+                .result(response)
                 .build();
     }
 

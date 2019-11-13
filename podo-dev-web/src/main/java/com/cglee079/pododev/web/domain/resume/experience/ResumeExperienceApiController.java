@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping
-public class ResumeExperienceController {
+public class ResumeExperienceApiController {
 
 
     private final ResumeExperienceService resumeExperienceService;
@@ -32,7 +32,7 @@ public class ResumeExperienceController {
 
         return DataResponse.builder()
                 .status(ApiStatus.SUCCESS)
-                .data(resumeExperiences)
+                .result(resumeExperiences)
                 .build();
     }
 

@@ -5,7 +5,7 @@ import com.cglee079.pododev.web.domain.user.User;
 import com.cglee079.pododev.web.domain.user.UserRepository;
 import com.cglee079.pododev.web.domain.user.exception.NoAuthenticatedException;
 import com.cglee079.pododev.web.domain.blog.Blog;
-import com.cglee079.pododev.web.domain.blog.BlogRepository;
+import com.cglee079.pododev.web.domain.blog.repository.BlogRepository;
 import com.cglee079.pododev.web.domain.blog.comment.exception.InvalidCommentException;
 import com.cglee079.pododev.web.domain.blog.comment.exception.MaxDepthCommentException;
 import com.cglee079.pododev.web.global.config.security.SecurityUtil;
@@ -18,11 +18,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Slf4j

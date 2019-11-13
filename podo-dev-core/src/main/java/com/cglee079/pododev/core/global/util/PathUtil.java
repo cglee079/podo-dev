@@ -1,4 +1,4 @@
-package com.cglee079.pododev.web.global.util;
+package com.cglee079.pododev.core.global.util;
 
 import java.util.Arrays;
 

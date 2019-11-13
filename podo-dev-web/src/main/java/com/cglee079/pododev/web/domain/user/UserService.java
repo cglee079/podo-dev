@@ -41,10 +41,7 @@ public class UserService {
         final String newPicture = insert.getPicture();
         final String newUsername = insert.getUsername();
 
-        if (user.isChanged(newUsername, newEmail, newPicture)) {
-            user.updateInfo(newUsername, newEmail, newPicture);
-        }
-
+        user.updateInfo(newUsername, newEmail, newPicture);
     }
 }
 

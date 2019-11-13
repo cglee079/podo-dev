@@ -13,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping
-public class ResumeController {
+public class ResumeApiController {
 
 
     private final ResumeService resumeService;

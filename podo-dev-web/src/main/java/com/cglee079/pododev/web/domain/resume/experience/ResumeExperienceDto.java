@@ -1,15 +1,7 @@
 package com.cglee079.pododev.web.domain.resume.experience;
 
-import com.cglee079.pododev.web.domain.resume.Resume;
-import com.cglee079.pododev.web.global.util.Formatter;
+import com.cglee079.pododev.core.global.util.FormatUtil;
 import lombok.Getter;
-
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import java.time.LocalDateTime;
-import java.util.LinkedList;
-import java.util.List;
 
 public class ResumeExperienceDto {
 
@@ -24,7 +16,7 @@ public class ResumeExperienceDto {
             this.id = resumeExperience.getId();
             this.title = resumeExperience.getTitle();
             this.link = resumeExperience.getLink();
-            this.experienceAt = Formatter.dateTimeToBeautifulDate(resumeExperience.getExperienceAt());
+            this.experienceAt = FormatUtil.dateTimeToBeautifulDate(resumeExperience.getExperienceAt());
         }
     }
 }

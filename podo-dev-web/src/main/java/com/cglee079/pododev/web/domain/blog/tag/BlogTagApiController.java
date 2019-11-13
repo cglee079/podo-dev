@@ -13,7 +13,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping
-public class BlogTagController {
+public class BlogTagApiController {
 
     private final BlogTagService blogTagService;
 

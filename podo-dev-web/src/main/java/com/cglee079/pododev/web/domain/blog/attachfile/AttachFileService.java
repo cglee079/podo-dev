@@ -3,10 +3,9 @@ package com.cglee079.pododev.web.domain.blog.attachfile;
 import com.cglee079.pododev.core.global.util.MyFileUtils;
 import com.cglee079.pododev.web.domain.blog.FileStatus;
 import com.cglee079.pododev.web.domain.blog.attachfile.exception.InvalidFileException;
-import com.cglee079.pododev.web.global.infra.uploader.PodoUploaderClient;
-import com.cglee079.pododev.web.global.util.FileWriter;
-import com.cglee079.pododev.web.global.util.PathUtil;
-import com.cglee079.pododev.web.global.util.HttpUrlUtil;
+import com.cglee079.pododev.web.global.util.writer.FileWriter;
+import com.cglee079.pododev.core.global.util.PathUtil;
+import com.cglee079.pododev.core.global.util.HttpUrlUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -47,7 +45,7 @@ public class AttachFileService {
 
         log.info("Save File '{}'", originName);
 
-        final File file = fileWriter.saveFile(path, multipartFile);
+        final File file = fileWriter.write(path, multipartFile);
 
         return AttachFileDto.response.builder()
                 .originName(originName)

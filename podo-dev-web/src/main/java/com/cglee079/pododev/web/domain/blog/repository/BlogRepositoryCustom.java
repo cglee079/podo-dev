@@ -1,5 +1,6 @@
-package com.cglee079.pododev.web.domain.blog;
+package com.cglee079.pododev.web.domain.blog.repository;
 
+import com.cglee079.pododev.web.domain.blog.Blog;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;

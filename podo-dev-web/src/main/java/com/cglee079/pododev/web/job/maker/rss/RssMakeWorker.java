@@ -1,7 +1,7 @@
 package com.cglee079.pododev.web.job.maker.rss;
 
 import com.cglee079.pododev.web.domain.blog.BlogDto;
-import com.cglee079.pododev.web.job.maker.MakeWorker;
+import com.cglee079.pododev.web.job.maker.Worker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class RssMakeWorker implements MakeWorker {
+public class RssMakeWorker implements Worker {
 
     private final RssMaker rssMaker;
 

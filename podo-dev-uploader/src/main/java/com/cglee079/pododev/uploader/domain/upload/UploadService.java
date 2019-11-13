@@ -11,7 +11,7 @@ public class UploadService {
     private String dir;
 
     public void save(UploadDto.insert insert) {
-        MyFileUtils.makeForceDir(dir + insert.getPath());
+        MyFileUtils.makeForceDirectory(dir + insert.getPath());
         MyFileUtils.saveFile(dir + insert.getPath() + "/" +insert.getFile().getOriginalFilename(), insert.getFile());
     }
 

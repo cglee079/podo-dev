@@ -1,7 +1,7 @@
 package com.cglee079.pododev.web.job.maker.sitemap;
 
 import com.cglee079.pododev.web.domain.blog.BlogDto;
-import com.cglee079.pododev.web.job.maker.MakeWorker;
+import com.cglee079.pododev.web.job.maker.Worker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class SitemapMakeWorker implements MakeWorker {
+public class SitemapMakeWorker implements Worker {
 
     public static final String GOOGLE = "http://www.google.com/ping?sitemap=";
     public static final String PODO_DEV_FRONT_SITEMAP = "https://www.podo-dev.com/sitemap.xml";

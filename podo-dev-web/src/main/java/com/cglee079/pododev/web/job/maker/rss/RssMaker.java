@@ -1,8 +1,8 @@
 package com.cglee079.pododev.web.job.maker.rss;
 
 import com.cglee079.pododev.web.domain.blog.BlogDto;
-import com.cglee079.pododev.web.global.util.PathUtil;
-import com.cglee079.pododev.web.global.util.TimeUtil;
+import com.cglee079.pododev.core.global.util.PathUtil;
+import com.cglee079.pododev.core.global.util.TimeUtil;
 import com.rometools.rome.feed.synd.*;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedOutput;

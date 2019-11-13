@@ -4,7 +4,7 @@ import com.cglee079.pododev.web.domain.blog.BlogDto;
 
 import java.util.List;
 
-public interface MakeWorker {
+public interface Worker {
 
     void doWork(List<BlogDto.feed> blogs);
 }

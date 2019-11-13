@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 
 public class AttachImageDto {
 
-    //Url or base64;
     @Getter
     public static class upload {
         private String url;
@@ -62,7 +61,6 @@ public class AttachImageDto {
                     .map( id -> saves.get(id))
                     .map(AttachImageSaveEntity::new)
                     .collect(Collectors.toList());
-
 
             return AttachImage.builder()
                     .saves(attachImageSaveEntities)

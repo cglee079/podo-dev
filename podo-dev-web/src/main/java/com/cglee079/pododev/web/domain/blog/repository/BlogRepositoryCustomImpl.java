@@ -1,9 +1,8 @@
-package com.cglee079.pododev.web.domain.blog;
+package com.cglee079.pododev.web.domain.blog.repository;
 
-import com.cglee079.pododev.web.domain.blog.comment.QComment;
-import com.cglee079.pododev.web.domain.blog.tag.BlogTag;
+import com.cglee079.pododev.web.domain.blog.Blog;
+import com.cglee079.pododev.web.domain.blog.QBlog;
 import com.cglee079.pododev.web.domain.blog.tag.QBlogTag;
-import com.querydsl.core.Query;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -11,12 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
-import org.springframework.security.core.parameters.P;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 public class BlogRepositoryCustomImpl extends QuerydslRepositorySupport implements BlogRepositoryCustom {
 
@@ -111,8 +107,7 @@ public class BlogRepositoryCustomImpl extends QuerydslRepositorySupport implemen
 
     @Override
     public List<Blog> findAllByEnabledAndOrderByPublishAtDesc(boolean enabled) {
-        return this.queryFactory.select(blog)
-                .from(blog)
+        return from(blog)
                 .where(blog.enabled.eq(enabled))
                 .orderBy(blog.publishAt.desc())
                 .fetch();
@@ -120,8 +115,7 @@ public class BlogRepositoryCustomImpl extends QuerydslRepositorySupport implemen
 
     @Override
     public List<Blog> findAllByOrderByPublishAtDesc() {
-        return this.queryFactory.select(blog)
-                .from(blog)
+        return from(blog)
                 .orderBy(blog.publishAt.desc())
                 .fetch();
     }

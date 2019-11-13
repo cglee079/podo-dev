@@ -13,9 +13,7 @@ import java.time.LocalDateTime;
 @Entity
 public class ResumeExperience {
 
-
     @Id
-    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

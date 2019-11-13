@@ -1,8 +1,8 @@
 package com.cglee079.pododev.web.job.tempcleaner;
 
 import com.cglee079.pododev.core.global.util.MyFileUtils;
-import com.cglee079.pododev.web.global.util.FileWriter;
-import com.cglee079.pododev.web.global.util.PathUtil;
+import com.cglee079.pododev.web.global.util.writer.FileWriter;
+import com.cglee079.pododev.core.global.util.PathUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

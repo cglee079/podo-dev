@@ -8,9 +8,9 @@ import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSave;
 import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSaveEntity;
 import com.cglee079.pododev.web.domain.blog.tag.BlogTag;
 import com.cglee079.pododev.web.domain.blog.tag.BlogTagDto;
-import com.cglee079.pododev.web.global.util.Formatter;
-import com.cglee079.pododev.web.global.util.MarkdownUtil;
-import com.cglee079.pododev.web.global.util.PathUtil;
+import com.cglee079.pododev.core.global.util.FormatUtil;
+import com.cglee079.pododev.core.global.util.MarkdownUtil;
+import com.cglee079.pododev.core.global.util.PathUtil;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,7 +18,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -125,9 +124,9 @@ public class BlogDto {
             this.desc = MarkdownUtil.escape(MarkdownUtil.extractPlainText(blog.getContents()));
             this.contents = blog.getContents();
             this.hitCnt = blog.getHitCnt();
-            this.publishAt = Formatter.dateTimeToBeautifulDate(blog.getPublishAt());
-            this.createAt = Formatter.dateTimeToBeautifulDate(blog.getCreateAt());
-            this.updateAt = Formatter.dateTimeToBeautifulDate(blog.getUpdateAt());
+            this.publishAt = FormatUtil.dateTimeToBeautifulDate(blog.getPublishAt());
+            this.createAt = FormatUtil.dateTimeToBeautifulDate(blog.getCreateAt());
+            this.updateAt = FormatUtil.dateTimeToBeautifulDate(blog.getUpdateAt());
             this.commentCnt = blog.getComments().size();
             this.enabled = blog.getEnabled();
             this.before = !Objects.isNull(before) ? before.getId() : null;
@@ -182,9 +181,9 @@ public class BlogDto {
             this.id = blog.getId();
             this.title = blog.getTitle();
             this.desc = MarkdownUtil.escape(MarkdownUtil.extractPlainText(blog.getContents()));
-            this.createAt = Formatter.dateTimeToBeautifulDate(blog.getCreateAt());
-            this.publishAt = Formatter.dateTimeToBeautifulDate(blog.getPublishAt());
-            this.updateAt = Formatter.dateTimeToBeautifulDate(blog.getUpdateAt());
+            this.createAt = FormatUtil.dateTimeToBeautifulDate(blog.getCreateAt());
+            this.publishAt = FormatUtil.dateTimeToBeautifulDate(blog.getPublishAt());
+            this.updateAt = FormatUtil.dateTimeToBeautifulDate(blog.getUpdateAt());
             this.enabled = blog.getEnabled();
             this.commentCnt = blog.getComments().size();
 
@@ -226,8 +225,8 @@ public class BlogDto {
             this.id = blog.getId();
             this.title = blog.getTitle();
             this.commentCount = blog.getComments().size();
-            this.createAt = Formatter.dateTimeToBeautifulDate(blog.getCreateAt());
-            this.updateAt = Formatter.dateTimeToBeautifulDate(blog.getUpdateAt());
+            this.createAt = FormatUtil.dateTimeToBeautifulDate(blog.getCreateAt());
+            this.updateAt = FormatUtil.dateTimeToBeautifulDate(blog.getUpdateAt());
         }
     }
 
@@ -241,7 +240,7 @@ public class BlogDto {
         public archive(Blog blog) {
             this.id = blog.getId();
             this.title = blog.getTitle();
-            this.publishAt = Formatter.dateTimeToBeautifulDate(blog.getPublishAt());
+            this.publishAt = FormatUtil.dateTimeToBeautifulDate(blog.getPublishAt());
             this.enabled = blog.getEnabled();
         }
     }
@@ -258,7 +257,7 @@ public class BlogDto {
         private LocalDateTime updateAt;
         private Boolean enabled;
 
-        feed(Blog blog) {
+        public feed(Blog blog) {
             this.id = blog.getId();
             this.title = blog.getTitle();
             this.desc = MarkdownUtil.escape(MarkdownUtil.extractPlainText(blog.getContents()));

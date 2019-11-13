@@ -5,6 +5,7 @@ import lombok.Getter;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ResumeDto {
 
@@ -19,9 +20,9 @@ public class ResumeDto {
             this.resumeKey = resume.getResumeKey();
             this.head = resume.getHead();
             this.sort = resume.getSort();
-            this.contents = new LinkedList<>();
-
-            resume.getResumeContents().forEach(resumeContent -> this.contents.add(resumeContent.getContent()));
+            this.contents = resume.getResumeContents().stream()
+                    .map(ResumeContent::getContent)
+                    .collect(Collectors.toList());
         }
     }
 }

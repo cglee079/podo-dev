@@ -9,10 +9,6 @@ jar {
     enabled = false
 }
 
-compileQuerydsl {
-    enabled = true
-}
-
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -29,4 +25,45 @@ dependencies {
     implementation group: 'org.springframework.security.oauth.boot', name: 'spring-security-oauth2-autoconfigure', version: '2.1.5.RELEASE'
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'
     implementation group: 'com.google.code', name: 'sitemapgen4j', version: '1.0.1'
+
+    implementation "com.querydsl:querydsl-core"
+    implementation "com.querydsl:querydsl-apt"
+    implementation "com.querydsl:querydsl-jpa"
+
+    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.7'
 }
+
+
+apply plugin: "com.ewerk.gradle.plugins.querydsl"
+
+configurations {
+    querydsl.extendsFrom compileClasspath
+}
+
+
+dependencies {
+    implementation project(':crawl-core')
+
+}
+
+def querydslSrcDir = 'src/main/generated'
+
+querydsl {
+    library = "com.querydsl:querydsl-apt"
+    jpa = true
+    querydslSourcesDir = querydslSrcDir
+}
+
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java', querydslSrcDir]
+        }
+    }
+}
+
+

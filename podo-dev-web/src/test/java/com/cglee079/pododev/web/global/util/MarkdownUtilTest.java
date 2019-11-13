@@ -1,5 +1,6 @@
 package com.cglee079.pododev.web.global.util;
 
+import com.cglee079.pododev.core.global.util.MarkdownUtil;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

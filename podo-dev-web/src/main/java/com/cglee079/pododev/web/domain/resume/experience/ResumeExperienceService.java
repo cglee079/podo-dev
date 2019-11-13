@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional
@@ -16,10 +17,11 @@ public class ResumeExperienceService {
 
     public List<ResumeExperienceDto.response> findAll() {
 
-        List<ResumeExperienceDto.response> resumes = new LinkedList<>();
-        resumeRepository.findAllByOrderByExperienceAtDesc().forEach(resume -> resumes.add(new ResumeExperienceDto.response(resume)));
+        List<ResumeExperience> resumeExperiences = resumeRepository.findAllByOrderByExperienceAtDesc();
 
-        return resumes;
+        return resumeExperiences.stream()
+                .map(ResumeExperienceDto.response::new)
+                .collect(Collectors.toList());
     }
 
 

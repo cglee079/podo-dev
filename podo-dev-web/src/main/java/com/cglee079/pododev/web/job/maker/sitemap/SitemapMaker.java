@@ -2,7 +2,7 @@ package com.cglee079.pododev.web.job.maker.sitemap;
 
 import com.cglee079.pododev.core.global.util.MyFileUtils;
 import com.cglee079.pododev.web.domain.blog.BlogDto;
-import com.cglee079.pododev.web.global.util.PathUtil;
+import com.cglee079.pododev.core.global.util.PathUtil;
 import com.redfin.sitemapgenerator.WebSitemapGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +32,7 @@ public class SitemapMaker {
 
         try {
 
-            MyFileUtils.makeForceDir(staticDirPath);
+            MyFileUtils.makeForceDirectory(staticDirPath);
 
             WebSitemapGenerator wsg = new WebSitemapGenerator(PODO_DEV_WEB, new File(staticDirPath));
 

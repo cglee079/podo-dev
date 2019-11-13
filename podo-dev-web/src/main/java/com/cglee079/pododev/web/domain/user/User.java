@@ -37,13 +37,6 @@ public class User extends UpdatableBaseEntity implements Serializable {
         this.picture = picture;
     }
 
-    public boolean isChanged(String username, String email, String picture) {
-        return !(this.username.equals(username)
-                && this.email.equals(email)
-                && this.picture.equals(picture));
-
-    }
-
     public void updateInfo(String username, String email, String picture) {
         this.username = username;
         this.email = email;

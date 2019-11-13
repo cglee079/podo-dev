@@ -1,7 +1,9 @@
 package com.cglee079.pododev.web.domain.blog.attachfile;
 
-import com.cglee079.pododev.web.global.util.FileWriter;
-import com.cglee079.pododev.web.global.util.PathUtil;
+import com.cglee079.pododev.core.global.util.MyRequestUtil;
+import com.cglee079.pododev.core.global.util.MyStringUtil;
+import com.cglee079.pododev.web.global.util.writer.FileWriter;
+import com.cglee079.pododev.core.global.util.PathUtil;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Controller;
@@ -12,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.net.URLEncoder;
 
 @RequiredArgsConstructor
 @Controller
@@ -26,26 +27,21 @@ public class AttachFileDownloadController {
 
     /**
      * 파일 다운로드 To OriginalName
-     *
      */
     @GetMapping("/api/blogs/{blogId}/files/{fileId}")
-    public void downloadFile(
-            @PathVariable Long blogId,
-            @PathVariable Long fileId,
-            HttpServletRequest request,
-            HttpServletResponse response
-    ) throws IOException {
+    public void downloadFile(@PathVariable Long fileId, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         final AttachFileDto.download attachFile = attachFileService.download(fileId);
         final String url = PathUtil.merge(attachFile.getUploadedUrl(), attachFile.getPath(), attachFile.getFilename());
-        final File file = fileWriter.saveFile(TEMP_DIRECTORY, url);
+        final File file = fileWriter.write(TEMP_DIRECTORY, url);
+        final String browser = MyRequestUtil.getBrowser(request);
 
         if (file.exists()) {
-            final byte fileByte[] = FileUtils.readFileToByteArray(file);
+            final byte[] fileByte = FileUtils.readFileToByteArray(file);
 
             response.setContentType("application/octet-stream");
             response.setContentLength(fileByte.length);
-            response.setHeader("Content-Disposition", "attachment; filename=\"" + this.encodeFilename(request, attachFile.getOriginName()) + "\";");
+            response.setHeader("Content-Disposition", "attachment; filename=\"" + MyStringUtil.encodeFilenameByBrowser(browser, attachFile.getOriginName()) + "\";");
             response.setHeader("Content-Transfer-Encoding", "binary");
             response.getOutputStream().write(fileByte);
             response.getOutputStream().flush();
@@ -56,45 +52,5 @@ public class AttachFileDownloadController {
 
     }
 
-    public static String encodeFilename(HttpServletRequest request, String filename) {
-        final String header = request.getHeader("User-Agent");
-        String encodedFilename;
-        String browser;
-
-        if (header.indexOf("MSIE") > -1) {
-            browser = "MSIE";
-        } else if (header.indexOf("Chrome") > -1) {
-            browser = "Chrome";
-        } else if (header.indexOf("Opera") > -1) {
-            browser = "Opera";
-        } else if (header.indexOf("Trident/7.0") > -1) {
-            browser = "Firefox";
-        } else {
-            browser = "Chrome";
-        }
-
-        try {
-            if (browser.equals("Opera")) {
-                encodedFilename = "\"" + new String(filename.getBytes("UTF-8"), "8859_1");
-            } else if (browser.equals("Chrome")) {
-                StringBuffer sb = new StringBuffer();
-                for (int i = 0; i < filename.length(); i++) {
-                    char c = filename.charAt(i);
-                    if (c > '~') {
-                        sb.append(URLEncoder.encode("" + c, "UTF-8"));
-                    } else {
-                        sb.append(c);
-                    }
-                }
-                encodedFilename = sb.toString();
-            } else {
-                encodedFilename = URLEncoder.encode(filename, "UTF-8").replace("+", "%20");
-            }
-        } catch (UnsupportedEncodingException e) {
-            encodedFilename = filename;
-        }
-
-        return encodedFilename;
-    }
 
 }

@@ -1,8 +1,8 @@
 package com.cglee079.pododev.web.domain.blog.comment;
 
 import com.cglee079.pododev.web.domain.blog.Blog;
-import com.cglee079.pododev.web.global.util.Formatter;
-import com.cglee079.pododev.web.global.util.MarkdownUtil;
+import com.cglee079.pododev.core.global.util.FormatUtil;
+import com.cglee079.pododev.core.global.util.MarkdownUtil;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -43,7 +43,7 @@ public class CommentDto {
             this.blogTitle = blog.getTitle();
             this.username = comment.getUser().getUsername();
             this.contents = comment.getContents().replace("\n", " ");
-            this.createAt = Formatter.dateTimeToBeautifulDate(comment.getCreateAt());
+            this.createAt = FormatUtil.dateTimeToBeautifulDate(comment.getCreateAt());
         }
     }
 
@@ -62,7 +62,7 @@ public class CommentDto {
             this.username = comment.getUser().getUsername();
             this.contents = MarkdownUtil.line2br(MarkdownUtil.escape(comment.getContents()));
             this.depth = comment.getDepth();
-            this.createAt = Formatter.dateTimeToBeautifulDate(comment.getCreateAt());
+            this.createAt = FormatUtil.dateTimeToBeautifulDate(comment.getCreateAt());
             this.enabled = comment.getEnabled();
             this.isMine = comment.getCreateBy().equalsIgnoreCase(currentUserId);
         }

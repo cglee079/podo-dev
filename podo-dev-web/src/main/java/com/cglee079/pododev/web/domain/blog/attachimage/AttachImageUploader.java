@@ -3,7 +3,7 @@ package com.cglee079.pododev.web.domain.blog.attachimage;
 import com.cglee079.pododev.web.domain.blog.FileStatus;
 import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSave;
 import com.cglee079.pododev.web.global.infra.uploader.PodoUploaderClient;
-import com.cglee079.pododev.web.global.util.PathUtil;
+import com.cglee079.pododev.core.global.util.PathUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,30 +28,29 @@ public class AttachImageUploader {
      * @param images
      */
     public void uploadImage(List<AttachImageDto.insert> images) {
-        images.forEach(image -> {
+        for (AttachImageDto.insert image : images) {
             log.info("Image '{}', '{}'", image.getFileStatus(), image.getOriginName());
 
             final List<AttachImageSave> saves = new ArrayList<>(image.getSaves().values());
 
             switch (FileStatus.valueOf(image.getFileStatus())) {
                 case NEW:
-                    saves.forEach(save ->
-                            podoUploaderClient.upload(save.getPath(), new File(PathUtil.merge(baseDir, save.getPath()), save.getFilename()))
-                    );
+                    for (AttachImageSave attachImageSave : saves) {
+                        podoUploaderClient.upload(attachImageSave.getPath(), new File(PathUtil.merge(baseDir, attachImageSave.getPath()), attachImageSave.getFilename()));
+                    }
 
                     break;
                 case REMOVE:
-                    saves.forEach(save ->
-                            podoUploaderClient.delete(save.getPath(), save.getFilename())
-                    );
-
+                    for (AttachImageSave save : saves) {
+                        podoUploaderClient.delete(save.getPath(), save.getFilename());
+                    }
                     break;
                 case BE:
                 case UNNEW:
                 default:
                     break;
             }
-        });
+        }
 
 
     }

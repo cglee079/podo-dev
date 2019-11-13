@@ -13,7 +13,7 @@ import java.io.IOException;
 
 @RequiredArgsConstructor
 @RestController
-public class UserController {
+public class UserApiController {
 
     private final UserService userService;
 
@@ -28,7 +28,7 @@ public class UserController {
         UserDto.response user = userService.getUser();
         return DataResponse.builder()
                 .status(ApiStatus.SUCCESS)
-                .data(user)
+                .result(user)
                 .build();
     }
 

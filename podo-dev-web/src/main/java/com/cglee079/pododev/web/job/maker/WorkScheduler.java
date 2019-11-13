@@ -1,7 +1,7 @@
 package com.cglee079.pododev.web.job.maker;
 
 import com.cglee079.pododev.web.domain.blog.BlogDto;
-import com.cglee079.pododev.web.domain.blog.BlogService;
+import com.cglee079.pododev.web.domain.blog.service.BlogFeedService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -12,30 +12,32 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class MakeScheduler {
+public class WorkScheduler {
 
-    private final List<MakeWorker> workers;
-    private final BlogService blogService;
+    private final List<Worker> workers;
+    private final BlogFeedService blogFeedService;
 
 
     @Scheduled(cron = "0 */30 * * * *")
     public void doSchedule() {
         log.info("Start MakeWork Schedule");
 
-        if (!blogService.hasYetNotFeed(false)) {
+        if (!blogFeedService.hasYetNotFeed(false)) {
             log.info("No Updated Blogs");
             return;
         }
 
         log.info("Detect Updated Blog, Start MakeWork");
 
-        List<BlogDto.feed> blogs = blogService.findByEnabled();
-
-        //Feed
-        workers.forEach(w -> w.doWork(blogs));
+        List<BlogDto.feed> blogs = blogFeedService.findByEnabled();
 
 
-        blogService.completeFeed();
+        for (Worker work : workers) {
+            work.doWork(blogs);
+        }
+
+
+        blogFeedService.completeFeed();
     }
 
 

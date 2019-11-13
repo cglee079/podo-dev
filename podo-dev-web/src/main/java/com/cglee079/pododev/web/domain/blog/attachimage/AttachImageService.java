@@ -2,8 +2,7 @@ package com.cglee079.pododev.web.domain.blog.attachimage;
 
 import com.cglee079.pododev.web.domain.blog.FileStatus;
 import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSave;
-import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageWriter;
-import com.cglee079.pododev.web.global.util.HttpUrlUtil;
+import com.cglee079.pododev.core.global.util.HttpUrlUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
@@ -23,11 +22,13 @@ public class AttachImageService {
     @Value("${local.upload.base.url}")
     private String baseUrl;
 
+    private final static String PASTE_IMAGE_NAME = "image_by_paste";
+
     private final AttachImageWriter attachImageWriter;
 
     public AttachImageDto.response saveBase64(String base64) {
         String originExtension = "png";
-        String originName = "image_by_paste." + originExtension;
+        String originName = PASTE_IMAGE_NAME + "." + originExtension;
 
         final Map<String, AttachImageSave> saves = attachImageWriter.makeSaveBase64(base64, originExtension);
 

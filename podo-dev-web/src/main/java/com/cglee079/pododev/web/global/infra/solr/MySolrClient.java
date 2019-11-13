@@ -1,7 +1,7 @@
 package com.cglee079.pododev.web.global.infra.solr;
 
 import com.cglee079.pododev.web.global.infra.solr.exception.SolrSendException;
-import com.cglee079.pododev.web.global.util.MarkdownUtil;
+import com.cglee079.pododev.core.global.util.MarkdownUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class PodoSolrClient {
+public class MySolrClient {
 
     private final SolrSender solrSender;
 
@@ -42,16 +42,10 @@ public class PodoSolrClient {
         log.info("Solr Search, value '{}'", value);
 
         if (StringUtils.isEmpty(value)) {
-            return new LinkedList<>();
+            return Collections.emptyList();
         }
 
-        final Map<String, String> param = new HashMap<>();
-        param.put("q", ClientUtils.encodeLocalParamVal("(title:" + value + " OR " + "contents: " + value + ")"));
-        param.put("hl", "on");
-        param.put("hl.fragsize", hlFragLength);
-        param.put("hl.fl", "title,contents");
-        param.put("hl.simple.pre", hlPrefix);
-        param.put("hl.simple.post", hlPostfix);
+        final Map<String, String> param = createSearchParam(value);
 
         try {
             final QueryResponse response = solrSender.queryMap(coreId, param);
@@ -102,15 +96,11 @@ public class PodoSolrClient {
     public List<String> getFacets(String value) {
         log.info("Solr facets, value '{}'", value);
 
-        final Map<String, String[]> param = new HashMap<>();
-        param.put("q", new String[]{""});
-        param.put("facet", new String[]{"on"});
-        param.put("facet.field", new String[]{"title", "contents"});
-        param.put("facet.prefix", new String[]{value.toLowerCase()});
+        final Map<String, String[]> param = createFacetParam(value);
 
         try {
             QueryResponse response = solrSender.queryMultiMap(coreId, param);
-            System.out.println(response);
+
             List<FacetField.Count> titleFacet = response.getFacetFields().get(0).getValues(); // TITLE
             List<FacetField.Count> contentFacet = response.getFacetFields().get(1).getValues(); // CONTENTS
 
@@ -121,7 +111,9 @@ public class PodoSolrClient {
             result.addAll(value1);
             result.addAll(value2);
 
-            return result.stream().sorted().collect(Collectors.toList());
+            return result.stream()
+                    .sorted()
+                    .collect(Collectors.toList());
 
         } catch (SolrServerException | IOException e) {
             throw new SolrSendException(e);
@@ -130,18 +122,44 @@ public class PodoSolrClient {
     }
 
     public void dataimport() {
-        final Map<String, String> param = new HashMap<>();
-
-        param.put("qt", "/dataimport");
-        param.put("command", "full-import");
-        param.put("clean", "true");
-        param.put("commit", "true");
+        final Map<String, String> param = createDateImportParam();
 
         try {
             solrSender.queryMap(coreId, param);
         } catch (SolrServerException | IOException e) {
             throw new SolrSendException(e);
         }
+    }
+
+    private Map<String, String> createSearchParam(String value) {
+        final Map<String, String> param = new HashMap<>();
+        param.put("q", ClientUtils.encodeLocalParamVal("(title:" + value + " OR " + "contents: " + value + ")"));
+        param.put("hl", "on");
+        param.put("hl.fragsize", hlFragLength);
+        param.put("hl.fl", "title,contents");
+        param.put("hl.simple.pre", hlPrefix);
+        param.put("hl.simple.post", hlPostfix);
+        return param;
+    }
+
+    private Map<String, String[]> createFacetParam(String value) {
+        final Map<String, String[]> param = new HashMap<>();
+        param.put("q", new String[]{""});
+        param.put("facet", new String[]{"on"});
+        param.put("facet.field", new String[]{"title", "contents"});
+        param.put("facet.prefix", new String[]{value.toLowerCase()});
+        return param;
+    }
+
+
+    private Map<String, String> createDateImportParam() {
+        final Map<String, String> param = new HashMap<>();
+
+        param.put("qt", "/dataimport");
+        param.put("command", "full-import");
+        param.put("clean", "true");
+        param.put("commit", "true");
+        return param;
     }
 
 }

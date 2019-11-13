@@ -81,19 +81,6 @@ public class Blog extends UpdatableBaseEntity {
         this.feeded = true;
     }
 
-    public void publish(LocalDateTime dateTime) {
-        this.enabled = true;
-        this.publishAt = dateTime;
-    }
-
-    public void disable() {
-        this.enabled = false;
-    }
-
-    public void enable() {
-        this.enabled = true;
-    }
-
     public Boolean isPublished() {
         return this.publishAt != null;
     }
@@ -117,7 +104,7 @@ public class Blog extends UpdatableBaseEntity {
         this.comments.add(comment);
     }
 
-    void addAttachImage(AttachImage attachImage) {
+    public void addAttachImage(AttachImage attachImage) {
         this.attachImages.add(attachImage);
         attachImage.changeBlog(this);
     }
@@ -147,5 +134,19 @@ public class Blog extends UpdatableBaseEntity {
         }
     }
 
+
+    public void updateStatus(BlogStatus status) {
+        switch (status) {
+            case PUBLISH:
+                this.publishAt = LocalDateTime.now();
+                this.enabled = true;
+                break;
+            case VISIBLE:
+                this.enabled = true;
+                break;
+            case INVISIBLE:
+                this.enabled = false;
+        }
+    }
 
 }

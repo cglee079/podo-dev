@@ -46,11 +46,10 @@ public class PodoUploaderClient {
 
         RestTemplate restTemplate = new RestTemplate();
         try {
-            ResponseEntity<String> response = restTemplate.exchange(serverUrl, HttpMethod.POST, request, String.class);
+            ResponseEntity<String> response = new RestTemplate().exchange(serverUrl, HttpMethod.POST, request, String.class);
             log.info("Upload Response '{}'", response.toString());
         } catch (HttpClientErrorException e) {
-            e.printStackTrace();
-            throw new UploadFailException();
+            throw new UploadFailException(e.getMessage());
         }
     }
 
@@ -63,18 +62,17 @@ public class PodoUploaderClient {
     public void delete(String path, String filename) {
         log.info("Delete Start.... '{}'", path + "/" + filename);
 
-        JSONObject object = new JSONObject();
+        final JSONObject object = new JSONObject();
         object.put("path", path);
         object.put("filename", filename);
 
-        HttpHeaders headers = new HttpHeaders();
+        final HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(token);
 
-        HttpEntity<String> request = new HttpEntity<>(object.toString(), headers);
+        final HttpEntity<String> request = new HttpEntity<>(object.toString(), headers);
 
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange(serverUrl, HttpMethod.DELETE, request, String.class);
+        final ResponseEntity<String> response = new RestTemplate().exchange(serverUrl, HttpMethod.DELETE, request, String.class);
 
         log.info("Delete Response '{}'", response.toString());
 

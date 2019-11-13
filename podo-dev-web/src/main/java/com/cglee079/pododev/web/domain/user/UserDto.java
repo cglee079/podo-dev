@@ -1,9 +1,11 @@
 package com.cglee079.pododev.web.domain.user;
 
+import com.cglee079.pododev.web.global.config.security.SecurityUtil;
 import com.cglee079.pododev.web.global.config.security.UserRole;
 import com.cglee079.pododev.web.global.config.security.oauth.GoogleUserDetails;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.security.core.GrantedAuthority;
 
 public class UserDto {
 
@@ -20,20 +22,13 @@ public class UserDto {
             this.email = authUser.getEmail();
             this.name = authUser.getUsername();
             this.picture = authUser.getPicture();
-            this.isAdmin = false;
-
-            authUser.getAuthorities().forEach(auth -> {
-                if (auth.getAuthority().equals("ROLE_" + UserRole.ADMIN)) {
-                    isAdmin = true;
-                    return;
-                }
-            });
+            this.isAdmin = SecurityUtil.isAdmin();
         }
 
     }
 
     @Getter
-    public static class insert{
+    public static class insert {
         private String userId;
         private String email;
         private String username;

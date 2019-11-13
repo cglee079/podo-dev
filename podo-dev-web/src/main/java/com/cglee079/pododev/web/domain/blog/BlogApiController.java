@@ -1,6 +1,8 @@
 package com.cglee079.pododev.web.domain.blog;
 
 import com.cglee079.pododev.core.global.response.*;
+import com.cglee079.pododev.web.domain.blog.service.BlogReadService;
+import com.cglee079.pododev.web.domain.blog.service.BlogWriteService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +15,10 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping
-public class BlogController {
+public class BlogApiController {
 
-    private final BlogService blogService;
+    private final BlogWriteService blogWriteService;
+    private final BlogReadService blogReadService;
 
     /**
      * 게시글 조회
@@ -23,11 +26,11 @@ public class BlogController {
     @GetMapping("/api/blogs/archive")
     public ApiResponse getArchive() {
 
-        Map<Integer, List<BlogDto.archive>> archive = blogService.getArchive();
+        Map<Integer, List<BlogDto.archive>> archive = blogReadService.getArchive();
 
         return DataResponse.builder()
                 .status(ApiStatus.SUCCESS)
-                .data(archive)
+                .result(archive)
                 .build();
     }
 
@@ -37,11 +40,11 @@ public class BlogController {
     @GetMapping("/api/blogs/{id}")
     public ApiResponse get(@PathVariable Long id) {
 
-        BlogDto.response blogRes = blogService.get(id);
+        BlogDto.response blog = blogReadService.get(id);
 
         return DataResponse.builder()
                 .status(ApiStatus.SUCCESS)
-                .data(blogRes)
+                .result(blog)
                 .build();
     }
 
@@ -50,11 +53,21 @@ public class BlogController {
      */
     @GetMapping("/api/blogs")
     public ApiResponse paging(BlogDto.request request) {
-        final PageDto<BlogDto.responseList> blogs = blogService.paging(request);
+        final PageDto<BlogDto.responseList> blogs = blogReadService.paging(request);
 
         return DataResponse.builder()
                 .status(ApiStatus.SUCCESS)
-                .data(blogs)
+                .result(blogs)
+                .build();
+    }
+
+    @GetMapping("/api/blogs/facets")
+    public ApiResponse facets(@RequestParam String value) {
+        final List<String> facets = blogReadService.facets(value);
+
+        return ListResponse.builder()
+                .status(ApiStatus.SUCCESS)
+                .results(facets)
                 .build();
     }
 
@@ -64,7 +77,7 @@ public class BlogController {
      */
     @PostMapping("/api/blogs")
     public ApiResponse insert(@Valid @RequestBody BlogDto.insert insert) {
-        blogService.insert(insert);
+        blogWriteService.insert(insert);
 
         return StatusResponse.builder()
                 .status(ApiStatus.SUCCESS)
@@ -77,7 +90,7 @@ public class BlogController {
      */
     @PutMapping("/api/blogs/{id}")
     public ApiResponse update(@PathVariable Long id, @Valid @RequestBody BlogDto.update blogReq) {
-        blogService.update(id, blogReq);
+        blogWriteService.update(id, blogReq);
 
         return StatusResponse.builder()
                 .status(ApiStatus.SUCCESS)
@@ -89,7 +102,7 @@ public class BlogController {
      */
     @DeleteMapping("/api/blogs/{id}")
     public ApiResponse delete(@PathVariable Long id) {
-        blogService.delete(id);
+        blogWriteService.delete(id);
 
         return StatusResponse.builder()
                 .status(ApiStatus.SUCCESS)
@@ -103,20 +116,10 @@ public class BlogController {
     @PostMapping("/api/blogs/{id}/hitCount")
     public ApiResponse increaseHitCnt(@PathVariable Long id) {
 
-        blogService.increaseHitCnt(id);
+        blogWriteService.increaseHitCnt(id);
 
         return StatusResponse.builder()
                 .status(ApiStatus.SUCCESS)
-                .build();
-    }
-
-    @GetMapping("/api/blogs/facets")
-    public ApiResponse facets(@RequestParam String value) {
-        final List<String> facets = blogService.facets(value);
-
-        return DataResponse.builder()
-                .status(ApiStatus.SUCCESS)
-                .data(facets)
                 .build();
     }
 

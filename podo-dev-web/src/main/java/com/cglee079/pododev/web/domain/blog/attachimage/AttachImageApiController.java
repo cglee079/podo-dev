@@ -12,7 +12,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping
-public class AttachImageController {
+public class AttachImageApiController {
 
     private final AttachImageService attachImageService;
 
@@ -22,7 +22,7 @@ public class AttachImageController {
 
         return DataResponse.builder()
                 .status(ApiStatus.SUCCESS)
-                .data(response)
+                .result(response)
                 .build();
     }
 
@@ -35,7 +35,6 @@ public class AttachImageController {
             response = attachImageService.saveBase64(upload.getBase64());
         }
 
-
         //Url Upload
         else if (!Objects.isNull(upload.getUrl())) {
             response = attachImageService.saveImageUrl(upload.getUrl());
@@ -44,7 +43,7 @@ public class AttachImageController {
 
         return DataResponse.builder()
                 .status(ApiStatus.SUCCESS)
-                .data(response)
+                .result(response)
                 .build();
     }
 

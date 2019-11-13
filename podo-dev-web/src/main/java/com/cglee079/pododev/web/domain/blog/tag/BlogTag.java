@@ -34,8 +34,8 @@ public class BlogTag extends BaseEntity {
         this.idx = idx;
     }
 
-    public void updateIdx(int i) {
-        this.idx = i;
+    public void changeIndex(int index) {
+        this.idx = index;
     }
 
 }

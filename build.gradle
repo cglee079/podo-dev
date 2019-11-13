@@ -3,14 +3,12 @@ buildscript {
         springBootVersion = '2.1.6.RELEASE'
         querydslPluginVersion = '1.0.10'
     }
-    
-    
+
     repositories {
         mavenCentral()
         maven { url "https://plugins.gradle.org/m2/" } // plugin 저장소
     }
-    
-    
+
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
         classpath "io.spring.gradle:dependency-management-plugin:0.6.0.RELEASE"
@@ -24,9 +22,8 @@ subprojects {
     apply plugin: 'org.springframework.boot'
     apply plugin: "io.franzbecker.gradle-lombok"
     apply plugin: 'io.spring.dependency-management'
-    apply plugin: "com.ewerk.gradle.plugins.querydsl"
 
-    group = 'com.cglee079'
+    group = 'com.podo'
     version = '1.0'
     sourceCompatibility = '1.8'
 
@@ -37,9 +34,8 @@ subprojects {
     jar {
         enabled = true
     }
-    
+
     configurations {
-        querydsl.extendsFrom compileClasspath
         compileOnly {
             extendsFrom annotationProcessor
         }
@@ -57,33 +53,7 @@ subprojects {
 
         runtimeOnly 'mysql:mysql-connector-java'
 
-        compile "com.querydsl:querydsl-core"
-        compile "com.querydsl:querydsl-apt"
-        compile "com.querydsl:querydsl-jpa"
-
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-    }
-
-    def querydslSrcDir = 'src/main/generated'
-
-    querydsl {
-        library = "com.querydsl:querydsl-apt"
-        jpa = true
-        querydslSourcesDir = querydslSrcDir
-    }
-
-    compileQuerydsl {
-        enabled = false
-        options.annotationProcessorPath = configurations.querydsl
-    }
-
-    sourceSets {
-        main {
-            java {
-                srcDirs = ['src/main/java', querydslSrcDir]
-            }
-        }
     }
 }
 

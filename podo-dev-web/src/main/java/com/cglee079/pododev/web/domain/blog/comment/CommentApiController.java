@@ -11,7 +11,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping
-public class CommentController {
+public class CommentApiController {
 
     private final CommentService commentService;
 
@@ -24,9 +24,9 @@ public class CommentController {
 
         final List<CommentDto.summary> comments = commentService.getRecentComments();
 
-        return DataResponse.builder()
+        return ListResponse.builder()
                 .status(ApiStatus.SUCCESS)
-                .data(comments)
+                .results(comments)
                 .build();
     }
 
@@ -40,7 +40,7 @@ public class CommentController {
 
         return DataResponse.builder()
                 .status(ApiStatus.SUCCESS)
-                .data(comments)
+                .result(comments)
                 .build();
     }
 

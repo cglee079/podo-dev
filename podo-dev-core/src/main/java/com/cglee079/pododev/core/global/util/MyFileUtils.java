@@ -19,10 +19,6 @@ import java.util.UUID;
 
 public class MyFileUtils {
 
-    public static String generateKey() {
-        return UUID.randomUUID().toString();
-    }
-
     public static String makeDatePath(LocalDateTime time) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("/yyyy/MM/dd");
         String path = time.format(formatter);
@@ -43,7 +39,7 @@ public class MyFileUtils {
         try {
             final File file = new File(path);
 
-            MyFileUtils.makeForceDir(file.getParentFile().getPath());
+            MyFileUtils.makeForceDirectory(file.getParentFile().getPath());
 
             multipartFile.transferTo(file);
 
@@ -60,7 +56,7 @@ public class MyFileUtils {
         try {
             final File file = new File(path);
 
-            MyFileUtils.makeForceDir(file.getParentFile().getPath());
+            MyFileUtils.makeForceDirectory(file.getParentFile().getPath());
 
             final FileOutputStream fos = new FileOutputStream(file);
             final URL url = new URL(urlStr);
@@ -91,7 +87,7 @@ public class MyFileUtils {
     public static File saveFile(String path, String extension, BufferedImage bufferedImage) {
         File file = new File(path);
         try {
-            MyFileUtils.makeForceDir(file.getParentFile().getPath());
+            MyFileUtils.makeForceDirectory(file.getParentFile().getPath());
             ImageIO.write(bufferedImage, extension, file);
             return file;
         } catch (IOException e) {
@@ -101,7 +97,7 @@ public class MyFileUtils {
 
     }
 
-    public static File makeForceDir(String path) {
+    public static File makeForceDirectory(String path) {
         File dir = new File(path);
         try {
             FileUtils.forceMkdir(dir);
@@ -110,14 +106,11 @@ public class MyFileUtils {
             e.printStackTrace();
             throw new LocalFileException(e);
         }
-
-
     }
 
     public static void deleteFile(String path, String filename) {
         new File(path, filename).delete();
     }
-
 
     public static void deleteDirectory(String path) {
         try {

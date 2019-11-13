@@ -1,10 +1,10 @@
-package com.cglee079.pododev.web.domain.blog.attachimage.save;
+package com.cglee079.pododev.web.domain.blog.attachimage;
 
 import com.cglee079.pododev.core.global.util.MyFileUtils;
-import com.cglee079.pododev.web.domain.blog.attachimage.ImageInfo;
 import com.cglee079.pododev.web.domain.blog.attachimage.exception.InValidImageException;
-import com.cglee079.pododev.web.global.util.FileWriter;
-import com.cglee079.pododev.web.global.util.PathUtil;
+import com.cglee079.pododev.web.domain.blog.attachimage.save.AttachImageSave;
+import com.cglee079.pododev.web.global.util.writer.FileWriter;
+import com.cglee079.pododev.core.global.util.PathUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,11 +16,9 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -36,7 +34,7 @@ public class AttachImageWriter {
     private final FileWriter fileWriter;
 
     public Map<String, AttachImageSave> makeSaveUrl(String url) {
-        if (!this.isImageFile(url)) {
+        if (!AttachImageValidator.isImageFile(url)) {
             throw new InValidImageException();
         }
 
@@ -44,7 +42,8 @@ public class AttachImageWriter {
         final Map<String, AttachImageSave> saves = new HashMap<>();
 
         final String originPath = PathUtil.merge(path, ORIGIN_IMAGE_ID);
-        final File originImage = fileWriter.saveFile(originPath, url);
+        final File originImage = fileWriter.write(originPath, url);
+
         saves.put(ORIGIN_IMAGE_ID, makeOrigin(originPath, originImage));
 
         return saves;
@@ -56,14 +55,14 @@ public class AttachImageWriter {
 
         //Save Origin File
         final String originPath = PathUtil.merge(path, ORIGIN_IMAGE_ID);
-        final File originImage = fileWriter.saveFile(originPath, extension, base64);
+        final File originImage = fileWriter.write(originPath, base64, extension);
         saves.put(ORIGIN_IMAGE_ID, makeOrigin(originPath, originImage));
 
         return saves;
     }
 
     public Map<String, AttachImageSave> makeSaves(MultipartFile multipartFile) {
-        if (!this.isImageFile(multipartFile)) {
+        if (!AttachImageValidator.isImageFile(multipartFile)) {
             throw new InValidImageException();
         }
 
@@ -74,7 +73,8 @@ public class AttachImageWriter {
 
         //Save Origin File
         final String originPath = PathUtil.merge(path, ORIGIN_IMAGE_ID);
-        final File originImage = fileWriter.saveFile(originPath, multipartFile);
+        final File originImage = fileWriter.write(originPath, multipartFile);
+
         saves.put(ORIGIN_IMAGE_ID, makeOrigin(originPath, originImage));
 
 
@@ -83,78 +83,33 @@ public class AttachImageWriter {
 
 
     private AttachImageSave makeOrigin(String path, File originImage) {
-        final ImageInfo imageInfo = getImageInfo(originImage);
+        final ImageInfoVo imageInfoVo = getImageInfo(originImage);
 
         return AttachImageSave.builder()
                 .imageId(ORIGIN_IMAGE_ID)
                 .filename(originImage.getName())
                 .path(path)
                 .filesize(originImage.length())
-                .height(imageInfo.getHeight())
-                .width(imageInfo.getWidth())
+                .height(imageInfoVo.getHeight())
+                .width(imageInfoVo.getWidth())
                 .build();
     }
 
-    private AttachImageSave saveResizeImage(File originImage, String path, Integer resizeWidth) {
-        log.info("Resize Image, size : '{}', from : '{}'", resizeWidth, originImage.getName());
-
-        final File resizeImage = fileWriter.resizeImage(originImage, path, resizeWidth);
-        final ImageInfo imageInfo = getImageInfo(resizeImage);
-
-        return AttachImageSave.builder()
-                .filename(resizeImage.getName())
-                .path(path)
-                .filesize(resizeImage.length())
-                .height(imageInfo.getHeight())
-                .width(imageInfo.getWidth())
-                .build();
-
-    }
-
-    /**
-     * 이미지 파일 검증
-     *
-     * @param multipartFile
-     * @return
-     */
-    public boolean isImageFile(MultipartFile multipartFile) {
-        try {
-            BufferedImage bi = ImageIO.read(multipartFile.getInputStream());
-
-            if (bi == null) {
-                return false;
-            }
-
-            return true;
-        } catch (IOException e) {
-            return false;
-        }
-    }
-
-
-    /**
-     * @param url
-     * @return 유효여부
-     */
-    public boolean isImageFile(String url) {
-        if (Objects.isNull(url)) {
-            return false;
-        }
-
-        try {
-
-            BufferedImage image = ImageIO.read(new URL(url));
-
-            if (Objects.isNull(image)) {
-                return false;
-            }
-
-            return true;
-
-        } catch (IOException e) {
-            return false;
-        }
-    }
+//    private AttachImageSave saveResizeImage(File originImage, String path, Integer resizeWidth) {
+//        log.info("Resize Image, size : '{}', from : '{}'", resizeWidth, originImage.getName());
+//
+//        final File resizeImage = fileWriter.resizeImage(originImage, path, resizeWidth);
+//        final ImageInfo imageInfo = getImageInfo(resizeImage);
+//
+//        return AttachImageSave.builder()
+//                .filename(resizeImage.getName())
+//                .path(path)
+//                .filesize(resizeImage.length())
+//                .height(imageInfo.getHeight())
+//                .width(imageInfo.getWidth())
+//                .build();
+//
+//    }
 
     /**
      * 이미지 정보를 가져옴
@@ -162,10 +117,10 @@ public class AttachImageWriter {
      * @param file
      * @return
      */
-    private ImageInfo getImageInfo(File file) {
+    private ImageInfoVo getImageInfo(File file) {
         try {
             BufferedImage image = ImageIO.read(file);
-            return ImageInfo.builder()
+            return ImageInfoVo.builder()
                     .width(image.getWidth())
                     .height(image.getHeight())
                     .build();
