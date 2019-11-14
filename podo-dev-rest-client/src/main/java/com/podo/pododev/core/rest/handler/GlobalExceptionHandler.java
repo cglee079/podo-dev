@@ -1,6 +1,5 @@
 package com.podo.pododev.core.rest.handler;
 
-import com.cglee079.pododev.core.global.response.ApiStatus;
 import com.podo.pododev.core.rest.exception.ResponsibleException;
 import com.podo.pododev.core.rest.response.ApiStatus;
 import com.podo.pododev.core.rest.response.ErrorsResponse;

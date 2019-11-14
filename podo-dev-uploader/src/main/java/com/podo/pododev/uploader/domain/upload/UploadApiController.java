@@ -1,8 +1,8 @@
 package com.podo.pododev.uploader.domain.upload;
 
-import com.cglee079.pododev.core.global.response.ApiResponse;
-import com.cglee079.pododev.core.global.response.ApiStatus;
-import com.cglee079.pododev.core.global.response.StatusResponse;
+import com.podo.pododev.core.rest.response.ApiResponse;
+import com.podo.pododev.core.rest.response.ApiStatus;
+import com.podo.pododev.core.rest.response.StatusResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/uploader/file")
 @RestController
-public class UploadController {
+public class UploadApiController {
 
     private final UploadService uploadService;
 

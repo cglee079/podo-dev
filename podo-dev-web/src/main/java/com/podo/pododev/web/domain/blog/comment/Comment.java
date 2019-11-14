@@ -81,4 +81,12 @@ public class Comment extends BaseEntity {
     public boolean isErase() {
         return !this.enabled;
     }
+
+    public boolean exceedMaxCommentDepth(Integer maxCommentDepth) {
+        return (this.depth + 1) > maxCommentDepth;
+    }
+
+    public Double getChildSort() {
+        return ((double) (child + 1) / Math.pow(10, 3 * depth)) + sort;
+    }
 }

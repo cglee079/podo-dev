@@ -1,7 +1,5 @@
 package com.podo.pododev.web.domain.blog.comment.exception;
 
-import com.cglee079.pododev.core.global.exception.ResponsibleException;
-import com.cglee079.pododev.core.global.response.ApiStatus;
 import com.podo.pododev.core.rest.exception.ResponsibleException;
 import com.podo.pododev.core.rest.response.ApiStatus;
 import org.springframework.http.HttpStatus;

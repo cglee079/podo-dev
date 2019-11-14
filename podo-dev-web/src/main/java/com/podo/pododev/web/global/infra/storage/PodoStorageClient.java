@@ -1,6 +1,6 @@
-package com.podo.pododev.web.global.infra.uploader;
+package com.podo.pododev.web.global.infra.storage;
 
-import com.podo.pododev.web.global.infra.uploader.exception.UploadFailException;
+import com.podo.pododev.web.global.infra.storage.exception.UploadFailException;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,14 +16,13 @@ import java.io.File;
 
 @Slf4j
 @Component
-public class PodoUploaderClient {
+public class PodoStorageClient {
 
-    @Value("${infra.uploader.token}")
+    @Value("${infra.storage.token}")
     private String token;
 
-    @Value("${infra.uploader.upload.internal}")
+    @Value("${infra.storage.server.internal}")
     private String serverUrl;
-
 
     /**
      * Upload to Uploader Server
@@ -34,17 +33,16 @@ public class PodoUploaderClient {
     public void upload(String path, File file) {
         log.info("Upload Start '{}'", file.getPath() + "/" + file.getName());
 
-        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         body.add("path", path);
         body.add("file", new FileSystemResource(file));
 
-        HttpHeaders headers = new HttpHeaders();
+        final HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         headers.setBearerAuth(token);
 
         HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(body, headers);
 
-        RestTemplate restTemplate = new RestTemplate();
         try {
             ResponseEntity<String> response = new RestTemplate().exchange(serverUrl, HttpMethod.POST, request, String.class);
             log.info("Upload Response '{}'", response.toString());

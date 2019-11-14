@@ -24,13 +24,13 @@ public class SolrSender {
                 .build();
     }
 
-    public QueryResponse queryMap(String core, Map<String, String> param) throws SolrServerException, IOException {
+    public QueryResponse requestQuerySingleValue(String core, Map<String, String> param) throws SolrServerException, IOException {
         MapSolrParams queryParams = new MapSolrParams(param);
         QueryResponse response = solrClient.query(core, queryParams);
         return response;
     }
 
-    public QueryResponse queryMultiMap(String core, Map<String, String[]> param) throws SolrServerException, IOException {
+    public QueryResponse requestQueryMultiValue(String core, Map<String, String[]> param) throws SolrServerException, IOException {
         MultiMapSolrParams queryParams = new MultiMapSolrParams(param);
         QueryResponse response = solrClient.query(core, queryParams);
         return response;

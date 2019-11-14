@@ -3,27 +3,23 @@ package com.podo.pododev.web.domain.blog.service;
 import com.podo.pododev.web.domain.blog.aop.SolrDataImport;
 import com.podo.pododev.web.domain.blog.attachfile.AttachFile;
 import com.podo.pododev.web.domain.blog.attachfile.AttachFileDto;
-import com.podo.pododev.web.domain.blog.attachfile.AttachFileUploader;
+import com.podo.pododev.web.domain.blog.attachfile.AttachFileStorageUploader;
 import com.podo.pododev.web.domain.blog.attachimage.AttachImage;
 import com.podo.pododev.web.domain.blog.attachimage.AttachImageDto;
-import com.podo.pododev.web.domain.blog.attachimage.AttachImageUploader;
+import com.podo.pododev.web.domain.blog.attachimage.AttachImageStorageUploader;
 import com.podo.pododev.web.domain.blog.attachimage.save.AttachImageSave;
 import com.podo.pododev.web.domain.blog.attachimage.save.AttachImageSaveEntity;
 import com.podo.pododev.web.domain.blog.comment.CommentRepository;
 import com.podo.pododev.web.domain.blog.exception.InvalidBlogIdException;
-import com.podo.pododev.web.domain.blog.exception.PublishNotYetException;
 import com.podo.pododev.web.domain.blog.repository.BlogRepository;
 import com.podo.pododev.web.domain.blog.tag.BlogTag;
 import com.podo.pododev.web.domain.blog.tag.BlogTagDto;
 import com.podo.pododev.web.domain.blog.tag.BlogTagRepository;
-import com.podo.pododev.core.util.HttpUrlUtil;
 import com.podo.pododev.web.domain.blog.Blog;
 import com.podo.pododev.web.domain.blog.BlogDto;
-import com.podo.pododev.web.domain.blog.BlogValidator;
-import com.podo.pododev.web.domain.blog.FileStatus;
+import com.podo.pododev.web.global.util.AttachLinkManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,16 +32,11 @@ import java.util.Optional;
 @Transactional
 public class BlogWriteService {
 
-    @Value("${local.upload.base.url}")
-    private String uploadBaseUrl;
-
-    @Value("${infra.uploader.frontend.external}")
-    private String uploaderFrontendUrl;
-
+    private final AttachLinkManager linkManager;
     private final BlogRepository blogRepository;
 
-    private final AttachImageUploader attachImageUploader;
-    private final AttachFileUploader attachFileUploader;
+    private final AttachImageStorageUploader attachImageStorageUploader;
+    private final AttachFileStorageUploader attachFileStorageUploader;
 
     private final CommentRepository commentRepository;
     private final BlogTagRepository blogTagRepository;
@@ -53,25 +44,20 @@ public class BlogWriteService {
 
     @SolrDataImport
     public void insert(BlogDto.insert insert) {
-        if (!BlogValidator.validateBlogStatus(false, insert.getStatus())) {
-            throw new PublishNotYetException();
-        }
 
-        //첨부파일 업로드
-        attachImageUploader.uploadImage(insert.getImages());
-        attachFileUploader.uploadFile(insert.getFiles());
+        attachImageStorageUploader.uploadAttachImage(insert.getImages());
+        attachFileStorageUploader.uploadAttachFile(insert.getFiles());
 
         final Blog blog = insert.toEntity();
 
-        blog.changeContents(updateAttachLinkToUploadFront(blog.getContents()));
+        blog.changeContents(linkManager.changeLinkSeverSavedToStorageStatic(blog.getContents()));
 
-        //태그 저장
-        insertBlogTags(insert.getTags(), blog);
+        saveBlogTags(blog, insert.getTags());
 
         blogRepository.save(blog);
     }
 
-    private void insertBlogTags(List<BlogTagDto.insert> tags, Blog blog) {
+    private void saveBlogTags(Blog blog, List<BlogTagDto.insert> tags) {
         int idx = 1;
 
         for (BlogTagDto.insert tagInsert : tags) {
@@ -83,9 +69,9 @@ public class BlogWriteService {
     }
 
     @SolrDataImport
-    public void update(Long id, BlogDto.update update) {
+    public void update(Long blogId, BlogDto.update update) {
 
-        final Optional<Blog> blogOpt = blogRepository.findById(id);
+        final Optional<Blog> blogOpt = blogRepository.findById(blogId);
 
         if (!blogOpt.isPresent()) {
             throw new InvalidBlogIdException();
@@ -93,31 +79,22 @@ public class BlogWriteService {
 
         final Blog blog = blogOpt.get();
 
-        if (!BlogValidator.validateBlogStatus(blog.isPublished(), update.getStatus())) {
-            throw new PublishNotYetException();
-        }
-
-        //첨부파일 업로드
-        attachImageUploader.uploadImage(update.getImages());
-        attachFileUploader.uploadFile(update.getFiles());
+        attachImageStorageUploader.uploadAttachImage(update.getImages());
+        attachFileStorageUploader.uploadAttachFile(update.getFiles());
 
         blog.changeTitle(update.getTitle());
-        blog.changeContents(updateAttachLinkToUploadFront(update.getContents()));
+        blog.changeContents(linkManager.changeLinkSeverSavedToStorageStatic(update.getContents()));
         blog.updateStatus(update.getStatus());
 
         updateBlogTags(update.getTags(), blog);
-        updateAttachImages(update.getImages(), blog);
-        updateAttachFiles(update.getFiles(), blog);
-
+        updateAttachImages(blog, update.getImages());
+        updateAttachFiles(blog, update.getFiles());
     }
 
-    private String updateAttachLinkToUploadFront(String str) {
-        return str.replace(HttpUrlUtil.getSeverDomain() + uploadBaseUrl, uploaderFrontendUrl);
-    }
 
-    private void updateAttachFiles(List<AttachFileDto.insert> files, Blog blog) {
+    private void updateAttachFiles(Blog blog, List<AttachFileDto.insert> files) {
         for (AttachFileDto.insert file : files) {
-            switch (FileStatus.valueOf(file.getFileStatus())) {
+            switch (file.getFileStatus()) {
                 case NEW:
                     blog.addAttachFile(file.toEntity());
                     break;
@@ -131,9 +108,9 @@ public class BlogWriteService {
         }
     }
 
-    private void updateAttachImages(List<AttachImageDto.insert> images, Blog blog) {
+    private void updateAttachImages(Blog blog, List<AttachImageDto.insert> images) {
         for (AttachImageDto.insert image : images) {
-            switch (FileStatus.valueOf(image.getFileStatus())) {
+            switch (image.getFileStatus()) {
                 case NEW:
                     blog.addAttachImage(image.toEntity());
                     break;
@@ -149,12 +126,12 @@ public class BlogWriteService {
 
     private void updateBlogTags(List<BlogTagDto.insert> tags, Blog blog) {
         //기존 태그 삭제
-        blog.getTags().forEach(blogTagRepository::delete);
+        blogTagRepository.deleteAll(blog.getTags());
 
         //새로운 태그 저장
         int idx = 1;
         for (BlogTagDto.insert tagInsert : tags) {
-            BlogTag tag = tagInsert.toEntity(blog);
+            final BlogTag tag = tagInsert.toEntity(blog);
             tag.changeIndex(idx++);
             blogTagRepository.save(tag);
             blog.addTag(tag);
@@ -171,8 +148,8 @@ public class BlogWriteService {
 
         final Blog blog = blogOptional.get();
 
-        deleteAttachImages(blog.getAttachImages());
-        deleteAttachFiles(blog.getAttachFiles());
+        deleteFileAttachFiles(blog.getAttachFiles());
+        deleteFileAttachImages(blog.getAttachImages());
 
         blogTagRepository.deleteAll(blog.getTags());
         commentRepository.deleteAll(blog.getComments());
@@ -180,18 +157,18 @@ public class BlogWriteService {
         blogRepository.delete(blog);
     }
 
-    private void deleteAttachFiles(List<AttachFile> attachFiles) {
+    private void deleteFileAttachFiles(List<AttachFile> attachFiles) {
         for (AttachFile attachFile : attachFiles) {
-            attachFileUploader.deleteFile(attachFile.getPath(), attachFile.getFilename());
+            attachFileStorageUploader.deleteFile(attachFile.getPath(), attachFile.getFilename());
         }
     }
 
-    private void deleteAttachImages(List<AttachImage> attachImages) {
+    private void deleteFileAttachImages(List<AttachImage> attachImages) {
         for (AttachImage attachImage : attachImages) {
 
             for (AttachImageSaveEntity saveEntity : attachImage.getSaves()) {
-                AttachImageSave save = saveEntity.getAttachImageSave();
-                attachImageUploader.deleteImageFile(save.getPath(), save.getFilename());
+                final AttachImageSave save = saveEntity.getAttachImageSave();
+                attachImageStorageUploader.deleteImageFile(save.getPath(), save.getFilename());
             }
         }
     }
@@ -202,13 +179,14 @@ public class BlogWriteService {
      * @param blogId
      */
     public void increaseHitCnt(Long blogId) {
-        Optional<Blog> blogOptional = blogRepository.findById(blogId);
+        final Optional<Blog> blogOptional = blogRepository.findById(blogId);
 
         if (!blogOptional.isPresent()) {
             throw new InvalidBlogIdException();
         }
 
-        blogOptional.get().increaseHitCnt();
+        final Blog blog = blogOptional.get();
+        blog.increaseHitCnt();
     }
 
 }

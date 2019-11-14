@@ -8,4 +8,6 @@ jar {
 }
 
 dependencies {
+    implementation group: 'com.github.rjeschke', name: 'txtmark', version: '0.13'
+    implementation group: 'org.jsoup', name: 'jsoup', version: '1.11.3'
 }

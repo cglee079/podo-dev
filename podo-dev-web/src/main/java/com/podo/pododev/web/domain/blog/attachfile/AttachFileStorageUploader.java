@@ -1,7 +1,6 @@
 package com.podo.pododev.web.domain.blog.attachfile;
 
-import com.podo.pododev.web.domain.blog.FileStatus;
-import com.podo.pododev.web.global.infra.uploader.PodoUploaderClient;
+import com.podo.pododev.web.global.infra.storage.PodoStorageClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,30 +12,30 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class AttachFileUploader {
+public class AttachFileStorageUploader {
 
     @Value("${local.upload.base.dir}")
     private String baseDir;
 
-    private final PodoUploaderClient podoUploaderClient;
+    private final PodoStorageClient podoStorageClient;
 
     /**
      * 게시글 수정 시, 첨부 파일 업데이트 to Uploader Server
      *
      * @param files
      */
-    public void uploadFile(List<AttachFileDto.insert> files) {
+    public void uploadAttachFile(List<AttachFileDto.insert> files) {
         log.info("Update Files");
 
         files.forEach(file -> {
             log.info("File '{}', '{}'", file.getFileStatus(), file.getOriginName());
 
-            switch (FileStatus.valueOf(file.getFileStatus())) {
+            switch (file.getFileStatus()) {
                 case NEW:
-                    podoUploaderClient.upload(file.getPath(), new File(baseDir + file.getPath(), file.getFilename()));
+                    podoStorageClient.upload(file.getPath(), new File(baseDir + file.getPath(), file.getFilename()));
                     break;
                 case REMOVE:
-                    podoUploaderClient.delete(file.getPath(), file.getFilename());
+                    podoStorageClient.delete(file.getPath(), file.getFilename());
                 case BE:
                 case UNNEW:
                 default:
@@ -46,6 +45,6 @@ public class AttachFileUploader {
     }
 
     public void deleteFile(String path, String filename) {
-        podoUploaderClient.delete(path, filename);
+        podoStorageClient.delete(path, filename);
     }
 }

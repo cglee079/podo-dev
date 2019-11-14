@@ -21,7 +21,8 @@ public class BlogViewLogInterceptor extends HandlerInterceptorAdapter {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 
-        String userAgent = request.getHeader("User-Agent");
+        final String userAgent = request.getHeader("User-Agent");
+
         String ip = request.getHeader("x-real-ip");
 
         if (Objects.isNull(ip)) {

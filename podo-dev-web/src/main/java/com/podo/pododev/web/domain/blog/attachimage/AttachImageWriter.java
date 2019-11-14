@@ -26,10 +26,11 @@ import java.util.Map;
 @Service
 public class AttachImageWriter {
 
-    public static final String ORIGIN_IMAGE_ID = "origin";
 
     @Value("${local.upload.sub.image.dir}")
-    private String imageDir;
+    private String imageSaveDirectory;
+
+    public static final String ORIGIN_IMAGE_ID = "origin";
 
     private final FileWriter fileWriter;
 
@@ -38,7 +39,7 @@ public class AttachImageWriter {
             throw new InvalidImageException();
         }
 
-        final String path = PathUtil.merge(imageDir, MyFileUtils.makeDatePath(LocalDateTime.now())); // 로컬 저장경로
+        final String path = PathUtil.merge(imageSaveDirectory, MyFileUtils.makeDatePath(LocalDateTime.now())); // 로컬 저장경로
         final Map<String, AttachImageSave> saves = new HashMap<>();
 
         final String originPath = PathUtil.merge(path, ORIGIN_IMAGE_ID);
@@ -50,7 +51,7 @@ public class AttachImageWriter {
     }
 
     public Map<String, AttachImageSave> makeSaveBase64(String base64, String extension) {
-        final String path = PathUtil.merge(imageDir, MyFileUtils.makeDatePath(LocalDateTime.now())); // 로컬 저장경로
+        final String path = PathUtil.merge(imageSaveDirectory, MyFileUtils.makeDatePath(LocalDateTime.now())); // 로컬 저장경로
         final Map<String, AttachImageSave> saves = new HashMap<>();
 
         //Save Origin File
@@ -68,7 +69,7 @@ public class AttachImageWriter {
 
         log.info("Save Image Each Size, '{}'", multipartFile.getOriginalFilename());
 
-        final String path = PathUtil.merge(imageDir, MyFileUtils.makeDatePath(LocalDateTime.now())); // 로컬 저장경로
+        final String path = PathUtil.merge(imageSaveDirectory, MyFileUtils.makeDatePath(LocalDateTime.now())); // 로컬 저장경로
         final Map<String, AttachImageSave> saves = new HashMap<>();
 
         //Save Origin File
@@ -112,6 +113,7 @@ public class AttachImageWriter {
 //    }
 
     /**
+     * //TODO
      * 이미지 정보를 가져옴
      *
      * @param file
@@ -120,10 +122,7 @@ public class AttachImageWriter {
     private ImageInfoVo getImageInfo(File file) {
         try {
             BufferedImage image = ImageIO.read(file);
-            return ImageInfoVo.builder()
-                    .width(image.getWidth())
-                    .height(image.getHeight())
-                    .build();
+            return new ImageInfoVo(image.getWidth(), (image.getHeight()));
 
         } catch (IOException e) {
             log.error("이미지 파일 정보를 가져 올 수 없습니다");

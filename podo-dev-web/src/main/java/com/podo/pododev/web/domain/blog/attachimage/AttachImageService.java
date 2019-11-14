@@ -3,6 +3,7 @@ package com.podo.pododev.web.domain.blog.attachimage;
 import com.podo.pododev.web.domain.blog.FileStatus;
 import com.podo.pododev.web.domain.blog.attachimage.save.AttachImageSave;
 import com.podo.pododev.core.util.HttpUrlUtil;
+import com.podo.pododev.web.global.util.AttachLinkManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
@@ -19,11 +20,9 @@ import java.util.Map;
 @Service
 public class AttachImageService {
 
-    @Value("${local.upload.base.url}")
-    private String baseUrl;
+    private final static String PASTE_IMAGE_NAME = "paste";
 
-    private final static String PASTE_IMAGE_NAME = "image_by_paste";
-
+    private final AttachLinkManager attachLinkManager;
     private final AttachImageWriter attachImageWriter;
 
     public AttachImageDto.response saveBase64(String base64) {
@@ -34,7 +33,7 @@ public class AttachImageService {
 
         return AttachImageDto.response.builder()
                 .originName(originName)
-                .uploadedUrl(HttpUrlUtil.getSeverDomain() + baseUrl)
+                .uploadedUrl(attachLinkManager.getServerSavedLink())
                 .fileStatus(FileStatus.NEW)
                 .saves(saves)
                 .build();
@@ -47,7 +46,7 @@ public class AttachImageService {
 
         return AttachImageDto.response.builder()
                 .originName(originName)
-                .uploadedUrl(HttpUrlUtil.getSeverDomain() + baseUrl)
+                .uploadedUrl(attachLinkManager.getServerSavedLink())
                 .fileStatus(FileStatus.NEW)
                 .saves(saves)
                 .build();
@@ -66,7 +65,7 @@ public class AttachImageService {
 
         return AttachImageDto.response.builder()
                 .originName(originName)
-                .uploadedUrl(HttpUrlUtil.getSeverDomain() + baseUrl)
+                .uploadedUrl(attachLinkManager.getServerSavedLink())
                 .fileStatus(FileStatus.NEW)
                 .saves(saves)
                 .build();

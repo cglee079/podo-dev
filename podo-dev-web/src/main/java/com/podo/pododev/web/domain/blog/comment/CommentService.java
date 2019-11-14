@@ -43,7 +43,7 @@ public class CommentService {
     private Integer recentCommentSize;
 
     public List<CommentDto.summary> getRecentComments() {
-        List<Comment> comments = commentRepository.findRecentComments(recentCommentSize);
+        final List<Comment> comments = commentRepository.findRecentComments(recentCommentSize);
 
         return comments.stream()
                 .map(CommentDto.summary::new)
@@ -52,18 +52,11 @@ public class CommentService {
 
     public PageDto<CommentDto.response> paging(Long blogId, CommentDto.request request) {
 
-        final Integer page = request.getPage();
-
-        //Reverse Page
-        final int count = this.commentRepository.countByBlogId(blogId);
-        double totalPage = Math.ceil(((double) count / (double) pageSize));
-        if (totalPage == 0) {
-            totalPage = 1;
-        }
-        final int newPage = (int) (totalPage - page - 1);
+        final int newPage = reversePage(request.getPage(), commentRepository.countByBlogId(blogId));
 
         final Pageable pageable = PageRequest.of(newPage, pageSize);
         final Page<Comment> comments = commentRepository.paging(blogId, pageable);
+
         final List<CommentDto.response> commentRes = comments.stream()
                 .map(comment -> new CommentDto.response(comment, SecurityUtil.getUserId()))
                 .collect(Collectors.toList());
@@ -77,6 +70,15 @@ public class CommentService {
                 .build();
     }
 
+    private int reversePage(Integer page, double count) {
+        double totalPage = Math.ceil((count / (double) pageSize));
+        if (totalPage == 0) {
+            totalPage = 1;
+        }
+        return (int) (totalPage - page - 1);
+    }
+
+
     public void insert(Long blogId, CommentDto.insert insert) {
 
         final String currentUserId = SecurityUtil.getUserId();
@@ -88,62 +90,63 @@ public class CommentService {
         final User user = userRepository.findByUserId(currentUserId).get();
         final Blog blog = blogRepository.findById(blogId).get();
         final String contents = insert.getContents();
-        final Long parentId = insert.getParentId();
+        final Long parentCommentId = insert.getParentId();
 
-        // New Comment
-        if (Objects.isNull(parentId)) {
-            log.info("New Comment Insert");
-
-            Comment comment = Comment.builder()
-                    .blog(blog)
-                    .user(user)
-                    .contents(contents)
-                    .child(0)
-                    .depth(0)
-                    .sort(1d)
-                    .byAdmin(SecurityUtil.isAdmin())
-                    .build();
-
-            insertComment(blog, comment);
-
-            comment.updateCgroup(comment.getId());
-
-        }
-
-        // New Reply
-        else {
-            log.info("Replay Comment Insert, parent '{}'", parentId);
-
-            final Comment parentComment = commentRepository.findById(parentId).get();
-
-            final Long cgroup = parentComment.getCgroup();
-            final Integer child = parentComment.getChild();
-            final Double sort = parentComment.getSort();
-            final Integer depth = parentComment.getDepth();
-            final Double childSort = ((double) (child + 1) / Math.pow(10, 3 * depth)) + sort;
-
-            if ((depth + 1) > maxCommentDepth) {
-                throw new MaxDepthCommentException();
-            }
-
-            parentComment.increaseChild();
-
-            Comment comment = Comment.builder()
-                    .blog(blog)
-                    .user(user)
-                    .contents(contents)
-                    .cgroup(cgroup)
-                    .child(0)
-                    .parentId(parentId)
-                    .depth(depth + 1)
-                    .sort(childSort)
-                    .byAdmin(SecurityUtil.isAdmin())
-                    .build();
-
-            insertComment(blog, comment);
+        if (Objects.isNull(parentCommentId)) {
+            insertNewComment(user, blog, contents);
+        } else {
+            insertReplyComment(user, blog, contents, parentCommentId);
         }
 
 
+    }
+
+    private void insertNewComment(User user, Blog blog, String contents) {
+        log.info("New Comment Insert");
+
+        final Comment comment = Comment.builder()
+                .blog(blog)
+                .user(user)
+                .contents(contents)
+                .child(0)
+                .depth(0)
+                .sort(1d)
+                .byAdmin(SecurityUtil.isAdmin())
+                .build();
+
+        insertComment(blog, comment);
+
+        comment.updateCgroup(comment.getId());
+    }
+
+    private void insertReplyComment(User user, Blog blog, String contents, Long parentCommentId) {
+        log.info("Replay Comment Insert, parent '{}'", parentCommentId);
+
+        final Comment parentComment = commentRepository.findById(parentCommentId).get();
+
+        final Long cgroup = parentComment.getCgroup();
+        final Integer depth = parentComment.getDepth();
+        final Double childSort = parentComment.getChildSort();
+
+        if (parentComment.exceedMaxCommentDepth(maxCommentDepth)) {
+            throw new MaxDepthCommentException();
+        }
+
+        parentComment.increaseChild();
+
+        final Comment childComment = Comment.builder()
+                .blog(blog)
+                .user(user)
+                .contents(contents)
+                .cgroup(cgroup)
+                .child(0)
+                .parentId(parentCommentId)
+                .depth(depth + 1)
+                .sort(childSort)
+                .byAdmin(SecurityUtil.isAdmin())
+                .build();
+
+        insertComment(blog, childComment);
     }
 
     private void insertComment(Blog blog, Comment comment) {
@@ -169,7 +172,7 @@ public class CommentService {
             throw new InvalidCommentException();
         }
 
-        Comment comment = commentOpt.get();
+        final Comment comment = commentOpt.get();
 
         // No Auth Error
         if (!comment.getCreateBy().equals(currentUserId)) {
@@ -178,7 +181,6 @@ public class CommentService {
 
         //자식이 없는 경우
         if (comment.getChild() == 0) {
-
             commentRepository.delete(comment);
             decreaseChild(comment.getParentId());
         }
@@ -196,7 +198,7 @@ public class CommentService {
             comment.decreaseChild();
 
             //삭제인 상태에서, 자식이 없는 경우 삭제
-            if (comment.getChild() == 0 && comment.isErase()) {
+            if ((comment.getChild() == 0) && comment.isErase()) {
                 commentRepository.delete(comment);
 
                 //부모 검증 (재귀)

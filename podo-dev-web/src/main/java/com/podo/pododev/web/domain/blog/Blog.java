@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -79,10 +80,6 @@ public class Blog extends UpdatableBaseEntity {
 
     public void doFeeded() {
         this.feeded = true;
-    }
-
-    public Boolean isPublished() {
-        return this.publishAt != null;
     }
 
     /**

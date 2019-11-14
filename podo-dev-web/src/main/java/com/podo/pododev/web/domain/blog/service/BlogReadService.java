@@ -10,7 +10,7 @@ import com.podo.pododev.web.domain.blog.tag.BlogTag;
 import com.podo.pododev.web.global.config.security.SecurityUtil;
 import com.podo.pododev.web.global.infra.solr.BlogSearchVo;
 import com.podo.pododev.web.global.infra.solr.MySolrClient;
-import com.podo.pododev.web.global.infra.solr.SolrResponse;
+import com.podo.pododev.web.global.util.AttachLinkManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,16 +30,13 @@ import java.util.stream.Collectors;
 @Transactional
 public class BlogReadService {
 
-
-    @Value("${infra.uploader.frontend.external}")
-    private String uploaderFrontendUrl;
-
     @Value("${blog.per.page.size}")
     private Integer pageSize;
 
     @Value("${blog.relates.size}")
     private Integer relatesSize;
 
+    private final AttachLinkManager attachLinkManager;
     private final BlogRepository blogRepository;
     private final MySolrClient mySolrClient;
 
@@ -49,11 +46,8 @@ public class BlogReadService {
     }
 
     public Map<Integer, List<BlogDto.archive>> getArchive() {
-        if (SecurityUtil.isAdmin()) {
-            return toMapByPublishYear(blogRepository.findAllByOrderByPublishAtDesc());
-        }
-
-        return toMapByPublishYear(blogRepository.findAllByEnabledAndOrderByPublishAtDesc(true));
+        final List<Blog> blogs = blogRepository.findAllByEnabledAndOrderByPublishAtDesc(isShowAllBlogs());
+        return toMapByPublishYear(blogs);
     }
 
     private Map<Integer, List<BlogDto.archive>> toMapByPublishYear(List<Blog> blogs) {
@@ -94,7 +88,7 @@ public class BlogReadService {
 
         final List<Blog> relates = getRelates(tagValues);
 
-        return new BlogDto.response(blog, before, next, relates, uploaderFrontendUrl, FileStatus.BE);
+        return new BlogDto.response(blog, before, next, relates, attachLinkManager.getStorageStaticLink(), FileStatus.BE);
     }
 
     private List<Blog> getRelates(List<String> tagValues) {
@@ -124,12 +118,11 @@ public class BlogReadService {
     }
 
     private Map<Blog, Integer> getRelateScore(List<String> tagValues, List<Blog> relates) {
-        //중복되는 태그가 많을수록 상위 순위
 
         final Map<Blog, Integer> scores = new HashMap<>();
 
+        //중복되는 태그가 많을수록 상위 순위
         for (String tag : tagValues) {
-
             for (Blog relate : relates) {
 
                 List<String> tags = relate.getTags().stream()
@@ -175,8 +168,9 @@ public class BlogReadService {
 
     private PageDto pagingDefault(Pageable pageable, Boolean enabled) {
         final Page<Blog> blogs = blogRepository.paging(pageable, null, enabled);
+
         final List<BlogDto.responseList> contents = blogs.stream()
-                .map(blog -> new BlogDto.responseList(blog, uploaderFrontendUrl))
+                .map(blog -> new BlogDto.responseList(blog, attachLinkManager.getStorageStaticLink()))
                 .collect(Collectors.toList());
 
         return PageDto.<BlogDto.responseList>builder()
@@ -199,7 +193,7 @@ public class BlogReadService {
         final Page<Blog> blogs = blogRepository.paging(pageable, ids, enabled);
 
         final List<BlogDto.responseList> contents = blogs.stream()
-                .map(blog -> new BlogDto.responseList(blog, desc.get(blog.getId()), uploaderFrontendUrl))
+                .map(blog -> new BlogDto.responseList(blog, desc.get(blog.getId()), attachLinkManager.getStorageStaticLink()))
                 .collect(Collectors.toList());
 
         return PageDto.<BlogDto.responseList>builder()
@@ -219,7 +213,7 @@ public class BlogReadService {
 
         final Page<Blog> blogs = blogRepository.paging(pageable, ids, enabled);
         final List<BlogDto.responseList> contents = blogs.stream()
-                .map(blog -> new BlogDto.responseList(blog, uploaderFrontendUrl))
+                .map(blog -> new BlogDto.responseList(blog, attachLinkManager.getStorageStaticLink()))
                 .collect(Collectors.toList());
 
         return PageDto.<BlogDto.responseList>builder()

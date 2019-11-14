@@ -52,7 +52,7 @@ public class AttachImageDto {
         private Long id;
         private String originName;
         private String uploadedUrl;
-        private String fileStatus;
+        private FileStatus fileStatus;
         private Map<String, AttachImageSave> saves;
 
         public AttachImage toEntity() {

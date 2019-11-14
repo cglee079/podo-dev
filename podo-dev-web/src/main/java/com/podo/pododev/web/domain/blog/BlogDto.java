@@ -44,14 +44,13 @@ public class BlogDto {
         public Blog toEntity() {
             //Images to Entity
             List<AttachImage> images = this.images.stream()
-                    .filter(image -> FileStatus.valueOf(image.getFileStatus()) == FileStatus.NEW)
+                    .filter(image -> image.getFileStatus() == FileStatus.NEW)
                     .map(AttachImageDto.insert::toEntity)
                     .collect(Collectors.toList());
 
-
             //File to Entity
             List<AttachFile> files = this.files.stream()
-                    .filter(image -> FileStatus.valueOf(image.getFileStatus()) == FileStatus.NEW)
+                    .filter(image -> image.getFileStatus() == FileStatus.NEW)
                     .map(AttachFileDto.insert::toEntity)
                     .collect(Collectors.toList());
 

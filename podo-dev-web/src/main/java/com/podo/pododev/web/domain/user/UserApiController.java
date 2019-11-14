@@ -1,9 +1,8 @@
 package com.podo.pododev.web.domain.user;
 
-import com.cglee079.pododev.core.global.response.ApiResponse;
-import com.cglee079.pododev.core.global.response.ApiStatus;
-import com.cglee079.pododev.core.global.response.DataResponse;
-import com.cglee079.pododev.core.global.response.StatusResponse;
+import com.podo.pododev.core.rest.response.ApiResponse;
+import com.podo.pododev.core.rest.response.ApiStatus;
+import com.podo.pododev.core.rest.response.DataResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

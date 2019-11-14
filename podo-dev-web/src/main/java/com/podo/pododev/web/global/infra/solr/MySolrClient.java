@@ -38,20 +38,16 @@ public class MySolrClient {
             return Collections.emptyList();
         }
 
-        final Map<String, String> param = MySolrParameter.createSearchParam(value, hlFragLength);
-
         try {
-            final QueryResponse response = solrSender.queryMap(coreId, param);
+            final QueryResponse response = solrSender.requestQuerySingleValue(coreId, MySolrParameter.createSearchParam(value, hlFragLength));
             final List<SolrResponse> responseValues = response.getBeans(SolrResponse.class);
             final Map<String, Map<String, List<String>>> highlights = response.getHighlighting();
 
             final List<BlogSearchVo> blogSearchVos = new ArrayList<>();
 
-            //Set Highlight
             for (SolrResponse responseValue : responseValues) {
                 final String blogId = responseValue.getBlogId();
-
-                Map<String, List<String>> hlValues = highlights.get(responseValue.getId());
+                final Map<String, List<String>> hlValues = highlights.get(responseValue.getId());
 
                 final String contents = getHighlightContents(hlValues, responseValue.getContents());
                 final String title = getHighlightBlogTitle(hlValues, responseValue.getTitle());
@@ -102,17 +98,14 @@ public class MySolrClient {
         final Map<String, String[]> param = MySolrParameter.createFacetParam(value);
 
         try {
-            QueryResponse response = solrSender.queryMultiMap(coreId, param);
+            final QueryResponse response = solrSender.requestQueryMultiValue(coreId, param);
 
-            List<FacetField.Count> titleFacet = response.getFacetFields().get(0).getValues(); // TITLE
-            List<FacetField.Count> contentFacet = response.getFacetFields().get(1).getValues(); // CONTENTS
+            final List<FacetField.Count> titleFacet = response.getFacetFields().get(0).getValues(); // TITLE
+            final List<FacetField.Count> contentFacet = response.getFacetFields().get(1).getValues(); // CONTENTS
 
-            List<String> value1 = titleFacet.stream().map(FacetField.Count::getName).collect(Collectors.toList());
-            List<String> value2 = contentFacet.stream().map(FacetField.Count::getName).collect(Collectors.toList());
-
-            Set<String> result = new HashSet<>();
-            result.addAll(value1);
-            result.addAll(value2);
+            final Set<String> result = new HashSet<>();
+            result.addAll(titleFacet.stream().map(FacetField.Count::getName).collect(Collectors.toList()));
+            result.addAll(contentFacet.stream().map(FacetField.Count::getName).collect(Collectors.toList()));
 
             return result.stream()
                     .sorted()
@@ -128,7 +121,7 @@ public class MySolrClient {
         final Map<String, String> param = MySolrParameter.createDateImportParam();
 
         try {
-            solrSender.queryMap(coreId, param);
+            solrSender.requestQuerySingleValue(coreId, param);
         } catch (SolrServerException | IOException e) {
             throw new SolrSendException(e);
         }

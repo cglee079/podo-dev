@@ -1,6 +1,5 @@
 package com.podo.pododev.core.util;
 
-import com.cglee079.pododev.core.global.exception.LocalFileException;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,7 +45,6 @@ public class MyFileUtils {
             return file;
 
         } catch (IOException e) {
-            e.printStackTrace();
             throw new LocalFileException(e);
         }
     }
@@ -79,7 +77,6 @@ public class MyFileUtils {
             return file;
 
         } catch (IOException e) {
-            e.printStackTrace();
             throw new LocalFileException(e);
         }
     }
@@ -103,7 +100,6 @@ public class MyFileUtils {
             FileUtils.forceMkdir(dir);
             return dir;
         } catch (IOException e) {
-            e.printStackTrace();
             throw new LocalFileException(e);
         }
     }

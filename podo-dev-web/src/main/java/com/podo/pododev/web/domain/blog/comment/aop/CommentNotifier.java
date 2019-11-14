@@ -1,8 +1,8 @@
 package com.podo.pododev.web.domain.blog.comment.aop;
 
 import com.podo.pododev.web.domain.blog.BlogDto;
-import com.cglee079.pododev.web.domain.blog.BlogService;
 import com.podo.pododev.web.domain.blog.comment.CommentDto;
+import com.podo.pododev.web.domain.blog.service.BlogReadService;
 import com.podo.pododev.web.global.config.security.SecurityUtil;
 import com.podo.pododev.web.global.infra.telegram.TelegramClient;
 import com.podo.pododev.core.util.FormatUtil;
@@ -23,7 +23,7 @@ import java.util.Objects;
 public class CommentNotifier {
 
     private final TelegramClient telegramClient;
-    private final BlogService blogService;
+    private final BlogReadService blogReadService;
     private final String BLOG_ID_ARG_NAME = "blogId";
 
     @AfterReturning("@annotation(com.podo.pododev.web.domain.blog.comment.aop.CommentNotice)")
@@ -38,7 +38,7 @@ public class CommentNotifier {
         final Long blogId = getBlogId(joinPoint);
         final String username = SecurityUtil.getUsername();
         final String contents = comment.getContents();
-        final BlogDto.response blog = blogService.get(blogId);
+        final BlogDto.response blog = blogReadService.get(blogId);
         final StringBuilder message = new StringBuilder();
 
         message.append("#게시글에 댓글이 등록되었습니다.\n")

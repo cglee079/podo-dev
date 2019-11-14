@@ -3,6 +3,7 @@ package com.podo.pododev.web.domain.blog.attachfile;
 import com.podo.pododev.core.util.MyFileUtils;
 import com.podo.pododev.web.domain.blog.FileStatus;
 import com.podo.pododev.web.domain.blog.attachfile.exception.InvalidFileException;
+import com.podo.pododev.web.global.util.AttachLinkManager;
 import com.podo.pododev.web.global.util.writer.FileWriter;
 import com.podo.pododev.core.util.PathUtil;
 import com.podo.pododev.core.util.HttpUrlUtil;
@@ -25,15 +26,11 @@ public class AttachFileService {
 
     private final AttachFileRepository attachFileRepository;
     private final FileWriter fileWriter;
-
-    @Value("${local.upload.base.url}")
-    private String baseUrl;
+    private final AttachLinkManager linkManager;
 
     @Value("${local.upload.sub.file.dir}")
     private String fileDir;
 
-    @Value("${infra.uploader.frontend.internal}")
-    private String uploaderFrontendInternalUrl;
 
 
     /**
@@ -49,7 +46,7 @@ public class AttachFileService {
 
         return AttachFileDto.response.builder()
                 .originName(originName)
-                .uploadedUrl(HttpUrlUtil.getSeverDomain() + baseUrl)
+                .uploadedUrl(linkManager.getServerSavedLink())
                 .path(path)
                 .filename(file.getName())
                 .fileStatus(FileStatus.NEW)
@@ -64,6 +61,6 @@ public class AttachFileService {
             throw new InvalidFileException();
         }
 
-        return new AttachFileDto.download(file.get(), uploaderFrontendInternalUrl);
+        return new AttachFileDto.download(file.get(), linkManager.getStorageStaticLink());
     }
 }

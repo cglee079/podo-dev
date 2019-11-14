@@ -12,18 +12,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 
-@Slf4j
-@RequiredArgsConstructor
-@Transactional
-@Service
 public class AttachImageValidator {
 
-    /**
-     * 이미지 파일 검증
-     *
-     * @param multipartFile
-     * @return
-     */
     public static boolean isImageFile(MultipartFile multipartFile) {
         try {
             BufferedImage bi = ImageIO.read(multipartFile.getInputStream());
@@ -38,11 +28,6 @@ public class AttachImageValidator {
         }
     }
 
-
-    /**
-     * @param url
-     * @return 유효여부
-     */
     public static boolean isImageFile(String url) {
         if (Objects.isNull(url)) {
             return false;

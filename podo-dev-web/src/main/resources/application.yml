@@ -81,8 +81,8 @@ local:
 infra:
 
   ## Uploader Config
-  uploader:
-    upload:
+  stroage:
+    server:
       internal: http://192.168.219.103:38080/api/uploader/file # Loopback
       external: https://upload.podo-dev.com/api/uploader/file
     frontend:
@@ -151,7 +151,7 @@ spring:
 
 infra:
   ## Uploader Config
-  uploader:
+  stroage:
     upload:
       internal: https://upload.podo-dev.com/api/uploader/file
       external: https://upload.podo-dev.com/api/uploader/file

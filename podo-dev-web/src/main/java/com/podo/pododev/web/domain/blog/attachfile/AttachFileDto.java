@@ -64,7 +64,7 @@ public class AttachFileDto {
         private String originName;
         private String path;
         private Long filesize;
-        private String fileStatus;
+        private FileStatus fileStatus;
 
         public AttachFile toEntity() {
             return AttachFile.builder()

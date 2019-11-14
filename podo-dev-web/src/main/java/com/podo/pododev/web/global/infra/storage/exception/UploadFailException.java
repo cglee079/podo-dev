@@ -1,7 +1,7 @@
-package com.podo.pododev.web.global.infra.uploader.exception;
+package com.podo.pododev.web.global.infra.storage.exception;
 
-import com.cglee079.pododev.core.global.exception.ResponsibleException;
-import com.cglee079.pododev.core.global.response.ApiStatus;
+import com.podo.pododev.core.rest.exception.ResponsibleException;
+import com.podo.pododev.core.rest.response.ApiStatus;
 import org.springframework.http.HttpStatus;
 
 public class UploadFailException extends ResponsibleException {
