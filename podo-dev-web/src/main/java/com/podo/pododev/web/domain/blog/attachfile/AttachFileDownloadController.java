@@ -20,7 +20,7 @@ import java.io.*;
 @RequestMapping
 public class AttachFileDownloadController {
 
-    public static final String TEMP_DIRECTORY = "temp";
+    private static final String TEMP_DIRECTORY = "temp";
 
     private final AttachFileService attachFileService;
     private final FileWriter fileWriter;
@@ -31,25 +31,31 @@ public class AttachFileDownloadController {
     @GetMapping("/api/blogs/{blogId}/files/{fileId}")
     public void downloadFile(@PathVariable Long fileId, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        final AttachFileDto.download attachFile = attachFileService.download(fileId);
-        final String url = PathUtil.merge(attachFile.getUploadedUrl(), attachFile.getPath(), attachFile.getFilename());
-        final File file = fileWriter.write(TEMP_DIRECTORY, url);
+        final AttachFileDto.download downloadFile = attachFileService.download(fileId);
+
+        final String downloadFileUrl = PathUtil.merge(downloadFile.getUploadedUrl(), downloadFile.getPath(), downloadFile.getFilename());
+        final File tempDownloadFile = fileWriter.write(TEMP_DIRECTORY, downloadFileUrl);
         final String browser = MyRequestUtil.getBrowser(request);
 
-        if (file.exists()) {
-            final byte[] fileByte = FileUtils.readFileToByteArray(file);
+        if (tempDownloadFile.exists()) {
+            final byte[] fileByte = FileUtils.readFileToByteArray(tempDownloadFile);
+            final String encodeFilenameByBrowser = MyStringUtil.encodeFilenameByBrowser(browser, downloadFile.getOriginName());
 
-            response.setContentType("application/octet-stream");
-            response.setContentLength(fileByte.length);
-            response.setHeader("Content-Disposition", "attachment; filename=\"" + MyStringUtil.encodeFilenameByBrowser(browser, attachFile.getOriginName()) + "\";");
-            response.setHeader("Content-Transfer-Encoding", "binary");
-            response.getOutputStream().write(fileByte);
-            response.getOutputStream().flush();
-            response.getOutputStream().close();
+            responseFileByte(response, fileByte, encodeFilenameByBrowser);
         }
 
-        fileWriter.removeFile(TEMP_DIRECTORY, file);
+        fileWriter.removeFile(TEMP_DIRECTORY, tempDownloadFile);
 
+    }
+
+    private void responseFileByte(HttpServletResponse response, byte[] fileByte, String encodeFilenameByBrowser) throws IOException {
+        response.setContentType("application/octet-stream");
+        response.setContentLength(fileByte.length);
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + encodeFilenameByBrowser + "\";");
+        response.setHeader("Content-Transfer-Encoding", "binary");
+        response.getOutputStream().write(fileByte);
+        response.getOutputStream().flush();
+        response.getOutputStream().close();
     }
 
 

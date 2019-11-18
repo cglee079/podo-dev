@@ -41,7 +41,6 @@ public class AttachFileDto {
 
     @Getter
     public static class download {
-        private Long id;
         private String filename;
         private String originName;
         private String uploadedUrl;

@@ -47,28 +47,32 @@ public class TelegramClient extends TelegramLongPollingBot {
         sendMessage.enableHtml(true);
 
         try {
-            this.executeAsync(sendMessage, new SentCallback<Message>() {
-                @Override
-                public void onResult(BotApiMethod<Message> method, Message response) {
-                    //No Logic
-                }
-
-                @Override
-                public void onError(BotApiMethod<Message> method, TelegramApiRequestException e) {
-                    log.error("관리자에게 알람을 전송 할 수 없습니다");
-                    throw new TelegramSendException(e);
-                }
-
-                @Override
-                public void onException(BotApiMethod<Message> method, Exception e) {
-                    log.error("관리자에게 알람을 전송 할 수 없습니다");
-                    throw new TelegramSendException(e);
-                }
-            });
-
+            this.executeAsync(sendMessage, getDefaultCallback());
         } catch (TelegramApiException e) {
+            log.error("관리자에게 알람을 전송 할 수 없습니다");
             throw new TelegramSendException(e);
         }
 
+    }
+
+    private SentCallback<Message> getDefaultCallback() {
+        return new SentCallback<Message>() {
+            @Override
+            public void onResult(BotApiMethod<Message> method, Message response) {
+                //No Logic
+            }
+
+            @Override
+            public void onError(BotApiMethod<Message> method, TelegramApiRequestException e) {
+                log.error("관리자에게 알람을 전송 할 수 없습니다");
+                throw new TelegramSendException(e);
+            }
+
+            @Override
+            public void onException(BotApiMethod<Message> method, Exception e) {
+                log.error("관리자에게 알람을 전송 할 수 없습니다");
+                throw new TelegramSendException(e);
+            }
+        };
     }
 }

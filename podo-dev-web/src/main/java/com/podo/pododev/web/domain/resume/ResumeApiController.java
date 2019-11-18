@@ -1,9 +1,13 @@
 package com.podo.pododev.web.domain.resume;
 
-import com.cglee079.pododev.web.domain.blog.BlogService;
+import com.podo.pododev.core.rest.response.ApiResponse;
+import com.podo.pododev.core.rest.response.ApiStatus;
+import com.podo.pododev.core.rest.response.ListResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -20,13 +24,13 @@ public class ResumeApiController {
      * 이력 리스트 조회
      */
     @GetMapping(value = "/api/resumes")
-    public ApiResponse list() {
+    public ApiResponse findAll() {
 
-        List<ResumeDto.response> resumes = resumeService.findAll();
+        final List<ResumeDto.response> resumes = resumeService.findAll();
 
-        return DataResponse.builder()
+        return ListResponse.builder()
                 .status(ApiStatus.SUCCESS)
-                .data(resumes)
+                .results(resumes)
                 .build();
     }
 

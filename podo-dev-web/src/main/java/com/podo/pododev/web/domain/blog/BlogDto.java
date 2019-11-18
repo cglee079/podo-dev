@@ -62,8 +62,13 @@ public class BlogDto {
                     .enabled(status != BlogStatus.INVISIBLE)
                     .build();
 
-            images.forEach(image -> image.changeBlog(blog));
-            files.forEach(file -> file.changeBlog(blog));
+            for (AttachImage image : images) {
+                image.changeBlog(blog);
+            }
+
+            for (AttachFile file : files) {
+                file.changeBlog(blog);
+            }
 
             return blog;
 

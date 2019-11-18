@@ -10,10 +10,7 @@ public class BlogTagDto {
         private String val;
 
         public BlogTag toEntity(Blog blog) {
-            return BlogTag.builder()
-                    .blog(blog)
-                    .val(val)
-                    .build();
+            return new BlogTag(blog, val);
         }
     }
 

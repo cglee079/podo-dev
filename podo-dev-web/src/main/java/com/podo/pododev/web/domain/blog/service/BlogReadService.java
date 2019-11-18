@@ -8,7 +8,7 @@ import com.podo.pododev.web.domain.blog.FileStatus;
 import com.podo.pododev.web.domain.blog.exception.InvalidBlogIdException;
 import com.podo.pododev.web.domain.blog.tag.BlogTag;
 import com.podo.pododev.web.global.config.security.SecurityUtil;
-import com.podo.pododev.web.global.infra.solr.BlogSearchVo;
+import com.podo.pododev.web.global.infra.solr.BlogSearchResultVo;
 import com.podo.pododev.web.global.infra.solr.MySolrClient;
 import com.podo.pododev.web.global.util.AttachLinkManager;
 import lombok.RequiredArgsConstructor;
@@ -141,16 +141,16 @@ public class BlogReadService {
     }
 
 
-    public PageDto paging(BlogDto.request request) {
-        final String search = request.getSearch();
+    public PageDto<BlogDto.responseList> paging(BlogDto.request request) {
+        final String searchValue = request.getSearch();
         final Integer page = request.getPage();
         final String tagValue = request.getTag();
         final Pageable pageable = PageRequest.of(page, pageSize);
         final Boolean enabled = isShowAllBlogs();
 
         //Filter By Search(검색)
-        if (!StringUtils.isEmpty(search)) {
-            return pagingBySearch(search, pageable, enabled);
+        if (!StringUtils.isEmpty(searchValue)) {
+            return pagingBySearchValue(searchValue, pageable, enabled);
         }
 
         //Filter By Tag
@@ -166,7 +166,7 @@ public class BlogReadService {
 
     }
 
-    private PageDto pagingDefault(Pageable pageable, Boolean enabled) {
+    private PageDto<BlogDto.responseList> pagingDefault(Pageable pageable, Boolean enabled) {
         final Page<Blog> blogs = blogRepository.paging(pageable, null, enabled);
 
         final List<BlogDto.responseList> contents = blogs.stream()
@@ -174,7 +174,7 @@ public class BlogReadService {
                 .collect(Collectors.toList());
 
         return PageDto.<BlogDto.responseList>builder()
-                .contents(contents)
+                .data(contents)
                 .currentPage(blogs.getPageable().getPageNumber())
                 .pageSize(blogs.getPageable().getPageSize())
                 .totalElements(blogs.getTotalElements())
@@ -182,22 +182,22 @@ public class BlogReadService {
                 .build();
     }
 
-    private PageDto<BlogDto.responseList> pagingBySearch(String search, Pageable pageable, Boolean enabled) {
-        final List<BlogSearchVo> results = mySolrClient.search(search);
+    private PageDto<BlogDto.responseList> pagingBySearchValue(String searchValue, Pageable pageable, Boolean enabled) {
+        final List<BlogSearchResultVo> results = mySolrClient.search(searchValue);
         final List<Long> ids = results.stream()
-                .map(BlogSearchVo::getBlogId)
+                .map(BlogSearchResultVo::getBlogId)
                 .collect(Collectors.toList());
 
-        final Map<Long, String> desc = results.stream().collect(Collectors.toMap(BlogSearchVo::getBlogId, BlogSearchVo::getContents));
+        final Map<Long, String> highlightDescription = results.stream().collect(Collectors.toMap(BlogSearchResultVo::getBlogId, BlogSearchResultVo::getContents));
 
         final Page<Blog> blogs = blogRepository.paging(pageable, ids, enabled);
 
         final List<BlogDto.responseList> contents = blogs.stream()
-                .map(blog -> new BlogDto.responseList(blog, desc.get(blog.getId()), attachLinkManager.getStorageStaticLink()))
+                .map(blog -> new BlogDto.responseList(blog, highlightDescription.get(blog.getId()), attachLinkManager.getStorageStaticLink()))
                 .collect(Collectors.toList());
 
         return PageDto.<BlogDto.responseList>builder()
-                .contents(contents)
+                .data(contents)
                 .currentPage(blogs.getPageable().getPageNumber())
                 .pageSize(blogs.getPageable().getPageSize())
                 .totalElements(blogs.getTotalElements())
@@ -206,18 +206,19 @@ public class BlogReadService {
 
     }
 
-    private PageDto pagingByFilterTag(String tagValue, Pageable pageable, Boolean enabled) {
-        final List<Long> ids = blogRepository.findByTagValues(tagValue, null).stream()
+    private PageDto<BlogDto.responseList> pagingByFilterTag(String tagValue, Pageable pageable, Boolean enabled) {
+        final List<Long> blogIds = blogRepository.findByTagValues(tagValue, null).stream()
                 .map(Blog::getId)
                 .collect(Collectors.toList());
 
-        final Page<Blog> blogs = blogRepository.paging(pageable, ids, enabled);
+        final Page<Blog> blogs = blogRepository.paging(pageable, blogIds, enabled);
+
         final List<BlogDto.responseList> contents = blogs.stream()
                 .map(blog -> new BlogDto.responseList(blog, attachLinkManager.getStorageStaticLink()))
                 .collect(Collectors.toList());
 
         return PageDto.<BlogDto.responseList>builder()
-                .contents(contents)
+                .data(contents)
                 .currentPage(blogs.getPageable().getPageNumber())
                 .pageSize(blogs.getPageable().getPageSize())
                 .totalElements(blogs.getTotalElements())

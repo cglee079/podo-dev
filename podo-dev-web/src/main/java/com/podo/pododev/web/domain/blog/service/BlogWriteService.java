@@ -45,24 +45,23 @@ public class BlogWriteService {
     @SolrDataImport
     public void insert(BlogDto.insert insert) {
 
-        attachImageStorageUploader.uploadAttachImage(insert.getImages());
-        attachFileStorageUploader.uploadAttachFile(insert.getFiles());
+        attachImageStorageUploader.uploadFileOfAttachImages(insert.getImages());
+        attachFileStorageUploader.uploadFileOfAttachFiles(insert.getFiles());
 
-        final Blog blog = insert.toEntity();
+        final Blog newBlog = insert.toEntity();
 
-        blog.changeContents(linkManager.changeLinkSeverSavedToStorageStatic(blog.getContents()));
+        newBlog.changeContents(linkManager.changeServerLinkToStorageStatic(newBlog.getContents()));
 
-        saveBlogTags(blog, insert.getTags());
+        saveBlogTags(newBlog, insert.getTags());
 
-        blogRepository.save(blog);
+        blogRepository.save(newBlog);
     }
 
     private void saveBlogTags(Blog blog, List<BlogTagDto.insert> tags) {
-        int idx = 1;
-
+        int index = 1;
         for (BlogTagDto.insert tagInsert : tags) {
-            BlogTag tag = tagInsert.toEntity(blog);
-            tag.changeIndex(idx++);
+            final BlogTag tag = tagInsert.toEntity(blog);
+            tag.changeIndex(index++);
             blogTagRepository.save(tag);
             blog.addTag(tag);
         }
@@ -71,24 +70,24 @@ public class BlogWriteService {
     @SolrDataImport
     public void update(Long blogId, BlogDto.update update) {
 
-        final Optional<Blog> blogOpt = blogRepository.findById(blogId);
+        final Optional<Blog> existedBlogOpt = blogRepository.findById(blogId);
 
-        if (!blogOpt.isPresent()) {
+        if (!existedBlogOpt.isPresent()) {
             throw new InvalidBlogIdException();
         }
 
-        final Blog blog = blogOpt.get();
+        final Blog existedBlog = existedBlogOpt.get();
 
-        attachImageStorageUploader.uploadAttachImage(update.getImages());
-        attachFileStorageUploader.uploadAttachFile(update.getFiles());
+        attachImageStorageUploader.uploadFileOfAttachImages(update.getImages());
+        attachFileStorageUploader.uploadFileOfAttachFiles(update.getFiles());
 
-        blog.changeTitle(update.getTitle());
-        blog.changeContents(linkManager.changeLinkSeverSavedToStorageStatic(update.getContents()));
-        blog.updateStatus(update.getStatus());
+        existedBlog.changeTitle(update.getTitle());
+        existedBlog.changeContents(linkManager.changeServerLinkToStorageStatic(update.getContents()));
+        existedBlog.updateStatus(update.getStatus());
 
-        updateBlogTags(update.getTags(), blog);
-        updateAttachImages(blog, update.getImages());
-        updateAttachFiles(blog, update.getFiles());
+        updateBlogTags(existedBlog, update.getTags());
+        updateAttachImages(existedBlog, update.getImages());
+        updateAttachFiles(existedBlog, update.getFiles());
     }
 
 
@@ -124,46 +123,40 @@ public class BlogWriteService {
         }
     }
 
-    private void updateBlogTags(List<BlogTagDto.insert> tags, Blog blog) {
+    private void updateBlogTags(Blog blog, List<BlogTagDto.insert> tags) {
         //기존 태그 삭제
         blogTagRepository.deleteAll(blog.getTags());
 
         //새로운 태그 저장
-        int idx = 1;
-        for (BlogTagDto.insert tagInsert : tags) {
-            final BlogTag tag = tagInsert.toEntity(blog);
-            tag.changeIndex(idx++);
-            blogTagRepository.save(tag);
-            blog.addTag(tag);
-        }
+        saveBlogTags(blog, tags);
     }
 
     @SolrDataImport
     public void delete(Long blogId) {
-        final Optional<Blog> blogOptional = blogRepository.findById(blogId);
+        final Optional<Blog> existedBlogOptional = blogRepository.findById(blogId);
 
-        if (!blogOptional.isPresent()) {
+        if (!existedBlogOptional.isPresent()) {
             throw new InvalidBlogIdException();
         }
 
-        final Blog blog = blogOptional.get();
+        final Blog existedBlog = existedBlogOptional.get();
 
-        deleteFileAttachFiles(blog.getAttachFiles());
-        deleteFileAttachImages(blog.getAttachImages());
+        deleteFileOfAttachFiles(existedBlog.getAttachFiles());
+        deleteFileOfAttachImages(existedBlog.getAttachImages());
 
-        blogTagRepository.deleteAll(blog.getTags());
-        commentRepository.deleteAll(blog.getComments());
+        blogTagRepository.deleteAll(existedBlog.getTags());
+        commentRepository.deleteAll(existedBlog.getComments());
 
-        blogRepository.delete(blog);
+        blogRepository.delete(existedBlog);
     }
 
-    private void deleteFileAttachFiles(List<AttachFile> attachFiles) {
+    private void deleteFileOfAttachFiles(List<AttachFile> attachFiles) {
         for (AttachFile attachFile : attachFiles) {
             attachFileStorageUploader.deleteFile(attachFile.getPath(), attachFile.getFilename());
         }
     }
 
-    private void deleteFileAttachImages(List<AttachImage> attachImages) {
+    private void deleteFileOfAttachImages(List<AttachImage> attachImages) {
         for (AttachImage attachImage : attachImages) {
 
             for (AttachImageSaveEntity saveEntity : attachImage.getSaves()) {
@@ -175,18 +168,18 @@ public class BlogWriteService {
 
     /**
      * 게시글 조회수 +1
-     *
      * @param blogId
      */
-    public void increaseHitCnt(Long blogId) {
-        final Optional<Blog> blogOptional = blogRepository.findById(blogId);
+    public void increaseHitCount(Long blogId) {
+        final Optional<Blog> existedBlogOptional = blogRepository.findById(blogId);
 
-        if (!blogOptional.isPresent()) {
+        if (!existedBlogOptional.isPresent()) {
             throw new InvalidBlogIdException();
         }
 
-        final Blog blog = blogOptional.get();
-        blog.increaseHitCnt();
+        final Blog existedBlog = existedBlogOptional.get();
+
+        existedBlog.increaseHitCount();
     }
 
 }

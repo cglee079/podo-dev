@@ -20,7 +20,7 @@ public class FeedWorker implements Worker {
     @Override
     public void doWork() {
 
-        if (!blogFeedService.hasYetNotFeed(false)) {
+        if (!blogFeedService.hasNotFeededBlog(false)) {
             log.info("No Updated Blogs");
             return;
         }

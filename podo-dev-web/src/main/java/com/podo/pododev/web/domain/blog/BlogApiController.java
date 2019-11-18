@@ -40,7 +40,7 @@ public class BlogApiController {
     @GetMapping("/api/blogs/{id}")
     public ApiResponse get(@PathVariable Long id) {
 
-        BlogDto.response blog = blogReadService.get(id);
+        final BlogDto.response blog = blogReadService.get(id);
 
         return DataResponse.builder()
                 .status(ApiStatus.SUCCESS)
@@ -114,9 +114,9 @@ public class BlogApiController {
      * 게시글 조회
      */
     @PostMapping("/api/blogs/{id}/hitCount")
-    public ApiResponse increaseHitCnt(@PathVariable Long id) {
+    public ApiResponse increaseHitCount(@PathVariable Long id) {
 
-        blogWriteService.increaseHitCnt(id);
+        blogWriteService.increaseHitCount(id);
 
         return StatusResponse.builder()
                 .status(ApiStatus.SUCCESS)

@@ -29,10 +29,6 @@ import java.util.stream.Collectors;
 @Transactional
 public class CommentService {
 
-    private final BlogRepository blogRepository;
-    private final CommentRepository commentRepository;
-    private final UserRepository userRepository;
-
     @Value("${blog.comment.max.depth}")
     private Integer maxCommentDepth;
 
@@ -41,6 +37,10 @@ public class CommentService {
 
     @Value("${blog.comment.recent.size}")
     private Integer recentCommentSize;
+
+    private final BlogRepository blogRepository;
+    private final CommentRepository commentRepository;
+    private final UserRepository userRepository;
 
     public List<CommentDto.summary> getRecentComments() {
         final List<Comment> comments = commentRepository.findRecentComments(recentCommentSize);
@@ -57,12 +57,12 @@ public class CommentService {
         final Pageable pageable = PageRequest.of(newPage, pageSize);
         final Page<Comment> comments = commentRepository.paging(blogId, pageable);
 
-        final List<CommentDto.response> commentRes = comments.stream()
+        final List<CommentDto.response> commentResponses = comments.stream()
                 .map(comment -> new CommentDto.response(comment, SecurityUtil.getUserId()))
                 .collect(Collectors.toList());
 
         return PageDto.<CommentDto.response>builder()
-                .contents(commentRes)
+                .data(commentResponses)
                 .currentPage(comments.getPageable().getPageNumber())
                 .pageSize(comments.getPageable().getPageSize())
                 .totalElements(comments.getTotalElements())
@@ -87,15 +87,15 @@ public class CommentService {
             throw new NoAuthenticatedException();
         }
 
-        final User user = userRepository.findByUserId(currentUserId).get();
-        final Blog blog = blogRepository.findById(blogId).get();
-        final String contents = insert.getContents();
+        final User currentUser = userRepository.findByUserId(currentUserId).get();
+        final Blog existedBlog = blogRepository.findById(blogId).get();
+        final String commentContents = insert.getContents();
         final Long parentCommentId = insert.getParentId();
 
         if (Objects.isNull(parentCommentId)) {
-            insertNewComment(user, blog, contents);
+            insertNewComment(currentUser, existedBlog, commentContents);
         } else {
-            insertReplyComment(user, blog, contents, parentCommentId);
+            insertReplyComment(currentUser, existedBlog, commentContents, parentCommentId);
         }
 
 
@@ -104,7 +104,7 @@ public class CommentService {
     private void insertNewComment(User user, Blog blog, String contents) {
         log.info("New Comment Insert");
 
-        final Comment comment = Comment.builder()
+        final Comment newComment = Comment.builder()
                 .blog(blog)
                 .user(user)
                 .contents(contents)
@@ -114,9 +114,10 @@ public class CommentService {
                 .byAdmin(SecurityUtil.isAdmin())
                 .build();
 
-        insertComment(blog, comment);
+        commentRepository.save(newComment);
+        blog.addComment(newComment);
 
-        comment.updateCgroup(comment.getId());
+        newComment.changeCgroup(newComment.getId());
     }
 
     private void insertReplyComment(User user, Blog blog, String contents, Long parentCommentId) {
@@ -126,15 +127,15 @@ public class CommentService {
 
         final Long cgroup = parentComment.getCgroup();
         final Integer depth = parentComment.getDepth();
-        final Double childSort = parentComment.getChildSort();
+        final Double childSort = parentComment.getChildCommentSort();
 
-        if (parentComment.exceedMaxCommentDepth(maxCommentDepth)) {
+        if (parentComment.isExceedMaxCommentDepth(maxCommentDepth)) {
             throw new MaxDepthCommentException();
         }
 
-        parentComment.increaseChild();
+        parentComment.increaseChildCount();
 
-        final Comment childComment = Comment.builder()
+        final Comment newChildComment = Comment.builder()
                 .blog(blog)
                 .user(user)
                 .contents(contents)
@@ -146,18 +147,15 @@ public class CommentService {
                 .byAdmin(SecurityUtil.isAdmin())
                 .build();
 
-        insertComment(blog, childComment);
+        commentRepository.save(newChildComment);
+        blog.addComment(newChildComment);
     }
 
-    private void insertComment(Blog blog, Comment comment) {
-        commentRepository.save(comment);
-        blog.addComment(comment);
-    }
 
     /**
      * 댓글 삭제
      */
-    public void delete(Long id) {
+    public void deleteByCommentId(Long commentId) {
         final String currentUserId = SecurityUtil.getUserId();
 
         // No Login Error
@@ -165,45 +163,47 @@ public class CommentService {
             throw new NoAuthenticatedException();
         }
 
-        Optional<Comment> commentOpt = commentRepository.findById(id);
+        final Optional<Comment> existCommentOptional = commentRepository.findById(commentId);
 
         // No Comment Error
-        if (!commentOpt.isPresent()) {
+        if (!existCommentOptional.isPresent()) {
             throw new InvalidCommentException();
         }
 
-        final Comment comment = commentOpt.get();
+        final Comment existCommand = existCommentOptional.get();
 
         // No Auth Error
-        if (!comment.getCreateBy().equals(currentUserId)) {
+        if (!existCommand.isCreateByUserId(currentUserId)) {
             throw new NoAuthenticatedException();
         }
 
         //자식이 없는 경우
-        if (comment.getChild() == 0) {
-            commentRepository.delete(comment);
-            decreaseChild(comment.getParentId());
+        if (!existCommand.hasChild()) {
+            commentRepository.delete(existCommand);
+            decreaseChild(existCommand.getParentId());
         }
 
         // 자식이 있는 경우
         else {
-            comment.erase();
+            existCommand.erase();
         }
     }
 
 
-    public void decreaseChild(Long id) {
-        if (!Objects.isNull(id)) {
-            Comment comment = commentRepository.findById(id).get();
-            comment.decreaseChild();
+    private void decreaseChild(Long commendId) {
+        if (Objects.nonNull(commendId)) {
+            final Comment existedComment = commentRepository.findById(commendId).get();
+
+            existedComment.decreaseChildCount();
 
             //삭제인 상태에서, 자식이 없는 경우 삭제
-            if ((comment.getChild() == 0) && comment.isErase()) {
-                commentRepository.delete(comment);
+            if (!existedComment.hasChild() && existedComment.isErase()) {
+                commentRepository.delete(existedComment);
 
                 //부모 검증 (재귀)
-                decreaseChild(comment.getParentId());
+                decreaseChild(existedComment.getParentId());
             }
         }
     }
+
 }

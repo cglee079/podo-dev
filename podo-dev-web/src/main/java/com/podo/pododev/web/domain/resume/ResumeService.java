@@ -16,7 +16,7 @@ public class ResumeService {
 
     public List<ResumeDto.response> findAll() {
 
-        List<Resume> resumes = resumeRepository.findAllByOrderBySortAsc();
+        final List<Resume> resumes = resumeRepository.findAllByOrderBySortAsc();
 
         return resumes.stream()
                 .map(ResumeDto.response::new)

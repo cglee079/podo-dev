@@ -19,7 +19,7 @@ public class AttachLinkManager {
         return uploaderFrontendUrl;
     }
 
-    public String changeLinkSeverSavedToStorageStatic(String str) {
+    public String changeServerLinkToStorageStatic(String str) {
         return str.replace(getServerSavedLink(), getStorageStaticLink());
     }
 

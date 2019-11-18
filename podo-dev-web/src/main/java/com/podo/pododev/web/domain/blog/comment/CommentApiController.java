@@ -62,9 +62,9 @@ public class CommentApiController {
     /**
      * 댓글 삭제
      */
-    @DeleteMapping("/api/blogs/{blogId}/comments/{id}")
-    public ApiResponse delete(@PathVariable Long blogId, @PathVariable Long id) {
-        commentService.delete(id);
+    @DeleteMapping("/api/blogs/{blogId}/comments/{commentId}")
+    public ApiResponse delete(@PathVariable Long blogId, @PathVariable Long commentId) {
+        commentService.deleteByCommentId(commentId);
 
         return StatusResponse.builder()
                 .status(ApiStatus.SUCCESS)

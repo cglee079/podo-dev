@@ -24,7 +24,7 @@ public class AttachFileStorageUploader {
      *
      * @param files
      */
-    public void uploadAttachFile(List<AttachFileDto.insert> files) {
+    public void uploadFileOfAttachFiles(List<AttachFileDto.insert> files) {
         log.info("Update Files");
 
         files.forEach(file -> {

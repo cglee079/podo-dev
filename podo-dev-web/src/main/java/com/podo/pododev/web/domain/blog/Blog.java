@@ -89,7 +89,7 @@ public class Blog extends UpdatableBaseEntity {
      * @param uploadServerDomain
      */
 
-    public void increaseHitCnt() {
+    public void increaseHitCount() {
         this.hitCnt++;
     }
 

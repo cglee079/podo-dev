@@ -36,7 +36,7 @@ public class User extends UpdatableBaseEntity implements Serializable {
         this.picture = picture;
     }
 
-    public void updateInfo(String username, String email, String picture) {
+    public void updateUserInfo(String username, String email, String picture) {
         this.username = username;
         this.email = email;
         this.picture = picture;

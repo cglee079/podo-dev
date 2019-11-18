@@ -23,8 +23,8 @@ public class BlogFeedService {
      * 노출 게시글 조회
      */
     public List<BlogDto.feed> findByEnabled() {
-        List<Blog> blogs = blogRepository.findByEnabled(true);
-        return blogs.stream()
+        List<Blog> exitedBlogs = blogRepository.findByEnabled(true);
+        return exitedBlogs.stream()
                 .map(BlogDto.feed::new)
                 .collect(Collectors.toList());
     }
@@ -33,12 +33,16 @@ public class BlogFeedService {
     /**
      * 웹피드 되어야할 게시글이 있는가?
      */
-    public Boolean hasYetNotFeed(Boolean feeded) {
+    public Boolean hasNotFeededBlog(boolean feeded) {
         return !blogRepository.findByFeeded(feeded).isEmpty();
     }
 
     public void completeFeed() {
-        blogRepository.findByFeeded(false).forEach(Blog::doFeeded);
+        final List<Blog> notFeededBlogs = blogRepository.findByFeeded(false);
+
+        for (Blog notFeededBlog : notFeededBlogs) {
+            notFeededBlog.doFeeded();
+        }
     }
 
 

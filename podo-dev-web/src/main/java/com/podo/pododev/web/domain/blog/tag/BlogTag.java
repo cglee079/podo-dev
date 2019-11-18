@@ -27,11 +27,9 @@ public class BlogTag extends BaseEntity {
 
     private Integer idx;
 
-    @Builder
-    public BlogTag(Blog blog, String val, Integer idx) {
+    public BlogTag(Blog blog, String val) {
         this.blog = blog;
         this.val = val;
-        this.idx = idx;
     }
 
     public void changeIndex(int index) {

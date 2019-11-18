@@ -1,10 +1,12 @@
 package com.podo.pododev.web.domain.blog.tag;
 
-import com.cglee079.pododev.core.global.response.ApiResponse;
-import com.cglee079.pododev.core.global.response.DataResponse;
-import com.cglee079.pododev.core.global.response.ApiStatus;
+import com.podo.pododev.core.rest.response.ApiResponse;
+import com.podo.pododev.core.rest.response.ApiStatus;
+import com.podo.pododev.core.rest.response.ListResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -19,12 +21,12 @@ public class BlogTagApiController {
      * 태그, 초성별 조회
      */
     @GetMapping("/api/tags")
-    public ApiResponse listValues() {
-        final List<String> values = blogTagService.getAll();
+    public ApiResponse getAllDistinctTagValue() {
+        final List<String> values = blogTagService.getAllDistinctTagValue();
 
-        return DataResponse.builder()
+        return ListResponse.builder()
                 .status(ApiStatus.SUCCESS)
-                .data(values)
+                .results(values)
                 .build();
     }
 

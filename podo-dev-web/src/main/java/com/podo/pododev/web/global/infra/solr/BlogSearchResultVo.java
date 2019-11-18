@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Getter
 @EqualsAndHashCode
-public class BlogSearchVo {
+public class BlogSearchResultVo {
     private Long blogId;
     private String title;
     private String contents;
 
-    public BlogSearchVo(String blogId, String title, String contents) {
+    public BlogSearchResultVo(String blogId, String title, String contents) {
         this.blogId = Long.valueOf(blogId);
         this.title = title;
         this.contents = contents;

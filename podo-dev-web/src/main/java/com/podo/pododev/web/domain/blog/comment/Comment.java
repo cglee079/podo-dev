@@ -61,12 +61,16 @@ public class Comment extends BaseEntity {
         this.enabled = true;
     }
 
-    public void updateCgroup(Long id) {
+    public void changeCgroup(Long id) {
         this.cgroup = id;
     }
 
-    public void increaseChild() {
+    public void increaseChildCount() {
         this.child++;
+    }
+
+    public void decreaseChildCount() {
+        this.child--;
     }
 
     public void erase() {
@@ -74,19 +78,23 @@ public class Comment extends BaseEntity {
         this.enabled = false;
     }
 
-    public void decreaseChild() {
-        this.child--;
-    }
-
     public boolean isErase() {
         return !this.enabled;
     }
 
-    public boolean exceedMaxCommentDepth(Integer maxCommentDepth) {
+    public boolean isExceedMaxCommentDepth(Integer maxCommentDepth) {
         return (this.depth + 1) > maxCommentDepth;
     }
 
-    public Double getChildSort() {
+    public double getChildCommentSort() {
         return ((double) (child + 1) / Math.pow(10, 3 * depth)) + sort;
+    }
+
+    public boolean isCreateByUserId(String userId) {
+        return getCreateBy().equals(userId);
+    }
+
+    public boolean hasChild() {
+        return child > 0;
     }
 }

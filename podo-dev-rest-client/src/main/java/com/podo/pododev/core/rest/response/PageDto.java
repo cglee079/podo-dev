@@ -13,15 +13,15 @@ public class PageDto<T> {
     Integer totalPages;
     Long totalElements;
 
-    List<T> contents;
+    List<T> data;
 
     @Builder
-    public PageDto(Integer currentPage, Integer pageSize, Integer totalPages, Long totalElements, List<T> contents) {
+    public PageDto(Integer currentPage, Integer pageSize, Integer totalPages, Long totalElements, List<T> data) {
         this.currentPage = currentPage;
         this.pageSize = pageSize;
         this.totalPages = totalPages;
         this.totalElements = totalElements;
-        this.contents = contents;
+        this.data = data;
     }
 }
 

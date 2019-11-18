@@ -1,5 +1,6 @@
 package com.podo.pododev.web.domain.blog.tag;
 
+import com.cglee079.pododev.web.domain.blog.tag.QBlogTag;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 

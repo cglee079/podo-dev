@@ -20,8 +20,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MySolrClient {
 
-    private final SolrSender solrSender;
-
     @Value("${infra.solr.core.id}")
     private String coreId;
 
@@ -31,7 +29,9 @@ public class MySolrClient {
     @Value("${infra.solr.query.hl.frag.length}")
     private String hlFragLength;
 
-    public List<BlogSearchVo> search(String value) {
+    private final SolrSender solrSender;
+
+    public List<BlogSearchResultVo> search(String value) {
         log.info("Solr Search, value '{}'", value);
 
         if (StringUtils.isEmpty(value)) {
@@ -43,7 +43,7 @@ public class MySolrClient {
             final List<SolrResponse> responseValues = response.getBeans(SolrResponse.class);
             final Map<String, Map<String, List<String>>> highlights = response.getHighlighting();
 
-            final List<BlogSearchVo> blogSearchVos = new ArrayList<>();
+            final List<BlogSearchResultVo> blogSearchResultVos = new ArrayList<>();
 
             for (SolrResponse responseValue : responseValues) {
                 final String blogId = responseValue.getBlogId();
@@ -52,10 +52,10 @@ public class MySolrClient {
                 final String contents = getHighlightContents(hlValues, responseValue.getContents());
                 final String title = getHighlightBlogTitle(hlValues, responseValue.getTitle());
 
-                blogSearchVos.add(new BlogSearchVo(blogId, title, contents));
+                blogSearchResultVos.add(new BlogSearchResultVo(blogId, title, contents));
             }
 
-            return blogSearchVos;
+            return blogSearchResultVos;
 
         } catch (SolrServerException | IOException e) {
             throw new SolrSendException(e);

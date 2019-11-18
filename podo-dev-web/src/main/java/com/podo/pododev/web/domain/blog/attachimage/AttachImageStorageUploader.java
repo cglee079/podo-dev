@@ -26,7 +26,7 @@ public class AttachImageStorageUploader {
      * 게시글 작성 시, 이미지 업로드 To Uplaoder Server
      * @param images
      */
-    public void uploadAttachImage(List<AttachImageDto.insert> images) {
+    public void uploadFileOfAttachImages(List<AttachImageDto.insert> images) {
         for (AttachImageDto.insert image : images) {
             log.info("Image '{}', '{}'", image.getFileStatus(), image.getOriginName());
 

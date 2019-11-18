@@ -30,7 +30,7 @@ public class AttachImageWriter {
     @Value("${local.upload.sub.image.dir}")
     private String imageSaveDirectory;
 
-    public static final String ORIGIN_IMAGE_ID = "origin";
+    private static final String ORIGIN_IMAGE_ID = "origin";
 
     private final FileWriter fileWriter;
 
@@ -84,15 +84,15 @@ public class AttachImageWriter {
 
 
     private AttachImageSave makeOrigin(String path, File originImage) {
-        final ImageInfoVo imageInfoVo = getImageInfo(originImage);
+        final ImageSizeVo imageSizeVo = getImageInfo(originImage);
 
         return AttachImageSave.builder()
                 .imageId(ORIGIN_IMAGE_ID)
                 .filename(originImage.getName())
                 .path(path)
                 .filesize(originImage.length())
-                .height(imageInfoVo.getHeight())
-                .width(imageInfoVo.getWidth())
+                .height(imageSizeVo.getHeight())
+                .width(imageSizeVo.getWidth())
                 .build();
     }
 
@@ -119,10 +119,10 @@ public class AttachImageWriter {
      * @param file
      * @return
      */
-    private ImageInfoVo getImageInfo(File file) {
+    private ImageSizeVo getImageInfo(File file) {
         try {
             BufferedImage image = ImageIO.read(file);
-            return new ImageInfoVo(image.getWidth(), (image.getHeight()));
+            return new ImageSizeVo(image.getWidth(), (image.getHeight()));
 
         } catch (IOException e) {
             log.error("이미지 파일 정보를 가져 올 수 없습니다");
