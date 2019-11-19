@@ -92,9 +92,9 @@
             const archive = await $axios.$get(baseUrl + '/api/blogs/archive')
 
             return {
-                tags: tags.data,
-                recentComments: recentComments.data,
-                archive: archive.data
+                tags: tags.result.data,
+                recentComments: recentComments.result.data,
+                archive: archive.result.data
             }
         },
 

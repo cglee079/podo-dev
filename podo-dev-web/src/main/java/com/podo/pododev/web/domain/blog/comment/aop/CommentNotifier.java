@@ -5,7 +5,7 @@ import com.podo.pododev.web.domain.blog.comment.CommentDto;
 import com.podo.pododev.web.domain.blog.service.BlogReadService;
 import com.podo.pododev.web.global.config.security.SecurityUtil;
 import com.podo.pododev.web.global.infra.telegram.TelegramClient;
-import com.podo.pododev.core.util.FormatUtil;
+import com.podo.pododev.core.util.DateTimeFormatUtil;
 import com.podo.pododev.core.util.MarkdownUtil;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.JoinPoint;
@@ -49,7 +49,7 @@ public class CommentNotifier {
                 .append(username)
                 .append("\n")
                 .append("시간 : ")
-                .append(FormatUtil.dateTimeToDateTimeStr(LocalDateTime.now()))
+                .append(DateTimeFormatUtil.dateTimeToDateTimeStr(LocalDateTime.now()))
                 .append("\n")
                 .append("내용 :\n")
                 .append(MarkdownUtil.escape(contents));

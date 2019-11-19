@@ -25,7 +25,7 @@ public class PodoStorageClient {
     private String serverUrl;
 
     /**
-     * Upload to Uploader Server
+     * Upload to Storage Server
      *
      * @param path
      * @param file

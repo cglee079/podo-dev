@@ -23,17 +23,17 @@ public class BlogTag extends BaseEntity {
     @JoinColumn(name = "blog_id")
     private Blog blog;
 
-    private String val;
+    private String tagValue;
 
-    private Integer idx;
+    private Integer tagSort;
 
-    public BlogTag(Blog blog, String val) {
+    public BlogTag(Blog blog, String tagValue) {
         this.blog = blog;
-        this.val = val;
+        this.tagValue = tagValue;
     }
 
-    public void changeIndex(int index) {
-        this.idx = index;
+    public void changeIndex(int tagSort) {
+        this.tagSort = tagSort;
     }
 
 }

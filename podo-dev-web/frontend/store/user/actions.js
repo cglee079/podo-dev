@@ -2,7 +2,7 @@ export default {
     login() {
         this.$axios.$get('/login/enabled')
             .then(res => {
-                const result = res.data
+                const result = res.result
                 if (result) {
                     window.location.href = process.env.externalServerUrl + "/login/google"
                 } else {
@@ -48,7 +48,7 @@ export default {
                 .$get("/api/user")
                 .then(res => {
                     //사용자 정보 확인
-                    const user = res.data
+                    const user = res.result
                     commit('doLogin', user)
 
                     this.$storage.setLocalStorage("token", token)

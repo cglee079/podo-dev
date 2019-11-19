@@ -3,6 +3,7 @@ package com.podo.pododev.core.rest.handler;
 import com.podo.pododev.core.rest.exception.ResponsibleException;
 import com.podo.pododev.core.rest.response.ApiStatus;
 import com.podo.pododev.core.rest.response.ErrorsResponse;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -35,7 +36,7 @@ public class GlobalExceptionHandler {
 
         BindingResult result = e.getBindingResult();
         List<String> fieldErrors = result.getFieldErrors().stream()
-                .map(f -> f.getDefaultMessage())
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.toList());
 
         ErrorsResponse response = ErrorsResponse.multiError()

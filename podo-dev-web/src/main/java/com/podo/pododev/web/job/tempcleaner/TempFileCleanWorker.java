@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class TempCleanWorker implements Worker {
+public class TempFileCleanWorker implements Worker {
 
     public static final Integer EXPIRE_DAY = 2;
 

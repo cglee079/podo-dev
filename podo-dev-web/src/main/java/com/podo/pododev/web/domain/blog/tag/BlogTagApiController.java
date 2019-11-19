@@ -26,7 +26,7 @@ public class BlogTagApiController {
 
         return ListResponse.builder()
                 .status(ApiStatus.SUCCESS)
-                .results(values)
+                .result(values)
                 .build();
     }
 

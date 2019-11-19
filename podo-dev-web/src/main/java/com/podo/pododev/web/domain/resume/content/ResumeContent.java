@@ -21,7 +21,7 @@ public class ResumeContent {
     @JoinColumn(name = "resume_id")
     private Resume resume;
 
-    private String content;
+    private String resumeContentValue;
 
-    private Integer sort;
+    private Integer resumeContentSort;
 }

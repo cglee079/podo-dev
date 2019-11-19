@@ -7,9 +7,9 @@
         </div>
 
         <div
-                id="btnPaging"
-                @click="loadBlogComments(page + 1, page + 1)"
-                :class="hasMoreComment ? 'on': ''"
+            id="btnPaging"
+            @click="loadBlogComments(page + 1, page + 1)"
+            :class="hasMoreComment ? 'on': ''"
         >
             이전 댓글 보기
         </div>
@@ -19,25 +19,25 @@
                  v-bind:key="comment.id"
             >
                 <comment-item
-                        :blogId="blogId"
-                        :index="index"
-                        :comment="comment"
-                        @delete="deleteBlogComment"
-                        @reload="reloadBlogComments"
-                        @onProgress="onProgress"
-                        @offProgress="offProgress"
+                    :blogId="blogId"
+                    :index="index"
+                    :comment="comment"
+                    @delete="deleteBlogComment"
+                    @reload="reloadBlogComments"
+                    @onProgress="onProgress"
+                    @offProgress="offProgress"
                 />
             </div>
         </div>
 
 
         <comment-write
-                :blogId="blogId"
-                :parentId="null"
-                placeholder="댓글을 입력해주세요"
-                @reload="reloadBlogComments"
-                @onProgress="onProgress"
-                @offProgress="offProgress"
+            :blogId="blogId"
+            :parentId="null"
+            placeholder="댓글을 입력해주세요"
+            @reload="reloadBlogComments"
+            @onProgress="onProgress"
+            @offProgress="offProgress"
         />
 
 
@@ -125,7 +125,7 @@
                 }).then((res) => {
                     this.offProgress()
 
-                    res = res.data
+                    res = res.result
                     res.contents.slice().reverse().forEach(item => this.comments.unshift(item))
                     this.page = page
                     this.pageSize = res.pageSize

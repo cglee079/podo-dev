@@ -5,8 +5,8 @@ import lombok.Getter;
 @Getter
 public abstract class ApiResponse {
 
-    String code;
-    String message;
+    private String code;
+    private String message;
 
     public ApiResponse(ApiStatus status) {
         this.code = status.getCode();

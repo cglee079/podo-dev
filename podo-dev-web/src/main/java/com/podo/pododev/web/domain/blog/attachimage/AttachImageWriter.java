@@ -30,7 +30,7 @@ public class AttachImageWriter {
     @Value("${local.upload.sub.image.dir}")
     private String imageSaveDirectory;
 
-    private static final String ORIGIN_IMAGE_ID = "origin";
+    private static final String ORIGIN_IMAGE_KEY = "origin";
 
     private final FileWriter fileWriter;
 
@@ -42,10 +42,10 @@ public class AttachImageWriter {
         final String path = PathUtil.merge(imageSaveDirectory, MyFileUtils.makeDatePath(LocalDateTime.now())); // 로컬 저장경로
         final Map<String, AttachImageSave> saves = new HashMap<>();
 
-        final String originPath = PathUtil.merge(path, ORIGIN_IMAGE_ID);
+        final String originPath = PathUtil.merge(path, ORIGIN_IMAGE_KEY);
         final File originImage = fileWriter.write(originPath, url);
 
-        saves.put(ORIGIN_IMAGE_ID, makeOrigin(originPath, originImage));
+        saves.put(ORIGIN_IMAGE_KEY, makeOrigin(originPath, originImage));
 
         return saves;
     }
@@ -55,9 +55,9 @@ public class AttachImageWriter {
         final Map<String, AttachImageSave> saves = new HashMap<>();
 
         //Save Origin File
-        final String originPath = PathUtil.merge(path, ORIGIN_IMAGE_ID);
+        final String originPath = PathUtil.merge(path, ORIGIN_IMAGE_KEY);
         final File originImage = fileWriter.write(originPath, base64, extension);
-        saves.put(ORIGIN_IMAGE_ID, makeOrigin(originPath, originImage));
+        saves.put(ORIGIN_IMAGE_KEY, makeOrigin(originPath, originImage));
 
         return saves;
     }
@@ -73,10 +73,10 @@ public class AttachImageWriter {
         final Map<String, AttachImageSave> saves = new HashMap<>();
 
         //Save Origin File
-        final String originPath = PathUtil.merge(path, ORIGIN_IMAGE_ID);
+        final String originPath = PathUtil.merge(path, ORIGIN_IMAGE_KEY);
         final File originImage = fileWriter.write(originPath, multipartFile);
 
-        saves.put(ORIGIN_IMAGE_ID, makeOrigin(originPath, originImage));
+        saves.put(ORIGIN_IMAGE_KEY, makeOrigin(originPath, originImage));
 
 
         return saves;
@@ -87,7 +87,7 @@ public class AttachImageWriter {
         final ImageSizeVo imageSizeVo = getImageInfo(originImage);
 
         return AttachImageSave.builder()
-                .imageId(ORIGIN_IMAGE_ID)
+                .imageKey(ORIGIN_IMAGE_KEY)
                 .filename(originImage.getName())
                 .path(path)
                 .filesize(originImage.length())

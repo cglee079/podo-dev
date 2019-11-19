@@ -1,23 +1,21 @@
 export default {
     methods: {
-        searchFacet(input) {
+        searchFacet(searchValue) {
 
             return new Promise(resolve => {
-                if (input.length < 1) {
+                if (searchValue.length < 1) {
                     return resolve([])
                 }
 
-                this.$axios.get("/api/blogs/facets", {
+                this.$axios.$get("/api/blogs/facets", {
                     params: {
-                        value: input
+                        searchValue: searchValue
                     }
 
                 }).then(res => {
-                    res = res.data
-                    const facets = res.data
+                    const facets = res.result
                     resolve(facets)
                 }).catch(err => {
-                    console.log(err)
                     resolve([])
                 })
             })

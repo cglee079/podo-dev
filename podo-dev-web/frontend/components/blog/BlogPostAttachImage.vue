@@ -2,9 +2,9 @@
     <div>
         <div id="pasteImageUpload">
             <input
-                    @paste="onPaste"
-                    @keypress="onKeyPress"
-                    placeholder="여기에 이미지 붙여넣기를 해주세요!"
+                @paste="onPaste"
+                @keypress="onKeyPress"
+                placeholder="여기에 이미지 붙여넣기를 해주세요!"
             />
         </div>
 
@@ -21,17 +21,17 @@
 
         <div id="imageList">
             <div class="image"
-                 v-for="(image, index) in images"
+                 v-for="(attachImage, index) in attachImages"
                  v-bind:key="index"
 
-                 :class="isValidImage(image.fileStatus) ? '' : 'disabled' "
+                 :class="isValidImage(attachImage.attachStatus) ? '' : 'disabled' "
             >
                 <div class="menus">
-                    <div class="menu-delete" @click="clickImageDelete(index)">삭제</div>
+                    <div class="menu-delete" @click="clickAttachImageRemove(index)">삭제</div>
                 </div>
 
-                <img :src=" image.uploadedUrl + image.saves.origin.path +
-                    '/' + image.saves.origin.filename"/>
+                <img :src=" attachImage.uploadedUrl + attachImage.saves.origin.path +
+                    '/' + attachImage.saves.origin.filename"/>
             </div>
         </div>
     </div>
@@ -41,12 +41,13 @@
     export default {
         name: "BlogPostImage",
         props: {
-            images: Array
+            attachImages: Array
         },
         methods: {
             onKeyPress(event) {
                 event.preventDefault()
             },
+
             onPaste(event) {
                 event.preventDefault()
 
@@ -113,10 +114,10 @@
                         reader.readAsDataURL(file);
                     })
             },
-            onFileChange(event) {
-                const files = event.target.files
 
-                this.uploadImage(files, 0, files.length - 1)
+            onFileChange(event) {
+                const fileOfAttachImages = event.target.files
+                this.uploadImage(fileOfAttachImages, 0, fileOfAttachImages.length - 1)
             },
 
             uploadBase64(base64) {
@@ -125,8 +126,8 @@
                 this.$axios
                     .$post("/api/blogs/images", {base64: base64})
                     .then(res => {
-                        const image = res.data
-                        this.$emit('add', image)
+                        const attachImage = res.result
+                        this.$emit('addAttachImage', attachImage)
                         this.$emit('offProgress')
                     })
                     .catch(err => {
@@ -135,14 +136,14 @@
                     })
             },
 
-            uploadImageUrl(url) {
+            uploadImageUrl(imageUrl) {
                 this.$emit('onProgress')
 
                 this.$axios
-                    .$post("/api/blogs/images", {url: url})
+                    .$post("/api/blogs/images", {imageUrl: imageUrl})
                     .then(res => {
-                        const image = res.data
-                        this.$emit('add', image)
+                        const attchImage = res.result
+                        this.$emit('addAttachImage', attchImage)
                         this.$emit('offProgress')
                     })
                     .catch(err => {
@@ -160,7 +161,7 @@
                         headers: {'Content-Type': 'multipart/form-data'}
                     }
                     const formData = new FormData()
-                    formData.append("image", files[i])
+                    formData.append("fileOfImage", files[i])
 
                     this.$axios
                         .$post("/api/blogs/images", formData, config)
@@ -173,11 +174,11 @@
 
 
                 }).then((res) => {
-                    const image = res.data
-                    this.$emit('add', image)
+                    const attachImage = res.result
+                    this.$emit('addAttachImage', attachImage)
                     this.$emit('offProgress')
 
-                    if(i < until){
+                    if (i < until) {
                         this.uploadImage(files, i + 1, until)
                     }
 
@@ -199,12 +200,12 @@
                 return false
             },
 
-            removeImage(index) {
-                this.$emit('delete', index)
+            clickAttachImageRemove(index) {
+                this.removeAttachImage(index)
             },
 
-            clickImageDelete(index) {
-                this.removeImage(index)
+            removeAttachImage(index) {
+                this.$emit('removeAttachImage', index)
             }
         }
     }

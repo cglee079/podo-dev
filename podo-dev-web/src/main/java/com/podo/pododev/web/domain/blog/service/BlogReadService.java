@@ -4,7 +4,7 @@ import com.podo.pododev.core.rest.response.PageDto;
 import com.podo.pododev.web.domain.blog.Blog;
 import com.podo.pododev.web.domain.blog.BlogDto;
 import com.podo.pododev.web.domain.blog.repository.BlogRepository;
-import com.podo.pododev.web.domain.blog.FileStatus;
+import com.podo.pododev.web.domain.blog.AttachStatus;
 import com.podo.pododev.web.domain.blog.exception.InvalidBlogIdException;
 import com.podo.pododev.web.domain.blog.tag.BlogTag;
 import com.podo.pododev.web.global.config.security.SecurityUtil;
@@ -88,7 +88,7 @@ public class BlogReadService {
 
         final List<Blog> relates = getRelates(tagValues);
 
-        return new BlogDto.response(blog, before, next, relates, attachLinkManager.getStorageStaticLink(), FileStatus.BE);
+        return new BlogDto.response(blog, before, next, relates, attachLinkManager.getStorageStaticLink(), AttachStatus.BE);
     }
 
     private List<Blog> getRelates(List<String> tagValues) {

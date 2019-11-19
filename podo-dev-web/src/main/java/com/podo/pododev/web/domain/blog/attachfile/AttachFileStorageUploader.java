@@ -28,9 +28,9 @@ public class AttachFileStorageUploader {
         log.info("Update Files");
 
         files.forEach(file -> {
-            log.info("File '{}', '{}'", file.getFileStatus(), file.getOriginName());
+            log.info("File '{}', '{}'", file.getAttachStatus(), file.getOriginName());
 
-            switch (file.getFileStatus()) {
+            switch (file.getAttachStatus()) {
                 case NEW:
                     podoStorageClient.upload(file.getPath(), new File(baseDir + file.getPath(), file.getFilename()));
                     break;

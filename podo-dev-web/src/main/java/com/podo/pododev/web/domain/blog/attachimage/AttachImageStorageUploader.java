@@ -28,11 +28,11 @@ public class AttachImageStorageUploader {
      */
     public void uploadFileOfAttachImages(List<AttachImageDto.insert> images) {
         for (AttachImageDto.insert image : images) {
-            log.info("Image '{}', '{}'", image.getFileStatus(), image.getOriginName());
+            log.info("Image '{}', '{}'", image.getAttachStatus(), image.getOriginName());
 
             final List<AttachImageSave> saves = new ArrayList<>(image.getSaves().values());
 
-            switch (image.getFileStatus()) {
+            switch (image.getAttachStatus()) {
                 case NEW:
                     for (AttachImageSave attachImageSave : saves) {
                         podoStorageClient.upload(attachImageSave.getPath(), new File(PathUtil.merge(baseDir, attachImageSave.getPath()), attachImageSave.getFilename()));

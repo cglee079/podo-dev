@@ -1,4 +1,4 @@
-package com.podo.pododev.uploader.global.config.security;
+package com.podo.pododev.storage.global.config.security;
 
 
 import org.springframework.security.core.Authentication;

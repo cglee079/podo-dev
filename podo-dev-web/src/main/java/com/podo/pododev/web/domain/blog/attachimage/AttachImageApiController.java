@@ -17,7 +17,7 @@ public class AttachImageApiController {
     private final AttachImageService attachImageService;
 
     @PostMapping(value = "/api/blogs/images", consumes = "multipart/form-data")
-    public ApiResponse uploadImages(@RequestParam("image") MultipartFile image) {
+    public ApiResponse uploadImages(@RequestParam("fileOfImage") MultipartFile image) {
         final AttachImageDto.response response = attachImageService.saveImage(image);
 
         return DataResponse.builder()
@@ -37,8 +37,8 @@ public class AttachImageApiController {
         }
 
         //Url Upload
-        else if (Objects.nonNull(upload.getUrl())) {
-            attachImage = attachImageService.saveImageUrl(upload.getUrl());
+        else if (Objects.nonNull(upload.getImageUrl())) {
+            attachImage = attachImageService.saveImageUrl(upload.getImageUrl());
         }
 
         return DataResponse.builder()

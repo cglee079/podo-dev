@@ -1,6 +1,6 @@
 package com.podo.pododev.web.domain.blog.attachimage;
 
-import com.podo.pododev.web.domain.blog.FileStatus;
+import com.podo.pododev.web.domain.blog.AttachStatus;
 import com.podo.pododev.web.domain.blog.attachimage.save.AttachImageSave;
 import com.podo.pododev.web.domain.blog.attachimage.save.AttachImageSaveEntity;
 import lombok.Builder;
@@ -14,7 +14,7 @@ public class AttachImageDto {
 
     @Getter
     public static class upload {
-        private String url;
+        private String imageUrl;
         private String base64;
     }
 
@@ -23,25 +23,31 @@ public class AttachImageDto {
         private Long id;
         private String originName;
         private String uploadedUrl;
-        private FileStatus fileStatus;
+        private AttachStatus attachStatus;
         private Map<String, AttachImageSave> saves;
 
         @Builder
-        public response(String originName, String uploadedUrl, FileStatus fileStatus, Map<String, AttachImageSave> saves) {
+        public response(Long id, String originName, String uploadedUrl, AttachStatus attachStatus, Map<String, AttachImageSave> saves) {
+            this.id = id;
             this.originName = originName;
             this.uploadedUrl = uploadedUrl;
-            this.fileStatus = fileStatus;
+            this.attachStatus = attachStatus;
             this.saves = saves;
         }
 
-        public response(AttachImage image, String uploadedUrl, FileStatus fileStatus) {
-            this.id = image.getId();
-            this.originName = image.getOriginName();
-            this.uploadedUrl = uploadedUrl;
-            this.fileStatus = fileStatus;
-            this.saves = image.getSaves().stream()
+        public static AttachImageDto.response createByAttachImage(AttachImage image, String uploadedUrl, AttachStatus attachStatus) {
+            final Map<String, AttachImageSave> saves = image.getSaves().stream()
                     .map(AttachImageSaveEntity::getAttachImageSave)
-                    .collect(Collectors.toMap(AttachImageSave::getImageId, Function.identity()));
+                    .collect(Collectors.toMap(AttachImageSave::getImageKey, x -> x));
+
+            return response.builder()
+                    .id(image.getId())
+                    .originName(image.getOriginName())
+                    .uploadedUrl(uploadedUrl)
+                    .attachStatus(attachStatus)
+                    .saves(saves)
+                    .build();
+
 
         }
 
@@ -52,13 +58,13 @@ public class AttachImageDto {
         private Long id;
         private String originName;
         private String uploadedUrl;
-        private FileStatus fileStatus;
+        private AttachStatus attachStatus;
         private Map<String, AttachImageSave> saves;
 
         public AttachImage toEntity() {
 
-            List<AttachImageSaveEntity>  attachImageSaveEntities  = saves.keySet().stream()
-                    .map( id -> saves.get(id))
+            List<AttachImageSaveEntity> attachImageSaveEntities = saves.keySet().stream()
+                    .map(id -> saves.get(id))
                     .map(AttachImageSaveEntity::new)
                     .collect(Collectors.toList());
 

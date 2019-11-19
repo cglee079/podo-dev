@@ -1,7 +1,7 @@
 package com.podo.pododev.web.domain.blog.attachfile;
 
 import com.podo.pododev.core.util.MyFileUtils;
-import com.podo.pododev.web.domain.blog.FileStatus;
+import com.podo.pododev.web.domain.blog.AttachStatus;
 import com.podo.pododev.web.domain.blog.attachfile.exception.InvalidFileException;
 import com.podo.pododev.web.global.util.AttachLinkManager;
 import com.podo.pododev.web.global.util.writer.FileWriter;
@@ -49,7 +49,7 @@ public class AttachFileService {
                 .uploadedUrl(linkManager.getServerSavedLink())
                 .path(path)
                 .filename(file.getName())
-                .fileStatus(FileStatus.NEW)
+                .attachStatus(AttachStatus.NEW)
                 .filesize(file.length())
                 .build();
     }

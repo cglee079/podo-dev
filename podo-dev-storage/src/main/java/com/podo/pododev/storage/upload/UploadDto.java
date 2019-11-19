@@ -1,4 +1,4 @@
-package com.podo.pododev.uploader.domain.upload;
+package com.podo.pododev.storage.upload;
 
 import lombok.Getter;
 import lombok.Setter;

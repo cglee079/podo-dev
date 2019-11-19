@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +31,7 @@ public class Blog extends UpdatableBaseEntity {
 
     private String contents;
 
-    private Integer hitCnt;
+    private Integer hitCount;
 
     private Boolean feeded;
 
@@ -61,7 +60,7 @@ public class Blog extends UpdatableBaseEntity {
         this.enabled = enabled;
         this.attachImages = attachImages;
         this.attachFiles = attachFiles;
-        this.hitCnt = 0;
+        this.hitCount = 0;
         this.feeded = false;
     }
 
@@ -82,15 +81,8 @@ public class Blog extends UpdatableBaseEntity {
         this.feeded = true;
     }
 
-    /**
-     * Local Domain -> upload Server Domain
-     *
-     * @param localDomain
-     * @param uploadServerDomain
-     */
-
     public void increaseHitCount() {
-        this.hitCnt++;
+        this.hitCount++;
     }
 
     public void addTag(BlogTag tag) {

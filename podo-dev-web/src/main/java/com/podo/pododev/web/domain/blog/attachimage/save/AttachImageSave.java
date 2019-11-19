@@ -12,7 +12,7 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class AttachImageSave {
 
-    private String imageId;
+    private String imageKey;
 
     private String filename;
 
@@ -25,9 +25,9 @@ public class AttachImageSave {
     private Long filesize;
 
     @Builder
-    public AttachImageSave(String imageId, String filename, String path, Integer width, Integer height, Long filesize) {
+    public AttachImageSave(String imageKey, String filename, String path, Integer width, Integer height, Long filesize) {
+        this.imageKey = imageKey;
         this.filename = filename;
-        this.imageId = imageId;
         this.path = path;
         this.width = width;
         this.height = height;

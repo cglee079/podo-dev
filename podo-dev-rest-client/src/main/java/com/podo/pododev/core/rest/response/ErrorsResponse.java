@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 public class ErrorsResponse extends ApiResponse {
 
-    List<String> errors;
+    private List<String> errors;
 
     @Builder(builderMethodName = "multiError", builderClassName = "multiError")
     public ErrorsResponse(ApiStatus status, List<String> errors) {

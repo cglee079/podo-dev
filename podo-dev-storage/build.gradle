@@ -1,4 +1,4 @@
-archivesBaseName = 'podo-dev-uploader'
+archivesBaseName = 'podo-dev-storage'
 version = ''
 
 dependencies {

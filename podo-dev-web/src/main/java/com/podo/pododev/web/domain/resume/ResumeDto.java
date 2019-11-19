@@ -11,16 +11,16 @@ public class ResumeDto {
     @Getter
     public static class response {
         private String resumeKey;
-        private String head;
-        private Integer sort;
-        private List<String> contents;
+        private String resumeHead;
+        private Integer resumeSort;
+        private List<String> resumeContents;
 
         public response(Resume resume) {
             this.resumeKey = resume.getResumeKey();
-            this.head = resume.getHead();
-            this.sort = resume.getSort();
-            this.contents = resume.getResumeContents().stream()
-                    .map(ResumeContent::getContent)
+            this.resumeHead = resume.getResumeHead();
+            this.resumeSort = resume.getResumeSort();
+            this.resumeContents = resume.getResumeContents().stream()
+                    .map(ResumeContent::getResumeContentValue)
                     .collect(Collectors.toList());
         }
     }

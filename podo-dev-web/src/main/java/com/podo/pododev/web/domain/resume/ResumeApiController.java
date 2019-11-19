@@ -30,7 +30,7 @@ public class ResumeApiController {
 
         return ListResponse.builder()
                 .status(ApiStatus.SUCCESS)
-                .results(resumes)
+                .result(resumes)
                 .build();
     }
 

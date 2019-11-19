@@ -1,4 +1,4 @@
-package com.podo.pododev.uploader.domain.upload;
+package com.podo.pododev.storage.upload;
 
 import com.podo.pododev.core.rest.response.ApiResponse;
 import com.podo.pododev.core.rest.response.ApiStatus;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/api/uploader/file")
+@RequestMapping
 @RestController
 public class UploadApiController {
 
@@ -19,7 +19,7 @@ public class UploadApiController {
     /**
      * 파일 저장
      */
-    @PostMapping
+    @PostMapping("/api/uploader/file")
     public ApiResponse upload(@Validated @ModelAttribute UploadDto.insert insert) {
         log.info("File Upload '{}', '{}', '{}'", insert.getPath(), insert.getFile().getOriginalFilename(), insert.getFile().getSize());
         uploadService.save(insert);
@@ -32,7 +32,7 @@ public class UploadApiController {
     /**
      * 파일 삭제
      */
-    @DeleteMapping
+    @DeleteMapping("/api/uploader/file")
     public ApiResponse delete(@Validated @RequestBody UploadDto.delete delete) {
         log.info("File Delete '{}', '{}'", delete.getPath(), delete.getFilename());
 

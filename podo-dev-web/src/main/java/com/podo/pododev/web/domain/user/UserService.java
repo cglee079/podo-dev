@@ -18,7 +18,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     public UserDto.response getUser() {
-        GoogleUserDetails userDetails = SecurityUtil.getUser();
+        final GoogleUserDetails userDetails = SecurityUtil.getUser();
 
         if (Objects.isNull(userDetails)) {
             throw new NoAuthenticatedException();
@@ -27,21 +27,23 @@ public class UserService {
         return new UserDto.response(userDetails);
     }
 
-    public void save(UserDto.insert insert) {
+    public void merge(UserDto.insert insert) {
 
         final Optional<User> userOptional = userRepository.findByUserId(insert.getUserId());
 
         if (!userOptional.isPresent()) {
-            userRepository.save(insert.toEntity());
+            final User newUser = insert.toEntity();
+            userRepository.save(newUser);
             return;
         }
 
-        final User user = userOptional.get();
+        final User existedUser = userOptional.get();
+
         final String newEmail = insert.getEmail();
         final String newPicture = insert.getPicture();
         final String newUsername = insert.getUsername();
 
-        user.updateUserInfo(newUsername, newEmail, newPicture);
+        existedUser.updateUserInfo(newUsername, newEmail, newPicture);
     }
 }
 

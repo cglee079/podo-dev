@@ -12,7 +12,7 @@
                 <span v-for="tag in blog.tags"
                       v-bind:key="tag.id"
                 >
-                    <router-link :to="{name: 'index', query: {tag: tag.val}}"> #{{tag.val}}</router-link>
+                    <router-link :to="{name: 'index', query: {tag: tag.tagValue}}"> #{{tag.tagValue}}</router-link>
                 </span>
                 </div>
 
@@ -22,7 +22,7 @@
 
                 <div id="info">
                     <span>{{blog.publishAt}}</span>
-                    <span>조회수 {{blog.hitCnt}}</span>
+                    <span>조회수 {{blog.hitCount}}</span>
                 </div>
             </div>
 
@@ -145,7 +145,7 @@
 
             return $axios.$get(baseUrl + '/api/blogs/' + id)
                 .then(res => {
-                    const blog = res.data
+                    const blog = res.result
 
                     const keywords = blog.tags.map(tag => {
                         return tag.val
@@ -202,7 +202,7 @@
                 this.$refs.progressBar.off()
             },
 
-            clickModifyBlog(id) {
+            clickModifyBlog(blogId) {
                 this.$router.push({
                     name: 'blogs-id-post',
                     params: {

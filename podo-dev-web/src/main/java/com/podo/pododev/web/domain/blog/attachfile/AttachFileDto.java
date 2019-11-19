@@ -1,6 +1,6 @@
 package com.podo.pododev.web.domain.blog.attachfile;
 
-import com.podo.pododev.web.domain.blog.FileStatus;
+import com.podo.pododev.web.domain.blog.AttachStatus;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -14,27 +14,29 @@ public class AttachFileDto {
         private String uploadedUrl;
         private String path;
         private Long filesize;
-        private FileStatus fileStatus;
+        private AttachStatus attachStatus;
 
         @Builder
-        public response(Long id, String filename, String originName, String uploadedUrl, String path, Long filesize, FileStatus fileStatus) {
+        public response(Long id, String filename, String originName, String uploadedUrl, String path, Long filesize, AttachStatus attachStatus) {
             this.id = id;
             this.filename = filename;
             this.originName = originName;
             this.uploadedUrl = uploadedUrl;
             this.path = path;
             this.filesize = filesize;
-            this.fileStatus = fileStatus;
+            this.attachStatus = attachStatus;
         }
 
-        public response(AttachFile file, String uploadedUrl, FileStatus fileStatus) {
-            this.id = file.getId();
-            this.filename = file.getFilename();
-            this.originName = file.getOriginName();
-            this.uploadedUrl = uploadedUrl;
-            this.path = file.getPath();
-            this.filesize = file.getFilesize();
-            this.fileStatus = fileStatus;
+        public static AttachFileDto.response createByAttachFile(AttachFile file, String uploadedUrl, AttachStatus attachStatus) {
+            return response.builder()
+                    .id(file.getId())
+                    .path(file.getPath())
+                    .filename(file.getFilename())
+                    .originName(file.getOriginName())
+                    .uploadedUrl(uploadedUrl)
+                    .filesize(file.getFilesize())
+                    .attachStatus(attachStatus)
+                    .build();
         }
     }
 
@@ -63,7 +65,7 @@ public class AttachFileDto {
         private String originName;
         private String path;
         private Long filesize;
-        private FileStatus fileStatus;
+        private AttachStatus attachStatus;
 
         public AttachFile toEntity() {
             return AttachFile.builder()

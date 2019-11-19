@@ -78,7 +78,7 @@
                         'search': this.filter.search
                     }
                 }).then(res => {
-                    res = res.data
+                    res = res.result
                     res.contents.forEach(item => this.contents.push(item))
                     this.pageSize = res.pageSize
                     this.currentPage = res.currentPage
@@ -90,7 +90,7 @@
                         this.offProgress()
                     }
 
-                }).catch(err => {
+                }).catch(() => {
                     if(page === 0){
                         this.offProgress()
                     }

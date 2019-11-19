@@ -25,12 +25,12 @@ public class Comment extends BaseEntity {
     private Blog blog;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "userId")
-    private User user;
+    @JoinColumn(name = "write_by", referencedColumnName = "userId")
+    private User writer;
 
     private String contents;
 
-    private Integer child;
+    private Integer childCount;
 
     private Long parentId;
 
@@ -45,14 +45,14 @@ public class Comment extends BaseEntity {
     private Boolean byAdmin;
 
     @Builder
-    public Comment(Blog blog, User user, String contents, Long cgroup,
-                   Integer child, Long parentId, Integer depth, Double sort,
+    public Comment(Blog blog, User writer, String contents, Long cgroup,
+                   Integer childCount, Long parentId, Integer depth, Double sort,
                    Boolean byAdmin) {
 
         this.blog = blog;
-        this.user = user;
+        this.writer = writer;
         this.contents = contents;
-        this.child = child;
+        this.childCount = childCount;
         this.cgroup = cgroup;
         this.depth = depth;
         this.parentId = parentId;
@@ -66,11 +66,11 @@ public class Comment extends BaseEntity {
     }
 
     public void increaseChildCount() {
-        this.child++;
+        this.childCount++;
     }
 
     public void decreaseChildCount() {
-        this.child--;
+        this.childCount--;
     }
 
     public void erase() {
@@ -87,7 +87,7 @@ public class Comment extends BaseEntity {
     }
 
     public double getChildCommentSort() {
-        return ((double) (child + 1) / Math.pow(10, 3 * depth)) + sort;
+        return ((double) (childCount + 1) / Math.pow(10, 3 * depth)) + sort;
     }
 
     public boolean isCreateByUserId(String userId) {
@@ -95,6 +95,6 @@ public class Comment extends BaseEntity {
     }
 
     public boolean hasChild() {
-        return child > 0;
+        return childCount > 0;
     }
 }

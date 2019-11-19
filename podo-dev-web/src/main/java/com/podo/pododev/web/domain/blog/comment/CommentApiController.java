@@ -26,7 +26,7 @@ public class CommentApiController {
 
         return ListResponse.builder()
                 .status(ApiStatus.SUCCESS)
-                .results(comments)
+                .result(comments)
                 .build();
     }
 

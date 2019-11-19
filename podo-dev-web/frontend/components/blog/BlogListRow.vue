@@ -7,7 +7,7 @@
         <div v-if="blog.thumbnail != null"
              class="wrap-thumbnail"
         >
-            <img :src="blog.thumbnail" class="thumbnail"/>
+            <img :src="blog.thumbnail" class="thumbnail" alt="thumbnail"/>
         </div>
 
         <div class="content"
@@ -36,7 +36,7 @@
 
                     <span class="comment-count">
                         <img src="@/assets/icons/icon-comment2.svg"/>
-                        <span>{{blog.commentCnt}}</span>
+                        <span>{{blog.commentCount}}</span>
                     </span>
                 </div>
             </div>
@@ -53,13 +53,13 @@
             filter: Object,
         },
         methods: {
-            clickTag(val) {
-                if (this.filter.tag === val) {
+            clickTag(tagValue) {
+                if (this.filter.tag === tagValue) {
                     this.$router.push({name: 'index'})
                     return
                 }
 
-                this.$router.push({name: 'index', query: {tag: val}})
+                this.$router.push({name: 'index', query: {tag: tagValue}})
             },
 
         }

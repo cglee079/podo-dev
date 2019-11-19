@@ -13,12 +13,12 @@ public class ListResponse extends ApiResponse {
     private Map<String, Object> result;
 
     @Builder
-    public ListResponse(ApiStatus status, List<?> results) {
+    public ListResponse(ApiStatus status, List<?> result) {
         super(status);
 
         result = new LinkedHashMap<>();
 
-        this.result.put("size", results.size());
-        this.result.put("data", results);
+        this.result.put("size", result.size());
+        this.result.put("data", result);
     }
 }

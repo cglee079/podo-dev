@@ -93,7 +93,7 @@ public class BlogWriteService {
 
     private void updateAttachFiles(Blog blog, List<AttachFileDto.insert> files) {
         for (AttachFileDto.insert file : files) {
-            switch (file.getFileStatus()) {
+            switch (file.getAttachStatus()) {
                 case NEW:
                     blog.addAttachFile(file.toEntity());
                     break;
@@ -109,7 +109,7 @@ public class BlogWriteService {
 
     private void updateAttachImages(Blog blog, List<AttachImageDto.insert> images) {
         for (AttachImageDto.insert image : images) {
-            switch (image.getFileStatus()) {
+            switch (image.getAttachStatus()) {
                 case NEW:
                     blog.addAttachImage(image.toEntity());
                     break;

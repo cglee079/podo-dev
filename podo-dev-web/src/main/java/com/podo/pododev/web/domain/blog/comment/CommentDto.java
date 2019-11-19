@@ -1,8 +1,9 @@
 package com.podo.pododev.web.domain.blog.comment;
 
 import com.podo.pododev.web.domain.blog.Blog;
-import com.podo.pododev.core.util.FormatUtil;
+import com.podo.pododev.core.util.DateTimeFormatUtil;
 import com.podo.pododev.core.util.MarkdownUtil;
+import com.podo.pododev.web.domain.user.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -41,9 +42,9 @@ public class CommentDto {
             this.id = comment.getId();
             this.blogId = blog.getId();
             this.blogTitle = blog.getTitle();
-            this.username = comment.getUser().getUsername();
+            this.username = comment.getWriter().getUsername();
             this.contents = comment.getContents().replace("\n", " ");
-            this.createAt = FormatUtil.dateTimeToBeautifulDate(comment.getCreateAt());
+            this.createAt = DateTimeFormatUtil.dateTimeToBeautifulDate(comment.getCreateAt());
         }
     }
 
@@ -58,13 +59,14 @@ public class CommentDto {
         private Boolean isMine;
 
         public response(Comment comment, String currentUserId) {
+            final User writeBy = comment.getWriter();
             this.id = comment.getId();
-            this.username = comment.getUser().getUsername();
+            this.username = writeBy.getUsername();
             this.contents = MarkdownUtil.line2br(MarkdownUtil.escape(comment.getContents()));
             this.depth = comment.getDepth();
-            this.createAt = FormatUtil.dateTimeToBeautifulDate(comment.getCreateAt());
+            this.createAt = DateTimeFormatUtil.dateTimeToBeautifulDate(comment.getCreateAt());
             this.enabled = comment.getEnabled();
-            this.isMine = comment.getCreateBy().equalsIgnoreCase(currentUserId);
+            this.isMine = writeBy.getUserId().equalsIgnoreCase(currentUserId);
         }
 
     }

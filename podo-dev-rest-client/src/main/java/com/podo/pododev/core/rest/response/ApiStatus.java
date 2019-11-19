@@ -15,8 +15,8 @@ public enum ApiStatus {
     ERR_SERVER_ERROR("500", "서버 에러"),
     ERR_UPLOAD("510", "업로드 서버 에러"),
     ERR_SOLR("520", "검색 서버 에러"),
-    ERR_TELEGRAM("512", "Telegram Error"),
-    ERR_SAVE("513", "Save File to Server Error");
+    ERR_TELEGRAM("512", "텔레그램 서버 에러"),
+    ERR_SAVE("513", "저장 서버 에러");
 
     private final String code;
     private final String message;

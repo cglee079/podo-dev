@@ -20,9 +20,9 @@ public class Resume {
 
     private String resumeKey;
 
-    private String head;
+    private String resumeHead;
 
-    private Integer sort;
+    private Integer resumeSort;
 
     @OrderBy(value = "sort")
     @OneToMany(mappedBy = "resume")

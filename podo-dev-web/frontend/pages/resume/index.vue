@@ -19,16 +19,16 @@
             </div>
         </div>
 
-        <div v-for="item in items"
-             v-bind:key="item.id"
+        <div v-for="resume in resumes"
+             v-bind:key="resume.resumeKey"
              class="item">
 
-            <div class="head">{{item.head}}</div>
+            <div class="head">{{resume.resumeHead}}</div>
             <div class="content">
-                <div v-for="content in item.contents"
-                     v-bind:key="content.id"
+                <div v-for="(contents, index) in resume.resumeContents"
+                     v-bind:key="index"
                 >
-                    <toast-custom-viewer :value="content"/>
+                    <toast-custom-viewer :value="contents"/>
                 </div>
             </div>
         </div>
@@ -36,12 +36,12 @@
         <div id="experiences" class="item">
             <div class="head">EXPERIENCES</div>
             <div class="content">
-                <p v-for="exp in experiences"
-                   v-bind:key="exp.id"
+                <p v-for="experience in experiences"
+                   v-bind:key="experience.experienceId"
                 >
-                    <a :href="exp.link" target="_blank">
-                        <span class="date">{{exp.experienceAt}}.</span>
-                        <span>{{exp.title}}</span>
+                    <a :href="experience.relateLink" target="_blank">
+                        <span class="date">{{experience.experienceAt}}.</span>
+                        <span>{{experience.title}}</span>
                     </a>
                 </p>
             </div>
@@ -73,24 +73,24 @@
 
         data() {
             return {
+                resumes: [],
                 experiences: [],
-                items: [],
             }
         },
 
-        async asyncData({$axios, store}) {
+        async asyncData({$axios}) {
 
             let baseUrl = process.env.externalServerUrl
             if (process.server) {
                 baseUrl = process.env.internalServerUrl
             }
 
-            const items = await $axios.$get(baseUrl + '/api/resumes')
+            const resumes = await $axios.$get(baseUrl + '/api/resumes')
             const experiences = await $axios.$get(baseUrl + '/api/resumes/experiences')
 
             return {
-                items: items.data,
-                experiences: experiences.data
+                resumes: resumes.result.data,
+                experiences: experiences.result.data
             }
         },
 

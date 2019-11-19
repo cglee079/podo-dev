@@ -37,10 +37,10 @@ public class BlogApiController {
     /**
      * 게시글 조회
      */
-    @GetMapping("/api/blogs/{id}")
-    public ApiResponse get(@PathVariable Long id) {
+    @GetMapping("/api/blogs/{blogId}")
+    public ApiResponse get(@PathVariable Long blogId) {
 
-        final BlogDto.response blog = blogReadService.get(id);
+        final BlogDto.response blog = blogReadService.get(blogId);
 
         return DataResponse.builder()
                 .status(ApiStatus.SUCCESS)
@@ -62,12 +62,12 @@ public class BlogApiController {
     }
 
     @GetMapping("/api/blogs/facets")
-    public ApiResponse facets(@RequestParam String value) {
-        final List<String> facets = blogReadService.facets(value);
+    public ApiResponse facets(@RequestParam String searchValue) {
+        final List<String> facets = blogReadService.facets(searchValue);
 
         return ListResponse.builder()
                 .status(ApiStatus.SUCCESS)
-                .results(facets)
+                .result(facets)
                 .build();
     }
 
@@ -88,7 +88,7 @@ public class BlogApiController {
     /**
      * 게시글 수정
      */
-    @PutMapping("/api/blogs/{id}")
+    @PutMapping("/api/blogs/{blogId}")
     public ApiResponse update(@PathVariable Long id, @Valid @RequestBody BlogDto.update blogReq) {
         blogWriteService.update(id, blogReq);
 
@@ -100,7 +100,7 @@ public class BlogApiController {
     /**
      * 게시글 삭제
      */
-    @DeleteMapping("/api/blogs/{id}")
+    @DeleteMapping("/api/blogs/{blogId}")
     public ApiResponse delete(@PathVariable Long id) {
         blogWriteService.delete(id);
 
@@ -113,7 +113,7 @@ public class BlogApiController {
     /**
      * 게시글 조회
      */
-    @PostMapping("/api/blogs/{id}/hitCount")
+    @PostMapping("/api/blogs/{blogId}/hitCount")
     public ApiResponse increaseHitCount(@PathVariable Long id) {
 
         blogWriteService.increaseHitCount(id);

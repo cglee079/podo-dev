@@ -8,12 +8,11 @@ import java.util.List;
 
 @Getter
 public class PageDto<T> {
-    Integer currentPage;
-    Integer pageSize;
-    Integer totalPages;
-    Long totalElements;
-
-    List<T> data;
+    private Integer currentPage;
+    private Integer pageSize;
+    private Integer totalPages;
+    private Long totalElements;
+    private List<T> data;
 
     @Builder
     public PageDto(Integer currentPage, Integer pageSize, Integer totalPages, Long totalElements, List<T> data) {

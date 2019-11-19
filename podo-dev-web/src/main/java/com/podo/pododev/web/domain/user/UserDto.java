@@ -41,7 +41,6 @@ public class UserDto {
         }
 
         public User toEntity() {
-
             return User.builder()
                     .userId(userId)
                     .email(email)

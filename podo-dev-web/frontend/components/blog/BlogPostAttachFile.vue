@@ -9,12 +9,12 @@
 
         <div id="fileList">
             <div class="file"
-                 v-for="(file, index) in files"
+                 v-for="(attachFile, index) in attachFiles"
                  v-bind:key="index"
-                 :class="isValidFile(file.fileStatus) ? '' : 'disabled' "
+                 :class="isValidFile(attachFile.attachStatus) ? '' : 'disabled' "
             >
-                <div class="name">[{{formatFilesize(file.filesize)}}] {{file.originName}}</div>
-                <div class="btn-remove" @click="clickBtnRemove(index)">REMOVE</div>
+                <div class="name">[{{formatFilesize(attachFile.filesize)}}] {{attachFile.originName}}</div>
+                <div class="btn-remove" @click="clickBtnAttachFileRemove(index)">REMOVE</div>
             </div>
         </div>
     </div>
@@ -26,7 +26,7 @@
     export default {
         name: "BlogPostFile",
         props: {
-            files: Array
+            attachFiles: Array
         },
         methods: {
             onFileChange(event) {
@@ -55,16 +55,15 @@
                             reject(err)
                         })
                 }).then(res => {
-                    const file = res.data
-                    this.$emit('add', file)
+                    const file = res.result
+                    this.$emit('addAttachFile', file)
                     this.$emit('offProgress')
 
                     if (i < until) {
                         this.uploadFile(files, i + 1, until)
                     }
 
-                }).catch(err => {
-                    console.log(err)
+                }).catch(() => {
                     this.$emit('offProgress')
                 })
             },
@@ -84,12 +83,13 @@
             formatFilesize(value) {
                 return filesize(value)
             },
-            removeImage(index) {
-                this.$emit('delete', index)
+
+            removeAttachFile(index) {
+                this.$emit('removeAttachFile', index)
             },
 
-            clickBtnRemove(index) {
-                this.removeImage(index)
+            clickBtnAttachFileRemove(index) {
+                this.removeAttachFile(index)
             }
         }
     }

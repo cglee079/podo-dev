@@ -7,21 +7,21 @@ public class BlogTagDto {
 
     @Getter
     public static class insert {
-        private String val;
+        private String tagValue;
 
         public BlogTag toEntity(Blog blog) {
-            return new BlogTag(blog, val);
+            return new BlogTag(blog, tagValue);
         }
     }
 
     @Getter
     public static class response {
         private Long id;
-        private String val;
+        private String tagValue;
 
         public response(BlogTag blogTag) {
             this.id = blogTag.getId();
-            this.val = blogTag.getVal();
+            this.tagValue = blogTag.getTagValue();
         }
     }
 

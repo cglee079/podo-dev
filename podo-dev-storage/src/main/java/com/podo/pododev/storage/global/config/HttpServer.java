@@ -1,4 +1,4 @@
-package com.podo.pododev.uploader.global.config;
+package com.podo.pododev.storage.global.config;
 
 import org.apache.catalina.connector.Connector;
 import org.springframework.beans.factory.annotation.Value;

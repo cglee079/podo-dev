@@ -29,15 +29,14 @@
                            v-model="input.contents"
                 />
             </client-only>
-
         </div>
 
 
         <div id="wrapImageUpload">
             <post-image
-                :images="this.input.images"
-                @add="addImage"
-                @delete="deleteImage"
+                :attachImages="this.input.attachImages"
+                @addAttachImage="addAttachImage"
+                @removeAttachImage="removeAttachImage"
                 @onProgress="onProgress"
                 @offProgress="offProgress"
             />
@@ -45,9 +44,9 @@
 
         <div id="wrapFileUpload">
             <post-file
-                :files="this.input.files"
-                @add="addFile"
-                @delete="deleteFile"
+                :files="this.input.attachFiles"
+                @addAttachFile="addAttachFile"
+                @removeAttachFile="removeAttachFile"
                 @onProgress="onProgress"
                 @offProgress="offProgress"
             />
@@ -67,7 +66,7 @@
                   v-bind:key="index"
                   @click="clickTag(index)"
                   class="tag">
-                #{{tag.val}}
+                #{{tag.tagValue}}
             </span>
         </div>
 
@@ -82,16 +81,16 @@
 </template>
 
 <script>
-    import BlogPostImage from "./BlogPostImage";
-    import BlogPostFile from "./BlogPostFile";
+    import BlogPostAttachImage from "./BlogPostAttachImage";
+    import BlogPostAttachFile from "./BlogPostAttachFile";
     import ProgressBar from "../global/ProgressBar";
 
     export default {
         name: 'app',
         components: {
             ProgressBar,
-            'post-image': BlogPostImage,
-            'post-file': BlogPostFile
+            'post-image': BlogPostAttachImage,
+            'post-file': BlogPostAttachFile
         },
         props: {
             id: Number
@@ -135,30 +134,30 @@
 
             //태그 Input 입력 시,
             keyupTagText(event) {
-                let txt = this.input.tagText
-                if (txt.endsWith(" ") || event.keyCode === 13) {
+                let insertValue = this.input.tagText
+                if (insertValue.endsWith(" ") || event.keyCode === 13) {
                     event.preventDefault()
-                    txt = txt.trim();
+                    insertValue = insertValue.trim();
 
-                    if (txt.length) {
+                    if (insertValue.length) {
                         let included = false
 
                         this.input.tags.forEach((tag) => {
-                            if (tag.val === txt) {
+                            if (tag.tagValue === insertValue) {
                                 included = true
                                 return
                             }
                         })
 
                         if (included) {
-                            this.$toast.show(txt + "는 중복됩니다!")
+                            this.$toast.show(insertValue + "는 중복됩니다!")
                             this.input.tagText = ''
                             return
                         }
 
                         const obj = {}
                         obj.id = undefined
-                        obj.val = txt
+                        obj.tagValue = insertValue
                         this.input.tags.push(obj)
                     }
 
@@ -172,17 +171,16 @@
             },
 
             //게시글 수정 시, 게시글 정보 로딩
-            loadBlog(id) {
+            loadBlog(blogId) {
                 this.$axios
-                    .$get('/api/blogs/' + this.id)
+                    .$get('/api/blogs/' + blogId)
                     .then(res => {
-                        console.log(res)
-                        const blog = res.data
+                        const blog = res.result
                         this.input.title = blog.title
                         this.input.status = blog.enabled ? 'VISIBLE' : 'INVISIBLE'
                         this.input.tags = blog.tags
-                        this.input.images = blog.images
-                        this.input.files = blog.files
+                        this.input.attachImages = blog.images
+                        this.input.attachFiles = blog.files
                         this.input.contents = blog.contents
                     })
                     .catch(err => {
@@ -208,7 +206,7 @@
             },
 
             submit() {
-                this.removeSaved(this.id)
+                this.removeAutoSaved(this.id)
 
                 if (this.isNew) {
                     this.insertBlog()
@@ -226,8 +224,8 @@
                         contents: this.input.contents,
                         status: this.input.status,
                         tags: this.input.tags,
-                        images: this.input.images,
-                        files: this.input.files
+                        attachImages: this.input.attachImages,
+                        attachFiles: this.input.attachFiles
                     })
 
                     .then(() => {
@@ -248,8 +246,8 @@
                         contents: this.input.contents,
                         status: this.input.status,
                         tags: this.input.tags,
-                        images: this.input.images,
-                        files: this.input.files
+                        attachImages: this.input.attachImages,
+                        attachFiles: this.input.attachFiles
                     })
 
                     .then(() => {
@@ -269,46 +267,46 @@
             /**
              * Call By Child
              */
-            addImage(image) {
-                const src = image.uploadedUrl + image.saves.origin.path + "/" + image.saves.origin.filename
+            addAttachImage(attachImage) {
+                const src = attachImage.uploadedUrl + attachImage.saves.origin.path + "/" + attachImage.saves.origin.filename
                 const tag = document.createElement("img")
 
-                let width = image.saves.origin.width
+                let width = attachImage.saves.origin.width
 
                 if (width > this.config.maxWidth) {
                     width = this.config.maxWidth
                 }
 
                 tag.src = src
-                tag.setAttribute("alt", image.originName)
+                tag.setAttribute("alt", attachImage.originName)
                 tag.setAttribute("style", 'width:' + width + 'px;')
 
                 this.input.contents += "\n\n" + tag.outerHTML + "\n\n"
 
-                this.input.images.push(image)
+                this.input.attachImages.push(attachImage)
             },
 
-            deleteImage(index) {
+            removeAttachImage(index) {
 
-                const image = this.input.images[index]
-                switch (image.fileStatus) {
+                const image = this.input.attachImages[index]
+                switch (image.attachStatus) {
                     case 'BE' :
-                        image.fileStatus = 'REMOVE'
+                        image.attachStatus = 'REMOVE'
                         break
                     case 'NEW' :
-                        image.fileStatus = 'UNNEW'
+                        image.attachStatus = 'UNNEW'
                         break
                     default :
                         break
                 }
 
-                this.removeImageTagInEditor(image)
+                this.removeImageElementInEditor(image)
             },
 
-            removeImageTagInEditor(image) {
+            removeImageElementInEditor(attachImage) {
 
                 let text = this.input.contents
-                const index = text.indexOf(image.saves.origin.filename)
+                const index = text.indexOf(attachImage.saves.origin.filename)
                 const startTagIndex = text.substring(0, index).lastIndexOf("<img")
                 const endTagIndex = text.substring(index, text.length).indexOf(">") + index
                 const tag = text.substring(startTagIndex, endTagIndex + 1)
@@ -318,26 +316,26 @@
                 this.input.contents = text
             },
 
-            addFile(file) {
-                this.input.files.push(file)
+            addAttachFile(attachFile) {
+                this.input.attachFiles.push(attachFile)
             },
 
-            deleteFile(index) {
-                const file = this.input.files[index]
-                switch (file.fileStatus) {
+            removeAttachFile(index) {
+                const attachFile = this.input.attachFiles[index]
+                switch (attachFile.attachStatus) {
                     case 'BE' :
-                        file.fileStatus = 'REMOVE'
+                        attachFile.attachStatus = 'REMOVE'
                         break
                     case 'NEW' :
-                        file.fileStatus = 'UNNEW'
+                        attachFile.attachStatus = 'UNNEW'
                         break
                     default :
                         break
                 }
             },
 
-            removeSaved(id) {
-                const autoSaveKey = this.autoSave.key + id
+            removeAutoSaved(blogId) {
+                const autoSaveKey = this.autoSave.key + blogId
 
                 this.$storage.removeLocalStorage(autoSaveKey + "_is")
                 this.$storage.removeLocalStorage(autoSaveKey + "_input")
@@ -345,44 +343,41 @@
 
 
         },
+
         created() {
+            const blogId = this.id ? this.id : null
 
-            const id = this.id ? this.id : null
-
-            if (id) {
+            if (blogId) {
                 this.isNew = false
-                this.loadBlog(id)
+                this.loadBlog(blogId)
             }
 
             if (process.client) {
-                const id = this.id ? this.id : ''
-                const autoSaveKey = this.autoSave.key + id
+                const blogId = this.id ? this.id : ''
+                const autoSaveKey = this.autoSave.key + blogId
 
-                const isSave = this.$storage.getLocalStorage(autoSaveKey + "_is")
-                const saveInput = this.$storage.getLocalStorage(autoSaveKey + "_input")
+                const isAlreadyAutoSaved = this.$storage.getLocalStorage(autoSaveKey + "_is")
+                const savedInputValue = this.$storage.getLocalStorage(autoSaveKey + "_input")
 
-
-                if (isSave) {
+                if (isAlreadyAutoSaved) {
 
                     this.toastConfirm("자동저장된 데이터가있습니다, 로딩하시겠습니까?",
                         () => {
-                            this.input = saveInput
-                            this.removeSaved(id)
+                            this.input = savedInputValue
+                            this.removeAutoSaved(blogId)
                         },
                         () => {
-                            this.removeSaved(id)
+                            this.removeAutoSaved(blogId)
                         }
                     )
                 }
             }
-
-
         },
 
         mounted() {
             if (process.client) {
-                const id = this.id ? this.id : ''
-                const autoSaveKey = this.autoSave.key + id
+                const blogId = this.id ? this.id : ''
+                const autoSaveKey = this.autoSave.key + blogId
 
                 //Setting Interval
                 this.autoSave.interval = setInterval(() => {

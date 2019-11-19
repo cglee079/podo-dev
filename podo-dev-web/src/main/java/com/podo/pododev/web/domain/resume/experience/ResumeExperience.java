@@ -19,7 +19,7 @@ public class ResumeExperience {
 
     private String title;
 
-    private String link;
+    private String relateLink;
 
     private LocalDateTime experienceAt;
 

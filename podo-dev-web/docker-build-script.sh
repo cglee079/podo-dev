@@ -1,4 +1,5 @@
-cd /volume1/docker-build/podo-dev-backend
+#!/usr/bin/env bash
+cd /volume1/docker-build/podo-dev/podo-dev-backend
 docker stop podo-dev-backend
 docker rm podo-dev-backend
 docker rmi podo-dev-backend:1.1

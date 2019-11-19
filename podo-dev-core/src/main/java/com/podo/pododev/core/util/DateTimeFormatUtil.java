@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Objects;
 
-public class FormatUtil {
+public class DateTimeFormatUtil {
 
     public static String dateTimeToDateTimeStr(LocalDateTime time) {
         if (Objects.isNull(time)) {

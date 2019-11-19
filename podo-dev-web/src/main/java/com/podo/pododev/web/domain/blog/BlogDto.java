@@ -8,7 +8,7 @@ import com.podo.pododev.web.domain.blog.attachimage.save.AttachImageSave;
 import com.podo.pododev.web.domain.blog.attachimage.save.AttachImageSaveEntity;
 import com.podo.pododev.web.domain.blog.tag.BlogTag;
 import com.podo.pododev.web.domain.blog.tag.BlogTagDto;
-import com.podo.pododev.core.util.FormatUtil;
+import com.podo.pododev.core.util.DateTimeFormatUtil;
 import com.podo.pododev.core.util.MarkdownUtil;
 import com.podo.pododev.core.util.PathUtil;
 import lombok.Getter;
@@ -44,13 +44,13 @@ public class BlogDto {
         public Blog toEntity() {
             //Images to Entity
             List<AttachImage> images = this.images.stream()
-                    .filter(image -> image.getFileStatus() == FileStatus.NEW)
+                    .filter(image -> image.getAttachStatus() == AttachStatus.NEW)
                     .map(AttachImageDto.insert::toEntity)
                     .collect(Collectors.toList());
 
             //File to Entity
             List<AttachFile> files = this.files.stream()
-                    .filter(image -> image.getFileStatus() == FileStatus.NEW)
+                    .filter(image -> image.getAttachStatus() == AttachStatus.NEW)
                     .map(AttachFileDto.insert::toEntity)
                     .collect(Collectors.toList());
 
@@ -108,7 +108,7 @@ public class BlogDto {
         private String title;
         private String desc;
         private String contents;
-        private Integer hitCnt;
+        private Integer hitCount;
         private String thumbnail;
         private Boolean enabled;
         private String publishAt;
@@ -116,25 +116,27 @@ public class BlogDto {
         private List<BlogTagDto.response> tags;
         private List<AttachImageDto.response> images;
         private List<AttachFileDto.response> files;
-        private Integer commentCnt;
+        private Integer commentCount;
         private Long before;
         private Long next;
         private String createAt;
         private String updateAt;
 
-        public response(Blog blog, Blog before, Blog next, List<Blog> relates, String uploaderDomain, FileStatus fileStatus) {
+        public response(Blog blog, Blog before, Blog next, List<Blog> relates, String uploaderDomain, AttachStatus attachStatus) {
             this.id = blog.getId();
             this.title = blog.getTitle();
             this.desc = MarkdownUtil.escape(MarkdownUtil.extractPlainText(blog.getContents()));
             this.contents = blog.getContents();
-            this.hitCnt = blog.getHitCnt();
-            this.publishAt = FormatUtil.dateTimeToBeautifulDate(blog.getPublishAt());
-            this.createAt = FormatUtil.dateTimeToBeautifulDate(blog.getCreateAt());
-            this.updateAt = FormatUtil.dateTimeToBeautifulDate(blog.getUpdateAt());
-            this.commentCnt = blog.getComments().size();
+            this.hitCount = blog.getHitCount();
+            this.publishAt = DateTimeFormatUtil.dateTimeToBeautifulDate(blog.getPublishAt());
+            this.createAt = DateTimeFormatUtil.dateTimeToBeautifulDate(blog.getCreateAt());
+            this.updateAt = DateTimeFormatUtil.dateTimeToBeautifulDate(blog.getUpdateAt());
+            this.commentCount = blog.getComments().size();
             this.enabled = blog.getEnabled();
-            this.before = !Objects.isNull(before) ? before.getId() : null;
-            this.next = !Objects.isNull(next) ? next.getId() : null;
+
+            this.before = Objects.nonNull(before) ? before.getId() : null;
+            this.next = Objects.nonNull(next) ? next.getId() : null;
+
             this.relates = relates.stream()
                     .map(BlogDto.relates::new)
                     .collect(Collectors.toList());
@@ -144,11 +146,11 @@ public class BlogDto {
                     .collect(Collectors.toList());
 
             this.images = blog.getAttachImages().stream()
-                    .map(image -> new AttachImageDto.response(image, uploaderDomain, fileStatus))
+                    .map(image -> AttachImageDto.response.createByAttachImage(image, uploaderDomain, attachStatus))
                     .collect(Collectors.toList());
 
             this.files = blog.getAttachFiles().stream()
-                    .map(file -> new AttachFileDto.response(file, uploaderDomain, fileStatus))
+                    .map(file -> AttachFileDto.response.createByAttachFile(file, uploaderDomain, attachStatus))
                     .collect(Collectors.toList());
 
 
@@ -177,7 +179,7 @@ public class BlogDto {
         private String createAt;
         private String publishAt;
         private String updateAt;
-        private Integer commentCnt;
+        private Integer commentCount;
         private List<BlogTagDto.response> tags;
         private Boolean enabled;
 
@@ -185,11 +187,11 @@ public class BlogDto {
             this.id = blog.getId();
             this.title = blog.getTitle();
             this.desc = MarkdownUtil.escape(MarkdownUtil.extractPlainText(blog.getContents()));
-            this.createAt = FormatUtil.dateTimeToBeautifulDate(blog.getCreateAt());
-            this.publishAt = FormatUtil.dateTimeToBeautifulDate(blog.getPublishAt());
-            this.updateAt = FormatUtil.dateTimeToBeautifulDate(blog.getUpdateAt());
+            this.createAt = DateTimeFormatUtil.dateTimeToBeautifulDate(blog.getCreateAt());
+            this.publishAt = DateTimeFormatUtil.dateTimeToBeautifulDate(blog.getPublishAt());
+            this.updateAt = DateTimeFormatUtil.dateTimeToBeautifulDate(blog.getUpdateAt());
             this.enabled = blog.getEnabled();
-            this.commentCnt = blog.getComments().size();
+            this.commentCount = blog.getComments().size();
 
             List<AttachImage> images = blog.getAttachImages();
             if (!images.isEmpty()) {
@@ -229,22 +231,22 @@ public class BlogDto {
             this.id = blog.getId();
             this.title = blog.getTitle();
             this.commentCount = blog.getComments().size();
-            this.createAt = FormatUtil.dateTimeToBeautifulDate(blog.getCreateAt());
-            this.updateAt = FormatUtil.dateTimeToBeautifulDate(blog.getUpdateAt());
+            this.createAt = DateTimeFormatUtil.dateTimeToBeautifulDate(blog.getCreateAt());
+            this.updateAt = DateTimeFormatUtil.dateTimeToBeautifulDate(blog.getUpdateAt());
         }
     }
 
     @Getter
     public static class archive {
         private Long id;
-        private String title;
+        private String blogTitle;
         private String publishAt;
         private Boolean enabled;
 
         public archive(Blog blog) {
             this.id = blog.getId();
-            this.title = blog.getTitle();
-            this.publishAt = FormatUtil.dateTimeToBeautifulDate(blog.getPublishAt());
+            this.blogTitle = blog.getTitle();
+            this.publishAt = DateTimeFormatUtil.dateTimeToBeautifulDate(blog.getPublishAt());
             this.enabled = blog.getEnabled();
         }
     }
@@ -270,7 +272,7 @@ public class BlogDto {
             this.updateAt = blog.getUpdateAt();
             this.enabled = blog.getEnabled();
             this.contentHtml = MarkdownUtil.toHtml(blog.getContents());
-            this.tags = blog.getTags().stream().map(BlogTag::getVal).collect(Collectors.toList());
+            this.tags = blog.getTags().stream().map(BlogTag::getTagValue).collect(Collectors.toList());
         }
 
     }

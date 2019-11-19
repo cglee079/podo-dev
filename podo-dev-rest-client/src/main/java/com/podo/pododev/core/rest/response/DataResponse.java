@@ -6,10 +6,10 @@ import lombok.Getter;
 @Getter
 public class DataResponse extends ApiResponse {
 
-    Object result;
+    private Object result;
 
     @Builder
-    public DataResponse(ApiStatus status, Object result){
+    public DataResponse(ApiStatus status, Object result) {
         super(status);
         this.result = result;
     }

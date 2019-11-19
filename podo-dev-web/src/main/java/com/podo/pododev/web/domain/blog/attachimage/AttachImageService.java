@@ -1,6 +1,6 @@
 package com.podo.pododev.web.domain.blog.attachimage;
 
-import com.podo.pododev.web.domain.blog.FileStatus;
+import com.podo.pododev.web.domain.blog.AttachStatus;
 import com.podo.pododev.web.domain.blog.attachimage.save.AttachImageSave;
 import com.podo.pododev.core.util.HttpUrlUtil;
 import com.podo.pododev.web.global.util.AttachLinkManager;
@@ -34,7 +34,7 @@ public class AttachImageService {
         return AttachImageDto.response.builder()
                 .originName(originName)
                 .uploadedUrl(attachLinkManager.getServerSavedLink())
-                .fileStatus(FileStatus.NEW)
+                .attachStatus(AttachStatus.NEW)
                 .saves(saves)
                 .build();
     }
@@ -47,7 +47,7 @@ public class AttachImageService {
         return AttachImageDto.response.builder()
                 .originName(originName)
                 .uploadedUrl(attachLinkManager.getServerSavedLink())
-                .fileStatus(FileStatus.NEW)
+                .attachStatus(AttachStatus.NEW)
                 .saves(saves)
                 .build();
     }
@@ -66,7 +66,7 @@ public class AttachImageService {
         return AttachImageDto.response.builder()
                 .originName(originName)
                 .uploadedUrl(attachLinkManager.getServerSavedLink())
-                .fileStatus(FileStatus.NEW)
+                .attachStatus(AttachStatus.NEW)
                 .saves(saves)
                 .build();
     }
