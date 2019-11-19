@@ -3,7 +3,7 @@ package com.podo.pododev.web.domain.blog.attachimage;
 import com.podo.pododev.core.util.MyFileUtils;
 import com.podo.pododev.web.domain.blog.attachimage.exception.InvalidImageException;
 import com.podo.pododev.web.domain.blog.attachimage.save.AttachImageSave;
-import com.podo.pododev.web.global.util.writer.FileWriter;
+import com.podo.pododev.web.global.util.writer.FileLocalWriter;
 import com.podo.pododev.core.util.PathUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Transactional
 @Service
-public class AttachImageWriter {
+public class AttachImageLocalWriter {
 
 
     @Value("${local.upload.sub.image.dir}")
@@ -32,7 +32,7 @@ public class AttachImageWriter {
 
     private static final String ORIGIN_IMAGE_KEY = "origin";
 
-    private final FileWriter fileWriter;
+    private final FileLocalWriter fileLocalWriter;
 
     public Map<String, AttachImageSave> makeSaveUrl(String url) {
         if (!AttachImageValidator.isImageFile(url)) {
@@ -43,7 +43,7 @@ public class AttachImageWriter {
         final Map<String, AttachImageSave> saves = new HashMap<>();
 
         final String originPath = PathUtil.merge(path, ORIGIN_IMAGE_KEY);
-        final File originImage = fileWriter.write(originPath, url);
+        final File originImage = fileLocalWriter.write(originPath, url);
 
         saves.put(ORIGIN_IMAGE_KEY, makeOrigin(originPath, originImage));
 
@@ -56,7 +56,7 @@ public class AttachImageWriter {
 
         //Save Origin File
         final String originPath = PathUtil.merge(path, ORIGIN_IMAGE_KEY);
-        final File originImage = fileWriter.write(originPath, base64, extension);
+        final File originImage = fileLocalWriter.write(originPath, base64, extension);
         saves.put(ORIGIN_IMAGE_KEY, makeOrigin(originPath, originImage));
 
         return saves;
@@ -74,7 +74,7 @@ public class AttachImageWriter {
 
         //Save Origin File
         final String originPath = PathUtil.merge(path, ORIGIN_IMAGE_KEY);
-        final File originImage = fileWriter.write(originPath, multipartFile);
+        final File originImage = fileLocalWriter.write(originPath, multipartFile);
 
         saves.put(ORIGIN_IMAGE_KEY, makeOrigin(originPath, originImage));
 

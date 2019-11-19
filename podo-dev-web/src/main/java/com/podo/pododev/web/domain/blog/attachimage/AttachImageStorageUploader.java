@@ -24,15 +24,15 @@ public class AttachImageStorageUploader {
 
     /***
      * 게시글 작성 시, 이미지 업로드 To Uplaoder Server
-     * @param images
+     * @param attachImages
      */
-    public void uploadFileOfAttachImages(List<AttachImageDto.insert> images) {
-        for (AttachImageDto.insert image : images) {
-            log.info("Image '{}', '{}'", image.getAttachStatus(), image.getOriginName());
+    public void uploadFileOfAttachImages(List<AttachImageDto.insert> attachImages) {
+        for (AttachImageDto.insert attachImage : attachImages) {
+            log.info("Image '{}', '{}'", attachImage.getAttachStatus(), attachImage.getOriginName());
 
-            final List<AttachImageSave> saves = new ArrayList<>(image.getSaves().values());
+            final List<AttachImageSave> saves = new ArrayList<>(attachImage.getSaves().values());
 
-            switch (image.getAttachStatus()) {
+            switch (attachImage.getAttachStatus()) {
                 case NEW:
                     for (AttachImageSave attachImageSave : saves) {
                         podoStorageClient.upload(attachImageSave.getPath(), new File(PathUtil.merge(baseDir, attachImageSave.getPath()), attachImageSave.getFilename()));

@@ -36,15 +36,15 @@
                 <span @click="clickNext()">다음글</span>
             </div>
 
-            <div id="files">
-                <div v-for="file in blog.files"
-                     v-bind:key="file.id"
-                     class="file"
+            <div id="attachFiles">
+                <div v-for="attachFile in blog.attachFiles"
+                     v-bind:key="attachFile.id"
+                     class="attachFile"
                 >
-                    <span @click="clickFile(file.id)">
+                    <span @click="clickFile(attachFile.id)">
                         <img src="@/assets/btns/btn-file.svg" class="file-icon"/>
-                        <span class="file-name">{{file.originName}}</span>
-                        <span class="file-size">[{{formatFilesize(file.filesize)}}]</span>
+                        <span class="file-name">{{attachFile.originName}}</span>
+                        <span class="file-size">[{{formatFilesize(attachFile.filesize)}}]</span>
                     </span>
                 </div>
             </div>
@@ -125,7 +125,11 @@
                     {hid: "article:mobile_url", property: 'article:mobile_url', content: this.meta.url},
                     {hid: "article:pc_url", property: 'article:pc_url', content: this.meta.url},
                     {hid: "article:pc_view_url", property: 'article:pc_view_url', content: this.meta.url},
-                    {hid: "article:talk_channel_view_url", property: 'article:talk_channel_view_url', content: this.meta.url },
+                    {
+                        hid: "article:talk_channel_view_url",
+                        property: 'article:talk_channel_view_url',
+                        content: this.meta.url
+                    },
                     {hid: "plink", property: 'plink', content: this.meta.url},
                     {hid: "dg:plink", property: 'dg:plink', content: this.meta.url},
                 ],
@@ -272,7 +276,6 @@
         },
 
 
-
     }
 </script>
 
@@ -295,8 +298,8 @@
                 }
             }
 
-            #files {
-                .file {
+            #attachFiles {
+                .attachFile {
                     padding-left: 5%;
                     padding-right: 5%;
 
@@ -361,7 +364,7 @@
             }
         }
 
-        #files {
+        #attachFiles {
             margin-top: 20px;
             text-align: right;
 

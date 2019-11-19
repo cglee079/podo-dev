@@ -11,7 +11,7 @@ public class AttachLinkManager {
     @Value("${infra.storage.frontend.external}")
     private String uploaderFrontendUrl;
 
-    public String getServerSavedLink() {
+    public String getLocalSavedLink() {
         return HttpUrlUtil.getSeverDomain() + baseUrl;
     }
 
@@ -19,8 +19,8 @@ public class AttachLinkManager {
         return uploaderFrontendUrl;
     }
 
-    public String changeServerLinkToStorageStatic(String str) {
-        return str.replace(getServerSavedLink(), getStorageStaticLink());
+    public String changeLocalLinkToStorageStatic(String str) {
+        return str.replace(getLocalSavedLink(), getStorageStaticLink());
     }
 
 }

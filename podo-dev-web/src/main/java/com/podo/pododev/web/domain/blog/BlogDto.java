@@ -38,39 +38,39 @@ public class BlogDto {
 
         @Size(min = 1, message = "태그를 최소 1개를 입력해주세요")
         private List<BlogTagDto.insert> tags;
-        private List<AttachImageDto.insert> images;
-        private List<AttachFileDto.insert> files;
+        private List<AttachImageDto.insert> attachImages;
+        private List<AttachFileDto.insert> attachFiles;
 
         public Blog toEntity() {
             //Images to Entity
-            List<AttachImage> images = this.images.stream()
+            List<AttachImage> attachImages = this.attachImages.stream()
                     .filter(image -> image.getAttachStatus() == AttachStatus.NEW)
                     .map(AttachImageDto.insert::toEntity)
                     .collect(Collectors.toList());
 
             //File to Entity
-            List<AttachFile> files = this.files.stream()
+            List<AttachFile> attachFiles = this.attachFiles.stream()
                     .filter(image -> image.getAttachStatus() == AttachStatus.NEW)
                     .map(AttachFileDto.insert::toEntity)
                     .collect(Collectors.toList());
 
-            final Blog blog = Blog.builder()
-                    .attachImages(images)
-                    .attachFiles(files)
+            final Blog newBlog = Blog.builder()
+                    .attachImages(attachImages)
+                    .attachFiles(attachFiles)
                     .title(title)
                     .contents(contents)
                     .enabled(status != BlogStatus.INVISIBLE)
                     .build();
 
-            for (AttachImage image : images) {
-                image.changeBlog(blog);
+            for (AttachImage image : attachImages) {
+                image.changeBlog(newBlog);
             }
 
-            for (AttachFile file : files) {
-                file.changeBlog(blog);
+            for (AttachFile file : attachFiles) {
+                file.changeBlog(newBlog);
             }
 
-            return blog;
+            return newBlog;
 
         }
     }
@@ -89,8 +89,8 @@ public class BlogDto {
         @Size(min = 1, message = "태그를 최소 1개를 입력해주세요")
         private List<BlogTagDto.insert> tags;
 
-        private List<AttachImageDto.insert> images;
-        private List<AttachFileDto.insert> files;
+        private List<AttachImageDto.insert> attachImages;
+        private List<AttachFileDto.insert> attachFiles;
     }
 
     @Setter
@@ -114,8 +114,8 @@ public class BlogDto {
         private String publishAt;
         private List<BlogDto.relates> relates;
         private List<BlogTagDto.response> tags;
-        private List<AttachImageDto.response> images;
-        private List<AttachFileDto.response> files;
+        private List<AttachImageDto.response> attachImages;
+        private List<AttachFileDto.response> attachFiles;
         private Integer commentCount;
         private Long before;
         private Long next;
@@ -145,23 +145,23 @@ public class BlogDto {
                     .map(BlogTagDto.response::new)
                     .collect(Collectors.toList());
 
-            this.images = blog.getAttachImages().stream()
+            this.attachImages = blog.getAttachImages().stream()
                     .map(image -> AttachImageDto.response.createByAttachImage(image, uploaderDomain, attachStatus))
                     .collect(Collectors.toList());
 
-            this.files = blog.getAttachFiles().stream()
+            this.attachFiles = blog.getAttachFiles().stream()
                     .map(file -> AttachFileDto.response.createByAttachFile(file, uploaderDomain, attachStatus))
                     .collect(Collectors.toList());
 
 
-            if (!images.isEmpty()) {
+            if (!attachImages.isEmpty()) {
                 List<AttachImageSave> saves = blog.getAttachImages().get(0).getSaves().stream()
                         .map(AttachImageSaveEntity::getAttachImageSave)
                         .collect(Collectors.toList());
 
-                Optional<AttachImageSave> thumbnailSaveOpt = saves.stream().filter(s -> s.getImageId().equals("origin")).findFirst();
-                if (thumbnailSaveOpt.isPresent()) {
-                    AttachImageSave thumbnailSave = thumbnailSaveOpt.get();
+                final Optional<AttachImageSave> thumbnailSaveOptional = saves.stream().filter(s -> s.getImageKey().equals("origin")).findFirst();
+                if (thumbnailSaveOptional.isPresent()) {
+                    AttachImageSave thumbnailSave = thumbnailSaveOptional.get();
                     this.thumbnail = PathUtil.merge(uploaderDomain, thumbnailSave.getPath(), thumbnailSave.getFilename());
                 }
             }
@@ -193,22 +193,23 @@ public class BlogDto {
             this.enabled = blog.getEnabled();
             this.commentCount = blog.getComments().size();
 
-            List<AttachImage> images = blog.getAttachImages();
-            if (!images.isEmpty()) {
-                List<AttachImageSave> saves = blog.getAttachImages().get(0).getSaves().stream()
+            this.tags = blog.getTags().stream()
+                    .map(BlogTagDto.response::new)
+                    .collect(Collectors.toList());
+
+            final List<AttachImage> attachImages = blog.getAttachImages();
+            if (!attachImages.isEmpty()) {
+                final List<AttachImageSave> saves = blog.getAttachImages().get(0).getSaves().stream()
                         .map(AttachImageSaveEntity::getAttachImageSave)
                         .collect(Collectors.toList());
 
-                Optional<AttachImageSave> thumbnailSaveOpt = saves.stream().filter(s -> s.getImageId().equals("origin")).findFirst();
+                final Optional<AttachImageSave> thumbnailSaveOpt = saves.stream().filter(s -> s.getImageKey().equals("origin")).findFirst();
                 if (thumbnailSaveOpt.isPresent()) {
                     AttachImageSave thumbnailSave = thumbnailSaveOpt.get();
                     this.thumbnail = PathUtil.merge(uploaderDomain, thumbnailSave.getPath(), thumbnailSave.getFilename());
                 }
             }
 
-            this.tags = blog.getTags().stream()
-                    .map(BlogTagDto.response::new)
-                    .collect(Collectors.toList());
 
         }
 

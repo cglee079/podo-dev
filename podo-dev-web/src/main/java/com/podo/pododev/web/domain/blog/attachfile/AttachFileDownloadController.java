@@ -2,7 +2,7 @@ package com.podo.pododev.web.domain.blog.attachfile;
 
 import com.podo.pododev.core.util.MyRequestUtil;
 import com.podo.pododev.core.util.MyStringUtil;
-import com.podo.pododev.web.global.util.writer.FileWriter;
+import com.podo.pododev.web.global.util.writer.FileLocalWriter;
 import com.podo.pododev.core.util.PathUtil;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FileUtils;
@@ -23,7 +23,7 @@ public class AttachFileDownloadController {
     private static final String TEMP_DIRECTORY = "temp";
 
     private final AttachFileService attachFileService;
-    private final FileWriter fileWriter;
+    private final FileLocalWriter fileLocalWriter;
 
     /**
      * 파일 다운로드 To OriginalName
@@ -34,21 +34,18 @@ public class AttachFileDownloadController {
         final AttachFileDto.download downloadFile = attachFileService.download(fileId);
 
         final String downloadFileUrl = PathUtil.merge(downloadFile.getUploadedUrl(), downloadFile.getPath(), downloadFile.getFilename());
-        final File tempDownloadFile = fileWriter.write(TEMP_DIRECTORY, downloadFileUrl);
+        final File tempDownloadFile = fileLocalWriter.write(TEMP_DIRECTORY, downloadFileUrl);
         final String browser = MyRequestUtil.getBrowser(request);
+        final byte[] fileByteArray = FileUtils.readFileToByteArray(tempDownloadFile);
+        final String encodeFilenameByBrowser = MyStringUtil.encodeFilenameByBrowser(browser, downloadFile.getOriginName());
 
-        if (tempDownloadFile.exists()) {
-            final byte[] fileByte = FileUtils.readFileToByteArray(tempDownloadFile);
-            final String encodeFilenameByBrowser = MyStringUtil.encodeFilenameByBrowser(browser, downloadFile.getOriginName());
+        responseFileByteArray(response, fileByteArray, encodeFilenameByBrowser);
 
-            responseFileByte(response, fileByte, encodeFilenameByBrowser);
-        }
-
-        fileWriter.removeFile(TEMP_DIRECTORY, tempDownloadFile);
+        fileLocalWriter.removeFile(TEMP_DIRECTORY, tempDownloadFile);
 
     }
 
-    private void responseFileByte(HttpServletResponse response, byte[] fileByte, String encodeFilenameByBrowser) throws IOException {
+    private void responseFileByteArray(HttpServletResponse response, byte[] fileByte, String encodeFilenameByBrowser) throws IOException {
         response.setContentType("application/octet-stream");
         response.setContentLength(fileByte.length);
         response.setHeader("Content-Disposition", "attachment; filename=\"" + encodeFilenameByBrowser + "\";");

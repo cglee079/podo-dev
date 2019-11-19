@@ -18,7 +18,7 @@ public class AttachImageApiController {
 
     @PostMapping(value = "/api/blogs/images", consumes = "multipart/form-data")
     public ApiResponse uploadImages(@RequestParam("fileOfImage") MultipartFile image) {
-        final AttachImageDto.response response = attachImageService.saveImage(image);
+        final AttachImageDto.response response = attachImageService.saveByFileOfImage(image);
 
         return DataResponse.builder()
                 .status(ApiStatus.SUCCESS)
@@ -32,13 +32,17 @@ public class AttachImageApiController {
         AttachImageDto.response attachImage = null;
 
         //Base64 Upload
-        if (Objects.nonNull(upload.getBase64())) {
-            attachImage = attachImageService.saveBase64(upload.getBase64());
+        final String base64 = upload.getBase64();
+        if (Objects.nonNull(base64)) {
+            attachImage = attachImageService.saveByBase64(base64);
         }
 
         //Url Upload
-        else if (Objects.nonNull(upload.getImageUrl())) {
-            attachImage = attachImageService.saveImageUrl(upload.getImageUrl());
+        else {
+            final String imageUrl = upload.getImageUrl();
+            if (Objects.nonNull(imageUrl)) {
+                attachImage = attachImageService.saveByImageUrl(imageUrl);
+            }
         }
 
         return DataResponse.builder()

@@ -45,12 +45,12 @@ public class BlogWriteService {
     @SolrDataImport
     public void insert(BlogDto.insert insert) {
 
-        attachImageStorageUploader.uploadFileOfAttachImages(insert.getImages());
-        attachFileStorageUploader.uploadFileOfAttachFiles(insert.getFiles());
+        attachImageStorageUploader.uploadFileOfAttachImages(insert.getAttachImages());
+        attachFileStorageUploader.uploadFileOfAttachFiles(insert.getAttachFiles());
 
         final Blog newBlog = insert.toEntity();
 
-        newBlog.changeContents(linkManager.changeServerLinkToStorageStatic(newBlog.getContents()));
+        newBlog.changeContents(linkManager.changeLocalLinkToStorageStatic(newBlog.getContents()));
 
         saveBlogTags(newBlog, insert.getTags());
 
@@ -78,21 +78,21 @@ public class BlogWriteService {
 
         final Blog existedBlog = existedBlogOpt.get();
 
-        attachImageStorageUploader.uploadFileOfAttachImages(update.getImages());
-        attachFileStorageUploader.uploadFileOfAttachFiles(update.getFiles());
+        attachImageStorageUploader.uploadFileOfAttachImages(update.getAttachImages());
+        attachFileStorageUploader.uploadFileOfAttachFiles(update.getAttachFiles());
 
         existedBlog.changeTitle(update.getTitle());
-        existedBlog.changeContents(linkManager.changeServerLinkToStorageStatic(update.getContents()));
+        existedBlog.changeContents(linkManager.changeLocalLinkToStorageStatic(update.getContents()));
         existedBlog.updateStatus(update.getStatus());
 
         updateBlogTags(existedBlog, update.getTags());
-        updateAttachImages(existedBlog, update.getImages());
-        updateAttachFiles(existedBlog, update.getFiles());
+        updateAttachImages(existedBlog, update.getAttachImages());
+        updateAttachFiles(existedBlog, update.getAttachFiles());
     }
 
 
-    private void updateAttachFiles(Blog blog, List<AttachFileDto.insert> files) {
-        for (AttachFileDto.insert file : files) {
+    private void updateAttachFiles(Blog blog, List<AttachFileDto.insert> attachFiles) {
+        for (AttachFileDto.insert file : attachFiles) {
             switch (file.getAttachStatus()) {
                 case NEW:
                     blog.addAttachFile(file.toEntity());
@@ -107,14 +107,14 @@ public class BlogWriteService {
         }
     }
 
-    private void updateAttachImages(Blog blog, List<AttachImageDto.insert> images) {
-        for (AttachImageDto.insert image : images) {
-            switch (image.getAttachStatus()) {
+    private void updateAttachImages(Blog blog, List<AttachImageDto.insert> attachImages) {
+        for (AttachImageDto.insert attachImage : attachImages) {
+            switch (attachImage.getAttachStatus()) {
                 case NEW:
-                    blog.addAttachImage(image.toEntity());
+                    blog.addAttachImage(attachImage.toEntity());
                     break;
                 case REMOVE:
-                    blog.removeAttachImage(image.getId());
+                    blog.removeAttachImage(attachImage.getId());
                 case UNNEW:
                 case BE:
                 default:

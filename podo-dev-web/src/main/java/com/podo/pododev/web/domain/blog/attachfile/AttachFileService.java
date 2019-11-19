@@ -4,9 +4,8 @@ import com.podo.pododev.core.util.MyFileUtils;
 import com.podo.pododev.web.domain.blog.AttachStatus;
 import com.podo.pododev.web.domain.blog.attachfile.exception.InvalidFileException;
 import com.podo.pododev.web.global.util.AttachLinkManager;
-import com.podo.pododev.web.global.util.writer.FileWriter;
+import com.podo.pododev.web.global.util.writer.FileLocalWriter;
 import com.podo.pododev.core.util.PathUtil;
-import com.podo.pododev.core.util.HttpUrlUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,12 +24,11 @@ import java.util.Optional;
 public class AttachFileService {
 
     private final AttachFileRepository attachFileRepository;
-    private final FileWriter fileWriter;
-    private final AttachLinkManager linkManager;
+    private final FileLocalWriter fileLocalWriter;
+    private final AttachLinkManager attachLinkManager;
 
     @Value("${local.upload.sub.file.dir}")
     private String fileDir;
-
 
 
     /**
@@ -42,11 +40,11 @@ public class AttachFileService {
 
         log.info("Save File '{}'", originName);
 
-        final File file = fileWriter.write(path, multipartFile);
+        final File file = fileLocalWriter.write(path, multipartFile);
 
         return AttachFileDto.response.builder()
                 .originName(originName)
-                .uploadedUrl(linkManager.getServerSavedLink())
+                .uploadedUrl(attachLinkManager.getLocalSavedLink())
                 .path(path)
                 .filename(file.getName())
                 .attachStatus(AttachStatus.NEW)
@@ -61,6 +59,6 @@ public class AttachFileService {
             throw new InvalidFileException();
         }
 
-        return new AttachFileDto.download(file.get(), linkManager.getStorageStaticLink());
+        return new AttachFileDto.download(file.get(), attachLinkManager.getStorageStaticLink());
     }
 }

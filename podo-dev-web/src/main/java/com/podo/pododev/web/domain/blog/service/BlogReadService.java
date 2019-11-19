@@ -46,11 +46,11 @@ public class BlogReadService {
     }
 
     public Map<Integer, List<BlogDto.archive>> getArchive() {
-        final List<Blog> blogs = blogRepository.findAllByEnabledAndOrderByPublishAtDesc(isShowAllBlogs());
-        return toMapByPublishYear(blogs);
+        final List<Blog> blogs = blogRepository.findAllByEnabledAndOrderByPublishAtDesc(isVisibleAllBlogs());
+        return toMapByYearOfPublishAt(blogs);
     }
 
-    private Map<Integer, List<BlogDto.archive>> toMapByPublishYear(List<Blog> blogs) {
+    private Map<Integer, List<BlogDto.archive>> toMapByYearOfPublishAt(List<Blog> blogs) {
         final Map<Integer, List<BlogDto.archive>> mapByYear = new TreeMap<>();
 
         for (Blog blog : blogs) {
@@ -83,7 +83,7 @@ public class BlogReadService {
         final Blog before = blogRepository.findBefore(blogId);
 
         final List<String> tagValues = blog.getTags().stream()
-                .map(BlogTag::getVal)
+                .map(BlogTag::getTagValue)
                 .collect(Collectors.toList());
 
         final List<Blog> relates = getRelates(tagValues);
@@ -126,15 +126,13 @@ public class BlogReadService {
             for (Blog relate : relates) {
 
                 List<String> tags = relate.getTags().stream()
-                        .map(BlogTag::getVal)
+                        .map(BlogTag::getTagValue)
                         .collect(Collectors.toList());
 
                 if (tags.contains(tag)) {
                     scores.merge(relate, 1, Integer::sum);
                 }
-
             }
-
         }
 
         return scores;
@@ -146,7 +144,7 @@ public class BlogReadService {
         final Integer page = request.getPage();
         final String tagValue = request.getTag();
         final Pageable pageable = PageRequest.of(page, pageSize);
-        final Boolean enabled = isShowAllBlogs();
+        final Boolean enabled = isVisibleAllBlogs();
 
         //Filter By Search(검색)
         if (!StringUtils.isEmpty(searchValue)) {
@@ -226,7 +224,7 @@ public class BlogReadService {
                 .build();
     }
 
-    private Boolean isShowAllBlogs() {
+    private Boolean isVisibleAllBlogs() {
         Boolean enabled = true;
 
         // If Admin, Show All Blogs (Include Disabled)

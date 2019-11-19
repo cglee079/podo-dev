@@ -1,7 +1,7 @@
 package com.podo.pododev.web.job.tempcleaner;
 
 import com.podo.pododev.core.util.MyFileUtils;
-import com.podo.pododev.web.global.util.writer.FileWriter;
+import com.podo.pododev.web.global.util.writer.FileLocalWriter;
 import com.podo.pododev.core.util.PathUtil;
 import com.podo.pododev.web.job.Worker;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ public class TempFileCleanWorker implements Worker {
     @Value("${local.upload.sub.file.dir}")
     private String fileDir;
 
-    private final FileWriter fileWriter;
+    private final FileLocalWriter fileLocalWriter;
 
     public void doWork() {
         log.info("Start Clean {} Ago Temp File", EXPIRE_DAY);
@@ -43,7 +43,7 @@ public class TempFileCleanWorker implements Worker {
         final String imagePath = PathUtil.merge(imageDir, path);
 
 
-        fileWriter.removeDirectory(filePath);
-        fileWriter.removeDirectory(imagePath);
+        fileLocalWriter.removeDirectory(filePath);
+        fileLocalWriter.removeDirectory(imagePath);
     }
 }

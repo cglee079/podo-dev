@@ -21,7 +21,7 @@ import java.io.IOException;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class FileWriter extends AbstractWriter {
+public class FileLocalWriter extends AbstractWriter {
 
     /**
      * URL로 부터 파일 저장

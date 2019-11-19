@@ -177,11 +177,11 @@
                     .then(res => {
                         const blog = res.result
                         this.input.title = blog.title
-                        this.input.status = blog.enabled ? 'VISIBLE' : 'INVISIBLE'
-                        this.input.tags = blog.tags
-                        this.input.attachImages = blog.images
-                        this.input.attachFiles = blog.files
                         this.input.contents = blog.contents
+                        this.input.tags = blog.tags
+                        this.input.attachImages = blog.attachImages
+                        this.input.attachFiles = blog.attachFiles
+                        this.input.status = blog.enabled ? 'VISIBLE' : 'INVISIBLE'
                     })
                     .catch(err => {
                         console.log(err)
