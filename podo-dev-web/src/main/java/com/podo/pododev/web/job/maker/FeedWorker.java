@@ -20,19 +20,16 @@ public class FeedWorker implements Worker {
     @Override
     public void doWork() {
 
-        if (!blogFeedService.hasNotFeededBlog(false)) {
-            log.info("No Updated Blogs");
+        if (!blogFeedService.existByFeeded(false)) {
+            log.info("웹피드에 반영되지 않은 게시글이 없습니다");
             return;
         }
 
-        log.info("Detect Updated Blog, Start MakeWork");
-
-        List<BlogDto.feed> blogs = blogFeedService.findByEnabled();
+        log.info("웹 피드에 반영되지 않은 게시글을 확인하였습니다. 웹피드 제작 작업을 수행합니다");
 
         for (Worker work : workers) {
             work.doWork();
         }
-
 
         blogFeedService.completeFeed();
 

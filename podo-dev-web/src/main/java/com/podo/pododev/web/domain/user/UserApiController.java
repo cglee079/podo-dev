@@ -20,7 +20,7 @@ public class UserApiController {
      */
     @GetMapping("/api/user")
     public ApiResponse getUserInfo() {
-        UserDto.response user = userService.getUser();
+        UserDto.response user = userService.getCurrentUser();
         return DataResponse.builder()
                 .status(ApiStatus.SUCCESS)
                 .result(user)

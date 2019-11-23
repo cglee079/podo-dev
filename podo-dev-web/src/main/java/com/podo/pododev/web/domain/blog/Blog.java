@@ -64,9 +64,6 @@ public class Blog extends UpdatableBaseEntity {
         this.feeded = false;
     }
 
-    /**
-     * 게시글 수정 시
-     */
     public void changeTitle(String title) {
         this.title = title;
         this.feeded = false;

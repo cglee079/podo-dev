@@ -8,13 +8,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 
-public class AttachImageValidator {
+public class ImageValidator {
 
     public static boolean isImageFile(MultipartFile multipartFile) {
         try {
-            BufferedImage bi = ImageIO.read(multipartFile.getInputStream());
+            BufferedImage bufferedImage = ImageIO.read(multipartFile.getInputStream());
 
-            if (bi == null) {
+            if (bufferedImage == null) {
                 return false;
             }
 
@@ -31,9 +31,9 @@ public class AttachImageValidator {
 
         try {
 
-            BufferedImage image = ImageIO.read(new URL(url));
+            final BufferedImage bufferedImage = ImageIO.read(new URL(url));
 
-            if (Objects.isNull(image)) {
+            if (Objects.isNull(bufferedImage)) {
                 return false;
             }
 

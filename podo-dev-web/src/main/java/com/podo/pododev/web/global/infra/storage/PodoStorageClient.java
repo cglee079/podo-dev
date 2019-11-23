@@ -24,55 +24,40 @@ public class PodoStorageClient {
     @Value("${infra.storage.server.internal}")
     private String serverUrl;
 
-    /**
-     * Upload to Storage Server
-     *
-     * @param path
-     * @param file
-     */
-    public void upload(String path, File file) {
-        log.info("Upload Start '{}'", file.getPath() + "/" + file.getName());
+    public void uploadFile(String path, File file) {
+        log.info("Storage 서버에 '{}' 파일 업로드를 요청합니다", file.getPath() + "/" + file.getName());
 
-        final MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-        body.add("path", path);
-        body.add("file", new FileSystemResource(file));
+        final MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>();
+        requestBody.add("path", path);
+        requestBody.add("file", new FileSystemResource(file));
 
-        final HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-        headers.setBearerAuth(token);
+        final HttpHeaders requestHeaders = new HttpHeaders();
+        requestHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
+        requestHeaders.setBearerAuth(token);
 
-        HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(body, headers);
+        HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(requestBody, requestHeaders);
 
-        try {
-            ResponseEntity<String> response = new RestTemplate().exchange(serverUrl, HttpMethod.POST, request, String.class);
-            log.info("Upload Response '{}'", response.toString());
-        } catch (HttpClientErrorException e) {
-            throw new UploadFailException(e.getMessage());
-        }
+        ResponseEntity<String> response = new RestTemplate().exchange(serverUrl, HttpMethod.POST, request, String.class);
+
+        log.info("Storage 파일 업로드 요청 응답 : '{}'", response.toString());
     }
 
-    /**
-     * Delete to Uploader Server
-     *
-     * @param path
-     * @param filename
-     */
-    public void delete(String path, String filename) {
-        log.info("Delete Start.... '{}'", path + "/" + filename);
+    public void deleteFile(String directory, String filename) {
+        log.info("Storage 서버에 '{}' 파일 삭제를 요청합니다", directory + "/" + filename);
 
-        final JSONObject object = new JSONObject();
-        object.put("path", path);
-        object.put("filename", filename);
+        final JSONObject requestBody = new JSONObject();
+        requestBody.put("path", directory);
+        requestBody.put("filename", filename);
 
-        final HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setBearerAuth(token);
+        final HttpHeaders requestHeaders = new HttpHeaders();
+        requestHeaders.setContentType(MediaType.APPLICATION_JSON);
+        requestHeaders.setBearerAuth(token);
 
-        final HttpEntity<String> request = new HttpEntity<>(object.toString(), headers);
+        final HttpEntity<String> request = new HttpEntity<>(requestBody.toString(), requestHeaders);
 
         final ResponseEntity<String> response = new RestTemplate().exchange(serverUrl, HttpMethod.DELETE, request, String.class);
 
-        log.info("Delete Response '{}'", response.toString());
+        log.info("Storage 파일 삭제 요청 응답 '{}'", response.toString());
 
     }
 }

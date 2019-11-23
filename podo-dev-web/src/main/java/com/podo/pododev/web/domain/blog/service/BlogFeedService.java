@@ -19,9 +19,6 @@ public class BlogFeedService {
 
     private final BlogRepository blogRepository;
 
-    /**
-     * 노출 게시글 조회
-     */
     public List<BlogDto.feed> findByEnabled() {
         List<Blog> exitedBlogs = blogRepository.findByEnabled(true);
         return exitedBlogs.stream()
@@ -29,12 +26,9 @@ public class BlogFeedService {
                 .collect(Collectors.toList());
     }
 
-
-    /**
-     * 웹피드 되어야할 게시글이 있는가?
-     */
-    public Boolean hasNotFeededBlog(boolean feeded) {
-        return !blogRepository.findByFeeded(feeded).isEmpty();
+    public Boolean existByFeeded(boolean feeded) {
+        final List<Blog> blogs = blogRepository.findByFeeded(feeded);
+        return !blogs.isEmpty();
     }
 
     public void completeFeed() {

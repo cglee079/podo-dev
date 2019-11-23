@@ -79,8 +79,6 @@ local:
 
 
 infra:
-
-  ## Uploader Config
   stroage:
     server:
       internal: http://192.168.219.103:38080/api/uploader/file # Loopback
@@ -89,27 +87,19 @@ infra:
       internal: http://192.168.219.103:30080
       external: https://file.podo-dev.com
 
-
-  ## Telegram Config
   telegram:
-    podo:
-      bot:
-        name: PodoDevBot
-      admin:
-        id: 503609560
+    admin:
+      telegram_id: 503609560
+    podo_dev_bot:
+      name: PodoDevBot
 
-  ## Solr Config
   solr:
     url: http://192.168.219.103:8979/solr # Loopback
-    core:
-      id: podo-dev
-    query:
-      hl:
-        pre:
-          max:
-            length: 100
-        frag:
-          length: 10000000
+    core_id: podo-dev
+    highlight:
+      pre_max_text_length: 100
+      frag:
+        length: 10000000
 
 
 

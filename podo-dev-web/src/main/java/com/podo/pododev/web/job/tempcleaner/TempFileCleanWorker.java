@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 
 /**
- *  게시글 작성 시 업로르 된,
- *  지난 파일, 이미지를 삭제함.
+ * 게시글 작성 시 업로르 된,
+ * 지난 파일, 이미지를 삭제함.
  */
 
 @Slf4j
@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 @Component
 public class TempFileCleanWorker implements Worker {
 
-    public static final Integer EXPIRE_DAY = 2;
+    public static final Integer DAYS_OF_EXPIRE = 2;
 
     @Value("${local.upload.sub.image.dir}")
     private String imageDir;
@@ -32,18 +32,17 @@ public class TempFileCleanWorker implements Worker {
     private final FileLocalWriter fileLocalWriter;
 
     public void doWork() {
-        log.info("Start Clean {} Ago Temp File", EXPIRE_DAY);
+        log.info("{} 일전, 임시 파일을 삭제합니다", DAYS_OF_EXPIRE);
 
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime ago = now.minusDays(EXPIRE_DAY);
+        final LocalDateTime now = LocalDateTime.now();
+        final LocalDateTime expireDateTime = now.minusDays(DAYS_OF_EXPIRE);
 
-        String path = MyFileUtils.makeDatePath(ago);
+        final String path = MyFileUtils.makeDatePath(expireDateTime);
 
-        final String filePath = PathUtil.merge(fileDir, path);
-        final String imagePath = PathUtil.merge(imageDir, path);
+        final String expireTempFileDirectory = PathUtil.merge(fileDir, path);
+        final String expireTempImageDirectory = PathUtil.merge(imageDir, path);
 
-
-        fileLocalWriter.removeDirectory(filePath);
-        fileLocalWriter.removeDirectory(imagePath);
+        fileLocalWriter.removeDirectory(expireTempFileDirectory);
+        fileLocalWriter.removeDirectory(expireTempImageDirectory);
     }
 }

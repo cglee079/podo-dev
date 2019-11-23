@@ -11,13 +11,13 @@ public class ResumeDto {
     @Getter
     public static class response {
         private String resumeKey;
-        private String resumeHead;
+        private String resumeTitle;
         private Integer resumeSort;
         private List<String> resumeContents;
 
         public response(Resume resume) {
             this.resumeKey = resume.getResumeKey();
-            this.resumeHead = resume.getResumeHead();
+            this.resumeTitle = resume.getResumeTitle();
             this.resumeSort = resume.getResumeSort();
             this.resumeContents = resume.getResumeContents().stream()
                     .map(ResumeContent::getResumeContentValue)

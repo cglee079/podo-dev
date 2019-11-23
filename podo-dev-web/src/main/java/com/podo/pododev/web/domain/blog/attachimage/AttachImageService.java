@@ -18,32 +18,32 @@ import java.util.Map;
 @Service
 public class AttachImageService {
 
-    private final static String PASTE_IMAGE_NAME = "paste";
+    private final static String BASE64_IMAGE_NAME = "base64";
 
     private final AttachLinkManager attachLinkManager;
     private final AttachImageLocalWriter attachImageLocalWriter;
 
     public AttachImageDto.response saveByBase64(String base64) {
-        String originExtension = "png";
-        String originName = PASTE_IMAGE_NAME + "." + originExtension;
+        final String originFileExtension = "png";
+        final String originFilename = BASE64_IMAGE_NAME + "." + originFileExtension;
 
-        final Map<String, AttachImageSave> saves = attachImageLocalWriter.makeSaveBase64(base64, originExtension);
+        final Map<String, AttachImageSave> saves = attachImageLocalWriter.writeImageToMultipleSizeFromBase64(base64, originFileExtension);
 
         return AttachImageDto.response.builder()
-                .originName(originName)
+                .originFilename(originFilename)
                 .uploadedUrl(attachLinkManager.getLocalSavedLink())
                 .attachStatus(AttachStatus.NEW)
                 .saves(saves)
                 .build();
     }
 
-    public AttachImageDto.response saveByImageUrl(String url) {
-        final String originName = FilenameUtils.getName(url);
+    public AttachImageDto.response saveByImageUrl(String imageUrl) {
+        final String originFilename = FilenameUtils.getName(imageUrl);
 
-        final Map<String, AttachImageSave> saves = attachImageLocalWriter.makeSaveUrl(url);
+        final Map<String, AttachImageSave> saves = attachImageLocalWriter.writeImageToMultipleSizeFromImageUrl(imageUrl);
 
         return AttachImageDto.response.builder()
-                .originName(originName)
+                .originFilename(originFilename)
                 .uploadedUrl(attachLinkManager.getLocalSavedLink())
                 .attachStatus(AttachStatus.NEW)
                 .saves(saves)
@@ -51,18 +51,13 @@ public class AttachImageService {
     }
 
 
-    /**
-     * 이미지 업로드, 이미지를 로컬에 저장.
-     */
-    public AttachImageDto.response saveByFileOfImage(MultipartFile multipartFile) {
+    public AttachImageDto.response saveByMultipartFile(MultipartFile multipartFile) {
         final String originName = multipartFile.getOriginalFilename();
 
-        log.info("Save Image '{}' >> ", originName);
-
-        final Map<String, AttachImageSave> saves = attachImageLocalWriter.makeSaves(multipartFile);
+        final Map<String, AttachImageSave> saves = attachImageLocalWriter.writeImageToMultipleSizeFromMultipartFile(multipartFile);
 
         return AttachImageDto.response.builder()
-                .originName(originName)
+                .originFilename(originName)
                 .uploadedUrl(attachLinkManager.getLocalSavedLink())
                 .attachStatus(AttachStatus.NEW)
                 .saves(saves)

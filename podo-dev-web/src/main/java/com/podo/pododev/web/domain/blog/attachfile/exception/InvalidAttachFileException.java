@@ -4,10 +4,10 @@ import com.podo.pododev.core.rest.exception.ResponsibleException;
 import com.podo.pododev.core.rest.response.ApiStatus;
 import org.springframework.http.HttpStatus;
 
-public class InvalidFileException extends ResponsibleException {
+public class InvalidAttachFileException extends ResponsibleException {
 
-    public InvalidFileException() {
-        super("유효하지 않은 파일입니다");
+    public InvalidAttachFileException() {
+        super("유효하지 않은 첨부파일입니다");
     }
 
     @Override

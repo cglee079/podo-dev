@@ -4,9 +4,9 @@ import com.podo.pododev.core.rest.exception.ResponsibleException;
 import com.podo.pododev.core.rest.response.ApiStatus;
 import org.springframework.http.HttpStatus;
 
-public class TelegramSendException extends ResponsibleException {
-    public TelegramSendException(Exception e) {
-        super("서버 에러가 발생하였습니다");
+public class TelegramException extends ResponsibleException {
+    public TelegramException(Exception e) {
+        super("텔레그램 서버 에러가 발생하였습니다");
     }
 
     @Override

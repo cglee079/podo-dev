@@ -21,17 +21,17 @@ public class BlogViewLogInterceptor extends HandlerInterceptorAdapter {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 
-        final String userAgent = request.getHeader("User-Agent");
+        final String requestUserAgent = request.getHeader("User-Agent");
 
-        String ip = request.getHeader("x-real-ip");
+        String requestIP = request.getHeader("x-real-ip");
 
-        if (Objects.isNull(ip)) {
-            ip = request.getRemoteAddr();
+        if (Objects.isNull(requestIP)) {
+            requestIP = request.getRemoteAddr();
         }
 
-        String url = request.getRequestURI();
+        final String requestUrl = request.getRequestURI();
 
-        log.info("View Blog Content, '{}'  << '{}',  '{}'", url, ip, userAgent);
+        log.info("블로그 조회, '{}'  << '{}',  '{}'", requestUrl, requestIP, requestUserAgent);
 
     }
 

@@ -17,16 +17,13 @@ public class BlogTagApiController {
 
     private final BlogTagService blogTagService;
 
-    /**
-     * 태그, 초성별 조회
-     */
     @GetMapping("/api/tags")
-    public ApiResponse getAllDistinctTagValue() {
-        final List<String> values = blogTagService.getAllDistinctTagValue();
+    public ApiResponse getAllDistinctTagValues() {
+        final List<String> distinctTagValues = blogTagService.getAllDistinctTagValuesByBlogEnabledTrue();
 
         return ListResponse.builder()
                 .status(ApiStatus.SUCCESS)
-                .result(values)
+                .result(distinctTagValues)
                 .build();
     }
 

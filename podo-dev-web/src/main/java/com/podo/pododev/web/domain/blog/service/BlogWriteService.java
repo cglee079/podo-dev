@@ -43,18 +43,17 @@ public class BlogWriteService {
 
 
     @SolrDataImport
-    public void insert(BlogDto.insert insert) {
+    public void insertNewBlog(BlogDto.insert insertBlog) {
 
-        attachImageStorageUploader.uploadFileOfAttachImages(insert.getAttachImages());
-        attachFileStorageUploader.uploadFileOfAttachFiles(insert.getAttachFiles());
+        attachImageStorageUploader.writeFileOfAttachImagesToStorage(insertBlog.getAttachImages());
+        attachFileStorageUploader.writeFileOfAttachFiles(insertBlog.getAttachFiles());
 
-        final Blog newBlog = insert.toEntity();
+        final Blog newBlog = insertBlog.toEntity();
 
-        newBlog.changeContents(linkManager.changeLocalLinkToStorageStatic(newBlog.getContents()));
+        newBlog.changeContents(linkManager.changeLocalLinkToStorageStaticLink(newBlog.getContents()));
 
-        saveBlogTags(newBlog, insert.getTags());
-
-        blogRepository.save(newBlog);
+        final Blog savedBlog = blogRepository.save(newBlog);
+        saveBlogTags(savedBlog, insertBlog.getTags());
     }
 
     private void saveBlogTags(Blog blog, List<BlogTagDto.insert> tags) {
@@ -68,7 +67,7 @@ public class BlogWriteService {
     }
 
     @SolrDataImport
-    public void update(Long blogId, BlogDto.update update) {
+    public void updateExistedBlogs(Long blogId, BlogDto.update updateBlog) {
 
         final Optional<Blog> existedBlogOpt = blogRepository.findById(blogId);
 
@@ -78,20 +77,20 @@ public class BlogWriteService {
 
         final Blog existedBlog = existedBlogOpt.get();
 
-        attachImageStorageUploader.uploadFileOfAttachImages(update.getAttachImages());
-        attachFileStorageUploader.uploadFileOfAttachFiles(update.getAttachFiles());
+        attachImageStorageUploader.writeFileOfAttachImagesToStorage(updateBlog.getAttachImages());
+        attachFileStorageUploader.writeFileOfAttachFiles(updateBlog.getAttachFiles());
 
-        existedBlog.changeTitle(update.getTitle());
-        existedBlog.changeContents(linkManager.changeLocalLinkToStorageStatic(update.getContents()));
-        existedBlog.updateStatus(update.getStatus());
+        existedBlog.changeTitle(updateBlog.getTitle());
+        existedBlog.changeContents(linkManager.changeLocalLinkToStorageStaticLink(updateBlog.getContents()));
+        existedBlog.updateStatus(updateBlog.getStatus());
 
-        updateBlogTags(existedBlog, update.getTags());
-        updateAttachImages(existedBlog, update.getAttachImages());
-        updateAttachFiles(existedBlog, update.getAttachFiles());
+        updateBlogTags(existedBlog, updateBlog.getTags());
+        writeAttachImages(existedBlog, updateBlog.getAttachImages());
+        writeAttachFiles(existedBlog, updateBlog.getAttachFiles());
     }
 
 
-    private void updateAttachFiles(Blog blog, List<AttachFileDto.insert> attachFiles) {
+    private void writeAttachFiles(Blog blog, List<AttachFileDto.insert> attachFiles) {
         for (AttachFileDto.insert file : attachFiles) {
             switch (file.getAttachStatus()) {
                 case NEW:
@@ -107,7 +106,7 @@ public class BlogWriteService {
         }
     }
 
-    private void updateAttachImages(Blog blog, List<AttachImageDto.insert> attachImages) {
+    private void writeAttachImages(Blog blog, List<AttachImageDto.insert> attachImages) {
         for (AttachImageDto.insert attachImage : attachImages) {
             switch (attachImage.getAttachStatus()) {
                 case NEW:
@@ -124,15 +123,12 @@ public class BlogWriteService {
     }
 
     private void updateBlogTags(Blog blog, List<BlogTagDto.insert> tags) {
-        //기존 태그 삭제
         blogTagRepository.deleteAll(blog.getTags());
-
-        //새로운 태그 저장
         saveBlogTags(blog, tags);
     }
 
     @SolrDataImport
-    public void delete(Long blogId) {
+    public void removeByBlogId(Long blogId) {
         final Optional<Blog> existedBlogOptional = blogRepository.findById(blogId);
 
         if (!existedBlogOptional.isPresent()) {
@@ -152,7 +148,7 @@ public class BlogWriteService {
 
     private void deleteFileOfAttachFiles(List<AttachFile> attachFiles) {
         for (AttachFile attachFile : attachFiles) {
-            attachFileStorageUploader.deleteFile(attachFile.getPath(), attachFile.getFilename());
+            attachFileStorageUploader.deleteFileOfAttachFile(attachFile.getFilePath(), attachFile.getFilename());
         }
     }
 
@@ -161,13 +157,14 @@ public class BlogWriteService {
 
             for (AttachImageSaveEntity saveEntity : attachImage.getSaves()) {
                 final AttachImageSave save = saveEntity.getAttachImageSave();
-                attachImageStorageUploader.deleteImageFile(save.getPath(), save.getFilename());
+                attachImageStorageUploader.deleteFileOfAttachImage(save.getFilePath(), save.getFilename());
             }
         }
     }
 
     /**
      * 게시글 조회수 +1
+     *
      * @param blogId
      */
     public void increaseHitCount(Long blogId) {

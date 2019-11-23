@@ -15,7 +15,7 @@ public class BlogTagService {
 
     private final BlogTagRepository blogTagRepository;
 
-    public List<String> getAllDistinctTagValue() {
+    public List<String> getAllDistinctTagValuesByBlogEnabledTrue() {
         return blogTagRepository.findDistinctTagValue();
     }
 }

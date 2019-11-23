@@ -10,8 +10,11 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @Controller
 public class AuthController {
+
     @GetMapping("/login/google")
-    public void loginGoogle(HttpServletResponse response) throws IOException {
+    public void redirectToGoogleOAuth(HttpServletResponse response) throws IOException {
         response.sendRedirect("/oauth/google");
     }
+
+    
 }

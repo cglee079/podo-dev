@@ -21,7 +21,7 @@ public class MySolrParameter {
         return param;
     }
 
-    public static Map<String, String[]> createFacetParam(String value) {
+    public static Map<String, String[]> createDefaultFacetParam(String value) {
         final Map<String, String[]> param = new HashMap<>();
         param.put("q", new String[]{""});
         param.put("facet", new String[]{"on"});

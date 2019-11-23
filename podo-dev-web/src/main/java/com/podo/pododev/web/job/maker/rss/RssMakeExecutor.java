@@ -9,10 +9,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 
-/**
- * TODO 별도의 모듈로 만들자, 일단 진행!
- */
-
 @Slf4j
 @RequiredArgsConstructor
 @Component

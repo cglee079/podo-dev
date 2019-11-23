@@ -16,7 +16,7 @@ public class AttachImageSave {
 
     private String filename;
 
-    private String path;
+    private String filePath;
 
     private Integer width;
 
@@ -25,10 +25,10 @@ public class AttachImageSave {
     private Long filesize;
 
     @Builder
-    public AttachImageSave(String imageKey, String filename, String path, Integer width, Integer height, Long filesize) {
+    public AttachImageSave(String imageKey, String filename, String filePath, Integer width, Integer height, Long filesize) {
         this.imageKey = imageKey;
         this.filename = filename;
-        this.path = path;
+        this.filePath = filePath;
         this.width = width;
         this.height = height;
         this.filesize = filesize;

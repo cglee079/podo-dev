@@ -20,7 +20,7 @@ public class MarkdownUtil {
         return s.replace("\n", "<br/>");
     }
 
-    public static String escape(String s) {
+    public static String escapeHtml(String s) {
         if (StringUtils.isEmpty(s)) {
             return "";
         }

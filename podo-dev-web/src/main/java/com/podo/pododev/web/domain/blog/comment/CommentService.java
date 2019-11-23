@@ -79,10 +79,9 @@ public class CommentService {
     }
 
 
-    public void insert(Long blogId, CommentDto.insert insert) {
+    public void insertNewComment(Long blogId, CommentDto.insert insert) {
 
         final String currentUserId = SecurityUtil.getUserId();
-
         if (Objects.isNull(currentUserId)) {
             throw new NoAuthenticatedException();
         }
@@ -102,7 +101,7 @@ public class CommentService {
     }
 
     private void insertNewComment(User user, Blog blog, String contents) {
-        log.info("New Comment Insert");
+        log.info("'{}' 게시글에 새로운 댓글이 등록되었습니다", blog.getTitle());
 
         final Comment newComment = Comment.builder()
                 .blog(blog)
@@ -114,20 +113,20 @@ public class CommentService {
                 .byAdmin(SecurityUtil.isAdmin())
                 .build();
 
-        commentRepository.save(newComment);
-        blog.addComment(newComment);
+        final Comment savedComment = commentRepository.save(newComment);
+        blog.addComment(savedComment);
 
-        newComment.changeCgroup(newComment.getId());
+        savedComment.changeCgroup(savedComment.getId());
     }
 
     private void insertReplyComment(User user, Blog blog, String contents, Long parentCommentId) {
-        log.info("Replay Comment Insert, parent '{}'", parentCommentId);
+        log.info("'{}' 게시글에 새로운 답글이 등록되었습니다", blog.getTitle());
 
         final Comment parentComment = commentRepository.findById(parentCommentId).get();
 
-        final Long cgroup = parentComment.getCgroup();
-        final Integer depth = parentComment.getDepth();
-        final Double childSort = parentComment.getChildCommentSort();
+        final Long parentCommentCgroup = parentComment.getCgroup();
+        final Integer parentCommentDepth = parentComment.getDepth();
+        final Double childCommentSort = parentComment.getChildCommentSort();
 
         if (parentComment.isExceedMaxCommentDepth(maxCommentDepth)) {
             throw new MaxDepthCommentException();
@@ -139,69 +138,56 @@ public class CommentService {
                 .blog(blog)
                 .writer(user)
                 .contents(contents)
-                .cgroup(cgroup)
+                .cgroup(parentCommentCgroup)
                 .childCount(0)
                 .parentId(parentCommentId)
-                .depth(depth + 1)
-                .sort(childSort)
+                .depth(parentCommentDepth + 1)
+                .sort(childCommentSort)
                 .byAdmin(SecurityUtil.isAdmin())
                 .build();
 
-        commentRepository.save(newChildComment);
-        blog.addComment(newChildComment);
+        final Comment savedChildComment = commentRepository.save(newChildComment);
+        blog.addComment(savedChildComment);
     }
 
 
-    /**
-     * 댓글 삭제
-     */
-    public void deleteByCommentId(Long commentId) {
+    public void removeExistedCommentByCommentId(Long commentId) {
         final String currentUserId = SecurityUtil.getUserId();
 
-        // No Login Error
         if (Objects.isNull(currentUserId)) {
             throw new NoAuthenticatedException();
         }
 
         final Optional<Comment> existCommentOptional = commentRepository.findById(commentId);
 
-        // No Comment Error
         if (!existCommentOptional.isPresent()) {
             throw new InvalidCommentException();
         }
 
         final Comment existCommand = existCommentOptional.get();
 
-        // No Auth Error
-        if (!existCommand.isCreateByUserId(currentUserId)) {
+        if (!existCommand.isWritedBy(currentUserId)) {
             throw new NoAuthenticatedException();
         }
 
-        //자식이 없는 경우
         if (!existCommand.hasChild()) {
             commentRepository.delete(existCommand);
-            decreaseChild(existCommand.getParentId());
-        }
-
-        // 자식이 있는 경우
-        else {
+            decreaseChildCountAndRemoveIfNoHasChild(existCommand.getParentId());
+        } else {
             existCommand.erase();
         }
     }
 
 
-    private void decreaseChild(Long commendId) {
+    private void decreaseChildCountAndRemoveIfNoHasChild(Long commendId) {
         if (Objects.nonNull(commendId)) {
             final Comment existedComment = commentRepository.findById(commendId).get();
 
             existedComment.decreaseChildCount();
 
-            //삭제인 상태에서, 자식이 없는 경우 삭제
             if (!existedComment.hasChild() && existedComment.isErase()) {
                 commentRepository.delete(existedComment);
-
-                //부모 검증 (재귀)
-                decreaseChild(existedComment.getParentId());
+                decreaseChildCountAndRemoveIfNoHasChild(existedComment.getParentId());
             }
         }
     }

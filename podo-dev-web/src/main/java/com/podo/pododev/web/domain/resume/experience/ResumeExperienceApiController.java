@@ -20,11 +20,8 @@ public class ResumeExperienceApiController {
 
     private final ResumeExperienceService resumeExperienceService;
 
-    /**
-     *
-     */
     @GetMapping(value = "/api/resumes/experiences")
-    public ApiResponse findAll() {
+    public ApiResponse findAllResumeExperiences() {
 
         List<ResumeExperienceDto.response> resumeExperiences = resumeExperienceService.findAll();
 

@@ -13,11 +13,11 @@ public class SitemapSender {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    public void sendRequest(String url) {
-        log.info("Sitemap Send, To '{}'", url);
+    public void requestSubmitSitemap(String submitUrl) {
+        log.info("Sitemap 제출을 요청합니다 >>>  '{}'", submitUrl);
 
-        String response = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(new HttpHeaders()), String.class).getBody();
+        final String response = restTemplate.exchange(submitUrl, HttpMethod.GET, new HttpEntity<>(new HttpHeaders()), String.class).getBody();
 
-        log.info("Sitemap Send, Response '{}'", response.replace("\n", " "));
+        log.info("Sitemap 제출을 요청 응답 <<< '{}'", response.replace("\n", " "));
     }
 }

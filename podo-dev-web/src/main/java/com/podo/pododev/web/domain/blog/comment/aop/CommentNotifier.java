@@ -38,7 +38,7 @@ public class CommentNotifier {
         final Long blogId = getBlogId(joinPoint);
         final String username = SecurityUtil.getUsername();
         final String contents = comment.getContents();
-        final BlogDto.response blog = blogReadService.get(blogId);
+        final BlogDto.response blog = blogReadService.getByBlogId(blogId);
         final StringBuilder message = new StringBuilder();
 
         message.append("#게시글에 댓글이 등록되었습니다.\n")
@@ -52,7 +52,7 @@ public class CommentNotifier {
                 .append(DateTimeFormatUtil.dateTimeToDateTimeStr(LocalDateTime.now()))
                 .append("\n")
                 .append("내용 :\n")
-                .append(MarkdownUtil.escape(contents));
+                .append(MarkdownUtil.escapeHtml(contents));
 
         telegramClient.send(message.toString());
 

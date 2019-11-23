@@ -12,10 +12,10 @@ import org.springframework.beans.factory.annotation.Value;
 public class AbstractWriter {
 
     @Value("${local.upload.base.dir}")
-    private String baseDir;
+    private String localBaseSavedDirectory;
 
-    final String mergeLocalBaseLocation(String filepath) {
-        return PathUtil.merge(baseDir, filepath);
+    final String mergeLocalSaveBasedDirectory(String path) {
+        return PathUtil.merge(localBaseSavedDirectory, path);
     }
 
 }

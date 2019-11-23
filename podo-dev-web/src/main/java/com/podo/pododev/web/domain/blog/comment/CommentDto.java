@@ -62,7 +62,7 @@ public class CommentDto {
             final User writeBy = comment.getWriter();
             this.id = comment.getId();
             this.username = writeBy.getUsername();
-            this.contents = MarkdownUtil.line2br(MarkdownUtil.escape(comment.getContents()));
+            this.contents = MarkdownUtil.line2br(MarkdownUtil.escapeHtml(comment.getContents()));
             this.depth = comment.getDepth();
             this.createAt = DateTimeFormatUtil.dateTimeToBeautifulDate(comment.getCreateAt());
             this.enabled = comment.getEnabled();

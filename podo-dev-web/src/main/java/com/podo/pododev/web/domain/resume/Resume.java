@@ -20,7 +20,7 @@ public class Resume {
 
     private String resumeKey;
 
-    private String resumeHead;
+    private String resumeTitle;
 
     private Integer resumeSort;
 

@@ -17,12 +17,12 @@ import java.util.Objects;
 @RestController
 public class AuthApiController {
 
-    public static final String[] NOT_ALLOWED_USER_AGENTS = {"KAKAOTALK"};
+    private static final String[] NOT_ALLOWED_USER_AGENTS = {"KAKAOTALK"};
 
     private final SecurityStore securityStore;
 
     @GetMapping("/api/login/enabled")
-    public ApiResponse loginGoogle(HttpServletRequest request) {
+    public ApiResponse checkIsAllowedUserAgent(HttpServletRequest request) {
         final String userAgent = request.getHeader("User-Agent");
 
         final boolean result = isAllowedUserAgent(userAgent);
@@ -50,7 +50,7 @@ public class AuthApiController {
 
         if (Objects.nonNull(authorization)) {
             final String token = authorization.replace("bearer", "").trim();
-            securityStore.logout(token);
+            securityStore.logoutByToken(token);
         }
 
         return StatusResponse.builder()

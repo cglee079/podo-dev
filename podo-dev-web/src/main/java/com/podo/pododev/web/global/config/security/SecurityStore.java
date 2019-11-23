@@ -27,12 +27,12 @@ public class SecurityStore {
         this.lastConnectTime = new HashMap<>();
     }
 
-    public void login(String token, Authentication authentication) {
+    public void loginByToken(String token, Authentication authentication) {
         authentications.put(token, authentication);
         lastConnectTime.put(token, LocalDateTime.now());
     }
 
-    public Authentication isAuth(String token) {
+    public Authentication isAuthUserByToken(String token) {
         // 인증되지 않은 사용자
         if(!authentications.containsKey(token)){
             return null;
@@ -53,7 +53,7 @@ public class SecurityStore {
     }
 
 
-    public void logout(String accessToken) {
+    public void logoutByToken(String accessToken) {
         authentications.remove(accessToken);
         lastConnectTime.remove(accessToken);
     }

@@ -125,7 +125,7 @@ public class BlogDto {
         public response(Blog blog, Blog before, Blog next, List<Blog> relates, String uploaderDomain, AttachStatus attachStatus) {
             this.id = blog.getId();
             this.title = blog.getTitle();
-            this.desc = MarkdownUtil.escape(MarkdownUtil.extractPlainText(blog.getContents()));
+            this.desc = MarkdownUtil.escapeHtml(MarkdownUtil.extractPlainText(blog.getContents()));
             this.contents = blog.getContents();
             this.hitCount = blog.getHitCount();
             this.publishAt = DateTimeFormatUtil.dateTimeToBeautifulDate(blog.getPublishAt());
@@ -162,7 +162,7 @@ public class BlogDto {
                 final Optional<AttachImageSave> thumbnailSaveOptional = saves.stream().filter(s -> s.getImageKey().equals("origin")).findFirst();
                 if (thumbnailSaveOptional.isPresent()) {
                     AttachImageSave thumbnailSave = thumbnailSaveOptional.get();
-                    this.thumbnail = PathUtil.merge(uploaderDomain, thumbnailSave.getPath(), thumbnailSave.getFilename());
+                    this.thumbnail = PathUtil.merge(uploaderDomain, thumbnailSave.getFilePath(), thumbnailSave.getFilename());
                 }
             }
 
@@ -171,11 +171,11 @@ public class BlogDto {
     }
 
     @Getter
-    public static class responseList {
+    public static class responseGroup {
         private Long id;
         private String thumbnail;
         private String title;
-        private String desc;
+        private String description;
         private String createAt;
         private String publishAt;
         private String updateAt;
@@ -183,10 +183,10 @@ public class BlogDto {
         private List<BlogTagDto.response> tags;
         private Boolean enabled;
 
-        public responseList(Blog blog, String uploaderDomain) {
+        public responseGroup(Blog blog, String uploaderDomain) {
             this.id = blog.getId();
             this.title = blog.getTitle();
-            this.desc = MarkdownUtil.escape(MarkdownUtil.extractPlainText(blog.getContents()));
+            this.description = MarkdownUtil.escapeHtml(MarkdownUtil.extractPlainText(blog.getContents()));
             this.createAt = DateTimeFormatUtil.dateTimeToBeautifulDate(blog.getCreateAt());
             this.publishAt = DateTimeFormatUtil.dateTimeToBeautifulDate(blog.getPublishAt());
             this.updateAt = DateTimeFormatUtil.dateTimeToBeautifulDate(blog.getUpdateAt());
@@ -206,16 +206,18 @@ public class BlogDto {
                 final Optional<AttachImageSave> thumbnailSaveOpt = saves.stream().filter(s -> s.getImageKey().equals("origin")).findFirst();
                 if (thumbnailSaveOpt.isPresent()) {
                     AttachImageSave thumbnailSave = thumbnailSaveOpt.get();
-                    this.thumbnail = PathUtil.merge(uploaderDomain, thumbnailSave.getPath(), thumbnailSave.getFilename());
+                    this.thumbnail = PathUtil.merge(uploaderDomain, thumbnailSave.getFilePath(), thumbnailSave.getFilename());
                 }
             }
 
 
         }
 
-        public responseList(Blog blog, String desc, String uploadServerDomain) {
-            this(blog, uploadServerDomain);
-            this.desc = desc;
+        public static responseGroup createWithHighlightDescription(Blog blog, String highlightDescription, String uploadServerDomain) {
+            final responseGroup responseGroup = new responseGroup(blog, uploadServerDomain);
+            responseGroup.description = highlightDescription;
+
+            return responseGroup;
         }
 
     }
@@ -267,7 +269,7 @@ public class BlogDto {
         public feed(Blog blog) {
             this.id = blog.getId();
             this.title = blog.getTitle();
-            this.desc = MarkdownUtil.escape(MarkdownUtil.extractPlainText(blog.getContents()));
+            this.desc = MarkdownUtil.escapeHtml(MarkdownUtil.extractPlainText(blog.getContents()));
             this.publishAt = blog.getPublishAt();
             this.createAt = blog.getCreateAt();
             this.updateAt = blog.getUpdateAt();

@@ -1,5 +1,6 @@
 package com.podo.pododev.web.domain.blog.attachimage;
 
+import com.podo.pododev.web.domain.blog.AttachStatus;
 import com.podo.pododev.web.domain.blog.attachimage.save.AttachImageSave;
 import com.podo.pododev.web.global.infra.storage.PodoStorageClient;
 import com.podo.pododev.core.util.PathUtil;
@@ -18,43 +19,43 @@ import java.util.List;
 public class AttachImageStorageUploader {
 
     @Value("${local.upload.base.dir}")
-    private String baseDir;
+    private String localSavedBaseDirectory;
 
     private final PodoStorageClient podoStorageClient;
 
-    /***
-     * 게시글 작성 시, 이미지 업로드 To Uplaoder Server
-     * @param attachImages
-     */
-    public void uploadFileOfAttachImages(List<AttachImageDto.insert> attachImages) {
+    public void writeFileOfAttachImagesToStorage(List<AttachImageDto.insert> attachImages) {
         for (AttachImageDto.insert attachImage : attachImages) {
-            log.info("Image '{}', '{}'", attachImage.getAttachStatus(), attachImage.getOriginName());
+            log.info("Image '{}', '{}'", attachImage.getAttachStatus(), attachImage.getOriginFilename());
 
-            final List<AttachImageSave> saves = new ArrayList<>(attachImage.getSaves().values());
-
-            switch (attachImage.getAttachStatus()) {
-                case NEW:
-                    for (AttachImageSave attachImageSave : saves) {
-                        podoStorageClient.upload(attachImageSave.getPath(), new File(PathUtil.merge(baseDir, attachImageSave.getPath()), attachImageSave.getFilename()));
-                    }
-
-                    break;
-                case REMOVE:
-                    for (AttachImageSave save : saves) {
-                        podoStorageClient.delete(save.getPath(), save.getFilename());
-                    }
-                    break;
-                case BE:
-                case UNNEW:
-                default:
-                    break;
-            }
+            final ArrayList<AttachImageSave> attachImageSaves = new ArrayList<>(attachImage.getSaves().values());
+            writeFileOfAttachImageSavesToStorage(attachImageSaves, attachImage.getAttachStatus());
         }
-
-
     }
 
-    public void deleteImageFile(String path, String filename) {
-        podoStorageClient.delete(path, filename);
+    private void writeFileOfAttachImageSavesToStorage(List<AttachImageSave> attachImageSaves, AttachStatus attachStatus) {
+
+        switch (attachStatus) {
+            case NEW:
+                for (AttachImageSave attachImageSave : attachImageSaves) {
+                    final String filePath = attachImageSave.getFilePath();
+                    final File savedFileOfAttachImageSave = new File(PathUtil.merge(localSavedBaseDirectory, filePath), attachImageSave.getFilename());
+                    podoStorageClient.uploadFile(filePath, savedFileOfAttachImageSave);
+                }
+
+                break;
+            case REMOVE:
+                for (AttachImageSave attachImageSave : attachImageSaves) {
+                    podoStorageClient.deleteFile(attachImageSave.getFilePath(), attachImageSave.getFilename());
+                }
+                break;
+            case BE:
+            case UNNEW:
+            default:
+                break;
+        }
+    }
+
+    public void deleteFileOfAttachImage(String path, String filename) {
+        podoStorageClient.deleteFile(path, filename);
     }
 }

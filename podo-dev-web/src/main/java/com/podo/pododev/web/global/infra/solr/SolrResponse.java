@@ -18,8 +18,4 @@ public class SolrResponse {
 
     @Field("contents")
     private String contents;
-
-    public void changeContents(String contents) {
-        this.contents = contents;
-    }
 }

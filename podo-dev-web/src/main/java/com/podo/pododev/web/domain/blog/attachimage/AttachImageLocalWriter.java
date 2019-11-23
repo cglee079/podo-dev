@@ -28,69 +28,56 @@ public class AttachImageLocalWriter {
 
 
     @Value("${local.upload.sub.image.dir}")
-    private String imageSaveDirectory;
+    private String localAttachImageDirectory;
 
     private static final String ORIGIN_IMAGE_KEY = "origin";
 
     private final FileLocalWriter fileLocalWriter;
 
-    public Map<String, AttachImageSave> makeSaveUrl(String url) {
-        if (!AttachImageValidator.isImageFile(url)) {
-            throw new InvalidImageException();
-        }
+    public Map<String, AttachImageSave> writeImageToMultipleSizeFromImageUrl(String imageUrl) {
+        final String localSavedLocation = PathUtil.merge(localAttachImageDirectory, MyFileUtils.makeDatePath(LocalDateTime.now())); // 로컬 저장경로
+        final Map<String, AttachImageSave> attachImageSaveMap = new HashMap<>();
 
-        final String path = PathUtil.merge(imageSaveDirectory, MyFileUtils.makeDatePath(LocalDateTime.now())); // 로컬 저장경로
-        final Map<String, AttachImageSave> saves = new HashMap<>();
+        final String localSavedLocationOfOrigin = PathUtil.merge(localSavedLocation, ORIGIN_IMAGE_KEY);
+        final File originImage = fileLocalWriter.writeFromUrl(imageUrl, localSavedLocationOfOrigin);
 
-        final String originPath = PathUtil.merge(path, ORIGIN_IMAGE_KEY);
-        final File originImage = fileLocalWriter.write(originPath, url);
+        attachImageSaveMap.put(ORIGIN_IMAGE_KEY, createAttachImageSave(originImage, localSavedLocationOfOrigin, ORIGIN_IMAGE_KEY));
 
-        saves.put(ORIGIN_IMAGE_KEY, makeOrigin(originPath, originImage));
-
-        return saves;
+        return attachImageSaveMap;
     }
 
-    public Map<String, AttachImageSave> makeSaveBase64(String base64, String extension) {
-        final String path = PathUtil.merge(imageSaveDirectory, MyFileUtils.makeDatePath(LocalDateTime.now())); // 로컬 저장경로
-        final Map<String, AttachImageSave> saves = new HashMap<>();
+    public Map<String, AttachImageSave> writeImageToMultipleSizeFromBase64(String base64, String extension) {
+        final String localSavedLocation = PathUtil.merge(localAttachImageDirectory, MyFileUtils.makeDatePath(LocalDateTime.now())); // 로컬 저장경로
+        final Map<String, AttachImageSave> attachImageSaveMap = new HashMap<>();
 
-        //Save Origin File
-        final String originPath = PathUtil.merge(path, ORIGIN_IMAGE_KEY);
-        final File originImage = fileLocalWriter.write(originPath, base64, extension);
-        saves.put(ORIGIN_IMAGE_KEY, makeOrigin(originPath, originImage));
+        final String localSavedLocationOfOrigin = PathUtil.merge(localSavedLocation, ORIGIN_IMAGE_KEY);
+        final File originImage = fileLocalWriter.writeByBase64(base64, extension, localSavedLocationOfOrigin);
+        attachImageSaveMap.put(ORIGIN_IMAGE_KEY, createAttachImageSave(originImage, localSavedLocationOfOrigin, ORIGIN_IMAGE_KEY));
 
-        return saves;
+        return attachImageSaveMap;
     }
 
-    public Map<String, AttachImageSave> makeSaves(MultipartFile multipartFile) {
-        if (!AttachImageValidator.isImageFile(multipartFile)) {
-            throw new InvalidImageException();
-        }
+    public Map<String, AttachImageSave> writeImageToMultipleSizeFromMultipartFile(MultipartFile multipartFile) {
+        final String localSavedLocation = PathUtil.merge(localAttachImageDirectory, MyFileUtils.makeDatePath(LocalDateTime.now())); // 로컬 저장경로
+        final Map<String, AttachImageSave> attachImageSaveMap = new HashMap<>();
 
-        log.info("Save Image Each Size, '{}'", multipartFile.getOriginalFilename());
+        final String localSavedLocationOfOrigin = PathUtil.merge(localSavedLocation, ORIGIN_IMAGE_KEY);
+        final File originImage = fileLocalWriter.writeFromMultipartFile(multipartFile, localSavedLocationOfOrigin);
 
-        final String path = PathUtil.merge(imageSaveDirectory, MyFileUtils.makeDatePath(LocalDateTime.now())); // 로컬 저장경로
-        final Map<String, AttachImageSave> saves = new HashMap<>();
+        attachImageSaveMap.put(ORIGIN_IMAGE_KEY, createAttachImageSave(originImage, localSavedLocationOfOrigin, ORIGIN_IMAGE_KEY));
 
-        //Save Origin File
-        final String originPath = PathUtil.merge(path, ORIGIN_IMAGE_KEY);
-        final File originImage = fileLocalWriter.write(originPath, multipartFile);
-
-        saves.put(ORIGIN_IMAGE_KEY, makeOrigin(originPath, originImage));
-
-
-        return saves;
+        return attachImageSaveMap;
     }
 
 
-    private AttachImageSave makeOrigin(String path, File originImage) {
-        final ImageSizeVo imageSizeVo = getImageInfo(originImage);
+    private AttachImageSave createAttachImageSave(File imageFile, String filePath, String imageKey) {
+        final ImageSizeVo imageSizeVo = getImageInfo(imageFile);
 
         return AttachImageSave.builder()
-                .imageKey(ORIGIN_IMAGE_KEY)
-                .filename(originImage.getName())
-                .path(path)
-                .filesize(originImage.length())
+                .imageKey(imageKey)
+                .filename(imageFile.getName())
+                .filePath(filePath)
+                .filesize(imageFile.length())
                 .height(imageSizeVo.getHeight())
                 .width(imageSizeVo.getWidth())
                 .build();
@@ -112,13 +99,6 @@ public class AttachImageLocalWriter {
 //
 //    }
 
-    /**
-     * //TODO
-     * 이미지 정보를 가져옴
-     *
-     * @param file
-     * @return
-     */
     private ImageSizeVo getImageInfo(File file) {
         try {
             BufferedImage image = ImageIO.read(file);

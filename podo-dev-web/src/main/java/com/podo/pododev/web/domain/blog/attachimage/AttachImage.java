@@ -26,16 +26,17 @@ public class AttachImage extends BaseEntity {
     @JoinColumn(name = "blog_id")
     private Blog blog;
 
-    private String originName;
+    //TODO
+    private String originFilename;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "blog_image_id")
     List<AttachImageSaveEntity> saves = new ArrayList<>();
 
     @Builder
-    public AttachImage(List<AttachImageSaveEntity> saves, String originName) {
+    public AttachImage(String originFilename, List<AttachImageSaveEntity> saves) {
         this.saves = saves;
-        this.originName = originName;
+        this.originFilename = originFilename;
     }
 
     public void changeBlog(Blog blog) {

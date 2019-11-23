@@ -23,19 +23,21 @@ public class AttachFile extends BaseEntity {
     @JoinColumn(name = "blog_id")
     private Blog blog;
 
-    private String originName;
+    //TODO DB바꾸자
+    private String originFilename;
 
     private String filename;
 
-    private String path;
+    //TODO DB바꾸자
+    private String filePath;
 
     private Long filesize;
 
     @Builder
-    public AttachFile(String filename, String originName, String path, Long filesize) {
+    public AttachFile(String filename, String originFilename, String filePath, Long filesize) {
         this.filename = filename;
-        this.originName = originName;
-        this.path = path;
+        this.originFilename = originFilename;
+        this.filePath = filePath;
         this.filesize = filesize;
     }
 

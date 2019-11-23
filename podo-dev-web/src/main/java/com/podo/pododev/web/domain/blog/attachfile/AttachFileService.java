@@ -2,7 +2,7 @@ package com.podo.pododev.web.domain.blog.attachfile;
 
 import com.podo.pododev.core.util.MyFileUtils;
 import com.podo.pododev.web.domain.blog.AttachStatus;
-import com.podo.pododev.web.domain.blog.attachfile.exception.InvalidFileException;
+import com.podo.pododev.web.domain.blog.attachfile.exception.InvalidAttachFileException;
 import com.podo.pododev.web.global.util.AttachLinkManager;
 import com.podo.pododev.web.global.util.writer.FileLocalWriter;
 import com.podo.pododev.core.util.PathUtil;
@@ -28,37 +28,33 @@ public class AttachFileService {
     private final AttachLinkManager attachLinkManager;
 
     @Value("${local.upload.sub.file.dir}")
-    private String fileDir;
+    private String localAttachFileDirectory;
 
+    public AttachFileDto.response saveFileFromMultipartFile(MultipartFile multipartFile) {
+        final String originFilename = multipartFile.getOriginalFilename();
+        final String savedDirectory = PathUtil.merge(localAttachFileDirectory, MyFileUtils.makeDatePath(LocalDateTime.now()));
 
-    /**
-     * 이미지 업로드, 이미지를 우선 본서버에 저장.
-     */
-    public AttachFileDto.response saveFile(MultipartFile multipartFile) {
-        final String originName = multipartFile.getOriginalFilename();
-        final String path = PathUtil.merge(fileDir, MyFileUtils.makeDatePath(LocalDateTime.now()));
-
-        log.info("Save File '{}'", originName);
-
-        final File file = fileLocalWriter.write(path, multipartFile);
+        final File file = fileLocalWriter.writeFromMultipartFile(multipartFile, savedDirectory);
 
         return AttachFileDto.response.builder()
-                .originName(originName)
+                .originFilename(originFilename)
                 .uploadedUrl(attachLinkManager.getLocalSavedLink())
-                .path(path)
+                .filePath(savedDirectory)
                 .filename(file.getName())
                 .attachStatus(AttachStatus.NEW)
                 .filesize(file.length())
                 .build();
     }
 
-    public AttachFileDto.download download(Long fileId) {
-        Optional<AttachFile> file = attachFileRepository.findById(fileId);
+    public AttachFileDto.download getAttachFileByAttachFileId(Long attachFileId) {
+        final Optional<AttachFile> attachFileOptional = attachFileRepository.findById(attachFileId);
 
-        if (!file.isPresent()) {
-            throw new InvalidFileException();
+        if (!attachFileOptional.isPresent()) {
+            throw new InvalidAttachFileException();
         }
 
-        return new AttachFileDto.download(file.get(), attachLinkManager.getStorageStaticLink());
+        final AttachFile attachFile = attachFileOptional.get();
+
+        return new AttachFileDto.download(attachFile, attachLinkManager.getStorageStaticLink());
     }
 }

@@ -1,6 +1,7 @@
 package com.podo.pododev.web.global.util;
 
 import com.podo.pododev.core.util.HttpUrlUtil;
+import com.podo.pododev.core.util.PathUtil;
 import org.springframework.beans.factory.annotation.Value;
 
 public class AttachLinkManager {
@@ -12,14 +13,14 @@ public class AttachLinkManager {
     private String uploaderFrontendUrl;
 
     public String getLocalSavedLink() {
-        return HttpUrlUtil.getSeverDomain() + baseUrl;
+        return PathUtil.merge(HttpUrlUtil.getSeverDomain() + baseUrl);
     }
 
     public String getStorageStaticLink() {
         return uploaderFrontendUrl;
     }
 
-    public String changeLocalLinkToStorageStatic(String str) {
+    public String changeLocalLinkToStorageStaticLink(String str) {
         return str.replace(getLocalSavedLink(), getStorageStaticLink());
     }
 

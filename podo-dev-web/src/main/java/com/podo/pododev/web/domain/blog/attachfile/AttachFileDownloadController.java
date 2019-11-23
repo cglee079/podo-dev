@@ -31,17 +31,17 @@ public class AttachFileDownloadController {
     @GetMapping("/api/blogs/{blogId}/files/{fileId}")
     public void downloadFile(@PathVariable Long fileId, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        final AttachFileDto.download downloadFile = attachFileService.download(fileId);
+        final AttachFileDto.download downloadFile = attachFileService.getAttachFileByAttachFileId(fileId);
 
-        final String downloadFileUrl = PathUtil.merge(downloadFile.getUploadedUrl(), downloadFile.getPath(), downloadFile.getFilename());
-        final File tempDownloadFile = fileLocalWriter.write(TEMP_DIRECTORY, downloadFileUrl);
+        final String downloadFileUrl = PathUtil.merge(downloadFile.getUploadedUrl(), downloadFile.getFilePath(), downloadFile.getFilename());
+        final File tempDownloadFile = fileLocalWriter.writeFromUrl(downloadFileUrl, TEMP_DIRECTORY);
         final String browser = MyRequestUtil.getBrowser(request);
         final byte[] fileByteArray = FileUtils.readFileToByteArray(tempDownloadFile);
-        final String encodeFilenameByBrowser = MyStringUtil.encodeFilenameByBrowser(browser, downloadFile.getOriginName());
+        final String encodeFilenameByBrowser = MyStringUtil.encodeFilenameByBrowser(browser, downloadFile.getOriginFilename());
 
         responseFileByteArray(response, fileByteArray, encodeFilenameByBrowser);
 
-        fileLocalWriter.removeFile(TEMP_DIRECTORY, tempDownloadFile);
+        fileLocalWriter.removeFile(TEMP_DIRECTORY, tempDownloadFile.getName());
 
     }
 

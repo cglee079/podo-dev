@@ -20,26 +20,26 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MySolrClient {
 
-    @Value("${infra.solr.core.id}")
-    private String coreId;
+    @Value("${infra.solr.core_id}")
+    private String solrCoreId;
 
-    @Value("${infra.solr.query.hl.pre.max.length}")
-    private Integer maxLengthBeforeHighlight;
+    @Value("${infra.solr.highlight.pre_max_text_length}")
+    private Integer maxTextLengthBeforeHighlight;
 
-    @Value("${infra.solr.query.hl.frag.length}")
-    private String hlFragLength;
+    @Value("${infra.solr.highlight.frag.length}")
+    private String highlightFragLength;
 
     private final SolrSender solrSender;
 
-    public List<BlogSearchResultVo> search(String value) {
-        log.info("Solr Search, value '{}'", value);
+    public List<BlogSearchResultVo> search(String searchValue) {
+        log.info("Solr 엔진 '{}' 검색", searchValue);
 
-        if (StringUtils.isEmpty(value)) {
+        if (StringUtils.isEmpty(searchValue)) {
             return Collections.emptyList();
         }
 
         try {
-            final QueryResponse response = solrSender.requestQuerySingleValue(coreId, MySolrParameter.createSearchParam(value, hlFragLength));
+            final QueryResponse response = solrSender.requestWithSingleValueParam(solrCoreId, MySolrParameter.createSearchParam(searchValue, highlightFragLength));
             final List<SolrResponse> responseValues = response.getBeans(SolrResponse.class);
             final Map<String, Map<String, List<String>>> highlights = response.getHighlighting();
 
@@ -74,34 +74,34 @@ public class MySolrClient {
     private String getHighlightContents(Map<String, List<String>> hlValues, String existContents) {
         if (hlValues.containsKey("contents")) {
 
-            String highlight = MarkdownUtil.extractPlainText(hlValues.get("contents").get(0));
+            String highlightContents = MarkdownUtil.extractPlainText(hlValues.get("contents").get(0));
 
-            int schIndex = highlight.indexOf(MySolrParameter.HIGHLIGHT_PREFIX);
-            if (schIndex > maxLengthBeforeHighlight) {
-                highlight = highlight.substring(schIndex - maxLengthBeforeHighlight);
+            int indexOfHighlightPrefix = highlightContents.indexOf(MySolrParameter.HIGHLIGHT_PREFIX);
+            if (indexOfHighlightPrefix > maxTextLengthBeforeHighlight) {
+                highlightContents = highlightContents.substring(indexOfHighlightPrefix - maxTextLengthBeforeHighlight);
             }
 
-            highlight = MarkdownUtil.escape(highlight);
-            highlight = highlight.replace(MySolrParameter.HIGHLIGHT_PREFIX, "<search>");
-            highlight = highlight.replace(MySolrParameter.HIGHLIGHT_POSTFIX, "</search>");
+            highlightContents = MarkdownUtil.escapeHtml(highlightContents);
+            highlightContents = highlightContents.replace(MySolrParameter.HIGHLIGHT_PREFIX, "<search>");
+            highlightContents = highlightContents.replace(MySolrParameter.HIGHLIGHT_POSTFIX, "</search>");
 
-            return highlight;
+            return highlightContents;
         } else {
             return MarkdownUtil.extractPlainText(existContents);
         }
 
     }
 
-    public List<String> getFacets(String value) {
-        log.info("Solr facets, value '{}'", value);
+    public Set<String> getIndexedWordsByKeyword(String keyword) {
+        log.info("Solr 엔진, '{}' 관련 색인 단어 조회", keyword);
 
-        final Map<String, String[]> param = MySolrParameter.createFacetParam(value);
+        final Map<String, String[]> solrFacetRequestParam = MySolrParameter.createDefaultFacetParam(keyword);
 
         try {
-            final QueryResponse response = solrSender.requestQueryMultiValue(coreId, param);
+            final QueryResponse queryResponse = solrSender.requestWithMultiValueParam(solrCoreId, solrFacetRequestParam);
 
-            final List<FacetField.Count> titleFacet = response.getFacetFields().get(0).getValues(); // TITLE
-            final List<FacetField.Count> contentFacet = response.getFacetFields().get(1).getValues(); // CONTENTS
+            final List<FacetField.Count> titleFacet = queryResponse.getFacetFields().get(0).getValues();
+            final List<FacetField.Count> contentFacet = queryResponse.getFacetFields().get(1).getValues();
 
             final Set<String> result = new HashSet<>();
             result.addAll(titleFacet.stream().map(FacetField.Count::getName).collect(Collectors.toList()));
@@ -109,7 +109,7 @@ public class MySolrClient {
 
             return result.stream()
                     .sorted()
-                    .collect(Collectors.toList());
+                    .collect(Collectors.toSet());
 
         } catch (SolrServerException | IOException e) {
             throw new SolrSendException(e);
@@ -121,7 +121,7 @@ public class MySolrClient {
         final Map<String, String> param = MySolrParameter.createDateImportParam();
 
         try {
-            solrSender.requestQuerySingleValue(coreId, param);
+            solrSender.requestWithSingleValueParam(solrCoreId, param);
         } catch (SolrServerException | IOException e) {
             throw new SolrSendException(e);
         }

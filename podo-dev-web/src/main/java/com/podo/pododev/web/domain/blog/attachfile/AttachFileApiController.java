@@ -18,8 +18,8 @@ public class AttachFileApiController {
     private final AttachFileService attachFileService;
 
     @PostMapping("/api/blogs/files")
-    public ApiResponse uploadFile(@RequestParam("file") MultipartFile file) {
-        final AttachFileDto.response response = attachFileService.saveFile(file);
+    public ApiResponse uploadFileByMultipartFile(@RequestParam("file") MultipartFile file) {
+        final AttachFileDto.response response = attachFileService.saveFileFromMultipartFile(file);
 
         return DataResponse.builder()
                 .status(ApiStatus.SUCCESS)

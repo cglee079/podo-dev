@@ -22,6 +22,4 @@ public class ResumeService {
                 .map(ResumeDto.response::new)
                 .collect(Collectors.toList());
     }
-
-
 }

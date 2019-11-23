@@ -41,12 +41,12 @@ public class BlogReadService {
     private final MySolrClient mySolrClient;
 
 
-    public List<String> facets(String value) {
-        return mySolrClient.getFacets(value);
+    public Set<String> getIndexedWordByKeyword(String keyword) {
+        return mySolrClient.getIndexedWordsByKeyword(keyword);
     }
 
-    public Map<Integer, List<BlogDto.archive>> getArchive() {
-        final List<Blog> blogs = blogRepository.findAllByEnabledAndOrderByPublishAtDesc(isVisibleAllBlogs());
+    public Map<Integer, List<BlogDto.archive>> getArchiveMapByYearOfPublishAt() {
+        final List<Blog> blogs = blogRepository.findAllByEnabledAndOrderByPublishAtDesc(getEnabledByUserAuth());
         return toMapByYearOfPublishAt(blogs);
     }
 
@@ -70,7 +70,7 @@ public class BlogReadService {
     }
 
 
-    public BlogDto.response get(Long blogId) {
+    public BlogDto.response getByBlogId(Long blogId) {
         final Optional<Blog> blogOptional = blogRepository.findById(blogId);
 
         if (!blogOptional.isPresent()) {
@@ -86,12 +86,12 @@ public class BlogReadService {
                 .map(BlogTag::getTagValue)
                 .collect(Collectors.toList());
 
-        final List<Blog> relates = getRelates(tagValues);
+        final List<Blog> relateBlogs = getRelatesByTagValues(tagValues);
 
-        return new BlogDto.response(blog, before, next, relates, attachLinkManager.getStorageStaticLink(), AttachStatus.BE);
+        return new BlogDto.response(blog, before, next, relateBlogs, attachLinkManager.getStorageStaticLink(), AttachStatus.BE);
     }
 
-    private List<Blog> getRelates(List<String> tagValues) {
+    private List<Blog> getRelatesByTagValues(List<String> tagValues) {
 
         if (tagValues.isEmpty()) {
             return Collections.emptyList();
@@ -139,39 +139,32 @@ public class BlogReadService {
     }
 
 
-    public PageDto<BlogDto.responseList> paging(BlogDto.request request) {
+    public PageDto<BlogDto.responseGroup> paging(BlogDto.request request) {
         final String searchValue = request.getSearch();
         final Integer page = request.getPage();
         final String tagValue = request.getTag();
         final Pageable pageable = PageRequest.of(page, pageSize);
-        final Boolean enabled = isVisibleAllBlogs();
+        final Boolean enabled = getEnabledByUserAuth();
 
-        //Filter By Search(검색)
         if (!StringUtils.isEmpty(searchValue)) {
             return pagingBySearchValue(searchValue, pageable, enabled);
-        }
-
-        //Filter By Tag
-        else if (!StringUtils.isEmpty(tagValue)) {
+        } else if (!StringUtils.isEmpty(tagValue)) {
             return pagingByFilterTag(tagValue, pageable, enabled);
-        }
-
-        //모든 게시글
-        else {
+        } else {
             return pagingDefault(pageable, enabled);
         }
 
 
     }
 
-    private PageDto<BlogDto.responseList> pagingDefault(Pageable pageable, Boolean enabled) {
+    private PageDto<BlogDto.responseGroup> pagingDefault(Pageable pageable, Boolean enabled) {
         final Page<Blog> blogs = blogRepository.paging(pageable, null, enabled);
 
-        final List<BlogDto.responseList> contents = blogs.stream()
-                .map(blog -> new BlogDto.responseList(blog, attachLinkManager.getStorageStaticLink()))
+        final List<BlogDto.responseGroup> contents = blogs.stream()
+                .map(blog -> new BlogDto.responseGroup(blog, attachLinkManager.getStorageStaticLink()))
                 .collect(Collectors.toList());
 
-        return PageDto.<BlogDto.responseList>builder()
+        return PageDto.<BlogDto.responseGroup>builder()
                 .data(contents)
                 .currentPage(blogs.getPageable().getPageNumber())
                 .pageSize(blogs.getPageable().getPageSize())
@@ -180,7 +173,7 @@ public class BlogReadService {
                 .build();
     }
 
-    private PageDto<BlogDto.responseList> pagingBySearchValue(String searchValue, Pageable pageable, Boolean enabled) {
+    private PageDto<BlogDto.responseGroup> pagingBySearchValue(String searchValue, Pageable pageable, Boolean enabled) {
         final List<BlogSearchResultVo> results = mySolrClient.search(searchValue);
         final List<Long> ids = results.stream()
                 .map(BlogSearchResultVo::getBlogId)
@@ -190,11 +183,11 @@ public class BlogReadService {
 
         final Page<Blog> blogs = blogRepository.paging(pageable, ids, enabled);
 
-        final List<BlogDto.responseList> contents = blogs.stream()
-                .map(blog -> new BlogDto.responseList(blog, highlightDescription.get(blog.getId()), attachLinkManager.getStorageStaticLink()))
+        final List<BlogDto.responseGroup> contents = blogs.stream()
+                .map(blog -> BlogDto.responseGroup.createWithHighlightDescription(blog, highlightDescription.get(blog.getId()), attachLinkManager.getStorageStaticLink()))
                 .collect(Collectors.toList());
 
-        return PageDto.<BlogDto.responseList>builder()
+        return PageDto.<BlogDto.responseGroup>builder()
                 .data(contents)
                 .currentPage(blogs.getPageable().getPageNumber())
                 .pageSize(blogs.getPageable().getPageSize())
@@ -204,18 +197,18 @@ public class BlogReadService {
 
     }
 
-    private PageDto<BlogDto.responseList> pagingByFilterTag(String tagValue, Pageable pageable, Boolean enabled) {
+    private PageDto<BlogDto.responseGroup> pagingByFilterTag(String tagValue, Pageable pageable, Boolean enabled) {
         final List<Long> blogIds = blogRepository.findByTagValues(tagValue, null).stream()
                 .map(Blog::getId)
                 .collect(Collectors.toList());
 
         final Page<Blog> blogs = blogRepository.paging(pageable, blogIds, enabled);
 
-        final List<BlogDto.responseList> contents = blogs.stream()
-                .map(blog -> new BlogDto.responseList(blog, attachLinkManager.getStorageStaticLink()))
+        final List<BlogDto.responseGroup> contents = blogs.stream()
+                .map(blog -> new BlogDto.responseGroup(blog, attachLinkManager.getStorageStaticLink()))
                 .collect(Collectors.toList());
 
-        return PageDto.<BlogDto.responseList>builder()
+        return PageDto.<BlogDto.responseGroup>builder()
                 .data(contents)
                 .currentPage(blogs.getPageable().getPageNumber())
                 .pageSize(blogs.getPageable().getPageSize())
@@ -224,10 +217,9 @@ public class BlogReadService {
                 .build();
     }
 
-    private Boolean isVisibleAllBlogs() {
+    private Boolean getEnabledByUserAuth() {
         Boolean enabled = true;
 
-        // If Admin, Show All Blogs (Include Disabled)
         if (SecurityUtil.isAdmin()) {
             enabled = null;
         }

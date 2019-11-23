@@ -1,5 +1,6 @@
 package com.podo.pododev.web.domain.blog.attachfile;
 
+import com.podo.pododev.core.util.PathUtil;
 import com.podo.pododev.web.global.infra.storage.PodoStorageClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,36 +16,36 @@ import java.util.List;
 public class AttachFileStorageUploader {
 
     @Value("${local.upload.base.dir}")
-    private String baseDir;
+    private String localSavedBaseDirectory;
 
     private final PodoStorageClient podoStorageClient;
 
-    /**
-     * 게시글 수정 시, 첨부 파일 업데이트 to Uploader Server
-     *
-     * @param files
-     */
-    public void uploadFileOfAttachFiles(List<AttachFileDto.insert> files) {
+    public void writeFileOfAttachFiles(List<AttachFileDto.insert> fileInserts) {
         log.info("Update Files");
 
-        files.forEach(file -> {
-            log.info("File '{}', '{}'", file.getAttachStatus(), file.getOriginName());
-
-            switch (file.getAttachStatus()) {
-                case NEW:
-                    podoStorageClient.upload(file.getPath(), new File(baseDir + file.getPath(), file.getFilename()));
-                    break;
-                case REMOVE:
-                    podoStorageClient.delete(file.getPath(), file.getFilename());
-                case BE:
-                case UNNEW:
-                default:
-                    break;
-            }
-        });
+        for (AttachFileDto.insert fileInsert : fileInserts) {
+            writeAttachFileToStorage(fileInsert);
+        }
     }
 
-    public void deleteFile(String path, String filename) {
-        podoStorageClient.delete(path, filename);
+    private void writeAttachFileToStorage(AttachFileDto.insert fileInsert) {
+        log.info("'{}' 첨부파일을 서버에 저장합니다, 파일상태 : '{}'", fileInsert.getOriginFilename(), fileInsert.getAttachStatus());
+
+        switch (fileInsert.getAttachStatus()) {
+            case NEW:
+                final File localSavedAttachFile = new File(PathUtil.merge(localSavedBaseDirectory, fileInsert.getFilePath()), fileInsert.getFilename());
+                podoStorageClient.uploadFile(fileInsert.getFilePath(), localSavedAttachFile);
+                break;
+            case REMOVE:
+                podoStorageClient.deleteFile(fileInsert.getFilePath(), fileInsert.getFilename());
+            case BE:
+            case UNNEW:
+            default:
+                break;
+        }
+    }
+
+    public void deleteFileOfAttachFile(String path, String filename) {
+        podoStorageClient.deleteFile(path, filename);
     }
 }

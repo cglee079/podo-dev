@@ -1,6 +1,8 @@
 package com.podo.pododev.web.global.util.writer;
 
 import com.podo.pododev.core.util.MyFileUtils;
+import com.podo.pododev.core.util.PathUtil;
+import com.podo.pododev.web.domain.blog.attachimage.ImageValidator;
 import com.podo.pododev.web.domain.blog.attachimage.exception.InvalidImageException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,97 +17,75 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 
-/**
- * 로컬에 이미지 저장
- */
 @Slf4j
 @RequiredArgsConstructor
 @Component
 public class FileLocalWriter extends AbstractWriter {
 
-    /**
-     * URL로 부터 파일 저장
-     *
-     * @param filepath
-     * @param urlStr
-     * @return
-     */
-    public File write(String filepath, String urlStr) {
-        final String originName = FilenameUtils.getName(urlStr);
-        final String originExtension = FilenameUtils.getExtension(originName);
-        final String dirPath = mergeLocalBaseLocation(filepath); // 로컬 저장경로
-        final String filename = MyFileUtils.makeRandFilename(originExtension);
-
-        log.info("File Writer, Save File By Url, '{}', '{}'", dirPath, filename);
-
-        return MyFileUtils.saveFile(mergeLocalBaseLocation(filename), urlStr);
-    }
-
-    /**
-     * MultipartFile 로 부터 파일 저장.
-     *
-     * @param path
-     * @param multipartFile
-     * @return
-     */
-    public File write(String path, MultipartFile multipartFile) {
-        final String originName = multipartFile.getOriginalFilename();
-        final String extension = FilenameUtils.getExtension(originName);
-        final String dirPath = mergeLocalBaseLocation(path); // 로컬 저장경로
-
-
-        //Save Origin File
-        final String filename = MyFileUtils.makeRandFilename(extension);
-
-        log.info("File Writer, Save File By Multipart, '{}', '{}'", dirPath, filename);
-
-        return MyFileUtils.saveFile(mergeLocalBaseLocation(filename), multipartFile);
-    }
-
-    /**
-     * Base64 로 부터 파일 저장
-     *
-     * @param path
-     * @param extension
-     * @return
-     */
-    public File write(String path, String base64, String extension) {
-
-        BufferedImage bufferedImage;
-
-        try {
-            final String base64Split = base64.split(",")[1];
-            final byte[] imageBytes = DatatypeConverter.parseBase64Binary(base64Split);
-            bufferedImage = ImageIO.read(new ByteArrayInputStream(imageBytes));
-
-        } catch (IOException e) {
+    public File writeFromUrl(String fileUrl, String savedDirectory) {
+        if (!ImageValidator.isImageFile(fileUrl)) {
             throw new InvalidImageException();
         }
 
-        final String dirPath = mergeLocalBaseLocation(path); // 로컬 저장경로
-        final String filename = MyFileUtils.makeRandFilename(extension);
+        final String originFilenameByUrl = FilenameUtils.getName(fileUrl);
+        final String originFileExtension = FilenameUtils.getExtension(originFilenameByUrl);
+        final String randomFilename = MyFileUtils.createRandFilename(originFileExtension);
+        final String savedFilePath = PathUtil.merge(savedDirectory, randomFilename);
 
-        log.info("File Writer, Save File By Base64, '{}', '{}'", dirPath, filename);
+        log.info("'{}' 파일을 URL로 부터 저장합니다. URL : '{}', ", savedFilePath, fileUrl);
 
-        return MyFileUtils.saveFile(mergeLocalBaseLocation(filename), extension, bufferedImage);
-
+        return MyFileUtils.saveFile(mergeLocalSaveBasedDirectory(savedFilePath), fileUrl);
     }
 
-    public void removeFile(String path, File file) {
+    public File writeFromMultipartFile(MultipartFile multipartFile, String savedDirectory) {
+        if (!ImageValidator.isImageFile(multipartFile)) {
+            throw new InvalidImageException();
+        }
 
-        String dirPath = mergeLocalBaseLocation(path);
-        String filename = file.getName();
+        final String originFilename = multipartFile.getOriginalFilename();
+        final String originFileExtension = FilenameUtils.getExtension(originFilename);
+        final String randomFilename = MyFileUtils.createRandFilename(originFileExtension);
+        final String savedFilePath = PathUtil.merge(savedDirectory, randomFilename);
 
-        log.info("File Writer, Remove File, '{}', '{}'", dirPath, filename);
+        log.info("'{}' 파일을 MultipartFile로부터 저장합니다", savedFilePath);
+
+        return MyFileUtils.saveFile(mergeLocalSaveBasedDirectory(savedFilePath), multipartFile);
+    }
+
+    public File writeByBase64(String base64, String extension, String savedDirectory) {
+        final BufferedImage bufferedImageFromBase64 = getBufferedImageFromBase64(base64);
+        final String randomFilename = MyFileUtils.createRandFilename(extension);
+        final String savedFilePath = PathUtil.merge(savedDirectory, randomFilename);
+
+        log.info("'{}' 파일을 BASE64로부터 저장합니다", randomFilename);
+
+        return MyFileUtils.saveFile(mergeLocalSaveBasedDirectory(savedFilePath), extension, bufferedImageFromBase64);
+    }
+
+    private BufferedImage getBufferedImageFromBase64(String base64) {
+        try {
+            final String base64Split = base64.split(",")[1];
+            final byte[] imageBytes = DatatypeConverter.parseBase64Binary(base64Split);
+            return ImageIO.read(new ByteArrayInputStream(imageBytes));
+        } catch (IOException e) {
+            throw new InvalidImageException();
+        }
+    }
+
+    public void removeFile(String directory, String filename) {
+
+        final String dirPath = mergeLocalSaveBasedDirectory(directory);
+
+        log.info("'{}' 파일을 삭제합니다.", filename);
 
         MyFileUtils.deleteFile(dirPath, filename);
     }
 
-    public void removeDirectory(String path) {
-        String dirPath = mergeLocalBaseLocation(path);
+    public void removeDirectory(String directory) {
+        final String directoryPath = mergeLocalSaveBasedDirectory(directory);
 
-        log.info("File Writer, Remove Directory, '{}'", dirPath);
+        log.info("'{}' 폴더를 삭제합니다", directory);
 
-        MyFileUtils.deleteDirectory(dirPath);
+        MyFileUtils.deleteDirectory(directoryPath);
     }
 }

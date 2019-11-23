@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class AttachImageDto {
@@ -21,15 +20,15 @@ public class AttachImageDto {
     @Getter
     public static class response {
         private Long id;
-        private String originName;
+        private String originFilename;
         private String uploadedUrl;
         private AttachStatus attachStatus;
         private Map<String, AttachImageSave> saves;
 
         @Builder
-        public response(Long id, String originName, String uploadedUrl, AttachStatus attachStatus, Map<String, AttachImageSave> saves) {
+        public response(Long id, String originFilename, String uploadedUrl, AttachStatus attachStatus, Map<String, AttachImageSave> saves) {
             this.id = id;
-            this.originName = originName;
+            this.originFilename = originFilename;
             this.uploadedUrl = uploadedUrl;
             this.attachStatus = attachStatus;
             this.saves = saves;
@@ -42,7 +41,7 @@ public class AttachImageDto {
 
             return response.builder()
                     .id(image.getId())
-                    .originName(image.getOriginName())
+                    .originFilename(image.getOriginFilename())
                     .uploadedUrl(uploadedUrl)
                     .attachStatus(attachStatus)
                     .saves(saves)
@@ -56,7 +55,7 @@ public class AttachImageDto {
     @Getter
     public static class insert {
         private Long id;
-        private String originName;
+        private String originFilename;
         private String uploadedUrl;
         private AttachStatus attachStatus;
         private Map<String, AttachImageSave> saves;
@@ -70,7 +69,7 @@ public class AttachImageDto {
 
             return AttachImage.builder()
                     .saves(attachImageSaveEntities)
-                    .originName(this.originName)
+                    .originFilename(this.originFilename)
                     .build();
 
         }

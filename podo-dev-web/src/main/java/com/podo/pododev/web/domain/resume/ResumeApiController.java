@@ -24,7 +24,7 @@ public class ResumeApiController {
      * 이력 리스트 조회
      */
     @GetMapping(value = "/api/resumes")
-    public ApiResponse findAll() {
+    public ApiResponse findAllResumes() {
 
         final List<ResumeDto.response> resumes = resumeService.findAll();
 

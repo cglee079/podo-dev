@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -26,22 +27,41 @@ import java.util.stream.Collectors;
 @Component
 public class RssMaker {
 
-    public static final String PODO_DEV_WEB = "https://www.podo-dev.com";
-    public static final String PODO_TITLE = "podo-dev";
-    public static final String PODO_DESC = "Podo's Blog, Web, Server, Backend";
-    public static final String PODO_AUTHOR = "Podo";
-
+    private static final String PODO_DEV_WEB = "https://www.podo-dev.com";
+    private static final String PODO_TITLE = "podo-dev";
+    private static final String PODO_DESC = "Podo's Blog, Web, Server, Backend";
+    private static final String PODO_AUTHOR = "Podo";
 
     @Value("${local.static.dir}")
-    private String staticDirPath;
+    private String staticDirectory;
 
     public void makeRss(List<BlogDto.feed> blogs) {
 
-        List<BlogDto.feed> reverseBlogs = new LinkedList<>(blogs);
-
+        final List<BlogDto.feed> reverseBlogs = new LinkedList<>(blogs);
         Collections.reverse(reverseBlogs);
 
-        SyndFeed feed = new SyndFeedImpl();
+        final SyndFeed rssFeed = new SyndFeedImpl();
+        final List<SyndEntry> blogEntries = createBlogEntries(reverseBlogs);
+
+        setWebInfo(rssFeed);
+        rssFeed.setEntries(blogEntries);
+
+
+        try {
+            final String rssFileLocation = PathUtil.merge(staticDirectory, "feed.xml");
+            writeRss(rssFileLocation, rssFeed);
+            rewriteRssGmtToNumberOfHour(rssFileLocation);
+
+        } catch (IOException e) {
+            log.error("RSS 파일을 저장하는데 실패하였습니다,  {}", e.getMessage());
+        } catch (FeedException e) {
+            log.error("Feed Error, {}", e.getMessage());
+        }
+
+
+    }
+
+    private void setWebInfo(SyndFeed feed) {
         feed.setFeedType("rss_2.0");
         feed.setTitle(PODO_TITLE);
         feed.setLink(PODO_DEV_WEB);
@@ -58,10 +78,13 @@ public class RssMaker {
         syndImage.setDescription(PODO_DESC);
 
         feed.setImage(syndImage);
+    }
 
+
+    private List<SyndEntry> createBlogEntries(List<BlogDto.feed> reverseBlogs) {
         List<SyndEntry> entries = new LinkedList<>();
 
-        reverseBlogs.forEach(blog -> {
+        for (BlogDto.feed blog : reverseBlogs) {
             SyndEntry entry = new SyndEntryImpl();
 
             //Define Desc
@@ -86,30 +109,24 @@ public class RssMaker {
             entry.setAuthor(PODO_AUTHOR);
 
             entries.add(entry);
-        });
-
-
-        feed.setEntries(entries);
-
-        final SyndFeedOutput output = new SyndFeedOutput();
-
-        try {
-            final File file = new File(PathUtil.merge(staticDirPath, "feed.xml"));
-            final Path path = file.toPath();
-            output.output(feed, file);
-
-            //일단 이렇게 처리 GMT를 +0900으로 변환. 라이브러리상에서 표시를 바꾸는 방법이없음.
-            String content = new String(Files.readAllBytes(path));
-            content = content.replaceAll("GMT", "+0900");
-            Files.write(path, content.getBytes());
-
-        } catch (IOException e) {
-            log.error("RSS 파일을 저장하는데 실패하였습니다,  {}", e.getMessage());
-        } catch (FeedException e) {
-            log.error("Feed Error, {}", e.getMessage());
         }
-
-
+        return entries;
     }
+
+
+    private void writeRss(String rssPath, SyndFeed feed) throws IOException, FeedException {
+        final SyndFeedOutput output = new SyndFeedOutput();
+        final File file = new File(rssPath);
+        output.output(feed, file);
+    }
+
+    private void rewriteRssGmtToNumberOfHour(String rssFileLocation) throws IOException {
+        //GMT를 +0900으로 변환. Rome 라이브러리상에서 표시를 바꾸는 방법이없음.
+        final Path rssFilePath = Paths.get(rssFileLocation);
+        String content = new String(Files.readAllBytes(rssFilePath));
+        content = content.replaceAll("GMT", "+0900");
+        Files.write(rssFilePath, content.getBytes());
+    }
+
 
 }

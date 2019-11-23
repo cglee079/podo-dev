@@ -10,19 +10,19 @@ public class AttachFileDto {
     public static class response {
         private Long id;
         private String filename;
-        private String originName;
+        private String originFilename;
         private String uploadedUrl;
-        private String path;
+        private String filePath;
         private Long filesize;
         private AttachStatus attachStatus;
 
         @Builder
-        public response(Long id, String filename, String originName, String uploadedUrl, String path, Long filesize, AttachStatus attachStatus) {
+        public response(Long id, String filename, String originFilename, String uploadedUrl, String filePath, Long filesize, AttachStatus attachStatus) {
             this.id = id;
             this.filename = filename;
-            this.originName = originName;
+            this.originFilename = originFilename;
             this.uploadedUrl = uploadedUrl;
-            this.path = path;
+            this.filePath = filePath;
             this.filesize = filesize;
             this.attachStatus = attachStatus;
         }
@@ -30,9 +30,9 @@ public class AttachFileDto {
         public static AttachFileDto.response createByAttachFile(AttachFile file, String uploadedUrl, AttachStatus attachStatus) {
             return response.builder()
                     .id(file.getId())
-                    .path(file.getPath())
+                    .filePath(file.getFilePath())
                     .filename(file.getFilename())
-                    .originName(file.getOriginName())
+                    .originFilename(file.getOriginFilename())
                     .uploadedUrl(uploadedUrl)
                     .filesize(file.getFilesize())
                     .attachStatus(attachStatus)
@@ -44,16 +44,16 @@ public class AttachFileDto {
     @Getter
     public static class download {
         private String filename;
-        private String originName;
+        private String originFilename;
         private String uploadedUrl;
-        private String path;
+        private String filePath;
         private Long filesize;
 
         public download(AttachFile file, String uploadedUrl) {
             this.filename = file.getFilename();
-            this.originName = file.getOriginName();
+            this.originFilename = file.getOriginFilename();
             this.uploadedUrl = uploadedUrl;
-            this.path = file.getPath();
+            this.filePath = file.getFilePath();
             this.filesize = file.getFilesize();
         }
     }
@@ -62,19 +62,18 @@ public class AttachFileDto {
     public static class insert {
         private Long id;
         private String filename;
-        private String originName;
-        private String path;
+        private String originFilename;
+        private String filePath;
         private Long filesize;
         private AttachStatus attachStatus;
 
         public AttachFile toEntity() {
             return AttachFile.builder()
                     .filename(filename)
-                    .originName(originName)
-                    .path(path)
+                    .originFilename(originFilename)
+                    .filePath(filePath)
                     .filesize(filesize)
                     .build();
-
         }
     }
 

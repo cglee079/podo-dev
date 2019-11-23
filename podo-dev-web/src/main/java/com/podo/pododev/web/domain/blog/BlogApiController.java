@@ -26,7 +26,7 @@ public class BlogApiController {
     @GetMapping("/api/blogs/archive")
     public ApiResponse getArchive() {
 
-        Map<Integer, List<BlogDto.archive>> archive = blogReadService.getArchive();
+        Map<Integer, List<BlogDto.archive>> archive = blogReadService.getArchiveMapByYearOfPublishAt();
 
         return DataResponse.builder()
                 .status(ApiStatus.SUCCESS)
@@ -40,7 +40,7 @@ public class BlogApiController {
     @GetMapping("/api/blogs/{blogId}")
     public ApiResponse get(@PathVariable Long blogId) {
 
-        final BlogDto.response blog = blogReadService.get(blogId);
+        final BlogDto.response blog = blogReadService.getByBlogId(blogId);
 
         return DataResponse.builder()
                 .status(ApiStatus.SUCCESS)
@@ -53,7 +53,7 @@ public class BlogApiController {
      */
     @GetMapping("/api/blogs")
     public ApiResponse paging(BlogDto.request request) {
-        final PageDto<BlogDto.responseList> blogs = blogReadService.paging(request);
+        final PageDto<BlogDto.responseGroup> blogs = blogReadService.paging(request);
 
         return DataResponse.builder()
                 .status(ApiStatus.SUCCESS)
@@ -63,7 +63,7 @@ public class BlogApiController {
 
     @GetMapping("/api/blogs/facets")
     public ApiResponse facets(@RequestParam String searchValue) {
-        final List<String> facets = blogReadService.facets(searchValue);
+        final List<String> facets = blogReadService.getIndexedWordByKeyword(searchValue);
 
         return ListResponse.builder()
                 .status(ApiStatus.SUCCESS)
@@ -77,7 +77,7 @@ public class BlogApiController {
      */
     @PostMapping("/api/blogs")
     public ApiResponse insert(@Valid @RequestBody BlogDto.insert insert) {
-        blogWriteService.insert(insert);
+        blogWriteService.insertNewBlog(insert);
 
         return StatusResponse.builder()
                 .status(ApiStatus.SUCCESS)
@@ -90,7 +90,7 @@ public class BlogApiController {
      */
     @PutMapping("/api/blogs/{blogId}")
     public ApiResponse update(@PathVariable Long id, @Valid @RequestBody BlogDto.update blogReq) {
-        blogWriteService.update(id, blogReq);
+        blogWriteService.updateExistedBlogs(id, blogReq);
 
         return StatusResponse.builder()
                 .status(ApiStatus.SUCCESS)
@@ -102,7 +102,7 @@ public class BlogApiController {
      */
     @DeleteMapping("/api/blogs/{blogId}")
     public ApiResponse delete(@PathVariable Long id) {
-        blogWriteService.delete(id);
+        blogWriteService.removeByBlogId(id);
 
         return StatusResponse.builder()
                 .status(ApiStatus.SUCCESS)

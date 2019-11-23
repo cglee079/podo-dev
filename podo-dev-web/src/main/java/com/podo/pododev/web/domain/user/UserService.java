@@ -17,17 +17,17 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public UserDto.response getUser() {
-        final GoogleUserDetails userDetails = SecurityUtil.getUser();
+    public UserDto.response getCurrentUser() {
+        final GoogleUserDetails googleUserDetails = SecurityUtil.getUser();
 
-        if (Objects.isNull(userDetails)) {
+        if (Objects.isNull(googleUserDetails)) {
             throw new NoAuthenticatedException();
         }
 
-        return new UserDto.response(userDetails);
+        return UserDto.response.createByGoogleUserDetails(googleUserDetails);
     }
 
-    public void merge(UserDto.insert insert) {
+    public void writeUser(UserDto.insert insert) {
 
         final Optional<User> userOptional = userRepository.findByUserId(insert.getUserId());
 

@@ -24,7 +24,7 @@ public class AuthFilter implements Filter {
             accessToken = accessToken.replace("Bearer", "");
             accessToken = accessToken.trim();
 
-            Authentication authentication = securityStore.isAuth(accessToken);
+            Authentication authentication = securityStore.isAuthUserByToken(accessToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
         }

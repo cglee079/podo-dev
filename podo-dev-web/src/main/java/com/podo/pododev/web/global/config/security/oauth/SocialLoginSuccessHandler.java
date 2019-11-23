@@ -50,7 +50,7 @@ public class SocialLoginSuccessHandler implements AuthenticationSuccessHandler {
                 .build();
 
 
-        userService.merge(
+        userService.writeUser(
                 UserDto.insert.builder()
                         .userId(googleId)
                         .email(email)
@@ -68,7 +68,7 @@ public class SocialLoginSuccessHandler implements AuthenticationSuccessHandler {
         GoogleAuthentication googleAuthentication = new GoogleAuthentication(googleUserDetails);
 
 
-        securityStore.login(token, googleAuthentication);
+        securityStore.loginByToken(token, googleAuthentication);
 
 
         //Go Home

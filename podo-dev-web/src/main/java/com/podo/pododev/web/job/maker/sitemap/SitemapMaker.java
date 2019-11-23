@@ -18,44 +18,44 @@ import java.util.List;
 @Component
 public class SitemapMaker {
 
-    public static final String PODO_DEV_WEB = "https://www.podo-dev.com";
+    public static final String PODO_DEV_WEB_URL = "https://www.podo-dev.com";
 
     @Value("${local.static.dir}")
     private String staticDirPath;
 
-    private String makeUrl(String path) {
-        return PathUtil.merge(PODO_DEV_WEB, path);
-    }
-
     public void makeSitemap(List<BlogDto.feed> blogs) {
-        log.info("Start Make Sitemap");
-
+        log.info("Sitemap 생성을 시작합니다");
         try {
 
             MyFileUtils.makeForceDirectory(staticDirPath);
 
-            WebSitemapGenerator wsg = new WebSitemapGenerator(PODO_DEV_WEB, new File(staticDirPath));
+            final WebSitemapGenerator sitemapGenerator = new WebSitemapGenerator(PODO_DEV_WEB_URL, new File(staticDirPath));
+            addDefaultPages(sitemapGenerator);
+            addBlogPages(blogs, sitemapGenerator);
 
-            wsg.addUrl(makeUrl("/"));
-            wsg.addUrl(makeUrl("/resume"));
-            wsg.addUrl(makeUrl("/log"));
-
-
-            blogs.forEach(blog -> {
-
-                try {
-                    wsg.addUrl(makeUrl("/blogs/" + blog.getId()));
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-
-            });
-
-            wsg.write();
+            sitemapGenerator.write();
 
         } catch (MalformedURLException e) {
             log.error("잘못된 URL 입니다 , {}" + e.getMessage());
         }
+
     }
+
+    private void addDefaultPages(WebSitemapGenerator sitemapGenerator) throws MalformedURLException {
+        sitemapGenerator.addUrl(mergeWithPodoDevWebUrl("/"));
+        sitemapGenerator.addUrl(mergeWithPodoDevWebUrl("/resume"));
+        sitemapGenerator.addUrl(mergeWithPodoDevWebUrl("/log"));
+    }
+
+    private void addBlogPages(List<BlogDto.feed> blogs, WebSitemapGenerator sitemapGenerator) throws MalformedURLException {
+        for (BlogDto.feed blog : blogs) {
+            sitemapGenerator.addUrl(mergeWithPodoDevWebUrl("/blogs/" + blog.getId()));
+        }
+    }
+
+    private String mergeWithPodoDevWebUrl(String path) {
+        return PathUtil.merge(PODO_DEV_WEB_URL, path);
+    }
+
 
 }

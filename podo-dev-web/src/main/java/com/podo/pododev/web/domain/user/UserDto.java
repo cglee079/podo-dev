@@ -9,18 +9,20 @@ public class UserDto {
 
     @Getter
     public static class response {
-        private String googleIdentifier;
+        private String googleId;
         private String email;
-        private String name;
-        private String picture;
+        private String username;
+        private String profileImage;
         private Boolean isAdmin;
 
-        public response(GoogleUserDetails authUser) {
-            this.googleIdentifier = authUser.getGoogleId();
-            this.email = authUser.getEmail();
-            this.name = authUser.getUsername();
-            this.picture = authUser.getPicture();
-            this.isAdmin = SecurityUtil.isAdmin();
+        public static response createByGoogleUserDetails(GoogleUserDetails authUser) {
+            final response response = new response();
+            response.googleId = authUser.getGoogleId();
+            response.email = authUser.getEmail();
+            response.username = authUser.getUsername();
+            response.profileImage = authUser.getProfileImage();
+            response.isAdmin = SecurityUtil.isAdmin();
+            return response;
         }
 
     }

@@ -1,6 +1,6 @@
 package com.podo.pododev.web.global.infra.telegram;
 
-import com.podo.pododev.web.global.infra.telegram.exception.TelegramSendException;
+import com.podo.pododev.web.global.infra.telegram.exception.TelegramException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +21,7 @@ public class TelegramConfig {
 
             return telegramBotsApi;
         } catch (TelegramApiRequestException e) {
-          throw new TelegramSendException(e);
+          throw new TelegramException(e);
         }
     }
 }
