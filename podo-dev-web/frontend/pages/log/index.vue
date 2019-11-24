@@ -83,6 +83,7 @@
         },
         async asyncData({$axios}) {
             let baseUrl = process.env.externalServerUrl
+
             if (process.server) {
                 baseUrl = process.env.internalServerUrl
             }
@@ -92,9 +93,9 @@
             const archive = await $axios.$get(baseUrl + '/api/blogs/archive')
 
             return {
-                tags: tags.result.data,
-                recentComments: recentComments.result.data,
-                archive: archive.result.data
+                tags: tags.result.contents,
+                recentComments: recentComments.result.contents,
+                archive: archive.result
             }
         },
 

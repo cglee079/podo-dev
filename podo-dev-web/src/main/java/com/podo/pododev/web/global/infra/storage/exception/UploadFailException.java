@@ -16,6 +16,6 @@ public class UploadFailException extends ResponsibleException {
 
     @Override
     public ApiStatus getApiStatus() {
-        return ApiStatus.ERR_UPLOAD;
+        return ApiStatus.ERR_STORAGE_SERVER;
     }
 }

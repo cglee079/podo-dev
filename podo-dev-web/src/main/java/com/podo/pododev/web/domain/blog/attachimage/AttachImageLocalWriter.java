@@ -1,10 +1,10 @@
 package com.podo.pododev.web.domain.blog.attachimage;
 
-import com.podo.pododev.core.util.MyFileUtils;
 import com.podo.pododev.web.domain.blog.attachimage.exception.InvalidImageException;
 import com.podo.pododev.web.domain.blog.attachimage.save.AttachImageSave;
 import com.podo.pododev.web.global.util.writer.FileLocalWriter;
-import com.podo.pododev.core.util.PathUtil;
+import com.podo.pododev.core.util.MyPathUtils;
+import com.podo.pododev.web.global.util.writer.MyFileUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,7 +26,6 @@ import java.util.Map;
 @Service
 public class AttachImageLocalWriter {
 
-
     @Value("${local.upload.sub.image.dir}")
     private String localAttachImageDirectory;
 
@@ -35,10 +34,14 @@ public class AttachImageLocalWriter {
     private final FileLocalWriter fileLocalWriter;
 
     public Map<String, AttachImageSave> writeImageToMultipleSizeFromImageUrl(String imageUrl) {
-        final String localSavedLocation = PathUtil.merge(localAttachImageDirectory, MyFileUtils.makeDatePath(LocalDateTime.now())); // 로컬 저장경로
+        if (!ImageValidator.isImageFile(imageUrl)) {
+            throw new InvalidImageException();
+        }
+
+        final String localSavedLocation = MyPathUtils.merge(localAttachImageDirectory, MyFileUtils.createPathByDate(LocalDateTime.now())); // 로컬 저장경로
         final Map<String, AttachImageSave> attachImageSaveMap = new HashMap<>();
 
-        final String localSavedLocationOfOrigin = PathUtil.merge(localSavedLocation, ORIGIN_IMAGE_KEY);
+        final String localSavedLocationOfOrigin = MyPathUtils.merge(localSavedLocation, ORIGIN_IMAGE_KEY);
         final File originImage = fileLocalWriter.writeFromUrl(imageUrl, localSavedLocationOfOrigin);
 
         attachImageSaveMap.put(ORIGIN_IMAGE_KEY, createAttachImageSave(originImage, localSavedLocationOfOrigin, ORIGIN_IMAGE_KEY));
@@ -47,10 +50,10 @@ public class AttachImageLocalWriter {
     }
 
     public Map<String, AttachImageSave> writeImageToMultipleSizeFromBase64(String base64, String extension) {
-        final String localSavedLocation = PathUtil.merge(localAttachImageDirectory, MyFileUtils.makeDatePath(LocalDateTime.now())); // 로컬 저장경로
+        final String localSavedLocation = MyPathUtils.merge(localAttachImageDirectory, MyFileUtils.createPathByDate(LocalDateTime.now())); // 로컬 저장경로
         final Map<String, AttachImageSave> attachImageSaveMap = new HashMap<>();
 
-        final String localSavedLocationOfOrigin = PathUtil.merge(localSavedLocation, ORIGIN_IMAGE_KEY);
+        final String localSavedLocationOfOrigin = MyPathUtils.merge(localSavedLocation, ORIGIN_IMAGE_KEY);
         final File originImage = fileLocalWriter.writeByBase64(base64, extension, localSavedLocationOfOrigin);
         attachImageSaveMap.put(ORIGIN_IMAGE_KEY, createAttachImageSave(originImage, localSavedLocationOfOrigin, ORIGIN_IMAGE_KEY));
 
@@ -58,10 +61,14 @@ public class AttachImageLocalWriter {
     }
 
     public Map<String, AttachImageSave> writeImageToMultipleSizeFromMultipartFile(MultipartFile multipartFile) {
-        final String localSavedLocation = PathUtil.merge(localAttachImageDirectory, MyFileUtils.makeDatePath(LocalDateTime.now())); // 로컬 저장경로
+        if (!ImageValidator.isImageFile(multipartFile)) {
+            throw new InvalidImageException();
+        }
+
+        final String localSavedLocation = MyPathUtils.merge(localAttachImageDirectory, MyFileUtils.createPathByDate(LocalDateTime.now())); // 로컬 저장경로
         final Map<String, AttachImageSave> attachImageSaveMap = new HashMap<>();
 
-        final String localSavedLocationOfOrigin = PathUtil.merge(localSavedLocation, ORIGIN_IMAGE_KEY);
+        final String localSavedLocationOfOrigin = MyPathUtils.merge(localSavedLocation, ORIGIN_IMAGE_KEY);
         final File originImage = fileLocalWriter.writeFromMultipartFile(multipartFile, localSavedLocationOfOrigin);
 
         attachImageSaveMap.put(ORIGIN_IMAGE_KEY, createAttachImageSave(originImage, localSavedLocationOfOrigin, ORIGIN_IMAGE_KEY));

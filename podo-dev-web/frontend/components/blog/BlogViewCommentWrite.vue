@@ -70,7 +70,7 @@
 
             updateInput() {
                 if (this.isLogin) {
-                    this.input.username = this.getUserinfo.name
+                    this.input.username = this.getUserinfo.username
                     this.write.placeholder = this.placeholder
                 }
             },

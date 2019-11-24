@@ -14,7 +14,7 @@ public class ResumeExperienceService {
 
     private final ResumeExperienceRepository resumeRepository;
 
-    public List<ResumeExperienceDto.response> findAll() {
+    public List<ResumeExperienceDto.response> findAllOrderByExperienceAtDesc() {
 
         final List<ResumeExperience> resumeExperiences = resumeRepository.findAllByOrderByExperienceAtDesc();
 

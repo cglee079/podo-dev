@@ -14,12 +14,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
-    @Value("${local.static.url}")
-    private String sitemapUrl;
-
-    @Value("${local.static.dir}")
-    private String sitemapLocation;
-
     @Value("${local.upload.base.url}")
     private String uploadedUrl;
 
@@ -41,10 +35,6 @@ public class WebConfig implements WebMvcConfigurer {
         registry
                 .addResourceHandler(uploadedUrl + "/**")
                 .addResourceLocations("file:///" + uploadedLocation + "/");
-
-        registry
-                .addResourceHandler(sitemapUrl + "/**")
-                .addResourceLocations("file:///" + sitemapLocation + "/");
     }
 
 

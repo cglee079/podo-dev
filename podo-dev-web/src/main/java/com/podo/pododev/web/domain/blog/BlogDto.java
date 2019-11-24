@@ -10,7 +10,7 @@ import com.podo.pododev.web.domain.blog.tag.BlogTag;
 import com.podo.pododev.web.domain.blog.tag.BlogTagDto;
 import com.podo.pododev.core.util.DateTimeFormatUtil;
 import com.podo.pododev.core.util.MarkdownUtil;
-import com.podo.pododev.core.util.PathUtil;
+import com.podo.pododev.core.util.MyPathUtils;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -42,14 +42,12 @@ public class BlogDto {
         private List<AttachFileDto.insert> attachFiles;
 
         public Blog toEntity() {
-            //Images to Entity
-            List<AttachImage> attachImages = this.attachImages.stream()
+            final List<AttachImage> attachImages = this.attachImages.stream()
                     .filter(image -> image.getAttachStatus() == AttachStatus.NEW)
                     .map(AttachImageDto.insert::toEntity)
                     .collect(Collectors.toList());
 
-            //File to Entity
-            List<AttachFile> attachFiles = this.attachFiles.stream()
+            final List<AttachFile> attachFiles = this.attachFiles.stream()
                     .filter(image -> image.getAttachStatus() == AttachStatus.NEW)
                     .map(AttachFileDto.insert::toEntity)
                     .collect(Collectors.toList());
@@ -106,7 +104,7 @@ public class BlogDto {
     public static class response {
         private Long id;
         private String title;
-        private String desc;
+        private String description;
         private String contents;
         private Integer hitCount;
         private String thumbnail;
@@ -117,15 +115,15 @@ public class BlogDto {
         private List<AttachImageDto.response> attachImages;
         private List<AttachFileDto.response> attachFiles;
         private Integer commentCount;
-        private Long before;
-        private Long next;
+        private Long beforeBlogId;
+        private Long nextBlogId;
         private String createAt;
         private String updateAt;
 
-        public response(Blog blog, Blog before, Blog next, List<Blog> relates, String uploaderDomain, AttachStatus attachStatus) {
+        public response(Blog blog, Blog beforeBlog, Blog nextBlog, List<Blog> relates, String uploaderDomain, AttachStatus attachStatus) {
             this.id = blog.getId();
             this.title = blog.getTitle();
-            this.desc = MarkdownUtil.escapeHtml(MarkdownUtil.extractPlainText(blog.getContents()));
+            this.description = MarkdownUtil.escapeHtml(MarkdownUtil.extractPlainText(blog.getContents()));
             this.contents = blog.getContents();
             this.hitCount = blog.getHitCount();
             this.publishAt = DateTimeFormatUtil.dateTimeToBeautifulDate(blog.getPublishAt());
@@ -134,8 +132,8 @@ public class BlogDto {
             this.commentCount = blog.getComments().size();
             this.enabled = blog.getEnabled();
 
-            this.before = Objects.nonNull(before) ? before.getId() : null;
-            this.next = Objects.nonNull(next) ? next.getId() : null;
+            this.beforeBlogId = Objects.nonNull(beforeBlog) ? beforeBlog.getId() : null;
+            this.nextBlogId = Objects.nonNull(nextBlog) ? nextBlog.getId() : null;
 
             this.relates = relates.stream()
                     .map(BlogDto.relates::new)
@@ -162,7 +160,7 @@ public class BlogDto {
                 final Optional<AttachImageSave> thumbnailSaveOptional = saves.stream().filter(s -> s.getImageKey().equals("origin")).findFirst();
                 if (thumbnailSaveOptional.isPresent()) {
                     AttachImageSave thumbnailSave = thumbnailSaveOptional.get();
-                    this.thumbnail = PathUtil.merge(uploaderDomain, thumbnailSave.getFilePath(), thumbnailSave.getFilename());
+                    this.thumbnail = MyPathUtils.merge(uploaderDomain, thumbnailSave.getFilePath(), thumbnailSave.getFilename());
                 }
             }
 
@@ -206,7 +204,7 @@ public class BlogDto {
                 final Optional<AttachImageSave> thumbnailSaveOpt = saves.stream().filter(s -> s.getImageKey().equals("origin")).findFirst();
                 if (thumbnailSaveOpt.isPresent()) {
                     AttachImageSave thumbnailSave = thumbnailSaveOpt.get();
-                    this.thumbnail = PathUtil.merge(uploaderDomain, thumbnailSave.getFilePath(), thumbnailSave.getFilename());
+                    this.thumbnail = MyPathUtils.merge(uploaderDomain, thumbnailSave.getFilePath(), thumbnailSave.getFilename());
                 }
             }
 
@@ -242,13 +240,13 @@ public class BlogDto {
     @Getter
     public static class archive {
         private Long id;
-        private String blogTitle;
+        private String title;
         private String publishAt;
         private Boolean enabled;
 
         public archive(Blog blog) {
             this.id = blog.getId();
-            this.blogTitle = blog.getTitle();
+            this.title = blog.getTitle();
             this.publishAt = DateTimeFormatUtil.dateTimeToBeautifulDate(blog.getPublishAt());
             this.enabled = blog.getEnabled();
         }

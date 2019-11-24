@@ -13,7 +13,7 @@
                  v-bind:key="index"
                  :class="isValidFile(attachFile.attachStatus) ? '' : 'disabled' "
             >
-                <div class="name">[{{formatFilesize(attachFile.filesize)}}] {{attachFile.originName}}</div>
+                <div class="name">[{{formatFilesize(attachFile.filesize)}}] {{attachFile.originFilename}}</div>
                 <div class="btn-remove" @click="clickBtnAttachFileRemove(index)">REMOVE</div>
             </div>
         </div>
@@ -56,7 +56,7 @@
                         })
                 }).then(res => {
                     const file = res.result
-                    this.$emit('addAttachFile', file)
+                    this.$emit('add', file)
                     this.$emit('offProgress')
 
                     if (i < until) {
@@ -85,7 +85,7 @@
             },
 
             removeAttachFile(index) {
-                this.$emit('removeAttachFile', index)
+                this.$emit('remove', index)
             },
 
             clickBtnAttachFileRemove(index) {

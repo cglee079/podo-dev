@@ -2,7 +2,7 @@ package com.podo.pododev.core.util;
 
 import java.util.Arrays;
 
-public class PathUtil {
+public class MyPathUtils {
     public static String merge(String... args) {
         StringBuilder path = new StringBuilder();
 

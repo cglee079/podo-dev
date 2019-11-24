@@ -1,11 +1,11 @@
 package com.podo.pododev.web.domain.blog.attachfile;
 
-import com.podo.pododev.core.util.MyFileUtils;
 import com.podo.pododev.web.domain.blog.AttachStatus;
 import com.podo.pododev.web.domain.blog.attachfile.exception.InvalidAttachFileException;
 import com.podo.pododev.web.global.util.AttachLinkManager;
 import com.podo.pododev.web.global.util.writer.FileLocalWriter;
-import com.podo.pododev.core.util.PathUtil;
+import com.podo.pododev.core.util.MyPathUtils;
+import com.podo.pododev.web.global.util.writer.MyFileUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,7 +32,7 @@ public class AttachFileService {
 
     public AttachFileDto.response saveFileFromMultipartFile(MultipartFile multipartFile) {
         final String originFilename = multipartFile.getOriginalFilename();
-        final String savedDirectory = PathUtil.merge(localAttachFileDirectory, MyFileUtils.makeDatePath(LocalDateTime.now()));
+        final String savedDirectory = MyPathUtils.merge(localAttachFileDirectory, MyFileUtils.createPathByDate(LocalDateTime.now()));
 
         final File file = fileLocalWriter.writeFromMultipartFile(multipartFile, savedDirectory);
 

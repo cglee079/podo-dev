@@ -1,23 +1,26 @@
 package com.podo.pododev.web.global.util;
 
 import com.podo.pododev.core.util.HttpUrlUtil;
-import com.podo.pododev.core.util.PathUtil;
+import com.podo.pododev.core.util.MyPathUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+
+@Component
 public class AttachLinkManager {
 
     @Value("${local.upload.base.url}")
     private String baseUrl;
 
-    @Value("${infra.storage.frontend.external}")
-    private String uploaderFrontendUrl;
+    @Value("${infra.storage.static.external}")
+    private String storageStaticUrl;
 
     public String getLocalSavedLink() {
-        return PathUtil.merge(HttpUrlUtil.getSeverDomain() + baseUrl);
+        return MyPathUtils.merge(HttpUrlUtil.getSeverDomain() + baseUrl);
     }
 
     public String getStorageStaticLink() {
-        return uploaderFrontendUrl;
+        return storageStaticUrl;
     }
 
     public String changeLocalLinkToStorageStaticLink(String str) {

@@ -1,6 +1,6 @@
 package com.podo.pododev.web.global.infra.solr;
 
-import com.podo.pododev.web.global.infra.solr.exception.SolrSendException;
+import com.podo.pododev.web.global.infra.solr.exception.SolrRequestException;
 import com.podo.pododev.core.util.MarkdownUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -58,7 +58,7 @@ public class MySolrClient {
             return blogSearchResultVos;
 
         } catch (SolrServerException | IOException e) {
-            throw new SolrSendException(e);
+            throw new SolrRequestException(e);
         }
 
 
@@ -112,18 +112,18 @@ public class MySolrClient {
                     .collect(Collectors.toSet());
 
         } catch (SolrServerException | IOException e) {
-            throw new SolrSendException(e);
+            throw new SolrRequestException(e);
         }
 
     }
 
-    public void dataimport() {
+    public void requestDataImport() {
         final Map<String, String> param = MySolrParameter.createDateImportParam();
 
         try {
             solrSender.requestWithSingleValueParam(solrCoreId, param);
         } catch (SolrServerException | IOException e) {
-            throw new SolrSendException(e);
+            throw new SolrRequestException(e);
         }
     }
 

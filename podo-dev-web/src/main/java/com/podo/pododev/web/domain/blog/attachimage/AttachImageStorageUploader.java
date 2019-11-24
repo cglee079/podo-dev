@@ -3,7 +3,7 @@ package com.podo.pododev.web.domain.blog.attachimage;
 import com.podo.pododev.web.domain.blog.AttachStatus;
 import com.podo.pododev.web.domain.blog.attachimage.save.AttachImageSave;
 import com.podo.pododev.web.global.infra.storage.PodoStorageClient;
-import com.podo.pododev.core.util.PathUtil;
+import com.podo.pododev.core.util.MyPathUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,7 +25,7 @@ public class AttachImageStorageUploader {
 
     public void writeFileOfAttachImagesToStorage(List<AttachImageDto.insert> attachImages) {
         for (AttachImageDto.insert attachImage : attachImages) {
-            log.info("Image '{}', '{}'", attachImage.getAttachStatus(), attachImage.getOriginFilename());
+            log.info("'{}' 첨부 이미지 파일을 Storage 서버에 반영합니다. 상태 : '{}'", attachImage.getOriginFilename(), attachImage.getAttachStatus());
 
             final ArrayList<AttachImageSave> attachImageSaves = new ArrayList<>(attachImage.getSaves().values());
             writeFileOfAttachImageSavesToStorage(attachImageSaves, attachImage.getAttachStatus());
@@ -38,7 +38,7 @@ public class AttachImageStorageUploader {
             case NEW:
                 for (AttachImageSave attachImageSave : attachImageSaves) {
                     final String filePath = attachImageSave.getFilePath();
-                    final File savedFileOfAttachImageSave = new File(PathUtil.merge(localSavedBaseDirectory, filePath), attachImageSave.getFilename());
+                    final File savedFileOfAttachImageSave = new File(MyPathUtils.merge(localSavedBaseDirectory, filePath), attachImageSave.getFilename());
                     podoStorageClient.uploadFile(filePath, savedFileOfAttachImageSave);
                 }
 

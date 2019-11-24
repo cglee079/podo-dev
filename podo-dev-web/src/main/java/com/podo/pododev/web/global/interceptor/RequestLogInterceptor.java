@@ -17,12 +17,6 @@ public class RequestLogInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        return true;
-    }
-
-    @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-
         final String requestUserAgent = request.getHeader("User-Agent");
         String requestIP = request.getHeader("x-real-ip");
 
@@ -34,6 +28,11 @@ public class RequestLogInterceptor extends HandlerInterceptorAdapter {
 
         log.info("요청 확인, '{}'  << '{}',  '{}'", requestUrl, requestIP, requestUserAgent);
 
+        return true;
+    }
+
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.podo.pododev.web.global.util.writer;
 
-import com.podo.pododev.core.util.PathUtil;
+import com.podo.pododev.core.util.MyPathUtils;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -15,7 +15,7 @@ public class AbstractWriter {
     private String localBaseSavedDirectory;
 
     final String mergeLocalSaveBasedDirectory(String path) {
-        return PathUtil.merge(localBaseSavedDirectory, path);
+        return MyPathUtils.merge(localBaseSavedDirectory, path);
     }
 
 }

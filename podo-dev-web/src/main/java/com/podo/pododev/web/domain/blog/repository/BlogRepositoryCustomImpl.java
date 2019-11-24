@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,18 +28,20 @@ public class BlogRepositoryCustomImpl extends QuerydslRepositorySupport implemen
 
 
     @Override
-    public Blog findNext(Long id) {
+    public Blog findOneAfterPublishAt(LocalDateTime publishAt) {
         return from(blog)
-                .where(blog.id.gt(id))
+                .where(blog.publishAt.gt(publishAt))
+                .where(eqEnabled(true))
                 .orderBy(blog.publishAt.asc())
                 .limit(1)
                 .fetchOne();
     }
 
     @Override
-    public Blog findBefore(Long id) {
+    public Blog findOneBeforePublishAt(LocalDateTime publishAt) {
         return from(blog)
-                .where(blog.id.lt(id))
+                .where(blog.publishAt.lt(publishAt))
+                .where(eqEnabled(true))
                 .orderBy(blog.publishAt.desc())
                 .limit(1)
                 .fetchOne();
@@ -71,10 +74,10 @@ public class BlogRepositoryCustomImpl extends QuerydslRepositorySupport implemen
                 .fetch();
     }
 
-    public List<Blog> findByFeeded(Boolean feeded) {
+    public List<Blog> findByWebFeeded(Boolean feeded) {
 
         return from(blog)
-                .where(blog.feeded.eq(feeded))
+                .where(blog.webFeeded.eq(feeded))
                 .where(blog.enabled.eq(true))
                 .fetch();
     }
@@ -83,30 +86,30 @@ public class BlogRepositoryCustomImpl extends QuerydslRepositorySupport implemen
     public List<Blog> findByTagValues(String firstTagValue, List<String> otherTags) {
         QBlogTag tag = QBlogTag.blogTag;
 
-        BooleanExpression booleanExpression = tag.val.eq(firstTagValue);
+        final BooleanExpression eqAnyTagValues = tag.tagValue.eq(firstTagValue);
 
         if (!Objects.isNull(otherTags)) {
             for (String tagValue : otherTags) {
-                booleanExpression.or(tag.val.eq(tagValue));
+                eqAnyTagValues.or(tag.tagValue.eq(tagValue));
             }
         }
 
-        List<Long> blogId = this.queryFactory
+        final List<Long> blogId = this.queryFactory
                 .select(tag.blog.id)
                 .from(tag)
-                .where(booleanExpression)
+                .where(eqAnyTagValues)
                 .fetch();
 
         return this.queryFactory.select(blog)
                 .from(blog)
                 .where(blog.id.in(blogId))
-                .where(blog.enabled.eq(true))
+                .where(eqEnabled(true))
                 .orderBy(blog.id.desc())
                 .fetch();
     }
 
     @Override
-    public List<Blog> findAllByEnabledAndOrderByPublishAtDesc(boolean enabled) {
+    public List<Blog> findAllByEnabledAndOrderByPublishAtDesc(Boolean enabled) {
         return from(blog)
                 .where(eqEnabled(enabled))
                 .orderBy(blog.publishAt.desc())
@@ -114,7 +117,7 @@ public class BlogRepositoryCustomImpl extends QuerydslRepositorySupport implemen
     }
 
     private BooleanExpression eqEnabled(Boolean enabled) {
-        if(Objects.isNull(enabled)){
+        if (Objects.isNull(enabled)) {
             return null;
         }
 

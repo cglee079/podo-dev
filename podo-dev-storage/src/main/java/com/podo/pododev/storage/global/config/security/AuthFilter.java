@@ -18,22 +18,31 @@ public class AuthFilter implements Filter {
     public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain) throws IOException, ServletException {
         final HttpServletRequest httpRequest = (HttpServletRequest) request;
 
-        //extract token from header
-        String accessToken = httpRequest.getHeader("Authorization");
+        final String accessToken = getAccessToken(httpRequest);
 
-        if (!Objects.isNull(accessToken)) {
-            accessToken = accessToken.replace("Bearer", "");
-            accessToken = accessToken.trim();
-
-            if (validTokens.contains(accessToken)) {
-                ClientAuth clientAuth = new ClientAuth(accessToken);
-                clientAuth.addRole("ROLE_" + UserRole.ADMIN);
-
-                SecurityContextHolder.getContext().setAuthentication(clientAuth);
-            }
+        if (validTokens.contains(accessToken)) {
+            setAuthByToken(accessToken);
         }
 
         chain.doFilter(request, response);
     }
+
+    private String getAccessToken(HttpServletRequest httpRequest) {
+        final String authorization = httpRequest.getHeader("Authorization");
+
+        if (!Objects.isNull(authorization)) {
+            return authorization.replace("Bearer", "").trim();
+        }
+
+        return null;
+    }
+
+    private void setAuthByToken(String accessToken) {
+        ClientAuth clientAuth = new ClientAuth(accessToken);
+        clientAuth.addRole("ROLE_" + UserRole.ADMIN);
+
+        SecurityContextHolder.getContext().setAuthentication(clientAuth);
+    }
+
 
 }

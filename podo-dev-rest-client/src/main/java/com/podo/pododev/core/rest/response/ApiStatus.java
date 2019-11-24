@@ -13,10 +13,10 @@ public enum ApiStatus {
     ERR_ID_DUPLICATE("401", "중복되는 값입니다"),
 
     ERR_SERVER_ERROR("500", "서버 에러"),
-    ERR_UPLOAD("510", "업로드 서버 에러"),
-    ERR_SOLR("520", "검색 서버 에러"),
-    ERR_TELEGRAM("512", "텔레그램 서버 에러"),
-    ERR_SAVE("513", "저장 서버 에러");
+    ERR_STORAGE_SERVER("510", "Storage 서버 에러"),
+    ERR_SOLR_SERVER("520", "검색 서버 에러"),
+    ERR_TELEGRAM_SERVER("512", "텔레그램 서버 에러"),
+    ERR_FILE_PROCESS("513", "파일 처리 에러");
 
     private final String code;
     private final String message;

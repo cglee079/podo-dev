@@ -46,7 +46,7 @@ public class BlogWriteService {
     public void insertNewBlog(BlogDto.insert insertBlog) {
 
         attachImageStorageUploader.writeFileOfAttachImagesToStorage(insertBlog.getAttachImages());
-        attachFileStorageUploader.writeFileOfAttachFiles(insertBlog.getAttachFiles());
+        attachFileStorageUploader.writeFileOfAttachFilesToStorage(insertBlog.getAttachFiles());
 
         final Blog newBlog = insertBlog.toEntity();
 
@@ -78,7 +78,7 @@ public class BlogWriteService {
         final Blog existedBlog = existedBlogOpt.get();
 
         attachImageStorageUploader.writeFileOfAttachImagesToStorage(updateBlog.getAttachImages());
-        attachFileStorageUploader.writeFileOfAttachFiles(updateBlog.getAttachFiles());
+        attachFileStorageUploader.writeFileOfAttachFilesToStorage(updateBlog.getAttachFiles());
 
         existedBlog.changeTitle(updateBlog.getTitle());
         existedBlog.changeContents(linkManager.changeLocalLinkToStorageStaticLink(updateBlog.getContents()));

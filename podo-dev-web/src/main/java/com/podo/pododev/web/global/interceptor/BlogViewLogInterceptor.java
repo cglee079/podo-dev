@@ -15,12 +15,6 @@ public class BlogViewLogInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        return true;
-    }
-
-    @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-
         final String requestUserAgent = request.getHeader("User-Agent");
 
         String requestIP = request.getHeader("x-real-ip");
@@ -33,6 +27,11 @@ public class BlogViewLogInterceptor extends HandlerInterceptorAdapter {
 
         log.info("블로그 조회, '{}'  << '{}',  '{}'", requestUrl, requestIP, requestUserAgent);
 
+        return true;
+    }
+
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
     }
 
     @Override

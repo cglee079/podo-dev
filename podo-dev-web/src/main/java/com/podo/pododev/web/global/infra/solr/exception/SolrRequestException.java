@@ -4,9 +4,9 @@ import com.podo.pododev.core.rest.exception.ResponsibleException;
 import com.podo.pododev.core.rest.response.ApiStatus;
 import org.springframework.http.HttpStatus;
 
-public class SolrSendException extends ResponsibleException {
+public class SolrRequestException extends ResponsibleException {
 
-    public SolrSendException(Exception e) {
+    public SolrRequestException(Exception e) {
         super(String.format("검색서버 에러가 발생하였습니다 '%s'", e.getMessage()));
     }
 
@@ -17,6 +17,6 @@ public class SolrSendException extends ResponsibleException {
 
     @Override
     public ApiStatus getApiStatus() {
-        return ApiStatus.ERR_SOLR;
+        return ApiStatus.ERR_SOLR_SERVER;
     }
 }

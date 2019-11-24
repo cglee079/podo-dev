@@ -16,6 +16,6 @@ public class TelegramException extends ResponsibleException {
 
     @Override
     public ApiStatus getApiStatus() {
-        return ApiStatus.ERR_TELEGRAM;
+        return ApiStatus.ERR_TELEGRAM_SERVER;
     }
 }

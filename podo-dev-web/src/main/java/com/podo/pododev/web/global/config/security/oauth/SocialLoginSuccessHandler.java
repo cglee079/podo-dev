@@ -38,24 +38,24 @@ public class SocialLoginSuccessHandler implements AuthenticationSuccessHandler {
         final OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) auth;
         final Map<String, String> details = (Map<String, String>) (oAuth2Authentication.getUserAuthentication().getDetails());
         final String googleId = details.get("sub");
-        final String username = details.get("name");
-        final String email = details.get("email");
-        final String picture = details.get("picture");
-        final String token = ((OAuth2AuthenticationDetails) oAuth2Authentication.getDetails()).getTokenValue();
+        final String googleUsername = details.get("name");
+        final String googleEmail = details.get("email");
+        final String profileImage = details.get("picture");
+        final String tokenByGoogle = ((OAuth2AuthenticationDetails) oAuth2Authentication.getDetails()).getTokenValue();
         final GoogleUserDetails googleUserDetails = GoogleUserDetails.builder()
                 .googleId(googleId)
-                .username(username)
-                .email(email)
-                .picture(picture)
+                .username(googleUsername)
+                .email(googleEmail)
+                .profileImage(profileImage)
                 .build();
 
 
         userService.writeUser(
                 UserDto.insert.builder()
                         .userId(googleId)
-                        .email(email)
-                        .name(username)
-                        .picture(picture)
+                        .email(googleEmail)
+                        .name(googleUsername)
+                        .picture(profileImage)
                         .build()
         );
 
@@ -68,11 +68,11 @@ public class SocialLoginSuccessHandler implements AuthenticationSuccessHandler {
         GoogleAuthentication googleAuthentication = new GoogleAuthentication(googleUserDetails);
 
 
-        securityStore.loginByToken(token, googleAuthentication);
+        securityStore.loginByToken(tokenByGoogle, googleAuthentication);
 
 
         //Go Home
-        res.sendRedirect(redirectUrl + "?token=" + token);
+        res.sendRedirect(redirectUrl + "?token=" + tokenByGoogle);
     }
 
 }

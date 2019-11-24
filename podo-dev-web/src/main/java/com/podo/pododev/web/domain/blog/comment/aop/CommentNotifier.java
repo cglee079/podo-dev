@@ -31,8 +31,11 @@ public class CommentNotifier {
         CommentDto.insert comment = getCommentInsertDto(joinPoint);
 
         if (Objects.isNull(comment)) {
-            //
             throw new RuntimeException();
+        }
+
+        if (SecurityUtil.isAdmin()) {
+            return;
         }
 
         final Long blogId = getBlogId(joinPoint);

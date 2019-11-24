@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 public class UploadDto {
+
     @Setter
     @Getter
     public static class insert implements Serializable {

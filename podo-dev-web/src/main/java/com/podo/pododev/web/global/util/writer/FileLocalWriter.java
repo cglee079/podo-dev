@@ -1,8 +1,6 @@
 package com.podo.pododev.web.global.util.writer;
 
-import com.podo.pododev.core.util.MyFileUtils;
-import com.podo.pododev.core.util.PathUtil;
-import com.podo.pododev.web.domain.blog.attachimage.ImageValidator;
+import com.podo.pododev.core.util.MyPathUtils;
 import com.podo.pododev.web.domain.blog.attachimage.exception.InvalidImageException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,43 +21,35 @@ import java.io.IOException;
 public class FileLocalWriter extends AbstractWriter {
 
     public File writeFromUrl(String fileUrl, String savedDirectory) {
-        if (!ImageValidator.isImageFile(fileUrl)) {
-            throw new InvalidImageException();
-        }
-
         final String originFilenameByUrl = FilenameUtils.getName(fileUrl);
         final String originFileExtension = FilenameUtils.getExtension(originFilenameByUrl);
         final String randomFilename = MyFileUtils.createRandFilename(originFileExtension);
-        final String savedFilePath = PathUtil.merge(savedDirectory, randomFilename);
+        final String savedFilePath = MyPathUtils.merge(savedDirectory, randomFilename);
 
         log.info("'{}' 파일을 URL로 부터 저장합니다. URL : '{}', ", savedFilePath, fileUrl);
 
-        return MyFileUtils.saveFile(mergeLocalSaveBasedDirectory(savedFilePath), fileUrl);
+        return MyFileUtils.writeFile(mergeLocalSaveBasedDirectory(savedFilePath), fileUrl);
     }
 
     public File writeFromMultipartFile(MultipartFile multipartFile, String savedDirectory) {
-        if (!ImageValidator.isImageFile(multipartFile)) {
-            throw new InvalidImageException();
-        }
-
         final String originFilename = multipartFile.getOriginalFilename();
         final String originFileExtension = FilenameUtils.getExtension(originFilename);
         final String randomFilename = MyFileUtils.createRandFilename(originFileExtension);
-        final String savedFilePath = PathUtil.merge(savedDirectory, randomFilename);
+        final String savedFilePath = MyPathUtils.merge(savedDirectory, randomFilename);
 
         log.info("'{}' 파일을 MultipartFile로부터 저장합니다", savedFilePath);
 
-        return MyFileUtils.saveFile(mergeLocalSaveBasedDirectory(savedFilePath), multipartFile);
+        return MyFileUtils.writeFile(mergeLocalSaveBasedDirectory(savedFilePath), multipartFile);
     }
 
     public File writeByBase64(String base64, String extension, String savedDirectory) {
         final BufferedImage bufferedImageFromBase64 = getBufferedImageFromBase64(base64);
         final String randomFilename = MyFileUtils.createRandFilename(extension);
-        final String savedFilePath = PathUtil.merge(savedDirectory, randomFilename);
+        final String savedFilePath = MyPathUtils.merge(savedDirectory, randomFilename);
 
         log.info("'{}' 파일을 BASE64로부터 저장합니다", randomFilename);
 
-        return MyFileUtils.saveFile(mergeLocalSaveBasedDirectory(savedFilePath), extension, bufferedImageFromBase64);
+        return MyFileUtils.writeFile(mergeLocalSaveBasedDirectory(savedFilePath), extension, bufferedImageFromBase64);
     }
 
     private BufferedImage getBufferedImageFromBase64(String base64) {

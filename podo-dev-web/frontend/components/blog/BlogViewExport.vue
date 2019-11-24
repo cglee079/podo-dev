@@ -70,9 +70,8 @@
             },
 
             clickExportKakao() {
-                const url = window.location.href
-                const path = window.location.pathname
-                const title = this.blog.title
+                const currentUrl = window.location.href
+                const blogTitle = this.blog.title
                 let thumbnail = ''
 
                 if (this.blog.thumbnail) {
@@ -83,32 +82,27 @@
                 Kakao.Link.sendDefault({
                     objectType: 'feed',
                     content: {
-                        title: title,
+                        title: blogTitle,
                         imageUrl: thumbnail,
                         imageWidth: 300,
                         imageHeight: 200,
                         link: {
-                            mobileWebUrl: url,
-                            webUrl: url
+                            mobileWebUrl: currentUrl,
+                            webUrl: currentUrl
                         }
                     },
 
                     social: {
-                        commentCount: this.blog.commentCnt,
-                        viewCount: this.blog.hitCnt
+                        commentCount: this.blog.commentCount,
+                        viewCount: this.blog.hitCount
                     },
+
                     buttons: [
                         {
                             title: '웹에서 보기',
                             link: {
-                                mobileWebUrl: url,
-                                webUrl: url
-                            }
-                        },
-                        {
-                            title: "앱에서 보기",
-                            link: {
-                                androidExecParams: "path=" + path,
+                                mobileWebUrl: currentUrl,
+                                webUrl: currentUrl
                             }
                         }
                     ]

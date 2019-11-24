@@ -24,7 +24,7 @@ public class Resume {
 
     private Integer resumeSort;
 
-    @OrderBy(value = "sort")
+    @OrderBy(value = "contentSort")
     @OneToMany(mappedBy = "resume")
-    private List<ResumeContent> resumeContents;
+    private List<ResumeContent> contents;
 }

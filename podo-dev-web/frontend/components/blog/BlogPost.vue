@@ -35,8 +35,8 @@
         <div id="wrapImageUpload">
             <post-image
                 :attachImages="this.input.attachImages"
-                @addAttachImage="addAttachImage"
-                @removeAttachImage="removeAttachImage"
+                @add="addAttachImage"
+                @remove="removeAttachImage"
                 @onProgress="onProgress"
                 @offProgress="offProgress"
             />
@@ -44,9 +44,9 @@
 
         <div id="wrapFileUpload">
             <post-file
-                :files="this.input.attachFiles"
-                @addAttachFile="addAttachFile"
-                @removeAttachFile="removeAttachFile"
+                :attachFiles="input.attachFiles"
+                @add="addAttachFile"
+                @remove="removeAttachFile"
                 @onProgress="onProgress"
                 @offProgress="offProgress"
             />
@@ -105,7 +105,7 @@
             return {
                 isNew: true,
                 config: {
-                    maxWidth: 720
+                    maxAttachImageWidth: 720
                 },
                 autoSave: {
                     key: "autoSave_post_",
@@ -118,8 +118,8 @@
                     tagText: '',
                     status: 'INVISIBLE',
                     tags: [],
-                    images: [],
-                    files: []
+                    attachImages: [],
+                    attachFiles: []
                 },
 
             }
@@ -241,7 +241,7 @@
                 this.onProgress()
 
                 this.$axios
-                    .$put('/api/blogs/' + this.id, {
+                    .$patch('/api/blogs/' + this.id, {
                         title: this.input.title,
                         contents: this.input.contents,
                         status: this.input.status,
@@ -264,24 +264,21 @@
                     })
             },
 
-            /**
-             * Call By Child
-             */
             addAttachImage(attachImage) {
-                const src = attachImage.uploadedUrl + attachImage.saves.origin.path + "/" + attachImage.saves.origin.filename
-                const tag = document.createElement("img")
+                const src = attachImage.uploadedUrl + attachImage.saves.origin.filePath + "/" + attachImage.saves.origin.filename
+                const elementInContents = document.createElement("img")
 
-                let width = attachImage.saves.origin.width
+                let imageWidth = attachImage.saves.origin.width
 
-                if (width > this.config.maxWidth) {
-                    width = this.config.maxWidth
+                if (imageWidth > this.config.maxAttachImageWidth) {
+                    imageWidth = this.config.maxAttachImageWidth
                 }
 
-                tag.src = src
-                tag.setAttribute("alt", attachImage.originName)
-                tag.setAttribute("style", 'width:' + width + 'px;')
+                elementInContents.src = src
+                elementInContents.setAttribute("alt", attachImage.originFilename)
+                elementInContents.setAttribute("style", 'width:' + imageWidth + 'px;')
 
-                this.input.contents += "\n\n" + tag.outerHTML + "\n\n"
+                this.input.contents += "\n\n" + elementInContents.outerHTML + "\n\n"
 
                 this.input.attachImages.push(attachImage)
             },
@@ -305,15 +302,13 @@
 
             removeImageElementInEditor(attachImage) {
 
-                let text = this.input.contents
-                const index = text.indexOf(attachImage.saves.origin.filename)
-                const startTagIndex = text.substring(0, index).lastIndexOf("<img")
-                const endTagIndex = text.substring(index, text.length).indexOf(">") + index
-                const tag = text.substring(startTagIndex, endTagIndex + 1)
+                let existedContents = this.input.contents
+                const index = existedContents.indexOf(attachImage.saves.origin.filename)
+                const startImgElementIndex = existedContents.substring(0, index).lastIndexOf("<img")
+                const endImgElementIndex = existedContents.substring(index, existedContents.length).indexOf(">") + index
+                const imageElement = existedContents.substring(startImgElementIndex, endImgElementIndex + 1)
 
-                text = text.replace(tag, "")
-
-                this.input.contents = text
+                this.input.contents = existedContents.replace(imageElement, "")
             },
 
             addAttachFile(attachFile) {

@@ -14,17 +14,17 @@
         >
             <div class="title">{{ blog.title }}</div>
 
-            <div v-html="blog.desc" class="desc"></div>
+            <div v-html="blog.description" class="description"></div>
 
             <div class="info">
                 <div class="tags">
                     <span v-for="(tag, index) in blog.tags"
                           v-bind:key=index
-                          @click.stop.prevent="clickTag(tag.val)"
+                          @click.stop.prevent="clickTag(tag.tagValue)"
                           class="tag"
-                          :class="filter.tag && (tag.val.toUpperCase() === filter.tag.toUpperCase()) ? 'on' : ''"
+                          :class="filter.tag && (tag.tagValue.toUpperCase() === filter.tag.toUpperCase()) ? 'on' : ''"
                     >
-                            #{{tag.val}}
+                            #{{tag.tagValue}}
                     </span>
                 </div>
                 <div class="subinfo">
@@ -103,7 +103,7 @@
                     font-size: 1rem;
                 }
 
-                .desc {
+                .description {
                     font-size: 0.9rem;
                 }
 
@@ -149,7 +149,7 @@
                 max-height: 1.75rem;
             }
 
-            .desc {
+            .description {
                 display: -webkit-box;
                 text-overflow: clip;
                 overflow: hidden;
@@ -228,7 +228,7 @@
 </style>
 
 <style>
-    .content .desc search {
+    .content .description search {
         color: #0000FF;
     }
 </style>

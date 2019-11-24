@@ -33,7 +33,7 @@ public class Blog extends UpdatableBaseEntity {
 
     private Integer hitCount;
 
-    private Boolean feeded;
+    private Boolean webFeeded;
 
     private Boolean enabled;
 
@@ -61,21 +61,21 @@ public class Blog extends UpdatableBaseEntity {
         this.attachImages = attachImages;
         this.attachFiles = attachFiles;
         this.hitCount = 0;
-        this.feeded = false;
+        this.webFeeded = false;
     }
 
     public void changeTitle(String title) {
         this.title = title;
-        this.feeded = false;
+        this.webFeeded = false;
     }
 
     public void changeContents(String contents) {
         this.contents = contents;
-        this.feeded = false;
+        this.webFeeded = false;
     }
 
-    public void doFeeded() {
-        this.feeded = true;
+    public void doWebFeeded() {
+        this.webFeeded = true;
     }
 
     public void increaseHitCount() {

@@ -27,15 +27,15 @@ public class BlogFeedService {
     }
 
     public Boolean existByFeeded(boolean feeded) {
-        final List<Blog> blogs = blogRepository.findByFeeded(feeded);
+        final List<Blog> blogs = blogRepository.findByWebFeeded(feeded);
         return !blogs.isEmpty();
     }
 
     public void completeFeed() {
-        final List<Blog> notFeededBlogs = blogRepository.findByFeeded(false);
+        final List<Blog> noWebFeededBlogs = blogRepository.findByWebFeeded(false);
 
-        for (Blog notFeededBlog : notFeededBlogs) {
-            notFeededBlog.doFeeded();
+        for (Blog noWebFeededBlog : noWebFeededBlogs) {
+            noWebFeededBlog.doWebFeeded();
         }
     }
 

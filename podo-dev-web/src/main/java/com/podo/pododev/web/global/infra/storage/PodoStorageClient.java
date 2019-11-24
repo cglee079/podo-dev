@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
@@ -18,7 +19,7 @@ import java.io.File;
 @Component
 public class PodoStorageClient {
 
-    @Value("${infra.storage.token}")
+    @Value("${infra.storage.auth.token}")
     private String token;
 
     @Value("${infra.storage.server.internal}")

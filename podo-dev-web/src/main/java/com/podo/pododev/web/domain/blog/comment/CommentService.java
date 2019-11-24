@@ -30,9 +30,9 @@ import java.util.stream.Collectors;
 public class CommentService {
 
     @Value("${blog.comment.max.depth}")
-    private Integer maxCommentDepth;
+    private Integer maxDepthOfComment;
 
-    @Value("${blog.comment.per.page.size}")
+    @Value("${blog.comment.page.size}")
     private Integer pageSize;
 
     @Value("${blog.comment.recent.size}")
@@ -62,7 +62,7 @@ public class CommentService {
                 .collect(Collectors.toList());
 
         return PageDto.<CommentDto.response>builder()
-                .data(commentResponses)
+                .contents(commentResponses)
                 .currentPage(comments.getPageable().getPageNumber())
                 .pageSize(comments.getPageable().getPageSize())
                 .totalElements(comments.getTotalElements())
@@ -70,12 +70,14 @@ public class CommentService {
                 .build();
     }
 
-    private int reversePage(Integer page, double count) {
-        double totalPage = Math.ceil((count / (double) pageSize));
+    private int reversePage(Integer requestPage, double commentCount) {
+        double totalPage = Math.ceil((commentCount / (double) pageSize));
+
         if (totalPage == 0) {
             totalPage = 1;
         }
-        return (int) (totalPage - page - 1);
+
+        return (int) (totalPage - requestPage - 1);
     }
 
 
@@ -128,7 +130,7 @@ public class CommentService {
         final Integer parentCommentDepth = parentComment.getDepth();
         final Double childCommentSort = parentComment.getChildCommentSort();
 
-        if (parentComment.isExceedMaxCommentDepth(maxCommentDepth)) {
+        if (parentComment.isExceedMaxCommentDepth(maxDepthOfComment)) {
             throw new MaxDepthCommentException();
         }
 
@@ -164,28 +166,31 @@ public class CommentService {
             throw new InvalidCommentException();
         }
 
-        final Comment existCommand = existCommentOptional.get();
+        final Comment existComment = existCommentOptional.get();
 
-        if (!existCommand.isWritedBy(currentUserId)) {
+        if (!existComment.isWritedBy(currentUserId)) {
             throw new NoAuthenticatedException();
         }
 
-        if (!existCommand.hasChild()) {
-            commentRepository.delete(existCommand);
-            decreaseChildCountAndRemoveIfNoHasChild(existCommand.getParentId());
+        log.info("'{}' 댓글을 삭제합니다", existComment.getId());
+
+        if (!existComment.hasChild()) {
+            commentRepository.delete(existComment);
+            decreaseChildCountAndRemoveIfNoHasChild(existComment.getParentId());
         } else {
-            existCommand.erase();
+            existComment.erase();
         }
     }
 
 
-    private void decreaseChildCountAndRemoveIfNoHasChild(Long commendId) {
-        if (Objects.nonNull(commendId)) {
-            final Comment existedComment = commentRepository.findById(commendId).get();
+    private void decreaseChildCountAndRemoveIfNoHasChild(Long commentId) {
+        if (Objects.nonNull(commentId)) {
+            final Comment existedComment = commentRepository.findById(commentId).get();
 
             existedComment.decreaseChildCount();
 
             if (!existedComment.hasChild() && existedComment.isErase()) {
+                log.info("'{}' 댓글은, 자식댓글이 없어 완전이 삭제합니다", commentId);
                 commentRepository.delete(existedComment);
                 decreaseChildCountAndRemoveIfNoHasChild(existedComment.getParentId());
             }

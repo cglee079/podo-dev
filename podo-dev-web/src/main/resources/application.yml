@@ -5,11 +5,10 @@ server:
     port: 28080
 
 
+## Log
 logging:
-  #  file: logs/application.log
-  level:
-    root: INFO
-#    org.hibernate.SQL: debug
+  file: podo-dev-backend.%d{yyyy-MM-dd}-%i.log
+  path: c://podo-dev/podo-dev-backend/logs
 
 decorator:
   datasource:
@@ -47,50 +46,45 @@ spring:
 blog:
   relates:
     size: 5
-
   comment:
-    per:
-      page:
-        size: 5 # Comment Paging Size
+    page:
+      size: 5 # Comment Paging Size
     max:
       depth: 3 # Comment Max Reply Depth
     recent:
       size: 10
-  per:
-    page:
-      size: 10 # Blog Paging Size
+  page:
+    size: 10 # Blog Paging Size
 
 
 ## File Save Config
 local:
   static:
     url: /static
-    dir: C://podo-dev/static
+    dir: C://podo-dev/podo-dev-backend/static
   upload:
     base:
       url: /uploaded
-      dir: C://podo-dev/uploaded
+      dir: C://podo-dev/podo-dev-backend/uploaded
     sub:
       file:
         dir: /blogs/files
       image:
         dir: /blogs/images
 
-
-
 infra:
-  stroage:
+  storage:
     server:
-      internal: http://192.168.219.103:38080/api/uploader/file # Loopback
-      external: https://upload.podo-dev.com/api/uploader/file
-    frontend:
+      internal: http://192.168.219.103:38080/api/file # Loopback
+    static:
       internal: http://192.168.219.103:30080
       external: https://file.podo-dev.com
+  #      external: https://static.podo-dev.com
 
   telegram:
     admin:
       telegram_id: 503609560
-    podo_dev_bot:
+    bot:
       name: PodoDevBot
 
   solr:
@@ -101,7 +95,10 @@ infra:
       frag:
         length: 10000000
 
-
+security:
+  oauth2:
+    redirect: http://localhost:3000
+#    redirect: https://www.podo-dev.com
 
 ---
 
@@ -115,6 +112,10 @@ server:
   http:
     port: 8080
 
+## Log
+logging:
+  path: /data/logs
+
 decorator:
   datasource:
     p6spy:
@@ -122,7 +123,6 @@ decorator:
 
 local:
   static:
-    url: /static
     dir: /static
   upload:
     base:
@@ -131,23 +131,7 @@ local:
 
 security:
   oauth2:
-    admin:
     redirect: https://www.podo-dev.com
 
----
 
-spring:
-  profiles: external
-
-infra:
-  ## Uploader Config
-  stroage:
-    upload:
-      internal: https://upload.podo-dev.com/api/uploader/file
-      external: https://upload.podo-dev.com/api/uploader/file
-    frontend:
-      external: https://file.podo-dev.com
-
-  solr:
-    url: http://solr.podo-dev.com/solr
 

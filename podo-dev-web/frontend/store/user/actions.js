@@ -1,6 +1,6 @@
 export default {
     login() {
-        this.$axios.$get('/login/enabled')
+        this.$axios.$get('/api/login/enabled')
             .then(res => {
                 const result = res.result
                 if (result) {
@@ -9,19 +9,13 @@ export default {
                     this.$toast.show("다른 브라우저로 로그인해주세요")
                 }
             })
-            .catch(err => {
-
-            })
     },
-    /**
-     * 로그아웃
-     * @param commit
-     */
+
     logout({commit}, callback) {
         this.$axios
-            .$post("/logout")
-            .then(res => {
-                delete this.$axios.defaults.headers.common['Authorization'] //
+            .$post("/api/logout")
+            .then(() => {
+                delete this.$axios.defaults.headers.common['Authorization']
 
                 commit('doLogout')
                 this.$storage.removeLocalStorage("token")
@@ -30,15 +24,9 @@ export default {
                     callback()
                 }
             })
-            .catch(err => {
-            })
     },
 
-    /**
-     * 로그인 성공 시, 사용자 정보 갱신
-     * @param commit
-     * @param token
-     */
+
     checkLogin({commit}, {token, callback}) {
 
         if (token) {
@@ -47,7 +35,6 @@ export default {
             this.$axios
                 .$get("/api/user")
                 .then(res => {
-                    //사용자 정보 확인
                     const user = res.result
                     commit('doLogin', user)
 
@@ -58,8 +45,7 @@ export default {
                     }
 
                 })
-                .catch(err => {
-                    //사용자 정보 확인 실패
+                .catch(() => {
                     this.$storage.removeLocalStorage("token")
                     delete this.$axios.defaults.headers.common['Authorization'] //
                 })

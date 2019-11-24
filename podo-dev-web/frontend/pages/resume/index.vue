@@ -23,12 +23,12 @@
              v-bind:key="resume.resumeKey"
              class="item">
 
-            <div class="head">{{resume.resumeHead}}</div>
+            <div class="head">{{resume.resumeTitle}}</div>
             <div class="content">
-                <div v-for="(contents, index) in resume.resumeContents"
+                <div v-for="(content, index) in resume.contents"
                      v-bind:key="index"
                 >
-                    <toast-custom-viewer :value="contents"/>
+                    <toast-custom-viewer :value="content"/>
                 </div>
             </div>
         </div>
@@ -89,8 +89,8 @@
             const experiences = await $axios.$get(baseUrl + '/api/resumes/experiences')
 
             return {
-                resumes: resumes.result.data,
-                experiences: experiences.result.data
+                resumes: resumes.result.contents,
+                experiences: experiences.result.contents
             }
         },
 

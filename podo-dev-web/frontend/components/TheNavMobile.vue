@@ -38,7 +38,8 @@
             </div>
 
             <div class="mobile-nav-menu"><a href="https://github.com/cglee079" target="_blank">GITHUB</a></div>
-            <div class="mobile-nav-menu"><a href="https://www.linkedin.com/in/changoo-lee-205662180" target="_blank">LINKEDIN</a></div>
+            <div class="mobile-nav-menu"><a href="https://www.linkedin.com/in/changoo-lee-205662180" target="_blank">LINKEDIN</a>
+            </div>
             <div class="mobile-nav-menu"><a href="mailto:cglee079@gmail.com">MAIL</a></div>
 
             <div v-if="!isLogin" @click="login" class="mobile-nav-menu"><a>로그인</a></div>
@@ -47,11 +48,11 @@
 
         <div id="mobileSearch" ref="mobileSearch">
             <autocomplete
-                    :search="searchFacet"
-                    :autoSelect="true"
-                    placeholder="검색어를 입력해주세요"
-                    baseClass="autocomplete-mobile"
-                    @submit="submitSearch"/>
+                :search="searchFacet"
+                :autoSelect="true"
+                placeholder="검색어를 입력해주세요"
+                baseClass="autocomplete-mobile"
+                @submit="submitSearch"/>
         </div>
 
     </div>
@@ -62,7 +63,7 @@
         name: "TheNavMobile",
         props: [
             'isAdmin', 'isLogin'
-    ],
+        ],
         methods: {
             login() {
                 this.$emit("login")
@@ -169,7 +170,7 @@
     }
 </style>
 
-<style lang="scss" scoped >
+<style lang="scss" scoped>
     /** 모바일 아이콘 **/
     #btnMobileNavIcon {
         display: block;

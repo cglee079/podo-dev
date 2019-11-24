@@ -17,13 +17,13 @@
         <div id="loginMenus">
             <span v-if="!isLogin" @click="login">
                 <span v-tooltip="{content:'Login By Google', class:'tooltip'}">
-                <img src="@/assets/btns/btn-login.svg" id="loginIcon"/>
+                <img src="@/assets/btns/btn-login.svg" id="loginIcon" alt="btn-login"/>
                 </span>
             </span>
 
             <span v-if="isLogin" @click="logout">
                 <span v-tooltip="{content:'Logout', class:'tooltip'}">
-                <img :src="userinfo.picture" id="userIcon"/>
+                <img :src="userinfo.profileImage" id="userIcon"/>
                 </span>
             </span>
         </div>

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -20,13 +21,10 @@ public class BlogApiController {
     private final BlogWriteService blogWriteService;
     private final BlogReadService blogReadService;
 
-    /**
-     * 게시글 조회
-     */
     @GetMapping("/api/blogs/archive")
     public ApiResponse getArchive() {
 
-        Map<Integer, List<BlogDto.archive>> archive = blogReadService.getArchiveMapByYearOfPublishAt();
+        final Map<Integer, List<BlogDto.archive>> archive = blogReadService.getArchiveMapByYearOfPublishAt();
 
         return DataResponse.builder()
                 .status(ApiStatus.SUCCESS)
@@ -34,9 +32,6 @@ public class BlogApiController {
                 .build();
     }
 
-    /**
-     * 게시글 조회
-     */
     @GetMapping("/api/blogs/{blogId}")
     public ApiResponse get(@PathVariable Long blogId) {
 
@@ -48,9 +43,6 @@ public class BlogApiController {
                 .build();
     }
 
-    /**
-     * 게시글 페이징
-     */
     @GetMapping("/api/blogs")
     public ApiResponse paging(BlogDto.request request) {
         final PageDto<BlogDto.responseGroup> blogs = blogReadService.paging(request);
@@ -61,9 +53,9 @@ public class BlogApiController {
                 .build();
     }
 
-    @GetMapping("/api/blogs/facets")
+    @GetMapping("/api/blogs/words")
     public ApiResponse facets(@RequestParam String searchValue) {
-        final List<String> facets = blogReadService.getIndexedWordByKeyword(searchValue);
+        final Set<String> facets = blogReadService.getIndexedWordByKeyword(searchValue);
 
         return ListResponse.builder()
                 .status(ApiStatus.SUCCESS)
@@ -72,9 +64,6 @@ public class BlogApiController {
     }
 
 
-    /**
-     * 게시글 작성
-     */
     @PostMapping("/api/blogs")
     public ApiResponse insert(@Valid @RequestBody BlogDto.insert insert) {
         blogWriteService.insertNewBlog(insert);
@@ -85,24 +74,18 @@ public class BlogApiController {
     }
 
 
-    /**
-     * 게시글 수정
-     */
-    @PutMapping("/api/blogs/{blogId}")
-    public ApiResponse update(@PathVariable Long id, @Valid @RequestBody BlogDto.update blogReq) {
-        blogWriteService.updateExistedBlogs(id, blogReq);
+    @PatchMapping("/api/blogs/{blogId}")
+    public ApiResponse update(@PathVariable Long blogId, @Valid @RequestBody BlogDto.update blogReq) {
+        blogWriteService.updateExistedBlogs(blogId, blogReq);
 
         return StatusResponse.builder()
                 .status(ApiStatus.SUCCESS)
                 .build();
     }
 
-    /**
-     * 게시글 삭제
-     */
     @DeleteMapping("/api/blogs/{blogId}")
-    public ApiResponse delete(@PathVariable Long id) {
-        blogWriteService.removeByBlogId(id);
+    public ApiResponse delete(@PathVariable Long blogId) {
+        blogWriteService.removeByBlogId(blogId);
 
         return StatusResponse.builder()
                 .status(ApiStatus.SUCCESS)
@@ -110,13 +93,10 @@ public class BlogApiController {
     }
 
 
-    /**
-     * 게시글 조회
-     */
     @PostMapping("/api/blogs/{blogId}/hitCount")
-    public ApiResponse increaseHitCount(@PathVariable Long id) {
+    public ApiResponse increaseHitCount(@PathVariable Long blogId) {
 
-        blogWriteService.increaseHitCount(id);
+        blogWriteService.increaseHitCount(blogId);
 
         return StatusResponse.builder()
                 .status(ApiStatus.SUCCESS)

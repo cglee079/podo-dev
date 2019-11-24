@@ -30,7 +30,7 @@
                     <div class="menu-delete" @click="clickAttachImageRemove(index)">삭제</div>
                 </div>
 
-                <img :src=" attachImage.uploadedUrl + attachImage.saves.origin.path +
+                <img :src=" attachImage.uploadedUrl + attachImage.saves.origin.filePath +
                     '/' + attachImage.saves.origin.filename"/>
             </div>
         </div>
@@ -127,7 +127,7 @@
                     .$post("/api/blogs/images", {base64: base64})
                     .then(res => {
                         const attachImage = res.result
-                        this.$emit('addAttachImage', attachImage)
+                        this.$emit('add', attachImage)
                         this.$emit('offProgress')
                     })
                     .catch(err => {
@@ -143,7 +143,7 @@
                     .$post("/api/blogs/images", {imageUrl: imageUrl})
                     .then(res => {
                         const attchImage = res.result
-                        this.$emit('addAttachImage', attchImage)
+                        this.$emit('add', attchImage)
                         this.$emit('offProgress')
                     })
                     .catch(err => {
@@ -175,15 +175,14 @@
 
                 }).then((res) => {
                     const attachImage = res.result
-                    this.$emit('addAttachImage', attachImage)
+                    this.$emit('add', attachImage)
                     this.$emit('offProgress')
 
                     if (i < until) {
                         this.uploadImage(files, i + 1, until)
                     }
 
-                }).catch(err => {
-                    console.log(err)
+                }).catch(() => {
                     this.$emit('offProgress')
                 })
             },
@@ -205,7 +204,7 @@
             },
 
             removeAttachImage(index) {
-                this.$emit('removeAttachImage', index)
+                this.$emit('remove', index)
             }
         }
     }

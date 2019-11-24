@@ -7,15 +7,15 @@ export default {
                     return resolve([])
                 }
 
-                this.$axios.$get("/api/blogs/facets", {
+                this.$axios.$get("/api/blogs/words", {
                     params: {
                         searchValue: searchValue
                     }
 
                 }).then(res => {
-                    const facets = res.result
+                    const facets = res.result.contents
                     resolve(facets)
-                }).catch(err => {
+                }).catch(() => {
                     resolve([])
                 })
             })
@@ -23,7 +23,6 @@ export default {
         },
 
         submit(result) {
-            console.log(result)
             this.$emit('submit')
 
             if (!result) {

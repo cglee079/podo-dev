@@ -1,7 +1,7 @@
 package com.podo.pododev.web.job.maker.rss;
 
 import com.podo.pododev.web.domain.blog.BlogDto;
-import com.podo.pododev.core.util.PathUtil;
+import com.podo.pododev.core.util.MyPathUtils;
 import com.podo.pododev.core.util.TimeUtil;
 import com.rometools.rome.feed.synd.*;
 import com.rometools.rome.io.FeedException;
@@ -48,7 +48,7 @@ public class RssMaker {
 
 
         try {
-            final String rssFileLocation = PathUtil.merge(staticDirectory, "feed.xml");
+            final String rssFileLocation = MyPathUtils.merge(staticDirectory, "feed.xml");
             writeRss(rssFileLocation, rssFeed);
             rewriteRssGmtToNumberOfHour(rssFileLocation);
 
@@ -73,7 +73,7 @@ public class RssMaker {
 
         final SyndImage syndImage = new SyndImageImpl();
         syndImage.setTitle(PODO_TITLE);
-        syndImage.setUrl(PathUtil.merge(PODO_DEV_WEB, "podo-dev.jpg"));
+        syndImage.setUrl(MyPathUtils.merge(PODO_DEV_WEB, "podo-dev.jpg"));
         syndImage.setLink(PODO_DEV_WEB);
         syndImage.setDescription(PODO_DESC);
 
@@ -103,7 +103,7 @@ public class RssMaker {
 
             entry.setTitle(blog.getTitle());
             entry.setDescription(description);
-            entry.setLink(PathUtil.merge(PODO_DEV_WEB, "/blogs", blog.getId().toString()));
+            entry.setLink(MyPathUtils.merge(PODO_DEV_WEB, "/blogs", blog.getId().toString()));
             entry.setPublishedDate(TimeUtil.localDateTimeToDate(blog.getPublishAt().plus(9, ChronoUnit.HOURS)));
             entry.setCategories(categories);
             entry.setAuthor(PODO_AUTHOR);

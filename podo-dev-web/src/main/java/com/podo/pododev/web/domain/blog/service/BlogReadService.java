@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -30,7 +31,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class BlogReadService {
 
-    @Value("${blog.per.page.size}")
+    @Value("${blog.page.size}")
     private Integer pageSize;
 
     @Value("${blog.relates.size}")
@@ -79,8 +80,9 @@ public class BlogReadService {
 
         final Blog blog = blogOptional.get();
 
-        final Blog next = blogRepository.findNext(blogId);
-        final Blog before = blogRepository.findBefore(blogId);
+        final LocalDateTime publishAt = blog.getPublishAt();
+        final Blog beforeBlog =  blogRepository.findOneBeforePublishAt(publishAt);
+        final Blog nextBlog = blogRepository.findOneAfterPublishAt(publishAt);
 
         final List<String> tagValues = blog.getTags().stream()
                 .map(BlogTag::getTagValue)
@@ -88,7 +90,7 @@ public class BlogReadService {
 
         final List<Blog> relateBlogs = getRelatesByTagValues(tagValues);
 
-        return new BlogDto.response(blog, before, next, relateBlogs, attachLinkManager.getStorageStaticLink(), AttachStatus.BE);
+        return new BlogDto.response(blog, beforeBlog, nextBlog, relateBlogs, attachLinkManager.getStorageStaticLink(), AttachStatus.BE);
     }
 
     private List<Blog> getRelatesByTagValues(List<String> tagValues) {
@@ -165,7 +167,7 @@ public class BlogReadService {
                 .collect(Collectors.toList());
 
         return PageDto.<BlogDto.responseGroup>builder()
-                .data(contents)
+                .contents(contents)
                 .currentPage(blogs.getPageable().getPageNumber())
                 .pageSize(blogs.getPageable().getPageSize())
                 .totalElements(blogs.getTotalElements())
@@ -188,7 +190,7 @@ public class BlogReadService {
                 .collect(Collectors.toList());
 
         return PageDto.<BlogDto.responseGroup>builder()
-                .data(contents)
+                .contents(contents)
                 .currentPage(blogs.getPageable().getPageNumber())
                 .pageSize(blogs.getPageable().getPageSize())
                 .totalElements(blogs.getTotalElements())
@@ -209,7 +211,7 @@ public class BlogReadService {
                 .collect(Collectors.toList());
 
         return PageDto.<BlogDto.responseGroup>builder()
-                .data(contents)
+                .contents(contents)
                 .currentPage(blogs.getPageable().getPageNumber())
                 .pageSize(blogs.getPageable().getPageSize())
                 .totalElements(blogs.getTotalElements())

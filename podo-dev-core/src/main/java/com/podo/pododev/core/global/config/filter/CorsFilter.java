@@ -1,4 +1,4 @@
-package com.podo.pododev.web.global.config.filter;
+package com.podo.pododev.core.global.config.filter;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +20,7 @@ public class CorsFilter implements Filter {
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods",
-                "GET, POST, PUT, DELETE, OPTIONS");
+                "GET, POST, PUT, PATCH, DELETE, OPTIONS");
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers",
                 "Origin, X-Requested-With, Content-Type, Accept, Key, Authorization, username, password, Access-Control-Allow-Origin");

@@ -1,6 +1,5 @@
 package com.podo.pododev.web.domain.blog.tag;
 
-import com.cglee079.pododev.web.domain.blog.tag.QBlogTag;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
@@ -19,10 +18,10 @@ public class BlogTagRepositoryCustomImpl extends QuerydslRepositorySupport imple
 
     @Override
     public List<String> findDistinctTagValue() {
-        return queryFactory.selectDistinct(tag.val)
+        return queryFactory.selectDistinct(tag.tagValue)
                 .from(tag)
                 .where(tag.blog.enabled.eq(true))
-                .orderBy(tag.val.asc())
+                .orderBy(tag.tagValue.asc())
                 .fetch();
     }
 

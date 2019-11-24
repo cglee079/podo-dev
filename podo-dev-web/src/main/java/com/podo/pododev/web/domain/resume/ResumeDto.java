@@ -12,15 +12,13 @@ public class ResumeDto {
     public static class response {
         private String resumeKey;
         private String resumeTitle;
-        private Integer resumeSort;
-        private List<String> resumeContents;
+        private List<String> contents;
 
         public response(Resume resume) {
             this.resumeKey = resume.getResumeKey();
             this.resumeTitle = resume.getResumeTitle();
-            this.resumeSort = resume.getResumeSort();
-            this.resumeContents = resume.getResumeContents().stream()
-                    .map(ResumeContent::getResumeContentValue)
+            this.contents = resume.getContents().stream()
+                    .map(ResumeContent::getContentValue)
                     .collect(Collectors.toList());
         }
     }

@@ -39,11 +39,11 @@
             <div id="attachFiles">
                 <div v-for="attachFile in blog.attachFiles"
                      v-bind:key="attachFile.id"
-                     class="attachFile"
+                     class="attach-file"
                 >
                     <span @click="clickFile(attachFile.id)">
                         <img src="@/assets/btns/btn-file.svg" class="file-icon"/>
-                        <span class="file-name">{{attachFile.originName}}</span>
+                        <span class="file-name">{{attachFile.originFilename}}</span>
                         <span class="file-size">[{{formatFilesize(attachFile.filesize)}}]</span>
                     </span>
                 </div>
@@ -158,8 +158,9 @@
                     const meta = {
                         url: process.env.frontendUrl + "/blogs/" + blog.id,
                         title: process.env.name + " : " + blog.title,
+                        
                         keywords: keywords.join(", "),
-                        description: blog.desc.length > 300 ? blog.desc.substring(0, 300) : blog.desc,
+                        description: blog.description.length > 300 ? blog.description.substring(0, 300) : blog.description,
                         thumbnail: blog.thumbnail ? blog.thumbnail : '/og-image.png',
                         createAt: blog.createAt,
                         publishAt: blog.publishAt,
@@ -172,8 +173,7 @@
                     }
 
                 })
-                .catch(err => {
-                    console.log(err)
+                .catch(() => {
                     error({
                         statusCode: 404
                     })
@@ -210,15 +210,15 @@
                 this.$router.push({
                     name: 'blogs-id-post',
                     params: {
-                        id: id
+                        id: blogId
                     }
                 });
             },
 
-            clickDeleteBlog(id) {
+            clickDeleteBlog(blogId) {
                 this.toastConfirm("정말 삭제하시겠습니까?", () => {
                     this.$axios
-                        .delete('/api/blogs/' + id)
+                        .delete('/api/blogs/' + blogId)
                         .then(res => {
                             this.$router.push({name: 'index'})
                         })
@@ -233,22 +233,22 @@
             },
 
             clickBefore() {
-                const id = this.blog.before
-                if (!id) {
+                const beforeBlogId = this.blog.beforeBlogId
+                if (!beforeBlogId) {
                     this.$toast.show("이전글이 없습니다")
                     return
                 }
                 this.$router.push({
                     name: 'blogs-id',
                     params: {
-                        'id': id
+                        'id': beforeBlogId
                     }
                 })
             },
 
             clickNext() {
-                const id = this.blog.next
-                if (!id) {
+                const nextBlogId = this.blog.nextBlogId
+                if (!nextBlogId) {
                     this.$toast.show("다음글이 없습니다")
                     return
                 }
@@ -256,7 +256,7 @@
                 this.$router.push({
                     name: 'blogs-id',
                     params: {
-                        'id': id
+                        'id': nextBlogId
                     }
                 })
             },
@@ -369,7 +369,7 @@
             text-align: right;
 
 
-            .file {
+            .attach-file {
                 margin: 5px 0px;
                 opacity: 0.95;
                 white-space: nowrap;

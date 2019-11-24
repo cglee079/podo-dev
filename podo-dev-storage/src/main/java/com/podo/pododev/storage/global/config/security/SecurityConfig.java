@@ -34,9 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().disable();
         http.csrf().disable();
 
-        //ADMIN 권한
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/uploader/file").hasRole(UserRole.ADMIN.name());
-        http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/api/uploader/file").hasRole(UserRole.ADMIN.name());
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/file").hasRole(UserRole.ADMIN.name());
+        http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/api/file").hasRole(UserRole.ADMIN.name());
 
         http.addFilterBefore(new CorsFilter(), SessionManagementFilter.class);
         http.addFilterBefore(new AuthFilter(validTokens), BasicAuthenticationFilter.class);

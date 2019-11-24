@@ -16,27 +16,22 @@ public class UploadApiController {
 
     private final UploadService uploadService;
 
-    /**
-     * 파일 저장
-     */
-    @PostMapping("/api/uploader/file")
+    @PostMapping("/api/file")
     public ApiResponse upload(@Validated @ModelAttribute UploadDto.insert insert) {
-        log.info("File Upload '{}', '{}', '{}'", insert.getPath(), insert.getFile().getOriginalFilename(), insert.getFile().getSize());
-        uploadService.save(insert);
+        log.info("'{}', '{}' 파일 저장 요청을 받았습니다. 파일크기 : '{}'", insert.getPath(), insert.getFile().getOriginalFilename(), insert.getFile().getSize());
+
+        uploadService.writeFile(insert);
 
         return StatusResponse.builder()
                 .status(ApiStatus.SUCCESS)
                 .build();
     }
 
-    /**
-     * 파일 삭제
-     */
-    @DeleteMapping("/api/uploader/file")
+    @DeleteMapping("/api/file")
     public ApiResponse delete(@Validated @RequestBody UploadDto.delete delete) {
-        log.info("File Delete '{}', '{}'", delete.getPath(), delete.getFilename());
+        log.info("'{}', '{}' 파일 삭제 요청을 받았습니다.", delete.getPath(), delete.getFilename());
 
-        uploadService.delete(delete);
+        uploadService.deleteFile(delete);
 
         return StatusResponse.builder()
                 .status(ApiStatus.SUCCESS)

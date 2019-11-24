@@ -49,7 +49,7 @@ public class CommentApiController {
     }
 
     @DeleteMapping("/api/blogs/{blogId}/comments/{commentId}")
-    public ApiResponse removeCommentById(@PathVariable Long commentId) {
+    public ApiResponse removeExistedCommentByCommentId(@PathVariable Long commentId) {
         commentService.removeExistedCommentByCommentId(commentId);
 
         return StatusResponse.builder()

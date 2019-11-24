@@ -1,6 +1,15 @@
 archivesBaseName = 'podo-dev-storage'
 version = ''
 
+bootJar {
+    enabled = true
+}
+
+jar {
+    enabled = false
+}
+
+
 dependencies {
     implementation project(':podo-dev-core')
     implementation project(':podo-dev-rest-client')
