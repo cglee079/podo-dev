@@ -1,8 +1,9 @@
-package com.podo.pododev.web.domain.blog.tag;
+package com.podo.pododev.web.domain.blog.tag.api;
 
 import com.podo.pododev.core.rest.response.ApiResponse;
 import com.podo.pododev.core.rest.response.ApiStatus;
 import com.podo.pododev.core.rest.response.ListResponse;
+import com.podo.pododev.web.domain.blog.tag.service.BlogTagReadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,13 +14,13 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping
-public class BlogTagApiController {
+public class BlogTagReadApiController {
 
-    private final BlogTagService blogTagService;
+    private final BlogTagReadService blogTagReadService;
 
     @GetMapping("/api/tags")
     public ApiResponse getAllDistinctTagValues() {
-        final List<String> distinctTagValues = blogTagService.getAllDistinctTagValuesByBlogEnabledTrue();
+        final List<String> distinctTagValues = blogTagReadService.getAllDistinctTagValues(true);
 
         return ListResponse.builder()
                 .status(ApiStatus.SUCCESS)

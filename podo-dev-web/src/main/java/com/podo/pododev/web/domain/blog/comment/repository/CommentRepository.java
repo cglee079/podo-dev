@@ -1,5 +1,6 @@
-package com.podo.pododev.web.domain.blog.comment;
+package com.podo.pododev.web.domain.blog.comment.repository;
 
+import com.podo.pododev.web.domain.blog.comment.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,7 +1,7 @@
 package com.podo.pododev.web.global.config.security.oauth;
 
 import com.podo.pododev.web.domain.user.UserDto;
-import com.podo.pododev.web.domain.user.UserService;
+import com.podo.pododev.web.domain.user.service.UserWriteService;
 import com.podo.pododev.web.global.config.security.SecurityStore;
 import com.podo.pododev.web.global.config.security.UserRole;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ public class SocialLoginSuccessHandler implements AuthenticationSuccessHandler {
     @Value("${security.oauth2.redirect}")
     private String redirectUrl;
 
-    private final UserService userService;
+    private final UserWriteService userWriteService;
     private final SecurityStore securityStore;
 
     @Override
@@ -50,7 +50,7 @@ public class SocialLoginSuccessHandler implements AuthenticationSuccessHandler {
                 .build();
 
 
-        userService.writeUser(
+        userWriteService.writeUser(
                 UserDto.insert.builder()
                         .userId(googleId)
                         .email(googleEmail)
@@ -59,20 +59,13 @@ public class SocialLoginSuccessHandler implements AuthenticationSuccessHandler {
                         .build()
         );
 
-        googleUserDetails.addAuthority(new SimpleGrantedAuthority("ROLE_" + UserRole.USER));
+        googleUserDetails.setAuth(adminIds);
 
-        if (adminIds.contains(googleId)) {
-            googleUserDetails.addAuthority(new SimpleGrantedAuthority("ROLE_" + UserRole.ADMIN));
-        }
+        securityStore.loginByToken(tokenByGoogle, new GoogleAuthentication(googleUserDetails));
 
-        GoogleAuthentication googleAuthentication = new GoogleAuthentication(googleUserDetails);
-
-
-        securityStore.loginByToken(tokenByGoogle, googleAuthentication);
-
-
-        //Go Home
         res.sendRedirect(redirectUrl + "?token=" + tokenByGoogle);
     }
+
+
 
 }

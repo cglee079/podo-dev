@@ -1,4 +1,4 @@
-package com.podo.pododev.web.domain.blog.tag;
+package com.podo.pododev.web.domain.blog.tag.repository;
 
 import org.springframework.stereotype.Repository;
 
@@ -6,5 +6,5 @@ import java.util.List;
 
 @Repository
 public interface BlogTagRepositoryCustom {
-    List<String> findDistinctTagValue();
+    List<String> findDistinctTagValue(boolean enabled);
 }

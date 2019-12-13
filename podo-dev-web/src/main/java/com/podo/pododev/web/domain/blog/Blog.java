@@ -96,7 +96,9 @@ public class Blog extends UpdatableBaseEntity {
     }
 
     public void removeAttachImage(Long imageId) {
-        final Optional<AttachImage> attachImageOptional = this.attachImages.stream().filter(image -> image.getId().equals(imageId)).findFirst();
+        final Optional<AttachImage> attachImageOptional = this.attachImages.stream()
+                .filter(image -> image.getId().equals(imageId))
+                .findFirst();
 
         if (attachImageOptional.isPresent()) {
             final AttachImage attachImage = attachImageOptional.get();
@@ -111,7 +113,9 @@ public class Blog extends UpdatableBaseEntity {
     }
 
     public void removeAttachFile(Long fileId) {
-        final Optional<AttachFile> attachFileOptional = this.attachFiles.stream().filter(file -> file.getId().equals(fileId)).findFirst();
+        final Optional<AttachFile> attachFileOptional = this.attachFiles.stream()
+                .filter(file -> file.getId().equals(fileId))
+                .findFirst();
 
         if (attachFileOptional.isPresent()) {
             final AttachFile attachFile = attachFileOptional.get();

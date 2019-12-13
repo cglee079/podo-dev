@@ -1,5 +1,6 @@
-package com.podo.pododev.web.domain.blog.tag;
+package com.podo.pododev.web.domain.blog.tag.repository;
 
+import com.podo.pododev.web.domain.blog.tag.BlogTag;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BlogTagRepository extends JpaRepository<BlogTag, Long>, BlogTagRepositoryCustom {

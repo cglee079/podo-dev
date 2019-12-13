@@ -1,11 +1,11 @@
 package com.podo.pododev.web.domain.blog.service;
 
 import com.podo.pododev.core.rest.response.PageDto;
+import com.podo.pododev.web.domain.blog.AttachStatus;
 import com.podo.pododev.web.domain.blog.Blog;
 import com.podo.pododev.web.domain.blog.BlogDto;
-import com.podo.pododev.web.domain.blog.repository.BlogRepository;
-import com.podo.pododev.web.domain.blog.AttachStatus;
 import com.podo.pododev.web.domain.blog.exception.InvalidBlogIdException;
+import com.podo.pododev.web.domain.blog.repository.BlogRepository;
 import com.podo.pododev.web.domain.blog.tag.BlogTag;
 import com.podo.pododev.web.global.config.security.SecurityUtil;
 import com.podo.pododev.web.global.infra.solr.BlogSearchResultVo;
@@ -14,6 +14,7 @@ import com.podo.pododev.web.global.util.AttachLinkManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +25,8 @@ import org.springframework.util.StringUtils;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -75,18 +78,18 @@ public class BlogReadService {
         final Optional<Blog> blogOptional = blogRepository.findById(blogId);
 
         if (!blogOptional.isPresent()) {
-            throw new InvalidBlogIdException();
+            throw new InvalidBlogIdException(blogId);
         }
 
         final Blog blog = blogOptional.get();
 
         final LocalDateTime publishAt = blog.getPublishAt();
-        final Blog beforeBlog =  blogRepository.findOneBeforePublishAt(publishAt);
+        final Blog beforeBlog = blogRepository.findOneBeforePublishAt(publishAt);
         final Blog nextBlog = blogRepository.findOneAfterPublishAt(publishAt);
 
         final List<String> tagValues = blog.getTags().stream()
                 .map(BlogTag::getTagValue)
-                .collect(Collectors.toList());
+                .collect(toList());
 
         final List<Blog> relateBlogs = getRelatesByTagValues(tagValues);
 
@@ -103,21 +106,13 @@ public class BlogReadService {
         final Map<Blog, Integer> scores = getRelateScore(tagValues, relates);
 
         return scores.entrySet().stream()
-                .sorted((e1, e2) -> {
-                    int sort = e2.getValue().compareTo(e1.getValue()); //역순
-
-                    if (sort != 0) {
-                        return sort;
-                    }
-
-                    //태그 순위가 같을 경우 발행일순
-                    return e2.getKey().getPublishAt().compareTo(e1.getKey().getPublishAt());
-                })
+                .sorted(getRelateSortComparator())
                 .map(Map.Entry::getKey)
                 .limit(relatesSize)
-                .collect(Collectors.toList());
+                .collect(toList());
 
     }
+
 
     private Map<Blog, Integer> getRelateScore(List<String> tagValues, List<Blog> relates) {
 
@@ -129,7 +124,7 @@ public class BlogReadService {
 
                 List<String> tags = relate.getTags().stream()
                         .map(BlogTag::getTagValue)
-                        .collect(Collectors.toList());
+                        .collect(toList());
 
                 if (tags.contains(tag)) {
                     scores.merge(relate, 1, Integer::sum);
@@ -140,33 +135,50 @@ public class BlogReadService {
         return scores;
     }
 
+    private Comparator<Map.Entry<Blog, Integer>> getRelateSortComparator() {
+        return (relateOne, relateTwo) -> {
+            final Integer relateOneScore = relateOne.getValue();
+            final Integer relateTwoScore = relateTwo.getValue();
+            int sort = relateTwoScore.compareTo(relateOneScore);
 
-    public PageDto<BlogDto.responseGroup> paging(BlogDto.request request) {
-        final String searchValue = request.getSearch();
-        final Integer page = request.getPage();
-        final String tagValue = request.getTag();
+            if (sort != 0) {
+                return sort;
+            }
+
+            //태그 순위가 같을 경우 발행일순
+            final LocalDateTime relateTwoPublishAt = relateTwo.getKey().getPublishAt();
+            final LocalDateTime relateOnePublishAt = relateOne.getKey().getPublishAt();
+            return relateTwoPublishAt.compareTo(relateOnePublishAt);
+        };
+    }
+
+
+    public PageDto<BlogDto.responsePaging> paging(BlogDto.requestPaging requestPaging) {
+        final String searchValue = requestPaging.getSearch();
+        final Integer page = requestPaging.getPage();
+        final String tagValue = requestPaging.getTag();
         final Pageable pageable = PageRequest.of(page, pageSize);
         final Boolean enabled = getEnabledByUserAuth();
 
         if (!StringUtils.isEmpty(searchValue)) {
             return pagingBySearchValue(searchValue, pageable, enabled);
-        } else if (!StringUtils.isEmpty(tagValue)) {
-            return pagingByFilterTag(tagValue, pageable, enabled);
-        } else {
-            return pagingDefault(pageable, enabled);
         }
 
+        if (!StringUtils.isEmpty(tagValue)) {
+            return pagingByFilterTag(tagValue, pageable, enabled);
+        }
 
+        return pagingDefault(pageable, enabled);
     }
 
-    private PageDto<BlogDto.responseGroup> pagingDefault(Pageable pageable, Boolean enabled) {
+    private PageDto<BlogDto.responsePaging> pagingDefault(Pageable pageable, Boolean enabled) {
         final Page<Blog> blogs = blogRepository.paging(pageable, null, enabled);
 
-        final List<BlogDto.responseGroup> contents = blogs.stream()
-                .map(blog -> new BlogDto.responseGroup(blog, attachLinkManager.getStorageStaticLink()))
-                .collect(Collectors.toList());
+        final List<BlogDto.responsePaging> contents = blogs.stream()
+                .map(blog -> new BlogDto.responsePaging(blog, attachLinkManager.getStorageStaticLink()))
+                .collect(toList());
 
-        return PageDto.<BlogDto.responseGroup>builder()
+        return PageDto.<BlogDto.responsePaging>builder()
                 .contents(contents)
                 .currentPage(blogs.getPageable().getPageNumber())
                 .pageSize(blogs.getPageable().getPageSize())
@@ -175,21 +187,21 @@ public class BlogReadService {
                 .build();
     }
 
-    private PageDto<BlogDto.responseGroup> pagingBySearchValue(String searchValue, Pageable pageable, Boolean enabled) {
+    private PageDto<BlogDto.responsePaging> pagingBySearchValue(String searchValue, Pageable pageable, Boolean enabled) {
         final List<BlogSearchResultVo> results = mySolrClient.search(searchValue);
         final List<Long> ids = results.stream()
                 .map(BlogSearchResultVo::getBlogId)
-                .collect(Collectors.toList());
+                .collect(toList());
 
         final Map<Long, String> highlightDescription = results.stream().collect(Collectors.toMap(BlogSearchResultVo::getBlogId, BlogSearchResultVo::getContents));
 
         final Page<Blog> blogs = blogRepository.paging(pageable, ids, enabled);
 
-        final List<BlogDto.responseGroup> contents = blogs.stream()
-                .map(blog -> BlogDto.responseGroup.createWithHighlightDescription(blog, highlightDescription.get(blog.getId()), attachLinkManager.getStorageStaticLink()))
-                .collect(Collectors.toList());
+        final List<BlogDto.responsePaging> contents = blogs.stream()
+                .map(blog -> BlogDto.responsePaging.createWithHighlightDescription(blog, highlightDescription.get(blog.getId()), attachLinkManager.getStorageStaticLink()))
+                .collect(toList());
 
-        return PageDto.<BlogDto.responseGroup>builder()
+        return PageDto.<BlogDto.responsePaging>builder()
                 .contents(contents)
                 .currentPage(blogs.getPageable().getPageNumber())
                 .pageSize(blogs.getPageable().getPageSize())
@@ -199,18 +211,18 @@ public class BlogReadService {
 
     }
 
-    private PageDto<BlogDto.responseGroup> pagingByFilterTag(String tagValue, Pageable pageable, Boolean enabled) {
+    private PageDto<BlogDto.responsePaging> pagingByFilterTag(String tagValue, Pageable pageable, Boolean enabled) {
         final List<Long> blogIds = blogRepository.findByTagValues(tagValue, null).stream()
                 .map(Blog::getId)
-                .collect(Collectors.toList());
+                .collect(toList());
 
         final Page<Blog> blogs = blogRepository.paging(pageable, blogIds, enabled);
 
-        final List<BlogDto.responseGroup> contents = blogs.stream()
-                .map(blog -> new BlogDto.responseGroup(blog, attachLinkManager.getStorageStaticLink()))
-                .collect(Collectors.toList());
+        final List<BlogDto.responsePaging> contents = blogs.stream()
+                .map(blog -> new BlogDto.responsePaging(blog, attachLinkManager.getStorageStaticLink()))
+                .collect(toList());
 
-        return PageDto.<BlogDto.responseGroup>builder()
+        return PageDto.<BlogDto.responsePaging>builder()
                 .contents(contents)
                 .currentPage(blogs.getPageable().getPageNumber())
                 .pageSize(blogs.getPageable().getPageSize())
@@ -220,13 +232,11 @@ public class BlogReadService {
     }
 
     private Boolean getEnabledByUserAuth() {
-        Boolean enabled = true;
-
         if (SecurityUtil.isAdmin()) {
-            enabled = null;
+            return null;
         }
 
-        return enabled;
+        return true;
     }
 
 }

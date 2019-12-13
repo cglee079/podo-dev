@@ -1,6 +1,8 @@
-package com.podo.pododev.web.domain.blog.comment;
+package com.podo.pododev.web.domain.blog.comment.repository;
 
 import com.podo.pododev.web.domain.blog.QBlog;
+import com.podo.pododev.web.domain.blog.comment.Comment;
+import com.podo.pododev.web.domain.blog.comment.QComment;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;

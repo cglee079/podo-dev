@@ -15,7 +15,7 @@ import java.util.Objects;
 
 @RequiredArgsConstructor
 @RestController
-public class AuthApiController {
+public class AuthApi {
 
     private static final String[] NOT_ALLOWED_USER_AGENTS = {"KAKAOTALK"};
 

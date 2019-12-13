@@ -9,12 +9,12 @@ import com.podo.pododev.web.domain.blog.attachimage.AttachImageDto;
 import com.podo.pododev.web.domain.blog.attachimage.AttachImageStorageUploader;
 import com.podo.pododev.web.domain.blog.attachimage.save.AttachImageSave;
 import com.podo.pododev.web.domain.blog.attachimage.save.AttachImageSaveEntity;
-import com.podo.pododev.web.domain.blog.comment.CommentRepository;
+import com.podo.pododev.web.domain.blog.comment.repository.CommentRepository;
 import com.podo.pododev.web.domain.blog.exception.InvalidBlogIdException;
 import com.podo.pododev.web.domain.blog.repository.BlogRepository;
 import com.podo.pododev.web.domain.blog.tag.BlogTag;
 import com.podo.pododev.web.domain.blog.tag.BlogTagDto;
-import com.podo.pododev.web.domain.blog.tag.BlogTagRepository;
+import com.podo.pododev.web.domain.blog.tag.repository.BlogTagRepository;
 import com.podo.pododev.web.domain.blog.Blog;
 import com.podo.pododev.web.domain.blog.BlogDto;
 import com.podo.pododev.web.global.util.AttachLinkManager;
@@ -69,13 +69,7 @@ public class BlogWriteService {
     @SolrDataImport
     public void updateExistedBlogs(Long blogId, BlogDto.update updateBlog) {
 
-        final Optional<Blog> existedBlogOpt = blogRepository.findById(blogId);
-
-        if (!existedBlogOpt.isPresent()) {
-            throw new InvalidBlogIdException();
-        }
-
-        final Blog existedBlog = existedBlogOpt.get();
+        final Blog existedBlog = getExistedBlogByBlogId(blogId);
 
         attachImageStorageUploader.writeFileOfAttachImagesToStorage(updateBlog.getAttachImages());
         attachFileStorageUploader.writeFileOfAttachFilesToStorage(updateBlog.getAttachFiles());
@@ -129,13 +123,7 @@ public class BlogWriteService {
 
     @SolrDataImport
     public void removeByBlogId(Long blogId) {
-        final Optional<Blog> existedBlogOptional = blogRepository.findById(blogId);
-
-        if (!existedBlogOptional.isPresent()) {
-            throw new InvalidBlogIdException();
-        }
-
-        final Blog existedBlog = existedBlogOptional.get();
+        final Blog existedBlog = getExistedBlogByBlogId(blogId);
 
         deleteFileOfAttachFiles(existedBlog.getAttachFiles());
         deleteFileOfAttachImages(existedBlog.getAttachImages());
@@ -145,6 +133,7 @@ public class BlogWriteService {
 
         blogRepository.delete(existedBlog);
     }
+
 
     private void deleteFileOfAttachFiles(List<AttachFile> attachFiles) {
         for (AttachFile attachFile : attachFiles) {
@@ -162,21 +151,20 @@ public class BlogWriteService {
         }
     }
 
-    /**
-     * 게시글 조회수 +1
-     *
-     * @param blogId
-     */
     public void increaseHitCount(Long blogId) {
+        final Blog existedBlog =  getExistedBlogByBlogId(blogId);
+
+        existedBlog.increaseHitCount();
+    }
+
+    private Blog getExistedBlogByBlogId(Long blogId) {
         final Optional<Blog> existedBlogOptional = blogRepository.findById(blogId);
 
         if (!existedBlogOptional.isPresent()) {
-            throw new InvalidBlogIdException();
+            throw new InvalidBlogIdException(blogId);
         }
 
-        final Blog existedBlog = existedBlogOptional.get();
-
-        existedBlog.increaseHitCount();
+        return existedBlogOptional.get();
     }
 
 }

@@ -93,7 +93,7 @@ public class BlogDto {
 
     @Setter
     @Getter
-    public class request {
+    public class requestPaging {
         private Integer page;
         private String tag;
         private String search;
@@ -169,7 +169,7 @@ public class BlogDto {
     }
 
     @Getter
-    public static class responseGroup {
+    public static class responsePaging {
         private Long id;
         private String thumbnail;
         private String title;
@@ -181,7 +181,7 @@ public class BlogDto {
         private List<BlogTagDto.response> tags;
         private Boolean enabled;
 
-        public responseGroup(Blog blog, String uploaderDomain) {
+        public responsePaging(Blog blog, String uploaderDomain) {
             this.id = blog.getId();
             this.title = blog.getTitle();
             this.description = MarkdownUtil.escapeHtml(MarkdownUtil.extractPlainText(blog.getContents()));
@@ -211,11 +211,11 @@ public class BlogDto {
 
         }
 
-        public static responseGroup createWithHighlightDescription(Blog blog, String highlightDescription, String uploadServerDomain) {
-            final responseGroup responseGroup = new responseGroup(blog, uploadServerDomain);
-            responseGroup.description = highlightDescription;
+        public static responsePaging createWithHighlightDescription(Blog blog, String highlightDescription, String uploadServerDomain) {
+            final responsePaging responsePaging = new responsePaging(blog, uploadServerDomain);
+            responsePaging.description = highlightDescription;
 
-            return responseGroup;
+            return responsePaging;
         }
 
     }

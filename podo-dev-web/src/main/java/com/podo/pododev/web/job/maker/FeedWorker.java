@@ -14,7 +14,7 @@ import java.util.List;
 @Component
 public class FeedWorker implements Worker {
 
-    private final List<Worker> workers;
+    private final List<FeedMakeExecutor> feedMakeExecutors;
     private final BlogFeedService blogFeedService;
 
     @Override
@@ -27,8 +27,10 @@ public class FeedWorker implements Worker {
 
         log.info("웹 피드에 반영되지 않은 게시글을 확인하였습니다. 웹피드 제작 작업을 수행합니다");
 
-        for (Worker work : workers) {
-            work.doWork();
+        final List<BlogDto.feed> blogs = blogFeedService.findByEnabled();
+
+        for (FeedMakeExecutor feedMakeExecutor : feedMakeExecutors) {
+            feedMakeExecutor.doExecute(blogs);
         }
 
         blogFeedService.completeFeed();

@@ -1,6 +1,8 @@
-package com.podo.pododev.web.domain.blog.attachimage;
+package com.podo.pododev.web.domain.blog.attachimage.service;
 
 import com.podo.pododev.web.domain.blog.AttachStatus;
+import com.podo.pododev.web.domain.blog.attachimage.AttachImageDto;
+import com.podo.pododev.web.domain.blog.attachimage.AttachImageLocalWriter;
 import com.podo.pododev.web.domain.blog.attachimage.save.AttachImageSave;
 import com.podo.pododev.web.global.util.AttachLinkManager;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +18,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Transactional
 @Service
-public class AttachImageService {
+public class AttachImageWriteFileService {
 
     private final static String BASE64_IMAGE_NAME = "base64";
 

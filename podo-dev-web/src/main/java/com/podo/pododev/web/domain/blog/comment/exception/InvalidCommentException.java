@@ -6,8 +6,8 @@ import org.springframework.http.HttpStatus;
 
 public class InvalidCommentException extends ResponsibleException {
 
-    public InvalidCommentException() {
-        super("유효하지 않은 코멘트 입니다");
+    public InvalidCommentException(Long commentId) {
+        super("유효하지 않은 댓글 입니다. ID : " + commentId);
     }
 
     @Override

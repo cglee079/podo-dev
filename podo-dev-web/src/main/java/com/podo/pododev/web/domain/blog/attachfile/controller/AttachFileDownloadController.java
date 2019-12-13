@@ -1,7 +1,9 @@
-package com.podo.pododev.web.domain.blog.attachfile;
+package com.podo.pododev.web.domain.blog.attachfile.controller;
 
 import com.podo.pododev.core.util.MyRequestUtil;
 import com.podo.pododev.core.util.MyStringUtil;
+import com.podo.pododev.web.domain.blog.attachfile.AttachFileDto;
+import com.podo.pododev.web.domain.blog.attachfile.service.AttachReadService;
 import com.podo.pododev.web.global.util.writer.FileLocalWriter;
 import com.podo.pododev.core.util.MyPathUtils;
 import lombok.RequiredArgsConstructor;
@@ -26,13 +28,13 @@ public class AttachFileDownloadController {
     @Value("${infra.storage.static.internal}")
     private String storageStaticUrlAtInternal;
 
-    private final AttachFileService attachFileService;
+    private final AttachReadService attachReadService;
     private final FileLocalWriter fileLocalWriter;
 
     @GetMapping("/api/blogs/{blogId}/files/{fileId}")
     public void downloadFile(@PathVariable Long fileId, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        final AttachFileDto.download downloadFile = attachFileService.getAttachFileByAttachFileId(fileId);
+        final AttachFileDto.download downloadFile = attachReadService.getAttachFileByAttachFileId(fileId);
 
         final String downloadFileUrl = MyPathUtils.merge(storageStaticUrlAtInternal, downloadFile.getFilePath(), downloadFile.getFilename());
         final File tempDownloadFile = fileLocalWriter.writeFromUrl(downloadFileUrl, TEMP_DIRECTORY);

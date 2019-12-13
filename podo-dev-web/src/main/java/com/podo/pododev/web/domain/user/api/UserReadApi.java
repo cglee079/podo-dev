@@ -1,26 +1,22 @@
-package com.podo.pododev.web.domain.user;
+package com.podo.pododev.web.domain.user.api;
 
 import com.podo.pododev.core.rest.response.ApiResponse;
 import com.podo.pododev.core.rest.response.ApiStatus;
 import com.podo.pododev.core.rest.response.DataResponse;
+import com.podo.pododev.web.domain.user.UserDto;
+import com.podo.pododev.web.domain.user.service.UserReadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-public class UserApiController {
+public class UserReadApi {
 
-    private final UserService userService;
+    private final UserReadService userReadService;
 
-
-    /**
-     * 로그인 후 프론트엔드 사용자 정보 갱신
-     *
-     * @return 사용자 정보
-     */
     @GetMapping("/api/user")
     public ApiResponse getUserInfo() {
-        UserDto.response user = userService.getCurrentUser();
+        UserDto.response user = userReadService.getCurrentUser();
         return DataResponse.builder()
                 .status(ApiStatus.SUCCESS)
                 .result(user)

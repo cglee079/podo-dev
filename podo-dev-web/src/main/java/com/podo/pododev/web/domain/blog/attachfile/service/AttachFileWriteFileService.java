@@ -1,10 +1,13 @@
-package com.podo.pododev.web.domain.blog.attachfile;
+package com.podo.pododev.web.domain.blog.attachfile.service;
 
+import com.podo.pododev.core.util.MyPathUtils;
 import com.podo.pododev.web.domain.blog.AttachStatus;
+import com.podo.pododev.web.domain.blog.attachfile.AttachFile;
+import com.podo.pododev.web.domain.blog.attachfile.AttachFileDto;
+import com.podo.pododev.web.domain.blog.attachfile.AttachFileRepository;
 import com.podo.pododev.web.domain.blog.attachfile.exception.InvalidAttachFileException;
 import com.podo.pododev.web.global.util.AttachLinkManager;
 import com.podo.pododev.web.global.util.writer.FileLocalWriter;
-import com.podo.pododev.core.util.MyPathUtils;
 import com.podo.pododev.web.global.util.writer.MyFileUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +24,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Transactional
 @Service
-public class AttachFileService {
+public class AttachFileWriteFileService {
 
     private final AttachFileRepository attachFileRepository;
     private final FileLocalWriter fileLocalWriter;
@@ -46,15 +49,4 @@ public class AttachFileService {
                 .build();
     }
 
-    public AttachFileDto.download getAttachFileByAttachFileId(Long attachFileId) {
-        final Optional<AttachFile> attachFileOptional = attachFileRepository.findById(attachFileId);
-
-        if (!attachFileOptional.isPresent()) {
-            throw new InvalidAttachFileException();
-        }
-
-        final AttachFile attachFile = attachFileOptional.get();
-
-        return new AttachFileDto.download(attachFile, attachLinkManager.getStorageStaticLink());
-    }
 }

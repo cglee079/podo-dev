@@ -1,5 +1,6 @@
 package com.podo.pododev.web.global.config.security.oauth;
 
+import com.podo.pododev.web.global.config.security.UserRole;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
@@ -8,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Getter
 public class GoogleUserDetails implements UserDetails {
@@ -61,8 +63,11 @@ public class GoogleUserDetails implements UserDetails {
         return true;
     }
 
-    public void addAuthority(SimpleGrantedAuthority auth) {
-        this.authorities.add(auth);
-    }
+    public void setAuth(List<String> adminIds) {
+        this.authorities.add(new SimpleGrantedAuthority("ROLE_" + UserRole.USER));
 
+        if (adminIds.contains(googleId)) {
+            this.authorities.add(new SimpleGrantedAuthority("ROLE_" + UserRole.ADMIN));
+        }
+    }
 }

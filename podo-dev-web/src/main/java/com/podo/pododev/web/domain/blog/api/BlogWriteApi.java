@@ -1,6 +1,7 @@
-package com.podo.pododev.web.domain.blog;
+package com.podo.pododev.web.domain.blog.api;
 
 import com.podo.pododev.core.rest.response.*;
+import com.podo.pododev.web.domain.blog.BlogDto;
 import com.podo.pododev.web.domain.blog.service.BlogReadService;
 import com.podo.pododev.web.domain.blog.service.BlogWriteService;
 import lombok.RequiredArgsConstructor;
@@ -16,52 +17,9 @@ import java.util.Set;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping
-public class BlogApiController {
+public class BlogWriteApi {
 
     private final BlogWriteService blogWriteService;
-    private final BlogReadService blogReadService;
-
-    @GetMapping("/api/blogs/archive")
-    public ApiResponse getArchive() {
-
-        final Map<Integer, List<BlogDto.archive>> archive = blogReadService.getArchiveMapByYearOfPublishAt();
-
-        return DataResponse.builder()
-                .status(ApiStatus.SUCCESS)
-                .result(archive)
-                .build();
-    }
-
-    @GetMapping("/api/blogs/{blogId}")
-    public ApiResponse get(@PathVariable Long blogId) {
-
-        final BlogDto.response blog = blogReadService.getByBlogId(blogId);
-
-        return DataResponse.builder()
-                .status(ApiStatus.SUCCESS)
-                .result(blog)
-                .build();
-    }
-
-    @GetMapping("/api/blogs")
-    public ApiResponse paging(BlogDto.request request) {
-        final PageDto<BlogDto.responseGroup> blogs = blogReadService.paging(request);
-
-        return DataResponse.builder()
-                .status(ApiStatus.SUCCESS)
-                .result(blogs)
-                .build();
-    }
-
-    @GetMapping("/api/blogs/words")
-    public ApiResponse facets(@RequestParam String searchValue) {
-        final Set<String> facets = blogReadService.getIndexedWordByKeyword(searchValue);
-
-        return ListResponse.builder()
-                .status(ApiStatus.SUCCESS)
-                .result(facets)
-                .build();
-    }
 
 
     @PostMapping("/api/blogs")

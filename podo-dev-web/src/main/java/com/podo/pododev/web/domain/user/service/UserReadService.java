@@ -1,5 +1,8 @@
-package com.podo.pododev.web.domain.user;
+package com.podo.pododev.web.domain.user.service;
 
+import com.podo.pododev.web.domain.user.User;
+import com.podo.pododev.web.domain.user.UserDto;
+import com.podo.pododev.web.domain.user.UserRepository;
 import com.podo.pododev.web.domain.user.exception.NoAuthenticatedException;
 import com.podo.pododev.web.global.config.security.SecurityUtil;
 import com.podo.pododev.web.global.config.security.oauth.GoogleUserDetails;
@@ -13,7 +16,7 @@ import java.util.Optional;
 @Log
 @RequiredArgsConstructor
 @Service
-public class UserService {
+public class UserReadService {
 
     private final UserRepository userRepository;
 
@@ -27,23 +30,5 @@ public class UserService {
         return UserDto.response.createByGoogleUserDetails(googleUserDetails);
     }
 
-    public void writeUser(UserDto.insert insert) {
-
-        final Optional<User> userOptional = userRepository.findByUserId(insert.getUserId());
-
-        if (!userOptional.isPresent()) {
-            final User newUser = insert.toEntity();
-            userRepository.save(newUser);
-            return;
-        }
-
-        final User existedUser = userOptional.get();
-
-        final String newEmail = insert.getEmail();
-        final String newPicture = insert.getPicture();
-        final String newUsername = insert.getUsername();
-
-        existedUser.updateUserInfo(newUsername, newEmail, newPicture);
-    }
 }
 
