@@ -3,7 +3,7 @@ package com.podo.pododev.web.domain.blog.comment.service;
 import com.podo.pododev.web.domain.blog.Blog;
 import com.podo.pododev.web.domain.blog.comment.Comment;
 import com.podo.pododev.web.domain.blog.comment.CommentDto;
-import com.podo.pododev.web.domain.blog.comment.exception.InvalidCommentException;
+import com.podo.pododev.web.domain.blog.comment.exception.InvalidCommentIdException;
 import com.podo.pododev.web.domain.blog.comment.exception.MaxDepthCommentException;
 import com.podo.pododev.web.domain.blog.comment.repository.CommentRepository;
 import com.podo.pododev.web.domain.blog.exception.InvalidBlogIdException;
@@ -184,7 +184,7 @@ public class CommentWriteService {
         final Optional<Comment> existedCommentOptional = commentRepository.findById(commentId);
 
         if (!existedCommentOptional.isPresent()) {
-            throw new InvalidCommentException(commentId);
+            throw new InvalidCommentIdException(commentId);
         }
 
         return existedCommentOptional.get();
