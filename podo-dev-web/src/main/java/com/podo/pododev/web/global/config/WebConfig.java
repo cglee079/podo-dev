@@ -44,7 +44,8 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**");
 
         registry.addInterceptor(blogViewLogInterceptor)
-                .addPathPatterns("/api/blogs/*");
+                .addPathPatterns("/api/blogs/*")
+                .excludePathPatterns("/api/blogs/archive");
     }
 
 }
