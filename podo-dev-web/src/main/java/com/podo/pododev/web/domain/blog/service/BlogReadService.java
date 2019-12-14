@@ -7,7 +7,6 @@ import com.podo.pododev.web.domain.blog.BlogDto;
 import com.podo.pododev.web.domain.blog.exception.InvalidBlogIdException;
 import com.podo.pododev.web.domain.blog.repository.BlogRepository;
 import com.podo.pododev.web.domain.blog.tag.BlogTag;
-import com.podo.pododev.web.global.config.security.SecurityUtil;
 import com.podo.pododev.web.global.infra.solr.BlogSearchResultVo;
 import com.podo.pododev.web.global.infra.solr.MySolrClient;
 import com.podo.pododev.web.global.util.AttachLinkManager;
@@ -15,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -50,9 +48,10 @@ public class BlogReadService {
         return mySolrClient.getIndexedWordsByKeyword(keyword);
     }
 
-    @Cacheable(value = "getBlogArchive")
-    public Map<Integer, List<BlogDto.archive>> getArchiveMapByYearOfPublishAt() {
-        final List<Blog> blogs = blogRepository.findAllByEnabledAndOrderByPublishAtDesc(getEnabledByUserAuth());
+    @Cacheable(value = "getBlogArchive", key = "#isAdmin")
+    public Map<Integer, List<BlogDto.archive>> getArchiveMapByYearOfPublishAt(Boolean isAdmin) {
+        final Boolean enabled = isAdmin ? null : true;
+        final List<Blog> blogs = blogRepository.findAllByEnabledAndOrderByPublishAtDesc(enabled);
         return toMapByYearOfPublishAt(blogs);
     }
 
@@ -154,13 +153,13 @@ public class BlogReadService {
     }
 
 
-    @Cacheable(value = "pagingBlogs", key = "#requestPaging.hashCode()")
-    public PageDto<BlogDto.responsePaging> paging(BlogDto.requestPaging requestPaging) {
+    @Cacheable(value = "pagingBlogs", key = "T(String).valueOf(#requestPaging.hashCode())  + #isAdmin.toString()")
+    public PageDto<BlogDto.responsePaging> paging(BlogDto.requestPaging requestPaging, Boolean isAdmin) {
         final String searchValue = requestPaging.getSearch();
         final Integer page = requestPaging.getPage();
         final String tagValue = requestPaging.getTag();
         final Pageable pageable = PageRequest.of(page, pageSize);
-        final Boolean enabled = getEnabledByUserAuth();
+        final Boolean enabled = isAdmin ? null : true;
 
         if (!StringUtils.isEmpty(searchValue)) {
             return pagingBySearchValue(searchValue, pageable, enabled);
@@ -231,14 +230,6 @@ public class BlogReadService {
                 .totalElements(blogs.getTotalElements())
                 .totalPages(blogs.getTotalPages())
                 .build();
-    }
-
-    private Boolean getEnabledByUserAuth() {
-        if (SecurityUtil.isAdmin()) {
-            return null;
-        }
-
-        return true;
     }
 
 }

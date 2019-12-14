@@ -3,6 +3,7 @@ package com.podo.pododev.web.domain.blog.api;
 import com.podo.pododev.core.rest.response.*;
 import com.podo.pododev.web.domain.blog.BlogDto;
 import com.podo.pododev.web.domain.blog.service.BlogReadService;
+import com.podo.pododev.web.global.config.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class BlogReadApi {
     @GetMapping("/api/blogs/archive")
     public ApiResponse getArchive() {
 
-        final Map<Integer, List<BlogDto.archive>> archive = blogReadService.getArchiveMapByYearOfPublishAt();
+        final Map<Integer, List<BlogDto.archive>> archive = blogReadService.getArchiveMapByYearOfPublishAt(SecurityUtil.isAdmin());
 
         return DataResponse.builder()
                 .status(ApiStatus.SUCCESS)
@@ -43,7 +44,7 @@ public class BlogReadApi {
 
     @GetMapping("/api/blogs")
     public ApiResponse paging(BlogDto.requestPaging requestPaging) {
-        final PageDto<BlogDto.responsePaging> blogs = blogReadService.paging(requestPaging);
+        final PageDto<BlogDto.responsePaging> blogs = blogReadService.paging(requestPaging, SecurityUtil.isAdmin());
 
         return DataResponse.builder()
                 .status(ApiStatus.SUCCESS)
