@@ -41,7 +41,7 @@ public class CommentNotifier {
         final Long blogId = getBlogId(joinPoint);
         final String username = SecurityUtil.getUsername();
         final String contents = comment.getContents();
-        final BlogDto.response blog = blogReadService.getByBlogId(blogId);
+        final BlogDto.response blog = blogReadService.getExistedBlogByBlogId(blogId);
         final StringBuilder message = new StringBuilder();
 
         message.append("#게시글에 댓글이 등록되었습니다.\n")

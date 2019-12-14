@@ -20,6 +20,8 @@ import com.podo.pododev.web.domain.blog.BlogDto;
 import com.podo.pododev.web.global.util.AttachLinkManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,6 +44,10 @@ public class BlogWriteService {
     private final BlogTagRepository blogTagRepository;
 
 
+    @Caching(evict = {
+            @CacheEvict(value = "pagingBlogs", allEntries = true),
+            @CacheEvict(value = "getBlogArchive", allEntries = true)
+    })
     @SolrDataImport
     public void insertNewBlog(BlogDto.insert insertBlog) {
 
@@ -66,6 +72,10 @@ public class BlogWriteService {
         }
     }
 
+    @Caching(evict = {
+            @CacheEvict(value = "pagingBlogs", allEntries = true),
+            @CacheEvict(value = "getBlogArchive", allEntries = true)
+    })
     @SolrDataImport
     public void updateExistedBlogs(Long blogId, BlogDto.update updateBlog) {
 
@@ -121,6 +131,11 @@ public class BlogWriteService {
         saveBlogTags(blog, tags);
     }
 
+    @Caching(evict = {
+            @CacheEvict(value = "getBlog", key = "#blogId"),
+            @CacheEvict(value = "pagingBlogs", allEntries = true),
+            @CacheEvict(value = "getBlogArchive", allEntries = true)
+    })
     @SolrDataImport
     public void removeByBlogId(Long blogId) {
         final Blog existedBlog = getExistedBlogByBlogId(blogId);
@@ -151,9 +166,9 @@ public class BlogWriteService {
         }
     }
 
+    @CacheEvict(value = "getBlog", key = "#blogId")
     public void increaseHitCount(Long blogId) {
-        final Blog existedBlog =  getExistedBlogByBlogId(blogId);
-
+        final Blog existedBlog = getExistedBlogByBlogId(blogId);
         existedBlog.increaseHitCount();
     }
 

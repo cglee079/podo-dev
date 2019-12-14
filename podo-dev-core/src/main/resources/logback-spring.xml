@@ -12,22 +12,24 @@
                 <maxFileSize>5MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
-
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>INFO</level>
-        </filter>
     </appender>
+
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %highlight(%-5level) %cyan(%logger{36}) - %msg %n</pattern>
         </encoder>
+
+
     </appender>
 
     <root level="INFO">
         <appender-ref ref="FILE_INFO"/>
         <appender-ref ref="STDOUT"/>
     </root>
+
+
+<!--    <logger name="org.springframework.cache" level="trace"/>-->
 
 </configuration>
 

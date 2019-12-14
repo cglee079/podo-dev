@@ -11,6 +11,7 @@ import com.podo.pododev.web.domain.blog.tag.BlogTagDto;
 import com.podo.pododev.core.util.DateTimeFormatUtil;
 import com.podo.pododev.core.util.MarkdownUtil;
 import com.podo.pododev.core.util.MyPathUtils;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -93,6 +94,7 @@ public class BlogDto {
 
     @Setter
     @Getter
+    @EqualsAndHashCode
     public class requestPaging {
         private Integer page;
         private String tag;

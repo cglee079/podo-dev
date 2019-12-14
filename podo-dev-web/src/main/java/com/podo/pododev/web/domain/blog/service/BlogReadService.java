@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -49,6 +50,7 @@ public class BlogReadService {
         return mySolrClient.getIndexedWordsByKeyword(keyword);
     }
 
+    @Cacheable(value = "getBlogArchive")
     public Map<Integer, List<BlogDto.archive>> getArchiveMapByYearOfPublishAt() {
         final List<Blog> blogs = blogRepository.findAllByEnabledAndOrderByPublishAtDesc(getEnabledByUserAuth());
         return toMapByYearOfPublishAt(blogs);
@@ -74,7 +76,8 @@ public class BlogReadService {
     }
 
 
-    public BlogDto.response getByBlogId(Long blogId) {
+    @Cacheable(value = "getBlog", key = "#blogId")
+    public BlogDto.response getExistedBlogByBlogId(Long blogId) {
         final Optional<Blog> blogOptional = blogRepository.findById(blogId);
 
         if (!blogOptional.isPresent()) {
@@ -97,7 +100,6 @@ public class BlogReadService {
     }
 
     private List<Blog> getRelatesByTagValues(List<String> tagValues) {
-
         if (tagValues.isEmpty()) {
             return Collections.emptyList();
         }
@@ -110,7 +112,6 @@ public class BlogReadService {
                 .map(Map.Entry::getKey)
                 .limit(relatesSize)
                 .collect(toList());
-
     }
 
 
@@ -153,6 +154,7 @@ public class BlogReadService {
     }
 
 
+    @Cacheable(value = "pagingBlogs", key = "#requestPaging.hashCode()")
     public PageDto<BlogDto.responsePaging> paging(BlogDto.requestPaging requestPaging) {
         final String searchValue = requestPaging.getSearch();
         final Integer page = requestPaging.getPage();

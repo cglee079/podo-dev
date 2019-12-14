@@ -9,6 +9,7 @@ import org.telegram.telegrambots.ApiContextInitializer;
 
 import java.util.TimeZone;
 
+@EnableCaching
 @EnableScheduling
 @EnableAspectJAutoProxy
 @SpringBootApplication

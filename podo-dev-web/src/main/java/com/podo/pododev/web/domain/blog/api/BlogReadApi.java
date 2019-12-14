@@ -33,7 +33,7 @@ public class BlogReadApi {
     @GetMapping("/api/blogs/{blogId}")
     public ApiResponse findByBlogId(@PathVariable Long blogId) {
 
-        final BlogDto.response blog = blogReadService.getByBlogId(blogId);
+        final BlogDto.response blog = blogReadService.getExistedBlogByBlogId(blogId);
 
         return DataResponse.builder()
                 .status(ApiStatus.SUCCESS)

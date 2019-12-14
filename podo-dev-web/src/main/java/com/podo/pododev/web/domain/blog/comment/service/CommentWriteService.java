@@ -16,6 +16,8 @@ import com.podo.pododev.web.global.config.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +37,11 @@ public class CommentWriteService {
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
 
+    @Caching(evict = {
+            @CacheEvict(value = "getBlogComment", allEntries = true),
+            @CacheEvict(value = "getRecentComments", allEntries = true),
+            @CacheEvict(value = "pagingBlogs", allEntries = true)
+    })
     public void insertNewComment(Long blogId, CommentDto.insert insert) {
 
         final String currentUserId = SecurityUtil.getUserId();
@@ -59,7 +66,7 @@ public class CommentWriteService {
     private User getCurrentUser(String currentUserId) {
         final Optional<User> currentUserOptional = userRepository.findByUserId(currentUserId);
 
-        if(!currentUserOptional.isPresent()){
+        if (!currentUserOptional.isPresent()) {
             throw new InvalidUserIdException(currentUserId);
         }
 
@@ -69,7 +76,7 @@ public class CommentWriteService {
     private Blog getBlogByBlogId(Long blogId) {
         final Optional<Blog> existedBlogOptional = blogRepository.findById(blogId);
 
-        if(!existedBlogOptional.isPresent()){
+        if (!existedBlogOptional.isPresent()) {
             throw new InvalidBlogIdException(blogId);
         }
 
@@ -127,6 +134,11 @@ public class CommentWriteService {
     }
 
 
+    @Caching(evict = {
+            @CacheEvict(value = "getBlogComment", allEntries = true),
+            @CacheEvict(value = "getRecentComments", allEntries = true),
+            @CacheEvict(value = "pagingBlogs", allEntries = true)
+    })
     public void removeExistedCommentByCommentId(Long commentId) {
         final String currentUserId = SecurityUtil.getUserId();
 

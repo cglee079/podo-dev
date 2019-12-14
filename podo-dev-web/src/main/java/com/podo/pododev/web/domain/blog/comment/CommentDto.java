@@ -14,7 +14,7 @@ public class CommentDto {
 
     @Setter
     @Getter
-    public static class request {
+    public static class requestPaging {
         private Integer page;
     }
 

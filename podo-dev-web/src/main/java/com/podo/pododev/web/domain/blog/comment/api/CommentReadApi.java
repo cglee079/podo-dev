@@ -27,9 +27,9 @@ public class CommentReadApi {
     }
 
     @GetMapping("/api/blogs/{blogId}/comments")
-    public ApiResponse paging(@PathVariable Long blogId, CommentDto.request request) {
+    public ApiResponse paging(@PathVariable Long blogId, CommentDto.requestPaging requestPaging) {
 
-        final PageDto<CommentDto.response> comments = commentReadService.paging(blogId, request);
+        final PageDto<CommentDto.response> comments = commentReadService.paging(blogId, requestPaging);
 
         return DataResponse.builder()
                 .status(ApiStatus.SUCCESS)
