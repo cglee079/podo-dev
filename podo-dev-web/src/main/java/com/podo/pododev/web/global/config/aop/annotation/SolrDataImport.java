@@ -1,4 +1,4 @@
-package com.podo.pododev.web.domain.blog.aop;
+package com.podo.pododev.web.global.config.aop.annotation;
 
 
 import java.lang.annotation.ElementType;

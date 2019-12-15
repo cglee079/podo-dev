@@ -12,6 +12,7 @@ import com.podo.pododev.web.domain.user.User;
 import com.podo.pododev.web.domain.user.UserRepository;
 import com.podo.pododev.web.domain.user.exception.InvalidUserIdException;
 import com.podo.pododev.web.domain.user.exception.NoAuthenticatedException;
+import com.podo.pododev.web.global.config.cache.annotation.AllCommentCacheEvict;
 import com.podo.pododev.web.global.config.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,11 +38,7 @@ public class CommentWriteService {
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
 
-    @Caching(evict = {
-            @CacheEvict(value = "getBlogComment", allEntries = true),
-            @CacheEvict(value = "getRecentComments", allEntries = true),
-            @CacheEvict(value = "pagingBlogs", allEntries = true)
-    })
+    @AllCommentCacheEvict
     public void insertNewComment(Long blogId, CommentDto.insert insert) {
 
         final String currentUserId = SecurityUtil.getUserId();
@@ -134,11 +131,7 @@ public class CommentWriteService {
     }
 
 
-    @Caching(evict = {
-            @CacheEvict(value = "getBlogComment", allEntries = true),
-            @CacheEvict(value = "getRecentComments", allEntries = true),
-            @CacheEvict(value = "pagingBlogs", allEntries = true)
-    })
+    @AllCommentCacheEvict
     public void removeExistedCommentByCommentId(Long commentId) {
         final String currentUserId = SecurityUtil.getUserId();
 
