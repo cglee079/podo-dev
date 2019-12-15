@@ -102,8 +102,15 @@
              */
             handleScroll() {
                 const blogRows = document.getElementsByClassName("wrap-blog-row")
-                const lastBlogRow = blogRows.item(blogRows.length - this.pageSize + 1)
 
+                const lastBlogRowIndex = blogRows.length - this.pageSize + 1;
+
+                if(lastBlogRowIndex < 0){
+                    return
+                }
+
+
+                const lastBlogRow = blogRows.item(lastBlogRowIndex)
                 const scrollBottom = window.pageYOffset + window.innerHeight
 
                 if (blogRows.length

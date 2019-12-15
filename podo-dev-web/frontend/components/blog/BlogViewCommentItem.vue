@@ -110,7 +110,7 @@
         }
 
         .comment {
-            padding: 25px 20px 25px 20px;
+            padding: 4% 3%;
 
             .header {
                 display: flex;

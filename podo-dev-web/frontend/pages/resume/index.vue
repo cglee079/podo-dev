@@ -1,7 +1,7 @@
 <template>
     <section id="resume" :class="$mq">
         <div id="name">
-            <span>Lee Changoo => { Podo }</span>
+            <h1>Lee Changoo => { Podo }</h1>
         </div>
 
         <div id="info">
@@ -128,7 +128,7 @@
                 padding-left: 20px;
             }
 
-            span {
+            h1 {
                 font-size: 2rem;
                 font-weight: bold;
                 padding-bottom: 3px;

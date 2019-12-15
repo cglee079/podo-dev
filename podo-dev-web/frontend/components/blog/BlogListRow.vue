@@ -77,7 +77,7 @@
         align-items: center;
         cursor: pointer;
         border-bottom: 1px solid #F1F1F1;
-        padding: 40px 20px;
+        padding: 5% 20px;
 
         &.disabled {
             opacity: 0.5;
@@ -104,7 +104,7 @@
                 }
 
                 .description {
-                    font-size: 0.9rem;
+                    font-size: 0.85rem;
                 }
 
                 .info {
@@ -157,6 +157,7 @@
                 white-space: normal;
                 -webkit-line-clamp: 2;
                 max-height: 3.5rem;
+                font-size: 0.95rem;
                 color: #797979;
                 word-break: break-all;
                 margin-bottom: 15px;

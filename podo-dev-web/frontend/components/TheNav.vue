@@ -1,8 +1,9 @@
 <template>
+    <div id="wrapNav">
     <header id="nav" :class="$mq">
         <div id="logo">
             <router-link :to="{name : 'index'}">
-                <img src="@/assets/podo-dev.svg" width="70px"/>
+                <img src="@/assets/podo-dev.svg" width="57px"/>
             </router-link>
         </div>
 
@@ -23,6 +24,11 @@
             @logout="clickLogout"
         />
     </header>
+
+    <client-only>
+        <vue-scroll-progress-bar height="2px" backgroundColor="#777777" zIndex="0" containerColor="linear-gradient(to bottom, rgb(220, 220, 220), rgb(255, 255, 255))"/>
+    </client-only>
+    </div>
 
 </template>
 
@@ -64,21 +70,30 @@
 </script>
 
 <style lang="scss" scoped>
+    /deep/ .progress-bar-container--container {
+        position: fixed;
+        width: 100%;
+        top: var(--nav-height) !important;
+        left: 0;
+    }
 
-    #nav {
+    #wrapNav{
         z-index: 9;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
         top: 0;
         left: 0;
         right: 0;
+        position:sticky;
         background: #FFFFFF;
+        opacity: 0.95;
         height: var(--nav-height);
-        border-bottom: 1px solid #E7E7E7;
-        padding: 0px 5%;
-        position: sticky;
+    }
 
+    #nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100%;
+        padding: 0px 5%;
 
         #logo {
             margin-top: 5px;

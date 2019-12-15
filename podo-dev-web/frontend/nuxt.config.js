@@ -1,5 +1,5 @@
 module.exports = {
-    mode: 'spa',
+    // mode: 'spa',
     debug: true,
 
     serverMiddleware: ['redirect-ssl'],
@@ -63,10 +63,11 @@ module.exports = {
         {src: '~plugins/mixins.js'},
         {src: '~plugins/tooltip.js'},
         {src: '~plugins/autocomplete.js'},
+        {src: '~plugins/scroll-progressbar.js'},
         {src: '~plugins/toast-editor.js'}
     ],
 
-    loading: {color: '#036dd6'},
+    loading: {color: '#FFFFFFFF'},
 
     modules: [
         '@nuxtjs/markdownit',

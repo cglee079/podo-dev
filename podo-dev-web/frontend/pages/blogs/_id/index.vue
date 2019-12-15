@@ -158,7 +158,7 @@
                     const meta = {
                         url: process.env.frontendUrl + "/blogs/" + blog.id,
                         title: process.env.name + " : " + blog.title,
-                        
+
                         keywords: keywords.join(", "),
                         description: blog.description.length > 300 ? blog.description.substring(0, 300) : blog.description,
                         thumbnail: blog.thumbnail ? blog.thumbnail : '/og-image.png',
@@ -219,7 +219,7 @@
                 this.toastConfirm("정말 삭제하시겠습니까?", () => {
                     this.$axios
                         .delete('/api/blogs/' + blogId)
-                        .then(res => {
+                        .then(() => {
                             this.$router.push({name: 'index'})
                         })
                         .catch(err => {
@@ -280,6 +280,7 @@
 </script>
 
 <style lang="scss" scoped>
+
     #wrapBlog {
         max-width: var(--max-width);
         margin: 0px auto;
@@ -299,10 +300,9 @@
             }
 
             #attachFiles {
-                .attachFile {
+                .attach-file {
                     padding-left: 5%;
                     padding-right: 5%;
-
                 }
             }
         }

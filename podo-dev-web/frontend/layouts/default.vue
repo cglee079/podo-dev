@@ -84,8 +84,8 @@
 
 <style lang="scss">
     :root {
-        --nav-height: 65px;
-        --max-width: 800px;
+        --nav-height: 60px;
+        --max-width: 770px;
         --wild-max-width: 900px;
     }
 
