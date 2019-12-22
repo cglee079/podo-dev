@@ -1,6 +1,5 @@
 <template>
     <div id="wrap" :class="$mq">
-
         <div>
             <h1>Apache License 2.0</h1>
             <div>
@@ -206,7 +205,8 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-            </pre>
+            </pre
+                >
             </div>
         </div>
 
@@ -237,60 +237,54 @@ THE SOFTWARE.
             </pre>
         </div>
     </div>
-
 </template>
 
 <script>
-    export default {
-        name: "license",
+export default {
+    name: "license",
 
-        head() {
-            return {
-                title: process.env.name + " : license",
-                meta: [
-                    {hid: "description", name: 'description', content: "podo-dev, license"},
-                    {property: 'og:description', content: "podo-dev, license"},
-                ],
-                link: [
-                    {rel: 'canonical', href: process.env.frontendUrl + "/license"},
-                ]
-            }
-        },
+    head() {
+        return {
+            title: process.env.name + " : license",
+            meta: [
+                { hid: "description", name: "description", content: "podo-dev, license" },
+                { property: "og:description", content: "podo-dev, license" }
+            ],
+            link: [{ rel: "canonical", href: process.env.frontendUrl + "/license" }]
+        };
     }
+};
 </script>
 
 <style lang="scss" scoped>
+#wrap {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
 
-    #wrap {
-        display: flex;
-        flex-flow: column;
-        align-items: center;
-
-        &.mobile, &.tablet{
-            padding-left: 5%;
-            padding-right: 5%;
-        }
-
-        > div {
-            padding: 30px 5%;
-            background: #F7F7F7;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            overflow: auto;
-
-
-            h1 {
-                text-align: center;
-                margin-bottom: 20px;
-            }
-
-            pre {
-                display: inline-block;
-                word-break: break-all;
-                white-space: pre-line;
-            }
-        }
+    &.mobile,
+    &.tablet {
+        padding-left: 5%;
+        padding-right: 5%;
     }
 
+    > div {
+        padding: 30px 5%;
+        background: #f7f7f7;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        overflow: auto;
 
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        pre {
+            display: inline-block;
+            word-break: break-all;
+            white-space: pre-line;
+        }
+    }
+}
 </style>

@@ -90,8 +90,8 @@ public class Comment extends BaseEntity {
         return ((double) (childCount + 1) / Math.pow(10, 3 * depth)) + sort;
     }
 
-    public boolean isWritedBy(String userId) {
-        return getCreateBy().equals(userId);
+    public boolean isWrittenBy(String userId) {
+        return this.writer.getUserId().equals(userId);
     }
 
     public boolean hasChild() {
