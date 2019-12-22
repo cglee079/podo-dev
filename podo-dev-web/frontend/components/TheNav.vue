@@ -7,6 +7,7 @@
             </router-link>
         </div>
 
+
         <the-nav-desktop
             id="theNavDesktop"
             ref="theNavDesktop"
@@ -96,6 +97,7 @@
         padding: 0px 5%;
 
         #logo {
+            z-index: 1;
             margin-top: 5px;
         }
 

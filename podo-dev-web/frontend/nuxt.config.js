@@ -1,6 +1,7 @@
 module.exports = {
     // mode: 'spa',
-    debug: true,
+    // debug: true,
+    loading: false,
 
     serverMiddleware: ['redirect-ssl'],
 
@@ -67,7 +68,7 @@ module.exports = {
         {src: '~plugins/toast-editor.js'}
     ],
 
-    loading: {color: '#FFFFFFFF'},
+
 
     modules: [
         '@nuxtjs/markdownit',
