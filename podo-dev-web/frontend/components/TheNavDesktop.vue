@@ -5,7 +5,7 @@
                 <router-link :to="{ name: 'resume' }">이력</router-link>
             </span>
             <span>
-                <router-link :to="{ name: 'index' }">블로그</router-link>
+                <router-link :to="{ name: 'blogs' }">블로그</router-link>
             </span>
             <span><router-link :to="{ name: 'log' }">로그</router-link></span>
             <span v-if="userinfo.isAdmin && isLogin">

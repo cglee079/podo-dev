@@ -30,7 +30,7 @@ export default {
                 return;
             }
 
-            this.$router.push({ name: "index", query: { search: result } });
+            this.$router.push({name: "blogs", query: {search: result}});
         }
     }
 };

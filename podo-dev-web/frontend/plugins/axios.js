@@ -1,5 +1,5 @@
 export default ({ $axios, redirect, app, store }) => {
-    $axios.defaults.timeout = 10000;
+    $axios.defaults.timeout = 30000;
 
     $axios.interceptors.response.use(
         res => {
@@ -7,7 +7,10 @@ export default ({ $axios, redirect, app, store }) => {
         },
 
         err => {
-            console.log(err);
+            if (err.response && err.response.status && err.response.status === 500) {
+                app.$toast.show("죄송합니다, 알 수 없는 에러가 발생했습니다");
+            }
+
 
             if (err.response && err.response.status && err.response.status === 401) {
                 app.$toast.show("죄송합니다, 권한이 없습니다");

@@ -9,7 +9,7 @@
                     <span v-for="tag in blog.tags" v-bind:key="tag.id">
                         <router-link
                             :to="{
-                                name: 'index',
+                                name: 'blogs',
                                 query: { tag: tag.tagValue }
                             }"
                         >

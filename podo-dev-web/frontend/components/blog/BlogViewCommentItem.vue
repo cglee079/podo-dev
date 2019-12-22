@@ -12,9 +12,7 @@
                 </div>
                 <div class="menu">
                     <a
-                        v-if="
-                            comment.enabled && comment.depth < config.maxDepth
-                        "
+                        v-if="comment.enabled && comment.depth < config.maxDepth"
                         @click="clickReply"
                     >
                         {{ reply.message }}
@@ -30,7 +28,7 @@
 
             <div class="contents">
                 <span v-if="comment.depth !== 0">ㄴ</span>
-                <span v-html="comment.contents" />
+                <span v-html="comment.contents"></span>
             </div>
 
             <div id="reply">

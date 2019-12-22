@@ -52,7 +52,7 @@
 
 <script>
 export default {
-    name: "BlogRow",
+    name: "BlogListRow",
     props: {
         blog: Object,
         filter: Object
@@ -60,11 +60,11 @@ export default {
     methods: {
         clickTag(tagValue) {
             if (this.filter.tag === tagValue) {
-                this.$router.push({ name: "index" });
+                this.$router.push({ name: "blogs" });
                 return;
             }
 
-            this.$router.push({ name: "index", query: { tag: tagValue } });
+            this.$router.push({ name: "blogs", query: { tag: tagValue } });
         }
     }
 };

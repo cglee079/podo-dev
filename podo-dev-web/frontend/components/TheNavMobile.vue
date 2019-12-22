@@ -27,7 +27,7 @@
             </div>
 
             <div class="mobile-nav-menu">
-                <router-link :to="{ name: 'index' }">블로그</router-link>
+                <router-link :to="{ name: 'blogs' }">블로그</router-link>
             </div>
             <div class="mobile-nav-menu">
                 <router-link :to="{ name: 'log' }">로그</router-link>

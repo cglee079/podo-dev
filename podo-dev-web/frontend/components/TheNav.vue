@@ -28,9 +28,8 @@
         <client-only>
             <vue-scroll-progress-bar
                 height="2px"
-                backgroundColor="#777777"
+                backgroundColor="#666666"
                 zIndex="0"
-                containerColor="linear-gradient(to bottom, rgb(220, 220, 220), rgb(255, 255, 255))"
             />
         </client-only>
     </div>
@@ -80,7 +79,7 @@ export default {
     left: 0;
 }
 
-/deep/ .nuxt-link-exact-active {
+/deep/ .nuxt-link-active {
     text-decoration: underline;
 }
 

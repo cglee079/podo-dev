@@ -44,7 +44,7 @@ export default {
     },
     methods: {
         onProgress() {
-            if(this.$refs.progressBar) {
+            if (this.$refs.progressBar) {
                 this.$refs.progressBar.on();
             }
         },
@@ -84,12 +84,8 @@ export default {
                     this.totalElements = res.totalElements;
                     this.totalPages = res.totalPages;
                     this.isLoading = false;
-
-                    if (page === 0) {
-                        this.offProgress();
-                    }
                 })
-                .catch(() => {
+                .finally(() => {
                     if (page === 0) {
                         this.offProgress();
                     }
