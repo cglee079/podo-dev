@@ -19,10 +19,10 @@
             </div>
         </div>
 
-        <div v-for="resume in resumes" v-bind:key="resume.resumeKey" class="item">
+        <div v-for="resume in resumes" :key="resume.resumeKey" class="item">
             <div class="head">{{ resume.resumeTitle }}</div>
             <div class="content">
-                <div v-for="(content, index) in resume.contents" v-bind:key="index">
+                <div v-for="(content, index) in resume.contents" :key="index">
                     <toast-custom-viewer :value="content" />
                 </div>
             </div>
@@ -31,7 +31,7 @@
         <div id="experiences" class="item">
             <div class="head">EXPERIENCES</div>
             <div class="content">
-                <p v-for="experience in experiences" v-bind:key="experience.experienceId">
+                <p v-for="experience in experiences" :key="experience.experienceId">
                     <a :href="experience.relateLink" target="_blank">
                         <span class="date">{{ experience.experienceAt }}.</span>
                         <span>{{ experience.title }}</span>
@@ -52,12 +52,12 @@ export default {
     },
     head() {
         return {
-            title: process.env.name + " : resume",
+            title: `${process.env.name} : resume`,
             meta: [
                 { hid: "description", name: "description", content: "podo's resume" },
                 { property: "og:description", content: "podo's resume" }
             ],
-            link: [{ rel: "canonical", href: process.env.frontendUrl + "/resume" }]
+            link: [{ rel: "canonical", href: `${process.env.frontendUrl}/resume` }]
         };
     },
 
@@ -70,12 +70,13 @@ export default {
 
     async asyncData({ $axios }) {
         let baseUrl = process.env.externalServerUrl;
+
         if (process.server) {
             baseUrl = process.env.internalServerUrl;
         }
 
-        const resumes = await $axios.$get(baseUrl + "/api/resumes");
-        const experiences = await $axios.$get(baseUrl + "/api/resumes/experiences");
+        const resumes = await $axios.$get(`${baseUrl}/api/resumes`);
+        const experiences = await $axios.$get(`${baseUrl}/api/resumes/experiences`);
 
         return {
             resumes: resumes.result.contents,

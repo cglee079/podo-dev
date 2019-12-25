@@ -63,7 +63,7 @@
         <div id="tags">
             <span
                 v-for="(tag, index) in input.tags"
-                v-bind:key="index"
+                :key="tag.tagValue"
                 @click="clickTag(index)"
                 class="tag"
             >
@@ -97,7 +97,7 @@ export default {
     watch: {
         id(value) {
             this.isNew = false;
-            this.loadBlog(value);
+            this.fetchBlog(value);
         }
     },
     data() {
@@ -107,7 +107,7 @@ export default {
                 maxAttachImageWidth: 720
             },
             autoSave: {
-                key: "autoSave_post_",
+                key: "autoSavePost",
                 interval: undefined
             },
             temp: "",
@@ -147,7 +147,7 @@ export default {
                     });
 
                     if (included) {
-                        this.$toast.show(insertValue + "는 중복됩니다!");
+                        this.$toast.show(`${insertValue}는 중복됩니다!`);
                         this.input.tagText = "";
                         return;
                     }
@@ -167,22 +167,16 @@ export default {
             this.input.tags.splice(index, 1);
         },
 
-        //게시글 수정 시, 게시글 정보 로딩
-        loadBlog(blogId) {
-            this.$axios
-                .$get("/api/blogs/" + blogId)
-                .then(res => {
-                    const blog = res.result;
-                    this.input.title = blog.title;
-                    this.input.contents = blog.contents;
-                    this.input.tags = blog.tags;
-                    this.input.attachImages = blog.attachImages;
-                    this.input.attachFiles = blog.attachFiles;
-                    this.input.status = blog.enabled ? "VISIBLE" : "INVISIBLE";
-                })
-                .catch(err => {
-                    console.log(err);
-                });
+        fetchBlog(blogId) {
+            this.$axios.$get(`/api/blogs/${blogId}`).then(res => {
+                const blog = res.result;
+                this.input.title = blog.title;
+                this.input.contents = blog.contents;
+                this.input.tags = blog.tags;
+                this.input.attachImages = blog.attachImages;
+                this.input.attachFiles = blog.attachFiles;
+                this.input.status = blog.enabled ? "VISIBLE" : "INVISIBLE";
+            });
         },
 
         clickSubmit() {
@@ -240,7 +234,7 @@ export default {
             this.onProgress();
 
             this.$axios
-                .$patch("/api/blogs/" + this.id, {
+                .$patch(`/api/blogs/${this.id}`, {
                     title: this.input.title,
                     contents: this.input.contents,
                     status: this.input.status,
@@ -264,11 +258,8 @@ export default {
         },
 
         addAttachImage(attachImage) {
-            const src =
-                attachImage.uploadedUrl +
-                attachImage.saves.origin.filePath +
-                "/" +
-                attachImage.saves.origin.filename;
+            const src = `${attachImage.uploadedUrl}${attachImage.saves.origin.filePath}/${attachImage.saves.origin.filename}`;
+
             const elementInContents = document.createElement("img");
 
             let imageWidth = attachImage.saves.origin.width;
@@ -279,15 +270,16 @@ export default {
 
             elementInContents.src = src;
             elementInContents.setAttribute("alt", attachImage.originFilename);
-            elementInContents.setAttribute("style", "width:" + imageWidth + "px;");
+            elementInContents.setAttribute("style", `width:${imageWidth}px;`);
 
-            this.input.contents += "\n\n" + elementInContents.outerHTML + "\n\n";
+            this.input.contents += `\n${elementInContents.outerHTML}\n`;
 
             this.input.attachImages.push(attachImage);
         },
 
         removeAttachImage(index) {
             const image = this.input.attachImages[index];
+
             switch (image.attachStatus) {
                 case "BE":
                     image.attachStatus = "REMOVE";
@@ -305,6 +297,11 @@ export default {
         removeImageElementInEditor(attachImage) {
             let existedContents = this.input.contents;
             const index = existedContents.indexOf(attachImage.saves.origin.filename);
+
+            if (index < 0) {
+                return;
+            }
+
             const startImgElementIndex = existedContents.substring(0, index).lastIndexOf("<img");
             const endImgElementIndex =
                 existedContents.substring(index, existedContents.length).indexOf(">") + index;
@@ -337,8 +334,7 @@ export default {
         removeAutoSaved(blogId) {
             const autoSaveKey = this.autoSave.key + blogId;
 
-            this.$storage.removeLocalStorage(autoSaveKey + "_is");
-            this.$storage.removeLocalStorage(autoSaveKey + "_input");
+            this.$storage.removeLocalStorage(autoSaveKey);
         }
     },
 
@@ -347,17 +343,16 @@ export default {
 
         if (blogId) {
             this.isNew = false;
-            this.loadBlog(blogId);
+            this.fetchBlog(blogId);
         }
 
         if (process.client) {
             const blogId = this.id ? this.id : "";
             const autoSaveKey = this.autoSave.key + blogId;
 
-            const isAlreadyAutoSaved = this.$storage.getLocalStorage(autoSaveKey + "_is");
-            const savedInputValue = this.$storage.getLocalStorage(autoSaveKey + "_input");
+            const savedInputValue = this.$storage.getLocalStorage(autoSaveKey);
 
-            if (isAlreadyAutoSaved) {
+            if (savedInputValue) {
                 this.toastConfirm(
                     "자동저장된 데이터가있습니다, 로딩하시겠습니까?",
                     () => {
@@ -373,14 +368,11 @@ export default {
             //Setting Interval
             this.autoSave.interval = setInterval(() => {
                 const currentInput = JSON.stringify(this.input);
-                const saveInput = JSON.stringify(
-                    this.$storage.getLocalStorage(autoSaveKey + "_input")
-                );
+                const saveInput = JSON.stringify(this.$storage.getLocalStorage(autoSaveKey));
 
                 if (saveInput !== currentInput) {
                     this.$toast.show("자동저장 되었습니다");
-                    this.$storage.setLocalStorage(autoSaveKey + "_is", "true");
-                    this.$storage.setLocalStorage(autoSaveKey + "_input", currentInput);
+                    this.$storage.setLocalStorage(autoSaveKey, currentInput);
                 }
             }, 1000 * 60 * 2);
         }
@@ -403,7 +395,7 @@ export default {
     }
 
     #wrapEditor {
-        margin: 40px 0px;
+        margin: 40px 0;
         width: 100%;
         height: 700px;
     }

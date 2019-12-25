@@ -68,9 +68,9 @@ export default {
     name: "Log",
     head() {
         return {
-            title: process.env.name + " :  log",
+            title: `${process.env.name} : log`,
             meta: [{ property: "og:description", content: "podo-dev, log" }],
-            link: [{ rel: "canonical", href: process.env.frontendUrl + "/log" }]
+            link: [{ rel: "canonical", href: `${process.env.frontendUrl}/log` }]
         };
     },
     data() {
@@ -87,9 +87,9 @@ export default {
             baseUrl = process.env.internalServerUrl;
         }
 
-        const tags = await $axios.$get(baseUrl + "/api/tags");
-        const recentComments = await $axios.$get(baseUrl + "/api/comments/recent");
-        const archive = await $axios.$get(baseUrl + "/api/blogs/archive");
+        const tags = await $axios.$get(`${baseUrl}/api/tags`);
+        const recentComments = await $axios.$get(`${baseUrl}/api/comments/recent`);
+        const archive = await $axios.$get(`${baseUrl}/api/blogs/archive`);
 
         return {
             tags: tags.result.contents,

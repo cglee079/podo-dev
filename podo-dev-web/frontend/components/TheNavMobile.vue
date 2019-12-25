@@ -136,8 +136,6 @@ export default {
         }
     },
 
-    created() {},
-
     mounted() {
         const els = document.getElementsByClassName("mobile-nav-menu");
         for (let el of els) {

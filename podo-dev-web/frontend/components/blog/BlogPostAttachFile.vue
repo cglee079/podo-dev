@@ -11,7 +11,7 @@
             <div
                 class="file"
                 v-for="(attachFile, index) in attachFiles"
-                v-bind:key="index"
+                :key="index"
                 :class="isValidFile(attachFile.attachStatus) ? '' : 'disabled'"
             >
                 <div class="name">
@@ -38,36 +38,28 @@ export default {
         onFileChange(event) {
             const files = event.target.files;
 
-            this.uploadFile(files, 0, files.length - 1);
+            this.uploadFile(files, 0);
         },
 
-        uploadFile(files, i, until) {
+        uploadFile(files, idx) {
             this.$emit("onProgress");
 
-            new Promise((resolve, reject) => {
-                const config = {
-                    headers: { "Content-Type": "multipart/form-data" }
-                };
+            const config = {
+                headers: { "Content-Type": "multipart/form-data" }
+            };
 
-                const formData = new FormData();
-                formData.append("file", files[i]);
+            const formData = new FormData();
+            formData.append("file", files[idx]);
 
-                this.$axios
-                    .$post("/api/blogs/files", formData, config)
-                    .then(res => {
-                        resolve(res);
-                    })
-                    .catch(err => {
-                        reject(err);
-                    });
-            })
+            this.$axios
+                .$post("/api/blogs/files", formData, config)
                 .then(res => {
                     const file = res.result;
                     this.$emit("add", file);
                     this.$emit("offProgress");
 
-                    if (i < until) {
-                        this.uploadFile(files, i + 1, until);
+                    if (idx < files.length - 1) {
+                        this.uploadFile(files, idx + 1);
                     }
                 })
                 .catch(() => {
@@ -77,14 +69,9 @@ export default {
 
         /**
          * 삭제된 파일인지 검증
-         * @param status
-         * @returns {boolean}
          */
         isValidFile(status) {
-            if (status === "BE" || status === "NEW") {
-                return true;
-            }
-            return false;
+            return status === "BE" || status === "NEW";
         },
 
         formatFilesize(value) {
@@ -125,7 +112,7 @@ export default {
         justify-content: space-between;
         border: 1px solid #ccc;
         padding: 7px;
-        margin: 5px 0px;
+        margin: 5px 0;
 
         &.disabled {
             display: none;

@@ -22,8 +22,8 @@ export default {
 
 <style lang="scss" scoped>
 /**
-        Toast Viewer Override CSS
-     */
+* Toast Viewer Override CSS
+*/
 #custom-viewer {
     /deep/ {
         .tui-editor-contents {

@@ -4,26 +4,26 @@
 
         <div id="blogs">
             <div :key="blog.id" v-for="blog in contents" class="wrap-blog-row">
-                <blog-row :blog="blog" :filter="filter" />
+                <blog-list-item :blog="blog" :filter="filter" />
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import BlogListRow from "./BlogListRow";
+import BlogListItem from "./BlogListItem";
 import ProgressBar from "../global/ProgressBar";
 
 export default {
     name: "BlogList",
     components: {
         ProgressBar,
-        "blog-row": BlogListRow
+        BlogListItem
     },
     watch: {
         $route: {
             handler() {
-                this.loadBlogByFilter();
+                this.fetchBlogByFilter();
             },
             immediate: true
         }
@@ -50,13 +50,12 @@ export default {
         },
 
         offProgress() {
-            this.$refs.progressBar.off();
+            if (this.$refs.progressBar) {
+                this.$refs.progressBar.off();
+            }
         },
 
-        /**
-         * 게시글 페이징
-         */
-        loadBlog(page) {
+        fetchBlog(page) {
             if (this.isLoading) {
                 return;
             }
@@ -113,18 +112,18 @@ export default {
                 this.currentPage < this.totalPages &&
                 !this.isLoading
             ) {
-                this.loadBlog(this.currentPage + 1);
+                this.fetchBlog(this.currentPage + 1);
             }
         },
 
-        loadBlogByFilter() {
+        fetchBlogByFilter() {
             this.filter.tag = this.$route.query.tag;
             this.filter.search = this.$route.query.search;
 
-            this.loadBlog(0);
+            this.fetchBlog(0);
         }
     },
-    created() {
+    mounted() {
         window.addEventListener("scroll", this.handleScroll);
     },
     destroyed() {

@@ -11,17 +11,8 @@
                 <div id="exportThumbnail">
                     <div id="bgThumbnail"></div>
                     <div id="thumbnail">
-                        <img
-                            v-if="blog.thumbnail"
-                            :src="blog.thumbnail"
-                            alt="thumbnail"
-                        />
-                        <img
-                            v-else
-                            src="../../assets/podo-dev.svg"
-                            width="50%"
-                            alt="logo"
-                        />
+                        <img v-if="blog.thumbnail" :src="blog.thumbnail" alt="thumbnail" />
+                        <img v-else src="../../assets/podo-dev.svg" width="50%" alt="logo" />
                     </div>
                 </div>
 
@@ -135,21 +126,19 @@ export default {
             }
         });
 
-        //중복로딩 방지
+        //KakaoJS 중복로딩 방지
         const kakaoJs = "//developers.kakao.com/sdk/js/kakao.min.js";
-        const script = document.querySelector('script[src="' + kakaoJs + '"]');
-        if (script) {
-            return;
+        const script = document.querySelector(`script[src="${kakaoJs}"]`);
+        if (!script) {
+            const recaptchaScript = document.createElement("script");
+            recaptchaScript.setAttribute("src", kakaoJs);
+            document.head.appendChild(recaptchaScript);
+
+            recaptchaScript.onload = () => {
+                const appKey = "ff0d9af3010f7f6ab00c1efe66299e31";
+                Kakao.init(appKey);
+            };
         }
-
-        const recaptchaScript = document.createElement("script");
-        recaptchaScript.setAttribute("src", kakaoJs);
-        document.head.appendChild(recaptchaScript);
-
-        recaptchaScript.onload = () => {
-            const appKey = "ff0d9af3010f7f6ab00c1efe66299e31";
-            Kakao.init(appKey);
-        };
     }
 };
 </script>

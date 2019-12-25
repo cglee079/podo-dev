@@ -35,7 +35,6 @@ export default {
             },
             input: {
                 username: "",
-                password: "",
                 contents: ""
             }
         };
@@ -57,7 +56,7 @@ export default {
             }
 
             this.$axios
-                .$post("/api/blogs/" + this.blogId + "/comments", {
+                .$post(`/api/blogs/${this.blogId}/comments`, {
                     username: this.input.username,
                     contents: this.input.contents,
                     parentId: this.parentId
@@ -67,9 +66,6 @@ export default {
                     this.input.contents = "";
                     this.$emit("reload");
                     this.$emit("writeListener");
-                })
-                .catch(err => {
-                    console.log(err);
                 });
         },
 
@@ -91,14 +87,13 @@ export default {
         this.updateInput();
     },
 
-    mounted() {
+    created() {
         this.updateInput();
     }
 };
 </script>
 
 <style lang="scss" scoped>
-/*** Comment Write ****/
 #write {
     margin-top: 20px;
 
@@ -158,62 +153,4 @@ export default {
         }
     }
 }
-
-/*!** Comment Modify ***!*/
-/*.comment-modify {*/
-/*    display: flex;*/
-/*    flex-flow: row wrap;*/
-/*    height: 50px;*/
-/*}*/
-
-/*.comment-modify .comment-write-contents {*/
-/*    flex: 1;*/
-/*    height: 100%;*/
-/*    resize: none;*/
-/*    overflow: hidden;*/
-/*    border: 0.7px solid #DDD;*/
-/*}*/
-
-/*.comment-modify .comment-write-submit {*/
-/*    color: #FFF;*/
-/*    height: 100%;*/
-/*    padding: 0 10px;*/
-/*    background: #222;*/
-/*    cursor: pointer;*/
-/*    font-size: 0.75rem;*/
-/*}*/
-
-/*.btn-modify.open {*/
-/*    opacity: 1;*/
-/*}*/
-
-/*!* Comment Reply *!*/
-/*.comment-reply {*/
-/*    display: flex;*/
-/*    width: 80%;*/
-/*    margin: 5px auto;*/
-/*    height: 20px;*/
-/*    font-size: 0.75rem;*/
-/*}*/
-
-/*.comment-reply-content {*/
-/*    flex: 1;*/
-/*    height: 100%;*/
-/*    overflow-y: auto;*/
-/*    overflow-x: hidden;*/
-/*    resize: none;*/
-/*}*/
-
-/*.comment-reply-submit {*/
-/*    color: #FFF;*/
-/*    padding: 0 10px;*/
-/*    height: 100%;*/
-/*    background: #222;*/
-/*    cursor: pointer;*/
-/*    font-size: 0.75rem;*/
-/*}*/
-
-/*.btn-reply.open {*/
-/*    opacity: 1;*/
-/*}*/
 </style>

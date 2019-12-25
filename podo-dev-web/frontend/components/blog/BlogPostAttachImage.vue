@@ -28,7 +28,7 @@
             <div
                 class="image"
                 v-for="(attachImage, index) in attachImages"
-                v-bind:key="index"
+                :key="index"
                 :class="isValidImage(attachImage.attachStatus) ? '' : 'disabled'"
             >
                 <div class="menus">
@@ -39,10 +39,7 @@
 
                 <img
                     :src="
-                        attachImage.uploadedUrl +
-                            attachImage.saves.origin.filePath +
-                            '/' +
-                            attachImage.saves.origin.filename
+                        `${attachImage.uploadedUrl}${attachImage.saves.origin.filePath}/${attachImage.saves.origin.filename}`
                     "
                     alt="attachImage"
                 />
@@ -95,7 +92,6 @@ export default {
                         }
 
                         this.$toast.show("잘못된 데이터 입니다");
-                        return;
                     });
                 }
 
@@ -124,7 +120,7 @@ export default {
 
         onFileChange(event) {
             const fileOfAttachImages = event.target.files;
-            this.uploadImage(fileOfAttachImages, 0, fileOfAttachImages.length - 1);
+            this.uploadImage(fileOfAttachImages, 0);
         },
 
         uploadBase64(base64) {
@@ -137,8 +133,7 @@ export default {
                     this.$emit("add", attachImage);
                     this.$emit("offProgress");
                 })
-                .catch(err => {
-                    console.log(err);
+                .catch(() => {
                     this.$emit("offProgress");
                 });
         },
@@ -153,38 +148,30 @@ export default {
                     this.$emit("add", attchImage);
                     this.$emit("offProgress");
                 })
-                .catch(err => {
-                    console.log(err);
+                .catch(() => {
                     this.$emit("offProgress");
                 });
         },
 
-        uploadImage(files, i, until) {
+        uploadImage(files, i) {
             this.$emit("onProgress");
 
-            new Promise((resolve, reject) => {
-                const config = {
-                    headers: { "Content-Type": "multipart/form-data" }
-                };
-                const formData = new FormData();
-                formData.append("fileOfImage", files[i]);
+            const config = {
+                headers: { "Content-Type": "multipart/form-data" }
+            };
 
-                this.$axios
-                    .$post("/api/blogs/images", formData, config)
-                    .then(res => {
-                        resolve(res);
-                    })
-                    .catch(err => {
-                        reject(err);
-                    });
-            })
+            const formData = new FormData();
+            formData.append("fileOfImage", files[i]);
+
+            this.$axios
+                .$post("/api/blogs/images", formData, config)
                 .then(res => {
                     const attachImage = res.result;
                     this.$emit("add", attachImage);
                     this.$emit("offProgress");
 
-                    if (i < until) {
-                        this.uploadImage(files, i + 1, until);
+                    if (i < files.length - 1) {
+                        this.uploadImage(files, i + 1);
                     }
                 })
                 .catch(() => {
@@ -194,14 +181,9 @@ export default {
 
         /**
          * 삭제된 이미지 인지 검증
-         * @param status
-         * @returns {boolean}
          */
         isValidImage(status) {
-            if (status === "BE" || status === "NEW") {
-                return true;
-            }
-            return false;
+            return status === "BE" || status === "NEW";
         },
 
         clickAttachImageRemove(index) {

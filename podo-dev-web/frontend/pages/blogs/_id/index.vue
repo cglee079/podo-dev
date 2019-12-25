@@ -6,7 +6,7 @@
         <div>
             <div id="head">
                 <div id="tags">
-                    <span v-for="tag in blog.tags" v-bind:key="tag.id">
+                    <span v-for="tag in blog.tags" :key="tag.id">
                         <router-link
                             :to="{
                                 name: 'blogs',
@@ -35,11 +35,11 @@
                 <span v-if="isAdmin && isLogin" @click="clickDeleteBlog(blog.id)">
                     삭제
                 </span>
-                <span @click="clickExport()">공유하기</span>
+                <span @click="$refs.export.onExport()">공유하기</span>
                 <span>
                     <router-link
                         :to="{
-                            name: 'index',
+                            name: 'blogs',
                             query: { search: filter.search, tag: filter.tag }
                         }"
                     >
@@ -53,7 +53,7 @@
             <div id="attachFiles">
                 <div
                     v-for="attachFile in blog.attachFiles"
-                    v-bind:key="attachFile.id"
+                    :key="attachFile.id"
                     class="attach-file"
                 >
                     <span @click="clickFile(attachFile.id)">
@@ -74,11 +74,15 @@
                 <toast-custom-viewer ref="viewer" :value="blog.contents" />
             </div>
 
-            <blog-view-relates :blogId="blog.id" :blogTitle="blog.title" :relates="blog.relates" />
+            <blog-view-relates
+                :blog-id="blog.id"
+                :blog-title="blog.title"
+                :relates="blog.relates"
+            />
 
             <blog-view-comment
                 v-if="blog.id"
-                :blogId="blog.id"
+                :blog-id="blog.id"
                 @onProgress="onProgress"
                 @offProgress="offProgress"
             />
@@ -103,27 +107,6 @@ export default {
         BlogViewExport,
         BlogViewRelates,
         ToastCustomViewer
-    },
-
-    mounted() {
-        this.filter.search = this.$route.query.searchw;
-        this.filter.tag = this.$route.query.tag;
-
-        const id = this.blog.id;
-        const HIT_BLOGS = "HIT_BLOGS";
-        let hitBlogs = this.$storage.getLocalStorage(HIT_BLOGS);
-
-        if (!hitBlogs) {
-            hitBlogs = [];
-        }
-
-        if (!hitBlogs.includes(id)) {
-            hitBlogs.push(id);
-
-            this.$storage.setLocalStorage(HIT_BLOGS, hitBlogs);
-
-            this.increaseHitCount(id);
-        }
     },
 
     head() {
@@ -187,12 +170,13 @@ export default {
         const id = params.id;
 
         let baseUrl = process.env.externalServerUrl;
+
         if (process.server) {
             baseUrl = process.env.internalServerUrl;
         }
 
         return $axios
-            .$get(baseUrl + "/api/blogs/" + id)
+            .$get(`${baseUrl}/api/blogs/${id}`)
             .then(res => {
                 const blog = res.result;
 
@@ -201,8 +185,8 @@ export default {
                 });
 
                 const meta = {
-                    url: process.env.frontendUrl + "/blogs/" + blog.id,
-                    title: process.env.name + " : " + blog.title,
+                    url: `${process.env.frontendUrl}/blogs/${blog.id}`,
+                    title: `${process.env.name} : ${blog.title}`,
 
                     keywords: keywords.join(", "),
                     description:
@@ -263,7 +247,7 @@ export default {
         clickDeleteBlog(blogId) {
             this.toastConfirm("정말 삭제하시겠습니까?", () => {
                 this.$axios
-                    .delete("/api/blogs/" + blogId)
+                    .delete(`/api/blogs/${blogId}`)
                     .then(() => {
                         this.$router.push({ name: "index" });
                     })
@@ -271,10 +255,6 @@ export default {
                         console.log(err);
                     });
             });
-        },
-
-        clickExport() {
-            this.$refs.export.onExport();
         },
 
         clickBefore() {
@@ -307,16 +287,34 @@ export default {
         },
 
         clickFile(fileId) {
-            window.location.href =
-                process.env.externalServerUrl + "/api/blogs/" + this.blog.id + "/files/" + fileId;
+            window.location.href = `${process.env.externalServerUrl}/api/blogs/${this.blog.id}/files/${fileId}`;
         },
 
         formatFilesize(value) {
             return filesize(value);
         },
 
-        increaseHitCount(id) {
-            this.$axios.$post("/api/blogs/" + id + "/hitCount");
+        increaseHitCount(blogId) {
+            this.$axios.$post(`/api/blogs/${blogId}/hitCount`);
+        },
+
+        created() {
+            this.filter.search = this.$route.query.searchw;
+            this.filter.tag = this.$route.query.tag;
+
+            const blogId = this.blog.id;
+            const HIT_BLOGS_KEY = "HIT_BLOGS";
+            let hitBlogs = this.$storage.getLocalStorage(HIT_BLOGS_KEY);
+
+            if (!hitBlogs) {
+                hitBlogs = [];
+            }
+
+            if (!hitBlogs.includes(blogId)) {
+                hitBlogs.push(blogId);
+                this.$storage.setLocalStorage(HIT_BLOGS_KEY, hitBlogs);
+                this.increaseHitCount(blogId);
+            }
         }
     }
 };

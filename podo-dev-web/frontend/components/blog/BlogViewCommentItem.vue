@@ -1,7 +1,7 @@
 <template>
     <div
-        v-bind:style="{ 'padding-left': comment.depth * 2 + 'rem' }"
         class="wrap-comment"
+        :style="{ 'padding-left': `${comment.depth * 2}rem` }"
         :class="[comment.enabled ? '' : 'disabled', $mq]"
     >
         <div class="comment">
@@ -33,11 +33,11 @@
 
             <div id="reply">
                 <component
-                    :is="reply.comp"
+                    :is="reply.component"
                     :blogId="blogId"
                     :index="index"
                     :parentId="comment.id"
-                    :placeholder="comment.username + ' 님에게 답글'"
+                    :placeholder="`${comment.username} 님에게 답글`"
                     @reload="$emit('reload')"
                     @writeListener="writeListener"
                 />
@@ -67,7 +67,7 @@ export default {
             reply: {
                 on: false,
                 message: "답글",
-                comp: null
+                component: null
             }
         };
     },
@@ -75,14 +75,15 @@ export default {
         offReply() {
             this.reply.on = false;
             this.reply.message = "답글";
-            this.reply.comp = null;
+            this.reply.component = null;
         },
 
         onReply() {
             this.reply.on = true;
             this.reply.message = "답글닫기";
-            this.reply.comp = "comment-write";
+            this.reply.component = "comment-write";
         },
+
         clickReply() {
             if (!this.reply.on) {
                 this.onReply();

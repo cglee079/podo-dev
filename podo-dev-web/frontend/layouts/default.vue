@@ -56,9 +56,9 @@ export default {
                 token: query.token,
                 callback: () => {
                     this.$toast.show("로그인하였습니다");
+                    this.$router.push({ name: "index"});
                 }
             });
-            this.$router.push({ name: "index" });
         }
 
         // 새로 고침 시

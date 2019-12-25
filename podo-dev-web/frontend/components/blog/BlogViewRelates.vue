@@ -10,9 +10,7 @@
                 :class="relate.id === blogId ? 'current' : ''"
                 class="related-item"
             >
-                <span class="title">
-                    {{ relate.title }} ({{ relate.commentCount }})
-                </span>
+                <span class="title">{{ relate.title }} ({{ relate.commentCount }})</span>
                 <span class="date">
                     {{ relate.createAt }}
                 </span>
@@ -24,16 +22,11 @@
 <script>
 export default {
     name: "BlogViewRelates",
-    components: {},
     props: {
         blogId: Number,
         blogTitle: String,
         relates: Array
-    },
-    data() {
-        return {};
-    },
-    computed: {}
+    }
 };
 </script>
 

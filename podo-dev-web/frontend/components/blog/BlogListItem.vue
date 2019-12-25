@@ -20,8 +20,8 @@
             <div class="info">
                 <div class="tags">
                     <span
-                        v-for="(tag, index) in blog.tags"
-                        v-bind:key="index"
+                        v-for="tag in blog.tags"
+                        :key="tag.tagValue"
                         @click.stop.prevent="clickTag(tag.tagValue)"
                         class="tag"
                         :class="
@@ -36,12 +36,12 @@
                 <div class="subinfo">
                     <span>{{ blog.publishAt }}</span>
                     <span class="hit-count">
-                        <img src="../../assets/icons/icon-hit-count.svg"  alt="hitCount"/>
+                        <img src="../../assets/icons/icon-hit-count.svg" alt="hitCount" />
                         <span>{{ blog.hitCnt }}</span>
                     </span>
 
                     <span class="comment-count">
-                        <img src="../../assets/icons/icon-comment2.svg"  alt="commentCount"/>
+                        <img src="../../assets/icons/icon-comment2.svg" alt="commentCount" />
                         <span>{{ blog.commentCount }}</span>
                     </span>
                 </div>
@@ -52,7 +52,7 @@
 
 <script>
 export default {
-    name: "BlogListRow",
+    name: "BlogListItem",
     props: {
         blog: Object,
         filter: Object

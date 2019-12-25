@@ -1,29 +1,29 @@
 <template>
     <div id="wrapComment" :class="$mq">
         <div id="count">
-            <img src="https://image.flaticon.com/icons/svg/134/134718.svg"  alt="CommentCount"/>
+            <img src="https://image.flaticon.com/icons/svg/134/134718.svg" alt="CommentCount" />
             <a class="comment-cnt">{{ this.totalElements }}</a>
             <div></div>
         </div>
 
         <div
             id="btnPaging"
-            @click="loadBlogComments(page + 1, page + 1)"
+            @click="fetchBlogComments(page + 1, page + 1)"
             :class="hasMoreComment ? 'on' : ''"
         >
             이전 댓글 보기
         </div>
 
         <div id="comments" ref="comments">
-            <div v-for="(comment, index) in comments" v-bind:key="comment.id">
+            <div v-for="(comment, index) in comments" :key="comment.id">
                 <comment-item
                     :blogId="blogId"
                     :index="index"
                     :comment="comment"
                     @delete="deleteBlogComment"
-                    @reload="reloadBlogComments"
-                    @onProgress="onProgress"
-                    @offProgress="offProgress"
+                    @reload="refetchBlogComments"
+                    @onProgress="onLoading"
+                    @offProgress="offLoading"
                 />
             </div>
         </div>
@@ -32,9 +32,9 @@
             :blogId="blogId"
             :parentId="null"
             placeholder="댓글을 입력해주세요"
-            @reload="reloadBlogComments"
-            @onProgress="onProgress"
-            @offProgress="offProgress"
+            @reload="refetchBlogComments"
+            @onProgress="onLoading"
+            @offProgress="offLoading"
         />
     </div>
 </template>
@@ -74,15 +74,17 @@ export default {
         }
     },
     methods: {
-        onProgress() {
+        onLoading() {
+            this.isLoading = true;
             this.$emit("onProgress");
         },
 
-        offProgress() {
+        offLoading() {
+            this.isLoading = false;
             this.$emit("offProgress");
         },
 
-        reloadBlogComments() {
+        refetchBlogComments() {
             if (this.page > 0 && this.comments.length % this.pageSize === 0) {
                 this.page++;
             }
@@ -90,87 +92,77 @@ export default {
             this.$refs.comments.classList.remove("on");
             this.comments = [];
 
-            this.loadBlogComments(0, this.page);
+            this.fetchBlogComments(0, this.page);
         },
 
-        loadBlogComments(page, until) {
-            this.onProgress();
+        fetchBlogComments(pageIdx, currentPage) {
+            if (this.isLoading) {
+                return;
+            }
 
-            return new Promise((resolve, reject) => {
-                if (this.isLoading) {
-                    return;
-                }
+            this.onLoading();
 
-                this.isLoading = true;
-
-                this.$axios
-                    .$get("/api/blogs/" + this.blogId + "/comments", {
-                        params: {
-                            page: page
-                        }
-                    })
-                    .then(res => {
-                        resolve(res);
-                    })
-                    .catch(err => {
-                        reject(err);
-                    });
-            })
+            this.$axios
+                .$get(`/api/blogs/${this.blogId}/comments`, {
+                    params: {
+                        page: pageIdx
+                    }
+                })
                 .then(res => {
-                    this.offProgress();
+                    this.offLoading();
 
                     res = res.result;
                     res.contents
                         .slice()
                         .reverse()
                         .forEach(item => this.comments.unshift(item));
-                    this.page = page;
+
+                    this.page = pageIdx;
                     this.pageSize = res.pageSize;
                     this.totalElements = res.totalElements;
                     this.totalPages = res.totalPages;
-                    this.isLoading = false;
 
-                    if (page < until) {
-                        this.loadBlogComments(page + 1, until);
-                    } else {
-                        this.$refs.comments.classList.add("on");
+                    if (pageIdx < currentPage) {
+                        this.fetchBlogComments(pageIdx + 1, currentPage);
+                        return;
                     }
+
+                    this.$refs.comments.classList.add("on");
                 })
-                .catch(err => {
-                    this.offProgress();
-                    console.log(err);
+                .catch(() => {
+                    this.offLoading();
                 });
         },
 
         deleteBlogComment(commentId, index) {
             this.toastConfirm("정말 댓글을 삭제하시겠습니까?", () => {
-                this.onProgress();
+                this.onLoading();
 
                 this.$axios
-                    .$delete("/api/blogs/" + this.blogId + "/comments/" + commentId)
+                    .$delete(`/api/blogs/${this.blogId}/comments/${commentId}`)
                     .then(() => {
-                        this.offProgress();
+                        this.offLoading();
 
                         this.$toast.show("댓글이 삭제되었습니다");
                         this.comments[index].enabled = false;
                         this.comments[index].contents = "삭제된 댓글입니다";
 
                         this.totalElements--;
+
+                        //삭제후, 총 댓글 갯수에 맞추어 다음 페이징할 위치를 맞춘다.
                         if (this.totalElements % this.pageSize === 0) {
                             this.page--;
                         }
-
-                        //this.reloadBlogComments()
                     })
                     .catch(() => {
-                        this.offProgress();
+                        this.offLoading();
                     });
             });
         }
     },
 
-    mounted() {
-        this.loadBlogComments(0, 0);
+    created() {
+        this.fetchBlogComments(0, 0);
     }
 };
 </script>
