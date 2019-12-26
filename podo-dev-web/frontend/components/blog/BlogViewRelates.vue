@@ -3,7 +3,7 @@
         <div id="head">'{{ blogTitle }}' 관련된 다른글</div>
 
         <div id="related-items">
-            <router-link
+            <nuxt-link
                 v-for="relate in relates"
                 :key="relate.id"
                 :to="{ name: 'blogs-id', params: { id: relate.id } }"
@@ -14,7 +14,7 @@
                 <span class="date">
                     {{ relate.createAt }}
                 </span>
-            </router-link>
+            </nuxt-link>
         </div>
     </div>
 </template>

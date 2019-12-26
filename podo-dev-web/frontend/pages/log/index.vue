@@ -5,7 +5,7 @@
                 TAG
             </h2>
             <span v-for="tag in tags" :key="tag" class="tag">
-                <router-link :to="{ name: 'index', query: { tag: tag } }">#{{ tag }}</router-link>
+                <nuxt-link :to="{ name: 'index', query: { tag: tag } }">#{{ tag }}</nuxt-link>
             </span>
         </div>
 
@@ -14,7 +14,7 @@
                 RECENT COMMENT
             </h2>
             <div v-for="comment in recentComments" :key="comment.id" class="comment">
-                <router-link :to="{ name: 'blogs-id', params: { id: comment.blogId } }">
+                <nuxt-link :to="{ name: 'blogs-id', params: { id: comment.blogId } }">
                     <div class="username">
                         {{ comment.username }}
                     </div>
@@ -24,7 +24,7 @@
                     <div class="create-at">
                         {{ comment.createAt }}
                     </div>
-                </router-link>
+                </nuxt-link>
             </div>
         </div>
 
@@ -48,14 +48,14 @@
                         class="blog"
                         :class="blog.enabled ? '' : 'disabled'"
                     >
-                        <router-link :to="{ name: 'blogs-id', params: { id: blog.id } }">
+                        <nuxt-link :to="{ name: 'blogs-id', params: { id: blog.id } }">
                             <div class="title">
                                 <span>{{ blog.title }}</span>
                             </div>
                             <div class="publish-at">
                                 {{ blog.publishAt }}
                             </div>
-                        </router-link>
+                        </nuxt-link>
                     </div>
                 </div>
             </div>

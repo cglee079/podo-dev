@@ -7,14 +7,14 @@
             <div id="head">
                 <div id="tags">
                     <span v-for="tag in blog.tags" :key="tag.id">
-                        <router-link
+                        <nuxt-link
                             :to="{
                                 name: 'blogs',
                                 query: { tag: tag.tagValue }
                             }"
                         >
                             #{{ tag.tagValue }}
-                        </router-link>
+                        </nuxt-link>
                     </span>
                 </div>
 
@@ -37,14 +37,14 @@
                 </span>
                 <span @click="$refs.export.onExport()">공유하기</span>
                 <span>
-                    <router-link
+                    <nuxt-link
                         :to="{
                             name: 'blogs',
                             query: { search: filter.search, tag: filter.tag }
                         }"
                     >
                         목록
-                    </router-link>
+                    </nuxt-link>
                 </span>
                 <span @click="clickBefore()">이전글</span>
                 <span @click="clickNext()">다음글</span>
@@ -228,11 +228,15 @@ export default {
 
     methods: {
         onProgress() {
-            this.$refs.progressBar.on();
+            if (this.$refs.progressBar) {
+                this.$refs.progressBar.on();
+            }
         },
 
         offProgress() {
-            this.$refs.progressBar.off();
+            if (this.$refs.progressBar) {
+                this.$refs.progressBar.off();
+            }
         },
 
         clickModifyBlog(blogId) {

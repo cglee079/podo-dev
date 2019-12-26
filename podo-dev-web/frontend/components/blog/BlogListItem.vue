@@ -1,5 +1,5 @@
 <template>
-    <router-link
+    <nuxt-link
         class="blog-row"
         :class="[blog.enabled ? '' : 'disabled', $mq]"
         :to="{
@@ -47,7 +47,7 @@
                 </div>
             </div>
         </div>
-    </router-link>
+    </nuxt-link>
 </template>
 
 <script>

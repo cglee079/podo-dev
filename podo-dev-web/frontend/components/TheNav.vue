@@ -2,9 +2,9 @@
     <div id="wrapNav">
         <header id="nav" :class="$mq">
             <div id="logo">
-                <router-link :to="{ name: 'index' }">
+                <nuxt-link :to="{ name: 'index' }">
                     <img src="../assets/podo-dev.svg" width="57px" alt="logo" />
-                </router-link>
+                </nuxt-link>
             </div>
 
             <the-nav-desktop

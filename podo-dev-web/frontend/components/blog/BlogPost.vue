@@ -124,10 +124,14 @@ export default {
     },
     methods: {
         onProgress() {
-            this.$refs.progressBar.on();
+            if (this.$refs.progressBar) {
+                this.$refs.progressBar.on();
+            }
         },
         offProgress() {
-            this.$refs.progressBar.off();
+            if (this.$refs.progressBar) {
+                this.$refs.progressBar.off();
+            }
         },
 
         //태그 Input 입력 시,

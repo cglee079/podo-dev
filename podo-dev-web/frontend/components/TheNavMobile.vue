@@ -13,9 +13,9 @@
         <div id="bgMobileNavs" ref="bgMobileNavs"></div>
         <div id="mobileNavs" ref="mobileNavs">
             <div id="mobileMenuHeader" class="mobile-nav-menu">
-                <router-link :to="{ name: 'index' }">
+                <nuxt-link :to="{ name: 'index' }">
                     <img src="../assets/podo-dev.svg" alt="logo" />
-                </router-link>
+                </nuxt-link>
             </div>
 
             <div class="mobile-nav-menu search">
@@ -23,18 +23,18 @@
             </div>
 
             <div class="mobile-nav-menu">
-                <router-link :to="{ name: 'resume' }">이력</router-link>
+                <nuxt-link :to="{ name: 'resume' }">이력</nuxt-link>
             </div>
 
             <div class="mobile-nav-menu">
-                <router-link :to="{ name: 'blogs' }">블로그</router-link>
+                <nuxt-link :to="{ name: 'blogs' }">블로그</nuxt-link>
             </div>
             <div class="mobile-nav-menu">
-                <router-link :to="{ name: 'log' }">로그</router-link>
+                <nuxt-link :to="{ name: 'log' }">로그</nuxt-link>
             </div>
 
             <div v-if="isAdmin && isLogin" class="mobile-nav-menu">
-                <router-link :to="{ name: 'blogs-post' }">글쓰기</router-link>
+                <nuxt-link :to="{ name: 'blogs-post' }">글쓰기</nuxt-link>
             </div>
 
             <div class="mobile-nav-menu">

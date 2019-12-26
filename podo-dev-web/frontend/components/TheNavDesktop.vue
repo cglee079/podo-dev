@@ -2,14 +2,14 @@
     <div>
         <div id="navMenus">
             <span>
-                <router-link :to="{ name: 'resume' }">이력</router-link>
+                <nuxt-link :to="{ name: 'resume' }">이력</nuxt-link>
             </span>
             <span>
-                <router-link :to="{ name: 'blogs' }">블로그</router-link>
+                <nuxt-link :to="{ name: 'blogs' }">블로그</nuxt-link>
             </span>
-            <span><router-link :to="{ name: 'log' }">로그</router-link></span>
+            <span><nuxt-link :to="{ name: 'log' }">로그</nuxt-link></span>
             <span v-if="userinfo.isAdmin && isLogin">
-                <router-link :to="{ name: 'blogs-post' }">글쓰기</router-link>
+                <nuxt-link :to="{ name: 'blogs-post' }">글쓰기</nuxt-link>
             </span>
         </div>
 

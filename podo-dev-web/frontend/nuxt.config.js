@@ -1,6 +1,6 @@
 module.exports = {
-    // mode: "spa",
-    // debug: true,
+    mode: "spa",
+    debug: true,
 
     loading: {
         color: "#444444"

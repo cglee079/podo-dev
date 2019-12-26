@@ -67,8 +67,13 @@ export default {
 
             this.isLoading = true;
 
+            let baseUrl = process.env.externalServerUrl;
+            if (process.server) {
+                baseUrl = process.env.internalServerUrl;
+            }
+
             this.$axios
-                .$get("/api/blogs", {
+                .$get(`${baseUrl}/api/blogs`, {
                     params: {
                         page: page,
                         tag: this.filter.tag,

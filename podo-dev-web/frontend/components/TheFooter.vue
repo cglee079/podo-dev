@@ -24,7 +24,7 @@
             <div>
                 <a>Copyrightⓒ2019 Podo</a>
                 ,
-                <router-link :to="{ name: 'license' }">License</router-link>
+                <nuxt-link :to="{ name: 'license' }">License</nuxt-link>
             </div>
         </div>
     </footer>
