@@ -1,7 +1,5 @@
 <template>
     <div id="wrapBlogs" :class="$mq">
-        <progress-bar ref="progressBar" />
-
         <div id="blogs">
             <div :key="blog.id" v-for="blog in contents" class="wrap-blog-row">
                 <blog-list-item :blog="blog" :filter="filter" />
@@ -12,12 +10,11 @@
 
 <script>
 import BlogListItem from "./BlogListItem";
-import ProgressBar from "../global/ProgressBar";
+import bus from "../../utils/bus";
 
 export default {
     name: "BlogList",
     components: {
-        ProgressBar,
         BlogListItem
     },
     watch: {
@@ -43,25 +40,13 @@ export default {
         };
     },
     methods: {
-        onProgress() {
-            if (this.$refs.progressBar) {
-                this.$refs.progressBar.on();
-            }
-        },
-
-        offProgress() {
-            if (this.$refs.progressBar) {
-                this.$refs.progressBar.off();
-            }
-        },
-
         fetchBlog(page) {
             if (this.isLoading) {
                 return;
             }
 
             if (page === 0) {
-                this.onProgress();
+                bus.$emit("startSpinner");
                 this.contents = [];
             }
 
@@ -91,7 +76,7 @@ export default {
                 })
                 .finally(() => {
                     if (page === 0) {
-                        this.offProgress();
+                        bus.$emit("stopSpinner");
                     }
                 });
         },
@@ -128,10 +113,12 @@ export default {
             this.fetchBlog(0);
         }
     },
+
     mounted() {
         window.addEventListener("scroll", this.handleScroll);
     },
-    destroyed() {
+
+    beforeDestroy() {
         window.removeEventListener("scroll", this.handleScroll);
     }
 };

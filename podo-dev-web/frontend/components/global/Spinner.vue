@@ -1,5 +1,5 @@
 <template>
-    <div id="progressBar" ref="progressBar">
+    <div id="spinner" ref="spinner">
         <div class="spinner">
             <div class="double-bounce1"></div>
             <div class="double-bounce2"></div>
@@ -10,15 +10,29 @@
 <script>
 export default {
     name: "ProgressBar",
+    props: {
+        loading: Boolean
+    },
+    watch: {
+        loading(newValue) {
+            if (newValue === true) {
+                this.on();
+                return;
+            }
+
+            this.off();
+        }
+    },
+
     methods: {
         on() {
-            this.$refs.progressBar.classList.add("on");
+            this.$refs.spinner.classList.add("on");
             document.body.style.overflow = "hidden";
             document.body.style.touchAction = "none";
         },
 
         off() {
-            this.$refs.progressBar.classList.remove("on");
+            this.$refs.spinner.classList.remove("on");
             document.body.style.overflow = "unset";
             document.body.style.touchAction = "unset";
         }
@@ -27,14 +41,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#progressBar {
+#spinner {
     position: fixed;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
     z-index: 5000;
-    background: rgba(0, 0, 0, 0.08);
+    background: rgba(0, 0, 0, 0.09);
     display: none;
 
     &.on {

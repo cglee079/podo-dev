@@ -28,6 +28,7 @@
 
 <script>
 import filesize from "filesize";
+import bus from "../../utils/bus";
 
 export default {
     name: "BlogPostFile",
@@ -42,7 +43,7 @@ export default {
         },
 
         uploadFile(files, idx) {
-            this.$emit("onProgress");
+            bus.$emit("startSpinner");
 
             const config = {
                 headers: { "Content-Type": "multipart/form-data" }
@@ -56,14 +57,17 @@ export default {
                 .then(res => {
                     const file = res.result;
                     this.$emit("add", file);
-                    this.$emit("offProgress");
+                    bus.$emit("stopSpinner");
+
+                    this.$toast.show(`'${files[idx].name}' 업로드 완료하였습니다`);
 
                     if (idx < files.length - 1) {
                         this.uploadFile(files, idx + 1);
                     }
                 })
                 .catch(() => {
-                    this.$emit("offProgress");
+                    this.$toast.show(`죄송합니다, '${files[idx].name}' 업로드 실패하였습니다`);
+                    bus.$emit("stopSpinner");
                 });
         },
 

@@ -1,6 +1,5 @@
 <template>
     <section id="wrapBlog" :class="$mq">
-        <progress-bar ref="progressBar" />
         <blog-view-export ref="export" :blog="blog" />
 
         <div>
@@ -83,8 +82,6 @@
             <blog-view-comment
                 v-if="blog.id"
                 :blog-id="blog.id"
-                @onProgress="onProgress"
-                @offProgress="offProgress"
             />
         </div>
     </section>
@@ -97,12 +94,10 @@ import BlogViewComment from "../../../components/blog/BlogViewComment";
 import BlogViewExport from "../../../components/blog/BlogViewExport";
 import BlogViewRelates from "../../../components/blog/BlogViewRelates";
 import ToastCustomViewer from "../../../components/global/ToastCustomViewer";
-import ProgressBar from "../../../components/global/ProgressBar";
 
 export default {
     name: "BlogView",
     components: {
-        ProgressBar,
         BlogViewComment,
         BlogViewExport,
         BlogViewRelates,
@@ -227,18 +222,6 @@ export default {
     },
 
     methods: {
-        onProgress() {
-            if (this.$refs.progressBar) {
-                this.$refs.progressBar.on();
-            }
-        },
-
-        offProgress() {
-            if (this.$refs.progressBar) {
-                this.$refs.progressBar.off();
-            }
-        },
-
         clickModifyBlog(blogId) {
             this.$router.push({
                 name: "blogs-id-post",

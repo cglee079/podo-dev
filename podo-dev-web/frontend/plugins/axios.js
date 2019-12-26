@@ -11,7 +11,6 @@ export default ({ $axios, redirect, app, store }) => {
                 app.$toast.show("죄송합니다, 알 수 없는 에러가 발생했습니다");
             }
 
-
             if (err.response && err.response.status && err.response.status === 401) {
                 app.$toast.show("죄송합니다, 권한이 없습니다");
             }

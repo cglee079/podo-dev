@@ -1,7 +1,5 @@
 <template>
     <div id="wrapBlogPost" :class="$mq">
-        <progress-bar ref="progressBar" />
-
         <div class="wrap-item">
             <span>공개여부</span>
             <span>
@@ -37,8 +35,6 @@
                 :attachImages="this.input.attachImages"
                 @add="addAttachImage"
                 @remove="removeAttachImage"
-                @onProgress="onProgress"
-                @offProgress="offProgress"
             />
         </div>
 
@@ -47,8 +43,6 @@
                 :attachFiles="input.attachFiles"
                 @add="addAttachFile"
                 @remove="removeAttachFile"
-                @onProgress="onProgress"
-                @offProgress="offProgress"
             />
         </div>
 
@@ -82,12 +76,11 @@
 <script>
 import BlogPostAttachImage from "./BlogPostAttachImage";
 import BlogPostAttachFile from "./BlogPostAttachFile";
-import ProgressBar from "../global/ProgressBar";
+import bus from "../../utils/bus";
 
 export default {
     name: "app",
     components: {
-        ProgressBar,
         "post-image": BlogPostAttachImage,
         "post-file": BlogPostAttachFile
     },
@@ -123,17 +116,6 @@ export default {
         };
     },
     methods: {
-        onProgress() {
-            if (this.$refs.progressBar) {
-                this.$refs.progressBar.on();
-            }
-        },
-        offProgress() {
-            if (this.$refs.progressBar) {
-                this.$refs.progressBar.off();
-            }
-        },
-
         //태그 Input 입력 시,
         keyupTagText(event) {
             let insertValue = this.input.tagText;
@@ -213,7 +195,7 @@ export default {
         },
 
         insertBlog() {
-            this.onProgress();
+            bus.$emit("startSpinner");
 
             this.$axios
                 .$post("/api/blogs", {
@@ -226,16 +208,16 @@ export default {
                 })
 
                 .then(() => {
-                    this.offProgress();
+                    bus.$emit("stopSpinner");
                     this.$router.push({ name: "index" });
                 })
                 .catch(() => {
-                    this.offProgress();
+                    bus.$emit("stopSpinner");
                 });
         },
 
         updateBlog() {
-            this.onProgress();
+            bus.$emit("startSpinner");
 
             this.$axios
                 .$patch(`/api/blogs/${this.id}`, {
@@ -248,7 +230,7 @@ export default {
                 })
 
                 .then(() => {
-                    this.offProgress();
+                    bus.$emit("stopSpinner");
                     this.$router.push({
                         name: "blogs-id",
                         params: {
@@ -257,7 +239,7 @@ export default {
                     });
                 })
                 .catch(() => {
-                    this.offProgress();
+                    bus.$emit("stopSpinner");
                 });
         },
 

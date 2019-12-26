@@ -5,15 +5,18 @@
             <nuxt />
         </article>
         <the-footer />
-        <the-top-button />
+        <spinner :loading="loading" />
+        <top-button />
     </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
 import TheFooter from "../components/TheFooter";
-import TheTopButton from "../components/TheTopButton";
+import TopButton from "../components/global/TopButton";
 import TheNav from "../components/TheNav";
+import Spinner from "../components/global/Spinner";
+import bus from "../utils/bus";
 
 export default {
     metaInfo: {
@@ -30,9 +33,10 @@ export default {
     },
 
     components: {
-        "the-nav": TheNav,
-        "the-footer": TheFooter,
-        "the-top-button": TheTopButton
+        Spinner,
+        TheNav,
+        TheFooter,
+        TopButton
     },
 
     computed: {
@@ -41,31 +45,50 @@ export default {
         })
     },
 
+    data() {
+        return {
+            loading: false
+        };
+    },
     methods: {
         ...mapActions({
             checkLogin: "user/checkLogin"
-        })
+        }),
+
+        startSpinner() {
+            this.loading = true;
+        },
+
+        stopSpinner() {
+            this.loading = false;
+        }
     },
 
     created() {
+        bus.$on("startSpinner", this.startSpinner);
+        bus.$on("stopSpinner", this.stopSpinner);
+
         // 로그인 성공 시,
         const query = this.$route.query;
 
         if (query && query.token) {
-            this.checkLogin({
-                token: query.token,
-                callback: () => {
-                    this.$toast.show("로그인하였습니다");
-                    this.$router.push({ name: "index"});
-                }
+            const token = query.token;
+            this.checkLogin(token).then(() => {
+                this.$toast.show("로그인하였습니다");
+                this.$router.push({ name: "blogs" });
             });
         }
 
         // 새로 고침 시
-        const savedToken = this.$storage.getLocalStorage("token");
-        if (savedToken) {
-            this.checkLogin({ token: savedToken, callback: null });
+        const tokenInStorage = this.$storage.getLocalStorage("token");
+        if (tokenInStorage) {
+            this.checkLogin(tokenInStorage);
         }
+    },
+
+    beforeDestroy() {
+        bus.$off("startSpinner");
+        bus.$off("stopSpinner");
     }
 };
 </script>

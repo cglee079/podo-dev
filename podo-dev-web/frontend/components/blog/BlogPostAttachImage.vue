@@ -49,6 +49,8 @@
 </template>
 
 <script>
+import bus from "../../utils/bus";
+
 export default {
     name: "BlogPostImage",
     props: {
@@ -124,58 +126,60 @@ export default {
         },
 
         uploadBase64(base64) {
-            this.$emit("onProgress");
+            bus.$emit("startSpinner");
 
             this.$axios
                 .$post("/api/blogs/images", { base64: base64 })
                 .then(res => {
                     const attachImage = res.result;
                     this.$emit("add", attachImage);
-                    this.$emit("offProgress");
                 })
-                .catch(() => {
-                    this.$emit("offProgress");
+                .finally(() => {
+                    bus.$emit("stopSpinner");
                 });
         },
 
         uploadImageUrl(imageUrl) {
-            this.$emit("onProgress");
+            bus.$emit("startSpinner");
 
             this.$axios
                 .$post("/api/blogs/images", { imageUrl: imageUrl })
                 .then(res => {
                     const attchImage = res.result;
                     this.$emit("add", attchImage);
-                    this.$emit("offProgress");
                 })
-                .catch(() => {
-                    this.$emit("offProgress");
+                .finally(() => {
+                    bus.$emit("stopSpinner");
                 });
         },
 
-        uploadImage(files, i) {
-            this.$emit("onProgress");
+        uploadImage(files, idx) {
+            bus.$emit("startSpinner");
 
             const config = {
                 headers: { "Content-Type": "multipart/form-data" }
             };
 
             const formData = new FormData();
-            formData.append("fileOfImage", files[i]);
+            formData.append("fileOfImage", files[idx]);
 
             this.$axios
                 .$post("/api/blogs/images", formData, config)
                 .then(res => {
                     const attachImage = res.result;
                     this.$emit("add", attachImage);
-                    this.$emit("offProgress");
+                    bus.$emit("stopSpinner");
 
-                    if (i < files.length - 1) {
-                        this.uploadImage(files, i + 1);
+                    this.$toast.show(`'${files[idx].name}' 업로드 완료하였습니다`);
+
+                    if (idx < files.length - 1) {
+                        this.uploadImage(files, idx + 1);
                     }
                 })
                 .catch(() => {
-                    this.$emit("offProgress");
+                    this.$toast.show(`죄송합니다, '${files[idx].name}' 업로드 완료하였습니다`);
+
+                    bus.$emit("stopSpinner");
                 });
         },
 

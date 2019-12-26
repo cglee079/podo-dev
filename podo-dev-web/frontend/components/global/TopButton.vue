@@ -7,17 +7,18 @@
 <script>
 export default {
     name: "TheTopButton",
-    created() {
-        if (process.client) {
-            window.onscroll = () => {
-                if (window.scrollY > 100) {
-                    this.$refs.btnScrollTop.classList.add("on");
-                    return;
-                }
+    methods: {
+        scroll() {
+            if (window.scrollY > 100) {
+                this.$refs.btnScrollTop.classList.add("on");
+                return;
+            }
 
-                this.$refs.btnScrollTop.classList.remove("on");
-            };
+            this.$refs.btnScrollTop.classList.remove("on");
         }
+    },
+    mounted() {
+        window.onscroll = this.scroll;
     }
 };
 </script>

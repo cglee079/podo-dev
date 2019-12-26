@@ -4,7 +4,7 @@ export default ({ app, store: { state } }) => {
 
         if (!isAdmin) {
             if (to.name === "blogs-post" || to.name === "blogs-id-post") {
-                next({ name: "index" });
+                next({ name: "blogs" });
                 return;
             }
         }

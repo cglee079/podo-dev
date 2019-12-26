@@ -15,8 +15,6 @@
 export default {
     props: ["error"],
     layout: "default",
-
-    mounted() {}
 };
 </script>
 

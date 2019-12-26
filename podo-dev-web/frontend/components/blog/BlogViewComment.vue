@@ -22,8 +22,6 @@
                     :comment="comment"
                     @delete="deleteBlogComment"
                     @reload="refetchBlogComments"
-                    @onProgress="onLoading"
-                    @offProgress="offLoading"
                 />
             </div>
         </div>
@@ -33,8 +31,6 @@
             :parentId="null"
             placeholder="댓글을 입력해주세요"
             @reload="refetchBlogComments"
-            @onProgress="onLoading"
-            @offProgress="offLoading"
         />
     </div>
 </template>
@@ -42,6 +38,7 @@
 <script>
 import BlogViewCommentItem from "./BlogViewCommentItem";
 import BlogViewCommentWrite from "./BlogViewCommentWrite";
+import bus from "../../utils/bus";
 import { mapGetters } from "vuex";
 
 export default {
@@ -74,16 +71,6 @@ export default {
         }
     },
     methods: {
-        onLoading() {
-            this.isLoading = true;
-            this.$emit("onProgress");
-        },
-
-        offLoading() {
-            this.isLoading = false;
-            this.$emit("offProgress");
-        },
-
         refetchBlogComments() {
             if (this.page > 0 && this.comments.length % this.pageSize === 0) {
                 this.page++;
@@ -100,7 +87,8 @@ export default {
                 return;
             }
 
-            this.onLoading();
+            bus.$emit("startSpinner");
+            this.isLoading = true;
 
             this.$axios
                 .$get(`/api/blogs/${this.blogId}/comments`, {
@@ -109,7 +97,8 @@ export default {
                     }
                 })
                 .then(res => {
-                    this.offLoading();
+                    bus.$emit("stopSpinner");
+                    this.isLoading = false;
 
                     res = res.result;
                     res.contents
@@ -130,18 +119,21 @@ export default {
                     this.$refs.comments.classList.add("on");
                 })
                 .catch(() => {
-                    this.offLoading();
+                    bus.$emit("stopSpinner");
+                    this.isLoading = false;
                 });
         },
 
         deleteBlogComment(commentId, index) {
             this.toastConfirm("정말 댓글을 삭제하시겠습니까?", () => {
-                this.onLoading();
+                bus.$emit("startSpinner");
+                this.isLoading = true;
 
                 this.$axios
                     .$delete(`/api/blogs/${this.blogId}/comments/${commentId}`)
                     .then(() => {
-                        this.offLoading();
+                        bus.$emit("stopSpinner");
+                        this.isLoading = false;
 
                         this.$toast.show("댓글이 삭제되었습니다");
                         this.comments[index].enabled = false;
@@ -155,7 +147,8 @@ export default {
                         }
                     })
                     .catch(() => {
-                        this.offLoading();
+                        bus.$emit("stopSpinner");
+                        this.isLoading = false;
                     });
             });
         }
