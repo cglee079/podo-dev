@@ -91,6 +91,7 @@ import BlogViewComment from "../../../components/blog/BlogViewComment";
 import BlogViewExport from "../../../components/blog/BlogViewExport";
 import BlogViewRelates from "../../../components/blog/BlogViewRelates";
 import ToastCustomViewer from "../../../components/global/ToastCustomViewer";
+import bus from "../../../utils/bus";
 
 export default {
     name: "BlogView",
@@ -220,15 +221,17 @@ export default {
         },
 
         clickDeleteBlog(blogId) {
-            this.toastConfirm("정말 삭제하시겠습니까?", () => {
-                this.$axios
-                    .delete(`/api/blogs/${blogId}`)
-                    .then(() => {
+            this.toastConfirm("정말 삭제하시겠습니까?", async () => {
+                try {
+                    bus.$emit("startSpinner");
+                    const response = await this.$axios.delete(`/api/blogs/${blogId}`);
+                    if (response) {
                         this.$router.push({ name: "index" });
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
+                    }
+                } catch (e) {
+                } finally {
+                    bus.$emit("stopSpinner");
+                }
             });
         },
 
