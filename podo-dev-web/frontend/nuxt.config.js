@@ -7,8 +7,8 @@ module.exports = {
     },
 
     router: {
+        base: "/",
         middleware: ["router"],
-        base: "/"
     },
 
     serverMiddleware: ["redirect-ssl"],
@@ -78,7 +78,6 @@ module.exports = {
 
     plugins: [
         { src: "~plugins/axios.js" },
-        // { src: "~plugins/router.js" },
         { src: "~plugins/vue-scrollto.js" },
         { src: "~plugins/mixins.js" },
         { src: "~plugins/tooltip.js" },
