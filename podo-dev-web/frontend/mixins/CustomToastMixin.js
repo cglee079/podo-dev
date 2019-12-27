@@ -6,8 +6,6 @@ export default {
     methods: {
         /**
          * 삭제 확인 메소드
-         * @param description 부가설명
-         * @param callback '예' 클릭 시 Callback
          */
         toastConfirm(description, callbackOk, callbackNo) {
             this.$toast.show(description, {

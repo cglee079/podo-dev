@@ -23,24 +23,24 @@ export default {
         });
     },
 
-    checkLogin({ commit }, token) {
+    async checkLogin({ commit }, token) {
         if (token) {
             this.$axios.defaults.headers.common["Authorization"] = "Bearer " + token;
 
-            this.$axios
-                .$get("/api/user")
-                .then(res => {
-                    const user = res.result;
-                    commit("doLogin", user);
+            try {
+                const response = await this.$axios.$get("/api/user");
 
-                    this.$storage.setLocalStorage("token", token);
+                const user = response.result;
+                commit("doLogin", user);
 
-                    return res;
-                })
-                .catch(() => {
-                    this.$storage.removeLocalStorage("token");
-                    delete this.$axios.defaults.headers.common["Authorization"]; //
-                });
+                this.$storage.setLocalStorage("token", token);
+
+                return response;
+
+            } catch {
+                this.$storage.removeLocalStorage("token");
+                delete this.$axios.defaults.headers.common["Authorization"]; //
+            }
         }
     }
 };

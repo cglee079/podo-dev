@@ -2,8 +2,8 @@
     <div id="write" ref="write" :class="$mq" @click="clickWrite">
         <textarea
             id="contents"
-            :placeholder="write.placeholder"
             v-model="input.contents"
+            :placeholder="write.placeholder"
             :disabled="!isLogin"
         ></textarea>
         <div id="sub">
@@ -19,6 +19,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import bus from "../../utils/bus";
 
 export default {
     name: "BlogViewCommentWrite",
@@ -30,6 +31,7 @@ export default {
     },
     data() {
         return {
+            doing: false,
             write: {
                 placeholder: "로그인 후 댓글을 입력해주세요"
             },
@@ -50,23 +52,36 @@ export default {
             login: "user/login"
         }),
 
-        clickCommentPost() {
+        async clickCommentPost() {
             if (!this.isLogin) {
                 return;
             }
 
-            this.$axios
-                .$post(`/api/blogs/${this.blogId}/comments`, {
+            if (this.doing) {
+                return;
+            }
+
+            try {
+                bus.$emit("startSpinner");
+                this.doing = true;
+
+                const response = await this.$axios.$post(`/api/blogs/${this.blogId}/comments`, {
                     username: this.input.username,
                     contents: this.input.contents,
                     parentId: this.parentId
-                })
-                .then(() => {
+                });
+
+                if (response) {
                     this.$toast.show("댓글이 등록되었습니다");
                     this.input.contents = "";
                     this.$emit("reload");
                     this.$emit("writeListener");
-                });
+                }
+            } catch (e) {
+            } finally {
+                bus.$emit("stopSpinner");
+                this.doing = false;
+            }
         },
 
         updateInput() {

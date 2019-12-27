@@ -40,7 +40,7 @@ export default {
         };
     },
     methods: {
-        fetchBlog(page) {
+        async fetchBlog(page) {
             if (this.isLoading) {
                 return;
             }
@@ -57,28 +57,26 @@ export default {
                 baseUrl = process.env.internalServerUrl;
             }
 
-            this.$axios
-                .$get(`${baseUrl}/api/blogs`, {
+            try {
+                const { result } = await this.$axios.$get(`${baseUrl}/api/blogs`, {
                     params: {
                         page: page,
                         tag: this.filter.tag,
                         search: this.filter.search
                     }
-                })
-                .then(res => {
-                    res = res.result;
-                    res.contents.forEach(item => this.contents.push(item));
-                    this.pageSize = res.pageSize;
-                    this.currentPage = res.currentPage;
-                    this.totalElements = res.totalElements;
-                    this.totalPages = res.totalPages;
-                    this.isLoading = false;
-                })
-                .finally(() => {
-                    if (page === 0) {
-                        bus.$emit("stopSpinner");
-                    }
                 });
+
+                result.contents.forEach(item => this.contents.push(item));
+                this.pageSize = result.pageSize;
+                this.currentPage = result.currentPage;
+                this.totalElements = result.totalElements;
+                this.totalPages = result.totalPages;
+            } catch (e) {
+                console.log(e);
+            } finally {
+                this.isLoading = false;
+                bus.$emit("stopSpinner");
+            }
         },
 
         /**

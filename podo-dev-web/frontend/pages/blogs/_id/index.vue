@@ -79,10 +79,7 @@
                 :relates="blog.relates"
             />
 
-            <blog-view-comment
-                v-if="blog.id"
-                :blog-id="blog.id"
-            />
+            <blog-view-comment v-if="blog.id" :blog-id="blog.id" />
         </div>
     </section>
 </template>
@@ -161,49 +158,40 @@ export default {
         };
     },
 
-    asyncData({ $axios, error, params }) {
+    async asyncData({ $axios, error, params }) {
         const id = params.id;
 
         let baseUrl = process.env.externalServerUrl;
-
         if (process.server) {
             baseUrl = process.env.internalServerUrl;
         }
 
-        return $axios
-            .$get(`${baseUrl}/api/blogs/${id}`)
-            .then(res => {
-                const blog = res.result;
+        try {
+            const response = await $axios.$get(`${baseUrl}/api/blogs/${id}`);
+            const blog = response.result;
+            const keywords = blog.tags.map(tag => tag.val);
 
-                const keywords = blog.tags.map(tag => {
-                    return tag.val;
-                });
+            const meta = {
+                url: `${process.env.frontendUrl}/blogs/${blog.id}`,
+                title: `${process.env.name} : ${blog.title}`,
 
-                const meta = {
-                    url: `${process.env.frontendUrl}/blogs/${blog.id}`,
-                    title: `${process.env.name} : ${blog.title}`,
+                keywords: keywords.join(", "),
+                description:
+                    blog.description.length > 300
+                        ? blog.description.substring(0, 300)
+                        : blog.description,
+                thumbnail: blog.thumbnail ? blog.thumbnail : "/og-image.png",
+                createAt: blog.createAt,
+                publishAt: blog.publishAt,
+                updateAt: blog.updateAt
+            };
 
-                    keywords: keywords.join(", "),
-                    description:
-                        blog.description.length > 300
-                            ? blog.description.substring(0, 300)
-                            : blog.description,
-                    thumbnail: blog.thumbnail ? blog.thumbnail : "/og-image.png",
-                    createAt: blog.createAt,
-                    publishAt: blog.publishAt,
-                    updateAt: blog.updateAt
-                };
-
-                return {
-                    blog,
-                    meta
-                };
-            })
-            .catch(() => {
-                error({
-                    statusCode: 404
-                });
+            return { blog, meta };
+        } catch (e) {
+            error({
+                statusCode: 404
             });
+        }
     },
 
     data() {

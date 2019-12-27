@@ -1,6 +1,6 @@
 import Vue from "vue";
-import CustomToast from "../mixins/CustomToast";
-import Search from "../mixins/Search";
+import CustomToast from "../mixins/CustomToastMixin";
+import Search from "../mixins/SearchMixin";
 
 Vue.mixin(CustomToast);
 Vue.mixin(Search);

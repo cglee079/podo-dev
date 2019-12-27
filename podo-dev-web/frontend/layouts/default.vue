@@ -5,8 +5,8 @@
             <nuxt />
         </article>
         <the-footer />
-        <spinner :loading="loading" />
         <top-button />
+        <spinner :loading="loading" />
     </div>
 </template>
 
@@ -68,9 +68,7 @@ export default {
         bus.$on("startSpinner", this.startSpinner);
         bus.$on("stopSpinner", this.stopSpinner);
 
-        // 로그인 성공 시,
         const query = this.$route.query;
-
         if (query && query.token) {
             const token = query.token;
             this.checkLogin(token).then(() => {

@@ -34,9 +34,9 @@
             <div id="reply">
                 <component
                     :is="reply.component"
-                    :blogId="blogId"
+                    :blog-id="blogId"
                     :index="index"
-                    :parentId="comment.id"
+                    :parent-id="comment.id"
                     :placeholder="`${comment.username} 님에게 답글`"
                     @reload="$emit('reload')"
                     @writeListener="writeListener"

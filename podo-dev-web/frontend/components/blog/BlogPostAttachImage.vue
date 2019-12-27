@@ -52,7 +52,7 @@
 import bus from "../../utils/bus";
 
 export default {
-    name: "BlogPostImage",
+    name: "BlogPostAttachImage",
     props: {
         attachImages: Array
     },
@@ -122,38 +122,15 @@ export default {
 
         onFileChange(event) {
             const fileOfAttachImages = event.target.files;
+
+            if (fileOfAttachImages.length === 0) {
+                return;
+            }
+
             this.uploadImage(fileOfAttachImages, 0);
         },
 
-        uploadBase64(base64) {
-            bus.$emit("startSpinner");
-
-            this.$axios
-                .$post("/api/blogs/images", { base64: base64 })
-                .then(res => {
-                    const attachImage = res.result;
-                    this.$emit("add", attachImage);
-                })
-                .finally(() => {
-                    bus.$emit("stopSpinner");
-                });
-        },
-
-        uploadImageUrl(imageUrl) {
-            bus.$emit("startSpinner");
-
-            this.$axios
-                .$post("/api/blogs/images", { imageUrl: imageUrl })
-                .then(res => {
-                    const attchImage = res.result;
-                    this.$emit("add", attchImage);
-                })
-                .finally(() => {
-                    bus.$emit("stopSpinner");
-                });
-        },
-
-        uploadImage(files, idx) {
+        async uploadImage(files, idx) {
             bus.$emit("startSpinner");
 
             const config = {
@@ -163,24 +140,53 @@ export default {
             const formData = new FormData();
             formData.append("fileOfImage", files[idx]);
 
-            this.$axios
-                .$post("/api/blogs/images", formData, config)
-                .then(res => {
-                    const attachImage = res.result;
-                    this.$emit("add", attachImage);
-                    bus.$emit("stopSpinner");
+            try {
+                const response = await this.$axios.$post("/api/blogs/images", formData, config);
 
-                    this.$toast.show(`'${files[idx].name}' 업로드 완료하였습니다`);
+                const attachImage = response.result;
 
-                    if (idx < files.length - 1) {
-                        this.uploadImage(files, idx + 1);
-                    }
-                })
-                .catch(() => {
-                    this.$toast.show(`죄송합니다, '${files[idx].name}' 업로드 완료하였습니다`);
+                this.$emit("add", attachImage);
+                bus.$emit("stopSpinner");
 
-                    bus.$emit("stopSpinner");
+                this.$toast.show(`'${files[idx].name}' 업로드 완료하였습니다`);
+
+                if (idx < files.length - 1) {
+                    this.uploadImage(files, idx + 1);
+                }
+            } catch {
+                this.$toast.show(`죄송합니다, '${files[idx].name}' 업로드 실패하였습니다`);
+                bus.$emit("stopSpinner");
+            }
+        },
+
+        async uploadBase64(base64) {
+            bus.$emit("startSpinner");
+
+            try {
+                const response = this.$axios.$post("/api/blogs/images", { base64: base64 });
+                const attachImage = response.result;
+                this.$emit("add", attachImage);
+            } catch (e) {
+                this.$toast.show(`죄송합니다, 업로드 실패하였습니다`);
+            } finally {
+                bus.$emit("stopSpinner");
+            }
+        },
+
+        async uploadImageUrl(imageUrl) {
+            bus.$emit("startSpinner");
+
+            try {
+                const response = await this.$axios.$post("/api/blogs/images", {
+                    imageUrl: imageUrl
                 });
+                const attachImage = response.result;
+                this.$emit("add", attachImage);
+            } catch {
+                this.$toast.show(`죄송합니다, 업로드 실패하였습니다`);
+            } finally {
+                bus.$emit("stopSpinner");
+            }
         },
 
         /**

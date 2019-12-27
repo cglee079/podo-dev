@@ -17,7 +17,7 @@
         <div id="comments" ref="comments">
             <div v-for="(comment, index) in comments" :key="comment.id">
                 <comment-item
-                    :blogId="blogId"
+                    :blog-id="blogId"
                     :index="index"
                     :comment="comment"
                     @delete="deleteBlogComment"
@@ -27,8 +27,8 @@
         </div>
 
         <comment-write
-            :blogId="blogId"
-            :parentId="null"
+            :blog-id="blogId"
+            :parent-id="null"
             placeholder="댓글을 입력해주세요"
             @reload="refetchBlogComments"
         />
@@ -82,7 +82,7 @@ export default {
             this.fetchBlogComments(0, this.page);
         },
 
-        fetchBlogComments(pageIdx, currentPage) {
+        async fetchBlogComments(pageIdx, currentPage) {
             if (this.isLoading) {
                 return;
             }
@@ -90,51 +90,48 @@ export default {
             bus.$emit("startSpinner");
             this.isLoading = true;
 
-            this.$axios
-                .$get(`/api/blogs/${this.blogId}/comments`, {
+            try {
+                const response = await this.$axios.$get(`/api/blogs/${this.blogId}/comments`, {
                     params: {
                         page: pageIdx
                     }
-                })
-                .then(res => {
-                    bus.$emit("stopSpinner");
-                    this.isLoading = false;
-
-                    res = res.result;
-                    res.contents
-                        .slice()
-                        .reverse()
-                        .forEach(item => this.comments.unshift(item));
-
-                    this.page = pageIdx;
-                    this.pageSize = res.pageSize;
-                    this.totalElements = res.totalElements;
-                    this.totalPages = res.totalPages;
-
-                    if (pageIdx < currentPage) {
-                        this.fetchBlogComments(pageIdx + 1, currentPage);
-                        return;
-                    }
-
-                    this.$refs.comments.classList.add("on");
-                })
-                .catch(() => {
-                    bus.$emit("stopSpinner");
-                    this.isLoading = false;
                 });
+
+                const result = response.result;
+                result.contents
+                    .slice()
+                    .reverse()
+                    .forEach(item => this.comments.unshift(item));
+
+                this.page = pageIdx;
+                this.pageSize = result.pageSize;
+                this.totalElements = result.totalElements;
+                this.totalPages = result.totalPages;
+
+                if (pageIdx < currentPage) {
+                    this.fetchBlogComments(pageIdx + 1, currentPage);
+                    return;
+                }
+
+                this.$refs.comments.classList.add("on");
+            } catch (e) {
+            } finally {
+                this.isLoading = false;
+                bus.$emit("stopSpinner");
+            }
         },
 
         deleteBlogComment(commentId, index) {
-            this.toastConfirm("정말 댓글을 삭제하시겠습니까?", () => {
+            this.toastConfirm("정말 댓글을 삭제하시겠습니까?", async () => {
                 bus.$emit("startSpinner");
                 this.isLoading = true;
 
-                this.$axios
-                    .$delete(`/api/blogs/${this.blogId}/comments/${commentId}`)
-                    .then(() => {
-                        bus.$emit("stopSpinner");
-                        this.isLoading = false;
+                try {
+                    const response = await this.$axios.$delete(
+                        `/api/blogs/${this.blogId}/comments/${commentId}`
+                    );
 
+                    if (response) {
                         this.$toast.show("댓글이 삭제되었습니다");
                         this.comments[index].enabled = false;
                         this.comments[index].contents = "삭제된 댓글입니다";
@@ -145,11 +142,11 @@ export default {
                         if (this.totalElements % this.pageSize === 0) {
                             this.page--;
                         }
-                    })
-                    .catch(() => {
-                        bus.$emit("stopSpinner");
-                        this.isLoading = false;
-                    });
+                    }
+                } finally {
+                    bus.$emit("stopSpinner");
+                    this.isLoading = false;
+                }
             });
         }
     },

@@ -4,9 +4,9 @@
             <span>공개여부</span>
             <span>
                 <select v-model="input.status">
-                    <option value="PUBLISH">발행(발행일갱신)</option>
-                    <option value="VISIBLE">공개</option>
-                    <option value="INVISIBLE">비공개</option>
+                    <option :value="CONST.BLOG_STATUS.PUBLISH">발행(발행일갱신)</option>
+                    <option :value="CONST.BLOG_STATUS.VISIBLE">공개</option>
+                    <option :value="CONST.BLOG_STATUS.INVISIBLE">비공개</option>
                 </select>
             </span>
         </div>
@@ -77,6 +77,7 @@
 import BlogPostAttachImage from "./BlogPostAttachImage";
 import BlogPostAttachFile from "./BlogPostAttachFile";
 import bus from "../../utils/bus";
+import { mapGetters } from "vuex";
 
 export default {
     name: "app",
@@ -87,14 +88,26 @@ export default {
     props: {
         id: Number
     },
-    watch: {
-        id(value) {
-            this.isNew = false;
-            this.fetchBlog(value);
-        }
+    // watch: {
+    //     id(value) {
+    //         this.isNew = false;
+    //         this.fetchBlog(value);
+    //     }
+    // },
+    computed: {
+        ...mapGetters({
+            isAdmin: "user/isAdmin"
+        })
     },
     data() {
         return {
+            CONST: {
+                BLOG_STATUS: {
+                    PUBLISH: "PUBLISH",
+                    VISIBLE: "VISIBLE",
+                    INVISIBLE: "INVISIBLE"
+                }
+            },
             isNew: true,
             config: {
                 maxAttachImageWidth: 720
@@ -153,35 +166,38 @@ export default {
             this.input.tags.splice(index, 1);
         },
 
-        fetchBlog(blogId) {
-            this.$axios.$get(`/api/blogs/${blogId}`).then(res => {
-                const blog = res.result;
-                this.input.title = blog.title;
-                this.input.contents = blog.contents;
-                this.input.tags = blog.tags;
-                this.input.attachImages = blog.attachImages;
-                this.input.attachFiles = blog.attachFiles;
-                this.input.status = blog.enabled ? "VISIBLE" : "INVISIBLE";
-            });
+        async fetchBlog(blogId) {
+            const response = await this.$axios.$get(`/api/blogs/${blogId}`);
+
+            const blog = response.result;
+            this.input.title = blog.title;
+            this.input.contents = blog.contents;
+            this.input.tags = blog.tags;
+            this.input.attachImages = blog.attachImages;
+            this.input.attachFiles = blog.attachFiles;
+            this.input.status = blog.enabled
+                ? this.CONST.BLOG_STATUS.VISIBLE
+                : this.CONST.BLOG_STATUS.INVISIBLE;
         },
 
         clickSubmit() {
-            if (this.input.status === "PUBLISH") {
-                this.toastConfirm(
-                    "정말 발행하시겠습니까?",
-                    () => {
-                        //OK
-                        this.submit();
-                    },
-                    () => {
-                        // NO
-                        this.input.status = "VISIBLE";
-                        this.submit();
-                    }
-                );
-            } else {
+            if (this.input.status !== this.CONST.BLOG_STATUS.PUBLISH) {
                 this.submit();
+                return;
             }
+
+            this.toastConfirm(
+                "정말 발행하시겠습니까?",
+                () => {
+                    //OK
+                    this.submit();
+                },
+                () => {
+                    // NO
+                    this.input.status = this.CONST.BLOG_STATUS.INVISIBLE;
+                    this.submit();
+                }
+            );
         },
 
         submit() {
@@ -194,53 +210,53 @@ export default {
             }
         },
 
-        insertBlog() {
+        async insertBlog() {
             bus.$emit("startSpinner");
 
-            this.$axios
-                .$post("/api/blogs", {
+            try {
+                const response = await this.$axios.$post("/api/blogs", {
                     title: this.input.title,
                     contents: this.input.contents,
                     status: this.input.status,
                     tags: this.input.tags,
                     attachImages: this.input.attachImages,
                     attachFiles: this.input.attachFiles
-                })
-
-                .then(() => {
-                    bus.$emit("stopSpinner");
-                    this.$router.push({ name: "index" });
-                })
-                .catch(() => {
-                    bus.$emit("stopSpinner");
                 });
+
+                if (response) {
+                    this.$router.push({ name: "index" });
+                }
+            } catch (e) {
+            } finally {
+                bus.$emit("stopSpinner");
+            }
         },
 
-        updateBlog() {
+        async updateBlog() {
             bus.$emit("startSpinner");
 
-            this.$axios
-                .$patch(`/api/blogs/${this.id}`, {
+            try {
+                const response = await this.$axios.$patch(`/api/blogs/${this.id}`, {
                     title: this.input.title,
                     contents: this.input.contents,
                     status: this.input.status,
                     tags: this.input.tags,
                     attachImages: this.input.attachImages,
                     attachFiles: this.input.attachFiles
-                })
+                });
 
-                .then(() => {
-                    bus.$emit("stopSpinner");
+                if (response) {
                     this.$router.push({
                         name: "blogs-id",
                         params: {
                             id: this.id
                         }
                     });
-                })
-                .catch(() => {
-                    bus.$emit("stopSpinner");
-                });
+                }
+            } catch (e) {
+            } finally {
+                bus.$emit("stopSpinner");
+            }
         },
 
         addAttachImage(attachImage) {
@@ -324,14 +340,7 @@ export default {
         }
     },
 
-    created() {
-        const blogId = this.id ? this.id : null;
-
-        if (blogId) {
-            this.isNew = false;
-            this.fetchBlog(blogId);
-        }
-
+    mounted() {
         if (process.client) {
             const blogId = this.id ? this.id : "";
             const autoSaveKey = this.autoSave.key + blogId;
@@ -350,24 +359,37 @@ export default {
                     }
                 );
             }
-
-            //Setting Interval
-            this.autoSave.interval = setInterval(() => {
-                const currentInput = JSON.stringify(this.input);
-                const saveInput = JSON.stringify(this.$storage.getLocalStorage(autoSaveKey));
-
-                if (saveInput !== currentInput) {
-                    this.$toast.show("자동저장 되었습니다");
-                    this.$storage.setLocalStorage(autoSaveKey, currentInput);
-                }
-            }, 1000 * 60 * 2);
         }
     },
 
-    destroyed() {
-        if (process.client) {
-            clearInterval(this.autoSave.interval);
+    created() {
+        if (!this.isAdmin) {
+            this.$router.push({ name: "blogs" });
+            return;
         }
+
+        const blogId = this.id ? this.id : null;
+
+        if (blogId) {
+            this.isNew = false;
+            this.fetchBlog(blogId);
+        }
+
+        //Setting Interval
+        const autoSaveKey = this.autoSave.key + blogId;
+        this.autoSave.interval = setInterval(() => {
+            const currentInput = JSON.stringify(this.input);
+            const saveInput = JSON.stringify(this.$storage.getLocalStorage(autoSaveKey));
+
+            if (saveInput !== currentInput) {
+                this.$toast.show("자동저장 되었습니다");
+                this.$storage.setLocalStorage(autoSaveKey, currentInput);
+            }
+        }, 1000 * 60 * 2);
+    },
+
+    beforeDestroy() {
+        clearInterval(this.autoSave.interval);
     }
 };
 </script>

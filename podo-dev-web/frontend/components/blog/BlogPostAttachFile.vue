@@ -39,10 +39,14 @@ export default {
         onFileChange(event) {
             const files = event.target.files;
 
+            if (files.length === 0) {
+                return;
+            }
+
             this.uploadFile(files, 0);
         },
 
-        uploadFile(files, idx) {
+        async uploadFile(files, idx) {
             bus.$emit("startSpinner");
 
             const config = {
@@ -52,23 +56,22 @@ export default {
             const formData = new FormData();
             formData.append("file", files[idx]);
 
-            this.$axios
-                .$post("/api/blogs/files", formData, config)
-                .then(res => {
-                    const file = res.result;
-                    this.$emit("add", file);
-                    bus.$emit("stopSpinner");
+            try {
+                const response = await this.$axios.$post("/api/blogs/files", formData, config);
 
-                    this.$toast.show(`'${files[idx].name}' 업로드 완료하였습니다`);
+                const file = response.result;
+                this.$emit("add", file);
 
-                    if (idx < files.length - 1) {
-                        this.uploadFile(files, idx + 1);
-                    }
-                })
-                .catch(() => {
-                    this.$toast.show(`죄송합니다, '${files[idx].name}' 업로드 실패하였습니다`);
-                    bus.$emit("stopSpinner");
-                });
+                this.$toast.show(`'${files[idx].name}' 업로드 완료하였습니다`);
+                bus.$emit("stopSpinner");
+
+                if (idx < files.length - 1) {
+                    this.uploadFile(files, idx + 1);
+                }
+            } catch (e) {
+                this.$toast.show(`죄송합니다, '${files[idx].name}' 업로드 실패하였습니다`);
+                bus.$emit("stopSpinner");
+            }
         },
 
         /**

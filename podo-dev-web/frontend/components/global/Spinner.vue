@@ -48,7 +48,7 @@ export default {
     left: 0;
     right: 0;
     z-index: 5000;
-    background: rgba(0, 0, 0, 0.09);
+    background: rgba(0, 0, 0, 0.05);
     display: none;
 
     &.on {

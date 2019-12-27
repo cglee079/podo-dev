@@ -8,7 +8,6 @@ module.exports = {
 
     router: {
         base: "/",
-        redirect: "/blogs"
     },
 
     serverMiddleware: ["redirect-ssl"],

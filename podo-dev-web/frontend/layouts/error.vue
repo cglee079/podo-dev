@@ -1,8 +1,7 @@
 <template>
     <div id="container">
-        <img id="logo" src="../assets/podo-dev.svg"  alt="logo"/>
-
-        <nuxt-link :to="{ name: 'index' }">
+        <img id="logo" src="../assets/podo-dev.svg" alt="logo" />
+        <nuxt-link :to="{ name: 'blogs' }">
             <div id="message">
                 <span v-if="error.statusCode === 404">페이지를 찾을 수 없습니다 :(</span>
                 <span v-else>알 수 없는 에러 :(</span>
@@ -14,7 +13,7 @@
 <script>
 export default {
     props: ["error"],
-    layout: "default",
+    layout: "default"
 };
 </script>
 
