@@ -12,8 +12,7 @@ export default {
                     }
                 });
 
-                const facets = response.result.contents;
-                return facets;
+                return response.result.contents;
 
             } catch (e) {
                 return [];
