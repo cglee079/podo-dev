@@ -52,13 +52,8 @@ export default {
 
             this.isLoading = true;
 
-            let baseUrl = process.env.externalServerUrl;
-            if (process.server) {
-                baseUrl = process.env.internalServerUrl;
-            }
-
             try {
-                const { result } = await this.$axios.$get(`${baseUrl}/api/blogs`, {
+                const { result } = await this.$axios.$get(`${this.$baseUrl()}/api/blogs`, {
                     params: {
                         page: page,
                         tag: this.filter.tag,
@@ -72,7 +67,6 @@ export default {
                 this.totalElements = result.totalElements;
                 this.totalPages = result.totalPages;
             } catch (e) {
-                console.log(e);
             } finally {
                 this.isLoading = false;
                 bus.$emit("stopSpinner");

@@ -68,15 +68,10 @@ export default {
         };
     },
 
-    async asyncData({ $axios }) {
-        let baseUrl = process.env.externalServerUrl;
+    async asyncData({ $axios, app }) {
 
-        if (process.server) {
-            baseUrl = process.env.internalServerUrl;
-        }
-
-        const resumes = await $axios.$get(`${baseUrl}/api/resumes`);
-        const experiences = await $axios.$get(`${baseUrl}/api/resumes/experiences`);
+        const resumes = await $axios.$get(`${app.$baseUrl()}/api/resumes`);
+        const experiences = await $axios.$get(`${app.$baseUrl()}/api/resumes/experiences`);
 
         return {
             resumes: resumes.result.contents,

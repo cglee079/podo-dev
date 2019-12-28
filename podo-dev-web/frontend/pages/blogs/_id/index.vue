@@ -159,16 +159,12 @@ export default {
         };
     },
 
-    async asyncData({ $axios, error, params }) {
+    async asyncData({ $axios, app, error, params }) {
         const id = params.id;
 
-        let baseUrl = process.env.externalServerUrl;
-        if (process.server) {
-            baseUrl = process.env.internalServerUrl;
-        }
-
         try {
-            const response = await $axios.$get(`${baseUrl}/api/blogs/${id}`);
+            const response = await $axios.$get(`${app.$baseUrl()}/api/blogs/${id}`);
+
             const blog = response.result;
             const keywords = blog.tags.map(tag => tag.val);
 
@@ -274,25 +270,25 @@ export default {
 
         increaseHitCount(blogId) {
             this.$axios.$post(`/api/blogs/${blogId}/hitCount`);
-        },
+        }
+    },
 
-        created() {
-            this.filter.search = this.$route.query.searchw;
-            this.filter.tag = this.$route.query.tag;
+    beforeMount() {
+        this.filter.search = this.$route.query.search;
+        this.filter.tag = this.$route.query.tag;
 
-            const blogId = this.blog.id;
-            const HIT_BLOGS_KEY = "HIT_BLOGS";
-            let hitBlogs = this.$storage.getLocalStorage(HIT_BLOGS_KEY);
+        const blogId = this.blog.id;
+        const HIT_BLOGS_KEY = "HIT_BLOGS";
+        let hitBlogs = this.$storage.getLocalStorage(HIT_BLOGS_KEY);
 
-            if (!hitBlogs) {
-                hitBlogs = [];
-            }
+        if (!hitBlogs) {
+            hitBlogs = [];
+        }
 
-            if (!hitBlogs.includes(blogId)) {
-                hitBlogs.push(blogId);
-                this.$storage.setLocalStorage(HIT_BLOGS_KEY, hitBlogs);
-                this.increaseHitCount(blogId);
-            }
+        if (!hitBlogs.includes(blogId)) {
+            hitBlogs.push(blogId);
+            this.$storage.setLocalStorage(HIT_BLOGS_KEY, hitBlogs);
+            this.increaseHitCount(blogId);
         }
     }
 };

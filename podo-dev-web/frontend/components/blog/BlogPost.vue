@@ -341,24 +341,22 @@ export default {
     },
 
     mounted() {
-        if (process.client) {
-            const blogId = this.id ? this.id : "";
-            const autoSaveKey = this.autoSave.key + blogId;
+        const blogId = this.id ? this.id : "";
+        const autoSaveKey = this.autoSave.key + blogId;
 
-            const savedInputValue = this.$storage.getLocalStorage(autoSaveKey);
+        const savedInputValue = this.$storage.getLocalStorage(autoSaveKey);
 
-            if (savedInputValue) {
-                this.toastConfirm(
-                    "자동저장된 데이터가있습니다, 로딩하시겠습니까?",
-                    () => {
-                        this.input = savedInputValue;
-                        this.removeAutoSaved(blogId);
-                    },
-                    () => {
-                        this.removeAutoSaved(blogId);
-                    }
-                );
-            }
+        if (savedInputValue) {
+            this.toastConfirm(
+                "자동저장된 데이터가있습니다, 로딩하시겠습니까?",
+                () => {
+                    this.input = savedInputValue;
+                    this.removeAutoSaved(blogId);
+                },
+                () => {
+                    this.removeAutoSaved(blogId);
+                }
+            );
         }
     },
 

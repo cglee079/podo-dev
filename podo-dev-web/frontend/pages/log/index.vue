@@ -80,16 +80,10 @@ export default {
             archive: {}
         };
     },
-    async asyncData({ $axios }) {
-        let baseUrl = process.env.externalServerUrl;
-
-        if (process.server) {
-            baseUrl = process.env.internalServerUrl;
-        }
-
-        const tags = await $axios.$get(`${baseUrl}/api/tags`);
-        const recentComments = await $axios.$get(`${baseUrl}/api/comments/recent`);
-        const archive = await $axios.$get(`${baseUrl}/api/blogs/archive`);
+    async asyncData({ $axios, app }) {
+        const tags = await $axios.$get(`${app.$baseUrl()}/api/tags`);
+        const recentComments = await $axios.$get(`${app.$baseUrl()}/api/comments/recent`);
+        const archive = await $axios.$get(`${app.$baseUrl()}/api/blogs/archive`);
 
         return {
             tags: tags.result.contents,

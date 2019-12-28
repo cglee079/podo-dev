@@ -81,6 +81,7 @@ module.exports = {
         { src: "~plugins/mixins.js" },
         { src: "~plugins/tooltip.js" },
         { src: "~plugins/autocomplete.js" },
+        { src: "~plugins/combined-inject.js" },
         { src: "~plugins/scroll-progressbar.js" },
         { src: "~plugins/toast-editor.js" }
     ],

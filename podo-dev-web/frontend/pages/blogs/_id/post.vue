@@ -17,7 +17,7 @@ export default {
         };
     },
     created() {
-        this.id = parseInt(this.$route.params.id);
+        this.id = parseInt(this.$route.paarams.id);
     }
 };
 </script>
