@@ -7,8 +7,7 @@ module.exports = {
     },
 
     router: {
-        base: "/",
-        middleware: ["router"],
+        base: "/"
     },
 
     serverMiddleware: ["redirect-ssl"],

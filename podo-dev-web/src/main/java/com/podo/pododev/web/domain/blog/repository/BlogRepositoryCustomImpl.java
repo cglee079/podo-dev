@@ -67,10 +67,11 @@ public class BlogRepositoryCustomImpl extends QuerydslRepositorySupport implemen
     }
 
     @Override
-    public List<Blog> findByEnabled(Boolean enabled) {
+    public List<Blog> findByEnabledOrderByPublishDesc(Boolean enabled) {
 
         return from(blog)
                 .where(blog.enabled.eq(enabled))
+                .orderBy(blog.publishAt.desc())
                 .fetch();
     }
 

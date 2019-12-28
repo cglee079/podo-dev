@@ -7,6 +7,7 @@ import BlogPost from "../../../components/blog/BlogPost";
 
 export default {
     name: "post",
+    middleware: ["authenticated"],
     components: {
         BlogPost
     },

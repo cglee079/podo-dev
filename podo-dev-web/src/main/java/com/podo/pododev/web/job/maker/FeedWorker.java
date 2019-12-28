@@ -27,7 +27,7 @@ public class FeedWorker implements Worker {
 
         log.info("웹 피드에 반영되지 않은 게시글을 확인하였습니다. 웹피드 제작 작업을 수행합니다");
 
-        final List<BlogDto.feed> blogs = blogFeedService.findByEnabled();
+        final List<BlogDto.feed> blogs = blogFeedService.findByEnabledOrderByPublishDesc();
 
         for (FeedMakeExecutor feedMakeExecutor : feedMakeExecutors) {
             feedMakeExecutor.doExecute(blogs);

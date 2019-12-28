@@ -16,7 +16,6 @@ import java.util.List;
 public class WorkScheduler {
 
     private final List<Worker> workers;
-    private final BlogFeedService blogFeedService;
 
 
     @Scheduled(cron = "0 */30 * * * *")

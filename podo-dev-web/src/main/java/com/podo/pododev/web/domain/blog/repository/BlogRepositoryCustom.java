@@ -16,7 +16,7 @@ public interface BlogRepositoryCustom {
 
     Page<Blog> paging(Pageable pageable, List<Long> ids, Boolean enabled);
 
-    List<Blog> findByEnabled(Boolean enabled);
+    List<Blog> findByEnabledOrderByPublishDesc(Boolean enabled);
 
     List<Blog> findByWebFeeded(Boolean feeded);
 
