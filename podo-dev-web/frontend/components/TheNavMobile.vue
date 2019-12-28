@@ -59,7 +59,7 @@
 
         <div id="mobileSearch" ref="mobileSearch">
             <autocomplete
-                :search="searchFacet"
+                :search="fetchWords"
                 :autoSelect="true"
                 placeholder="검색어를 입력해주세요"
                 baseClass="autocomplete-mobile"
@@ -70,9 +70,12 @@
 </template>
 
 <script>
+import SearchMixins from "../mixins/SearchMixin";
+
 export default {
     name: "TheNavMobile",
     props: ["isAdmin", "isLogin"],
+    mixins: [SearchMixins],
     methods: {
         login() {
             this.$emit("login");
@@ -101,7 +104,7 @@ export default {
         submitSearch(input) {
             this.offMobileMenu();
             this.offSearch();
-            this.submit(input);
+            this.search(input);
         },
 
         onSearch() {

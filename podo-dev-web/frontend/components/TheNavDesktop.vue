@@ -14,7 +14,7 @@
         </div>
 
         <div id="search">
-            <autocomplete :search="searchFacet" :autoSelect="true" @submit="submit" />
+            <autocomplete :search="fetchWords" :autoSelect="true" @submit="search" />
         </div>
 
         <div id="loginMenus">
@@ -34,12 +34,15 @@
 </template>
 
 <script>
+import SearchMixin from "../mixins/SearchMixin";
+
 export default {
     name: "TheNavDesktop",
     props: {
         userinfo: Object,
         isLogin: Boolean
     },
+    mixins: [SearchMixin],
     methods: {
         login() {
             this.$emit("login");

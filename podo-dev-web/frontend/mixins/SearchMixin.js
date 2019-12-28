@@ -1,36 +1,32 @@
 export default {
     methods: {
-        searchFacet(searchValue) {
-            return new Promise(resolve => {
-                if (searchValue.length < 1) {
-                    return resolve([]);
-                }
+        async fetchWords(searchValue) {
+            if (searchValue.length < 1) {
+                return [];
+            }
 
-                this.$axios
-                    .$get("/api/blogs/words", {
-                        params: {
-                            searchValue: searchValue
-                        }
-                    })
-                    .then(res => {
-                        const facets = res.result.contents;
-                        resolve(facets);
-                    })
-                    .catch(() => {
-                        resolve([]);
-                    });
-            });
+            try {
+                const response = await this.$axios.$get("/api/blogs/words", {
+                    params: {
+                        searchValue: searchValue
+                    }
+                });
+
+                const facets = response.result.contents;
+                return facets;
+
+            } catch (e) {
+                return [];
+            }
         },
 
-        submit(result) {
-            this.$emit("submit");
-
+        search(result) {
             if (!result) {
                 this.$toast.show("검색어를 정확히 입력해주세요");
                 return;
             }
 
-            this.$router.push({name: "blogs", query: {search: result}});
+            this.$router.push({ name: "blogs", query: { search: result } });
         }
     }
 };
