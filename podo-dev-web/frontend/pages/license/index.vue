@@ -245,12 +245,12 @@ export default {
 
     head() {
         return {
-            title: `${process.env.name} : license`,
+            title: `${process.env.NAME} : license`,
             meta: [
                 { hid: "description", name: "description", content: "podo-dev, license" },
                 { property: "og:description", content: "podo-dev, license" }
             ],
-            link: [{ rel: "canonical", href: `${process.env.frontendUrl}/license` }]
+            link: [{ rel: "canonical", href: `${process.env.STATIC_URL}/license` }]
         };
     }
 };

@@ -15,7 +15,7 @@ export default {
             meta: [
                 { hid: "og:description", property: "og:description", content: "podo-dev, blogs" }
             ],
-            link: [{ rel: "canonical", href: process.env.frontendUrl }]
+            link: [{ rel: "canonical", href: process.env.STATIC_URL }]
         };
     },
     components: {

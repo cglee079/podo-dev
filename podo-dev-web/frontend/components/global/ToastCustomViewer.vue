@@ -1,6 +1,6 @@
 <template>
     <div id="custom-viewer" :class="$mq">
-        <div v-html="this.$md.render(value)" ref="serverOnly" class="tui-editor-contents"></div>
+        <div v-html="$md.render(value)" ref="serverOnly" class="tui-editor-contents"></div>
 
         <client-only>
             <TuiEditorViewer :value="value" />
@@ -14,6 +14,7 @@ export default {
     props: {
         value: String
     },
+
     mounted() {
         this.$refs.serverOnly.innerHTML = "";
     }
@@ -31,7 +32,7 @@ export default {
             word-break: break-all;
 
             pre {
-                marign: 10px 0 8px 0px;
+                margin: 10px 0 8px 0;
                 overflow-x: auto;
                 border-radius: 5px;
 

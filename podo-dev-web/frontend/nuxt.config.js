@@ -13,13 +13,10 @@ module.exports = {
     serverMiddleware: ["redirect-ssl"],
 
     env: {
-        frontendUrl: "https://www.podo-dev.com",
-        internalServerUrl: "http://192.168.219.103:28080",
-        externalServerUrl: "https://server.podo-dev.com",
-        // internalServerUrl: 'http://192.168.219.102:28080',
-        // externalServerUrl: 'http://localhost:28080',
-
-        name: "podo-dev"
+        NAME: "podo-dev",
+        STATIC_URL: "https://www.podo-dev.com",
+        INTERNAL_SERVER_URL: "http://192.168.219.103:28080",
+        EXTERNAL_SERVER_URL: "https://server.podo-dev.com"
     },
 
     build: {

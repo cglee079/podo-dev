@@ -163,7 +163,7 @@ export default {
             bus.$emit("startSpinner");
 
             try {
-                const response = this.$axios.$post("/api/blogs/images", { base64: base64 });
+                const response = await this.$axios.$post("/api/blogs/images", { base64: base64 });
                 const attachImage = response.result;
                 this.$emit("add", attachImage);
             } catch (e) {

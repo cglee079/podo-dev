@@ -7,7 +7,7 @@
                 v-for="relate in relates"
                 :key="relate.id"
                 :to="{ name: 'blogs-id', params: { id: relate.id } }"
-                :class="relate.id === blogId ? 'current' : ''"
+                :class="relate.id === blogId ? 'reading' : ''"
                 class="related-item"
             >
                 <span class="title">{{ relate.title }} ({{ relate.commentCount }})</span>
@@ -52,7 +52,7 @@ export default {
         padding-left: 3px;
         margin: 7px 0px;
 
-        &.current {
+        &.reading {
             color: #222222;
             text-decoration: underline;
         }

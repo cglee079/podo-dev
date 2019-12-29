@@ -64,10 +64,7 @@ export default {
         }
     },
 
-    created() {
-        bus.$on("startSpinner", this.startSpinner);
-        bus.$on("stopSpinner", this.stopSpinner);
-
+    beforeMount() {
         const query = this.$route.query;
         if (query && query.token) {
             const token = query.token;
@@ -82,6 +79,11 @@ export default {
         if (tokenInStorage) {
             this.checkLogin(tokenInStorage);
         }
+    },
+
+    created() {
+        bus.$on("startSpinner", this.startSpinner);
+        bus.$on("stopSpinner", this.stopSpinner);
     },
 
     beforeDestroy() {

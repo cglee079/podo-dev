@@ -52,12 +52,12 @@ export default {
     },
     head() {
         return {
-            title: `${process.env.name} : resume`,
+            title: `${process.env.NAME} : resume`,
             meta: [
                 { hid: "description", name: "description", content: "podo's resume" },
                 { property: "og:description", content: "podo's resume" }
             ],
-            link: [{ rel: "canonical", href: `${process.env.frontendUrl}/resume` }]
+            link: [{ rel: "canonical", href: `${process.env.STATIC_URL}/resume` }]
         };
     },
 

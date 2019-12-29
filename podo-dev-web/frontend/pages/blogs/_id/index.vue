@@ -169,8 +169,8 @@ export default {
             const keywords = blog.tags.map(tag => tag.val);
 
             const meta = {
-                url: `${process.env.frontendUrl}/blogs/${blog.id}`,
-                title: `${process.env.name} : ${blog.title}`,
+                url: `${process.env.STATIC_URL}/blogs/${blog.id}`,
+                title: `${process.env.NAME} : ${blog.title}`,
 
                 keywords: keywords.join(", "),
                 description:

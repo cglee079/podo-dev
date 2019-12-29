@@ -68,9 +68,9 @@ export default {
     name: "Log",
     head() {
         return {
-            title: `${process.env.name} : log`,
+            title: `${process.env.NAME} : log`,
             meta: [{ property: "og:description", content: "podo-dev, log" }],
-            link: [{ rel: "canonical", href: `${process.env.frontendUrl}/log` }]
+            link: [{ rel: "canonical", href: `${process.env.STATIC_URL}/log` }]
         };
     },
     data() {
