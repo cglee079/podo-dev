@@ -37,11 +37,8 @@ public class RssMaker {
 
     public void makeRss(List<BlogDto.feed> blogs) {
 
-        final List<BlogDto.feed> reverseBlogs = new LinkedList<>(blogs);
-        Collections.reverse(reverseBlogs);
-
         final SyndFeed rssFeed = new SyndFeedImpl();
-        final List<SyndEntry> blogEntries = createBlogEntries(reverseBlogs);
+        final List<SyndEntry> blogEntries = createBlogEntries(blogs);
 
         setWebInfo(rssFeed);
         rssFeed.setEntries(blogEntries);

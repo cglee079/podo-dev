@@ -20,7 +20,7 @@ public class BlogFeedService {
     private final BlogRepository blogRepository;
 
     public List<BlogDto.feed> findByEnabledOrderByPublishDesc() {
-        List<Blog> exitedBlogs = blogRepository.findByEnabledOrderByPublishDesc(true);
+        List<Blog> exitedBlogs = blogRepository.findByEnabledOrderByPublishAsc(true);
         return exitedBlogs.stream()
                 .map(BlogDto.feed::new)
                 .collect(Collectors.toList());
