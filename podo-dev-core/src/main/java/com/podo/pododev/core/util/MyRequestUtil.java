@@ -1,10 +1,13 @@
 package com.podo.pododev.core.util;
 
+import lombok.experimental.UtilityClass;
+
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
+@UtilityClass
 public class MyRequestUtil {
 
     public static String getBrowser(HttpServletRequest request) {
