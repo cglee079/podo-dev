@@ -3,7 +3,7 @@ export default {
         this.$axios.$get("/api/login/enabled").then(res => {
             const result = res.result;
             if (result) {
-                window.location.href = process.env.externalServerUrl + "/login/google";
+                window.location.href = process.env.EXTERNAL_SERVER_URL + "/login/google";
             } else {
                 this.$toast.show("다른 브라우저로 로그인해주세요");
             }
@@ -39,7 +39,7 @@ export default {
 
             } catch {
                 this.$storage.removeLocalStorage("token");
-                delete this.$axios.defaults.headers.common["Authorization"]; //
+                delete this.$axios.defaults.headers.common["Authorization"];
             }
         }
     }

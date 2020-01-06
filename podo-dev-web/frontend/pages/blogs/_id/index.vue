@@ -261,7 +261,7 @@ export default {
         },
 
         clickFile(fileId) {
-            window.location.href = `${process.env.externalServerUrl}/api/blogs/${this.blog.id}/files/${fileId}`;
+            window.location.href = `${process.env.EXTERNAL_SERVER_URL}/api/blogs/${this.blog.id}/files/${fileId}`;
         },
 
         formatFilesize(value) {

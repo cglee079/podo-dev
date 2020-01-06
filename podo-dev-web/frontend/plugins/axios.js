@@ -24,9 +24,9 @@ export default ({ $axios, redirect, app, store }) => {
             }
 
             if (response && response.status && response.status === 400) {
-                const response = response.data;
-                if (response.errors && app.$toast) {
-                    response.errors.forEach(err => app.$toast.show(err));
+                const data = response.data;
+                if (data.errors && app.$toast) {
+                    data.errors.forEach(err => app.$toast.show(err));
                 }
             }
 

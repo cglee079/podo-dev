@@ -1,6 +1,6 @@
 module.exports = {
-    mode: "spa",
-    debug: true,
+    // mode: "spa",
+    // debug: true,
 
     loading: {
         color: "#444444"
@@ -89,6 +89,7 @@ module.exports = {
         "@nuxtjs/axios",
         "@nuxtjs/toast",
         "@nuxtjs/universal-storage",
+        "@nuxtjs/google-analytics",
 
         [
             "nuxt-mq",
@@ -120,7 +121,11 @@ module.exports = {
     },
 
     tui: {
-        editor: {}
+        editor: {
+            stylesheet: {
+                codeHighlight: '~/assets/css/custom-highlight.css',
+            },
+        }
     },
 
     storage: {
@@ -138,5 +143,11 @@ module.exports = {
         breaks: true,
         use: ["markdown-it-div", "markdown-it-attrs"],
         injected: true
-    }
+    },
+
+    googleAnalytics: {
+        id: "UA-155243224-1"
+    },
+
+
 };

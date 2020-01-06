@@ -21,40 +21,59 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 /**
-* Toast Viewer Override CSS
-*/
-#custom-viewer {
-    /deep/ {
-        .tui-editor-contents {
-            font-size: 1rem !important;
-            word-break: break-all;
+        * Toast Viewer Override CSS
+        */
+.tui-editor-contents {
+    font-size: 1rem !important;
+    word-break: break-all;
 
-            pre {
-                margin: 10px 0 8px 0;
-                overflow-x: auto;
-                border-radius: 5px;
+    pre {
+        margin: 10px 0 8px 0;
+        overflow-x: auto;
+        border-radius: 7px;
+        background: #2b2b2b;
+        color: #dddddd;
 
-                code {
-                    white-space: unset !important;
-                }
-            }
-
-            h1,
-            h2,
-            h3,
-            h4,
-            h5 {
-                border-bottom: 0.5px solid #dbdbdb;
-                line-height: 2rem;
-            }
-
-            img {
-                border-color: #dddddd;
-                border-radius: 5px;
-            }
+        &::-webkit-scrollbar {
+            width: 0.5em;
+            height: 0.7em;
         }
+
+        &::-webkit-scrollbar-button {
+            width: 0;
+        }
+
+        &::-webkit-scrollbar-track-piece {
+            background: #cccccc;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: #666666;
+        }
+
+        code {
+            white-space: unset !important;
+        }
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+        border-bottom: 0.5px solid #dbdbdb;
+        line-height: 2rem;
+    }
+
+    h6 {
+        line-height: 2rem;
+    }
+
+    img {
+        border-color: #dddddd;
+        border-radius: 5px;
     }
 
     &.mobile {
