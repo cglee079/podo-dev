@@ -41,7 +41,7 @@ public class CommentReadService {
                 .collect(Collectors.toList());
     }
 
-    @Cacheable(value = "getBlogComment", key = "#blogId + #requestPaging.page")
+    @Cacheable(value = "getBlogComment", key = "#blogId + '#' + #requestPaging.page")
     public PageDto<CommentDto.response> paging(Long blogId, CommentDto.requestPaging requestPaging) {
 
         final int newPage = reversePage(requestPaging.getPage(), commentRepository.countByBlogId(blogId));
