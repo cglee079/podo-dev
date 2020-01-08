@@ -6,7 +6,9 @@ import com.podo.pododev.core.util.TimeUtil;
 import com.rometools.rome.feed.synd.*;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedOutput;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -17,9 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.temporal.ChronoUnit;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -82,18 +82,20 @@ public class RssMaker {
         List<SyndEntry> entries = new LinkedList<>();
 
         for (BlogDto.feed blog : reverseBlogs) {
-            SyndEntry entry = new SyndEntryImpl();
+
+            SyndEntry entry = new CustomEntryImpl();
 
             //Define Desc
             SyndContent description = new SyndContentImpl();
-            description.setValue(blog.getContentHtml());
+//            description.setValue(blog.getContentHtml());
+            description.setValue(blog.getDesc());
 
             //Define Categories
             List<SyndCategory> categories = blog.getTags()
                     .stream()
-                    .map(t -> {
+                    .map(tag -> {
                         SyndCategory category = new SyndCategoryImpl();
-                        category.setName(t);
+                        category.setName(tag);
                         return category;
                     })
                     .collect(Collectors.toList());
@@ -103,10 +105,10 @@ public class RssMaker {
             entry.setLink(MyPathUtils.merge(PODO_DEV_WEB, "/blogs", blog.getId().toString()));
             entry.setPublishedDate(TimeUtil.localDateTimeToDate(blog.getPublishAt().plus(9, ChronoUnit.HOURS)));
             entry.setCategories(categories);
-            entry.setAuthor(PODO_AUTHOR);
 
             entries.add(entry);
         }
+
         return entries;
     }
 
@@ -125,5 +127,20 @@ public class RssMaker {
         Files.write(rssFilePath, content.getBytes());
     }
 
+
+    static class CustomEntryImpl extends SyndEntryImpl {
+
+        protected Date publishDate;
+
+        @Override
+        public Date getPublishedDate() {
+            return this.publishDate;
+        }
+
+        @Override
+        public void setPublishedDate(Date publishedDate) {
+            this.publishDate = publishedDate;
+        }
+    }
 
 }
