@@ -1,6 +1,6 @@
 module.exports = {
-    // mode: "spa",
-    // debug: true,
+    mode: "spa",
+    debug: true,
 
     loading: {
         color: "#444444"
@@ -123,6 +123,7 @@ module.exports = {
     tui: {
         editor: {
             stylesheet: {
+                contents: '~/assets/css/custom-tui-content.css',
                 codeHighlight: '~/assets/css/custom-highlight.css',
             },
         }
