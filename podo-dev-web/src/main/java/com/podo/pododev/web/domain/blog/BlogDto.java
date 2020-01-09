@@ -1,5 +1,6 @@
 package com.podo.pododev.web.domain.blog;
 
+import com.podo.pododev.core.util.MyHtmlUtil;
 import com.podo.pododev.web.domain.blog.attachfile.AttachFile;
 import com.podo.pododev.web.domain.blog.attachfile.AttachFileDto;
 import com.podo.pododev.web.domain.blog.attachimage.AttachImage;
@@ -125,7 +126,7 @@ public class BlogDto {
         public response(Blog blog, Blog beforeBlog, Blog nextBlog, List<Blog> relates, String uploaderDomain, AttachStatus attachStatus) {
             this.id = blog.getId();
             this.title = blog.getTitle();
-            this.description = MarkdownUtil.escapeHtml(MarkdownUtil.extractPlainText(blog.getContents()));
+            this.description = MyHtmlUtil.escapeHtml(MarkdownUtil.extractPlainText(blog.getContents()));
             this.contents = blog.getContents();
             this.hitCount = blog.getHitCount();
             this.publishAt = DateTimeFormatUtil.dateTimeToBeautifulDate(blog.getPublishAt());
@@ -186,7 +187,7 @@ public class BlogDto {
         public responsePaging(Blog blog, String uploaderDomain) {
             this.id = blog.getId();
             this.title = blog.getTitle();
-            this.description = MarkdownUtil.escapeHtml(MarkdownUtil.extractPlainText(blog.getContents()));
+            this.description = MyHtmlUtil.escapeHtml(MarkdownUtil.extractPlainText(blog.getContents()));
             this.createAt = DateTimeFormatUtil.dateTimeToBeautifulDate(blog.getCreateAt());
             this.publishAt = DateTimeFormatUtil.dateTimeToBeautifulDate(blog.getPublishAt());
             this.updateAt = DateTimeFormatUtil.dateTimeToBeautifulDate(blog.getUpdateAt());
@@ -269,7 +270,7 @@ public class BlogDto {
         public feed(Blog blog) {
             this.id = blog.getId();
             this.title = blog.getTitle();
-            this.desc = MarkdownUtil.escapeHtml(MarkdownUtil.extractPlainText(blog.getContents()));
+            this.desc = MyHtmlUtil.escapeHtml(MarkdownUtil.extractPlainText(blog.getContents()));
             this.publishAt = blog.getPublishAt();
             this.createAt = blog.getCreateAt();
             this.updateAt = blog.getUpdateAt();

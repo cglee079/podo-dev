@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 @UtilityClass
 public class MyPathUtils {
+
     public static String merge(String... args) {
         StringBuilder path = new StringBuilder();
 

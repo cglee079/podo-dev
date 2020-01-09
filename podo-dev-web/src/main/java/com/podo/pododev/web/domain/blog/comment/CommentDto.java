@@ -1,5 +1,6 @@
 package com.podo.pododev.web.domain.blog.comment;
 
+import com.podo.pododev.core.util.MyHtmlUtil;
 import com.podo.pododev.web.domain.blog.Blog;
 import com.podo.pododev.core.util.DateTimeFormatUtil;
 import com.podo.pododev.core.util.MarkdownUtil;
@@ -62,7 +63,7 @@ public class CommentDto {
             final User writeBy = comment.getWriter();
             this.id = comment.getId();
             this.username = writeBy.getUsername();
-            this.contents = MarkdownUtil.line2br(MarkdownUtil.escapeHtml(comment.getContents()));
+            this.contents = MyHtmlUtil.line2br(MyHtmlUtil.escapeHtml(comment.getContents()));
             this.depth = comment.getDepth();
             this.createAt = DateTimeFormatUtil.dateTimeToBeautifulDate(comment.getCreateAt());
             this.enabled = comment.getEnabled();

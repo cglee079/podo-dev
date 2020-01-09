@@ -1,5 +1,6 @@
 package com.podo.pododev.web.domain.blog.comment.aop;
 
+import com.podo.pododev.core.util.MyHtmlUtil;
 import com.podo.pododev.web.domain.blog.BlogDto;
 import com.podo.pododev.web.domain.blog.comment.CommentDto;
 import com.podo.pododev.web.domain.blog.service.BlogReadService;
@@ -55,7 +56,7 @@ public class CommentNotifier {
                 .append(DateTimeFormatUtil.dateTimeToDateTimeStr(LocalDateTime.now()))
                 .append("\n")
                 .append("내용 :\n")
-                .append(MarkdownUtil.escapeHtml(contents));
+                .append(MyHtmlUtil.escapeHtml(contents));
 
         telegramClient.send(message.toString());
 

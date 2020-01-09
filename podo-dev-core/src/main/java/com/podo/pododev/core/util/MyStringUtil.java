@@ -37,19 +37,4 @@ public class MyStringUtil {
         return encodedFilename;
     }
 
-    private static String getBrowser(String header) {
-        String browser;
-        if (header.contains("MSIE")) {
-            browser = "MSIE";
-        } else if (header.contains("Chrome")) {
-            browser = "Chrome";
-        } else if (header.contains("Opera")) {
-            browser = "Opera";
-        } else if (header.contains("Trident/7.0")) {
-            browser = "Firefox";
-        } else {
-            browser = "Chrome";
-        }
-        return browser;
-    }
 }
