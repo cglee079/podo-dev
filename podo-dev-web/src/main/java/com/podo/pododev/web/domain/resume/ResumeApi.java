@@ -15,10 +15,10 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping
-public class ResumeApiController {
+public class ResumeApi {
 
 
-    private final ResumeService resumeService;
+    private final ResumeReadService resumeReadService;
 
     /**
      * 이력 리스트 조회
@@ -26,7 +26,7 @@ public class ResumeApiController {
     @GetMapping(value = "/api/resumes")
     public ApiResponse findAllResumes() {
 
-        final List<ResumeDto.response> resumes = resumeService.findAll();
+        final List<ResumeDto.response> resumes = resumeReadService.findAll();
 
         return ListResponse.builder()
                 .status(ApiStatus.SUCCESS)

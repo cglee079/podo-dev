@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional
 @Service
-public class ResumeExperienceService {
+public class ResumeExperienceReadService {
 
     private final ResumeExperienceRepository resumeRepository;
 

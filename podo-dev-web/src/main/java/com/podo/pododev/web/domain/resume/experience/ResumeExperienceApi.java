@@ -15,15 +15,15 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping
-public class ResumeExperienceApiController {
+public class ResumeExperienceApi {
 
 
-    private final ResumeExperienceService resumeExperienceService;
+    private final ResumeExperienceReadService resumeExperienceReadService;
 
     @GetMapping(value = "/api/resumes/experiences")
     public ApiResponse findAllResumeExperiences() {
 
-        List<ResumeExperienceDto.response> resumeExperiences = resumeExperienceService.findAllOrderByExperienceAtDesc();
+        List<ResumeExperienceDto.response> resumeExperiences = resumeExperienceReadService.findAllOrderByExperienceAtDesc();
 
         return ListResponse.builder()
                 .status(ApiStatus.SUCCESS)
