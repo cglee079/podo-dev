@@ -32,11 +32,10 @@ public class UserWriteService {
 
         final User existedUser = userOptional.get();
 
-        final String newEmail = insert.getEmail();
         final String newPicture = insert.getPicture();
         final String newUsername = insert.getUsername();
 
-        existedUser.updateUserInfo(newUsername, newEmail, newPicture);
+        existedUser.updateUserInfo(newUsername, newPicture);
     }
 }
 

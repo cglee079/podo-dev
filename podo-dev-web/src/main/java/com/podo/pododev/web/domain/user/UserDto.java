@@ -5,6 +5,8 @@ import com.podo.pododev.web.global.config.security.oauth.GoogleUserDetails;
 import lombok.Builder;
 import lombok.Getter;
 
+import javax.validation.constraints.NotNull;
+
 public class UserDto {
 
     @Getter
@@ -18,7 +20,6 @@ public class UserDto {
         public static response createByGoogleUserDetails(GoogleUserDetails authUser) {
             final response response = new response();
             response.googleId = authUser.getGoogleId();
-            response.email = authUser.getEmail();
             response.username = authUser.getUsername();
             response.profileImage = authUser.getProfileImage();
             response.isAdmin = SecurityUtil.isAdmin();
@@ -30,14 +31,12 @@ public class UserDto {
     @Getter
     public static class insert {
         private String userId;
-        private String email;
         private String username;
         private String picture;
 
         @Builder
-        public insert(String userId, String email, String name, String picture) {
+        public insert(@NotNull String userId, String name, String picture) {
             this.userId = userId;
-            this.email = email;
             this.username = name;
             this.picture = picture;
         }
@@ -45,7 +44,6 @@ public class UserDto {
         public User toEntity() {
             return User.builder()
                     .userId(userId)
-                    .email(email)
                     .username(username)
                     .picture(picture)
                     .build();

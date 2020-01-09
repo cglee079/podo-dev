@@ -1,10 +1,8 @@
 package com.podo.pododev.web.domain.user;
 
 import com.podo.pododev.web.domain.UpdatableBaseEntity;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.podo.pododev.web.global.aop.AllArgsNotNull;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -23,22 +21,18 @@ public class User extends UpdatableBaseEntity implements Serializable {
 
     private String username;
 
-    private String email;
-
     private String picture;
 
-
     @Builder
-    public User(String username, String userId, String email, String picture) {
+    public User(String username, String userId, String picture) {
         this.userId = userId;
         this.username = username;
-        this.email = email;
         this.picture = picture;
     }
 
-    public void updateUserInfo(String username, String email, String picture) {
+    @AllArgsNotNull
+    public void updateUserInfo(String username, String picture) {
         this.username = username;
-        this.email = email;
         this.picture = picture;
     }
 }

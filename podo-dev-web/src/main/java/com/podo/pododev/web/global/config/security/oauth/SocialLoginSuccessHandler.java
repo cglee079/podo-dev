@@ -39,13 +39,11 @@ public class SocialLoginSuccessHandler implements AuthenticationSuccessHandler {
         final Map<String, String> details = (Map<String, String>) (oAuth2Authentication.getUserAuthentication().getDetails());
         final String googleId = details.get("sub");
         final String googleUsername = details.get("name");
-        final String googleEmail = details.get("email");
         final String profileImage = details.get("picture");
         final String tokenByGoogle = ((OAuth2AuthenticationDetails) oAuth2Authentication.getDetails()).getTokenValue();
         final GoogleUserDetails googleUserDetails = GoogleUserDetails.builder()
                 .googleId(googleId)
                 .username(googleUsername)
-                .email(googleEmail)
                 .profileImage(profileImage)
                 .build();
 
@@ -53,7 +51,6 @@ public class SocialLoginSuccessHandler implements AuthenticationSuccessHandler {
         userWriteService.writeUser(
                 UserDto.insert.builder()
                         .userId(googleId)
-                        .email(googleEmail)
                         .name(googleUsername)
                         .picture(profileImage)
                         .build()

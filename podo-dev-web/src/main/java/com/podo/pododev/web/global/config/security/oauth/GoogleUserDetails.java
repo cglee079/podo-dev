@@ -15,15 +15,13 @@ import java.util.List;
 public class GoogleUserDetails implements UserDetails {
 
     private String googleId;
-    private String email;
     private String username;
     private String profileImage;
     private Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
     @Builder
-    public GoogleUserDetails(String googleId, String email, String username, String profileImage) {
+    public GoogleUserDetails(String googleId, String username, String profileImage) {
         this.googleId = googleId;
-        this.email = email;
         this.username = username;
         this.profileImage = profileImage;
     }
