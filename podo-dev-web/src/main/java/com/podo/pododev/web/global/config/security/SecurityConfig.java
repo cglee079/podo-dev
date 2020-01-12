@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.session.SessionManagementFilter;
 
@@ -16,7 +17,6 @@ import javax.servlet.Filter;
 
 @RequiredArgsConstructor
 @Configuration
-@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Qualifier("socialOauthFilter")
@@ -31,8 +31,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().disable();
         http.csrf().disable();
-
         http.logout().disable();
+        http.sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         //ADMIN 권한
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/blogs").hasRole(UserRole.ADMIN.name());
