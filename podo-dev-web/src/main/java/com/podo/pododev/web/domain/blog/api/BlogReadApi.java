@@ -54,9 +54,9 @@ public class BlogReadApi {
 
     @GetMapping("/api/blogs/words")
     public ApiResponse facets(@RequestParam String searchValue) {
-        final Set<String> facets = blogReadService.getIndexedWordByKeyword(searchValue);
+        final List<String> facets = blogReadService.getIndexedWordByKeyword(searchValue);
 
-        return ListResponse.builder()
+        return CollectionResponse.builder()
                 .status(ApiStatus.SUCCESS)
                 .result(facets)
                 .build();

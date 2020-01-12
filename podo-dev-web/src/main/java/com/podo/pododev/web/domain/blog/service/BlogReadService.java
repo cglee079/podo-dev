@@ -44,7 +44,7 @@ public class BlogReadService {
     private final MySolrClient mySolrClient;
 
 
-    public Set<String> getIndexedWordByKeyword(String keyword) {
+    public List<String> getIndexedWordByKeyword(String keyword) {
         return mySolrClient.getIndexedWordsByKeyword(keyword);
     }
 

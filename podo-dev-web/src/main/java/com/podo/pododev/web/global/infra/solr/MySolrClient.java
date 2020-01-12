@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.*;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -93,7 +95,7 @@ public class MySolrClient {
 
     }
 
-    public Set<String> getIndexedWordsByKeyword(String keyword) {
+    public List<String> getIndexedWordsByKeyword(String keyword) {
         log.info("Solr 엔진, '{}' 관련 색인 단어 조회", keyword);
 
         final Map<String, String[]> solrFacetRequestParam = MySolrParameter.createDefaultFacetParam(keyword);
@@ -104,13 +106,13 @@ public class MySolrClient {
             final List<FacetField.Count> titleFacet = queryResponse.getFacetFields().get(0).getValues();
             final List<FacetField.Count> contentFacet = queryResponse.getFacetFields().get(1).getValues();
 
-            final Set<String> result = new HashSet<>();
-            result.addAll(titleFacet.stream().map(FacetField.Count::getName).collect(Collectors.toList()));
-            result.addAll(contentFacet.stream().map(FacetField.Count::getName).collect(Collectors.toList()));
+            final List<String> result = new ArrayList<>();
+            result.addAll(titleFacet.stream().map(FacetField.Count::getName).collect(toList()));
+            result.addAll(contentFacet.stream().map(FacetField.Count::getName).collect(toList()));
 
             return result.stream()
                     .sorted()
-                    .collect(Collectors.toSet());
+                    .collect(toList());
 
         } catch (SolrServerException | IOException e) {
             throw new SolrRequestException(e);

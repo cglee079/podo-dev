@@ -6,12 +6,12 @@ import lombok.Getter;
 import java.util.*;
 
 @Getter
-public class ListResponse extends ApiResponse {
+public class CollectionResponse extends ApiResponse {
 
     private Map<String, Object> result;
 
     @Builder
-    public ListResponse(ApiStatus status, Collection<?> result) {
+    public CollectionResponse(ApiStatus status, Collection<?> result) {
         super(status);
 
         this.result = new LinkedHashMap<>();
