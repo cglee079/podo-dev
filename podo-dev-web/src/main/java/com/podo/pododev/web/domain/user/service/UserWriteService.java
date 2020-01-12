@@ -9,12 +9,14 @@ import com.podo.pododev.web.global.config.security.oauth.GoogleUserDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 import java.util.Optional;
 
 @Log
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class UserWriteService {
 
