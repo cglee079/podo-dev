@@ -33,7 +33,7 @@ public class AttachImageWriteFileService {
 
         return AttachImageDto.response.builder()
                 .originFilename(originFilename)
-                .uploadedUrl(attachLinkManager.getLocalSavedLink())
+                .uploadedUrl(attachLinkManager.getLocalSavedUrl())
                 .attachStatus(AttachStatus.NEW)
                 .saves(saves)
                 .build();
@@ -46,7 +46,7 @@ public class AttachImageWriteFileService {
 
         return AttachImageDto.response.builder()
                 .originFilename(originFilename)
-                .uploadedUrl(attachLinkManager.getLocalSavedLink())
+                .uploadedUrl(attachLinkManager.getLocalSavedUrl())
                 .attachStatus(AttachStatus.NEW)
                 .saves(saves)
                 .build();
@@ -60,7 +60,7 @@ public class AttachImageWriteFileService {
 
         return AttachImageDto.response.builder()
                 .originFilename(originName)
-                .uploadedUrl(attachLinkManager.getLocalSavedLink())
+                .uploadedUrl(attachLinkManager.getLocalSavedUrl())
                 .attachStatus(AttachStatus.NEW)
                 .saves(saves)
                 .build();

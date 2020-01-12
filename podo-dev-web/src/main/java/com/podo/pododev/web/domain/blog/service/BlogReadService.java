@@ -95,7 +95,7 @@ public class BlogReadService {
 
         final List<Blog> relateBlogs = getRelatesByTagValues(tagValues);
 
-        return new BlogDto.response(blog, beforeBlog, nextBlog, relateBlogs, attachLinkManager.getStorageStaticLink(), AttachStatus.BE);
+        return new BlogDto.response(blog, beforeBlog, nextBlog, relateBlogs, attachLinkManager.getStorageStaticUrl(), AttachStatus.BE);
     }
 
     private List<Blog> getRelatesByTagValues(List<String> tagValues) {
@@ -176,7 +176,7 @@ public class BlogReadService {
         final Page<Blog> blogs = blogRepository.paging(pageable, null, enabled);
 
         final List<BlogDto.responsePaging> contents = blogs.stream()
-                .map(blog -> new BlogDto.responsePaging(blog, attachLinkManager.getStorageStaticLink()))
+                .map(blog -> new BlogDto.responsePaging(blog, attachLinkManager.getStorageStaticUrl()))
                 .collect(toList());
 
         return PageDto.<BlogDto.responsePaging>builder()
@@ -199,7 +199,7 @@ public class BlogReadService {
         final Page<Blog> blogs = blogRepository.paging(pageable, ids, enabled);
 
         final List<BlogDto.responsePaging> contents = blogs.stream()
-                .map(blog -> BlogDto.responsePaging.createWithHighlightDescription(blog, highlightDescription.get(blog.getId()), attachLinkManager.getStorageStaticLink()))
+                .map(blog -> BlogDto.responsePaging.createWithHighlightDescription(blog, highlightDescription.get(blog.getId()), attachLinkManager.getStorageStaticUrl()))
                 .collect(toList());
 
         return PageDto.<BlogDto.responsePaging>builder()
@@ -220,7 +220,7 @@ public class BlogReadService {
         final Page<Blog> blogs = blogRepository.paging(pageable, blogIds, enabled);
 
         final List<BlogDto.responsePaging> contents = blogs.stream()
-                .map(blog -> new BlogDto.responsePaging(blog, attachLinkManager.getStorageStaticLink()))
+                .map(blog -> new BlogDto.responsePaging(blog, attachLinkManager.getStorageStaticUrl()))
                 .collect(toList());
 
         return PageDto.<BlogDto.responsePaging>builder()

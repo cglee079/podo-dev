@@ -60,11 +60,10 @@ blog:
 ## File Save Config
 local:
   static:
-    url: /static
     dir: C://podo-dev/podo-dev-backend/static
   upload:
     base:
-      url: /uploaded
+      path: /uploaded
       dir: C://podo-dev/podo-dev-backend/uploaded
     sub:
       file:
@@ -97,8 +96,8 @@ infra:
 
 security:
   oauth2:
-    redirect: http://localhost:3000
-#    redirect: https://www.podo-dev.com
+#    redirect: http://localhost:3000
+    redirect: https://www.podo-dev.com
 
 ---
 
@@ -126,7 +125,6 @@ local:
     dir: /static
   upload:
     base:
-      url: /uploaded
       dir: /uploaded
 
 security:

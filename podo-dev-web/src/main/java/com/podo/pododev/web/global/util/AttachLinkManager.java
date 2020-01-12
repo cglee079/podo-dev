@@ -4,27 +4,36 @@ import com.podo.pododev.core.util.HttpUrlUtil;
 import com.podo.pododev.core.util.MyPathUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 
 @Component
 public class AttachLinkManager {
 
-    @Value("${local.upload.base.url}")
-    private String baseUrl;
+    private final String localUploadBasePath;
 
-    @Value("${infra.storage.static.external}")
-    private String storageStaticUrl;
+    private final String storageStaticUrl;
 
-    public String getLocalSavedLink() {
-        return MyPathUtils.merge(HttpUrlUtil.getSeverDomain() + baseUrl);
+    public AttachLinkManager(@Value("${local.upload.base.path}")String localUploadBasePath, @Value("${infra.storage.static.external}") String storageStaticUrl) {
+        this.localUploadBasePath = localUploadBasePath;
+        this.storageStaticUrl = storageStaticUrl;
     }
 
-    public String getStorageStaticLink() {
+    public String getLocalSavedUrl() {
+        return MyPathUtils.merge(getSeverDomain() , localUploadBasePath);
+    }
+
+    private String getSeverDomain() {
+        final String url = ServletUriComponentsBuilder.fromCurrentRequestUri().toUriString();
+        return HttpUrlUtil.getBaseUrl(url);
+    }
+
+    public String getStorageStaticUrl() {
         return storageStaticUrl;
     }
 
-    public String changeLocalLinkToStorageStaticLink(String str) {
-        return str.replace(getLocalSavedLink(), getStorageStaticLink());
+    public String convertUrlLocalToStorage(String value) {
+        return value.replace(getLocalSavedUrl(), getStorageStaticUrl());
     }
 
 }

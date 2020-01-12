@@ -14,8 +14,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
-    @Value("${local.upload.base.url}")
-    private String uploadedUrl;
+    @Value("${local.upload.base.path}")
+    private String uploadedPath;
 
     @Value("${local.upload.base.dir}")
     private String uploadedLocation;
@@ -33,7 +33,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry
-                .addResourceHandler(uploadedUrl + "/**")
+                .addResourceHandler(uploadedPath + "/**")
                 .addResourceLocations("file:///" + uploadedLocation + "/");
     }
 

@@ -19,20 +19,6 @@ import java.util.UUID;
 
 public class MyFileUtils {
 
-    public static String createPathByDate(LocalDateTime time) {
-        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("/yyyy/MM/dd");
-
-        return time.format(formatter);
-    }
-
-    public static String createRandFilename(String extension) {
-        String filename = UUID.randomUUID() + "";
-        if (!StringUtils.isEmpty(extension)) {
-            filename += "." + extension;
-        }
-        return filename;
-    }
-
     public static File writeFile(String path, MultipartFile multipartFile) {
 
         try {

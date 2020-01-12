@@ -53,9 +53,10 @@ public class BlogWriteService {
 
         final Blog newBlog = insertBlog.toEntity();
 
-        newBlog.changeContents(linkManager.changeLocalLinkToStorageStaticLink(newBlog.getContents()));
+        newBlog.changeContents(linkManager.convertUrlLocalToStorage(newBlog.getContents()));
 
         final Blog savedBlog = blogRepository.save(newBlog);
+
         saveBlogTags(savedBlog, insertBlog.getTags());
     }
 
@@ -79,7 +80,7 @@ public class BlogWriteService {
         attachFileStorageUploader.writeFileOfAttachFilesToStorage(updateBlog.getAttachFiles());
 
         existedBlog.changeTitle(updateBlog.getTitle());
-        existedBlog.changeContents(linkManager.changeLocalLinkToStorageStaticLink(updateBlog.getContents()));
+        existedBlog.changeContents(linkManager.convertUrlLocalToStorage(updateBlog.getContents()));
         existedBlog.updateStatus(updateBlog.getStatus());
 
         updateBlogTags(existedBlog, updateBlog.getTags());

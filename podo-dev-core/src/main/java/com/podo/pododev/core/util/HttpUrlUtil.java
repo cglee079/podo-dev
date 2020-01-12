@@ -10,10 +10,7 @@ import java.net.URL;
 @UtilityClass
 public class HttpUrlUtil {
 
-    public static String getSeverDomain() {
-        final String url = ServletUriComponentsBuilder.fromCurrentRequestUri().toUriString();
-        return getBaseUrl(url);
-    }
+
 
     /**
      * BaseURL 추출

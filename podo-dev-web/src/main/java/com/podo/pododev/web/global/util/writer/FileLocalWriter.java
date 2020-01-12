@@ -23,7 +23,7 @@ public class FileLocalWriter extends AbstractWriter {
     public File writeFromUrl(String fileUrl, String savedDirectory) {
         final String originFilenameByUrl = FilenameUtils.getName(fileUrl);
         final String originFileExtension = FilenameUtils.getExtension(originFilenameByUrl);
-        final String randomFilename = MyFileUtils.createRandFilename(originFileExtension);
+        final String randomFilename = MyFilenameUtils.createRandFilename(originFileExtension);
         final String savedFilePath = MyPathUtils.merge(savedDirectory, randomFilename);
 
         log.info("'{}' 파일을 URL로 부터 저장합니다. URL : '{}', ", savedFilePath, fileUrl);
@@ -34,7 +34,7 @@ public class FileLocalWriter extends AbstractWriter {
     public File writeFromMultipartFile(MultipartFile multipartFile, String savedDirectory) {
         final String originFilename = multipartFile.getOriginalFilename();
         final String originFileExtension = FilenameUtils.getExtension(originFilename);
-        final String randomFilename = MyFileUtils.createRandFilename(originFileExtension);
+        final String randomFilename = MyFilenameUtils.createRandFilename(originFileExtension);
         final String savedFilePath = MyPathUtils.merge(savedDirectory, randomFilename);
 
         log.info("'{}' 파일을 MultipartFile로부터 저장합니다", savedFilePath);
@@ -44,7 +44,7 @@ public class FileLocalWriter extends AbstractWriter {
 
     public File writeByBase64(String base64, String extension, String savedDirectory) {
         final BufferedImage bufferedImageFromBase64 = getBufferedImageFromBase64(base64);
-        final String randomFilename = MyFileUtils.createRandFilename(extension);
+        final String randomFilename = MyFilenameUtils.createRandFilename(extension);
         final String savedFilePath = MyPathUtils.merge(savedDirectory, randomFilename);
 
         log.info("'{}' 파일을 BASE64로부터 저장합니다", randomFilename);

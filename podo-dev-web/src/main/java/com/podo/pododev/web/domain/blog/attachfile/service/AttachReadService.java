@@ -34,6 +34,6 @@ public class AttachReadService {
 
         final AttachFile attachFile = attachFileOptional.get();
 
-        return new AttachFileDto.download(attachFile, attachLinkManager.getStorageStaticLink());
+        return new AttachFileDto.download(attachFile, attachLinkManager.getStorageStaticUrl());
     }
 }

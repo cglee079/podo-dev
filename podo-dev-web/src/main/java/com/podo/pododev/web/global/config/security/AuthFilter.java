@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 public class AuthFilter implements Filter {
@@ -24,7 +25,7 @@ public class AuthFilter implements Filter {
             accessToken = accessToken.replace("Bearer", "");
             accessToken = accessToken.trim();
 
-            Authentication authentication = securityStore.isAuthUserByToken(accessToken);
+            Authentication authentication = securityStore.isAuthUserByToken(accessToken, LocalDateTime.now());
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
         }
