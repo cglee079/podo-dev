@@ -1,18 +1,22 @@
 module.exports = {
-    // mode: 'spa',
-
+    mode: "spa",
     debug: true,
 
-    serverMiddleware: ['redirect-ssl'],
+    loading: {
+        color: "#444444"
+    },
+
+    router: {
+        base: "/"
+    },
+
+    serverMiddleware: ["redirect-ssl"],
 
     env: {
-        frontendUrl: 'https://www.podo-dev.com',
-        internalServerUrl: 'http://192.168.219.103:28080',
-        externalServerUrl: 'https://server.podo-dev.com',
-        // internalServerUrl: 'http://192.168.219.104:28080',
-        // externalServerUrl: 'http://localhost:28080',
-
-        name: 'podo-dev'
+        NAME: "podo-dev",
+        STATIC_URL: "https://www.podo-dev.com",
+        INTERNAL_SERVER_URL: "http://192.168.219.103:28080",
+        EXTERNAL_SERVER_URL: "https://server.podo-dev.com"
     },
 
     build: {
@@ -28,69 +32,84 @@ module.exports = {
         // }
     },
 
-    css: [
-        //{ src: '', lang: 'css' }
-    ],
-
     head: {
-        title: 'podo-dev',
+        title: "podo-dev",
         meta: [
-            {charset: 'utf-8'},
+            { charset: "utf-8" },
             {
-                name: 'viewport',
-                content: 'user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width'
+                name: "viewport",
+                content:
+                    "user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"
             },
-            {hid: "description", name: 'description', content: 'podo-dev'},
-            {hid: "article:media_name", property: 'article:media_name', content: 'podo-dev'},
-            {hid: "og:title", property: 'og:title', content: 'podo-dev'},
-            {hid: "og:description", property: 'og:description', content: "podo-dev"},
-            {hid: "og:image", property: 'og:image', content: "/og-image.png"},
-            {hid: "og:site_name", property: 'og:site_name', content: "podo-dev"},
-            {hid: "og:type", property: 'og:type', content: "article"},
-            {hid: "by", property: 'by', content: "podo"},
-            {hid: "referrer", property: 'referrer', content: "always"}
+            { hid: "description", name: "description", content: "podo-dev" },
+            {
+                hid: "article:media_name",
+                property: "article:media_name",
+                content: "podo-dev"
+            },
+            { hid: "og:title", property: "og:title", content: "podo-dev" },
+            {
+                hid: "og:description",
+                property: "og:description",
+                content: "podo-dev"
+            },
+            { hid: "og:image", property: "og:image", content: "/og-image.png" },
+            {
+                hid: "og:site_name",
+                property: "og:site_name",
+                content: "podo-dev"
+            },
+            { hid: "og:type", property: "og:type", content: "article" },
+            { hid: "by", property: "by", content: "podo" },
+            { hid: "referrer", property: "referrer", content: "always" }
         ],
         link: [
-            {rel: 'icon', href: '/favicon.ico?v=2'},
-            {rel: 'stylesheet', href: 'https://fonts.googleapis.com/earlyaccess/notosanskr.css'}
+            { rel: "icon", href: "/favicon.ico?v=2" },
+            {
+                rel: "stylesheet",
+                href: "https://fonts.googleapis.com/earlyaccess/notosanskr.css"
+            }
         ]
     },
 
-
     plugins: [
-        {src: '~plugins/axios.js'},
-        {src: '~plugins/router.js'},
-        {src: '~plugins/vue-scrollto.js'},
-        {src: '~plugins/mixins.js'},
-        {src: '~plugins/tooltip.js'},
-        {src: '~plugins/autocomplete.js'},
-        {src: '~plugins/toast-editor.js'}
+        { src: "~plugins/axios.js" },
+        { src: "~plugins/vue-scrollto.js" },
+        { src: "~plugins/mixins.js" },
+        { src: "~plugins/tooltip.js" },
+        { src: "~plugins/autocomplete.js" },
+        { src: "~plugins/combined-inject.js" },
+        { src: "~plugins/scroll-progressbar.js" },
+        { src: "~plugins/toast-editor.js" }
     ],
 
-    loading: {color: '#036dd6'},
-
     modules: [
-        '@nuxtjs/markdownit',
-        '@tui-nuxt/editor',
-        '@nuxtjs/axios',
-        '@nuxtjs/toast',
-        '@nuxtjs/universal-storage',
+        "@nuxtjs/markdownit",
+        "@tui-nuxt/editor",
+        "@nuxtjs/axios",
+        "@nuxtjs/toast",
+        "@nuxtjs/universal-storage",
+        "@nuxtjs/google-analytics",
 
-        ['nuxt-mq', {
-            // Default breakpoint for SSR
-            breakpoints: { // default breakpoints - customize this
-                mobile: 720,
-                tablet: 1080,
-                desktop: Infinity,
-            },
-            defaultBreakpoint: 'desktop' // customize this for SSR
-        }]
+        [
+            "nuxt-mq",
+            {
+                // Default breakpoint for SSR
+                breakpoints: {
+                    // default breakpoints - customize this
+                    mobile: 720,
+                    tablet: 1080,
+                    desktop: Infinity
+                },
+                defaultBreakpoint: "mobile" // customize this for SSR
+            }
+        ]
     ],
 
     axios: {
-        baseURL: 'https://server.podo-dev.com',
+        baseURL: "https://server.podo-dev.com",
         // baseURL: 'http://localhost:28080',
-        // baseURL: 'http://192.168.219.103:28080',
+        // baseURL: 'http://192.168.219.102:28080',
         proxyHeaders: false,
         credentials: false
     },
@@ -102,28 +121,34 @@ module.exports = {
     },
 
     tui: {
-        editor: {}
+        editor: {
+            stylesheet: {
+                contents: '~/assets/css/custom-tui-content.css',
+                codeHighlight: '~/assets/css/custom-highlight.css',
+            },
+        }
     },
 
     storage: {
         cookie: {
-            prefix: 'podo-dev_',
+            prefix: "podo-dev_"
         },
         localStorage: {
-            prefix: 'podo-dev_'
-        },
+            prefix: "podo-dev_"
+        }
     },
 
     markdownit: {
-        preset: 'default',
+        preset: "default",
         linkify: true,
         breaks: true,
-        use: [
-            'markdown-it-div',
-            'markdown-it-attrs'
-        ],
+        use: ["markdown-it-div", "markdown-it-attrs"],
         injected: true
-    }
+    },
+
+    googleAnalytics: {
+        id: "UA-155243224-1"
+    },
 
 
-}
+};

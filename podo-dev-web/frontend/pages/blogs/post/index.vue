@@ -1,18 +1,14 @@
 <template>
-    <blog-post/>
+    <blog-post />
 </template>
 
 <script>
-    import BlogPost from "@/components/blog/BlogPost";
+import BlogPost from "../../../components/blog/BlogPost";
 
-    export default {
-        name: "post",
-        components : {
-            BlogPost
-        }
+export default {
+    middleware: ["authenticated"],
+    components: {
+        BlogPost
     }
+};
 </script>
-
-<style scoped>
-
-</style>

@@ -1,8 +1,0 @@
-archivesBaseName = 'podo-dev-uploader'
-version = ''
-
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    testImplementation 'org.springframework.security:spring-security-test'
-    compile group: 'commons-io', name: 'commons-io', version: '2.4'
-}

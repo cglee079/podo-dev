@@ -1,0 +1,22 @@
+archivesBaseName = 'podo-dev-storage'
+version = ''
+
+bootJar {
+    enabled = true
+}
+
+jar {
+    enabled = false
+}
+
+
+dependencies {
+    implementation project(':podo-dev-core')
+    implementation project(':podo-dev-rest-client')
+
+    implementation group: 'commons-io', name: 'commons-io', version: '2.4'
+
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+}

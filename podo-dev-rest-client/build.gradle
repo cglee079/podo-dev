@@ -1,0 +1,11 @@
+archivesBaseName = 'podo-dev-rest-client'
+
+bootJar{
+    enabled = false
+}
+jar {
+    enabled = true
+}
+
+dependencies {
+}

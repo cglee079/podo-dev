@@ -1,13 +1,13 @@
 export default {
     getUserinfo(state) {
-        return state.userinfo
+        return state.userinfo;
     },
 
     isLogin(state) {
-        return state.isLogin
+        return state.isLogin;
     },
 
     isAdmin(state) {
-        return state.userinfo.isAdmin
+        return state.userinfo.isAdmin;
     }
-}
+};

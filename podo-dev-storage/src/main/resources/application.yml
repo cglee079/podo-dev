@@ -1,0 +1,43 @@
+server:
+  port: 38443
+  http:
+    port: 38080
+
+## Log
+logging:
+  file: podo-dev-storage.%d{yyyy-MM-dd}-%i.log
+  path: c://podo-dev/podo-dev-storage/logs
+
+
+spring:
+  profiles:
+    include: secret, core
+
+  # Servlet
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+
+storage:
+  uploaded:
+    dir: C://podo-dev/podo-dev-storage/uploaded
+
+---
+
+spring:
+  profiles: deploy
+  jpa:
+    show-sql: false
+
+storage:
+  uploaded:
+    dir: /uploaded
+
+logging:
+  path: /data/logs
+
+
+
+
