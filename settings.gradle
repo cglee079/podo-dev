@@ -3,6 +3,10 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
 rootProject.name = 'podo-dev'
 
-include 'podo-dev-core', 'podo-dev-web', 'podo-dev-uploader'
+include 'podo-dev-core',
+        'podo-dev-rest-client',
+        'podo-dev-web',
+        'podo-dev-storage'

@@ -1,69 +1,46 @@
 export default {
     login() {
-        this.$axios.$get('/login/enabled')
-            .then(res => {
-                const result = res.data
-                if (result) {
-                    window.location.href = process.env.externalServerUrl + "/login/google"
-                } else {
-                    this.$toast.show("다른 브라우저로 로그인해주세요")
-                }
-            })
-            .catch(err => {
-
-            })
-    },
-    /**
-     * 로그아웃
-     * @param commit
-     */
-    logout({commit}, callback) {
-        this.$axios
-            .$post("/logout")
-            .then(res => {
-                delete this.$axios.defaults.headers.common['Authorization'] //
-
-                commit('doLogout')
-                this.$storage.removeLocalStorage("token")
-
-                if (callback) {
-                    callback()
-                }
-            })
-            .catch(err => {
-            })
+        this.$axios.$get("/api/login/enabled").then(res => {
+            const result = res.result;
+            if (result) {
+                window.location.href = process.env.EXTERNAL_SERVER_URL + "/login/google";
+            } else {
+                this.$toast.show("다른 브라우저로 로그인해주세요");
+            }
+        });
     },
 
-    /**
-     * 로그인 성공 시, 사용자 정보 갱신
-     * @param commit
-     * @param token
-     */
-    checkLogin({commit}, {token, callback}) {
+    logout({ commit }, callback) {
+        this.$axios.$post("/api/logout").then(() => {
+            delete this.$axios.defaults.headers.common["Authorization"];
 
+            commit("doLogout");
+            this.$storage.removeLocalStorage("token");
+
+            if (callback) {
+                callback();
+            }
+        });
+    },
+
+    async checkLogin({ commit }, token) {
         if (token) {
-            this.$axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+            this.$axios.defaults.headers.common["Authorization"] = "Bearer " + token;
 
-            this.$axios
-                .$get("/api/user")
-                .then(res => {
-                    //사용자 정보 확인
-                    const user = res.data
-                    commit('doLogin', user)
+            try {
+                const response = await this.$axios.$get("/api/user");
 
-                    this.$storage.setLocalStorage("token", token)
+                const user = response.result;
+                commit("doLogin", user);
 
-                    if (callback) {
-                        callback()
-                    }
+                this.$storage.setLocalStorage("token", token);
 
-                })
-                .catch(err => {
-                    //사용자 정보 확인 실패
-                    this.$storage.removeLocalStorage("token")
-                    delete this.$axios.defaults.headers.common['Authorization'] //
-                })
+                return response;
 
+            } catch {
+                this.$storage.removeLocalStorage("token");
+                delete this.$axios.defaults.headers.common["Authorization"];
+            }
         }
     }
-}
+};

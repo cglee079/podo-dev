@@ -1,9 +1,7 @@
 
-/**
- * AutoComplete
- */
+import Vue from "vue";
+import Autocomplete from "@trevoreyre/autocomplete-vue";
+import "@trevoreyre/autocomplete-vue/dist/style.css";
 
-import Vue from 'vue'
-import Autocomplete from '@trevoreyre/autocomplete-vue'
-import '@trevoreyre/autocomplete-vue/dist/style.css'
-Vue.use(Autocomplete)
+
+Vue.use(Autocomplete);

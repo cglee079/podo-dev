@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-cd /volume1/docker-build/podo-dev-frontend
+cd /volume1/docker-build/podo-dev/podo-dev-frontend
 docker stop podo-dev-frontend
 docker rm podo-dev-frontend
 docker rmi podo-dev-frontend:1.1 --force

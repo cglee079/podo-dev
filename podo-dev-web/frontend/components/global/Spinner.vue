@@ -1,0 +1,108 @@
+<template>
+    <div id="spinner" ref="spinner">
+        <div class="spinner">
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+    name: "ProgressBar",
+    props: {
+        loading: Boolean
+    },
+    watch: {
+        loading(newValue) {
+            if (newValue === true) {
+                this.on();
+                return;
+            }
+
+            this.off();
+        }
+    },
+
+    methods: {
+        on() {
+            this.$refs.spinner.classList.add("on");
+            document.body.style.overflow = "hidden";
+            document.body.style.touchAction = "none";
+        },
+
+        off() {
+            this.$refs.spinner.classList.remove("on");
+            document.body.style.overflow = "unset";
+            document.body.style.touchAction = "unset";
+        }
+    }
+};
+</script>
+
+<style lang="scss" scoped>
+#spinner {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 5000;
+    background: rgba(0, 0, 0, 0.05);
+    display: none;
+
+    &.on {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .spinner {
+        width: 40px;
+        height: 40px;
+        position: relative;
+
+        .double-bounce1,
+        .double-bounce2 {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: #333;
+            opacity: 0.6;
+            position: absolute;
+            top: 0;
+            left: 0;
+            -webkit-animation: sk-bounce 2s infinite ease-in-out;
+            animation: sk-bounce 2s infinite ease-in-out;
+        }
+
+        .double-bounce2 {
+            -webkit-animation-delay: -1s;
+            animation-delay: -1s;
+        }
+    }
+}
+
+@keyframes sk-bounce {
+    0%,
+    100% {
+        transform: scale(0);
+        -webkit-transform: scale(0);
+    }
+
+    50% {
+        transform: scale(1);
+        -webkit-transform: scale(1);
+    }
+}
+
+@-webkit-keyframes sk-bounce {
+    0%,
+    100% {
+        -webkit-transform: scale(0);
+    }
+    50% {
+        -webkit-transform: scale(1);
+    }
+}
+</style>
