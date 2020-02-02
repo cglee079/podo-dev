@@ -87,7 +87,7 @@ public class BlogRepositoryCustomImpl extends QuerydslRepositorySupport implemen
     public List<Blog> findByTagValues(String firstTagValue, List<String> otherTags) {
         QBlogTag tag = QBlogTag.blogTag;
 
-        final BooleanExpression eqAnyTagValues = tag.tagValue.eq(firstTagValue);
+        final BooleanExpression eqAnyTagValues = tag.tagValue.equalsIgnoreCase(firstTagValue);
 
         if (!Objects.isNull(otherTags)) {
             for (String tagValue : otherTags) {
