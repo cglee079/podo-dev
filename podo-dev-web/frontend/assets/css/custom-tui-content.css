@@ -55,7 +55,7 @@
 
 .tui-editor-contents h1 {
     font-size: 1.6rem;
-    line-height: 28px;
+    line-height: 35px;
     border-bottom: 3px double #999;
     margin: 52px 0 15px 0;
     padding-bottom: 7px;
@@ -64,7 +64,7 @@
 
 .tui-editor-contents h2 {
     font-size: 1.3rem;
-    line-height: 23px;
+    line-height: 30px;
     border-bottom: 1px solid #dbdbdb;
     margin: 30px 0 13px 0;
     padding-bottom: 7px;
@@ -74,7 +74,7 @@
 .tui-editor-contents h3,
 .tui-editor-contents h4 {
     font-size: 1.2rem;
-    line-height: 18px;
+    line-height: 30px;
     margin: 20px 0 2px;
     color: #333;
 }
