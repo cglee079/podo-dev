@@ -147,6 +147,7 @@ public class BlogWriteService {
         deleteFileOfAttachFiles(existedBlog.getAttachFiles());
         deleteFileOfAttachImages(existedBlog.getAttachImages());
 
+        blogHistoryRepository.deleteAll(existedBlog.getHistories());
         blogTagRepository.deleteAll(existedBlog.getTags());
         commentRepository.deleteAll(existedBlog.getComments());
 
