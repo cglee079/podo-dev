@@ -4,6 +4,7 @@ import com.podo.pododev.web.domain.UpdatableBaseEntity;
 import com.podo.pododev.web.domain.blog.attachfile.AttachFile;
 import com.podo.pododev.web.domain.blog.attachimage.AttachImage;
 import com.podo.pododev.web.domain.blog.comment.Comment;
+import com.podo.pododev.web.domain.blog.history.BlogHistory;
 import com.podo.pododev.web.domain.blog.tag.BlogTag;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -39,6 +40,9 @@ public class Blog extends UpdatableBaseEntity {
 
     @CreatedDate
     private LocalDateTime publishAt;
+
+    @OneToMany(mappedBy = "blog")
+    private List<BlogHistory> histories = new ArrayList<>();
 
     @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AttachImage> attachImages = new ArrayList<>();

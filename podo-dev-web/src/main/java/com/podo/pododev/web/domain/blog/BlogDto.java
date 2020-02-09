@@ -7,6 +7,7 @@ import com.podo.pododev.web.domain.blog.attachimage.AttachImage;
 import com.podo.pododev.web.domain.blog.attachimage.AttachImageDto;
 import com.podo.pododev.web.domain.blog.attachimage.save.AttachImageSave;
 import com.podo.pododev.web.domain.blog.attachimage.save.AttachImageSaveEntity;
+import com.podo.pododev.web.domain.blog.history.BlogHistoryDto;
 import com.podo.pododev.web.domain.blog.tag.BlogTag;
 import com.podo.pododev.web.domain.blog.tag.BlogTagDto;
 import com.podo.pododev.core.util.DateTimeFormatUtil;
@@ -15,15 +16,18 @@ import com.podo.pododev.core.util.MyPathUtils;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.cglib.core.CollectionUtils;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 public class BlogDto {
 
@@ -47,12 +51,12 @@ public class BlogDto {
             final List<AttachImage> attachImages = this.attachImages.stream()
                     .filter(image -> image.getAttachStatus() == AttachStatus.NEW)
                     .map(AttachImageDto.insert::toEntity)
-                    .collect(Collectors.toList());
+                    .collect(toList());
 
             final List<AttachFile> attachFiles = this.attachFiles.stream()
                     .filter(image -> image.getAttachStatus() == AttachStatus.NEW)
                     .map(AttachFileDto.insert::toEntity)
-                    .collect(Collectors.toList());
+                    .collect(toList());
 
             final Blog newBlog = Blog.builder()
                     .attachImages(attachImages)
@@ -117,6 +121,7 @@ public class BlogDto {
         private List<BlogTagDto.response> tags;
         private List<AttachImageDto.response> attachImages;
         private List<AttachFileDto.response> attachFiles;
+        private List<BlogHistoryDto.responses> histories;
         private Integer commentCount;
         private Long beforeBlogId;
         private Long nextBlogId;
@@ -140,25 +145,29 @@ public class BlogDto {
 
             this.relates = relates.stream()
                     .map(BlogDto.relates::new)
-                    .collect(Collectors.toList());
+                    .collect(toList());
 
             this.tags = blog.getTags().stream()
                     .map(BlogTagDto.response::new)
-                    .collect(Collectors.toList());
+                    .collect(toList());
 
             this.attachImages = blog.getAttachImages().stream()
                     .map(image -> AttachImageDto.response.createByAttachImage(image, uploaderDomain, attachStatus))
-                    .collect(Collectors.toList());
+                    .collect(toList());
 
             this.attachFiles = blog.getAttachFiles().stream()
                     .map(file -> AttachFileDto.response.createByAttachFile(file, uploaderDomain, attachStatus))
-                    .collect(Collectors.toList());
+                    .collect(toList());
 
+            this.histories = blog.getHistories().stream()
+                    .map(BlogHistoryDto.responses::new)
+                    .collect(toList());
+            Collections.reverse(this.histories);
 
             if (!attachImages.isEmpty()) {
                 List<AttachImageSave> saves = blog.getAttachImages().get(0).getSaves().stream()
                         .map(AttachImageSaveEntity::getAttachImageSave)
-                        .collect(Collectors.toList());
+                        .collect(toList());
 
                 final Optional<AttachImageSave> thumbnailSaveOptional = saves.stream().filter(s -> s.getImageKey().equals("origin")).findFirst();
                 if (thumbnailSaveOptional.isPresent()) {
@@ -196,13 +205,13 @@ public class BlogDto {
 
             this.tags = blog.getTags().stream()
                     .map(BlogTagDto.response::new)
-                    .collect(Collectors.toList());
+                    .collect(toList());
 
             final List<AttachImage> attachImages = blog.getAttachImages();
             if (!attachImages.isEmpty()) {
                 final List<AttachImageSave> saves = blog.getAttachImages().get(0).getSaves().stream()
                         .map(AttachImageSaveEntity::getAttachImageSave)
-                        .collect(Collectors.toList());
+                        .collect(toList());
 
                 final Optional<AttachImageSave> thumbnailSaveOpt = saves.stream().filter(s -> s.getImageKey().equals("origin")).findFirst();
                 if (thumbnailSaveOpt.isPresent()) {
@@ -276,7 +285,7 @@ public class BlogDto {
             this.updateAt = blog.getUpdateAt();
             this.enabled = blog.getEnabled();
             this.contentHtml = MarkdownUtil.toHtml(blog.getContents());
-            this.tags = blog.getTags().stream().map(BlogTag::getTagValue).collect(Collectors.toList());
+            this.tags = blog.getTags().stream().map(BlogTag::getTagValue).collect(toList());
         }
 
     }
