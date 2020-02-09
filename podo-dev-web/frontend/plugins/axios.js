@@ -14,6 +14,7 @@ export default ({ $axios, redirect, app, store }) => {
             }
 
             if (response && response.status && response.status === 401) {
+                store.dispatch("user/logout");
                 app.$toast.show("죄송합니다, 권한이 없습니다");
             }
 
