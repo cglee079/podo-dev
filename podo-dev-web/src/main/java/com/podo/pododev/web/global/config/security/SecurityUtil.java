@@ -13,8 +13,8 @@ public class SecurityUtil extends WebSecurityConfigurerAdapter {
     public static Boolean isAdmin() {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        final List<SimpleGrantedAuthority> auths = (List<SimpleGrantedAuthority>) authentication.getAuthorities();
-        for (SimpleGrantedAuthority auth : auths) {
+        final List<SimpleGrantedAuthority> authorities = (List<SimpleGrantedAuthority>) authentication.getAuthorities();
+        for (SimpleGrantedAuthority auth : authorities) {
             if (auth.getAuthority().equals("ROLE_" + UserRole.ADMIN)) {
                 return true;
             }

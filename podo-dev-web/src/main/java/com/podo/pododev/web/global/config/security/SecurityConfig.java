@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -38,6 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //ADMIN 권한
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/blogs").hasRole(UserRole.ADMIN.name());
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/blogs/*").hasRole(UserRole.ADMIN.name());
+        http.authorizeRequests().antMatchers(HttpMethod.PATCH, "/api/blogs/*").hasRole(UserRole.ADMIN.name());
 
         //USER 권한
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/blogs/*/comment").hasRole(UserRole.USER.name());
@@ -48,4 +48,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(new AuthFilter(securityStore), BasicAuthenticationFilter.class);
     }
 
+
 }
+
