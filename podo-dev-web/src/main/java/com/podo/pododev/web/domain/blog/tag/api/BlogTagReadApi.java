@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping
-public class BlogTagReadApiController {
+public class BlogTagReadApi {
 
     private final BlogTagReadService blogTagReadService;
 

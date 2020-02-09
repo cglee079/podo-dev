@@ -1,5 +1,7 @@
 package com.podo.pododev.web.domain.blog.service;
 
+import com.podo.pododev.web.domain.blog.history.BlogHistory;
+import com.podo.pododev.web.domain.blog.history.BlogHistoryRepository;
 import com.podo.pododev.web.global.config.aop.annotation.SolrDataImport;
 import com.podo.pododev.web.domain.blog.attachfile.AttachFile;
 import com.podo.pododev.web.domain.blog.attachfile.AttachFileDto;
@@ -42,6 +44,7 @@ public class BlogWriteService {
 
     private final CommentRepository commentRepository;
     private final BlogTagRepository blogTagRepository;
+    private final BlogHistoryRepository blogHistoryRepository;
 
 
     @AllBlogCacheEvict
@@ -57,17 +60,8 @@ public class BlogWriteService {
 
         final Blog savedBlog = blogRepository.save(newBlog);
 
+        saveBlogHistory(savedBlog);
         saveBlogTags(savedBlog, insertBlog.getTags());
-    }
-
-    private void saveBlogTags(Blog blog, List<BlogTagDto.insert> tags) {
-        int index = 1;
-        for (BlogTagDto.insert tagInsert : tags) {
-            final BlogTag tag = tagInsert.toEntity(blog);
-            tag.changeIndex(index++);
-            blogTagRepository.save(tag);
-            blog.addTag(tag);
-        }
     }
 
     @AllBlogCacheEvict
@@ -83,6 +77,7 @@ public class BlogWriteService {
         existedBlog.changeContents(linkManager.convertUrlLocalToStorage(updateBlog.getContents()));
         existedBlog.updateStatus(updateBlog.getStatus());
 
+        saveBlogHistory(existedBlog);
         updateBlogTags(existedBlog, updateBlog.getTags());
         writeAttachImages(existedBlog, updateBlog.getAttachImages());
         writeAttachFiles(existedBlog, updateBlog.getAttachFiles());
@@ -121,9 +116,27 @@ public class BlogWriteService {
         }
     }
 
+    private void saveBlogHistory(Blog blog) {
+        final BlogHistory blogHistory = BlogHistory.builder()
+                .blog(blog)
+                .build();
+
+        blogHistoryRepository.save(blogHistory);
+    }
+
     private void updateBlogTags(Blog blog, List<BlogTagDto.insert> tags) {
         blogTagRepository.deleteAll(blog.getTags());
         saveBlogTags(blog, tags);
+    }
+
+    private void saveBlogTags(Blog blog, List<BlogTagDto.insert> tags) {
+        int index = 1;
+        for (BlogTagDto.insert tagInsert : tags) {
+            final BlogTag tag = tagInsert.toEntity(blog);
+            tag.changeIndex(index++);
+            blogTagRepository.save(tag);
+            blog.addTag(tag);
+        }
     }
 
     @AllBlogCacheEvict

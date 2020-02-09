@@ -30,6 +30,17 @@
             </client-only>
         </div>
 
+        <div id="histories">
+            <div id="btnShowHistories" @click="config.showHistory = !config.showHistory">
+                <div>이전 저장 데이터 가져오기</div>
+            </div>
+            <blog-post-history
+                v-if="config.showHistory"
+                :histories="blog.histories"
+                @fetch="fetchHistory"
+            />
+        </div>
+
         <div id="wrapImageUpload">
             <post-image
                 :attachImages="this.input.attachImages"
@@ -78,10 +89,12 @@ import BlogPostAttachImage from "./BlogPostAttachImage";
 import BlogPostAttachFile from "./BlogPostAttachFile";
 import bus from "../../utils/bus";
 import { mapGetters } from "vuex";
+import BlogPostHistory from "./BlogPostHistory";
 
 export default {
     name: "app",
     components: {
+        BlogPostHistory,
         "post-image": BlogPostAttachImage,
         "post-file": BlogPostAttachFile
     },
@@ -110,13 +123,18 @@ export default {
             },
             isNew: true,
             config: {
-                maxAttachImageWidth: 720
+                maxAttachImageWidth: 720,
+                showHistory: false
             },
             autoSave: {
                 key: "autoSavePost",
                 interval: undefined
             },
             temp: "",
+            blog: {
+                id: "",
+                histories: []
+            },
             input: {
                 title: "",
                 contents: "",
@@ -170,6 +188,8 @@ export default {
             const response = await this.$axios.$get(`/api/blogs/${blogId}`);
 
             const blog = response.result;
+            this.blog.id = blog.id;
+            this.blog.histories = blog.histories;
             this.input.title = blog.title;
             this.input.contents = blog.contents;
             this.input.tags = blog.tags;
@@ -178,6 +198,21 @@ export default {
             this.input.status = blog.enabled
                 ? this.CONST.BLOG_STATUS.VISIBLE
                 : this.CONST.BLOG_STATUS.INVISIBLE;
+        },
+
+        fetchHistory(historyId) {
+            this.toastConfirm("정말 이전 저장 데이터를 가져오시겠습니까?", async () => {
+                try {
+                    const response = await this.$axios.$get(
+                        `/api/blogs/${this.blog.id}/histories/${historyId}`
+                    );
+                    const history = response.result;
+                    this.input.title = history.title;
+                    this.input.contents = history.contents;
+
+                    this.$toast.show("이전 저장 데이터를 가져왔습니다");
+                } catch (e) {}
+            });
         },
 
         clickSubmit() {
@@ -404,6 +439,24 @@ export default {
         margin: 40px 0;
         width: 100%;
         height: 700px;
+    }
+
+    #histories {
+        #btnShowHistories {
+            display: flex;
+            height: 30px;
+            border: 1px solid #cccccc;
+            background: #fafafa;
+            margin-top: 20px;
+            cursor: pointer;
+
+            div{
+                flex:1;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
     }
 
     #wrapImageUpload {
