@@ -2,30 +2,19 @@ package com.podo.pododev.web.global.config.security;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.NullSource;
 import org.mockito.Mockito;
 import org.springframework.security.core.Authentication;
 
-import java.time.LocalDateTime;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.BDDMockito.given;
 
 class SecurityStoreTest {
 
     @DisplayName("New Instance")
     @Test
     void testNewInstance01() {
-        assertDoesNotThrow(() -> new SecurityStore(1L));
-    }
-
-    @DisplayName("New Instance, Assertion Error")
-    @ParameterizedTest(name = "{displayName} - {0}")
-    @NullSource
-    void testNewInstance02(Long expireHour) {
-        assertThrows(AssertionError.class, () -> new SecurityStore(expireHour));
+        assertDoesNotThrow(() -> new SecurityStore(Mockito.mock(TokenManager.class)));
     }
 
     @DisplayName("Auth, 성공")
@@ -33,17 +22,15 @@ class SecurityStoreTest {
     void testAuthSuccess(){
 
         //given
-        final SecurityStore securityStore = new SecurityStore(1L);
-
-        final String token = "token";
+        final TokenManager tokenManager = Mockito.mock(TokenManager.class);
+        final SecurityStore securityStore = new SecurityStore(tokenManager);
         final Authentication authentication = Mockito.mock(Authentication.class);
+        final String token = securityStore.login(authentication);
 
-        final LocalDateTime dateTime = LocalDateTime.now();
-
-        securityStore.loginByToken(token, authentication, dateTime);
+        given(tokenManager.authenticate(token)).willReturn(true);
 
         //when
-        final Authentication resultAuthentication = securityStore.isAuthUserByToken(token, dateTime);
+        final Authentication resultAuthentication = securityStore.getAuthentication(token);
 
         //then
         assertThat(resultAuthentication).isEqualTo(authentication);
@@ -54,37 +41,15 @@ class SecurityStoreTest {
     void testNoAuth(){
 
         //given
-        final SecurityStore securityStore = new SecurityStore(1L);
-
-        final String token = "token";
+        final TokenManager tokenManager = Mockito.mock(TokenManager.class);
+        final SecurityStore securityStore = new SecurityStore(tokenManager);
         final Authentication authentication = Mockito.mock(Authentication.class);
-        final LocalDateTime dateTime = LocalDateTime.now();
+        final String token = securityStore.login(authentication);
 
-        securityStore.loginByToken(token, authentication, dateTime);
+        given(tokenManager.authenticate(token)).willReturn(false);
 
         //when
-        final Authentication resultAuthentication = securityStore.isAuthUserByToken("invalidToken", LocalDateTime.now());
-
-        //then
-        assertThat(resultAuthentication).isNull();
-    }
-
-    @DisplayName("Auth, 시간 만료")
-    @Test
-    void testExpireAuth() throws InterruptedException {
-
-        //given
-        final SecurityStore securityStore = new SecurityStore(0L);
-
-        final String token = "token";
-        final Authentication authentication = Mockito.mock(Authentication.class);
-        final LocalDateTime dateTime = LocalDateTime.now();
-
-        securityStore.loginByToken(token, authentication, dateTime);
-
-        //when
-        Thread.sleep(100);
-        final Authentication resultAuthentication = securityStore.isAuthUserByToken(token, LocalDateTime.now());
+        final Authentication resultAuthentication = securityStore.getAuthentication(token);
 
         //then
         assertThat(resultAuthentication).isNull();
@@ -95,18 +60,17 @@ class SecurityStoreTest {
     void testLogout(){
 
         //given
-        final SecurityStore securityStore = new SecurityStore(1L);
-
-        final String token = "token";
+        final TokenManager tokenManager = Mockito.mock(TokenManager.class);
+        final SecurityStore securityStore = new SecurityStore(tokenManager);
         final Authentication authentication = Mockito.mock(Authentication.class);
-        final LocalDateTime dateTime = LocalDateTime.now();
+        final String token = securityStore.login(authentication);
 
-        securityStore.loginByToken(token, authentication, dateTime);
+        given(tokenManager.authenticate(token)).willReturn(true);
 
         //when
-        securityStore.logoutByToken(token);
+        securityStore.logout(token);
 
         //then
-        assertThat(securityStore.isAuthUserByToken(token, LocalDateTime.now())).isNull();
+        assertThat(securityStore.getAuthentication(token)).isNull();
     }
 }

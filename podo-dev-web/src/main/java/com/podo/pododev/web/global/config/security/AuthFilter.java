@@ -7,10 +7,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 public class AuthFilter implements Filter {
+
+    private static final String AUTH_HEADER_KEY = "Authorization";
+    private static final String AUTH_HEADER_VALUE_PREFIX = "Bearer";
 
     private final SecurityStore securityStore;
 
@@ -18,16 +20,14 @@ public class AuthFilter implements Filter {
     public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain) throws IOException, ServletException {
         final HttpServletRequest httpRequest = (HttpServletRequest) request;
 
-        //extract token from header
-        String accessToken = httpRequest.getHeader("Authorization");
+        String accessToken = httpRequest.getHeader(AUTH_HEADER_KEY);
 
         if (null != accessToken) {
-            accessToken = accessToken.replace("Bearer", "");
+            accessToken = accessToken.replace(AUTH_HEADER_VALUE_PREFIX, "");
             accessToken = accessToken.trim();
 
-            Authentication authentication = securityStore.isAuthUserByToken(accessToken, LocalDateTime.now());
+            Authentication authentication = securityStore.getAuthentication(accessToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
-
         }
 
         chain.doFilter(request, response);

@@ -50,7 +50,7 @@ public class AuthApi {
 
         if (Objects.nonNull(authorization)) {
             final String token = authorization.replace("bearer", "").trim();
-            securityStore.logoutByToken(token);
+            securityStore.logout(token);
         }
 
         return StatusResponse.builder()
