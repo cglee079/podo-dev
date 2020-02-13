@@ -126,6 +126,7 @@ module.exports = {
                 contents: '~/assets/css/custom-tui-content.css',
                 codeHighlight: '~/assets/css/custom-highlight.css',
             },
+            exts: ["uml", "chart", "table"]
         }
     },
 
