@@ -62,7 +62,7 @@ export default {
             }
 
             try {
-                bus.$emit("startSpinner");
+                bus.$emit("spinner:start", "post-blog-comment");
                 this.doing = true;
 
                 const response = await this.$axios.$post(`/api/blogs/${this.blogId}/comments`, {
@@ -79,7 +79,7 @@ export default {
                 }
             } catch (e) {
             } finally {
-                bus.$emit("stopSpinner");
+                bus.$emit("spinner:stop", "post-blog-comment");
                 this.doing = false;
             }
         },

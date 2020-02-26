@@ -34,7 +34,7 @@
                 <p v-for="experience in experiences" :key="experience.experienceId">
                     <a :href="experience.relateLink" target="_blank">
                         <span class="date">{{ experience.experienceAt }}.</span>
-                        <span>{{ experience.title }}</span>
+                        <span class="value">{{ experience.title }}</span>
                     </a>
                 </p>
             </div>
@@ -69,7 +69,6 @@ export default {
     },
 
     async asyncData({ $axios, app }) {
-
         const resumes = await $axios.$get(`${app.$baseUrl()}/api/resumes`);
         const experiences = await $axios.$get(`${app.$baseUrl()}/api/resumes/experiences`);
 
@@ -135,15 +134,17 @@ export default {
     /deep/ .item {
         margin-top: 80px;
 
-        //Experiences Item
         &#experiences {
-            .content {
-                p {
-                    .date {
-                        display: inline-block;
-                        width: 110px;
-                    }
+            .content p {
+                .date {
+                    display: inline-block;
+                    width: 110px;
                 }
+
+                a[href] .value {
+                    text-decoration: underline;
+                }
+                
             }
         }
 
@@ -161,10 +162,6 @@ export default {
 
             p {
                 margin-top: 7px;
-            }
-
-            a[href*=""] {
-                text-decoration: underline;
             }
 
             div {

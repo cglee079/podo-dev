@@ -1,19 +1,7 @@
 <template>
     <div>
-        <div id="pasteImageUpload">
-            <input
-                @paste="onPaste"
-                @keypress="onKeyPress"
-                placeholder="여기에 이미지 붙여넣기를 해주세요!"
-            />
-        </div>
-
-        <div>
-            <div id="btnImageUpload" @click="$refs.file.click()">
-                <div>
-                    사진올리기
-                </div>
-            </div>
+        <div id="btnImageUpload">
+            <blog-post-long-button value="사진올리기" @click="$refs.file.click()"/>
             <input
                 ref="file"
                 type="file"
@@ -21,6 +9,14 @@
                 multiple
                 @change="onFileChange"
                 style="display: none"
+            />
+        </div>
+
+        <div id="pasteImageUpload">
+            <input
+                @paste="onPaste"
+                @keypress="onKeyPress"
+                placeholder="여기에 이미지 붙여넣기를 해주세요!"
             />
         </div>
 
@@ -50,9 +46,11 @@
 
 <script>
 import bus from "../../utils/bus";
+import BlogPostLongButton from "./BlogPostLongButton";
 
 export default {
     name: "BlogPostAttachImage",
+    components: {BlogPostLongButton},
     props: {
         attachImages: Array
     },
@@ -131,7 +129,7 @@ export default {
         },
 
         async uploadImage(files, idx) {
-            bus.$emit("startSpinner");
+            bus.$emit("spinner:start", "upload-blog-image");
 
             const config = {
                 headers: { "Content-Type": "multipart/form-data" }
@@ -146,7 +144,7 @@ export default {
                 const attachImage = response.result;
 
                 this.$emit("add", attachImage);
-                bus.$emit("stopSpinner");
+                bus.$emit("spinner:stop", "upload-blog-image");
 
                 this.$toast.show(`'${files[idx].name}' 업로드 완료하였습니다`);
 
@@ -155,12 +153,12 @@ export default {
                 }
             } catch {
                 this.$toast.show(`죄송합니다, '${files[idx].name}' 업로드 실패하였습니다`);
-                bus.$emit("stopSpinner");
+                bus.$emit("spinner:stop", "upload-blog-image");
             }
         },
 
         async uploadBase64(base64) {
-            bus.$emit("startSpinner");
+            bus.$emit("spinner:start", "upload-blog-image");
 
             try {
                 const response = await this.$axios.$post("/api/blogs/images", { base64: base64 });
@@ -169,12 +167,12 @@ export default {
             } catch (e) {
                 this.$toast.show(`죄송합니다, 업로드 실패하였습니다`);
             } finally {
-                bus.$emit("stopSpinner");
+                bus.$emit("spinner:stop", "upload-blog-image");
             }
         },
 
         async uploadImageUrl(imageUrl) {
-            bus.$emit("startSpinner");
+            bus.$emit("spinner:start", "upload-blog-image");
 
             try {
                 const response = await this.$axios.$post("/api/blogs/images", {
@@ -185,7 +183,7 @@ export default {
             } catch {
                 this.$toast.show(`죄송합니다, 업로드 실패하였습니다`);
             } finally {
-                bus.$emit("stopSpinner");
+                bus.$emit("spinner:stop", "upload-blog-image");
             }
         },
 
@@ -217,22 +215,6 @@ export default {
     input {
         flex: 1;
         padding: 5px 10px;
-    }
-}
-
-#btnImageUpload {
-    display: flex;
-    height: 30px;
-    border: 1px solid #cccccc;
-    background: #fafafa;
-    margin-top: 20px;
-    cursor: pointer;
-
-    div {
-        flex: 1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
     }
 }
 

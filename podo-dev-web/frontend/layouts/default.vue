@@ -6,7 +6,8 @@
         </article>
         <the-footer />
         <top-button />
-        <spinner :loading="loading" />
+        <spinner/>
+        <scroll-preventer/>
     </div>
 </template>
 
@@ -16,7 +17,8 @@ import TheFooter from "../components/TheFooter";
 import TopButton from "../components/global/TopButton";
 import TheNav from "../components/TheNav";
 import Spinner from "../components/global/Spinner";
-import bus from "../utils/bus";
+import ScrollPreventer from "../components/global/ScrollPreventer";
+
 
 export default {
     metaInfo: {
@@ -33,6 +35,7 @@ export default {
     },
 
     components: {
+        ScrollPreventer,
         Spinner,
         TheNav,
         TheFooter,
@@ -54,14 +57,6 @@ export default {
         ...mapActions({
             checkLogin: "user/checkLogin"
         }),
-
-        startSpinner() {
-            this.loading = true;
-        },
-
-        stopSpinner() {
-            this.loading = false;
-        }
     },
 
     beforeMount() {
@@ -81,15 +76,7 @@ export default {
         }
     },
 
-    created() {
-        bus.$on("startSpinner", this.startSpinner);
-        bus.$on("stopSpinner", this.stopSpinner);
-    },
 
-    beforeDestroy() {
-        bus.$off("startSpinner");
-        bus.$off("stopSpinner");
-    }
 };
 </script>
 

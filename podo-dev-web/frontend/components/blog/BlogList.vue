@@ -46,7 +46,7 @@ export default {
             }
 
             if (page === 0) {
-                bus.$emit("startSpinner");
+                bus.$emit("spinner:start", "load-blog-list");
                 this.contents = [];
             }
 
@@ -69,7 +69,7 @@ export default {
             } catch (e) {
             } finally {
                 this.isLoading = false;
-                bus.$emit("stopSpinner");
+                bus.$emit("spinner:stop", "load-blog-list");
             }
         },
 

@@ -7,7 +7,8 @@ module.exports = {
     },
 
     router: {
-        base: "/"
+        base: "/",
+        middleware: "scroll-clear"
     },
 
     serverMiddleware: ["redirect-ssl"],
@@ -80,7 +81,7 @@ module.exports = {
         { src: "~plugins/autocomplete.js" },
         { src: "~plugins/combined-inject.js" },
         { src: "~plugins/scroll-progressbar.js" },
-        { src: "~plugins/toast-editor.js" }
+        { src: "~plugins/toast-editor.js", ssr: false }
     ],
 
     modules: [
@@ -123,10 +124,12 @@ module.exports = {
     tui: {
         editor: {
             stylesheet: {
-                contents: '~/assets/css/custom-tui-content.css',
-                codeHighlight: '~/assets/css/custom-highlight.css',
-            },
-            exts: ["uml", "chart", "table"]
+                editor: "~/assets/css/tui/custom-tui-editor.css",
+                contents: "~/assets/css/tui/custom-tui-content.css",
+                codeHighlight: "~/assets/css/tui/custom-highlight.css",
+                highlightJs: "~/assets/css/tui/custom-highlight.css",
+                codemirror: "~/assets/css/tui/custom-codemirror.css"
+            }
         }
     },
 
@@ -149,7 +152,5 @@ module.exports = {
 
     googleAnalytics: {
         id: "UA-155243224-1"
-    },
-
-
+    }
 };
