@@ -30,11 +30,12 @@ dependencies {
     implementation group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.10.7'
     implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.10.7'
     runtime group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.10.7'
-
-
+    
     implementation "com.querydsl:querydsl-core"
     implementation "com.querydsl:querydsl-apt"
     implementation "com.querydsl:querydsl-jpa"
+
+    runtimeOnly 'mysql:mysql-connector-java'
 }
 
 
