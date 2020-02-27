@@ -1,4 +1,4 @@
-package com.podo.pododev.web.domain.blog.service;
+package com.podo.pododev.web.domain.blog.blog.application;
 
 import com.podo.pododev.web.domain.blog.history.BlogHistory;
 import com.podo.pododev.web.domain.blog.history.BlogHistoryRepository;
@@ -12,13 +12,13 @@ import com.podo.pododev.web.domain.blog.attachimage.AttachImageStorageUploader;
 import com.podo.pododev.web.domain.blog.attachimage.save.AttachImageSave;
 import com.podo.pododev.web.domain.blog.attachimage.save.AttachImageSaveEntity;
 import com.podo.pododev.web.domain.blog.comment.repository.CommentRepository;
-import com.podo.pododev.web.domain.blog.exception.InvalidBlogIdException;
-import com.podo.pododev.web.domain.blog.repository.BlogRepository;
+import com.podo.pododev.web.domain.blog.blog.exception.InvalidBlogIdException;
+import com.podo.pododev.web.domain.blog.blog.repository.BlogRepository;
 import com.podo.pododev.web.domain.blog.tag.BlogTag;
 import com.podo.pododev.web.domain.blog.tag.BlogTagDto;
 import com.podo.pododev.web.domain.blog.tag.repository.BlogTagRepository;
-import com.podo.pododev.web.domain.blog.Blog;
-import com.podo.pododev.web.domain.blog.BlogDto;
+import com.podo.pododev.web.domain.blog.blog.Blog;
+import com.podo.pododev.web.domain.blog.blog.BlogDto;
 import com.podo.pododev.web.global.config.cache.annotation.AllBlogCacheEvict;
 import com.podo.pododev.web.global.util.AttachLinkManager;
 import lombok.RequiredArgsConstructor;

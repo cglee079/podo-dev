@@ -1,7 +1,7 @@
 package com.podo.pododev.web.job.maker.sitemap;
 
 import com.podo.pododev.core.util.MyPathUtils;
-import com.podo.pododev.web.domain.blog.BlogDto;
+import com.podo.pododev.web.domain.blog.blog.BlogDto;
 import com.podo.pododev.web.global.util.writer.MyFileUtils;
 import com.redfin.sitemapgenerator.WebSitemapGenerator;
 import lombok.RequiredArgsConstructor;

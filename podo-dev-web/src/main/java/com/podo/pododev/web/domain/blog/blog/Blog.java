@@ -1,4 +1,4 @@
-package com.podo.pododev.web.domain.blog;
+package com.podo.pododev.web.domain.blog.blog;
 
 import com.podo.pododev.web.domain.UpdatableBaseEntity;
 import com.podo.pododev.web.domain.blog.attachfile.AttachFile;

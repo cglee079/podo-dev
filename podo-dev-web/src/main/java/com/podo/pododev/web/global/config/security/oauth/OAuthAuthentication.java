@@ -7,13 +7,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 
 
-public class GoogleAuthentication implements Authentication {
+public class OAuthAuthentication implements Authentication {
     private static final long serialVersionUID = 201307311621L;
 
     private UserDetails principal;
     private boolean isAuthenticated = true;
 
-    public GoogleAuthentication(UserDetails userInfo) {
+    public OAuthAuthentication(UserDetails userInfo) {
         this.principal = userInfo;
     }
 

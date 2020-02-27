@@ -1,6 +1,6 @@
 package com.podo.pododev.web.domain.blog.tag;
 
-import com.podo.pododev.web.domain.blog.Blog;
+import com.podo.pododev.web.domain.blog.blog.Blog;
 import lombok.Getter;
 
 public class BlogTagDto {

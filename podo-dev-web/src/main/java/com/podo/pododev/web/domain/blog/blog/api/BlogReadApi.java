@@ -1,8 +1,8 @@
-package com.podo.pododev.web.domain.blog.api;
+package com.podo.pododev.web.domain.blog.blog.api;
 
 import com.podo.pododev.core.rest.response.*;
-import com.podo.pododev.web.domain.blog.BlogDto;
-import com.podo.pododev.web.domain.blog.service.BlogReadService;
+import com.podo.pododev.web.domain.blog.blog.BlogDto;
+import com.podo.pododev.web.domain.blog.blog.application.BlogReadService;
 import com.podo.pododev.web.global.config.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @Slf4j
 @RequiredArgsConstructor

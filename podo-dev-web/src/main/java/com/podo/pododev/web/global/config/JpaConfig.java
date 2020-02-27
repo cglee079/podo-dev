@@ -1,6 +1,6 @@
 package com.podo.pododev.web.global.config;
 
-import com.podo.pododev.web.global.config.security.oauth.GoogleUserDetails;
+import com.podo.pododev.web.global.config.security.oauth.OAuthUserDetails;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
@@ -30,9 +30,9 @@ public class JpaConfig {
 
                 final Object principal = authentication.getPrincipal();
 
-                if (principal instanceof GoogleUserDetails) {
-                    final GoogleUserDetails userDetails = (GoogleUserDetails) principal;
-                    return Optional.of(userDetails.getGoogleId());
+                if (principal instanceof OAuthUserDetails) {
+                    final OAuthUserDetails userDetails = (OAuthUserDetails) principal;
+                    return Optional.of(userDetails.getUserKey());
                 }
             }
 

@@ -1,14 +1,12 @@
 package com.podo.pododev.web.job.maker.rss;
 
-import com.podo.pododev.web.domain.blog.BlogDto;
+import com.podo.pododev.web.domain.blog.blog.BlogDto;
 import com.podo.pododev.core.util.MyPathUtils;
 import com.podo.pododev.core.util.TimeUtil;
 import com.rometools.rome.feed.synd.*;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedOutput;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

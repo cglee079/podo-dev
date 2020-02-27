@@ -1,8 +1,8 @@
-package com.podo.pododev.web.domain.blog.service;
+package com.podo.pododev.web.domain.blog.blog.application;
 
-import com.podo.pododev.web.domain.blog.Blog;
-import com.podo.pododev.web.domain.blog.BlogDto;
-import com.podo.pododev.web.domain.blog.repository.BlogRepository;
+import com.podo.pododev.web.domain.blog.blog.Blog;
+import com.podo.pododev.web.domain.blog.blog.BlogDto;
+import com.podo.pododev.web.domain.blog.blog.repository.BlogRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

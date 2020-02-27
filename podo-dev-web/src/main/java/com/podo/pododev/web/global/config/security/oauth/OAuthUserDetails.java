@@ -12,18 +12,27 @@ import java.util.Collection;
 import java.util.List;
 
 @Getter
-public class GoogleUserDetails implements UserDetails {
+public class OAuthUserDetails implements UserDetails {
 
-    private String googleId;
+    private String userKey;
     private String username;
     private String profileImage;
     private Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
     @Builder
-    public GoogleUserDetails(String googleId, String username, String profileImage) {
-        this.googleId = googleId;
+    public OAuthUserDetails(String userKey, String username, String profileImage, List<String> adminIds) {
+        this.userKey = userKey;
         this.username = username;
         this.profileImage = profileImage;
+        this.updateAuth(adminIds);
+    }
+
+    private void updateAuth(List<String> adminIds) {
+        this.authorities.add(new SimpleGrantedAuthority("ROLE_" + UserRole.USER));
+
+        if (adminIds.contains(userKey)) {
+            this.authorities.add(new SimpleGrantedAuthority("ROLE_" + UserRole.ADMIN));
+        }
     }
 
     @Override
@@ -61,11 +70,5 @@ public class GoogleUserDetails implements UserDetails {
         return true;
     }
 
-    public void setAuth(List<String> adminIds) {
-        this.authorities.add(new SimpleGrantedAuthority("ROLE_" + UserRole.USER));
 
-        if (adminIds.contains(googleId)) {
-            this.authorities.add(new SimpleGrantedAuthority("ROLE_" + UserRole.ADMIN));
-        }
-    }
 }

@@ -1,7 +1,7 @@
-package com.podo.pododev.web.domain.blog.repository;
+package com.podo.pododev.web.domain.blog.blog.repository;
 
-import com.podo.pododev.web.domain.blog.Blog;
-import com.podo.pododev.web.domain.blog.QBlog;
+import com.podo.pododev.web.domain.blog.blog.Blog;
+import com.podo.pododev.web.domain.blog.blog.QBlog;
 import com.podo.pododev.web.domain.blog.tag.QBlogTag;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPQLQuery;

@@ -1,4 +1,4 @@
-package com.podo.pododev.web.domain.blog;
+package com.podo.pododev.web.domain.blog.blog;
 
 public enum BlogStatus {
 

@@ -61,9 +61,9 @@ export default {
 
     beforeMount() {
         const query = this.$route.query;
-        if (query && query.token) {
-            const token = query.token;
-            this.checkLogin(token).then(() => {
+        if (query && query.accessToken) {
+            const accessToken = query.accessToken;
+            this.checkLogin(accessToken).then(() => {
                 this.$toast.show("로그인하였습니다");
                 this.$router.push({ name: "blogs" });
             });

@@ -1,6 +1,7 @@
-package com.podo.pododev.web.domain.blog;
+package com.podo.pododev.web.domain.blog.blog;
 
 import com.podo.pododev.core.util.MyHtmlUtil;
+import com.podo.pododev.web.domain.blog.AttachStatus;
 import com.podo.pododev.web.domain.blog.attachfile.AttachFile;
 import com.podo.pododev.web.domain.blog.attachfile.AttachFileDto;
 import com.podo.pododev.web.domain.blog.attachimage.AttachImage;
@@ -16,7 +17,6 @@ import com.podo.pododev.core.util.MyPathUtils;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.cglib.core.CollectionUtils;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;

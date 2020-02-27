@@ -1,136 +1,43 @@
 #Server Config
-server:
-  port: 28443
-  http:
-    port: 28080
+server.port: 28443
+server.http.port: 28080
 
+spring.profiles.include: secret, core, jpa, infra, oauth, log
 
-## Log
-logging:
-  file: podo-dev-backend.%d{yyyy-MM-dd}-%i.log
-  path: c://podo-dev/podo-dev-backend/logs
-
-decorator:
-  datasource:
-    p6spy:
-      enable-logging: true
-      multiline: false
-      logging: slf4j
-      #log-file: spy.log
-      #log-format: # custom log format
-
-
-spring:
-  profiles:
-    include: secret, core
-
-  # Hibernate config
-  jpa:
-    database: MYSQL
-    hibernate:
-      dialect: org.hibernate.dialect.MySQL5Dialect
-    properties:
-      hibernate:
-        fomat_sql: true
-        #        show_sql: true
-        default_batch_fetch_size: 20
-    open-in-view: false
-
-
-  # Servlet
-  servlet:
-    multipart:
-      max-file-size: 100MB
-      max-request-size: 100MB
+# Servlet
+spring.servlet:
+  multipart:
+    max-file-size: 100MB
+    max-request-size: 100MB
 
 ## Blog Content Config
-blog:
-  relates:
-    size: 5
-  comment:
-    page:
-      size: 5 # Comment Paging Size
-    max:
-      depth: 3 # Comment Max Reply Depth
-    recent:
-      size: 10
-  page:
-    size: 10 # Blog Paging Size
+blog.page.size: 10
+blog.relates.size: 5
+blog.comment:
+  page.size: 5
+  max.depth: 3
+  recent.size: 10
 
 
 ## File Save Config
-local:
-  static:
-    dir: C://podo-dev/podo-dev-backend/static
-  upload:
-    base:
-      path: /uploaded
-      dir: C://podo-dev/podo-dev-backend/uploaded
-    sub:
-      file:
-        dir: /blogs/files
-      image:
-        dir: /blogs/images
-
-infra:
-  storage:
-    server:
-      internal: http://192.168.219.103:38080/api/file # Loopback
-    static:
-      internal: http://192.168.219.103:30080
-      external: https://file.podo-dev.com
-  #      external: https://static.podo-dev.com
-
-  telegram:
-    admin:
-      telegram_id: 503609560
-    bot:
-      name: PodoDevBot
-
-  solr:
-    url: http://192.168.219.103:8979/solr # Loopback
-    core_id: podo-dev
-    highlight:
-      pre_max_text_length: 100
-      frag:
-        length: 10000000
-
-security:
-  oauth2:
-#    redirect: http://localhost:3000
-    redirect: https://www.podo-dev.com
+local.static.dir: C://podo-dev/podo-dev-backend/static
+local.upload:
+    base.path: /uploaded
+    base.dir: C://podo-dev/podo-dev-backend/uploaded
+    sub.file.dir: /blogs/files
+    sub.image.dir: /blogs/images
 
 ---
 
-spring:
-  profiles: deploy
-  jpa:
-    show-sql: false
+spring.profiles: deploy
 
-server:
-  port: 8443
-  http:
-    port: 8080
+server.port: 8443
+server.http.port: 8080
 
-## Log
-logging:
-  path: /data/logs
+local.static.dir: /static
+local.upload.base.dir: /uploaded
 
-decorator:
-  datasource:
-    p6spy:
-      enable-logging: false
 
-local:
-  static:
-    dir: /static
-  upload:
-    base:
-      dir: /uploaded
-
-security:
-  oauth2:
-    redirect: https://www.podo-dev.com
 
 
 

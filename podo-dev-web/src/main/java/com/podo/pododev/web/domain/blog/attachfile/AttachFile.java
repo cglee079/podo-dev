@@ -1,7 +1,7 @@
 package com.podo.pododev.web.domain.blog.attachfile;
 
 import com.podo.pododev.web.domain.BaseEntity;
-import com.podo.pododev.web.domain.blog.Blog;
+import com.podo.pododev.web.domain.blog.blog.Blog;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

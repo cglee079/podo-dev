@@ -1,4 +1,4 @@
-package com.podo.pododev.core.global.config.filter;
+package com.podo.pododev.web.global.config.security;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;

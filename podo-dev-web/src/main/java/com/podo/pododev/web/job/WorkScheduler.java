@@ -1,8 +1,5 @@
 package com.podo.pododev.web.job;
 
-import com.podo.pododev.web.domain.blog.BlogDto;
-import com.podo.pododev.web.domain.blog.service.BlogFeedService;
-import com.podo.pododev.web.job.Worker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;

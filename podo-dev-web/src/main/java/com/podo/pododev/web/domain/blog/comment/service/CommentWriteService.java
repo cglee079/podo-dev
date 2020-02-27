@@ -1,13 +1,13 @@
 package com.podo.pododev.web.domain.blog.comment.service;
 
-import com.podo.pododev.web.domain.blog.Blog;
+import com.podo.pododev.web.domain.blog.blog.Blog;
 import com.podo.pododev.web.domain.blog.comment.Comment;
 import com.podo.pododev.web.domain.blog.comment.CommentDto;
 import com.podo.pododev.web.domain.blog.comment.exception.InvalidCommentIdException;
 import com.podo.pododev.web.domain.blog.comment.exception.MaxDepthCommentException;
 import com.podo.pododev.web.domain.blog.comment.repository.CommentRepository;
-import com.podo.pododev.web.domain.blog.exception.InvalidBlogIdException;
-import com.podo.pododev.web.domain.blog.repository.BlogRepository;
+import com.podo.pododev.web.domain.blog.blog.exception.InvalidBlogIdException;
+import com.podo.pododev.web.domain.blog.blog.repository.BlogRepository;
 import com.podo.pododev.web.domain.user.User;
 import com.podo.pododev.web.domain.user.UserRepository;
 import com.podo.pododev.web.domain.user.exception.InvalidUserIdException;

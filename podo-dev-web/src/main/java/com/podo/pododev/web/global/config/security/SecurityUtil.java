@@ -1,6 +1,6 @@
 package com.podo.pododev.web.global.config.security;
 
-import com.podo.pododev.web.global.config.security.oauth.GoogleUserDetails;
+import com.podo.pododev.web.global.config.security.oauth.OAuthUserDetails;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,7 +24,7 @@ public class SecurityUtil extends WebSecurityConfigurerAdapter {
     }
 
 
-    public static GoogleUserDetails getUser() {
+    public static OAuthUserDetails getUser() {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         final Object principal = authentication.getPrincipal();
 
@@ -32,7 +32,7 @@ public class SecurityUtil extends WebSecurityConfigurerAdapter {
             return null;
         }
 
-        return (GoogleUserDetails) principal;
+        return (OAuthUserDetails) principal;
     }
 
     public static String getUserId() {
@@ -43,7 +43,7 @@ public class SecurityUtil extends WebSecurityConfigurerAdapter {
             return null;
         }
 
-        return ((GoogleUserDetails) principal).getGoogleId();
+        return ((OAuthUserDetails) principal).getUserKey();
     }
 
     public static String getUsername() {
@@ -54,7 +54,7 @@ public class SecurityUtil extends WebSecurityConfigurerAdapter {
             return null;
         }
 
-        return ((GoogleUserDetails) principal).getUsername();
+        return ((OAuthUserDetails) principal).getUsername();
     }
 
 }

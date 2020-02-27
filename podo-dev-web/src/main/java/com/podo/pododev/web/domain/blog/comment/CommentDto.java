@@ -1,9 +1,8 @@
 package com.podo.pododev.web.domain.blog.comment;
 
 import com.podo.pododev.core.util.MyHtmlUtil;
-import com.podo.pododev.web.domain.blog.Blog;
+import com.podo.pododev.web.domain.blog.blog.Blog;
 import com.podo.pododev.core.util.DateTimeFormatUtil;
-import com.podo.pododev.core.util.MarkdownUtil;
 import com.podo.pododev.web.domain.user.User;
 import lombok.Getter;
 import lombok.Setter;

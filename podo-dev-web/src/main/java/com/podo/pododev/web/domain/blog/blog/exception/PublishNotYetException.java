@@ -1,13 +1,13 @@
-package com.podo.pododev.web.domain.blog.exception;
+package com.podo.pododev.web.domain.blog.blog.exception;
 
 import com.podo.pododev.core.rest.exception.ResponsibleException;
 import com.podo.pododev.core.rest.response.ApiStatus;
 import org.springframework.http.HttpStatus;
 
-public class InvalidBlogIdException extends ResponsibleException {
+public class PublishNotYetException extends ResponsibleException {
 
-    public InvalidBlogIdException(Long blogId) {
-        super("유효하지 않은 블로그 ID 입니다. ID : " + blogId);
+    public PublishNotYetException() {
+        super("아직 발행전 게시글입니다, 먼저 발행해주세요");
     }
 
     @Override
@@ -18,5 +18,6 @@ public class InvalidBlogIdException extends ResponsibleException {
     @Override
     public ApiStatus getApiStatus() {
         return ApiStatus.ERR_INVALID;
+
     }
 }
