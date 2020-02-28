@@ -1,8 +1,8 @@
 package com.podo.pododev.web.domain.blog.attachimage;
 
 import com.podo.pododev.web.domain.blog.AttachStatus;
-import com.podo.pododev.web.domain.blog.attachimage.save.AttachImageSave;
-import com.podo.pododev.web.domain.blog.attachimage.save.AttachImageSaveEntity;
+import com.podo.pododev.web.domain.blog.attachimage.vo.AttachImageSave;
+import com.podo.pododev.web.domain.blog.attachimage.vo.AttachImageSaveEntity;
 import lombok.Builder;
 import lombok.Getter;
 

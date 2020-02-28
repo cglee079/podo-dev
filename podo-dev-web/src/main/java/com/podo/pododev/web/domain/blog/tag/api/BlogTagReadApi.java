@@ -1,7 +1,7 @@
 package com.podo.pododev.web.domain.blog.tag.api;
 
-import com.podo.pododev.core.rest.response.ApiResponse;
-import com.podo.pododev.core.rest.response.ApiStatus;
+import com.podo.pododev.core.rest.ApiResponse;
+import com.podo.pododev.core.rest.status.DefaultApiStatus;
 import com.podo.pododev.core.rest.response.CollectionResponse;
 import com.podo.pododev.web.domain.blog.tag.service.BlogTagReadService;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +22,7 @@ public class BlogTagReadApi {
     public ApiResponse getAllDistinctTagValues() {
         final List<String> distinctTagValues = blogTagReadService.getAllDistinctTagValues(true);
 
-        return CollectionResponse.builder()
-                .status(ApiStatus.SUCCESS)
+        return CollectionResponse.success()
                 .result(distinctTagValues)
                 .build();
     }

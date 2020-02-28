@@ -1,9 +1,9 @@
 package com.podo.pododev.web.domain.blog.attachimage;
 
 import com.podo.pododev.web.domain.blog.AttachStatus;
-import com.podo.pododev.web.domain.blog.attachimage.save.AttachImageSave;
+import com.podo.pododev.web.domain.blog.attachimage.vo.AttachImageSave;
 import com.podo.pododev.web.global.infra.storage.PodoStorageClient;
-import com.podo.pododev.core.util.MyPathUtils;
+import com.podo.pododev.core.util.PathUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,7 +38,7 @@ public class AttachImageStorageUploader {
             case NEW:
                 for (AttachImageSave attachImageSave : attachImageSaves) {
                     final String filePath = attachImageSave.getFilePath();
-                    final File savedFileOfAttachImageSave = new File(MyPathUtils.merge(localSavedBaseDirectory, filePath), attachImageSave.getFilename());
+                    final File savedFileOfAttachImageSave = new File(PathUtil.merge(localSavedBaseDirectory, filePath), attachImageSave.getFilename());
                     podoStorageClient.uploadFile(filePath, savedFileOfAttachImageSave);
                 }
 

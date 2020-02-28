@@ -1,10 +1,10 @@
 package com.podo.pododev.web.domain.blog.attachimage.api;
 
-import com.podo.pododev.core.rest.response.ApiResponse;
-import com.podo.pododev.core.rest.response.ApiStatus;
+import com.podo.pododev.core.rest.ApiResponse;
+import com.podo.pododev.core.rest.status.DefaultApiStatus;
 import com.podo.pododev.core.rest.response.DataResponse;
 import com.podo.pododev.web.domain.blog.attachimage.AttachImageDto;
-import com.podo.pododev.web.domain.blog.attachimage.service.AttachImageWriteFileService;
+import com.podo.pododev.web.domain.blog.attachimage.application.AttachImageWriteFileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,8 +22,7 @@ public class AttachImageWriteFileApi {
     public ApiResponse uploadImageByMultipartFile(@RequestParam("fileOfImage") MultipartFile image) {
         final AttachImageDto.response response = attachImageWriteFileService.saveByMultipartFile(image);
 
-        return DataResponse.builder()
-                .status(ApiStatus.SUCCESS)
+        return DataResponse.success()
                 .result(response)
                 .build();
     }
@@ -45,8 +44,7 @@ public class AttachImageWriteFileApi {
             }
         }
 
-        return DataResponse.builder()
-                .status(ApiStatus.SUCCESS)
+        return DataResponse.success()
                 .result(attachImage)
                 .build();
 

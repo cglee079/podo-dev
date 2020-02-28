@@ -1,11 +1,11 @@
 package com.podo.pododev.web.domain.blog.attachfile.controller;
 
-import com.podo.pododev.core.util.MyRequestUtil;
-import com.podo.pododev.core.util.MyStringUtil;
+import com.podo.pododev.web.global.util.HttpRequestUtil;
+import com.podo.pododev.web.global.util.HttpResponseUtil;
 import com.podo.pododev.web.domain.blog.attachfile.AttachFileDto;
-import com.podo.pododev.web.domain.blog.attachfile.service.AttachReadService;
-import com.podo.pododev.web.global.util.writer.FileLocalWriter;
-import com.podo.pododev.core.util.MyPathUtils;
+import com.podo.pododev.web.domain.blog.attachfile.application.AttachReadService;
+import com.podo.pododev.core.util.PathUtil;
+import com.podo.pododev.web.global.writer.FileLocalWriter;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,11 +36,11 @@ public class AttachFileDownloadController {
 
         final AttachFileDto.download downloadFile = attachReadService.getAttachFileByAttachFileId(fileId);
 
-        final String downloadFileUrl = MyPathUtils.merge(storageStaticUrlAtInternal, downloadFile.getFilePath(), downloadFile.getFilename());
+        final String downloadFileUrl = PathUtil.merge(storageStaticUrlAtInternal, downloadFile.getFilePath(), downloadFile.getFilename());
         final File tempDownloadFile = fileLocalWriter.writeFromUrl(downloadFileUrl, TEMP_DIRECTORY);
-        final String browser = MyRequestUtil.getBrowser(request);
+        final String browser = HttpRequestUtil.getBrowser(request.getHeader("User-Agent"));
         final byte[] fileByteArray = FileUtils.readFileToByteArray(tempDownloadFile);
-        final String encodeFilenameByBrowser = MyStringUtil.encodeFilenameByBrowser(browser, downloadFile.getOriginFilename());
+        final String encodeFilenameByBrowser = HttpResponseUtil.encodeFilenameByBrowser(browser, downloadFile.getOriginFilename());
 
         responseFileByteArray(response, fileByteArray, encodeFilenameByBrowser);
 

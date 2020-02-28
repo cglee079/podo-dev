@@ -1,19 +1,19 @@
 package com.podo.pododev.web.domain.blog.blog;
 
-import com.podo.pododev.core.util.MyHtmlUtil;
+import com.podo.pododev.web.global.util.HtmlDocumentUtil;
 import com.podo.pododev.web.domain.blog.AttachStatus;
 import com.podo.pododev.web.domain.blog.attachfile.AttachFile;
 import com.podo.pododev.web.domain.blog.attachfile.AttachFileDto;
 import com.podo.pododev.web.domain.blog.attachimage.AttachImage;
 import com.podo.pododev.web.domain.blog.attachimage.AttachImageDto;
-import com.podo.pododev.web.domain.blog.attachimage.save.AttachImageSave;
-import com.podo.pododev.web.domain.blog.attachimage.save.AttachImageSaveEntity;
+import com.podo.pododev.web.domain.blog.attachimage.vo.AttachImageSave;
+import com.podo.pododev.web.domain.blog.attachimage.vo.AttachImageSaveEntity;
 import com.podo.pododev.web.domain.blog.history.BlogHistoryDto;
 import com.podo.pododev.web.domain.blog.tag.BlogTag;
 import com.podo.pododev.web.domain.blog.tag.BlogTagDto;
 import com.podo.pododev.core.util.DateTimeFormatUtil;
-import com.podo.pododev.core.util.MarkdownUtil;
-import com.podo.pododev.core.util.MyPathUtils;
+import com.podo.pododev.web.global.util.MarkdownUtil;
+import com.podo.pododev.core.util.PathUtil;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -131,7 +131,7 @@ public class BlogDto {
         public response(Blog blog, Blog beforeBlog, Blog nextBlog, List<Blog> relates, String uploaderDomain, AttachStatus attachStatus) {
             this.id = blog.getId();
             this.title = blog.getTitle();
-            this.description = MyHtmlUtil.escapeHtml(MarkdownUtil.extractPlainText(blog.getContents()));
+            this.description = HtmlDocumentUtil.escapeHtml(MarkdownUtil.extractPlainText(blog.getContents()));
             this.contents = blog.getContents();
             this.hitCount = blog.getHitCount();
             this.publishAt = DateTimeFormatUtil.dateTimeToBeautifulDate(blog.getPublishAt());
@@ -172,7 +172,7 @@ public class BlogDto {
                 final Optional<AttachImageSave> thumbnailSaveOptional = saves.stream().filter(s -> s.getImageKey().equals("origin")).findFirst();
                 if (thumbnailSaveOptional.isPresent()) {
                     AttachImageSave thumbnailSave = thumbnailSaveOptional.get();
-                    this.thumbnail = MyPathUtils.merge(uploaderDomain, thumbnailSave.getFilePath(), thumbnailSave.getFilename());
+                    this.thumbnail = PathUtil.merge(uploaderDomain, thumbnailSave.getFilePath(), thumbnailSave.getFilename());
                 }
             }
 
@@ -196,7 +196,7 @@ public class BlogDto {
         public responsePaging(Blog blog, String uploaderDomain) {
             this.id = blog.getId();
             this.title = blog.getTitle();
-            this.description = MyHtmlUtil.escapeHtml(MarkdownUtil.extractPlainText(blog.getContents()));
+            this.description = HtmlDocumentUtil.escapeHtml(MarkdownUtil.extractPlainText(blog.getContents()));
             this.createAt = DateTimeFormatUtil.dateTimeToBeautifulDate(blog.getCreateAt());
             this.publishAt = DateTimeFormatUtil.dateTimeToBeautifulDate(blog.getPublishAt());
             this.updateAt = DateTimeFormatUtil.dateTimeToBeautifulDate(blog.getUpdateAt());
@@ -216,7 +216,7 @@ public class BlogDto {
                 final Optional<AttachImageSave> thumbnailSaveOpt = saves.stream().filter(s -> s.getImageKey().equals("origin")).findFirst();
                 if (thumbnailSaveOpt.isPresent()) {
                     AttachImageSave thumbnailSave = thumbnailSaveOpt.get();
-                    this.thumbnail = MyPathUtils.merge(uploaderDomain, thumbnailSave.getFilePath(), thumbnailSave.getFilename());
+                    this.thumbnail = PathUtil.merge(uploaderDomain, thumbnailSave.getFilePath(), thumbnailSave.getFilename());
                 }
             }
 
@@ -279,7 +279,7 @@ public class BlogDto {
         public feed(Blog blog) {
             this.id = blog.getId();
             this.title = blog.getTitle();
-            this.desc = MyHtmlUtil.escapeHtml(MarkdownUtil.extractPlainText(blog.getContents()));
+            this.desc = HtmlDocumentUtil.escapeHtml(MarkdownUtil.extractPlainText(blog.getContents()));
             this.publishAt = blog.getPublishAt();
             this.createAt = blog.getCreateAt();
             this.updateAt = blog.getUpdateAt();

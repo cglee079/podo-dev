@@ -1,6 +1,9 @@
 package com.podo.pododev.web.domain.blog.blog.api;
 
+import com.podo.pododev.core.rest.ApiResponse;
 import com.podo.pododev.core.rest.response.*;
+import com.podo.pododev.core.rest.response.dto.PageDto;
+import com.podo.pododev.core.rest.status.DefaultApiStatus;
 import com.podo.pododev.web.domain.blog.blog.BlogDto;
 import com.podo.pododev.web.domain.blog.blog.application.BlogReadService;
 import com.podo.pododev.web.global.config.security.SecurityUtil;
@@ -24,8 +27,7 @@ public class BlogReadApi {
 
         final Map<Integer, List<BlogDto.archive>> archive = blogReadService.getArchiveMapByYearOfPublishAt(SecurityUtil.isAdmin());
 
-        return DataResponse.builder()
-                .status(ApiStatus.SUCCESS)
+        return DataResponse.success()
                 .result(archive)
                 .build();
     }
@@ -35,8 +37,7 @@ public class BlogReadApi {
 
         final BlogDto.response blog = blogReadService.getExistedBlogByBlogId(blogId);
 
-        return DataResponse.builder()
-                .status(ApiStatus.SUCCESS)
+        return DataResponse.success()
                 .result(blog)
                 .build();
     }
@@ -45,8 +46,7 @@ public class BlogReadApi {
     public ApiResponse paging(BlogDto.requestPaging requestPaging) {
         final PageDto<BlogDto.responsePaging> blogs = blogReadService.paging(requestPaging, SecurityUtil.isAdmin());
 
-        return DataResponse.builder()
-                .status(ApiStatus.SUCCESS)
+        return DataResponse.success()
                 .result(blogs)
                 .build();
     }
@@ -55,8 +55,7 @@ public class BlogReadApi {
     public ApiResponse facets(@RequestParam String searchValue) {
         final List<String> facets = blogReadService.getIndexedWordByKeyword(searchValue);
 
-        return CollectionResponse.builder()
-                .status(ApiStatus.SUCCESS)
+        return CollectionResponse.success()
                 .result(facets)
                 .build();
     }

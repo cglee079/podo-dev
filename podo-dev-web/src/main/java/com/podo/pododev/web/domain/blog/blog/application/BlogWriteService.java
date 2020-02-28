@@ -9,10 +9,10 @@ import com.podo.pododev.web.domain.blog.attachfile.AttachFileStorageUploader;
 import com.podo.pododev.web.domain.blog.attachimage.AttachImage;
 import com.podo.pododev.web.domain.blog.attachimage.AttachImageDto;
 import com.podo.pododev.web.domain.blog.attachimage.AttachImageStorageUploader;
-import com.podo.pododev.web.domain.blog.attachimage.save.AttachImageSave;
-import com.podo.pododev.web.domain.blog.attachimage.save.AttachImageSaveEntity;
+import com.podo.pododev.web.domain.blog.attachimage.vo.AttachImageSave;
+import com.podo.pododev.web.domain.blog.attachimage.vo.AttachImageSaveEntity;
 import com.podo.pododev.web.domain.blog.comment.repository.CommentRepository;
-import com.podo.pododev.web.domain.blog.blog.exception.InvalidBlogIdException;
+import com.podo.pododev.web.domain.blog.blog.exception.InvalidBlogIdApiException;
 import com.podo.pododev.web.domain.blog.blog.repository.BlogRepository;
 import com.podo.pododev.web.domain.blog.tag.BlogTag;
 import com.podo.pododev.web.domain.blog.tag.BlogTagDto;
@@ -181,7 +181,7 @@ public class BlogWriteService {
         final Optional<Blog> existedBlogOptional = blogRepository.findById(blogId);
 
         if (!existedBlogOptional.isPresent()) {
-            throw new InvalidBlogIdException(blogId);
+            throw new InvalidBlogIdApiException(blogId);
         }
 
         return existedBlogOptional.get();

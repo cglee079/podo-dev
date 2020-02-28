@@ -1,10 +1,10 @@
 package com.podo.pododev.web.domain.user.exception;
 
-import com.podo.pododev.core.rest.exception.ResponsibleException;
-import com.podo.pododev.core.rest.response.ApiStatus;
+import com.podo.pododev.core.rest.ApiException;
+import com.podo.pododev.core.rest.status.DefaultApiStatus;
 import org.springframework.http.HttpStatus;
 
-public class NoAuthenticatedException extends ResponsibleException {
+public class NoAuthenticatedException extends ApiException {
 
     public NoAuthenticatedException() {
         super("인증되지 않은 사용자입니다.");
@@ -16,7 +16,7 @@ public class NoAuthenticatedException extends ResponsibleException {
     }
 
     @Override
-    public ApiStatus getApiStatus() {
-        return ApiStatus.ERR_INVALID;
+    public DefaultApiStatus getApiStatus() {
+        return DefaultApiStatus.ERR_INVALID;
     }
 }

@@ -2,7 +2,7 @@ package com.podo.pododev.web.domain.blog.attachimage;
 
 import com.podo.pododev.web.domain.BaseEntity;
 import com.podo.pododev.web.domain.blog.blog.Blog;
-import com.podo.pododev.web.domain.blog.attachimage.save.AttachImageSaveEntity;
+import com.podo.pododev.web.domain.blog.attachimage.vo.AttachImageSaveEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

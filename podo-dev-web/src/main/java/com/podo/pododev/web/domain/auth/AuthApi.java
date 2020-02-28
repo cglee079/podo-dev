@@ -1,14 +1,11 @@
 package com.podo.pododev.web.domain.auth;
 
-import com.podo.pododev.core.rest.response.ApiResponse;
-import com.podo.pododev.core.rest.response.ApiStatus;
+import com.podo.pododev.core.rest.ApiResponse;
+import com.podo.pododev.core.rest.status.DefaultApiStatus;
 import com.podo.pododev.core.rest.response.DataResponse;
 import com.podo.pododev.core.rest.response.StatusResponse;
 import com.podo.pododev.web.global.config.security.SecurityStore;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,27 +21,13 @@ public class AuthApi {
 
     private final SecurityStore securityStore;
 
-    @GetMapping("/api/login/success")
-    public ApiResponse checkIsAllowdedUserAgent(HttpServletRequest request, Authentication authentication) {
-        final SecurityContext context = SecurityContextHolder.getContext();
-        final String userAgent = request.getHeader("User-Agent");
-
-        final boolean result = isAllowedUserAgent(userAgent);
-
-        return DataResponse.builder()
-                .status(ApiStatus.SUCCESS)
-                .result(result)
-                .build();
-    }
-
     @GetMapping("/api/login/enabled")
     public ApiResponse checkIsAllowedUserAgent(HttpServletRequest request) {
         final String userAgent = request.getHeader("User-Agent");
 
         final boolean result = isAllowedUserAgent(userAgent);
 
-        return DataResponse.builder()
-                .status(ApiStatus.SUCCESS)
+        return DataResponse.success()
                 .result(result)
                 .build();
     }
@@ -69,9 +52,7 @@ public class AuthApi {
             securityStore.logout(token);
         }
 
-        return StatusResponse.builder()
-                .status(ApiStatus.SUCCESS)
-                .build();
+        return StatusResponse.success().build();
     }
 
 }

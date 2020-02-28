@@ -8,7 +8,5 @@ jar {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation group: 'com.github.rjeschke', name: 'txtmark', version: '0.13'
-    implementation group: 'org.jsoup', name: 'jsoup', version: '1.11.3'
+    
 }

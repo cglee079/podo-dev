@@ -1,10 +1,10 @@
 package com.podo.pododev.web.domain.user.exception;
 
-import com.podo.pododev.core.rest.exception.ResponsibleException;
-import com.podo.pododev.core.rest.response.ApiStatus;
+import com.podo.pododev.core.rest.ApiException;
+import com.podo.pododev.core.rest.status.DefaultApiStatus;
 import org.springframework.http.HttpStatus;
 
-public class InvalidUserIdException extends ResponsibleException {
+public class InvalidUserIdException extends ApiException {
 
     public InvalidUserIdException(String userId) {
         super("유효하지 않은 사용자ID 입니다. ID : " + userId);
@@ -16,7 +16,7 @@ public class InvalidUserIdException extends ResponsibleException {
     }
 
     @Override
-    public ApiStatus getApiStatus() {
-        return ApiStatus.ERR_INVALID;
+    public DefaultApiStatus getApiStatus() {
+        return DefaultApiStatus.ERR_INVALID;
     }
 }

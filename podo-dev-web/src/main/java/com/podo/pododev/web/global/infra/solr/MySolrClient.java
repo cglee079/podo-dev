@@ -1,8 +1,8 @@
 package com.podo.pododev.web.global.infra.solr;
 
-import com.podo.pododev.core.util.MyHtmlUtil;
+import com.podo.pododev.web.global.util.HtmlDocumentUtil;
 import com.podo.pododev.web.global.infra.solr.exception.SolrRequestException;
-import com.podo.pododev.core.util.MarkdownUtil;
+import com.podo.pododev.web.global.util.MarkdownUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -14,7 +14,6 @@ import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.*;
 
@@ -84,7 +83,7 @@ public class MySolrClient {
                 highlightContents = highlightContents.substring(indexOfHighlightPrefix - maxTextLengthBeforeHighlight);
             }
 
-            highlightContents = MyHtmlUtil.escapeHtml(highlightContents);
+            highlightContents = HtmlDocumentUtil.escapeHtml(highlightContents);
             highlightContents = highlightContents.replace(MySolrParameter.HIGHLIGHT_PREFIX, "<search>");
             highlightContents = highlightContents.replace(MySolrParameter.HIGHLIGHT_POSTFIX, "</search>");
 

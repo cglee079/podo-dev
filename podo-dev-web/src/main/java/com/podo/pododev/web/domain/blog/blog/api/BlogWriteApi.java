@@ -1,6 +1,8 @@
 package com.podo.pododev.web.domain.blog.blog.api;
 
+import com.podo.pododev.core.rest.ApiResponse;
 import com.podo.pododev.core.rest.response.*;
+import com.podo.pododev.core.rest.status.DefaultApiStatus;
 import com.podo.pododev.web.domain.blog.blog.BlogDto;
 import com.podo.pododev.web.domain.blog.blog.application.BlogWriteService;
 import lombok.RequiredArgsConstructor;
@@ -22,9 +24,7 @@ public class BlogWriteApi {
     public ApiResponse insert(@Valid @RequestBody BlogDto.insert insert) {
         blogWriteService.insertNewBlog(insert);
 
-        return StatusResponse.builder()
-                .status(ApiStatus.SUCCESS)
-                .build();
+        return StatusResponse.success();
     }
 
 
@@ -32,18 +32,14 @@ public class BlogWriteApi {
     public ApiResponse update(@PathVariable Long blogId, @Valid @RequestBody BlogDto.update blogReq) {
         blogWriteService.updateExistedBlogs(blogId, blogReq);
 
-        return StatusResponse.builder()
-                .status(ApiStatus.SUCCESS)
-                .build();
+        return StatusResponse.success();
     }
 
     @DeleteMapping("/api/blogs/{blogId}")
     public ApiResponse delete(@PathVariable Long blogId) {
         blogWriteService.removeByBlogId(blogId);
 
-        return StatusResponse.builder()
-                .status(ApiStatus.SUCCESS)
-                .build();
+        return StatusResponse.success();
     }
 
 
@@ -52,9 +48,7 @@ public class BlogWriteApi {
 
         blogWriteService.increaseHitCount(blogId);
 
-        return StatusResponse.builder()
-                .status(ApiStatus.SUCCESS)
-                .build();
+        return StatusResponse.success();
     }
 
 }

@@ -14,7 +14,7 @@ public class BlogHistoryReadService {
     public BlogHistoryDto.response getById(long historyId) {
         final Optional<BlogHistory> blogHistoryOptional = blogHistoryRepository.findById(historyId);
 
-        final BlogHistory blogHistory = blogHistoryOptional.orElseThrow(() -> new InvalidBlogHistoryIdException(historyId));
+        final BlogHistory blogHistory = blogHistoryOptional.orElseThrow(() -> new InvalidBlogHistoryIdApiException(historyId));
 
         return new BlogHistoryDto.response(blogHistory);
     }

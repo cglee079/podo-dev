@@ -1,11 +1,13 @@
 package com.podo.pododev.web.domain.blog.attachimage;
 
-import com.podo.pododev.web.domain.blog.attachimage.exception.InvalidImageException;
-import com.podo.pododev.web.domain.blog.attachimage.save.AttachImageSave;
-import com.podo.pododev.web.global.util.writer.FileLocalWriter;
-import com.podo.pododev.core.util.MyPathUtils;
-import com.podo.pododev.web.global.util.writer.MyFileUtils;
-import com.podo.pododev.web.global.util.writer.MyFilenameUtils;
+import com.podo.pododev.web.domain.blog.attachimage.exception.InvalidImageFileApiException;
+import com.podo.pododev.web.domain.blog.attachimage.exception.InvalidImageUrlApiException;
+import com.podo.pododev.web.domain.blog.attachimage.vo.AttachImageSave;
+import com.podo.pododev.web.domain.blog.attachimage.util.ImageValidator;
+import com.podo.pododev.web.domain.blog.attachimage.vo.ImageSizeVo;
+import com.podo.pododev.core.util.PathUtil;
+import com.podo.pododev.web.global.util.MyFilenameUtil;
+import com.podo.pododev.web.global.writer.FileLocalWriter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,13 +38,13 @@ public class AttachImageLocalWriter {
 
     public Map<String, AttachImageSave> writeImageToMultipleSizeFromImageUrl(String imageUrl) {
         if (!ImageValidator.isImageFile(imageUrl)) {
-            throw new InvalidImageException();
+            throw new InvalidImageUrlApiException(imageUrl);
         }
 
-        final String localSavedLocation = MyPathUtils.merge(localAttachImageDirectory, MyFilenameUtils.createPathByDate(LocalDateTime.now())); // 로컬 저장경로
+        final String localSavedLocation = PathUtil.merge(localAttachImageDirectory, MyFilenameUtil.createPathByDate(LocalDateTime.now())); // 로컬 저장경로
         final Map<String, AttachImageSave> attachImageSaveMap = new HashMap<>();
 
-        final String localSavedLocationOfOrigin = MyPathUtils.merge(localSavedLocation, ORIGIN_IMAGE_KEY);
+        final String localSavedLocationOfOrigin = PathUtil.merge(localSavedLocation, ORIGIN_IMAGE_KEY);
         final File originImage = fileLocalWriter.writeFromUrl(imageUrl, localSavedLocationOfOrigin);
 
         attachImageSaveMap.put(ORIGIN_IMAGE_KEY, createAttachImageSave(originImage, localSavedLocationOfOrigin, ORIGIN_IMAGE_KEY));
@@ -51,10 +53,10 @@ public class AttachImageLocalWriter {
     }
 
     public Map<String, AttachImageSave> writeImageToMultipleSizeFromBase64(String base64, String extension) {
-        final String localSavedLocation = MyPathUtils.merge(localAttachImageDirectory, MyFilenameUtils.createPathByDate(LocalDateTime.now())); // 로컬 저장경로
+        final String localSavedLocation = PathUtil.merge(localAttachImageDirectory, MyFilenameUtil.createPathByDate(LocalDateTime.now())); // 로컬 저장경로
         final Map<String, AttachImageSave> attachImageSaveMap = new HashMap<>();
 
-        final String localSavedLocationOfOrigin = MyPathUtils.merge(localSavedLocation, ORIGIN_IMAGE_KEY);
+        final String localSavedLocationOfOrigin = PathUtil.merge(localSavedLocation, ORIGIN_IMAGE_KEY);
         final File originImage = fileLocalWriter.writeByBase64(base64, extension, localSavedLocationOfOrigin);
         attachImageSaveMap.put(ORIGIN_IMAGE_KEY, createAttachImageSave(originImage, localSavedLocationOfOrigin, ORIGIN_IMAGE_KEY));
 
@@ -63,13 +65,13 @@ public class AttachImageLocalWriter {
 
     public Map<String, AttachImageSave> writeImageToMultipleSizeFromMultipartFile(MultipartFile multipartFile) {
         if (!ImageValidator.isImageFile(multipartFile)) {
-            throw new InvalidImageException();
+            throw new InvalidImageFileApiException(multipartFile.getOriginalFilename());
         }
 
-        final String localSavedLocation = MyPathUtils.merge(localAttachImageDirectory, MyFilenameUtils.createPathByDate(LocalDateTime.now())); // 로컬 저장경로
+        final String localSavedLocation = PathUtil.merge(localAttachImageDirectory, MyFilenameUtil.createPathByDate(LocalDateTime.now())); // 로컬 저장경로
         final Map<String, AttachImageSave> attachImageSaveMap = new HashMap<>();
 
-        final String localSavedLocationOfOrigin = MyPathUtils.merge(localSavedLocation, ORIGIN_IMAGE_KEY);
+        final String localSavedLocationOfOrigin = PathUtil.merge(localSavedLocation, ORIGIN_IMAGE_KEY);
         final File originImage = fileLocalWriter.writeFromMultipartFile(multipartFile, localSavedLocationOfOrigin);
 
         attachImageSaveMap.put(ORIGIN_IMAGE_KEY, createAttachImageSave(originImage, localSavedLocationOfOrigin, ORIGIN_IMAGE_KEY));
@@ -114,7 +116,7 @@ public class AttachImageLocalWriter {
 
         } catch (IOException e) {
             log.error("이미지 파일 정보를 가져 올 수 없습니다");
-            throw new InvalidImageException();
+            throw new InvalidImageFileApiException(file.getName());
         }
     }
 }

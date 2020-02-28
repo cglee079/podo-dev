@@ -1,6 +1,6 @@
 package com.podo.pododev.web.domain.blog.attachfile;
 
-import com.podo.pododev.core.util.MyPathUtils;
+import com.podo.pododev.core.util.PathUtil;
 import com.podo.pododev.web.global.infra.storage.PodoStorageClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +31,7 @@ public class AttachFileStorageUploader {
 
         switch (fileInsert.getAttachStatus()) {
             case NEW:
-                final File localSavedAttachFile = new File(MyPathUtils.merge(localSavedBaseDirectory, fileInsert.getFilePath()), fileInsert.getFilename());
+                final File localSavedAttachFile = new File(PathUtil.merge(localSavedBaseDirectory, fileInsert.getFilePath()), fileInsert.getFilename());
                 podoStorageClient.uploadFile(fileInsert.getFilePath(), localSavedAttachFile);
                 break;
             case REMOVE:

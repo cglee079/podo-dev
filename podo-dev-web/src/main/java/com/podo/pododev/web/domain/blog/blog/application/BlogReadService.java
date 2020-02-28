@@ -1,10 +1,10 @@
 package com.podo.pododev.web.domain.blog.blog.application;
 
-import com.podo.pododev.core.rest.response.PageDto;
+import com.podo.pododev.core.rest.response.dto.PageDto;
 import com.podo.pododev.web.domain.blog.AttachStatus;
 import com.podo.pododev.web.domain.blog.blog.Blog;
 import com.podo.pododev.web.domain.blog.blog.BlogDto;
-import com.podo.pododev.web.domain.blog.blog.exception.InvalidBlogIdException;
+import com.podo.pododev.web.domain.blog.blog.exception.InvalidBlogIdApiException;
 import com.podo.pododev.web.domain.blog.blog.repository.BlogRepository;
 import com.podo.pododev.web.domain.blog.tag.BlogTag;
 import com.podo.pododev.web.global.infra.solr.BlogSearchResultVo;
@@ -80,7 +80,7 @@ public class BlogReadService {
         final Optional<Blog> blogOptional = blogRepository.findById(blogId);
 
         if (!blogOptional.isPresent()) {
-            throw new InvalidBlogIdException(blogId);
+            throw new InvalidBlogIdApiException(blogId);
         }
 
         final Blog blog = blogOptional.get();

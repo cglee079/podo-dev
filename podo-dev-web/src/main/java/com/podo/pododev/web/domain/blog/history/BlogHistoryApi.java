@@ -1,7 +1,7 @@
 package com.podo.pododev.web.domain.blog.history;
 
-import com.podo.pododev.core.rest.response.ApiResponse;
-import com.podo.pododev.core.rest.response.ApiStatus;
+import com.podo.pododev.core.rest.ApiResponse;
+import com.podo.pododev.core.rest.status.DefaultApiStatus;
 import com.podo.pododev.core.rest.response.DataResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +18,7 @@ public class BlogHistoryApi {
     public ApiResponse getHistory(@PathVariable("historyId") long historyId) {
         final BlogHistoryDto.response blogHistory = blogHistoryReadService.getById(historyId);
 
-        return DataResponse.builder()
-                .status(ApiStatus.SUCCESS)
+        return DataResponse.success()
                 .result(blogHistory)
                 .build();
 

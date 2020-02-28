@@ -1,10 +1,10 @@
 package com.podo.pododev.web.global.infra.storage.exception;
 
-import com.podo.pododev.core.rest.exception.ResponsibleException;
-import com.podo.pododev.core.rest.response.ApiStatus;
+import com.podo.pododev.core.rest.ApiException;
+import com.podo.pododev.core.rest.status.DefaultApiStatus;
 import org.springframework.http.HttpStatus;
 
-public class UploadFailException extends ResponsibleException {
+public class UploadFailException extends ApiException {
     public UploadFailException(String message) {
         super(String.format("이미지 업로드에 실패하였습니다 '%s'", message));
     }
@@ -15,7 +15,7 @@ public class UploadFailException extends ResponsibleException {
     }
 
     @Override
-    public ApiStatus getApiStatus() {
-        return ApiStatus.ERR_STORAGE_SERVER;
+    public DefaultApiStatus getApiStatus() {
+        return DefaultApiStatus.ERR_STORAGE_SERVER;
     }
 }

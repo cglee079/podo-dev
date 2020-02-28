@@ -1,10 +1,10 @@
 package com.podo.pododev.web.global.infra.solr.exception;
 
-import com.podo.pododev.core.rest.exception.ResponsibleException;
-import com.podo.pododev.core.rest.response.ApiStatus;
+import com.podo.pododev.core.rest.ApiException;
+import com.podo.pododev.core.rest.status.DefaultApiStatus;
 import org.springframework.http.HttpStatus;
 
-public class SolrRequestException extends ResponsibleException {
+public class SolrRequestException extends ApiException {
 
     public SolrRequestException(Exception e) {
         super(String.format("검색서버 에러가 발생하였습니다 '%s'", e.getMessage()));
@@ -16,7 +16,7 @@ public class SolrRequestException extends ResponsibleException {
     }
 
     @Override
-    public ApiStatus getApiStatus() {
-        return ApiStatus.ERR_SOLR_SERVER;
+    public DefaultApiStatus getApiStatus() {
+        return DefaultApiStatus.ERR_SOLR_SERVER;
     }
 }

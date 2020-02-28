@@ -3,6 +3,7 @@ package com.podo.pododev.web.domain.blog.blog.repository;
 import com.podo.pododev.web.domain.blog.blog.Blog;
 import com.podo.pododev.web.domain.blog.blog.QBlog;
 import com.podo.pododev.web.domain.blog.tag.QBlogTag;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -15,17 +16,17 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
+import static com.podo.pododev.web.domain.blog.blog.QBlog.blog;
+import static com.podo.pododev.web.domain.blog.tag.QBlogTag.*;
+
 public class BlogRepositoryCustomImpl extends QuerydslRepositorySupport implements BlogRepositoryCustom {
 
-    private QBlog blog;
     private final JPAQueryFactory queryFactory;
 
     public BlogRepositoryCustomImpl(JPAQueryFactory queryFactory) {
         super(Blog.class);
-        this.blog = QBlog.blog;
         this.queryFactory = queryFactory;
     }
-
 
     @Override
     public Blog findOneAfterPublishAt(LocalDateTime publishAt) {
@@ -85,19 +86,17 @@ public class BlogRepositoryCustomImpl extends QuerydslRepositorySupport implemen
 
     @Override
     public List<Blog> findByTagValues(String firstTagValue, List<String> otherTags) {
-        QBlogTag tag = QBlogTag.blogTag;
-
-        final BooleanExpression eqAnyTagValues = tag.tagValue.equalsIgnoreCase(firstTagValue);
+        final BooleanBuilder eqAnyTagValues = new BooleanBuilder(blogTag.tagValue.equalsIgnoreCase(firstTagValue));
 
         if (!Objects.isNull(otherTags)) {
             for (String tagValue : otherTags) {
-                eqAnyTagValues.or(tag.tagValue.eq(tagValue));
+                eqAnyTagValues.or(blogTag.tagValue.equalsIgnoreCase(tagValue));
             }
         }
 
         final List<Long> blogId = this.queryFactory
-                .select(tag.blog.id)
-                .from(tag)
+                .select(blogTag.blog.id)
+                .from(blogTag)
                 .where(eqAnyTagValues)
                 .fetch();
 

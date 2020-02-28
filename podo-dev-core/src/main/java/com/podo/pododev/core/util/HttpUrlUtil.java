@@ -1,7 +1,6 @@
 package com.podo.pododev.core.util;
 
 import lombok.experimental.UtilityClass;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -9,8 +8,6 @@ import java.net.URL;
 
 @UtilityClass
 public class HttpUrlUtil {
-
-
 
     /**
      * BaseURL 추출
