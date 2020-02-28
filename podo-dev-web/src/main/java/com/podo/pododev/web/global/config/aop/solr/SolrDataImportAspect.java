@@ -1,4 +1,4 @@
-package com.podo.pododev.web.global.config.aop.annotation;
+package com.podo.pododev.web.global.config.aop.solr;
 
 import com.podo.pododev.web.global.infra.solr.MySolrClient;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ public class SolrDataImportAspect {
 
     private final MySolrClient mySolrClient;
 
-    @AfterReturning("@annotation(com.podo.pododev.web.global.config.aop.annotation.SolrDataImport)")
+    @AfterReturning("@annotation(com.podo.pododev.web.global.config.aop.solr.SolrDataImport)")
     public void requestDataImportToSolr(JoinPoint joinPoint) {
         log.info("Solr 서버에 DataImport를 요청합니다. By '{}'", joinPoint.getSignature().getName());
 

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 @Component
-public class HttpServer {
+public class HttpServerConfig {
 
     @Value("${server.http.port}")
     private Integer httpPort;

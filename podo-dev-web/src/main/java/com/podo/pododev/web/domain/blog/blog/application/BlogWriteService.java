@@ -1,8 +1,9 @@
 package com.podo.pododev.web.domain.blog.blog.application;
 
+import com.podo.pododev.web.domain.blog.blog.application.helper.BlogServiceHelper;
 import com.podo.pododev.web.domain.blog.history.BlogHistory;
 import com.podo.pododev.web.domain.blog.history.BlogHistoryRepository;
-import com.podo.pododev.web.global.config.aop.annotation.SolrDataImport;
+import com.podo.pododev.web.global.config.aop.solr.SolrDataImport;
 import com.podo.pododev.web.domain.blog.attachfile.AttachFile;
 import com.podo.pododev.web.domain.blog.attachfile.AttachFileDto;
 import com.podo.pododev.web.domain.blog.attachfile.AttachFileStorageUploader;
@@ -12,7 +13,6 @@ import com.podo.pododev.web.domain.blog.attachimage.AttachImageStorageUploader;
 import com.podo.pododev.web.domain.blog.attachimage.vo.AttachImageSave;
 import com.podo.pododev.web.domain.blog.attachimage.vo.AttachImageSaveEntity;
 import com.podo.pododev.web.domain.blog.comment.repository.CommentRepository;
-import com.podo.pododev.web.domain.blog.blog.exception.InvalidBlogIdApiException;
 import com.podo.pododev.web.domain.blog.blog.repository.BlogRepository;
 import com.podo.pododev.web.domain.blog.tag.BlogTag;
 import com.podo.pododev.web.domain.blog.tag.BlogTagDto;
@@ -28,7 +28,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -56,7 +55,7 @@ public class BlogWriteService {
 
         final Blog newBlog = insertBlog.toEntity();
 
-        newBlog.changeContents(linkManager.convertUrlLocalToStorage(newBlog.getContents()));
+        newBlog.changeContents(linkManager.replaceLocalUrlToStorageUrl(newBlog.getContents()));
 
         final Blog savedBlog = blogRepository.save(newBlog);
 
@@ -68,13 +67,13 @@ public class BlogWriteService {
     @SolrDataImport
     public void updateExistedBlogs(Long blogId, BlogDto.update updateBlog) {
 
-        final Blog existedBlog = getExistedBlogByBlogId(blogId);
+        final Blog existedBlog = BlogServiceHelper.findByBlogId(blogId, blogRepository);
 
         attachImageStorageUploader.writeFileOfAttachImagesToStorage(updateBlog.getAttachImages());
         attachFileStorageUploader.writeFileOfAttachFilesToStorage(updateBlog.getAttachFiles());
 
         existedBlog.changeTitle(updateBlog.getTitle());
-        existedBlog.changeContents(linkManager.convertUrlLocalToStorage(updateBlog.getContents()));
+        existedBlog.changeContents(linkManager.replaceLocalUrlToStorageUrl(updateBlog.getContents()));
         existedBlog.updateStatus(updateBlog.getStatus());
 
         saveBlogHistory(existedBlog);
@@ -142,7 +141,7 @@ public class BlogWriteService {
     @AllBlogCacheEvict
     @SolrDataImport
     public void removeByBlogId(Long blogId) {
-        final Blog existedBlog = getExistedBlogByBlogId(blogId);
+        final Blog existedBlog = BlogServiceHelper.findByBlogId(blogId, blogRepository);
 
         deleteFileOfAttachFiles(existedBlog.getAttachFiles());
         deleteFileOfAttachImages(existedBlog.getAttachImages());
@@ -163,7 +162,6 @@ public class BlogWriteService {
 
     private void deleteFileOfAttachImages(List<AttachImage> attachImages) {
         for (AttachImage attachImage : attachImages) {
-
             for (AttachImageSaveEntity saveEntity : attachImage.getSaves()) {
                 final AttachImageSave save = saveEntity.getAttachImageSave();
                 attachImageStorageUploader.deleteFileOfAttachImage(save.getFilePath(), save.getFilename());
@@ -173,18 +171,9 @@ public class BlogWriteService {
 
     @CacheEvict(value = "getBlog", key = "#blogId")
     public void increaseHitCount(Long blogId) {
-        final Blog existedBlog = getExistedBlogByBlogId(blogId);
+        final Blog existedBlog = BlogServiceHelper.findByBlogId(blogId, blogRepository);
         existedBlog.increaseHitCount();
     }
 
-    private Blog getExistedBlogByBlogId(Long blogId) {
-        final Optional<Blog> existedBlogOptional = blogRepository.findById(blogId);
-
-        if (!existedBlogOptional.isPresent()) {
-            throw new InvalidBlogIdApiException(blogId);
-        }
-
-        return existedBlogOptional.get();
-    }
 
 }

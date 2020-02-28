@@ -1,13 +1,11 @@
-package com.podo.pododev.web.global.aop;
+package com.podo.pododev.web.global.config.aop.argschecker;
 
-import com.podo.pododev.web.domain.user.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 
-import javax.validation.constraints.NotNull;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -16,7 +14,7 @@ import java.util.Objects;
 @Component
 public class AllArgsNotNullChecker {
 
-    @Before("@annotation(com.podo.pododev.web.global.aop.AllArgsNotNull)")
+    @Before("@annotation(com.podo.pododev.web.global.config.aop.argschecker.AllArgsNotNull)")
     public void check(JoinPoint joinPoint) {
         final Object[] args = joinPoint.getArgs();
         final Class clazz = joinPoint.getSignature().getDeclaringType();

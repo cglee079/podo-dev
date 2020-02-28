@@ -6,8 +6,8 @@ import com.podo.pododev.web.domain.blog.attachimage.vo.AttachImageSave;
 import com.podo.pododev.web.domain.blog.attachimage.util.ImageValidator;
 import com.podo.pododev.web.domain.blog.attachimage.vo.ImageSizeVo;
 import com.podo.pododev.core.util.PathUtil;
-import com.podo.pododev.web.global.util.MyFilenameUtil;
-import com.podo.pododev.web.global.writer.FileLocalWriter;
+import com.podo.pododev.web.global.util.FilenameUtil;
+import com.podo.pododev.web.global.util.writer.FileLocalWriter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,7 +41,7 @@ public class AttachImageLocalWriter {
             throw new InvalidImageUrlApiException(imageUrl);
         }
 
-        final String localSavedLocation = PathUtil.merge(localAttachImageDirectory, MyFilenameUtil.createPathByDate(LocalDateTime.now())); // 로컬 저장경로
+        final String localSavedLocation = PathUtil.merge(localAttachImageDirectory, FilenameUtil.createPathByDate(LocalDateTime.now())); // 로컬 저장경로
         final Map<String, AttachImageSave> attachImageSaveMap = new HashMap<>();
 
         final String localSavedLocationOfOrigin = PathUtil.merge(localSavedLocation, ORIGIN_IMAGE_KEY);
@@ -53,7 +53,7 @@ public class AttachImageLocalWriter {
     }
 
     public Map<String, AttachImageSave> writeImageToMultipleSizeFromBase64(String base64, String extension) {
-        final String localSavedLocation = PathUtil.merge(localAttachImageDirectory, MyFilenameUtil.createPathByDate(LocalDateTime.now())); // 로컬 저장경로
+        final String localSavedLocation = PathUtil.merge(localAttachImageDirectory, FilenameUtil.createPathByDate(LocalDateTime.now())); // 로컬 저장경로
         final Map<String, AttachImageSave> attachImageSaveMap = new HashMap<>();
 
         final String localSavedLocationOfOrigin = PathUtil.merge(localSavedLocation, ORIGIN_IMAGE_KEY);
@@ -68,7 +68,7 @@ public class AttachImageLocalWriter {
             throw new InvalidImageFileApiException(multipartFile.getOriginalFilename());
         }
 
-        final String localSavedLocation = PathUtil.merge(localAttachImageDirectory, MyFilenameUtil.createPathByDate(LocalDateTime.now())); // 로컬 저장경로
+        final String localSavedLocation = PathUtil.merge(localAttachImageDirectory, FilenameUtil.createPathByDate(LocalDateTime.now())); // 로컬 저장경로
         final Map<String, AttachImageSave> attachImageSaveMap = new HashMap<>();
 
         final String localSavedLocationOfOrigin = PathUtil.merge(localSavedLocation, ORIGIN_IMAGE_KEY);

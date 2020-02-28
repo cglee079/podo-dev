@@ -1,7 +1,8 @@
 package com.podo.pododev.storage.global.config.security;
 
-import com.podo.pododev.core.global.config.filter.CorsFilter;
+import com.podo.pododev.storage.global.config.security.filter.AuthFilter;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.filters.CorsFilter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

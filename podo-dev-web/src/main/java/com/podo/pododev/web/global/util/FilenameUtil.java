@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
-public class MyFilenameUtil {
+public class FilenameUtil {
 
     public static String createPathByDate(LocalDateTime time) {
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("/yyyy/MM/dd");

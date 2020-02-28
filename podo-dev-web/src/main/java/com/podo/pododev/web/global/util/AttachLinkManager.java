@@ -32,7 +32,7 @@ public class AttachLinkManager {
         return storageStaticUrl;
     }
 
-    public String convertUrlLocalToStorage(String value) {
+    public String replaceLocalUrlToStorageUrl(String value) {
         return value.replace(getLocalSavedUrl(), getStorageStaticUrl());
     }
 

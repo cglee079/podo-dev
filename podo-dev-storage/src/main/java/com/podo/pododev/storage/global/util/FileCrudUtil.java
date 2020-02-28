@@ -9,14 +9,14 @@ import java.io.File;
 import java.io.IOException;
 
 @Slf4j
-public class MyFileUtil {
+public class FileCrudUtil {
 
     public static File writeFile(String path, MultipartFile multipartFile) {
 
         try {
             final File file = new File(path);
 
-            MyFileUtil.writeForceDirectory(file.getParentFile().getPath());
+            FileCrudUtil.writeForceDirectory(file.getParentFile().getPath());
 
             multipartFile.transferTo(file);
 

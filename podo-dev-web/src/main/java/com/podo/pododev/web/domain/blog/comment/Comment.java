@@ -91,7 +91,7 @@ public class Comment extends BaseEntity {
     }
 
     public boolean isWrittenBy(String userId) {
-        return this.writer.getUserId().equals(userId);
+        return this.writer.getUserKey().equals(userId);
     }
 
     public boolean hasChild() {

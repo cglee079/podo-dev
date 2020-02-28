@@ -1,4 +1,4 @@
-package com.podo.pododev.web.global.writer;
+package com.podo.pododev.web.global.util.writer;
 
 import com.podo.pododev.core.util.PathUtil;
 import org.springframework.beans.factory.annotation.Value;

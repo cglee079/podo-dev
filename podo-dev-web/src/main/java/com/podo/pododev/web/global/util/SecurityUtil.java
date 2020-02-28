@@ -1,18 +1,21 @@
-package com.podo.pododev.web.global.config.security;
+package com.podo.pododev.web.global.util;
 
 import com.podo.pododev.web.global.config.security.oauth.OAuthUserDetails;
+import com.podo.pododev.web.global.config.security.role.UserRole;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.List;
+import java.util.Optional;
 
 public class SecurityUtil extends WebSecurityConfigurerAdapter {
 
     public static Boolean isAdmin() {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
+        @SuppressWarnings("unchecked")
         final List<SimpleGrantedAuthority> authorities = (List<SimpleGrantedAuthority>) authentication.getAuthorities();
         for (SimpleGrantedAuthority auth : authorities) {
             if (auth.getAuthority().equals("ROLE_" + UserRole.ADMIN)) {
@@ -24,37 +27,23 @@ public class SecurityUtil extends WebSecurityConfigurerAdapter {
     }
 
 
-    public static OAuthUserDetails getUser() {
+    public static Optional<OAuthUserDetails> getUser() {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         final Object principal = authentication.getPrincipal();
 
         if (principal instanceof String) {
-            return null;
+            return Optional.empty();
         }
 
-        return (OAuthUserDetails) principal;
+        return Optional.of((OAuthUserDetails) principal);
     }
 
-    public static String getUserId() {
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        final Object principal = authentication.getPrincipal();
-
-        if (principal instanceof String) {
-            return null;
-        }
-
-        return ((OAuthUserDetails) principal).getUserKey();
+    public static String getUserKey() {
+        return SecurityUtil.getUser().map(OAuthUserDetails::getUserKey).orElse(null);
     }
 
     public static String getUsername() {
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        final Object principal = authentication.getPrincipal();
-
-        if (principal instanceof String) {
-            return null;
-        }
-
-        return ((OAuthUserDetails) principal).getUsername();
+        return SecurityUtil.getUser().map(OAuthUserDetails::getUsername).orElse(null);
     }
 
 }

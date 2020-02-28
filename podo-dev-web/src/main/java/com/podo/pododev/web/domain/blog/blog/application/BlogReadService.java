@@ -4,7 +4,7 @@ import com.podo.pododev.core.rest.response.dto.PageDto;
 import com.podo.pododev.web.domain.blog.AttachStatus;
 import com.podo.pododev.web.domain.blog.blog.Blog;
 import com.podo.pododev.web.domain.blog.blog.BlogDto;
-import com.podo.pododev.web.domain.blog.blog.exception.InvalidBlogIdApiException;
+import com.podo.pododev.web.domain.blog.blog.application.helper.BlogServiceHelper;
 import com.podo.pododev.web.domain.blog.blog.repository.BlogRepository;
 import com.podo.pododev.web.domain.blog.tag.BlogTag;
 import com.podo.pododev.web.global.infra.solr.BlogSearchResultVo;
@@ -77,13 +77,7 @@ public class BlogReadService {
 
     @Cacheable(value = "getBlog", key = "#blogId")
     public BlogDto.response getExistedBlogByBlogId(Long blogId) {
-        final Optional<Blog> blogOptional = blogRepository.findById(blogId);
-
-        if (!blogOptional.isPresent()) {
-            throw new InvalidBlogIdApiException(blogId);
-        }
-
-        final Blog blog = blogOptional.get();
+        final Blog blog = BlogServiceHelper.findByBlogId(blogId, blogRepository);
 
         final LocalDateTime publishAt = blog.getPublishAt();
         final Blog beforeBlog = blogRepository.findOneBeforePublishAt(publishAt);
@@ -98,23 +92,24 @@ public class BlogReadService {
         return new BlogDto.response(blog, beforeBlog, nextBlog, relateBlogs, attachLinkManager.getStorageStaticUrl(), AttachStatus.BE);
     }
 
+
     private List<Blog> getRelatesByTagValues(List<String> tagValues) {
         if (tagValues.isEmpty()) {
             return Collections.emptyList();
         }
 
         final List<Blog> relates = blogRepository.findByTagValues(tagValues.get(0), tagValues.subList(1, tagValues.size()));
-        final Map<Blog, Integer> scores = getRelateScore(tagValues, relates);
+        final Map<Blog, Integer> scores = scoreRelate(tagValues, relates);
 
         return scores.entrySet().stream()
-                .sorted(getRelateSortComparator())
+                .sorted(getComparatorOfBlogRelate())
                 .map(Map.Entry::getKey)
                 .limit(relatesSize)
                 .collect(toList());
     }
 
 
-    private Map<Blog, Integer> getRelateScore(List<String> tagValues, List<Blog> relates) {
+    private Map<Blog, Integer> scoreRelate(List<String> tagValues, List<Blog> relates) {
 
         final Map<Blog, Integer> scores = new HashMap<>();
 
@@ -135,7 +130,7 @@ public class BlogReadService {
         return scores;
     }
 
-    private Comparator<Map.Entry<Blog, Integer>> getRelateSortComparator() {
+    private Comparator<Map.Entry<Blog, Integer>> getComparatorOfBlogRelate() {
         return (relateOne, relateTwo) -> {
             final Integer relateOneScore = relateOne.getValue();
             final Integer relateTwoScore = relateTwo.getValue();

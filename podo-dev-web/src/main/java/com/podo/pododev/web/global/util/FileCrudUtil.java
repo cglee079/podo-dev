@@ -15,14 +15,14 @@ import java.net.URL;
 import java.net.URLConnection;
 
 @Slf4j
-public class MyFileUtil {
+public class FileCrudUtil {
 
     public static File writeFile(String path, MultipartFile multipartFile) {
 
         try {
             final File file = new File(path);
 
-            MyFileUtil.writeForceDirectory(file.getParentFile().getPath());
+            FileCrudUtil.writeForceDirectory(file.getParentFile().getPath());
 
             multipartFile.transferTo(file);
 
@@ -39,7 +39,7 @@ public class MyFileUtil {
         try {
             final File file = new File(path);
 
-            MyFileUtil.writeForceDirectory(file.getParentFile().getPath());
+            FileCrudUtil.writeForceDirectory(file.getParentFile().getPath());
 
             final FileOutputStream fos = new FileOutputStream(file);
             final URL url = new URL(urlStr);
@@ -70,7 +70,7 @@ public class MyFileUtil {
     public static File writeFile(String path, String extension, BufferedImage bufferedImage) {
         File file = new File(path);
         try {
-            MyFileUtil.writeForceDirectory(file.getParentFile().getPath());
+            FileCrudUtil.writeForceDirectory(file.getParentFile().getPath());
             ImageIO.write(bufferedImage, extension, file);
             return file;
         } catch (IOException e) {

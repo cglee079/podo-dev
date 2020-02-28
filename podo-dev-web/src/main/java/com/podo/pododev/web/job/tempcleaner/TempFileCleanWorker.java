@@ -1,8 +1,8 @@
 package com.podo.pododev.web.job.tempcleaner;
 
 import com.podo.pododev.core.util.PathUtil;
-import com.podo.pododev.web.global.util.MyFilenameUtil;
-import com.podo.pododev.web.global.writer.FileLocalWriter;
+import com.podo.pododev.web.global.util.FilenameUtil;
+import com.podo.pododev.web.global.util.writer.FileLocalWriter;
 import com.podo.pododev.web.job.Worker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +37,7 @@ public class TempFileCleanWorker implements Worker {
         final LocalDateTime now = LocalDateTime.now();
         final LocalDateTime expireDateTime = now.minusDays(DAYS_OF_EXPIRE);
 
-        final String path = MyFilenameUtil.createPathByDate(expireDateTime);
+        final String path = FilenameUtil.createPathByDate(expireDateTime);
 
         final String expireTempFileDirectory = PathUtil.merge(fileDir, path);
         final String expireTempImageDirectory = PathUtil.merge(imageDir, path);

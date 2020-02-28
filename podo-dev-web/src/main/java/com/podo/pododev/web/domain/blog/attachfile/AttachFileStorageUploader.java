@@ -1,10 +1,9 @@
 package com.podo.pododev.web.domain.blog.attachfile;
 
-import com.podo.pododev.core.util.PathUtil;
 import com.podo.pododev.web.global.infra.storage.PodoStorageClient;
+import com.podo.pododev.web.global.util.writer.LocalDirectoryManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -15,9 +14,7 @@ import java.util.List;
 @Component
 public class AttachFileStorageUploader {
 
-    @Value("${local.upload.base.dir}")
-    private String localSavedBaseDirectory;
-
+    private final LocalDirectoryManager localDirectoryManager;
     private final PodoStorageClient podoStorageClient;
 
     public void writeFileOfAttachFilesToStorage(List<AttachFileDto.insert> fileInserts) {
@@ -31,7 +28,7 @@ public class AttachFileStorageUploader {
 
         switch (fileInsert.getAttachStatus()) {
             case NEW:
-                final File localSavedAttachFile = new File(PathUtil.merge(localSavedBaseDirectory, fileInsert.getFilePath()), fileInsert.getFilename());
+                final File localSavedAttachFile = new File(localDirectoryManager.mergeLocalSaveBasedDirectory(fileInsert.getFilePath()), fileInsert.getFilename());
                 podoStorageClient.uploadFile(fileInsert.getFilePath(), localSavedAttachFile);
                 break;
             case REMOVE:

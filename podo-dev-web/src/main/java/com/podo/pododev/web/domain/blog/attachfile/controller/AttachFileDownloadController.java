@@ -5,7 +5,7 @@ import com.podo.pododev.web.global.util.HttpResponseUtil;
 import com.podo.pododev.web.domain.blog.attachfile.AttachFileDto;
 import com.podo.pododev.web.domain.blog.attachfile.application.AttachReadService;
 import com.podo.pododev.core.util.PathUtil;
-import com.podo.pododev.web.global.writer.FileLocalWriter;
+import com.podo.pododev.web.global.util.writer.FileLocalWriter;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;

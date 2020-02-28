@@ -4,7 +4,7 @@ import com.podo.pododev.core.rest.response.dto.PageDto;
 import com.podo.pododev.web.domain.blog.comment.Comment;
 import com.podo.pododev.web.domain.blog.comment.CommentDto;
 import com.podo.pododev.web.domain.blog.comment.repository.CommentRepository;
-import com.podo.pododev.web.global.config.security.SecurityUtil;
+import com.podo.pododev.web.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -50,7 +50,7 @@ public class CommentReadService {
         final Page<Comment> comments = commentRepository.paging(blogId, pageable);
 
         final List<CommentDto.response> commentResponses = comments.stream()
-                .map(comment -> new CommentDto.response(comment, SecurityUtil.getUserId()))
+                .map(comment -> new CommentDto.response(comment, SecurityUtil.getUserKey()))
                 .collect(Collectors.toList());
 
         return PageDto.<CommentDto.response>builder()

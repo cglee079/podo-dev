@@ -1,4 +1,4 @@
-package com.podo.pododev.web.global.aop;
+package com.podo.pododev.web.global.config.aop.argschecker;
 
 public class NotAllArgsNullException extends RuntimeException{
 

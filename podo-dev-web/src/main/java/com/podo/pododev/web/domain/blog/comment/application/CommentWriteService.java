@@ -1,19 +1,19 @@
 package com.podo.pododev.web.domain.blog.comment.application;
 
 import com.podo.pododev.web.domain.blog.blog.Blog;
+import com.podo.pododev.web.domain.blog.blog.application.helper.BlogServiceHelper;
 import com.podo.pododev.web.domain.blog.comment.Comment;
 import com.podo.pododev.web.domain.blog.comment.CommentDto;
-import com.podo.pododev.web.domain.blog.comment.exception.InvalidCommentIdApiException;
+import com.podo.pododev.web.domain.blog.comment.application.helper.CommentServiceHelper;
 import com.podo.pododev.web.domain.blog.comment.exception.MaxDepthCommentApiException;
 import com.podo.pododev.web.domain.blog.comment.repository.CommentRepository;
-import com.podo.pododev.web.domain.blog.blog.exception.InvalidBlogIdApiException;
 import com.podo.pododev.web.domain.blog.blog.repository.BlogRepository;
 import com.podo.pododev.web.domain.user.User;
 import com.podo.pododev.web.domain.user.UserRepository;
 import com.podo.pododev.web.domain.user.exception.InvalidUserIdException;
 import com.podo.pododev.web.domain.user.exception.NoAuthenticatedException;
 import com.podo.pododev.web.global.config.cache.annotation.AllCommentCacheEvict;
-import com.podo.pododev.web.global.config.security.SecurityUtil;
+import com.podo.pododev.web.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,13 +39,14 @@ public class CommentWriteService {
     @AllCommentCacheEvict
     public void insertNewComment(Long blogId, CommentDto.insert insert) {
 
-        final String currentUserId = SecurityUtil.getUserId();
-        if (Objects.isNull(currentUserId)) {
+        final String currentUserKey = SecurityUtil.getUserKey();
+
+        if (Objects.isNull(currentUserKey)) {
             throw new NoAuthenticatedException();
         }
 
-        final User currentUser = getCurrentUser(currentUserId);
-        final Blog existedBlog = getBlogByBlogId(blogId);
+        final User currentUser = getCurrentUser(currentUserKey);
+        final Blog existedBlog = BlogServiceHelper.findByBlogId(blogId, blogRepository);
 
         final String commentContents = insert.getContents();
         final Long parentCommentId = insert.getParentId();
@@ -58,24 +59,9 @@ public class CommentWriteService {
         insertReplyComment(currentUser, existedBlog, commentContents, parentCommentId);
     }
 
-    private User getCurrentUser(String currentUserId) {
-        final Optional<User> currentUserOptional = userRepository.findByUserId(currentUserId);
-
-        if (!currentUserOptional.isPresent()) {
-            throw new InvalidUserIdException(currentUserId);
-        }
-
-        return currentUserOptional.get();
-    }
-
-    private Blog getBlogByBlogId(Long blogId) {
-        final Optional<Blog> existedBlogOptional = blogRepository.findById(blogId);
-
-        if (!existedBlogOptional.isPresent()) {
-            throw new InvalidBlogIdApiException(blogId);
-        }
-
-        return existedBlogOptional.get();
+    private User getCurrentUser(String currentUserKey) {
+        final Optional<User> currentUserOptional = userRepository.findByUserKey(currentUserKey);
+        return currentUserOptional.orElseThrow(() -> new InvalidUserIdException(currentUserKey));
     }
 
     private void insertNewComment(User user, Blog blog, String contents) {
@@ -100,7 +86,7 @@ public class CommentWriteService {
     private void insertReplyComment(User user, Blog blog, String contents, Long parentCommentId) {
         log.info("'{}' 게시글에 새로운 답글이 등록되었습니다", blog.getTitle());
 
-        final Comment parentComment = getCommentByCommentId(parentCommentId);
+        final Comment parentComment = CommentServiceHelper.findById(parentCommentId, commentRepository);
 
         final Long parentCommentCgroup = parentComment.getCgroup();
         final Integer parentCommentDepth = parentComment.getDepth();
@@ -131,13 +117,13 @@ public class CommentWriteService {
 
     @AllCommentCacheEvict
     public void removeExistedCommentByCommentId(Long commentId) {
-        final String currentUserId = SecurityUtil.getUserId();
+        final String currentUserId = SecurityUtil.getUserKey();
 
         if (Objects.isNull(currentUserId)) {
             throw new NoAuthenticatedException();
         }
 
-        final Comment existedComment = getCommentByCommentId(commentId);
+        final Comment existedComment = CommentServiceHelper.findById(commentId, commentRepository);
 
         if (!existedComment.isWrittenBy(currentUserId)) {
             throw new NoAuthenticatedException();
@@ -156,11 +142,7 @@ public class CommentWriteService {
 
 
     private void decreaseChildCountAndRemoveIfNoHasChild(Long commentId) {
-        if (Objects.isNull(commentId)) {
-            return;
-        }
-
-        final Comment existedComment = getCommentByCommentId(commentId);
+        final Comment existedComment = CommentServiceHelper.findById(commentId, commentRepository);
 
         existedComment.decreaseChildCount();
 
@@ -171,14 +153,6 @@ public class CommentWriteService {
         }
     }
 
-    private Comment getCommentByCommentId(Long commentId) {
-        final Optional<Comment> existedCommentOptional = commentRepository.findById(commentId);
 
-        if (!existedCommentOptional.isPresent()) {
-            throw new InvalidCommentIdApiException(commentId);
-        }
-
-        return existedCommentOptional.get();
-    }
 
 }

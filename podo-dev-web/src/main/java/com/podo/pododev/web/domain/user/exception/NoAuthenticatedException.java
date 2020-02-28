@@ -11,6 +11,16 @@ public class NoAuthenticatedException extends ApiException {
     }
 
     @Override
+    public String getField() {
+        return "";
+    }
+
+    @Override
+    public Object getValue() {
+        return "";
+    }
+
+    @Override
     public HttpStatus getHttpStatus() {
         return HttpStatus.UNAUTHORIZED;
     }

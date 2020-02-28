@@ -1,7 +1,7 @@
 package com.podo.pododev.web.domain.user;
 
 import com.podo.pododev.web.domain.UpdatableBaseEntity;
-import com.podo.pododev.web.global.aop.AllArgsNotNull;
+import com.podo.pododev.web.global.config.aop.argschecker.AllArgsNotNull;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,15 +17,15 @@ public class User extends UpdatableBaseEntity implements Serializable {
     private Long id;
 
     @Column(unique = true)
-    private String userId;
+    private String userKey;
 
     private String username;
 
     private String picture;
 
     @Builder
-    public User(String username, String userId, String picture) {
-        this.userId = userId;
+    public User(String username, String userKey, String picture) {
+        this.userKey = userKey;
         this.username = username;
         this.picture = picture;
     }

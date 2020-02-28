@@ -1,5 +1,6 @@
-package com.podo.pododev.web.global.config.security;
+package com.podo.pododev.web.global.config.security.filter;
 
+import com.podo.pododev.web.global.config.security.SecurityStore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -7,9 +8,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Objects;
 
 @RequiredArgsConstructor
-public class AuthFilter implements Filter {
+public class TokenAuthFilter implements Filter {
 
     private static final String AUTH_HEADER_KEY = "Authorization";
     private static final String AUTH_HEADER_VALUE_PREFIX = "Bearer";
@@ -22,7 +24,7 @@ public class AuthFilter implements Filter {
 
         String accessToken = httpRequest.getHeader(AUTH_HEADER_KEY);
 
-        if (null != accessToken) {
+        if (Objects.nonNull(accessToken) ) {
             accessToken = accessToken.replace(AUTH_HEADER_VALUE_PREFIX, "");
             accessToken = accessToken.trim();
 

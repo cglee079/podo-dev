@@ -58,15 +58,16 @@ public class CommentDto {
         private Boolean enabled;
         private Boolean isMine;
 
-        public response(Comment comment, String currentUserId) {
+        public response(Comment comment, String userId) {
             final User writeBy = comment.getWriter();
+
             this.id = comment.getId();
             this.username = writeBy.getUsername();
             this.contents = HtmlDocumentUtil.line2br(HtmlDocumentUtil.escapeHtml(comment.getContents()));
             this.depth = comment.getDepth();
             this.createAt = DateTimeFormatUtil.dateTimeToBeautifulDate(comment.getCreateAt());
             this.enabled = comment.getEnabled();
-            this.isMine = writeBy.getUserId().equalsIgnoreCase(currentUserId);
+            this.isMine = writeBy.getUserKey().equalsIgnoreCase(userId);
         }
 
     }

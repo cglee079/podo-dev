@@ -1,6 +1,5 @@
 package com.podo.pododev.web.global.config.security.oauth;
 
-import com.podo.pododev.web.global.config.security.UserRole;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,19 +19,11 @@ public class OAuthUserDetails implements UserDetails {
     private Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
     @Builder
-    public OAuthUserDetails(String userKey, String username, String profileImage, List<String> adminIds) {
+    public OAuthUserDetails(String userKey, String username, String profileImage, List<SimpleGrantedAuthority> authorities) {
         this.userKey = userKey;
         this.username = username;
         this.profileImage = profileImage;
-        this.updateAuth(adminIds);
-    }
-
-    private void updateAuth(List<String> adminIds) {
-        this.authorities.add(new SimpleGrantedAuthority("ROLE_" + UserRole.USER));
-
-        if (adminIds.contains(userKey)) {
-            this.authorities.add(new SimpleGrantedAuthority("ROLE_" + UserRole.ADMIN));
-        }
+        this.authorities = authorities;
     }
 
     @Override

@@ -48,7 +48,7 @@ class AttachLinkManagerTest {
         final AttachLinkManager attachLinkManager = new AttachLinkManager(localUploadBasePath, storageStaticUrl);
 
         //when
-        final String result = attachLinkManager.convertUrlLocalToStorage("http://" + PODO_WEB_DOMAIN + "/" +  localUploadBasePath + path);
+        final String result = attachLinkManager.replaceLocalUrlToStorageUrl("http://" + PODO_WEB_DOMAIN + "/" +  localUploadBasePath + path);
 
         //then
         assertThat(result).isEqualTo(storageStaticUrl + path);

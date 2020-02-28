@@ -20,7 +20,7 @@ public class UserWriteService {
 
     public void writeUser(UserDto.insert insert) {
 
-        final Optional<User> userOptional = userRepository.findByUserId(insert.getUserId());
+        final Optional<User> userOptional = userRepository.findByUserKey(insert.getUserId());
 
         if (!userOptional.isPresent()) {
             final User newUser = insert.toEntity();

@@ -1,4 +1,4 @@
-package com.podo.pododev.web.global.config.aop.annotation;
+package com.podo.pododev.web.global.config.aop.solr;
 
 
 import java.lang.annotation.ElementType;

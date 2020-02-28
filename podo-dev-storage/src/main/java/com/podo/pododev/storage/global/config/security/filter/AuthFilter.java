@@ -1,5 +1,7 @@
-package com.podo.pododev.storage.global.config.security;
+package com.podo.pododev.storage.global.config.security.filter;
 
+import com.podo.pododev.storage.global.config.security.ClientAuth;
+import com.podo.pododev.storage.global.config.security.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 

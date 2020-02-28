@@ -1,9 +1,9 @@
-package com.podo.pododev.web.global.writer;
+package com.podo.pododev.web.global.util.writer;
 
 import com.podo.pododev.core.util.PathUtil;
 import com.podo.pododev.web.domain.blog.attachimage.exception.InvalidImageBase64ApiException;
-import com.podo.pododev.web.global.util.MyFileUtil;
-import com.podo.pododev.web.global.util.MyFilenameUtil;
+import com.podo.pododev.web.global.util.FileCrudUtil;
+import com.podo.pododev.web.global.util.FilenameUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
@@ -27,33 +27,33 @@ public class FileLocalWriter {
     public File writeFromUrl(String fileUrl, String savedDirectory) {
         final String originFilenameByUrl = FilenameUtils.getName(fileUrl);
         final String originFileExtension = FilenameUtils.getExtension(originFilenameByUrl);
-        final String randomFilename = MyFilenameUtil.createRandFilename(originFileExtension);
+        final String randomFilename = FilenameUtil.createRandFilename(originFileExtension);
         final String savedFilePath = PathUtil.merge(savedDirectory, randomFilename);
 
         log.info("'{}' 파일을 URL로 부터 저장합니다. URL : '{}', ", savedFilePath, fileUrl);
 
-        return MyFileUtil.writeFile(localDirectoryManager.mergeLocalSaveBasedDirectory(savedFilePath), fileUrl);
+        return FileCrudUtil.writeFile(localDirectoryManager.mergeLocalSaveBasedDirectory(savedFilePath), fileUrl);
     }
 
     public File writeFromMultipartFile(MultipartFile multipartFile, String savedDirectory) {
         final String originFilename = multipartFile.getOriginalFilename();
         final String originFileExtension = FilenameUtils.getExtension(originFilename);
-        final String randomFilename = MyFilenameUtil.createRandFilename(originFileExtension);
+        final String randomFilename = FilenameUtil.createRandFilename(originFileExtension);
         final String savedFilePath = PathUtil.merge(savedDirectory, randomFilename);
 
         log.info("'{}' 파일을 MultipartFile로부터 저장합니다", savedFilePath);
 
-        return MyFileUtil.writeFile(localDirectoryManager.mergeLocalSaveBasedDirectory(savedFilePath), multipartFile);
+        return FileCrudUtil.writeFile(localDirectoryManager.mergeLocalSaveBasedDirectory(savedFilePath), multipartFile);
     }
 
     public File writeByBase64(String base64, String extension, String savedDirectory) {
         final BufferedImage bufferedImageFromBase64 = getBufferedImageFromBase64(base64);
-        final String randomFilename = MyFilenameUtil.createRandFilename(extension);
+        final String randomFilename = FilenameUtil.createRandFilename(extension);
         final String savedFilePath = PathUtil.merge(savedDirectory, randomFilename);
 
         log.info("'{}' 파일을 BASE64로부터 저장합니다", randomFilename);
 
-        return MyFileUtil.writeFile(localDirectoryManager.mergeLocalSaveBasedDirectory(savedFilePath), extension, bufferedImageFromBase64);
+        return FileCrudUtil.writeFile(localDirectoryManager.mergeLocalSaveBasedDirectory(savedFilePath), extension, bufferedImageFromBase64);
     }
 
     private BufferedImage getBufferedImageFromBase64(String base64) {
@@ -72,7 +72,7 @@ public class FileLocalWriter {
 
         log.info("'{}' 파일을 삭제합니다.", filename);
 
-        MyFileUtil.deleteFile(dirPath, filename);
+        FileCrudUtil.deleteFile(dirPath, filename);
     }
 
     public void removeDirectory(String directory) {
@@ -80,6 +80,6 @@ public class FileLocalWriter {
 
         log.info("'{}' 폴더를 삭제합니다", directory);
 
-        MyFileUtil.deleteDirectory(directoryPath);
+        FileCrudUtil.deleteDirectory(directoryPath);
     }
 }

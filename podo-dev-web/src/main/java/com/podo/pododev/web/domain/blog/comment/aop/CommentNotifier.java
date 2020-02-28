@@ -4,7 +4,7 @@ import com.podo.pododev.web.global.util.HtmlDocumentUtil;
 import com.podo.pododev.web.domain.blog.blog.BlogDto;
 import com.podo.pododev.web.domain.blog.comment.CommentDto;
 import com.podo.pododev.web.domain.blog.blog.application.BlogReadService;
-import com.podo.pododev.web.global.config.security.SecurityUtil;
+import com.podo.pododev.web.global.util.SecurityUtil;
 import com.podo.pododev.web.global.infra.telegram.TelegramClient;
 import com.podo.pododev.core.util.DateTimeFormatUtil;
 import lombok.RequiredArgsConstructor;
