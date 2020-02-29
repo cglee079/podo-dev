@@ -219,14 +219,14 @@ export default {
         clickDeleteBlog(blogId) {
             this.toastConfirm("정말 삭제하시겠습니까?", async () => {
                 try {
-                    bus.$emit("startSpinner");
+                    bus.$emit("spinner:start", "delete-blog");
                     const response = await this.$axios.delete(`/api/blogs/${blogId}`);
                     if (response) {
                         this.$router.push({ name: "index" });
                     }
                 } catch (e) {
                 } finally {
-                    bus.$emit("stopSpinner");
+                    bus.$emit("spinner:stop", "delete-blog");
                 }
             });
         },

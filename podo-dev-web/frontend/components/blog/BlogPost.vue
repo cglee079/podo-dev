@@ -18,35 +18,40 @@
             </span>
         </div>
 
-        <div id="wrapEditor">
+        <div id="wrapEditor" ref="wrapEditor">
             <client-only>
                 <TuiEditor
                     ref="tuiEditor"
                     mode="markdown"
+                    :options="config.editor.options"
                     preview-style="vertical"
                     height="100%"
                     v-model="input.contents"
-                />
+                ></TuiEditor>
             </client-only>
         </div>
 
-        <div id="histories">
-            <div id="btnShowHistories" @click="config.showHistory = !config.showHistory">
-                <div>이전 저장 데이터 가져오기</div>
+        <div id="editorSubMenu" ref="editorSubMenu">
+            <div>
+                <blog-post-long-button
+                    v-if="!config.editor.expand"
+                    value="에디터 크게보기"
+                    @click="expandEditor()"
+                />
+                <blog-post-long-button
+                    v-if="config.editor.expand"
+                    value="에디터 작게보기"
+                    @click="contractEditor()"
+                />
             </div>
-            <blog-post-history
-                v-if="config.showHistory"
-                :histories="blog.histories"
-                @fetch="fetchHistory"
-            />
-        </div>
 
-        <div id="wrapImageUpload">
-            <post-image
-                :attachImages="this.input.attachImages"
-                @add="addAttachImage"
-                @remove="removeAttachImage"
-            />
+            <div id="wrapImageUpload">
+                <post-image
+                    :attachImages="this.input.attachImages"
+                    @add="addAttachImage"
+                    @remove="removeAttachImage"
+                />
+            </div>
         </div>
 
         <div id="wrapFileUpload">
@@ -54,6 +59,18 @@
                 :attachFiles="input.attachFiles"
                 @add="addAttachFile"
                 @remove="removeAttachFile"
+            />
+        </div>
+
+        <div id="histories">
+            <blog-post-long-button
+                value="이전 저장 컨텐츠 가져오기"
+                @click="config.showHistory = !config.showHistory"
+            />
+            <blog-post-history
+                v-if="config.showHistory"
+                :histories="blog.histories"
+                @fetch="fetchHistory"
             />
         </div>
 
@@ -90,10 +107,12 @@ import BlogPostAttachFile from "./BlogPostAttachFile";
 import bus from "../../utils/bus";
 import { mapGetters } from "vuex";
 import BlogPostHistory from "./BlogPostHistory";
+import BlogPostLongButton from "./BlogPostLongButton";
 
 export default {
     name: "app",
     components: {
+        BlogPostLongButton,
         BlogPostHistory,
         "post-image": BlogPostAttachImage,
         "post-file": BlogPostAttachFile
@@ -124,7 +143,13 @@ export default {
             isNew: true,
             config: {
                 maxAttachImageWidth: 720,
-                showHistory: false
+                showHistory: false,
+                editor: {
+                    expand: false,
+                    options: {
+                        exts: ["uml", "chart", "table"]
+                    }
+                }
             },
             autoSave: {
                 key: "autoSavePost",
@@ -147,6 +172,20 @@ export default {
         };
     },
     methods: {
+        expandEditor() {
+            this.config.editor.expand = true;
+            bus.$emit("scroll:prevent", "expand-editor");
+            this.$refs.wrapEditor.classList.add("expand");
+            this.$refs.editorSubMenu.classList.add("expand");
+        },
+
+        contractEditor() {
+            this.config.editor.expand = false;
+            bus.$emit("scroll:unset", "expand-editor");
+            this.$refs.wrapEditor.classList.remove("expand");
+            this.$refs.editorSubMenu.classList.remove("expand");
+        },
+
         //태그 Input 입력 시,
         keyupTagText(event) {
             let insertValue = this.input.tagText;
@@ -236,8 +275,6 @@ export default {
         },
 
         submit() {
-            this.removeAutoSaved(this.id);
-
             if (this.isNew) {
                 this.insertBlog();
             } else {
@@ -246,7 +283,7 @@ export default {
         },
 
         async insertBlog() {
-            bus.$emit("startSpinner");
+            bus.$emit("spinner:start", "post-blog");
 
             try {
                 const response = await this.$axios.$post("/api/blogs", {
@@ -263,12 +300,13 @@ export default {
                 }
             } catch (e) {
             } finally {
-                bus.$emit("stopSpinner");
+                this.removeAutoSaved(this.id);
+                bus.$emit("spinner:stop", "post-blog");
             }
         },
 
         async updateBlog() {
-            bus.$emit("startSpinner");
+            bus.$emit("spinner:start", "update-blog");
 
             try {
                 const response = await this.$axios.$patch(`/api/blogs/${this.id}`, {
@@ -290,7 +328,8 @@ export default {
                 }
             } catch (e) {
             } finally {
-                bus.$emit("stopSpinner");
+                this.removeAutoSaved(this.id);
+                bus.$emit("spinner:stop", "update-blog");
             }
         },
 
@@ -396,11 +435,6 @@ export default {
     },
 
     created() {
-        if (!this.isAdmin) {
-            this.$router.push({ name: "blogs" });
-            return;
-        }
-
         const blogId = this.id ? this.id : null;
 
         if (blogId) {
@@ -439,24 +473,36 @@ export default {
         margin: 40px 0;
         width: 100%;
         height: 700px;
+
+        &.expand {
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 15%;
+            margin: unset;
+            height: unset;
+            background: #ffffff;
+            z-index: 10000000;
+        }
+    }
+
+    #editorSubMenu {
+        &.expand {
+            padding: 10px 20px;
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 85%;
+            bottom: 0;
+            background: #ffffff;
+            overflow-y: scroll;
+            z-index: 1000000000;
+        }
     }
 
     #histories {
-        #btnShowHistories {
-            display: flex;
-            height: 30px;
-            border: 1px solid #cccccc;
-            background: #fafafa;
-            margin-top: 20px;
-            cursor: pointer;
-
-            div{
-                flex:1;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
-        }
+        margin-top: 10px;
     }
 
     #wrapImageUpload {

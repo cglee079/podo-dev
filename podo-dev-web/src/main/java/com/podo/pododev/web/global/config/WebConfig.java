@@ -1,7 +1,7 @@
 package com.podo.pododev.web.global.config;
 
-import com.podo.pododev.web.global.interceptor.BlogViewLogInterceptor;
-import com.podo.pododev.web.global.interceptor.RequestLogInterceptor;
+import com.podo.pododev.web.global.config.interceptor.BlogViewLogInterceptor;
+import com.podo.pododev.web.global.config.interceptor.RequestLogInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

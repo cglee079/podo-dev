@@ -1,14 +1,12 @@
 package com.podo.pododev.web.global.config;
 
-import com.podo.pododev.web.global.config.security.oauth.GoogleUserDetails;
+import com.podo.pododev.web.global.util.SecurityUtil;
+import com.podo.pododev.web.global.config.security.oauth.OAuthUserDetails;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.util.Objects;
 import java.util.Optional;
 
 @Configuration
@@ -24,19 +22,9 @@ public class JpaConfig {
 
         @Override
         public Optional<String> getCurrentAuditor() {
-            final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-            if (!Objects.isNull(authentication)) {
-
-                final Object principal = authentication.getPrincipal();
-
-                if (principal instanceof GoogleUserDetails) {
-                    final GoogleUserDetails userDetails = (GoogleUserDetails) principal;
-                    return Optional.of(userDetails.getGoogleId());
-                }
-            }
-
-            return Optional.of("Server");
+            final Optional<OAuthUserDetails> userDetails = SecurityUtil.getUser();
+            return userDetails.map(oAuthUserDetails -> Optional.of(oAuthUserDetails.getUserKey())).orElseGet(() -> Optional.of("Server"));
         }
+
     }
 }

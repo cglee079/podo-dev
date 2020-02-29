@@ -1,19 +1,22 @@
 package com.podo.pododev.web.domain.blog.history;
 
-import com.podo.pododev.web.domain.BaseEntity;
-import com.podo.pododev.web.domain.blog.Blog;
+import com.podo.pododev.web.domain.blog.blog.Blog;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
+@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "blog_history")
 @Entity
-public class BlogHistory extends BaseEntity {
+public class BlogHistory{
 
     @Id
     @Column(name = "history_id")
@@ -25,6 +28,9 @@ public class BlogHistory extends BaseEntity {
 
     private String title;
     private String contents;
+
+    @CreatedDate
+    private LocalDateTime createAt;
 
     @Builder
     public BlogHistory(Blog blog) {

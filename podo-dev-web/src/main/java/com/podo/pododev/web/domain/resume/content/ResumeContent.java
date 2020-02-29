@@ -1,6 +1,6 @@
 package com.podo.pododev.web.domain.resume.content;
 
-import com.podo.pododev.web.domain.resume.Resume;
+import com.podo.pododev.web.domain.resume.resume.Resume;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -6,7 +6,8 @@
         </article>
         <the-footer />
         <top-button />
-        <spinner :loading="loading" />
+        <spinner/>
+        <scroll-preventer/>
     </div>
 </template>
 
@@ -16,7 +17,8 @@ import TheFooter from "../components/TheFooter";
 import TopButton from "../components/global/TopButton";
 import TheNav from "../components/TheNav";
 import Spinner from "../components/global/Spinner";
-import bus from "../utils/bus";
+import ScrollPreventer from "../components/global/ScrollPreventer";
+
 
 export default {
     metaInfo: {
@@ -33,6 +35,7 @@ export default {
     },
 
     components: {
+        ScrollPreventer,
         Spinner,
         TheNav,
         TheFooter,
@@ -54,21 +57,13 @@ export default {
         ...mapActions({
             checkLogin: "user/checkLogin"
         }),
-
-        startSpinner() {
-            this.loading = true;
-        },
-
-        stopSpinner() {
-            this.loading = false;
-        }
     },
 
     beforeMount() {
         const query = this.$route.query;
-        if (query && query.token) {
-            const token = query.token;
-            this.checkLogin(token).then(() => {
+        if (query && query.accessToken) {
+            const accessToken = query.accessToken;
+            this.checkLogin(accessToken).then(() => {
                 this.$toast.show("로그인하였습니다");
                 this.$router.push({ name: "blogs" });
             });
@@ -81,15 +76,7 @@ export default {
         }
     },
 
-    created() {
-        bus.$on("startSpinner", this.startSpinner);
-        bus.$on("stopSpinner", this.stopSpinner);
-    },
 
-    beforeDestroy() {
-        bus.$off("startSpinner");
-        bus.$off("stopSpinner");
-    }
 };
 </script>
 

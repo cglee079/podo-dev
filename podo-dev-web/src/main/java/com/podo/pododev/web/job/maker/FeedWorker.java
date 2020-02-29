@@ -1,13 +1,12 @@
 package com.podo.pododev.web.job.maker;
 
-import com.podo.pododev.web.domain.blog.BlogDto;
-import com.podo.pododev.web.domain.blog.service.BlogFeedService;
+import com.podo.pododev.web.domain.blog.blog.BlogDto;
+import com.podo.pododev.web.domain.blog.blog.application.BlogFeedService;
 import com.podo.pododev.web.job.Worker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Slf4j

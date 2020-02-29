@@ -1,11 +1,12 @@
 package com.podo.pododev.core.rest.handler;
 
-import com.podo.pododev.core.rest.exception.ResponsibleException;
-import com.podo.pododev.core.rest.response.ApiStatus;
-import com.podo.pododev.core.rest.response.ErrorsResponse;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
+import com.podo.pododev.core.rest.ApiException;
+import com.podo.pododev.core.rest.response.ErrorResponse;
+import com.podo.pododev.core.rest.response.dto.ErrorDto;
+import com.podo.pododev.core.rest.status.DefaultApiStatus;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -17,30 +18,42 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(ResponsibleException.class)
-    public ResponseEntity handleException(ResponsibleException e) {
-
-        ErrorsResponse response = ErrorsResponse.singleError()
+    @ExceptionHandler(ApiException.class)
+    public ResponseEntity handleException(ApiException e) {
+        final ErrorResponse response = ErrorResponse.singleError()
                 .status(e.getApiStatus())
-                .error(e.getMessage())
+                .error(new ErrorDto(e.getField(), e.getValue(), e.getMessage()))
                 .build();
 
         return ResponseEntity.status(e.getHttpStatus()).body(response);
     }
 
-    /**
-     * Dto Insert, Update Validation Error
-     */
-    @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    public ResponseEntity handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity handleBindingValidException(MethodArgumentNotValidException e) {
+        final BindingResult result = e.getBindingResult();
 
-        BindingResult result = e.getBindingResult();
-        List<String> fieldErrors = result.getFieldErrors().stream()
-                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+        final List<ErrorDto> fieldErrors = result.getFieldErrors().stream()
+                .map(fe -> new ErrorDto(fe.getField(), fe.getField(), fe.getDefaultMessage()))
                 .collect(Collectors.toList());
 
-        ErrorsResponse response = ErrorsResponse.multiError()
-                .status(ApiStatus.ERR_INVALID)
+        final ErrorResponse response = ErrorResponse.multiError()
+                .status(DefaultApiStatus.ERR_INVALID)
+                .errors(fieldErrors)
+                .build();
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler({BindException.class})
+    public ResponseEntity handleBindException(BindException e) {
+
+        final BindingResult result = e.getBindingResult();
+        final List<ErrorDto> fieldErrors = result.getFieldErrors().stream()
+                .map(fe -> new ErrorDto(fe.getField(), fe.getRejectedValue(), fe.getDefaultMessage()))
+                .collect(Collectors.toList());
+
+        final ErrorResponse response = ErrorResponse.multiError()
+                .status(DefaultApiStatus.ERR_INVALID)
                 .errors(fieldErrors)
                 .build();
 

@@ -1,8 +1,11 @@
 package com.podo.pododev.web.domain.blog.comment.api;
 
+import com.podo.pododev.core.rest.ApiResponse;
 import com.podo.pododev.core.rest.response.*;
+import com.podo.pododev.core.rest.response.dto.PageDto;
+import com.podo.pododev.core.rest.status.DefaultApiStatus;
 import com.podo.pododev.web.domain.blog.comment.CommentDto;
-import com.podo.pododev.web.domain.blog.comment.service.CommentReadService;
+import com.podo.pododev.web.domain.blog.comment.application.CommentReadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +23,7 @@ public class CommentReadApi {
 
         final List<CommentDto.summary> comments = commentReadService.getRecentComments();
 
-        return CollectionResponse.builder()
-                .status(ApiStatus.SUCCESS)
+        return DataResponse.success()
                 .result(comments)
                 .build();
     }
@@ -31,8 +33,7 @@ public class CommentReadApi {
 
         final PageDto<CommentDto.response> comments = commentReadService.paging(blogId, requestPaging);
 
-        return DataResponse.builder()
-                .status(ApiStatus.SUCCESS)
+        return DataResponse.success()
                 .result(comments)
                 .build();
     }
