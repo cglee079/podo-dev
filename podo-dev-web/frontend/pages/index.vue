@@ -6,7 +6,7 @@
 export default {
     created() {
         const query = this.$route.query;
-        this.$router.push({ name: "blogs", query: query });
+        this.$router.replace({ name: "blogs", query: query });
     }
 };
 </script>

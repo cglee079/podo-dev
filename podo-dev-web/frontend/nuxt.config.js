@@ -2,12 +2,19 @@ module.exports = {
     mode: "spa",
     debug: true,
 
+    server: {
+        port: 8000,
+        host: 'localhost'
+    },
+
+
     loading: {
         color: "#444444"
     },
 
     router: {
-        base: "/"
+        base: "/",
+        middleware: "scroll-clear"
     },
 
     serverMiddleware: ["redirect-ssl"],
@@ -16,7 +23,8 @@ module.exports = {
         NAME: "podo-dev",
         STATIC_URL: "https://www.podo-dev.com",
         INTERNAL_SERVER_URL: "http://192.168.219.103:28080",
-        EXTERNAL_SERVER_URL: "https://server.podo-dev.com"
+        EXTERNAL_SERVER_URL: "http://localhost:28080",
+        // EXTERNAL_SERVER_URL: "https://server.podo-dev.com"
     },
 
     build: {
@@ -80,7 +88,7 @@ module.exports = {
         { src: "~plugins/autocomplete.js" },
         { src: "~plugins/combined-inject.js" },
         { src: "~plugins/scroll-progressbar.js" },
-        { src: "~plugins/toast-editor.js" }
+        { src: "~plugins/toast-editor.js", ssr: false }
     ],
 
     modules: [
@@ -107,9 +115,8 @@ module.exports = {
     ],
 
     axios: {
-        baseURL: "https://server.podo-dev.com",
-        // baseURL: 'http://localhost:28080',
-        // baseURL: 'http://192.168.219.102:28080',
+        // baseURL: "https://server.podo-dev.com",
+        baseURL: 'http://localhost:28080',
         proxyHeaders: false,
         credentials: false
     },
@@ -123,9 +130,12 @@ module.exports = {
     tui: {
         editor: {
             stylesheet: {
-                contents: '~/assets/css/custom-tui-content.css',
-                codeHighlight: '~/assets/css/custom-highlight.css',
-            },
+                editor: "~/assets/css/tui/custom-tui-editor.css",
+                contents: "~/assets/css/tui/custom-tui-content.css",
+                codeHighlight: "~/assets/css/tui/custom-highlight.css",
+                highlightJs: "~/assets/css/tui/custom-highlight.css",
+                codemirror: "~/assets/css/tui/custom-codemirror.css"
+            }
         }
     },
 
@@ -148,7 +158,5 @@ module.exports = {
 
     googleAnalytics: {
         id: "UA-155243224-1"
-    },
-
-
+    }
 };

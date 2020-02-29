@@ -1,8 +1,8 @@
 package com.podo.pododev.web.job.maker.sitemap;
 
-import com.podo.pododev.core.util.MyPathUtils;
-import com.podo.pododev.web.domain.blog.BlogDto;
-import com.podo.pododev.web.global.util.writer.MyFileUtils;
+import com.podo.pododev.core.util.PathUtil;
+import com.podo.pododev.web.domain.blog.blog.BlogDto;
+import com.podo.pododev.web.global.util.FileCrudUtil;
 import com.redfin.sitemapgenerator.WebSitemapGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,7 @@ public class SitemapMaker {
     public void makeSitemap(List<BlogDto.feed> blogs) {
         log.info("Sitemap 생성을 시작합니다");
         try {
-            MyFileUtils.writeForceDirectory(staticDirectory);
+            FileCrudUtil.writeForceDirectory(staticDirectory);
             final WebSitemapGenerator sitemapGenerator = new WebSitemapGenerator(PODO_DEV_WEB_URL, new File(staticDirectory));
 
             addDefaultPages(sitemapGenerator);
@@ -53,7 +53,7 @@ public class SitemapMaker {
     }
 
     private String mergeWithPodoDevWebUrl(String path) {
-        return MyPathUtils.merge(PODO_DEV_WEB_URL, path);
+        return PathUtil.merge(PODO_DEV_WEB_URL, path);
     }
 
 

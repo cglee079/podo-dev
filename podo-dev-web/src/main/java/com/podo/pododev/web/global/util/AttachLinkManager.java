@@ -1,7 +1,7 @@
 package com.podo.pododev.web.global.util;
 
 import com.podo.pododev.core.util.HttpUrlUtil;
-import com.podo.pododev.core.util.MyPathUtils;
+import com.podo.pododev.core.util.PathUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -20,7 +20,7 @@ public class AttachLinkManager {
     }
 
     public String getLocalSavedUrl() {
-        return MyPathUtils.merge(getSeverDomain() , localUploadBasePath);
+        return PathUtil.merge(getSeverDomain() , localUploadBasePath);
     }
 
     private String getSeverDomain() {
@@ -32,7 +32,7 @@ public class AttachLinkManager {
         return storageStaticUrl;
     }
 
-    public String convertUrlLocalToStorage(String value) {
+    public String replaceLocalUrlToStorageUrl(String value) {
         return value.replace(getLocalSavedUrl(), getStorageStaticUrl());
     }
 

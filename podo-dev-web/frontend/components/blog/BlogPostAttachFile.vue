@@ -1,9 +1,7 @@
 <template>
     <div>
         <div>
-            <div id="btnFileUpload" @click="$refs.file.click()">
-                <div>파일올리기</div>
-            </div>
+            <blog-post-long-button value="파일올리기" @click="$refs.file.click()"></blog-post-long-button>
             <input ref="file" type="file" multiple @change="onFileChange" style="display: none" />
         </div>
 
@@ -29,9 +27,11 @@
 <script>
 import filesize from "filesize";
 import bus from "../../utils/bus";
+import BlogPostLongButton from "./BlogPostLongButton";
 
 export default {
     name: "BlogPostFile",
+    components: {BlogPostLongButton},
     props: {
         attachFiles: Array
     },
@@ -47,7 +47,7 @@ export default {
         },
 
         async uploadFile(files, idx) {
-            bus.$emit("startSpinner");
+            bus.$emit("spinner:start", "upload-blog-file");
 
             const config = {
                 headers: { "Content-Type": "multipart/form-data" }
@@ -63,14 +63,14 @@ export default {
                 this.$emit("add", file);
 
                 this.$toast.show(`'${files[idx].name}' 업로드 완료하였습니다`);
-                bus.$emit("stopSpinner");
+                bus.$emit("spinner:stop", "upload-blog-file");
 
                 if (idx < files.length - 1) {
                     this.uploadFile(files, idx + 1);
                 }
             } catch (e) {
                 this.$toast.show(`죄송합니다, '${files[idx].name}' 업로드 실패하였습니다`);
-                bus.$emit("stopSpinner");
+                bus.$emit("spinner:stop", "upload-blog-file");
             }
         },
 
@@ -97,21 +97,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#btnFileUpload {
-    height: 30px;
-    border: 1px solid #ccc;
-    background: #fafafa;
-    cursor: pointer;
-    display: flex;
-
-    div {
-        flex: 1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-}
-
 #fileList {
     .file {
         display: flex;

@@ -1,20 +1,23 @@
 package com.podo.pododev.web.domain.blog.comment;
 
-import com.podo.pododev.web.domain.BaseEntity;
-import com.podo.pododev.web.domain.blog.Blog;
+import com.podo.pododev.web.domain.blog.blog.Blog;
 import com.podo.pododev.web.domain.user.User;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
+@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "blog_comment")
 @Entity
-public class Comment extends BaseEntity {
+public class Comment{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,8 +27,9 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "blog_id")
     private Blog blog;
 
+    //TODO
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "write_by", referencedColumnName = "userId")
+    @JoinColumn(name = "write_by2")
     private User writer;
 
     private String contents;
@@ -43,6 +47,9 @@ public class Comment extends BaseEntity {
     private Boolean enabled;
 
     private Boolean byAdmin;
+
+    @CreatedDate
+    private LocalDateTime createAt;
 
     @Builder
     public Comment(Blog blog, User writer, String contents, Long cgroup,
@@ -90,8 +97,8 @@ public class Comment extends BaseEntity {
         return ((double) (childCount + 1) / Math.pow(10, 3 * depth)) + sort;
     }
 
-    public boolean isWrittenBy(String userId) {
-        return this.writer.getUserId().equals(userId);
+    public boolean isWrittenBy(Long userId) {
+        return this.writer.getId().equals(userId);
     }
 
     public boolean hasChild() {

@@ -8,34 +8,30 @@
 </template>
 
 <script>
+import bus from "../../utils/bus";
+
 export default {
-    name: "ProgressBar",
-    props: {
-        loading: Boolean
-    },
-    watch: {
-        loading(newValue) {
-            if (newValue === true) {
-                this.on();
-                return;
-            }
-
-            this.off();
-        }
-    },
-
+    name: "Spinner",
     methods: {
-        on() {
+        on(type) {
             this.$refs.spinner.classList.add("on");
-            document.body.style.overflow = "hidden";
-            document.body.style.touchAction = "none";
+            bus.$emit("scroll:prevent", type);
         },
 
-        off() {
+        off(type) {
             this.$refs.spinner.classList.remove("on");
-            document.body.style.overflow = "unset";
-            document.body.style.touchAction = "unset";
+            bus.$emit("scroll:unset", type);
         }
+    },
+
+    created() {
+        bus.$on("spinner:start", this.on);
+        bus.$on("spinner:stop", this.off);
+    },
+
+    beforeDestroy() {
+        bus.$off("spinner:start");
+        bus.$off("spinner:stop");
     }
 };
 </script>

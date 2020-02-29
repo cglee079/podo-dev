@@ -87,7 +87,7 @@ export default {
                 return;
             }
 
-            bus.$emit("startSpinner");
+            bus.$emit("spinner:start", "load-blog-comment");
             this.isLoading = true;
 
             try {
@@ -117,13 +117,13 @@ export default {
             } catch (e) {
             } finally {
                 this.isLoading = false;
-                bus.$emit("stopSpinner");
+                bus.$emit("spinner:stop", "load-blog-comment");
             }
         },
 
         deleteBlogComment(commentId, index) {
             this.toastConfirm("정말 댓글을 삭제하시겠습니까?", async () => {
-                bus.$emit("startSpinner");
+                bus.$emit("spinner:start", "delete-blog-comment");
                 this.isLoading = true;
 
                 try {
@@ -144,7 +144,7 @@ export default {
                         }
                     }
                 } finally {
-                    bus.$emit("stopSpinner");
+                    bus.$emit("spinner:stop", "delete-blog-comment");
                     this.isLoading = false;
                 }
             });

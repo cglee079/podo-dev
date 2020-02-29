@@ -1,9 +1,11 @@
 <template>
     <div id="custom-viewer" :class="$mq">
-        <div v-html="$md.render(value)" ref="serverOnly" class="tui-editor-contents"></div>
+        <div v-html="$md.render(value)" ref="serverOnly" class="tui-editor-contents">
+        </div>
 
         <client-only>
-            <TuiEditorViewer :value="value" />
+            <!-- 에디터를 로딩해 exts가 먹힘, 버그-->
+            <TuiEditorViewer :value="value" :exts="config.editor.options.exts"></TuiEditorViewer>
         </client-only>
     </div>
 </template>
@@ -14,7 +16,17 @@ export default {
     props: {
         value: String
     },
-
+    data() {
+        return {
+            config: {
+                editor: {
+                    options: {
+                        exts: ["uml", "chart", "table"]
+                    }
+                }
+            }
+        };
+    },
     mounted() {
         this.$refs.serverOnly.innerHTML = "";
     }

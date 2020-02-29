@@ -1,8 +1,10 @@
 package com.podo.pododev.web.global.infra.solr;
 
-import com.podo.pododev.core.util.MyHtmlUtil;
-import com.podo.pododev.web.global.infra.solr.exception.SolrRequestException;
-import com.podo.pododev.core.util.MarkdownUtil;
+import com.podo.pododev.web.global.infra.solr.exception.SolrDataImportException;
+import com.podo.pododev.web.global.infra.solr.exception.SearchWordApiException;
+import com.podo.pododev.web.global.util.HtmlDocumentUtil;
+import com.podo.pododev.web.global.infra.solr.exception.SearchApiException;
+import com.podo.pododev.web.global.util.MarkdownUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -14,7 +16,6 @@ import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.*;
 
@@ -61,7 +62,8 @@ public class MySolrClient {
             return blogSearchResultVos;
 
         } catch (SolrServerException | IOException e) {
-            throw new SolrRequestException(e);
+            log.error("Solr 검색 실패 {}", e.getMessage(), e);
+            throw new SearchApiException(searchValue);
         }
 
 
@@ -84,7 +86,7 @@ public class MySolrClient {
                 highlightContents = highlightContents.substring(indexOfHighlightPrefix - maxTextLengthBeforeHighlight);
             }
 
-            highlightContents = MyHtmlUtil.escapeHtml(highlightContents);
+            highlightContents = HtmlDocumentUtil.escapeHtml(highlightContents);
             highlightContents = highlightContents.replace(MySolrParameter.HIGHLIGHT_PREFIX, "<search>");
             highlightContents = highlightContents.replace(MySolrParameter.HIGHLIGHT_POSTFIX, "</search>");
 
@@ -115,7 +117,8 @@ public class MySolrClient {
                     .collect(toList());
 
         } catch (SolrServerException | IOException e) {
-            throw new SolrRequestException(e);
+            log.error("Solr 키워드 조회 실패 {}", e.getMessage(), e);
+            throw new SearchWordApiException(keyword);
         }
 
     }
@@ -126,7 +129,7 @@ public class MySolrClient {
         try {
             solrSender.requestWithSingleValueParam(solrCoreId, param);
         } catch (SolrServerException | IOException e) {
-            throw new SolrRequestException(e);
+            throw new SolrDataImportException(e);
         }
     }
 
