@@ -1,10 +1,10 @@
 module.exports = {
-    mode: "spa",
-    debug: true,
+    // mode: "spa",
+    // debug: true,
 
     server: {
         port: 8000,
-        host: 'localhost'
+        host: '0.0.0.0'
     },
 
 
@@ -23,8 +23,8 @@ module.exports = {
         NAME: "podo-dev",
         STATIC_URL: "https://www.podo-dev.com",
         INTERNAL_SERVER_URL: "http://192.168.219.103:28080",
-        EXTERNAL_SERVER_URL: "http://localhost:28080",
-        // EXTERNAL_SERVER_URL: "https://server.podo-dev.com"
+        // EXTERNAL_SERVER_URL: "http://localhost:28080",
+        EXTERNAL_SERVER_URL: "https://server.podo-dev.com"
     },
 
     build: {
@@ -115,8 +115,8 @@ module.exports = {
     ],
 
     axios: {
-        // baseURL: "https://server.podo-dev.com",
-        baseURL: 'http://localhost:28080',
+        baseURL: "https://server.podo-dev.com",
+        // baseURL: 'http://localhost:28080',
         proxyHeaders: false,
         credentials: false
     },

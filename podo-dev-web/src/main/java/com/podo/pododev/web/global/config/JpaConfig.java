@@ -14,16 +14,16 @@ import java.util.Optional;
 public class JpaConfig {
 
     @Bean
-    public AuditorAware<String> auditorProvider() {
+    public AuditorAware<Long> auditorProvider() {
         return new AuditorAwareImpl();
     }
 
-    class AuditorAwareImpl implements AuditorAware<String> {
+    static class AuditorAwareImpl implements AuditorAware<Long> {
 
         @Override
-        public Optional<String> getCurrentAuditor() {
+        public Optional<Long> getCurrentAuditor() {
             final Optional<OAuthUserDetails> userDetails = SecurityUtil.getUser();
-            return userDetails.map(oAuthUserDetails -> Optional.of(oAuthUserDetails.getUserKey())).orElseGet(() -> Optional.of("Server"));
+            return userDetails.map(OAuthUserDetails::getUserId);
         }
 
     }
