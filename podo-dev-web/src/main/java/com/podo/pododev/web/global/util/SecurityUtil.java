@@ -38,8 +38,8 @@ public class SecurityUtil extends WebSecurityConfigurerAdapter {
         return Optional.of((OAuthUserDetails) principal);
     }
 
-    public static String getUserKey() {
-        return SecurityUtil.getUser().map(OAuthUserDetails::getUserKey).orElse(null);
+    public static Long getUserId() {
+        return SecurityUtil.getUser().map(OAuthUserDetails::getUserId).orElse(null);
     }
 
     public static String getUsername() {

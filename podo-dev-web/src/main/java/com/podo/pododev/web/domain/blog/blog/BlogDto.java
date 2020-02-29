@@ -1,13 +1,13 @@
 package com.podo.pododev.web.domain.blog.blog;
 
 import com.podo.pododev.web.global.util.HtmlDocumentUtil;
-import com.podo.pododev.web.domain.blog.AttachStatus;
-import com.podo.pododev.web.domain.blog.attachfile.AttachFile;
-import com.podo.pododev.web.domain.blog.attachfile.AttachFileDto;
-import com.podo.pododev.web.domain.blog.attachimage.AttachImage;
-import com.podo.pododev.web.domain.blog.attachimage.AttachImageDto;
-import com.podo.pododev.web.domain.blog.attachimage.vo.AttachImageSave;
-import com.podo.pododev.web.domain.blog.attachimage.vo.AttachImageSaveEntity;
+import com.podo.pododev.web.domain.blog.attach.AttachStatus;
+import com.podo.pododev.web.domain.blog.attach.attachfile.AttachFile;
+import com.podo.pododev.web.domain.blog.attach.attachfile.AttachFileDto;
+import com.podo.pododev.web.domain.blog.attach.attachimage.AttachImage;
+import com.podo.pododev.web.domain.blog.attach.attachimage.AttachImageDto;
+import com.podo.pododev.web.domain.blog.attach.attachimage.vo.AttachImageSave;
+import com.podo.pododev.web.domain.blog.attach.attachimage.vo.AttachImageSaveEntity;
 import com.podo.pododev.web.domain.blog.history.BlogHistoryDto;
 import com.podo.pododev.web.domain.blog.tag.BlogTag;
 import com.podo.pododev.web.domain.blog.tag.BlogTagDto;

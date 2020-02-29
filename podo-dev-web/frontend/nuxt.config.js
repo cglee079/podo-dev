@@ -2,6 +2,12 @@ module.exports = {
     mode: "spa",
     debug: true,
 
+    server: {
+        port: 8000,
+        host: 'localhost'
+    },
+
+
     loading: {
         color: "#444444"
     },

@@ -29,20 +29,20 @@ public class UserDto {
 
     @Getter
     public static class insert {
-        private String userId;
+        private String userKey;
         private String username;
         private String picture;
 
         @Builder
-        public insert(@NotNull String userId, String name, String picture) {
-            this.userId = userId;
+        public insert(@NotNull String userKey, String name, String picture) {
+            this.userKey = userKey;
             this.username = name;
             this.picture = picture;
         }
 
         public User toEntity() {
             return User.builder()
-                    .userId(userId)
+                    .userKey(userKey)
                     .username(username)
                     .picture(picture)
                     .build();

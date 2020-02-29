@@ -4,7 +4,10 @@ import com.podo.pododev.core.rest.ApiResponse;
 import com.podo.pododev.core.rest.response.*;
 import com.podo.pododev.core.rest.response.dto.PageDto;
 import com.podo.pododev.web.domain.blog.blog.BlogDto;
+import com.podo.pododev.web.domain.blog.blog.application.BlogArchiveService;
+import com.podo.pododev.web.domain.blog.blog.application.BlogPagingService;
 import com.podo.pododev.web.domain.blog.blog.application.BlogReadService;
+import com.podo.pododev.web.global.infra.solr.MySolrClient;
 import com.podo.pododev.web.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,11 +23,14 @@ import java.util.Map;
 public class BlogReadApi {
 
     private final BlogReadService blogReadService;
+    private final BlogPagingService blogPagingService;
+    private final BlogArchiveService blogArchiveService;
+    private final MySolrClient mySolrClient;
 
     @GetMapping("/api/blogs/archive")
     public ApiResponse getArchive() {
 
-        final Map<Integer, List<BlogDto.archive>> archive = blogReadService.getArchiveMapByYearOfPublishAt(SecurityUtil.isAdmin());
+        final Map<Integer, List<BlogDto.archive>> archive = blogArchiveService.getArchive(SecurityUtil.isAdmin());
 
         return DataResponse.success()
                 .result(archive)
@@ -33,8 +39,7 @@ public class BlogReadApi {
 
     @GetMapping("/api/blogs/{blogId}")
     public ApiResponse findByBlogId(@PathVariable Long blogId) {
-
-        final BlogDto.response blog = blogReadService.getExistedBlogByBlogId(blogId);
+        final BlogDto.response blog = blogReadService.getBlogById(blogId, SecurityUtil.isAdmin());
 
         return DataResponse.success()
                 .result(blog)
@@ -43,7 +48,7 @@ public class BlogReadApi {
 
     @GetMapping("/api/blogs")
     public ApiResponse paging(BlogDto.requestPaging requestPaging) {
-        final PageDto<BlogDto.responsePaging> blogs = blogReadService.paging(requestPaging, SecurityUtil.isAdmin());
+        final PageDto<BlogDto.responsePaging> blogs = blogPagingService.paging(requestPaging, SecurityUtil.isAdmin());
 
         return DataResponse.success()
                 .result(blogs)
@@ -52,7 +57,7 @@ public class BlogReadApi {
 
     @GetMapping("/api/blogs/words")
     public ApiResponse facets(@RequestParam String searchValue) {
-        final List<String> facets = blogReadService.getIndexedWordByKeyword(searchValue);
+        final List<String> facets = mySolrClient.getIndexedWordsByKeyword(searchValue);
 
         return CollectionResponse.success()
                 .result(facets)

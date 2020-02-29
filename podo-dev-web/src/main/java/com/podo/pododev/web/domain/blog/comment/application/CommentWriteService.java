@@ -10,7 +10,7 @@ import com.podo.pododev.web.domain.blog.comment.repository.CommentRepository;
 import com.podo.pododev.web.domain.blog.blog.repository.BlogRepository;
 import com.podo.pododev.web.domain.user.User;
 import com.podo.pododev.web.domain.user.UserRepository;
-import com.podo.pododev.web.domain.user.exception.InvalidUserIdException;
+import com.podo.pododev.web.domain.user.exception.InvalidUserIdApiException;
 import com.podo.pododev.web.domain.user.exception.NoAuthenticatedException;
 import com.podo.pododev.web.global.config.cache.annotation.AllCommentCacheEvict;
 import com.podo.pododev.web.global.util.SecurityUtil;
@@ -39,13 +39,13 @@ public class CommentWriteService {
     @AllCommentCacheEvict
     public void insertNewComment(Long blogId, CommentDto.insert insert) {
 
-        final String currentUserKey = SecurityUtil.getUserKey();
+        final Long currentUserId = SecurityUtil.getUserId();
 
-        if (Objects.isNull(currentUserKey)) {
+        if (Objects.isNull(currentUserId)) {
             throw new NoAuthenticatedException();
         }
 
-        final User currentUser = getCurrentUser(currentUserKey);
+        final User currentUser = getCurrentUser(currentUserId);
         final Blog existedBlog = BlogServiceHelper.findByBlogId(blogId, blogRepository);
 
         final String commentContents = insert.getContents();
@@ -59,9 +59,9 @@ public class CommentWriteService {
         insertReplyComment(currentUser, existedBlog, commentContents, parentCommentId);
     }
 
-    private User getCurrentUser(String currentUserKey) {
-        final Optional<User> currentUserOptional = userRepository.findByUserKey(currentUserKey);
-        return currentUserOptional.orElseThrow(() -> new InvalidUserIdException(currentUserKey));
+    private User getCurrentUser(Long currentUserId) {
+        final Optional<User> currentUserOptional = userRepository.findById(currentUserId);
+        return currentUserOptional.orElseThrow(() -> new InvalidUserIdApiException(currentUserId));
     }
 
     private void insertNewComment(User user, Blog blog, String contents) {
@@ -117,7 +117,7 @@ public class CommentWriteService {
 
     @AllCommentCacheEvict
     public void removeExistedCommentByCommentId(Long commentId) {
-        final String currentUserId = SecurityUtil.getUserKey();
+        final Long currentUserId = SecurityUtil.getUserId();
 
         if (Objects.isNull(currentUserId)) {
             throw new NoAuthenticatedException();

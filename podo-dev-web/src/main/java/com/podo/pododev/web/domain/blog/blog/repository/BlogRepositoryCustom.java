@@ -10,9 +10,11 @@ import java.util.List;
 
 @Repository
 public interface BlogRepositoryCustom {
-    Blog findOneAfterPublishAt(LocalDateTime publishAt);
+    Blog findOneAfterPublishAt(LocalDateTime publishAt, Boolean enabled);
 
-    Blog findOneBeforePublishAt(LocalDateTime publishAt);
+    Blog findOneBeforePublishAt(LocalDateTime publishAt, Boolean enabled);
+
+    Page<Blog> paging(Pageable pageable, Boolean enabled);
 
     Page<Blog> paging(Pageable pageable, List<Long> ids, Boolean enabled);
 
@@ -20,7 +22,7 @@ public interface BlogRepositoryCustom {
 
     List<Blog> findByWebFeeded(Boolean feeded);
 
-    List<Blog> findByTagValues(String first, List<String> otherTags);
+    List<Blog> findByTagValues(List<String> tagValues, Boolean enabled);
 
     List<Blog> findAllByEnabledAndOrderByPublishAtDesc(Boolean enabled);
 }

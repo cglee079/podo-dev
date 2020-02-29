@@ -16,7 +16,7 @@ public class FilenameUtil {
 
     public static String createRandFilename(String extension) {
         String filename = UUID.randomUUID() + "";
-        if (!StringUtils.isEmpty(extension)) {
+        if (StringUtils.hasText(extension)) {
             filename += "." + extension;
         }
         return filename;

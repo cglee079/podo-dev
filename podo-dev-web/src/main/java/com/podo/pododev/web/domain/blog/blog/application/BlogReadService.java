@@ -1,29 +1,21 @@
 package com.podo.pododev.web.domain.blog.blog.application;
 
-import com.podo.pododev.core.rest.response.dto.PageDto;
-import com.podo.pododev.web.domain.blog.AttachStatus;
+import com.podo.pododev.web.domain.blog.attach.AttachStatus;
 import com.podo.pododev.web.domain.blog.blog.Blog;
 import com.podo.pododev.web.domain.blog.blog.BlogDto;
 import com.podo.pododev.web.domain.blog.blog.application.helper.BlogServiceHelper;
 import com.podo.pododev.web.domain.blog.blog.repository.BlogRepository;
 import com.podo.pododev.web.domain.blog.tag.BlogTag;
-import com.podo.pododev.web.global.infra.solr.BlogSearchResultVo;
-import com.podo.pododev.web.global.infra.solr.MySolrClient;
 import com.podo.pododev.web.global.util.AttachLinkManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -33,72 +25,41 @@ import static java.util.stream.Collectors.toList;
 @Transactional
 public class BlogReadService {
 
-    @Value("${blog.page.size}")
-    private Integer pageSize;
-
     @Value("${blog.relates.size}")
     private Integer relatesSize;
 
-    private final AttachLinkManager attachLinkManager;
     private final BlogRepository blogRepository;
-    private final MySolrClient mySolrClient;
+    private final AttachLinkManager attachLinkManager;
 
-
-    public List<String> getIndexedWordByKeyword(String keyword) {
-        return mySolrClient.getIndexedWordsByKeyword(keyword);
+    public String getBlogTitleById(Long blogId) {
+        return BlogServiceHelper.findByBlogId(blogId, blogRepository).getTitle();
     }
 
-    @Cacheable(value = "getBlogArchive", key = "#isAdmin")
-    public Map<Integer, List<BlogDto.archive>> getArchiveMapByYearOfPublishAt(Boolean isAdmin) {
-        final Boolean enabled = isAdmin ? null : true;
-        final List<Blog> blogs = blogRepository.findAllByEnabledAndOrderByPublishAtDesc(enabled);
-        return toMapByYearOfPublishAt(blogs);
-    }
-
-    private Map<Integer, List<BlogDto.archive>> toMapByYearOfPublishAt(List<Blog> blogs) {
-        final Map<Integer, List<BlogDto.archive>> mapByYear = new TreeMap<>();
-
-        for (Blog blog : blogs) {
-            int year = blog.getPublishAt().getYear();
-
-            List<BlogDto.archive> blogArchives = mapByYear.get(year);
-
-            if (Objects.isNull(blogArchives)) {
-                blogArchives = new ArrayList<>();
-                mapByYear.put(year, blogArchives);
-            }
-
-            blogArchives.add(new BlogDto.archive(blog));
-        }
-
-        return mapByYear;
-    }
-
-
-    @Cacheable(value = "getBlog", key = "#blogId")
-    public BlogDto.response getExistedBlogByBlogId(Long blogId) {
+    @Cacheable(value = "getBlog", key = "T(String).valueOf(#blogId) + #isAdmin.toString()")
+    public BlogDto.response getBlogById(Long blogId, Boolean isAdmin) {
         final Blog blog = BlogServiceHelper.findByBlogId(blogId, blogRepository);
+        final Boolean enabled = isAdmin ? null : true;
 
         final LocalDateTime publishAt = blog.getPublishAt();
-        final Blog beforeBlog = blogRepository.findOneBeforePublishAt(publishAt);
-        final Blog nextBlog = blogRepository.findOneAfterPublishAt(publishAt);
+        final Blog beforeBlog = blogRepository.findOneBeforePublishAt(publishAt, enabled);
+        final Blog nextBlog = blogRepository.findOneAfterPublishAt(publishAt, enabled);
 
         final List<String> tagValues = blog.getTags().stream()
                 .map(BlogTag::getTagValue)
                 .collect(toList());
 
-        final List<Blog> relateBlogs = getRelatesByTagValues(tagValues);
+        final List<Blog> relateBlogs = getRelatesByTagValues(tagValues, enabled);
 
         return new BlogDto.response(blog, beforeBlog, nextBlog, relateBlogs, attachLinkManager.getStorageStaticUrl(), AttachStatus.BE);
     }
 
 
-    private List<Blog> getRelatesByTagValues(List<String> tagValues) {
+    private List<Blog> getRelatesByTagValues(List<String> tagValues, Boolean enabled) {
         if (tagValues.isEmpty()) {
             return Collections.emptyList();
         }
 
-        final List<Blog> relates = blogRepository.findByTagValues(tagValues.get(0), tagValues.subList(1, tagValues.size()));
+        final List<Blog> relates = blogRepository.findByTagValues(tagValues, enabled);
         final Map<Blog, Integer> scores = scoreRelate(tagValues, relates);
 
         return scores.entrySet().stream()
@@ -147,84 +108,5 @@ public class BlogReadService {
         };
     }
 
-
-    @Cacheable(value = "pagingBlogs", key = "T(String).valueOf(#requestPaging.hashCode())  + #isAdmin.toString()")
-    public PageDto<BlogDto.responsePaging> paging(BlogDto.requestPaging requestPaging, Boolean isAdmin) {
-        final String searchValue = requestPaging.getSearch();
-        final Integer page = requestPaging.getPage();
-        final String tagValue = requestPaging.getTag();
-        final Pageable pageable = PageRequest.of(page, pageSize);
-        final Boolean enabled = isAdmin ? null : true;
-
-        if (!StringUtils.isEmpty(searchValue)) {
-            return pagingBySearchValue(searchValue, pageable, enabled);
-        }
-
-        if (!StringUtils.isEmpty(tagValue)) {
-            return pagingByFilterTag(tagValue, pageable, enabled);
-        }
-
-        return pagingDefault(pageable, enabled);
-    }
-
-    private PageDto<BlogDto.responsePaging> pagingDefault(Pageable pageable, Boolean enabled) {
-        final Page<Blog> blogs = blogRepository.paging(pageable, null, enabled);
-
-        final List<BlogDto.responsePaging> contents = blogs.stream()
-                .map(blog -> new BlogDto.responsePaging(blog, attachLinkManager.getStorageStaticUrl()))
-                .collect(toList());
-
-        return PageDto.<BlogDto.responsePaging>builder()
-                .contents(contents)
-                .currentPage(blogs.getPageable().getPageNumber())
-                .pageSize(blogs.getPageable().getPageSize())
-                .totalElements(blogs.getTotalElements())
-                .totalPages(blogs.getTotalPages())
-                .build();
-    }
-
-    private PageDto<BlogDto.responsePaging> pagingBySearchValue(String searchValue, Pageable pageable, Boolean enabled) {
-        final List<BlogSearchResultVo> results = mySolrClient.search(searchValue);
-        final List<Long> ids = results.stream()
-                .map(BlogSearchResultVo::getBlogId)
-                .collect(toList());
-
-        final Map<Long, String> highlightDescription = results.stream().collect(Collectors.toMap(BlogSearchResultVo::getBlogId, BlogSearchResultVo::getContents));
-
-        final Page<Blog> blogs = blogRepository.paging(pageable, ids, enabled);
-
-        final List<BlogDto.responsePaging> contents = blogs.stream()
-                .map(blog -> BlogDto.responsePaging.createWithHighlightDescription(blog, highlightDescription.get(blog.getId()), attachLinkManager.getStorageStaticUrl()))
-                .collect(toList());
-
-        return PageDto.<BlogDto.responsePaging>builder()
-                .contents(contents)
-                .currentPage(blogs.getPageable().getPageNumber())
-                .pageSize(blogs.getPageable().getPageSize())
-                .totalElements(blogs.getTotalElements())
-                .totalPages(blogs.getTotalPages())
-                .build();
-
-    }
-
-    private PageDto<BlogDto.responsePaging> pagingByFilterTag(String tagValue, Pageable pageable, Boolean enabled) {
-        final List<Long> blogIds = blogRepository.findByTagValues(tagValue, null).stream()
-                .map(Blog::getId)
-                .collect(toList());
-
-        final Page<Blog> blogs = blogRepository.paging(pageable, blogIds, enabled);
-
-        final List<BlogDto.responsePaging> contents = blogs.stream()
-                .map(blog -> new BlogDto.responsePaging(blog, attachLinkManager.getStorageStaticUrl()))
-                .collect(toList());
-
-        return PageDto.<BlogDto.responsePaging>builder()
-                .contents(contents)
-                .currentPage(blogs.getPageable().getPageNumber())
-                .pageSize(blogs.getPageable().getPageSize())
-                .totalElements(blogs.getTotalElements())
-                .totalPages(blogs.getTotalPages())
-                .build();
-    }
 
 }

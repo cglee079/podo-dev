@@ -41,12 +41,12 @@ public class CommentNotifier {
         final Long blogId = getBlogId(joinPoint);
         final String username = SecurityUtil.getUsername();
         final String contents = comment.getContents();
-        final BlogDto.response blog = blogReadService.getExistedBlogByBlogId(blogId);
+        final String blogTitle = blogReadService.getBlogTitleById(blogId);
         final StringBuilder message = new StringBuilder();
 
         message.append("#게시글에 댓글이 등록되었습니다.\n")
                 .append("게시글 : ")
-                .append(blog.getTitle())
+                .append(blogTitle)
                 .append("\n")
                 .append("이름 : ")
                 .append(username)

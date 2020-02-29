@@ -18,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toList;
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -38,7 +40,7 @@ public class CommentReadService {
 
         return comments.stream()
                 .map(CommentDto.summary::new)
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     @Cacheable(value = "getBlogComment", key = "#blogId + '#' + #requestPaging.page")
@@ -50,8 +52,8 @@ public class CommentReadService {
         final Page<Comment> comments = commentRepository.paging(blogId, pageable);
 
         final List<CommentDto.response> commentResponses = comments.stream()
-                .map(comment -> new CommentDto.response(comment, SecurityUtil.getUserKey()))
-                .collect(Collectors.toList());
+                .map(comment -> new CommentDto.response(comment, SecurityUtil.getUserId()))
+                .collect(toList());
 
         return PageDto.<CommentDto.response>builder()
                 .contents(commentResponses)

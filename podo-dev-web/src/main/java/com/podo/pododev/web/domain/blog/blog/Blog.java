@@ -1,8 +1,8 @@
 package com.podo.pododev.web.domain.blog.blog;
 
-import com.podo.pododev.web.domain.UpdatableBaseEntity;
-import com.podo.pododev.web.domain.blog.attachfile.AttachFile;
-import com.podo.pododev.web.domain.blog.attachimage.AttachImage;
+import com.podo.pododev.web.domain.BaseEntity;
+import com.podo.pododev.web.domain.blog.attach.attachfile.AttachFile;
+import com.podo.pododev.web.domain.blog.attach.attachimage.AttachImage;
 import com.podo.pododev.web.domain.blog.comment.Comment;
 import com.podo.pododev.web.domain.blog.history.BlogHistory;
 import com.podo.pododev.web.domain.blog.tag.BlogTag;
@@ -22,7 +22,7 @@ import java.util.Optional;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "blog")
 @Entity
-public class Blog extends UpdatableBaseEntity {
+public class Blog extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -88,6 +88,14 @@ public class Blog extends UpdatableBaseEntity {
 
     public void addTag(BlogTag tag) {
         this.tags.add(tag);
+        tag.changeBlog(this);
+    }
+
+    public void clearTags() {
+        for (BlogTag tag : tags) {
+            tag.changeBlog(null);
+        }
+        this.tags.clear();
     }
 
     public void addComment(Comment comment) {
@@ -139,8 +147,20 @@ public class Blog extends UpdatableBaseEntity {
                 this.enabled = true;
                 break;
             case INVISIBLE:
+            default:
                 this.enabled = false;
+                break;
         }
     }
+
+    public BlogHistory createHistory() {
+        final BlogHistory blogHistory = BlogHistory.builder()
+                .blog(this)
+                .build();
+
+        this.histories.add(blogHistory);
+        return blogHistory;
+    }
+
 
 }

@@ -18,14 +18,13 @@ public class UserWriteService {
 
     private final UserRepository userRepository;
 
-    public void writeUser(UserDto.insert insert) {
+    public Long writeUser(UserDto.insert insert) {
 
-        final Optional<User> userOptional = userRepository.findByUserKey(insert.getUserId());
+        final Optional<User> userOptional = userRepository.findByUserKey(insert.getUserKey());
 
         if (!userOptional.isPresent()) {
             final User newUser = insert.toEntity();
-            userRepository.save(newUser);
-            return;
+            return userRepository.save(newUser).getId();
         }
 
         final User existedUser = userOptional.get();
@@ -34,6 +33,8 @@ public class UserWriteService {
         final String newUsername = insert.getUsername();
 
         existedUser.updateUserInfo(newUsername, newPicture);
+
+        return existedUser.getId();
     }
 }
 

@@ -52,7 +52,7 @@ public class AuthApi {
             securityStore.logout(token);
         }
 
-        return StatusResponse.success().build();
+        return StatusResponse.success();
     }
 
 }

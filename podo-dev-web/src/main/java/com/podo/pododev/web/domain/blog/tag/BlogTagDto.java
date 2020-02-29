@@ -9,8 +9,8 @@ public class BlogTagDto {
     public static class insert {
         private String tagValue;
 
-        public BlogTag toEntity(Blog blog) {
-            return new BlogTag(blog, tagValue);
+        public BlogTag toEntity() {
+            return new BlogTag(tagValue);
         }
     }
 

@@ -58,7 +58,7 @@ public class CommentDto {
         private Boolean enabled;
         private Boolean isMine;
 
-        public response(Comment comment, String userId) {
+        public response(Comment comment, Long userId) {
             final User writeBy = comment.getWriter();
 
             this.id = comment.getId();
@@ -67,7 +67,7 @@ public class CommentDto {
             this.depth = comment.getDepth();
             this.createAt = DateTimeFormatUtil.dateTimeToBeautifulDate(comment.getCreateAt());
             this.enabled = comment.getEnabled();
-            this.isMine = writeBy.getUserKey().equalsIgnoreCase(userId);
+            this.isMine = writeBy.getId().equals(userId);
         }
 
     }

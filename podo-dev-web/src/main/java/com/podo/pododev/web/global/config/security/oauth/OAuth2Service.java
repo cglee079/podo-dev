@@ -26,7 +26,7 @@ public class OAuth2Service implements OAuth2UserService<OAuth2UserRequest, OAuth
     private final UserWriteService userWriteService;
     private final SecurityStore securityStore;
 
-    @Value("${security.admin.keys}")
+    @Value("${security.admin.user.keys}")
     private List<String> adminUserKeys;
 
     @Value("${security.login.success.url}")
@@ -41,8 +41,8 @@ public class OAuth2Service implements OAuth2UserService<OAuth2UserRequest, OAuth
 
         final OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes(), adminUserKeys);
 
-        userWriteService.writeUser(createUserInsertDto(attributes));
-        final OAuthUserDetails oAuthUserDetails = createOAuthUserDetails(attributes);
+        final Long userId = userWriteService.writeUser(createUserInsertDto(attributes));
+        final OAuthUserDetails oAuthUserDetails = createOAuthUserDetails(userId, attributes);
 
         final String accessToken = securityStore.login(new OAuthAuthentication(oAuthUserDetails));
 
@@ -51,20 +51,21 @@ public class OAuth2Service implements OAuth2UserService<OAuth2UserRequest, OAuth
         return new DefaultOAuth2User(attributes.getAuthorities(), attributes.getAttributes(), attributes.getNameAttributeKey());
     }
 
-    private OAuthUserDetails createOAuthUserDetails(OAuthAttributes attributes) {
+    private UserDto.insert createUserInsertDto(OAuthAttributes attributes) {
+        return UserDto.insert.builder()
+                .userKey(attributes.getUserKey())
+                .name(attributes.getName())
+                .picture(attributes.getPicture())
+                .build();
+    }
+
+    private OAuthUserDetails createOAuthUserDetails(Long userId, OAuthAttributes attributes) {
         return OAuthUserDetails.builder()
+                .userId(userId)
                 .userKey(attributes.getUserKey())
                 .username(attributes.getName())
                 .profileImage(attributes.getPicture())
                 .authorities(attributes.getAuthorities())
-                .build();
-    }
-
-    private UserDto.insert createUserInsertDto(OAuthAttributes attributes) {
-        return UserDto.insert.builder()
-                .userId(attributes.getUserKey())
-                .name(attributes.getName())
-                .picture(attributes.getPicture())
                 .build();
     }
 }

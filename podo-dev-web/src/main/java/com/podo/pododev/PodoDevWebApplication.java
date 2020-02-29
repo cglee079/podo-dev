@@ -15,7 +15,9 @@ public class PodoDevWebApplication {
 
     public PodoDevWebApplication() {
         //Telegram Api Initial
-        ApiContextInitializer.init();
+
+        //TODO
+        //ApiContextInitializer.init();
 
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
     }
