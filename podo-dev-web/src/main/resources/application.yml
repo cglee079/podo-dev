@@ -2,7 +2,7 @@
 server.port: 28443
 server.http.port: 28080
 
-spring.profiles.include: secret, core, jpa, infra, oauth, log
+spring.profiles.include: ssl, core, jpa, infra, oauth, log
 
 # Servlet
 spring.servlet:
