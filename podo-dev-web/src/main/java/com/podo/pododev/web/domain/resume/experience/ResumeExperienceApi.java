@@ -1,8 +1,7 @@
 package com.podo.pododev.web.domain.resume.experience;
 
 import com.podo.pododev.core.rest.ApiResponse;
-import com.podo.pododev.core.rest.status.DefaultApiStatus;
-import com.podo.pododev.core.rest.response.CollectionResponse;
+import com.podo.pododev.core.rest.response.DataResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,9 +22,9 @@ public class ResumeExperienceApi {
     @GetMapping(value = "/api/resumes/experiences")
     public ApiResponse findAllResumeExperiences() {
 
-        List<ResumeExperienceDto.response> resumeExperiences = resumeExperienceReadService.findAllOrderByExperienceAtDesc();
+        final List<ResumeExperienceDto.response> resumeExperiences = resumeExperienceReadService.findAllOrderByExperienceAtDesc();
 
-        return CollectionResponse.success()
+        return DataResponse.success()
                 .result(resumeExperiences)
                 .build();
     }

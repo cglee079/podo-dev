@@ -1,4 +1,4 @@
-package com.podo.pododev.web.domain.resume;
+package com.podo.pododev.web.domain.resume.resume;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

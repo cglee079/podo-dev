@@ -27,6 +27,7 @@ public class Comment{
     @JoinColumn(name = "blog_id")
     private Blog blog;
 
+    //TODO
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "write_by2")
     private User writer;

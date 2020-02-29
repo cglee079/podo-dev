@@ -59,7 +59,7 @@ public class BlogReadApi {
     public ApiResponse facets(@RequestParam String searchValue) {
         final List<String> facets = mySolrClient.getIndexedWordsByKeyword(searchValue);
 
-        return CollectionResponse.success()
+        return DataResponse.success()
                 .result(facets)
                 .build();
     }

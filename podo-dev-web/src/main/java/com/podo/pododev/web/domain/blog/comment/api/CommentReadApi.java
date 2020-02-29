@@ -23,7 +23,7 @@ public class CommentReadApi {
 
         final List<CommentDto.summary> comments = commentReadService.getRecentComments();
 
-        return CollectionResponse.success()
+        return DataResponse.success()
                 .result(comments)
                 .build();
     }

@@ -1,4 +1,4 @@
-package com.podo.pododev.web.domain.resume;
+package com.podo.pododev.web.domain.resume.resume;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

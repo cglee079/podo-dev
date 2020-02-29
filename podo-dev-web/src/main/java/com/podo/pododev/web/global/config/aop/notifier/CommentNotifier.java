@@ -1,7 +1,6 @@
-package com.podo.pododev.web.domain.blog.comment.aop;
+package com.podo.pododev.web.global.config.aop.notifier;
 
 import com.podo.pododev.web.global.util.HtmlDocumentUtil;
-import com.podo.pododev.web.domain.blog.blog.BlogDto;
 import com.podo.pododev.web.domain.blog.comment.CommentDto;
 import com.podo.pododev.web.domain.blog.blog.application.BlogReadService;
 import com.podo.pododev.web.global.util.SecurityUtil;
@@ -26,17 +25,17 @@ public class CommentNotifier {
     private final BlogReadService blogReadService;
     private final String BLOG_ID_ARG_NAME = "blogId";
 
-    @AfterReturning("@annotation(com.podo.pododev.web.domain.blog.comment.aop.CommentNotice)")
-    public void checkRequestValidator(JoinPoint joinPoint) {
+    @AfterReturning("@annotation(com.podo.pododev.web.global.config.aop.notifier.CommentNotice)")
+    public void commentNotify(JoinPoint joinPoint) {
         CommentDto.insert comment = getCommentInsertDto(joinPoint);
 
         if (Objects.isNull(comment)) {
             throw new RuntimeException();
         }
 
-        if (SecurityUtil.isAdmin()) {
-            return;
-        }
+//        if (SecurityUtil.isAdmin()) {
+//            return;
+//        }
 
         final Long blogId = getBlogId(joinPoint);
         final String username = SecurityUtil.getUsername();
@@ -57,7 +56,7 @@ public class CommentNotifier {
                 .append("내용 :\n")
                 .append(HtmlDocumentUtil.escapeHtml(contents));
 
-        telegramClient.send(message.toString());
+        telegramClient.notifyAdmin(message.toString());
 
     }
 

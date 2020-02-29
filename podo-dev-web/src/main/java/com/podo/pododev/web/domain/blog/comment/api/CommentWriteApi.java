@@ -2,9 +2,8 @@ package com.podo.pododev.web.domain.blog.comment.api;
 
 import com.podo.pododev.core.rest.ApiResponse;
 import com.podo.pododev.core.rest.response.*;
-import com.podo.pododev.core.rest.status.DefaultApiStatus;
 import com.podo.pododev.web.domain.blog.comment.CommentDto;
-import com.podo.pododev.web.domain.blog.comment.aop.CommentNotice;
+import com.podo.pododev.web.global.config.aop.notifier.CommentNotice;
 import com.podo.pododev.web.domain.blog.comment.application.CommentWriteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

@@ -1,4 +1,4 @@
-package com.podo.pododev.web.domain.blog.comment.aop;
+package com.podo.pododev.web.global.config.aop.notifier;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

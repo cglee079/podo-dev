@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping
@@ -19,7 +21,7 @@ public class UploadApi {
     private final UploadService uploadService;
 
     @PostMapping("/api/file")
-    public ApiResponse upload(@Validated @ModelAttribute UploadDto.insert insert) {
+    public ApiResponse upload(@Valid @ModelAttribute UploadDto.insert insert) {
         log.info("'{}', '{}' 파일 저장 요청을 받았습니다. 파일크기 : '{}'", insert.getPath(), insert.getFile().getOriginalFilename(), insert.getFile().getSize());
 
         uploadService.writeFile(insert);
@@ -28,7 +30,7 @@ public class UploadApi {
     }
 
     @DeleteMapping("/api/file")
-    public ApiResponse delete(@Validated @RequestBody UploadDto.delete delete) {
+    public ApiResponse delete(@Valid @RequestBody UploadDto.delete delete) {
         log.info("'{}', '{}' 파일 삭제 요청을 받았습니다.", delete.getPath(), delete.getFilename());
 
         uploadService.deleteFile(delete);

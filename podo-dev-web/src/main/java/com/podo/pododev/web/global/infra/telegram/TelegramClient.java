@@ -41,7 +41,7 @@ public class TelegramClient extends TelegramLongPollingBot {
         //메세지 수신 시, 아무 로직도 수행하지 않음
     }
 
-    public void send(String message) {
+    public void notifyAdmin(String message) {
 
         final SendMessage sendMessage = new SendMessage(adminTelegramId, message);
         sendMessage.enableHtml(true);
@@ -49,7 +49,7 @@ public class TelegramClient extends TelegramLongPollingBot {
         try {
             this.executeAsync(sendMessage, getDefaultCallback());
         } catch (TelegramApiException e) {
-            log.error("관리자에게 알람을 전송 할 수 없습니다");
+            log.error("관리자에게 알람을 전송 할 수 없습니다 {}", e.getMessage(), e);
             throw new TelegramException(e);
         }
 
@@ -64,13 +64,13 @@ public class TelegramClient extends TelegramLongPollingBot {
 
             @Override
             public void onError(BotApiMethod<Message> method, TelegramApiRequestException e) {
-                log.error("관리자에게 알람을 전송 할 수 없습니다");
+                log.error("관리자에게 알람을 전송 할 수 없습니다 {}", e.getMessage(), e);
                 throw new TelegramException(e);
             }
 
             @Override
             public void onException(BotApiMethod<Message> method, Exception e) {
-                log.error("관리자에게 알람을 전송 할 수 없습니다");
+                log.error("관리자에게 알람을 전송 할 수 없습니다 {}", e.getMessage(), e);
                 throw new TelegramException(e);
             }
         };
