@@ -8,6 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class SecurityUtil extends WebSecurityConfigurerAdapter {
@@ -29,9 +30,14 @@ public class SecurityUtil extends WebSecurityConfigurerAdapter {
 
     public static Optional<OAuthUserDetails> getUser() {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (Objects.isNull(authentication)){
+            return Optional.empty();
+        }
+
         final Object principal = authentication.getPrincipal();
 
-        if (principal instanceof String) {
+        if (Objects.isNull(principal) || principal instanceof String) {
             return Optional.empty();
         }
 

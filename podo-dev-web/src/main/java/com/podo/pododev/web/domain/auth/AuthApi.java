@@ -1,10 +1,10 @@
 package com.podo.pododev.web.domain.auth;
 
 import com.podo.pododev.core.rest.ApiResponse;
-import com.podo.pododev.core.rest.status.DefaultApiStatus;
 import com.podo.pododev.core.rest.response.DataResponse;
 import com.podo.pododev.core.rest.response.StatusResponse;
 import com.podo.pododev.web.global.config.security.SecurityStore;
+import com.podo.pododev.core.util.type.RequestHeader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,15 +21,13 @@ import java.util.stream.Stream;
 public class AuthApi {
 
     private static final String[] NOT_ALLOWED_USER_AGENTS = {"KAKAOTALK"};
-    public static final String AUTHORIZATION_HEADER = "Authorization";
-    public static final String AUTHORIZATION_HEADER_PREFIX = "bearer";
-    public static final String USER_AGENT_HEADER = "User-Agent";
+    private static final String AUTHORIZATION_HEADER_PREFIX = "bearer";
 
     private final SecurityStore securityStore;
 
     @GetMapping("/api/login/enabled")
     public ApiResponse checkIsAllowedUserAgent(HttpServletRequest request) {
-        final String userAgent = request.getHeader(USER_AGENT_HEADER);
+        final String userAgent = request.getHeader(RequestHeader.USER_AGENT.value());
 
         return DataResponse.success()
                 .result(isAllowedUserAgent(userAgent))
@@ -51,7 +49,7 @@ public class AuthApi {
     @PostMapping("/api/logout")
     public ApiResponse logout(HttpServletRequest request) {
 
-        final String authorization = request.getHeader(AUTHORIZATION_HEADER);
+        final String authorization = request.getHeader(RequestHeader.AUTHORIZATION.value());
 
         if (Objects.nonNull(authorization)) {
             final String token = authorization.replace(AUTHORIZATION_HEADER_PREFIX, "").trim();

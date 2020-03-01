@@ -16,9 +16,9 @@ import java.time.LocalDateTime;
 public abstract class BaseEntity extends BaseTimeEntity {
 
     @CreatedBy
-    private String createBy;
+    private Long createBy;
 
     @LastModifiedBy
-    private String updateBy;
+    private Long updateBy;
 
 }

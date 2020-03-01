@@ -1,5 +1,6 @@
 package com.podo.pododev.web.global.config.security.oauth;
 
+import com.podo.pododev.core.util.type.RequestHeader;
 import com.podo.pododev.web.domain.user.UserDto;
 import com.podo.pododev.web.domain.user.service.UserWriteService;
 import com.podo.pododev.web.global.config.security.SecurityStore;
@@ -20,8 +21,6 @@ import java.util.List;
 @Service
 public class OAuth2Service implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
-    public static final String ACCESS_TOKEN_OF_HEADER = "Access-Token";
-
     private final HttpServletResponse httpServletResponse;
     private final UserWriteService userWriteService;
     private final SecurityStore securityStore;
@@ -37,18 +36,18 @@ public class OAuth2Service implements OAuth2UserService<OAuth2UserRequest, OAuth
         final OAuth2User oAuth2User = new DefaultOAuth2UserService().loadUser(userRequest);
 
         final String registrationId = userRequest.getClientRegistration().getRegistrationId();
-        final String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
+        final String userKeyAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
 
-        final OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes(), adminUserKeys);
+        final OAuthAttributes attributes = OAuthAttributes.of(registrationId, userKeyAttributeName, oAuth2User.getAttributes(), adminUserKeys);
 
         final Long userId = userWriteService.writeUser(createUserInsertDto(attributes));
         final OAuthUserDetails oAuthUserDetails = createOAuthUserDetails(userId, attributes);
 
         final String accessToken = securityStore.login(new OAuthAuthentication(oAuthUserDetails));
 
-        httpServletResponse.setHeader(ACCESS_TOKEN_OF_HEADER, accessToken);
+        httpServletResponse.setHeader(RequestHeader.ACCESS_TOKEN.value(), accessToken);
 
-        return new DefaultOAuth2User(attributes.getAuthorities(), attributes.getAttributes(), attributes.getNameAttributeKey());
+        return new DefaultOAuth2User(attributes.getAuthorities(), attributes.getAttributes(), attributes.getUserKeyAttributeName());
     }
 
     private UserDto.insert createUserInsertDto(OAuthAttributes attributes) {

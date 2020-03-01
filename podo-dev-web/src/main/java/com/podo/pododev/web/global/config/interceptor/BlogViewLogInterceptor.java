@@ -1,5 +1,6 @@
 package com.podo.pododev.web.global.config.interceptor;
 
+import com.podo.pododev.core.util.type.RequestHeader;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,9 +16,9 @@ public class BlogViewLogInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        final String requestUserAgent = request.getHeader("User-Agent");
+        final String requestUserAgent = request.getHeader(RequestHeader.USER_AGENT.value());
 
-        String requestIP = request.getHeader("x-real-ip");
+        String requestIP = request.getHeader(RequestHeader.X_REAL_IP.value());
 
         if (Objects.isNull(requestIP)) {
             requestIP = request.getRemoteAddr();

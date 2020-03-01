@@ -19,9 +19,11 @@ import com.podo.pododev.web.global.util.AttachLinkManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -42,8 +44,16 @@ public class BlogUpdateService {
     private final BlogTagRepository blogTagRepository;
     private final BlogHistoryRepository blogHistoryRepository;
 
-    @CacheEvict(value = "getBlog", key = "#blogId")
-    public void increaseHitCount(Long blogId) {
+    @CacheEvict(value = "getBlog", key = "T(String).valueOf(#blogId) + #isAdmin.toString()")
+    public void increaseHitCount(Long blogId, String userAgent, Boolean isAdmin) {
+        if(isAdmin){
+            return;
+        }
+
+        if(StringUtils.hasText(userAgent) && userAgent.toLowerCase().contains("bot")){
+            return;
+        }
+
         final Blog existedBlog = BlogServiceHelper.findByBlogId(blogId, blogRepository);
         existedBlog.increaseHitCount();
     }

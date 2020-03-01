@@ -38,4 +38,8 @@ public class User extends BaseTimeEntity {
         this.username = username;
         this.picture = picture;
     }
+
+    public void setUserKey(String google) {
+        this.userKey = google;
+    }
 }

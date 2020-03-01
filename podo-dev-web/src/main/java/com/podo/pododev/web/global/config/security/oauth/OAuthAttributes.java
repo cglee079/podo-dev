@@ -1,6 +1,7 @@
 package com.podo.pododev.web.global.config.security.oauth;
 
 import com.podo.pododev.web.global.config.security.role.UserRole;
+import com.podo.pododev.web.global.util.HashUtil;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,18 +14,20 @@ import java.util.Map;
 public class OAuthAttributes {
 
     private Map<String, Object> attributes;
+    private String registrationId;
     private String userKey;
-    private String nameAttributeKey;
+    private String userKeyAttributeName;
     private String name;
     private String email;
     private String picture;
     private List<SimpleGrantedAuthority> authorities;
 
     @Builder
-    public OAuthAttributes(Map<String, Object> attributes, String userKey, String nameAttributeKey, String name, String email, String picture, List<SimpleGrantedAuthority> authorities) {
+    public OAuthAttributes(Map<String, Object> attributes, String registrationId, String userKey, String userKeyAttributeName, String name, String email, String picture, List<SimpleGrantedAuthority> authorities) {
         this.attributes = attributes;
+        this.registrationId = registrationId;
         this.userKey = userKey;
-        this.nameAttributeKey = nameAttributeKey;
+        this.userKeyAttributeName = userKeyAttributeName;
         this.name = name;
         this.email = email;
         this.picture = picture;
@@ -32,11 +35,11 @@ public class OAuthAttributes {
     }
 
     public static OAuthAttributes of(String registrationId, String usernameAttributeName, Map<String, Object> attributes, List<String> adminKeys){
-        return ofGoogle(usernameAttributeName, attributes, adminKeys);
+        return ofGoogle(registrationId, usernameAttributeName, attributes, adminKeys);
     }
 
-    private static OAuthAttributes ofGoogle(String usernameAttributeName, Map<String, Object> attributes, List<String> adminKeys) {
-        final String userKey = (String) attributes.get(usernameAttributeName);
+    private static OAuthAttributes ofGoogle(String registrationId, String userKeyAttributeName, Map<String, Object> attributes, List<String> adminKeys) {
+        final String userKey = HashUtil.hash(registrationId, (String) attributes.get(userKeyAttributeName));
 
         final List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
@@ -48,10 +51,10 @@ public class OAuthAttributes {
 
         return OAuthAttributes.builder()
                 .userKey(userKey)
+                .userKeyAttributeName(userKeyAttributeName)
                 .name((String) attributes.get("name"))
                 .email((String) attributes.get("email"))
                 .picture((String) attributes.get("picture"))
-                .nameAttributeKey(usernameAttributeName)
                 .attributes(attributes)
                 .authorities(authorities)
                 .build();

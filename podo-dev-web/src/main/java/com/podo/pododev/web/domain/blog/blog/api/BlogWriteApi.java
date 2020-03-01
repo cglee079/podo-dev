@@ -6,10 +6,13 @@ import com.podo.pododev.web.domain.blog.blog.BlogDto;
 import com.podo.pododev.web.domain.blog.blog.application.BlogInsertService;
 import com.podo.pododev.web.domain.blog.blog.application.BlogRemoveService;
 import com.podo.pododev.web.domain.blog.blog.application.BlogUpdateService;
+import com.podo.pododev.core.util.type.RequestHeader;
+import com.podo.pododev.web.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @Slf4j
@@ -41,8 +44,8 @@ public class BlogWriteApi {
     }
 
     @PostMapping("/api/blogs/{blogId}/hitCount")
-    public ApiResponse increaseHitCount(@PathVariable Long blogId) {
-        blogUpdateService.increaseHitCount(blogId);
+    public ApiResponse increaseHitCount(@PathVariable Long blogId, HttpServletResponse request) {
+        blogUpdateService.increaseHitCount(blogId, request.getHeader(RequestHeader.USER_AGENT.value()), SecurityUtil.isAdmin());
         return StatusResponse.success();
     }
 
