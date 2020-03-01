@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -33,7 +34,7 @@ public class BlogWriteApi {
 
     @PatchMapping("/api/blogs/{blogId}")
     public ApiResponse update(@PathVariable Long blogId, @Valid @RequestBody BlogDto.update blogReq) {
-        blogUpdateService.updateExistedBlogs(blogId, blogReq);
+        blogUpdateService.updateExistedBlogs(blogId, blogReq, LocalDateTime.now());
         return StatusResponse.success();
     }
 

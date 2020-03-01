@@ -1,5 +1,6 @@
 package com.podo.pododev.web.global.config.aop.notifier;
 
+import com.podo.pododev.web.global.config.aop.exception.CantFindArgumentException;
 import com.podo.pododev.web.global.util.HtmlDocumentUtil;
 import com.podo.pododev.web.domain.blog.comment.CommentDto;
 import com.podo.pododev.web.domain.blog.blog.application.BlogReadService;
@@ -30,12 +31,12 @@ public class CommentNotifier {
         CommentDto.insert comment = getCommentInsertDto(joinPoint);
 
         if (Objects.isNull(comment)) {
-            throw new RuntimeException();
+            throw new CantFindArgumentException(CommentDto.insert.class);
         }
 
-//        if (SecurityUtil.isAdmin()) {
-//            return;
-//        }
+        if (SecurityUtil.isAdmin()) {
+            return;
+        }
 
         final Long blogId = getBlogId(joinPoint);
         final String username = SecurityUtil.getUsername();

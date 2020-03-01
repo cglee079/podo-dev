@@ -19,12 +19,11 @@ import com.podo.pododev.web.global.util.AttachLinkManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.podo.pododev.web.domain.blog.attach.AttachStatus.NEW;
@@ -60,7 +59,7 @@ public class BlogUpdateService {
 
     @AllBlogCacheEvict
     @SolrDataImport
-    public void updateExistedBlogs(Long blogId, BlogDto.update updateBlog) {
+    public void updateExistedBlogs(Long blogId, BlogDto.update updateBlog, LocalDateTime now) {
 
         final Blog existedBlog = BlogServiceHelper.findByBlogId(blogId, blogRepository);
 
@@ -69,7 +68,7 @@ public class BlogUpdateService {
 
         existedBlog.changeTitle(updateBlog.getTitle());
         existedBlog.changeContents(linkManager.replaceLocalUrlToStorageUrl(updateBlog.getContents()));
-        existedBlog.updateStatus(updateBlog.getStatus());
+        existedBlog.updateStatus(updateBlog.getStatus(), now);
 
         blogHistoryRepository.save(existedBlog.createHistory());
         BlogWriteServiceHelper.saveBlogTags(existedBlog, updateBlog.getTags(), blogTagRepository);

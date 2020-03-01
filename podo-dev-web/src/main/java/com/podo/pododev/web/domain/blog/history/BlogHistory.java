@@ -37,6 +37,5 @@ public class BlogHistory{
         this.blog = blog;
         this.title = blog.getTitle();
         this.contents = blog.getContents();
-
     }
 }

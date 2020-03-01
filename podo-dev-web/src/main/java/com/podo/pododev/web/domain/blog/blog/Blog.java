@@ -58,14 +58,14 @@ public class Blog extends BaseEntity {
 
     @Builder
     public Blog(List<AttachImage> attachImages, List<AttachFile> attachFiles,
-                String title, String contents, Boolean enabled) {
+                String title, String contents, Boolean enabled, Boolean webFeeded, Integer hitCount) {
         this.title = title;
         this.contents = contents;
         this.enabled = enabled;
-        this.attachImages = attachImages;
-        this.attachFiles = attachFiles;
-        this.hitCount = 0;
-        this.webFeeded = false;
+        this.attachImages = new ArrayList<>(attachImages);
+        this.attachFiles = new ArrayList<>(attachFiles);
+        this.hitCount = hitCount;
+        this.webFeeded = webFeeded;
     }
 
     public void changeTitle(String title) {
@@ -100,6 +100,7 @@ public class Blog extends BaseEntity {
 
     public void addComment(Comment comment) {
         this.comments.add(comment);
+        comment.changeBlog(this);
     }
 
     public void addAttachImage(AttachImage attachImage) {
@@ -137,10 +138,10 @@ public class Blog extends BaseEntity {
     }
 
 
-    public void updateStatus(BlogStatus status) {
+    public void updateStatus(BlogStatus status, LocalDateTime now) {
         switch (status) {
             case PUBLISH:
-                this.publishAt = LocalDateTime.now();
+                this.publishAt = now;
                 this.enabled = true;
                 break;
             case VISIBLE:

@@ -1,5 +1,6 @@
 package com.podo.pododev.web.global.util;
 
+import com.podo.pododev.web.domain.user.exception.NoAuthenticatedApiException;
 import com.podo.pododev.web.global.config.security.oauth.OAuthUserDetails;
 import com.podo.pododev.web.global.config.security.role.UserRole;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -42,6 +43,12 @@ public class SecurityUtil extends WebSecurityConfigurerAdapter {
         }
 
         return Optional.of((OAuthUserDetails) principal);
+    }
+
+    public static void validateIsAuth() {
+        if(!SecurityUtil.getUser().isPresent()){
+            throw new NoAuthenticatedApiException();
+        }
     }
 
     public static Long getUserId() {
