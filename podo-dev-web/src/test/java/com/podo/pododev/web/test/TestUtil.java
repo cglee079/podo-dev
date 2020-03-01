@@ -1,4 +1,4 @@
-package com.podo.pododev.util;
+package com.podo.pododev.web.test;
 
 import org.apache.commons.io.FileUtils;
 
@@ -12,9 +12,9 @@ import java.util.stream.Stream;
 public class TestUtil {
 
     public static String getStringFromResource(String requirePath, String... otherPaths) {
-        String[] requirePathInResouces = {"src", "test", "resources", requirePath};
+        String[] requirePathInResources = {"src", "test", "resources", requirePath};
 
-        final String[] filePath = Stream.concat(Arrays.stream(requirePathInResouces), Arrays.stream(otherPaths))
+        final String[] filePath = Stream.concat(Arrays.stream(requirePathInResources), Arrays.stream(otherPaths))
                 .toArray(String[]::new);
 
         final File file = FileUtils.getFile(filePath);

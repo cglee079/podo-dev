@@ -16,7 +16,7 @@ class BlogHistoryTest {
     @DisplayName("생성 By 블로그")
     @Test
     void testNewInstance(){
-        //givn
+        //given
         final String title = "titles";
         final String contents = "contents";
         final Blog blog = Mockito.mock(Blog.class);
