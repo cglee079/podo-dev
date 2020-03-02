@@ -11,6 +11,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 
 @Getter
@@ -42,7 +44,7 @@ public class Comment {
 
     private Long cgroup;
 
-    private Double sort;
+    private BigDecimal sort;
 
     private Boolean enabled;
 
@@ -53,7 +55,7 @@ public class Comment {
 
     @Builder
     public Comment(User writer, String contents, Long cgroup,
-                   Long parentId, Integer depth, Double sort,
+                   Long parentId, Integer depth, BigDecimal sort,
                    Boolean byAdmin, Boolean enabled, Integer childCount) {
         this.writer = writer;
         this.contents = contents;
@@ -100,8 +102,10 @@ public class Comment {
         return (this.depth + 1) > maxCommentDepth;
     }
 
-    public double getChildCommentSort() {
-        return ((double) (childCount + 1) / Math.pow(10, 3 * depth)) + sort;
+    public BigDecimal getChildCommentSort() {
+        return BigDecimal.valueOf(childCount + 1)
+                .divide(BigDecimal.valueOf(Math.pow(10, 3 * depth)))
+                .add(sort);
     }
 
     public boolean isWrittenBy(Long userId) {

@@ -7,10 +7,7 @@ import com.podo.pododev.web.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
 
 
 @Component
@@ -19,26 +16,23 @@ public class CommentSetup {
 
     private final CommentRepository commentRepository;
 
-    public List<Comment> save(User user, Blog blog, int size){
-        final List<Comment> comments = new ArrayList<>();
+    public Comment saveOne(User user, Blog blog){
 
-        for(int i =0; i < size; i++){
-            Comment comment  = Comment.builder()
-                    .parentId(null)
-                    .byAdmin(false)
-                    .contents("contents")
-                    .depth(1)
-                    .writer(user)
-                    .sort(1d)
-                    .childCount(0)
-                    .enabled(true)
-                    .build();
+        final Comment comment = Comment.builder()
+                .parentId(null)
+                .byAdmin(false)
+                .contents("contents")
+                .depth(1)
+                .writer(user)
+                .sort(BigDecimal.ONE)
+                .childCount(0)
+                .enabled(true)
+                .build();
 
-            comment.changeBlog(blog);
-            comments.add(commentRepository.save(comment));
-        }
+        final Comment saveComment = commentRepository.save(comment);
+        comment.changeCgroup(comment.getId());
+        blog.addComment(comment);
 
-
-        return comments;
+        return saveComment;
     }
 }

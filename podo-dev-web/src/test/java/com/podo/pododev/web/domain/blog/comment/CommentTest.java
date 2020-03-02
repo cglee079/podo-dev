@@ -138,13 +138,13 @@ class CommentTest {
     @CsvSource({"0,0,2", "0,1,3", "1,0,1.001", "1,1,1.002", "1,2,1.003"})
     void testGetChildSort(Integer depth, Integer childCount, BigDecimal expected){
         Comment comment = Comment.builder()
-                .sort(1.0)
+                .sort(BigDecimal.ONE)
                 .depth(depth)
                 .childCount(childCount)
                 .build();
 
         //when, then
-        assertThat(comment.getChildCommentSort()).isEqualTo(expected.doubleValue());
+        assertThat(comment.getChildCommentSort()).isEqualTo(expected);
     }
 
     @DisplayName("작성자 확인")
@@ -165,7 +165,7 @@ class CommentTest {
 
     private Comment createEmptyComment() {
         return Comment.builder()
-                .sort(1.0)
+                .sort(BigDecimal.ONE)
                 .childCount(0)
                 .enabled(true)
                 .build();

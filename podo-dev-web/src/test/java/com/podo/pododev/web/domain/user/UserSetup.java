@@ -4,6 +4,8 @@ import com.podo.pododev.web.global.util.HashUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 @Component
 @RequiredArgsConstructor
 public class UserSetup {
@@ -12,7 +14,7 @@ public class UserSetup {
 
     public User saveOne(){
         final User user = User.builder()
-                .userKey(HashUtil.hash("google", "123123"))
+                .userKey(HashUtil.hash("google", LocalDateTime.now().toString()))
                 .username("username")
                 .picture("http://picure.com")
                 .build();

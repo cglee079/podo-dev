@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 @Slf4j
@@ -61,7 +62,7 @@ public class CommentWriteService {
                 .writer(user)
                 .contents(contents)
                 .depth(0)
-                .sort(1d)
+                .sort(BigDecimal.ONE)
                 .byAdmin(SecurityUtil.isAdmin())
                 .childCount(0)
                 .enabled(true)
@@ -80,7 +81,7 @@ public class CommentWriteService {
 
         final Long parentCommentCgroup = parentComment.getCgroup();
         final Integer parentCommentDepth = parentComment.getDepth();
-        final Double childCommentSort = parentComment.getChildCommentSort();
+        final BigDecimal childCommentSort = parentComment.getChildCommentSort();
 
         if (parentComment.isExceedMaxCommentDepth(maxDepthOfComment)) {
             throw new MaxDepthCommentApiException(parentCommentId);
@@ -106,7 +107,7 @@ public class CommentWriteService {
 
 
     @AllCommentCacheEvict
-    public void removeExistedCommentByCommentId(Long commentId) {
+    public void removeByCommentId(Long commentId) {
         SecurityUtil.validateIsAuth();
 
         final Comment comment = CommentServiceHelper.findById(commentId, commentRepository);
@@ -131,6 +132,10 @@ public class CommentWriteService {
 
 
     private void decreaseChildCountAndRemoveIfCanDeleted(Long commentId) {
+        if(Objects.isNull(commentId)){
+            return;
+        }
+
         final Comment existedComment = CommentServiceHelper.findById(commentId, commentRepository);
 
         existedComment.decreaseChildCount();

@@ -1,6 +1,11 @@
 package com.podo.pododev.web.test;
 
+import com.podo.pododev.web.domain.user.User;
+import com.podo.pododev.web.global.config.security.oauth.OAuthAuthentication;
+import com.podo.pododev.web.global.config.security.oauth.OAuthUserDetails;
 import org.apache.commons.io.FileUtils;
+import org.mockito.Mockito;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,6 +13,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.stream.Stream;
+
+import static org.mockito.BDDMockito.given;
 
 public class TestUtil {
 
@@ -36,4 +43,10 @@ public class TestUtil {
         return contentBuilder.toString();
     }
 
+    public static void setAuth(User user) {
+        final OAuthUserDetails mockAuth = Mockito.mock(OAuthUserDetails.class);
+        given(mockAuth.getUserId()).willReturn(user.getId());
+        SecurityContextHolder.getContext().setAuthentication(new OAuthAuthentication(mockAuth));
+    }
 }
+

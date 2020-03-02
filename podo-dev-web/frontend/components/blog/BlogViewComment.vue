@@ -100,7 +100,6 @@ export default {
                 const result = response.result;
                 result.contents
                     .slice()
-                    .reverse()
                     .forEach(item => this.comments.unshift(item));
 
                 this.page = pageIdx;
