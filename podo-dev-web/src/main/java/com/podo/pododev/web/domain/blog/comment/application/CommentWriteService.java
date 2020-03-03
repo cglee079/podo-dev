@@ -63,7 +63,6 @@ public class CommentWriteService {
                 .contents(contents)
                 .depth(0)
                 .sort(BigDecimal.ONE)
-                .byAdmin(SecurityUtil.isAdmin())
                 .childCount(0)
                 .enabled(true)
                 .build();
@@ -96,7 +95,6 @@ public class CommentWriteService {
                 .parentId(parentCommentId)
                 .depth(parentCommentDepth + 1)
                 .sort(childCommentSort)
-                .byAdmin(SecurityUtil.isAdmin())
                 .childCount(0)
                 .enabled(true)
                 .build();

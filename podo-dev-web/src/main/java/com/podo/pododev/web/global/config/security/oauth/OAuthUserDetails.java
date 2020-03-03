@@ -14,17 +14,19 @@ import java.util.List;
 public class OAuthUserDetails implements UserDetails {
 
     private Long userId;
+    private OAuthType oAuthType;
     private String userKey;
     private String username;
-    private String profileImage;
+    private String picture;
     private Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
     @Builder
-    public OAuthUserDetails(Long userId, String userKey, String username, String profileImage, List<SimpleGrantedAuthority> authorities) {
+    public OAuthUserDetails(OAuthType oAuthType, Long userId, String userKey, String username, String picture, List<SimpleGrantedAuthority> authorities) {
+        this.oAuthType = oAuthType;
         this.userId = userId;
         this.userKey = userKey;
         this.username = username;
-        this.profileImage = profileImage;
+        this.picture = picture;
         this.authorities.addAll(authorities);
     }
 

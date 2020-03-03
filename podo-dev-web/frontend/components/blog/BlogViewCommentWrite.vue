@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters } from "vuex";
 import bus from "../../utils/bus";
 
 export default {
@@ -48,10 +48,6 @@ export default {
         })
     },
     methods: {
-        ...mapActions({
-            login: "user/login"
-        }),
-
         async clickCommentPost() {
             if (!this.isLogin) {
                 return;
@@ -93,7 +89,7 @@ export default {
 
         clickWrite() {
             if (!this.isLogin) {
-                this.login();
+                this.$router.push({ name: "login" });
             }
         }
     },

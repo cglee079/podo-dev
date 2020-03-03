@@ -1,6 +1,7 @@
 package com.podo.pododev.web.domain.blog.comment.repository;
 
 import com.podo.pododev.web.domain.blog.comment.Comment;
+import com.podo.pododev.web.global.config.security.role.UserRole;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +41,7 @@ public class CommentRepositoryCustomImpl implements CommentRepositoryCustom {
                 .from(comment)
                 .join(comment.blog, blog).fetchJoin()
                 .where(comment.enabled.eq(true))
-                .where(comment.byAdmin.eq(false))
+                .where(comment.writer.role.ne(UserRole.ADMIN))
                 .orderBy(comment.createAt.desc())
                 .limit(size)
                 .fetch();

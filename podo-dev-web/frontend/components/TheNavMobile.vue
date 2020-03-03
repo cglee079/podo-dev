@@ -49,8 +49,8 @@
                 <a href="mailto:cglee079@gmail.com">MAIL</a>
             </div>
 
-            <div v-if="!isLogin" @click="login" class="mobile-nav-menu">
-                <a>로그인</a>
+            <div v-if="!isLogin" class="mobile-nav-menu">
+                <router-link :to="{name : 'login'}">로그인</router-link>
             </div>
             <div v-if="isLogin" @click="logout" class="mobile-nav-menu">
                 <a>로그아웃</a>
@@ -77,10 +77,6 @@ export default {
     props: ["isAdmin", "isLogin"],
     mixins: [SearchMixins],
     methods: {
-        login() {
-            this.$emit("login");
-        },
-
         logout() {
             this.$emit("logout");
         },

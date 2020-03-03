@@ -3,6 +3,8 @@ package com.podo.pododev.web.domain.user;
 import com.podo.pododev.web.domain.BaseEntity;
 import com.podo.pododev.web.domain.BaseTimeEntity;
 import com.podo.pododev.web.global.config.aop.argschecker.AllArgsNotNull;
+import com.podo.pododev.web.global.config.security.oauth.OAuthType;
+import com.podo.pododev.web.global.config.security.role.UserRole;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,8 +18,13 @@ import javax.persistence.*;
 @Entity
 public class User extends BaseTimeEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "oauth_type")
+    @Enumerated(EnumType.STRING)
+    private OAuthType oAuthType;
 
     @Column(unique = true)
     private String userKey;
@@ -26,11 +33,16 @@ public class User extends BaseTimeEntity {
 
     private String picture;
 
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
+
     @Builder
-    public User(String username, String userKey, String picture) {
+    public User(OAuthType oAuthType, String username, String userKey, String picture, UserRole role) {
+        this.oAuthType = oAuthType;
         this.userKey = userKey;
         this.username = username;
         this.picture = picture;
+        this.role = role;
     }
 
     @AllArgsNotNull

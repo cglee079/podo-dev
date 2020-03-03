@@ -7,7 +7,8 @@
         <div class="comment">
             <div class="header">
                 <div class="info">
-                    <a class="writer">{{ comment.username }}</a>
+                    <comment-writer-icon :oauth-type="comment.writerOAuthType"/>
+                    <a class="writer">{{ comment.writerName }}</a>
                     <a class="create-at">{{ comment.createAt }}</a>
                 </div>
                 <div class="menu">
@@ -48,6 +49,7 @@
 
 <script>
 import BlogViewCommentWrite from "./BlogViewCommentWrite";
+import CommentWriterIcon from "../global/CommentWriterIcon";
 
 export default {
     name: "BlogViewCommentItem",
@@ -57,7 +59,8 @@ export default {
         comment: Object
     },
     components: {
-        "comment-write": BlogViewCommentWrite
+        "comment-write": BlogViewCommentWrite,
+        CommentWriterIcon
     },
     data() {
         return {

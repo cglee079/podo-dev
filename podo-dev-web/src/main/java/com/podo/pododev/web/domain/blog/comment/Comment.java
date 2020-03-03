@@ -48,22 +48,19 @@ public class Comment {
 
     private Boolean enabled;
 
-    private Boolean byAdmin;
-
     @CreatedDate
     private LocalDateTime createAt;
 
     @Builder
     public Comment(User writer, String contents, Long cgroup,
                    Long parentId, Integer depth, BigDecimal sort,
-                   Boolean byAdmin, Boolean enabled, Integer childCount) {
+                   Boolean enabled, Integer childCount) {
         this.writer = writer;
         this.contents = contents;
         this.cgroup = cgroup;
         this.depth = depth;
         this.parentId = parentId;
         this.sort = sort;
-        this.byAdmin = byAdmin;
         this.childCount = childCount;
         this.enabled = enabled;
     }
