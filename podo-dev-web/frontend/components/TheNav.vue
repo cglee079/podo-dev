@@ -11,14 +11,15 @@
                 id="theNavDesktop"
                 ref="theNavDesktop"
                 :userinfo="getUserinfo"
-                :isLogin="isLogin"
+                :is-login="isLogin"
                 @logout="clickLogout"
             />
 
             <the-nav-mobile
                 id="theNavMobile"
-                :isAdmin="isAdmin"
-                :isLogin="isLogin"
+                :userinfo="getUserinfo"
+                :is-admin="isAdmin"
+                :is-login="isLogin"
                 @logout="clickLogout"
             />
         </header>

@@ -1,7 +1,7 @@
 <template>
     <section id="resume" :class="$mq">
         <div id="name">
-            <h1>Lee Changoo => { Podo }</h1>
+            <h1>Lee Changoo => { podo }</h1>
         </div>
 
         <div id="info">

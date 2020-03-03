@@ -1,6 +1,5 @@
 package com.podo.pododev.web.domain.user;
 
-import com.podo.pododev.web.domain.BaseEntity;
 import com.podo.pododev.web.domain.BaseTimeEntity;
 import com.podo.pododev.web.global.config.aop.argschecker.AllArgsNotNull;
 import com.podo.pododev.web.global.config.security.oauth.OAuthType;
@@ -47,7 +46,10 @@ public class User extends BaseTimeEntity {
 
     @AllArgsNotNull
     public void updateUserInfo(String username, String picture) {
-        this.username = username;
-        this.picture = picture;
+        if (!this.role.equals(UserRole.ADMIN)) {
+            this.username = username;
+            this.picture = picture;
+        }
     }
+
 }

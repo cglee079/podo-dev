@@ -7,8 +7,8 @@
         <div class="comment">
             <div class="header">
                 <div class="info">
-                    <comment-writer-icon :oauth-type="comment.writerOAuthType"/>
-                    <a class="writer">{{ comment.writerName }}</a>
+                    <comment-writer-icon :writer="comment.writer"/>
+                    <a class="writer">{{ comment.writer.username }}</a>
                     <a class="create-at">{{ comment.createAt }}</a>
                 </div>
                 <div class="menu">

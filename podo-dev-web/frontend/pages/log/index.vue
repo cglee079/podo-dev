@@ -16,10 +16,10 @@
             <div v-for="comment in recentComments" :key="comment.id" class="comment">
                 <nuxt-link :to="{ name: 'blogs-id', params: { id: comment.blogId } }">
                     <div class="writer-icon">
-                        <comment-writer-icon :oauth-type="comment.writerOAuthType"/>
+                        <comment-writer-icon :writer="comment.writer"/>
                     </div>
                     <div class="writer-name">
-                        {{ comment.writerName }}
+                        {{ comment.writer.username }}
                     </div>
                     <div class="contents">
                         {{ comment.contents }}

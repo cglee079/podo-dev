@@ -5,6 +5,7 @@ import com.podo.pododev.core.rest.response.DataResponse;
 import com.podo.pododev.core.rest.response.StatusResponse;
 import com.podo.pododev.web.global.config.security.SecurityStore;
 import com.podo.pododev.core.util.type.RequestHeader;
+import com.podo.pododev.web.global.config.security.oauth.OAuthType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,21 +27,21 @@ public class AuthApi {
     private final SecurityStore securityStore;
 
     @GetMapping("/api/login/enabled")
-    public ApiResponse checkIsAllowedUserAgent(HttpServletRequest request) {
+    public ApiResponse checkIsAllowedUserAgent(HttpServletRequest request, String oAuthType) {
         final String userAgent = request.getHeader(RequestHeader.USER_AGENT.value());
 
         return DataResponse.success()
-                .result(isAllowedUserAgent(userAgent))
+                .result(isAllowedUserAgent(userAgent, oAuthType))
                 .build();
     }
 
-    private boolean isAllowedUserAgent(String userAgent) {
+    private boolean isAllowedUserAgent(String userAgent, String oAuthType) {
         if(StringUtils.isEmpty(userAgent)){
             return true;
         }
 
         final Optional<String> first = Stream.of(NOT_ALLOWED_USER_AGENTS)
-                .filter(s -> userAgent.toLowerCase().contains(s.toLowerCase()))
+                .filter(s -> userAgent.toLowerCase().contains(s.toLowerCase()) && oAuthType.equalsIgnoreCase(OAuthType.GOOGLE.name()))
                 .findFirst();
 
         return !first.isPresent();

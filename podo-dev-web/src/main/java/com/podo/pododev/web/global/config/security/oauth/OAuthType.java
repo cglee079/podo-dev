@@ -1,9 +1,6 @@
 package com.podo.pododev.web.global.config.security.oauth;
 
-import com.podo.pododev.web.global.config.security.oauth.parser.FacebookAttributesParser;
-import com.podo.pododev.web.global.config.security.oauth.parser.GoogleAttributesParser;
-import com.podo.pododev.web.global.config.security.oauth.parser.KakaoAttributeParser;
-import com.podo.pododev.web.global.config.security.oauth.parser.NaverAttrieButesParser;
+import com.podo.pododev.web.global.config.security.oauth.parser.*;
 import com.podo.pododev.web.global.config.security.oauth.exception.InvalidOAuthTypeException;
 import lombok.RequiredArgsConstructor;
 
@@ -15,6 +12,7 @@ public enum OAuthType {
     GOOGLE("google", new GoogleAttributesParser()),
     FACEBOOK("facebook", new FacebookAttributesParser()),
     KAKAO("kakao", new KakaoAttributeParser()),
+    GITHUB("github", new GithubAttributesParser()),
     NAVER("naver", new NaverAttrieButesParser());
 
     private final String value;

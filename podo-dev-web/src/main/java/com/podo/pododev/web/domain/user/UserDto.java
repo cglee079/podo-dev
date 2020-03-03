@@ -6,7 +6,25 @@ import com.podo.pododev.web.global.config.security.oauth.OAuthUserDetails;
 import lombok.Builder;
 import lombok.Getter;
 
+import static com.podo.pododev.web.global.config.security.role.UserRole.ADMIN;
+
 public class UserDto {
+
+    @Getter
+    public static class summary {
+        private OAuthType oAuthType;
+        private String username;
+        private String picture;
+        private UserRole role;
+
+        public summary(User user) {
+            this.oAuthType = user.getOAuthType();
+            this.picture = user.getPicture();
+            this.role = user.getRole();
+            this.username = user.getUsername();
+        }
+
+    }
 
     @Getter
     public static class response {
@@ -15,15 +33,14 @@ public class UserDto {
         private String picture;
         private Boolean isAdmin;
 
-        public static response createByUserDetails(OAuthUserDetails authUser, Boolean admin) {
+        public static response createByUser(User user) {
             final response response = new response();
-            response.oAuthType = authUser.getOAuthType();
-            response.username = authUser.getUsername();
-            response.picture = authUser.getPicture();
-            response.isAdmin = admin;
+            response.oAuthType = user.getOAuthType();
+            response.username = user.getUsername();
+            response.picture = user.getPicture();
+            response.isAdmin = user.getRole().equals(ADMIN);
             return response;
         }
-
     }
 
     @Getter

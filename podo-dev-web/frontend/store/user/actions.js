@@ -1,11 +1,11 @@
 export default {
     login(store, registrationId) {
-        this.$axios.$get("/api/login/enabled").then(res => {
+        this.$axios.$get(`/api/login/enabled?oAuthType=${registrationId}`).then(res => {
             const result = res.result;
             if (result) {
                 window.location.href = process.env.EXTERNAL_SERVER_URL + `/oauth2/authorization/${registrationId}`;
             } else {
-                this.$toast.show("다른 브라우저로 로그인해주세요");
+                this.$toast.show("다른 아이디로 로그인해주세요");
             }
         });
     },
