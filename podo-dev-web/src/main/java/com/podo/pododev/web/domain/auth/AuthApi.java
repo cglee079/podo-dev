@@ -1,8 +1,6 @@
 package com.podo.pododev.web.domain.auth;
 
 import com.podo.pododev.core.rest.ApiResponse;
-import com.podo.pododev.core.rest.response.DataResponse;
-import com.podo.pododev.core.rest.response.StatusResponse;
 import com.podo.pododev.web.global.config.security.SecurityStore;
 import com.podo.pododev.core.util.type.RequestHeader;
 import com.podo.pododev.web.global.config.security.oauth.OAuthType;
@@ -27,16 +25,13 @@ public class AuthApi {
     private final SecurityStore securityStore;
 
     @GetMapping("/api/login/enabled")
-    public ApiResponse checkIsAllowedUserAgent(HttpServletRequest request, String oAuthType) {
+    public boolean checkIsAllowedUserAgent(HttpServletRequest request, String oAuthType) {
         final String userAgent = request.getHeader(RequestHeader.USER_AGENT.value());
-
-        return DataResponse.success()
-                .result(isAllowedUserAgent(userAgent, oAuthType))
-                .build();
+        return isAllowedUserAgent(userAgent, oAuthType);
     }
 
     private boolean isAllowedUserAgent(String userAgent, String oAuthType) {
-        if(StringUtils.isEmpty(userAgent)){
+        if (StringUtils.isEmpty(userAgent)) {
             return true;
         }
 
@@ -48,16 +43,13 @@ public class AuthApi {
     }
 
     @PostMapping("/api/logout")
-    public ApiResponse logout(HttpServletRequest request) {
-
+    public void logout(HttpServletRequest request) {
         final String authorization = request.getHeader(RequestHeader.AUTHORIZATION.value());
 
         if (Objects.nonNull(authorization)) {
             final String token = authorization.replace(AUTHORIZATION_HEADER_PREFIX, "").trim();
             securityStore.logout(token);
         }
-
-        return StatusResponse.success();
     }
 
 }

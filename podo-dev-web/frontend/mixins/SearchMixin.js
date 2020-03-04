@@ -12,7 +12,7 @@ export default {
                     }
                 });
 
-                return response.result.contents;
+                return response.contents;
 
             } catch (e) {
                 return [];

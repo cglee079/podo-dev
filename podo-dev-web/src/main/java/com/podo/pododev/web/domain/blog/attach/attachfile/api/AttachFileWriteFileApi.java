@@ -1,7 +1,5 @@
 package com.podo.pododev.web.domain.blog.attach.attachfile.api;
 
-import com.podo.pododev.core.rest.ApiResponse;
-import com.podo.pododev.core.rest.response.DataResponse;
 import com.podo.pododev.web.domain.blog.attach.attachfile.AttachFileDto;
 import com.podo.pododev.web.domain.blog.attach.attachfile.application.AttachFileWriteFileService;
 import lombok.RequiredArgsConstructor;
@@ -19,12 +17,8 @@ public class AttachFileWriteFileApi {
     private final AttachFileWriteFileService attachFileWriteFileService;
 
     @PostMapping("/api/blogs/files")
-    public ApiResponse uploadFileByMultipartFile(@RequestParam("file") MultipartFile file) {
-        final AttachFileDto.response response = attachFileWriteFileService.saveFileFromMultipartFile(file);
-
-        return DataResponse.success()
-                .result(response)
-                .build();
+    public AttachFileDto.response uploadFileByMultipartFile(@RequestParam("file") MultipartFile file) {
+        return attachFileWriteFileService.saveFileFromMultipartFile(file);
     }
 
 }

@@ -73,8 +73,8 @@ export default {
         const experiences = await $axios.$get(`${app.$baseUrl()}/api/resumes/experiences`);
 
         return {
-            resumes: resumes.result.contents,
-            experiences: experiences.result.contents
+            resumes: resumes.contents,
+            experiences: experiences.contents
         };
     }
 };

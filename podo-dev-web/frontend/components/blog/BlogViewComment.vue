@@ -91,16 +91,13 @@ export default {
             this.isLoading = true;
 
             try {
-                const response = await this.$axios.$get(`/api/blogs/${this.blogId}/comments`, {
+                const result = await this.$axios.$get(`/api/blogs/${this.blogId}/comments`, {
                     params: {
                         page: pageIdx
                     }
                 });
 
-                const result = response.result;
-                result.contents
-                    .slice()
-                    .forEach(item => this.comments.unshift(item));
+                result.contents.slice().forEach(item => this.comments.unshift(item));
 
                 this.page = pageIdx;
                 this.pageSize = result.pageSize;
@@ -126,22 +123,19 @@ export default {
                 this.isLoading = true;
 
                 try {
-                    const response = await this.$axios.$delete(
-                        `/api/blogs/${this.blogId}/comments/${commentId}`
-                    );
+                    await this.$axios.$delete(`/api/blogs/${this.blogId}/comments/${commentId}`);
 
-                    if (response) {
-                        this.$toast.show("댓글이 삭제되었습니다");
-                        this.comments[index].enabled = false;
-                        this.comments[index].contents = "삭제된 댓글입니다";
+                    this.$toast.show("댓글이 삭제되었습니다");
+                    this.comments[index].enabled = false;
+                    this.comments[index].contents = "삭제된 댓글입니다";
 
-                        this.totalElements--;
+                    this.totalElements--;
 
-                        //삭제후, 총 댓글 갯수에 맞추어 다음 페이징할 위치를 맞춘다.
-                        if (this.totalElements % this.pageSize === 0) {
-                            this.page--;
-                        }
+                    //삭제후, 총 댓글 갯수에 맞추어 다음 페이징할 위치를 맞춘다.
+                    if (this.totalElements % this.pageSize === 0) {
+                        this.page--;
                     }
+                } catch (e) {
                 } finally {
                     bus.$emit("spinner:stop", "delete-blog-comment");
                     this.isLoading = false;

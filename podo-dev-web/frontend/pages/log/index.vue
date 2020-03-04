@@ -92,9 +92,9 @@ export default {
         const archive = await $axios.$get(`${app.$baseUrl()}/api/blogs/archive`);
 
         return {
-            tags: tags.result.contents,
-            recentComments: recentComments.result.contents,
-            archive: archive.result
+            tags: tags.contents,
+            recentComments: recentComments.contents,
+            archive: archive
         };
     }
 };

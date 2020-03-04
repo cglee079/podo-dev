@@ -53,7 +53,7 @@ export default {
             this.isLoading = true;
 
             try {
-                const { result } = await this.$axios.$get(`${this.$baseUrl()}/api/blogs`, {
+                const response  = await this.$axios.$get(`${this.$baseUrl()}/api/blogs`, {
                     params: {
                         page: page,
                         tag: this.filter.tag,
@@ -61,11 +61,11 @@ export default {
                     }
                 });
 
-                result.contents.forEach(item => this.contents.push(item));
-                this.pageSize = result.pageSize;
-                this.currentPage = result.currentPage;
-                this.totalElements = result.totalElements;
-                this.totalPages = result.totalPages;
+                response.contents.forEach(item => this.contents.push(item));
+                this.pageSize = response.pageSize;
+                this.currentPage = response.currentPage;
+                this.totalElements = response.totalElements;
+                this.totalPages = response.totalPages;
             } catch (e) {
             } finally {
                 this.isLoading = false;

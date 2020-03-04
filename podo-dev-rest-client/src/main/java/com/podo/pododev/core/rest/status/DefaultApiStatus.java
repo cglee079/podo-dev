@@ -7,8 +7,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum DefaultApiStatus implements ApiStatus {
 
-    SUCCESS("000", "success"),
-
     ERR_INVALID("400", "유효하지 않은 값입니다"),
     ERR_ID_DUPLICATE("401", "중복되는 값입니다"),
 

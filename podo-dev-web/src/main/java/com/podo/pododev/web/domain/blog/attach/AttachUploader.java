@@ -1,6 +1,5 @@
 package com.podo.pododev.web.domain.blog.attach;
 
-import com.podo.pododev.web.domain.blog.attach.attachimage.vo.AttachImageSave;
 import com.podo.pododev.web.global.infra.storage.PodoStorageClient;
 import com.podo.pododev.web.global.util.writer.LocalDirectoryManager;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j

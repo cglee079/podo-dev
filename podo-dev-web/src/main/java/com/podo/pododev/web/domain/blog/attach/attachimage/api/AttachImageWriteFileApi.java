@@ -1,7 +1,5 @@
 package com.podo.pododev.web.domain.blog.attach.attachimage.api;
 
-import com.podo.pododev.core.rest.ApiResponse;
-import com.podo.pododev.core.rest.response.DataResponse;
 import com.podo.pododev.web.domain.blog.attach.attachimage.AttachImageDto;
 import com.podo.pododev.web.domain.blog.attach.attachimage.application.AttachImageWriteFileService;
 import lombok.RequiredArgsConstructor;
@@ -18,16 +16,12 @@ public class AttachImageWriteFileApi {
     private final AttachImageWriteFileService attachImageWriteFileService;
 
     @PostMapping(value = "/api/blogs/images", consumes = "multipart/form-data")
-    public ApiResponse uploadImageByMultipartFile(@RequestParam("fileOfImage") MultipartFile image) {
-        final AttachImageDto.response response = attachImageWriteFileService.saveByMultipartFile(image);
-
-        return DataResponse.success()
-                .result(response)
-                .build();
+    public AttachImageDto.response uploadImageByMultipartFile(@RequestParam("fileOfImage") MultipartFile image) {
+        return attachImageWriteFileService.saveByMultipartFile(image);
     }
 
     @PostMapping(value = "/api/blogs/images", consumes = "application/json;charset=UTF-8")
-    public ApiResponse uploadImageByBase64OrUrl(@RequestBody AttachImageDto.upload upload) {
+    public AttachImageDto.response uploadImageByBase64OrUrl(@RequestBody AttachImageDto.upload upload) {
 
         AttachImageDto.response attachImage = null;
 
@@ -43,11 +37,7 @@ public class AttachImageWriteFileApi {
             }
         }
 
-        return DataResponse.success()
-                .result(attachImage)
-                .build();
-
-
+        return attachImage;
     }
 
 
