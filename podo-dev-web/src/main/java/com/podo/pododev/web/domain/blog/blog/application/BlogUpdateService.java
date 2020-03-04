@@ -2,7 +2,7 @@ package com.podo.pododev.web.domain.blog.blog.application;
 
 import com.podo.pododev.web.domain.blog.attach.AttachStatus;
 import com.podo.pododev.web.domain.blog.attach.AttachUploader;
-import com.podo.pododev.web.domain.blog.blog.application.event.AttachRemoveEventPublisher;
+import com.podo.pododev.web.domain.blog.blog.application.event.DeleteFileOfAttachEventPublisher;
 import com.podo.pododev.web.domain.blog.blog.application.helper.BlogAttachHelper;
 import com.podo.pododev.web.domain.blog.blog.application.helper.BlogServiceHelper;
 import com.podo.pododev.web.domain.blog.blog.application.helper.BlogWriteServiceHelper;
@@ -19,10 +19,11 @@ import com.podo.pododev.web.global.util.AttachLinkManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.podo.pododev.web.domain.blog.attach.AttachStatus.NEW;
@@ -37,20 +38,28 @@ public class BlogUpdateService {
     private final AttachLinkManager linkManager;
     private final BlogRepository blogRepository;
 
-    private final AttachRemoveEventPublisher attachRemoveEventPublisher;
+    private final DeleteFileOfAttachEventPublisher deleteFileOfAttachEventPublisher;
     private final AttachUploader attachUploader;
     private final BlogTagRepository blogTagRepository;
     private final BlogHistoryRepository blogHistoryRepository;
 
-    @CacheEvict(value = "getBlog", key = "#blogId")
-    public void increaseHitCount(Long blogId) {
+    @CacheEvict(value = "getBlog", key = "T(String).valueOf(#blogId) + #isAdmin.toString()")
+    public void increaseHitCount(Long blogId, String userAgent, Boolean isAdmin) {
+        if(isAdmin){
+            return;
+        }
+
+        if(StringUtils.hasText(userAgent) && userAgent.toLowerCase().contains("bot")){
+            return;
+        }
+
         final Blog existedBlog = BlogServiceHelper.findByBlogId(blogId, blogRepository);
         existedBlog.increaseHitCount();
     }
 
     @AllBlogCacheEvict
     @SolrDataImport
-    public void updateExistedBlogs(Long blogId, BlogDto.update updateBlog) {
+    public void updateExistedBlogs(Long blogId, BlogDto.update updateBlog, LocalDateTime now) {
 
         final Blog existedBlog = BlogServiceHelper.findByBlogId(blogId, blogRepository);
 
@@ -59,15 +68,15 @@ public class BlogUpdateService {
 
         existedBlog.changeTitle(updateBlog.getTitle());
         existedBlog.changeContents(linkManager.replaceLocalUrlToStorageUrl(updateBlog.getContents()));
-        existedBlog.updateStatus(updateBlog.getStatus());
+        existedBlog.updateStatus(updateBlog.getStatus(), now);
 
         blogHistoryRepository.save(existedBlog.createHistory());
         BlogWriteServiceHelper.saveBlogTags(existedBlog, updateBlog.getTags(), blogTagRepository);
         writeAttachImages(existedBlog, updateBlog.getAttachImages());
         writeAttachFiles(existedBlog, updateBlog.getAttachFiles());
 
-        attachRemoveEventPublisher.publish(BlogAttachHelper.extractAttachValuesFromImages(updateBlog.getAttachImages(), REMOVE));
-        attachRemoveEventPublisher.publish(BlogAttachHelper.extractAttachValuesFromFiles(updateBlog.getAttachFiles(), REMOVE));
+        deleteFileOfAttachEventPublisher.publish(BlogAttachHelper.extractAttachValuesFromImages(updateBlog.getAttachImages(), REMOVE));
+        deleteFileOfAttachEventPublisher.publish(BlogAttachHelper.extractAttachValuesFromFiles(updateBlog.getAttachFiles(), REMOVE));
     }
 
     private void writeAttachFiles(Blog blog, List<AttachFileDto.insert> attachFiles) {

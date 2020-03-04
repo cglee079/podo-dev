@@ -1,7 +1,7 @@
 <template>
     <section id="resume" :class="$mq">
         <div id="name">
-            <h1>Lee Changoo => { Podo }</h1>
+            <h1>Lee Changoo => { podo }</h1>
         </div>
 
         <div id="info">
@@ -73,8 +73,8 @@ export default {
         const experiences = await $axios.$get(`${app.$baseUrl()}/api/resumes/experiences`);
 
         return {
-            resumes: resumes.result.contents,
-            experiences: experiences.result.contents
+            resumes: resumes.contents,
+            experiences: experiences.contents
         };
     }
 };

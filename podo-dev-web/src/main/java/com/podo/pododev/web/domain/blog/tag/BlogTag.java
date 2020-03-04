@@ -10,6 +10,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -32,10 +33,10 @@ public class BlogTag {
     private LocalDateTime createAt;
 
     public BlogTag(String tagValue) {
-        this.tagValue= tagValue;
+        this.tagValue = tagValue;
     }
 
-    public void changeBlog(Blog blog){
+    public void changeBlog(Blog blog) {
         this.blog = blog;
     }
 

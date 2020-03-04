@@ -37,6 +37,9 @@ public class BlogHistory{
         this.blog = blog;
         this.title = blog.getTitle();
         this.contents = blog.getContents();
+    }
 
+    public void changeContents(String dd) {
+        this.contents = dd;
     }
 }

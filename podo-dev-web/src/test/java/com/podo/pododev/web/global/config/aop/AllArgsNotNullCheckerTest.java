@@ -38,8 +38,6 @@ class AllArgsNotNullCheckerTest {
 
         final MockInterface proxy = factory.getProxy();
 
-        proxy.something(null);
-
         assertThrows(NotAllArgsNullException.class, () -> proxy.something(null));
     }
 

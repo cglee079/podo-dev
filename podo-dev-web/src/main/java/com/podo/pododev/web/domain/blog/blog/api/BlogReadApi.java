@@ -28,41 +28,25 @@ public class BlogReadApi {
     private final MySolrClient mySolrClient;
 
     @GetMapping("/api/blogs/archive")
-    public ApiResponse getArchive() {
+    public Map<Integer, List<BlogDto.archive>> getArchive() {
 
-        final Map<Integer, List<BlogDto.archive>> archive = blogArchiveService.getArchive(SecurityUtil.isAdmin());
-
-        return DataResponse.success()
-                .result(archive)
-                .build();
+        return blogArchiveService.getArchive(SecurityUtil.isAdmin());
     }
 
     @GetMapping("/api/blogs/{blogId}")
-    public ApiResponse findByBlogId(@PathVariable Long blogId) {
-        final BlogDto.response blog = blogReadService.getBlogById(blogId, SecurityUtil.isAdmin());
-
-        return DataResponse.success()
-                .result(blog)
-                .build();
+    public BlogDto.response findByBlogId(@PathVariable Long blogId) {
+        return blogReadService.getBlogById(blogId, SecurityUtil.isAdmin());
     }
 
     @GetMapping("/api/blogs")
-    public ApiResponse paging(BlogDto.requestPaging requestPaging) {
-        final PageDto<BlogDto.responsePaging> blogs = blogPagingService.paging(requestPaging, SecurityUtil.isAdmin());
-
-        return DataResponse.success()
-                .result(blogs)
-                .build();
+    public PageDto<BlogDto.responsePaging> paging(BlogDto.requestPaging requestPaging) {
+        return blogPagingService.paging(requestPaging, SecurityUtil.isAdmin());
     }
 
     @GetMapping("/api/blogs/words")
     public ApiResponse facets(@RequestParam String searchValue) {
         final List<String> facets = mySolrClient.getIndexedWordsByKeyword(searchValue);
-
-        return DataResponse.success()
-                .result(facets)
-                .build();
+        return CollectionResponse.ok(facets);
     }
-
 
 }

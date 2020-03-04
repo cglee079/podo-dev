@@ -11,16 +11,15 @@
                 id="theNavDesktop"
                 ref="theNavDesktop"
                 :userinfo="getUserinfo"
-                :isLogin="isLogin"
-                @login="login"
+                :is-login="isLogin"
                 @logout="clickLogout"
             />
 
             <the-nav-mobile
                 id="theNavMobile"
-                :isAdmin="isAdmin"
-                :isLogin="isLogin"
-                @login="login"
+                :userinfo="getUserinfo"
+                :is-admin="isAdmin"
+                :is-login="isLogin"
                 @logout="clickLogout"
             />
         </header>
@@ -56,7 +55,6 @@ export default {
     methods: {
         ...mapActions({
             logout: "user/logout",
-            login: "user/login"
         }),
 
         clickLogout() {

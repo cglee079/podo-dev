@@ -1,7 +1,8 @@
 export default () => ({
     isLogin: false,
     userinfo: {
-        name: "",
+        oAuthType : "",
+        username: "",
         picture: "",
         isAdmin: false
     }

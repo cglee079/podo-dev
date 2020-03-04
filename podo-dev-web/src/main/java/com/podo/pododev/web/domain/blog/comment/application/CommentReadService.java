@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,19 +46,21 @@ public class CommentReadService {
 
     @Cacheable(value = "getBlogComment", key = "#blogId + '#' + #requestPaging.page")
     public PageDto<CommentDto.response> paging(Long blogId, CommentDto.requestPaging requestPaging) {
+        final Integer requestPage = requestPaging.getPage();
 
-        final int newPage = reversePage(requestPaging.getPage(), commentRepository.countByBlogId(blogId));
+        final int newPage = reversePage(requestPage, commentRepository.countByBlogId(blogId));
 
         final Pageable pageable = PageRequest.of(newPage, pageSize);
         final Page<Comment> comments = commentRepository.paging(blogId, pageable);
 
         final List<CommentDto.response> commentResponses = comments.stream()
                 .map(comment -> new CommentDto.response(comment, SecurityUtil.getUserId()))
+                .sorted((o1, o2) -> -1)
                 .collect(toList());
 
         return PageDto.<CommentDto.response>builder()
                 .contents(commentResponses)
-                .currentPage(comments.getPageable().getPageNumber())
+                .currentPage(requestPage)
                 .pageSize(comments.getPageable().getPageSize())
                 .totalElements(comments.getTotalElements())
                 .totalPages(comments.getTotalPages())

@@ -17,21 +17,15 @@ public class CommentWriteApi {
 
     private final CommentWriteService commentWriteService;
 
-
     @CommentNotice
     @PostMapping("/api/blogs/{blogId}/comments")
-    public ApiResponse insertNewComment(@PathVariable Long blogId, @Valid @RequestBody CommentDto.insert commentInsert) {
-
+    public void insertNewComment(@PathVariable Long blogId, @Valid @RequestBody CommentDto.insert commentInsert) {
         commentWriteService.insertNewComment(blogId, commentInsert);
-
-        return StatusResponse.success();
     }
 
     @DeleteMapping("/api/blogs/{blogId}/comments/{commentId}")
-    public ApiResponse removeExistedCommentByCommentId(@PathVariable Long commentId) {
-        commentWriteService.removeExistedCommentByCommentId(commentId);
-
-        return StatusResponse.success();
+    public void removeByCommentId(@PathVariable Long commentId) {
+        commentWriteService.removeByCommentId(commentId);
     }
 
 }

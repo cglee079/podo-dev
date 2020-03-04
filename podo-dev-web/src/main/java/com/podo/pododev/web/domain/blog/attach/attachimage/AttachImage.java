@@ -40,8 +40,8 @@ public class AttachImage{
 
     @Builder
     public AttachImage(String originFilename, List<AttachImageSaveEntity> saves) {
-        this.saves = saves;
         this.originFilename = originFilename;
+        this.saves = saves;
     }
 
     public void changeBlog(Blog blog) {

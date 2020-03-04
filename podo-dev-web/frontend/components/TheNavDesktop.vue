@@ -18,15 +18,15 @@
         </div>
 
         <div id="loginMenus">
-            <span v-if="!isLogin" @click="login">
-                <span v-tooltip="{ content: 'Login By Google', class: 'tooltip' }">
-                    <img src="../assets/btns/btn-login.svg" id="loginIcon" alt="btn-login" />
-                </span>
+            <span v-if="!isLogin">
+                <router-link :to="{name : 'login'}" v-tooltip="{ content: 'Login', class: 'tooltip' }">
+                    <img src="../assets/btns/btn-login2.svg" id="loginIcon" alt="btn-login" />
+                </router-link>
             </span>
 
             <span v-if="isLogin" @click="logout">
                 <span v-tooltip="{ content: 'Logout', class: 'tooltip' }">
-                    <img :src="userinfo.profileImage" id="userIcon" alt="userIcon" />
+                    <img :src="userinfo.picture" id="userIcon" alt="userIcon" />
                 </span>
             </span>
         </div>
@@ -44,9 +44,6 @@ export default {
     },
     mixins: [SearchMixin],
     methods: {
-        login() {
-            this.$emit("login");
-        },
         logout() {
             this.$emit("logout");
         }

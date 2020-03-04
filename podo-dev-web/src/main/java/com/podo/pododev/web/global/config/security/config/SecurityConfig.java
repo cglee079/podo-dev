@@ -1,8 +1,9 @@
 package com.podo.pododev.web.global.config.security.config;
 
+import com.podo.pododev.core.util.type.RequestHeader;
 import com.podo.pododev.web.global.config.security.SecurityStore;
-import com.podo.pododev.web.global.config.security.filter.TokenAuthFilter;
 import com.podo.pododev.web.global.config.security.filter.CorsFilter;
+import com.podo.pododev.web.global.config.security.filter.TokenAuthFilter;
 import com.podo.pododev.web.global.config.security.oauth.OAuth2Service;
 import com.podo.pododev.web.global.config.security.role.UserRole;
 import lombok.RequiredArgsConstructor;
@@ -51,10 +52,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(new TokenAuthFilter(securityStore), BasicAuthenticationFilter.class);
 
         http.oauth2Login()
-                .successHandler((req, res, auth) -> res.sendRedirect(longSuccessUrl +"?accessToken=" + res.getHeader("Access-Token")))
+                .successHandler((req, res, auth) -> res.sendRedirect(longSuccessUrl +"?accessToken=" + res.getHeader(RequestHeader.ACCESS_TOKEN.value())))
                 .userInfoEndpoint().userService(oauth2Service);
     }
-
 
 }
 

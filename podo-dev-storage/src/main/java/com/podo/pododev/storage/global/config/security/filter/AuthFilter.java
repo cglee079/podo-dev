@@ -1,5 +1,6 @@
 package com.podo.pododev.storage.global.config.security.filter;
 
+import com.podo.pododev.core.util.type.RequestHeader;
 import com.podo.pododev.storage.global.config.security.ClientAuth;
 import com.podo.pododev.storage.global.config.security.UserRole;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +31,7 @@ public class AuthFilter implements Filter {
     }
 
     private String getAccessToken(HttpServletRequest httpRequest) {
-        final String authorization = httpRequest.getHeader("Authorization");
+        final String authorization = httpRequest.getHeader(RequestHeader.AUTHORIZATION.value());
 
         if (!Objects.isNull(authorization)) {
             return authorization.replace("Bearer", "").trim();

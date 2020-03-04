@@ -57,9 +57,7 @@ export default {
             formData.append("file", files[idx]);
 
             try {
-                const response = await this.$axios.$post("/api/blogs/files", formData, config);
-
-                const file = response.result;
+                const file = await this.$axios.$post("/api/blogs/files", formData, config);
                 this.$emit("add", file);
 
                 this.$toast.show(`'${files[idx].name}' 업로드 완료하였습니다`);

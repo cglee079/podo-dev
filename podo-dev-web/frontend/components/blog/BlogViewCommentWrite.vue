@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters } from "vuex";
 import bus from "../../utils/bus";
 
 export default {
@@ -48,10 +48,6 @@ export default {
         })
     },
     methods: {
-        ...mapActions({
-            login: "user/login"
-        }),
-
         async clickCommentPost() {
             if (!this.isLogin) {
                 return;
@@ -65,18 +61,16 @@ export default {
                 bus.$emit("spinner:start", "post-blog-comment");
                 this.doing = true;
 
-                const response = await this.$axios.$post(`/api/blogs/${this.blogId}/comments`, {
+                await this.$axios.$post(`/api/blogs/${this.blogId}/comments`, {
                     username: this.input.username,
                     contents: this.input.contents,
                     parentId: this.parentId
                 });
 
-                if (response) {
-                    this.$toast.show("댓글이 등록되었습니다");
-                    this.input.contents = "";
-                    this.$emit("reload");
-                    this.$emit("writeListener");
-                }
+                this.$toast.show("댓글이 등록되었습니다");
+                this.input.contents = "";
+                this.$emit("reload");
+                this.$emit("writeListener");
             } catch (e) {
             } finally {
                 bus.$emit("spinner:stop", "post-blog-comment");
@@ -93,7 +87,7 @@ export default {
 
         clickWrite() {
             if (!this.isLogin) {
-                this.login();
+                this.$router.push({ name: "login" });
             }
         }
     },
