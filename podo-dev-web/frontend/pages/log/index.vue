@@ -15,8 +15,11 @@
             </h2>
             <div v-for="comment in recentComments" :key="comment.id" class="comment">
                 <nuxt-link :to="{ name: 'blogs-id', params: { id: comment.blogId } }">
-                    <div class="username">
-                        {{ comment.username }}
+                    <div class="writer-icon">
+                        <comment-writer-icon :writer="comment.writer"/>
+                    </div>
+                    <div class="writer-name">
+                        {{ comment.writer.username }}
                     </div>
                     <div class="contents">
                         {{ comment.contents }}
@@ -64,8 +67,11 @@
 </template>
 
 <script>
+import CommentWriterIcon from "../../components/global/CommentWriterIcon";
+
 export default {
     name: "Log",
+    components: {CommentWriterIcon},
     head() {
         return {
             title: `${process.env.NAME} : log`,
@@ -86,9 +92,9 @@ export default {
         const archive = await $axios.$get(`${app.$baseUrl()}/api/blogs/archive`);
 
         return {
-            tags: tags.result.contents,
-            recentComments: recentComments.result.contents,
-            archive: archive.result
+            tags: tags.contents,
+            recentComments: recentComments.contents,
+            archive: archive
         };
     }
 };
@@ -135,7 +141,7 @@ export default {
 #logs div#recentComments {
     > div.comment > a {
         display: flex;
-        margin: 10px 0px;
+        margin: 10px 0;
         font-size: 0.95rem;
         cursor: pointer;
         color: #333333;
@@ -147,9 +153,22 @@ export default {
             border-bottom: 1px solid #111111;
         }
 
-        > .username {
+        > .writer-icon{
+            margin-right: 6px;
+        }
+
+        > .writer-name {
             font-weight: bold;
-            width: 80px;
+            width: 77px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-height: 1.45rem;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            white-space: normal;
+            -webkit-line-clamp: 1;
+            word-break: break-all;
+            margin-right: 10px;
         }
 
         > .contents {

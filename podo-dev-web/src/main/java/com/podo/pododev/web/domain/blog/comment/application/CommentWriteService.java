@@ -2,16 +2,16 @@ package com.podo.pododev.web.domain.blog.comment.application;
 
 import com.podo.pododev.web.domain.blog.blog.Blog;
 import com.podo.pododev.web.domain.blog.blog.application.helper.BlogServiceHelper;
+import com.podo.pododev.web.domain.blog.blog.repository.BlogRepository;
 import com.podo.pododev.web.domain.blog.comment.Comment;
 import com.podo.pododev.web.domain.blog.comment.CommentDto;
 import com.podo.pododev.web.domain.blog.comment.application.helper.CommentServiceHelper;
 import com.podo.pododev.web.domain.blog.comment.exception.MaxDepthCommentApiException;
+import com.podo.pododev.web.domain.blog.comment.exception.NoAuthorizedCommentApiException;
 import com.podo.pododev.web.domain.blog.comment.repository.CommentRepository;
-import com.podo.pododev.web.domain.blog.blog.repository.BlogRepository;
 import com.podo.pododev.web.domain.user.User;
 import com.podo.pododev.web.domain.user.UserRepository;
-import com.podo.pododev.web.domain.user.exception.InvalidUserIdApiException;
-import com.podo.pododev.web.domain.user.exception.NoAuthenticatedException;
+import com.podo.pododev.web.domain.user.application.helper.UserServiceHelper;
 import com.podo.pododev.web.global.config.cache.annotation.AllCommentCacheEvict;
 import com.podo.pododev.web.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +20,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.Objects;
-import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -29,6 +29,7 @@ import java.util.Optional;
 @Transactional
 public class CommentWriteService {
 
+    public static final String DELETED_CONTENTS = "삭제된 댓글입니다.";
     @Value("${blog.comment.max.depth}")
     private Integer maxDepthOfComment;
 
@@ -38,14 +39,9 @@ public class CommentWriteService {
 
     @AllCommentCacheEvict
     public void insertNewComment(Long blogId, CommentDto.insert insert) {
+        SecurityUtil.validateIsAuth();
 
-        final Long currentUserId = SecurityUtil.getUserId();
-
-        if (Objects.isNull(currentUserId)) {
-            throw new NoAuthenticatedException();
-        }
-
-        final User currentUser = getCurrentUser(currentUserId);
+        final User currentUser = UserServiceHelper.getCurrentUser(SecurityUtil.getUserId(), userRepository);
         final Blog existedBlog = BlogServiceHelper.findByBlogId(blogId, blogRepository);
 
         final String commentContents = insert.getContents();
@@ -59,22 +55,16 @@ public class CommentWriteService {
         insertReplyComment(currentUser, existedBlog, commentContents, parentCommentId);
     }
 
-    private User getCurrentUser(Long currentUserId) {
-        final Optional<User> currentUserOptional = userRepository.findById(currentUserId);
-        return currentUserOptional.orElseThrow(() -> new InvalidUserIdApiException(currentUserId));
-    }
-
     private void insertNewComment(User user, Blog blog, String contents) {
         log.info("'{}' 게시글에 새로운 댓글이 등록되었습니다", blog.getTitle());
 
         final Comment newComment = Comment.builder()
-                .blog(blog)
                 .writer(user)
                 .contents(contents)
-                .childCount(0)
                 .depth(0)
-                .sort(1d)
-                .byAdmin(SecurityUtil.isAdmin())
+                .sort(BigDecimal.ONE)
+                .childCount(0)
+                .enabled(true)
                 .build();
 
         final Comment savedComment = commentRepository.save(newComment);
@@ -90,7 +80,7 @@ public class CommentWriteService {
 
         final Long parentCommentCgroup = parentComment.getCgroup();
         final Integer parentCommentDepth = parentComment.getDepth();
-        final Double childCommentSort = parentComment.getChildCommentSort();
+        final BigDecimal childCommentSort = parentComment.getChildCommentSort();
 
         if (parentComment.isExceedMaxCommentDepth(maxDepthOfComment)) {
             throw new MaxDepthCommentApiException(parentCommentId);
@@ -99,15 +89,14 @@ public class CommentWriteService {
         parentComment.increaseChildCount();
 
         final Comment newChildComment = Comment.builder()
-                .blog(blog)
                 .writer(user)
                 .contents(contents)
                 .cgroup(parentCommentCgroup)
-                .childCount(0)
                 .parentId(parentCommentId)
                 .depth(parentCommentDepth + 1)
                 .sort(childCommentSort)
-                .byAdmin(SecurityUtil.isAdmin())
+                .childCount(0)
+                .enabled(true)
                 .build();
 
         final Comment savedChildComment = commentRepository.save(newChildComment);
@@ -116,43 +105,46 @@ public class CommentWriteService {
 
 
     @AllCommentCacheEvict
-    public void removeExistedCommentByCommentId(Long commentId) {
-        final Long currentUserId = SecurityUtil.getUserId();
+    public void removeByCommentId(Long commentId) {
+        SecurityUtil.validateIsAuth();
 
-        if (Objects.isNull(currentUserId)) {
-            throw new NoAuthenticatedException();
+        final Comment comment = CommentServiceHelper.findById(commentId, commentRepository);
+
+        if (!comment.isWrittenBy(SecurityUtil.getUserId())) {
+            throw new NoAuthorizedCommentApiException(commentId);
         }
 
-        final Comment existedComment = CommentServiceHelper.findById(commentId, commentRepository);
+        log.info("'{}' 댓글을 삭제합니다", comment.getId());
 
-        if (!existedComment.isWrittenBy(currentUserId)) {
-            throw new NoAuthenticatedException();
-        }
+        comment.erase(DELETED_CONTENTS);
 
-        log.info("'{}' 댓글을 삭제합니다", existedComment.getId());
-
-        if (existedComment.hasChild()) {
-            existedComment.erase();
+        if (!comment.canDeleted()) {
             return;
         }
 
-        commentRepository.delete(existedComment);
-        decreaseChildCountAndRemoveIfNoHasChild(existedComment.getParentId());
+        comment.changeBlog(null);
+        commentRepository.delete(comment);
+
+        decreaseChildCountAndRemoveIfCanDeleted(comment.getParentId());
     }
 
 
-    private void decreaseChildCountAndRemoveIfNoHasChild(Long commentId) {
+    private void decreaseChildCountAndRemoveIfCanDeleted(Long commentId) {
+        if(Objects.isNull(commentId)){
+            return;
+        }
+
         final Comment existedComment = CommentServiceHelper.findById(commentId, commentRepository);
 
         existedComment.decreaseChildCount();
 
-        if (!existedComment.hasChild() && existedComment.isErase()) {
-            log.info("'{}' 댓글은, 자식댓글이 없어 완전이 삭제합니다", commentId);
-            commentRepository.delete(existedComment);
-            decreaseChildCountAndRemoveIfNoHasChild(existedComment.getParentId());
+        if (!existedComment.canDeleted()) {
+            return;
         }
+
+        log.info("'{}' 댓글은, 자식댓글이 없어 완전이 삭제합니다", commentId);
+
+        commentRepository.delete(existedComment);
+        decreaseChildCountAndRemoveIfCanDeleted(existedComment.getParentId());
     }
-
-
-
 }

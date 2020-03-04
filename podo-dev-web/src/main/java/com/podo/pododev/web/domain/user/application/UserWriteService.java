@@ -1,4 +1,4 @@
-package com.podo.pododev.web.domain.user.service;
+package com.podo.pododev.web.domain.user.application;
 
 import com.podo.pododev.web.domain.user.User;
 import com.podo.pododev.web.domain.user.UserDto;

@@ -49,11 +49,15 @@
                 <a href="mailto:cglee079@gmail.com">MAIL</a>
             </div>
 
-            <div v-if="!isLogin" @click="login" class="mobile-nav-menu">
-                <a>로그인</a>
+            <div v-if="!isLogin" id="login" class="mobile-nav-menu">
+                <router-link :to="{ name: 'login' }">로그인
+                    <img src="../assets/btns/btn-login2.svg" alt="btn-login" />
+                </router-link>
             </div>
-            <div v-if="isLogin" @click="logout" class="mobile-nav-menu">
-                <a>로그아웃</a>
+            <div v-if="isLogin" id="logout" class="mobile-nav-menu" @click="logout">
+                <a>로그아웃
+                    <img :src="userinfo.picture" alt="userIcon" />
+                </a>
             </div>
         </div>
 
@@ -74,13 +78,9 @@ import SearchMixins from "../mixins/SearchMixin";
 
 export default {
     name: "TheNavMobile",
-    props: ["isAdmin", "isLogin"],
+    props: ["userinfo", "isAdmin", "isLogin"],
     mixins: [SearchMixins],
     methods: {
-        login() {
-            this.$emit("login");
-        },
-
         logout() {
             this.$emit("logout");
         },
@@ -279,6 +279,20 @@ ul.autocomplete-mobile-result-list {
         a {
             padding: 15px 0px;
             display: block;
+        }
+    }
+
+    .mobile-nav-menu#logout a, .mobile-nav-menu#login a{
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+
+        > img {
+            width: 30px;
+            height: 30px;
+            border-radius: 30px;
+            margin-left: 10px;
         }
     }
 }

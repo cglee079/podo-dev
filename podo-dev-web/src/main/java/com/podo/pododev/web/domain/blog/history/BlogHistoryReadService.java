@@ -3,10 +3,12 @@ package com.podo.pododev.web.domain.blog.history;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
+import java.util.List;
 import java.util.Optional;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class BlogHistoryReadService {
 
     private final BlogHistoryRepository blogHistoryRepository;

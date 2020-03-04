@@ -5,17 +5,18 @@ import com.podo.pododev.web.domain.blog.attach.AttachVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class AttachRemoveEventListener {
+public class DeleteFileOfAttachEventListener {
 
     private final AttachUploader attachUploader;
 
-    @EventListener
-    public void consume(List<AttachVo> attaches){
-        attachUploader.deleteToStorage(attaches);
+    @TransactionalEventListener
+    public void consume(DeleteFileOfAttachEvent event){
+        attachUploader.deleteToStorage(event.getAttaches());
     }
 }

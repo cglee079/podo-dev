@@ -64,6 +64,8 @@ public class BlogDto {
                     .title(title)
                     .contents(contents)
                     .enabled(status != BlogStatus.INVISIBLE)
+                    .hitCount(0)
+                    .webFeeded(false)
                     .build();
 
             for (AttachImage image : attachImages) {

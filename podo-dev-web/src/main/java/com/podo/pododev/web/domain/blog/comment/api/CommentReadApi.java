@@ -3,7 +3,6 @@ package com.podo.pododev.web.domain.blog.comment.api;
 import com.podo.pododev.core.rest.ApiResponse;
 import com.podo.pododev.core.rest.response.*;
 import com.podo.pododev.core.rest.response.dto.PageDto;
-import com.podo.pododev.core.rest.status.DefaultApiStatus;
 import com.podo.pododev.web.domain.blog.comment.CommentDto;
 import com.podo.pododev.web.domain.blog.comment.application.CommentReadService;
 import lombok.RequiredArgsConstructor;
@@ -23,20 +22,12 @@ public class CommentReadApi {
 
         final List<CommentDto.summary> comments = commentReadService.getRecentComments();
 
-        return DataResponse.success()
-                .result(comments)
-                .build();
+        return CollectionResponse.ok(comments);
     }
 
     @GetMapping("/api/blogs/{blogId}/comments")
-    public ApiResponse paging(@PathVariable Long blogId, CommentDto.requestPaging requestPaging) {
-
-        final PageDto<CommentDto.response> comments = commentReadService.paging(blogId, requestPaging);
-
-        return DataResponse.success()
-                .result(comments)
-                .build();
+    public PageDto<CommentDto.response> paging(@PathVariable Long blogId, CommentDto.requestPaging requestPaging) {
+        return commentReadService.paging(blogId, requestPaging);
     }
-
 
 }

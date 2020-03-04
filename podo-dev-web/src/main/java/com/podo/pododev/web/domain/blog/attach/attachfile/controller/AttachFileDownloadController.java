@@ -5,6 +5,7 @@ import com.podo.pododev.web.global.util.HttpResponseUtil;
 import com.podo.pododev.web.domain.blog.attach.attachfile.AttachFileDto;
 import com.podo.pododev.web.domain.blog.attach.attachfile.application.AttachReadService;
 import com.podo.pododev.core.util.PathUtil;
+import com.podo.pododev.core.util.type.RequestHeader;
 import com.podo.pododev.web.global.util.writer.FileLocalWriter;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FileUtils;
@@ -38,7 +39,7 @@ public class AttachFileDownloadController {
 
         final String downloadFileUrl = PathUtil.merge(storageStaticUrlAtInternal, downloadFile.getFilePath(), downloadFile.getFilename());
         final File tempDownloadFile = fileLocalWriter.writeFromUrl(downloadFileUrl, TEMP_DIRECTORY);
-        final String browser = HttpRequestUtil.getBrowser(request.getHeader("User-Agent"));
+        final String browser = HttpRequestUtil.getBrowser(request.getHeader(RequestHeader.USER_AGENT.value()));
         final byte[] fileByteArray = FileUtils.readFileToByteArray(tempDownloadFile);
         final String encodeFilenameByBrowser = HttpResponseUtil.encodeFilenameByBrowser(browser, downloadFile.getOriginFilename());
 

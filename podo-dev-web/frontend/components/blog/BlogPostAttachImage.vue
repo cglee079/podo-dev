@@ -139,9 +139,7 @@ export default {
             formData.append("fileOfImage", files[idx]);
 
             try {
-                const response = await this.$axios.$post("/api/blogs/images", formData, config);
-
-                const attachImage = response.result;
+                const attachImage = await this.$axios.$post("/api/blogs/images", formData, config);
 
                 this.$emit("add", attachImage);
                 bus.$emit("spinner:stop", "upload-blog-image");
@@ -161,8 +159,7 @@ export default {
             bus.$emit("spinner:start", "upload-blog-image");
 
             try {
-                const response = await this.$axios.$post("/api/blogs/images", { base64: base64 });
-                const attachImage = response.result;
+                const attachImage = await this.$axios.$post("/api/blogs/images", { base64: base64 });
                 this.$emit("add", attachImage);
             } catch (e) {
                 this.$toast.show(`죄송합니다, 업로드 실패하였습니다`);
@@ -175,10 +172,9 @@ export default {
             bus.$emit("spinner:start", "upload-blog-image");
 
             try {
-                const response = await this.$axios.$post("/api/blogs/images", {
+                const attachImage = await this.$axios.$post("/api/blogs/images", {
                     imageUrl: imageUrl
                 });
-                const attachImage = response.result;
                 this.$emit("add", attachImage);
             } catch {
                 this.$toast.show(`죄송합니다, 업로드 실패하였습니다`);

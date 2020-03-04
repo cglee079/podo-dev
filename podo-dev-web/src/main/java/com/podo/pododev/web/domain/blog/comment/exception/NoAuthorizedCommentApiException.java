@@ -1,23 +1,26 @@
-package com.podo.pododev.web.domain.user.exception;
+package com.podo.pododev.web.domain.blog.comment.exception;
 
 import com.podo.pododev.core.rest.ApiException;
 import com.podo.pododev.core.rest.status.DefaultApiStatus;
 import org.springframework.http.HttpStatus;
 
-public class NoAuthenticatedException extends ApiException {
+public class NoAuthorizedCommentApiException extends ApiException {
 
-    public NoAuthenticatedException() {
-        super("인증되지 않은 사용자입니다.");
+    private Long commentId;
+
+    public NoAuthorizedCommentApiException(Long commentId) {
+        super("권한이 없는 댓글 입니다 : " + commentId);
+        this.commentId = commentId;
     }
 
     @Override
     public String getField() {
-        return "";
+        return "commentId";
     }
 
     @Override
     public Object getValue() {
-        return "";
+        return commentId;
     }
 
     @Override
@@ -27,6 +30,6 @@ public class NoAuthenticatedException extends ApiException {
 
     @Override
     public DefaultApiStatus getApiStatus() {
-        return DefaultApiStatus.ERR_INVALID;
+        return DefaultApiStatus.UNAUTHORIZED;
     }
 }

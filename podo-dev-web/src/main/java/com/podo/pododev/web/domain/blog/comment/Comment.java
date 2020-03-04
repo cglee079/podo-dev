@@ -6,10 +6,13 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import net.minidev.json.annotate.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 
 @Getter
@@ -17,7 +20,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "blog_comment")
 @Entity
-public class Comment{
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,34 +44,33 @@ public class Comment{
 
     private Long cgroup;
 
-    private Double sort;
+    private BigDecimal sort;
 
     private Boolean enabled;
-
-    private Boolean byAdmin;
 
     @CreatedDate
     private LocalDateTime createAt;
 
     @Builder
-    public Comment(Blog blog, User writer, String contents, Long cgroup,
-                   Integer childCount, Long parentId, Integer depth, Double sort,
-                   Boolean byAdmin) {
-
-        this.blog = blog;
+    public Comment(User writer, String contents, Long cgroup,
+                   Long parentId, Integer depth, BigDecimal sort,
+                   Boolean enabled, Integer childCount) {
         this.writer = writer;
         this.contents = contents;
-        this.childCount = childCount;
         this.cgroup = cgroup;
         this.depth = depth;
         this.parentId = parentId;
         this.sort = sort;
-        this.byAdmin = byAdmin;
-        this.enabled = true;
+        this.childCount = childCount;
+        this.enabled = enabled;
     }
 
-    public void changeCgroup(Long id) {
-        this.cgroup = id;
+    public void changeCgroup(Long cgroup) {
+        this.cgroup = cgroup;
+    }
+
+    public void changeBlog(Blog blog) {
+        this.blog = blog;
     }
 
     public void increaseChildCount() {
@@ -76,31 +78,36 @@ public class Comment{
     }
 
     public void decreaseChildCount() {
+        if (this.childCount <= 0) {
+            childCount = 0;
+            return;
+        }
+
         this.childCount--;
     }
 
-    public void erase() {
-        this.contents = "삭제된 댓글입니다.";
+    public void erase(String deletedContents) {
+        this.contents = deletedContents;
         this.enabled = false;
     }
 
-    public boolean isErase() {
-        return !this.enabled;
+    public boolean canDeleted() {
+        return !this.enabled && this.childCount == 0;
     }
 
     public boolean isExceedMaxCommentDepth(Integer maxCommentDepth) {
         return (this.depth + 1) > maxCommentDepth;
     }
 
-    public double getChildCommentSort() {
-        return ((double) (childCount + 1) / Math.pow(10, 3 * depth)) + sort;
+    public BigDecimal getChildCommentSort() {
+        return BigDecimal.valueOf(childCount + 1)
+                .divide(BigDecimal.valueOf(Math.pow(10, 3 * depth)))
+                .add(sort);
     }
 
     public boolean isWrittenBy(Long userId) {
         return this.writer.getId().equals(userId);
     }
 
-    public boolean hasChild() {
-        return childCount > 0;
-    }
+
 }

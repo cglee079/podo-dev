@@ -224,9 +224,7 @@ export default {
         },
 
         async fetchBlog(blogId) {
-            const response = await this.$axios.$get(`/api/blogs/${blogId}`);
-
-            const blog = response.result;
+            const blog = await this.$axios.$get(`/api/blogs/${blogId}`);
             this.blog.id = blog.id;
             this.blog.histories = blog.histories;
             this.input.title = blog.title;
@@ -242,10 +240,9 @@ export default {
         fetchHistory(historyId) {
             this.toastConfirm("정말 이전 저장 데이터를 가져오시겠습니까?", async () => {
                 try {
-                    const response = await this.$axios.$get(
+                    const history = await this.$axios.$get(
                         `/api/blogs/${this.blog.id}/histories/${historyId}`
                     );
-                    const history = response.result;
                     this.input.title = history.title;
                     this.input.contents = history.contents;
 
@@ -286,7 +283,7 @@ export default {
             bus.$emit("spinner:start", "post-blog");
 
             try {
-                const response = await this.$axios.$post("/api/blogs", {
+                await this.$axios.$post("/api/blogs", {
                     title: this.input.title,
                     contents: this.input.contents,
                     status: this.input.status,
@@ -295,9 +292,7 @@ export default {
                     attachFiles: this.input.attachFiles
                 });
 
-                if (response) {
-                    this.$router.push({ name: "index" });
-                }
+                this.$router.push({ name: "index" });
             } catch (e) {
             } finally {
                 this.removeAutoSaved(this.id);
@@ -309,7 +304,7 @@ export default {
             bus.$emit("spinner:start", "update-blog");
 
             try {
-                const response = await this.$axios.$patch(`/api/blogs/${this.id}`, {
+                await this.$axios.$patch(`/api/blogs/${this.id}`, {
                     title: this.input.title,
                     contents: this.input.contents,
                     status: this.input.status,
@@ -318,14 +313,12 @@ export default {
                     attachFiles: this.input.attachFiles
                 });
 
-                if (response) {
-                    this.$router.push({
-                        name: "blogs-id",
-                        params: {
-                            id: this.id
-                        }
-                    });
-                }
+                this.$router.push({
+                    name: "blogs-id",
+                    params: {
+                        id: this.id
+                    }
+                });
             } catch (e) {
             } finally {
                 this.removeAutoSaved(this.id);

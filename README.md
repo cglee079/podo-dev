@@ -6,7 +6,7 @@ podo 개발 블로그
 - 상세 [https://www.podo-dev.com/blogs/150](https://www.podo-dev.com/blogs/150)
 
 
-### Stack
+## Stack
 
 - Spring boot 2.2.0
 - Spring Jpa
@@ -16,7 +16,7 @@ podo 개발 블로그
 - Solr Search Engine
 
 
-### Structure
+## Structure
 
 ![structure](./docs/structure.png)
 
@@ -41,3 +41,8 @@ podo 개발 블로그
 - Sitemap, Rss 생성 스케줄 (* 작은 부분이라 별도 분리하지 않음)
 
 
+## Release
+
+##### v2.0
+- 2020.03.24
+- OAuth2 추가 (Facebook, Github, Kakao, Naver)
