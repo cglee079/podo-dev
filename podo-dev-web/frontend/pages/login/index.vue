@@ -2,9 +2,7 @@
     <div id="wrapLogin">
         <div>
             <div id="desc">
-                <img src="../../assets/image/login.jpg" alt="desc">
-
-                "become a gooooood develpoer"
+                "Login"
             </div>
 
             <div id="btns">

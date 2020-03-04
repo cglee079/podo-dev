@@ -18,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -72,6 +73,7 @@ class CommentInsertNewApiTest extends IntegrationTest {
         final Blog blog = blogSetup.saveOne();
         final Comment existedComment = commentSetup.saveOne(user, blog);
         final CommentDto.insert insert = JsonUtil.toObject(TestUtil.getStringFromResource("data", "comment", "insert_comment.json"), CommentDto.insert.class);
+        final BigDecimal childCommentSort = existedComment.getChildCommentSort();
         ReflectionTestUtils.setField(insert, "parentId", existedComment.getId());
 
         //when
@@ -92,7 +94,7 @@ class CommentInsertNewApiTest extends IntegrationTest {
         assertThat(comment.getBlog().getId()).isEqualTo(blog.getId());
         assertThat(comment.getCgroup()).isEqualTo(existedComment.getCgroup());
         assertThat(comment.getParentId()).isEqualTo(existedComment.getId());
-        assertThat(comment.getChildCommentSort()).isEqualTo(existedComment.getSort());
+        assertThat(comment.getSort()).isEqualTo(childCommentSort);
     }
 
 

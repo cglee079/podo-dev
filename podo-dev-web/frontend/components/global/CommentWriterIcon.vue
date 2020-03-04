@@ -52,7 +52,7 @@ export default {
 #podo {
     width: 16px;
     height: 16px;
-    margin-bottom: -1px;
+    margin-bottom: -2px;
     border-radius: 14px;
     opacity: 0.7;
 }
@@ -85,7 +85,7 @@ export default {
     height: 16px;
     margin-bottom: -1px;
     border-radius: 15px;
-    opacity: 0.9;
+    opacity: 1;
 }
 
 #github {

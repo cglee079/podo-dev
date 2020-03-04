@@ -39,7 +39,7 @@ class CommentGetRecentCommentApiTest extends IntegrationTest {
                 .andExpect(jsonPath("$.message").value(DefaultApiStatus.SUCCESS.getMessage()))
                 .andExpect(jsonPath("$.result.size").value(1))
                 .andExpect(jsonPath("$.result.contents[0].contents").value(comment.getContents()))
-                .andExpect(jsonPath("$.result.contents[0].username").value(user.getUsername()))
+                .andExpect(jsonPath("$.result.contents[0].writer.username").value(user.getUsername()))
                 .andExpect(jsonPath("$.result.contents[0].blogId").value(blog.getId()));
     }
 

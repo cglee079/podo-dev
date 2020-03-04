@@ -1,5 +1,6 @@
 package com.podo.pododev.web.domain.user;
 
+import com.podo.pododev.web.global.config.security.role.UserRole;
 import com.podo.pododev.web.global.util.HashUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,7 @@ public class UserSetup {
                 .userKey(HashUtil.hash("google", LocalDateTime.now().toString()))
                 .username("username")
                 .picture("http://picure.com")
+                .role(UserRole.USER)
                 .build();
 
         return userRepository.save(user);

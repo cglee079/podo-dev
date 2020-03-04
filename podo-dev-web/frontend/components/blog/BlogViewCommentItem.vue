@@ -38,7 +38,7 @@
                     :blog-id="blogId"
                     :index="index"
                     :parent-id="comment.id"
-                    :placeholder="`${comment.username} 님에게 답글`"
+                    :placeholder="`${comment.writer.username} 님에게 답글`"
                     @reload="$emit('reload')"
                     @writeListener="writeListener"
                 />

@@ -20,7 +20,6 @@ public class CommentSetup {
 
         final Comment comment = Comment.builder()
                 .parentId(null)
-                .byAdmin(false)
                 .contents("contents")
                 .depth(1)
                 .writer(user)

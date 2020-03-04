@@ -49,12 +49,15 @@
                 <a href="mailto:cglee079@gmail.com">MAIL</a>
             </div>
 
-            <div v-if="!isLogin" class="mobile-nav-menu">
-                <router-link :to="{ name: 'login' }">로그인</router-link>
+            <div v-if="!isLogin" id="login" class="mobile-nav-menu">
+                <router-link :to="{ name: 'login' }">로그인
+                    <img src="../assets/btns/btn-login2.svg" alt="btn-login" />
+                </router-link>
             </div>
             <div v-if="isLogin" id="logout" class="mobile-nav-menu" @click="logout">
-                <a>로그아웃</a>
-                <img :src="userinfo.picture" id="userIcon" alt="userIcon" />
+                <a>로그아웃
+                    <img :src="userinfo.picture" alt="userIcon" />
+                </a>
             </div>
         </div>
 
@@ -279,7 +282,7 @@ ul.autocomplete-mobile-result-list {
         }
     }
 
-    .mobile-nav-menu#logout{
+    .mobile-nav-menu#logout a, .mobile-nav-menu#login a{
         cursor: pointer;
         display: flex;
         align-items: center;
