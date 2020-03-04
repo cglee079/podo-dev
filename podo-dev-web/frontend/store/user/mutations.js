@@ -1,5 +1,8 @@
 export default {
     doLogin(state, user) {
+        if (!user) {
+            this.doLogout(state);
+        }
         state.isLogin = true;
         state.userinfo.oAuthType = user.oauthType;
         state.userinfo.username = user.username;
