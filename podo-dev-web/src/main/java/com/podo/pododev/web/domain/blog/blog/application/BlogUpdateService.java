@@ -2,7 +2,7 @@ package com.podo.pododev.web.domain.blog.blog.application;
 
 import com.podo.pododev.web.domain.blog.attach.AttachStatus;
 import com.podo.pododev.web.domain.blog.attach.AttachUploader;
-import com.podo.pododev.web.domain.blog.blog.application.event.AttachRemoveEventPublisher;
+import com.podo.pododev.web.domain.blog.blog.application.event.DeleteFileOfAttachEventPublisher;
 import com.podo.pododev.web.domain.blog.blog.application.helper.BlogAttachHelper;
 import com.podo.pododev.web.domain.blog.blog.application.helper.BlogServiceHelper;
 import com.podo.pododev.web.domain.blog.blog.application.helper.BlogWriteServiceHelper;
@@ -38,7 +38,7 @@ public class BlogUpdateService {
     private final AttachLinkManager linkManager;
     private final BlogRepository blogRepository;
 
-    private final AttachRemoveEventPublisher attachRemoveEventPublisher;
+    private final DeleteFileOfAttachEventPublisher deleteFileOfAttachEventPublisher;
     private final AttachUploader attachUploader;
     private final BlogTagRepository blogTagRepository;
     private final BlogHistoryRepository blogHistoryRepository;
@@ -75,8 +75,8 @@ public class BlogUpdateService {
         writeAttachImages(existedBlog, updateBlog.getAttachImages());
         writeAttachFiles(existedBlog, updateBlog.getAttachFiles());
 
-        attachRemoveEventPublisher.publish(BlogAttachHelper.extractAttachValuesFromImages(updateBlog.getAttachImages(), REMOVE));
-        attachRemoveEventPublisher.publish(BlogAttachHelper.extractAttachValuesFromFiles(updateBlog.getAttachFiles(), REMOVE));
+        deleteFileOfAttachEventPublisher.publish(BlogAttachHelper.extractAttachValuesFromImages(updateBlog.getAttachImages(), REMOVE));
+        deleteFileOfAttachEventPublisher.publish(BlogAttachHelper.extractAttachValuesFromFiles(updateBlog.getAttachFiles(), REMOVE));
     }
 
     private void writeAttachFiles(Blog blog, List<AttachFileDto.insert> attachFiles) {
