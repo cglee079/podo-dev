@@ -39,11 +39,9 @@ class CommentGetCommentByBlogApiTest extends IntegrationTest {
         //when, then
         mockMvc().perform(get("/api/blogs/" + blogId + "/comments?page=" + page))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(DefaultApiStatus.SUCCESS.getCode()))
-                .andExpect(jsonPath("$.message").value(DefaultApiStatus.SUCCESS.getMessage()))
-                .andExpect(jsonPath("$.result.currentPage").value(page))
-                .andExpect(jsonPath("$.result.contents[0].id").value(commentB.getId()))
-                .andExpect(jsonPath("$.result.contents[1].id").value(commentA.getId()));
+                .andExpect(jsonPath("$.currentPage").value(page))
+                .andExpect(jsonPath("$.contents[0].id").value(commentB.getId()))
+                .andExpect(jsonPath("$.contents[1].id").value(commentA.getId()));
     }
 
     @DisplayName("블로그 댓글 조회, paging 확인")
@@ -64,11 +62,9 @@ class CommentGetCommentByBlogApiTest extends IntegrationTest {
         //when, then
         mockMvc().perform(get("/api/blogs/" + blogId + "/comments?page=" + page))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(DefaultApiStatus.SUCCESS.getCode()))
-                .andExpect(jsonPath("$.message").value(DefaultApiStatus.SUCCESS.getMessage()))
-                .andExpect(jsonPath("$.result.currentPage").value(page))
-                .andExpect(jsonPath("$.result.contents[0].id").value(commentD.getId()))
-                .andExpect(jsonPath("$.result.contents[1].id").value(commentC.getId()));
+                .andExpect(jsonPath("$.currentPage").value(page))
+                .andExpect(jsonPath("$.contents[0].id").value(commentD.getId()))
+                .andExpect(jsonPath("$.contents[1].id").value(commentC.getId()));
     }
 
 

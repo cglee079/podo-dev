@@ -7,10 +7,8 @@
             :disabled="!isLogin"
         ></textarea>
         <div id="sub">
-            <div id="user">
-                <div id="username">
-                    <input type="text" placeholder="이름" v-model="input.username" disabled />
-                </div>
+            <div id="username">
+                <input type="text" placeholder="이름" v-model="input.username" disabled />
             </div>
             <div id="submit" @click="clickCommentPost">등록</div>
         </div>
@@ -128,15 +126,10 @@ export default {
         justify-content: space-between;
         align-items: baseline;
 
-        #user {
+        #username {
             display: flex;
             justify-content: space-between;
             margin-top: 5px;
-            height: 2rem;
-
-            div {
-                margin-right: 3px;
-            }
 
             input {
                 width: 7rem;

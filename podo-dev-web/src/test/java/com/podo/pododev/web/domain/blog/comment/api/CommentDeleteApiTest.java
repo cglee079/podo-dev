@@ -47,9 +47,7 @@ class CommentDeleteApiTest extends IntegrationTest {
 
         //when
         mockMvc().perform(delete("/api/blogs/" + blog.getId() + "/comments/" + comment.getId()))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(DefaultApiStatus.SUCCESS.getCode()))
-                .andExpect(jsonPath("$.message").value(DefaultApiStatus.SUCCESS.getMessage()));
+                .andExpect(status().isOk());
 
         //then
         final List<Comment> comments = commentRepository.findAll();

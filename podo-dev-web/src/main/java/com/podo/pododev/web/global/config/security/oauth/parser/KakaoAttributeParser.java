@@ -14,7 +14,7 @@ public class KakaoAttributeParser implements AttributesParser {
     private static final String USER_DETAIL_WRAP_KEY = "kakao_account";
     private static final String USER_DETAIL_KEY = "profile";
     private static final String USERNAME_KEY = "nickname";
-    private static final String PICTURE_KEY = "profile_image";
+    private static final String PICTURE_KEY = "profile_image_url";
     private static final String DEFAULT_PICTURE = "https://www.podo-dev.com/user/default-kakao.png";
 
     @SuppressWarnings("unchecked")

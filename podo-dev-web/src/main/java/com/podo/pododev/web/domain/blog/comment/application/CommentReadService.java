@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,6 +58,7 @@ public class CommentReadService {
                 .map(comment -> new CommentDto.response(comment, SecurityUtil.getUserId()))
                 .sorted((o1, o2) -> -1)
                 .collect(toList());
+
 
         return PageDto.<CommentDto.response>builder()
                 .contents(commentResponses)
