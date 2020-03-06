@@ -12,7 +12,6 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD})
 @Caching(evict = {
         @CacheEvict(value = "getBlogComment", allEntries = true),
-        @CacheEvict(value = "getRecentComments", allEntries = true),
         @CacheEvict(value = "pagingBlogs", allEntries = true)
 })
 public @interface AllCommentCacheEvict {

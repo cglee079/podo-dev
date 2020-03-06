@@ -45,7 +45,6 @@ public class CommentReadService {
                 .collect(toList());
     }
 
-    @Cacheable(value = "getBlogComment", key = "#blogId + '#' + #requestPaging.page")
     public PageDto<CommentDto.response> paging(Long blogId, CommentDto.requestPaging requestPaging) {
         final Integer requestPage = requestPaging.getPage();
 

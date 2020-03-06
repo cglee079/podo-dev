@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -93,18 +94,24 @@ public class BlogRepositoryCustomImpl implements BlogRepositoryCustom {
                 .map(String::toLowerCase)
                 .collect(toList());
 
-        final List<Long> blogId = this.queryFactory
-                .select(blogTag.blog.id)
-                .from(blogTag)
-                .where(blogTag.tagValue.lower().in(lowerTagValues))
-                .fetch();
-
         return this.queryFactory.select(blog)
                 .from(blog)
-                .where(blog.id.in(blogId))
+                .where(hasTagValues(lowerTagValues))
                 .where(eqEnabled(enabled))
                 .orderBy(blog.id.desc())
                 .fetch();
+    }
+
+    private BooleanExpression hasTagValues(List<String> lowerTagValues) {
+        if(Objects.isNull(lowerTagValues)){
+            lowerTagValues = new ArrayList<>();
+        }
+
+        return blog.in(
+                queryFactory.select(blogTag.blog)
+                    .from(blogTag)
+                    .where(blogTag.tagValue.lower().in(lowerTagValues))
+        );
     }
 
     @Override
