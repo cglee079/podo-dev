@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -14,13 +16,16 @@ public class WorkScheduler {
 
     private final List<Worker> workers;
 
-
-    @Scheduled(cron = "0 */30 * * * *")
+    @Scheduled(cron = "0 */5 * * * *")
     public void doSchedule() {
         for (Worker work : workers) {
-            work.doWork();
+            work.doWork(LocalDateTime.now());
         }
     }
 
+    @PostConstruct
+    public void workNow(){
+        this.doSchedule();
+    }
 
 }

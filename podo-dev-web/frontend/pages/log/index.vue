@@ -2,21 +2,39 @@
     <section id="logs" :class="$mq">
         <div id="tags" class="item">
             <h2 class="item-header">
-                TAG
+                <img src="../../assets/icons/log/tag.png" alt="tag"/>
+                Tag
             </h2>
             <span v-for="tag in tags" :key="tag" class="tag">
                 <nuxt-link :to="{ name: 'index', query: { tag: tag } }">#{{ tag }}</nuxt-link>
             </span>
         </div>
 
+        <div id="gitLogs" class="item">
+            <h2 class="item-header">
+                <a :href="gitLog.user.url" target="_blank">
+                    <img src="../../assets/icons/log/git-log.png" alt="git-log"/>
+                    Git
+                </a>
+            </h2>
+            <div v-for="event in gitLog.events" :key="event.url" class="git-event">
+                <a :href="event.url" target="_blank">
+                    <div class="create-at">{{ event.createAt }}</div>
+                    <div class="event-type">{{ event.eventType }}</div>
+                    <div class="contents">{{ event.contents }}</div>
+                </a>
+            </div>
+        </div>
+
         <div id="recentComments" class="item">
             <h2 class="item-header">
-                RECENT COMMENT
+                <img src="../../assets/icons/log/recent-comment.png" alt="comment"/>
+                Comment
             </h2>
             <div v-for="comment in recentComments" :key="comment.id" class="comment">
                 <nuxt-link :to="{ name: 'blogs-id', params: { id: comment.blogId } }">
                     <div class="writer-icon">
-                        <comment-writer-icon :writer="comment.writer"/>
+                        <comment-writer-icon :writer="comment.writer" />
                     </div>
                     <div class="writer-name">
                         {{ comment.writer.username }}
@@ -33,7 +51,8 @@
 
         <div id="archive" class="item">
             <h2 class="item-header">
-                ARCHIVE
+                <img src="../../assets/icons/log/archive.png" alt="archive"/>
+                Archive
             </h2>
             <div
                 v-for="key in Object.keys(archive).sort((a, b) => b - a)"
@@ -71,7 +90,7 @@ import CommentWriterIcon from "../../components/global/CommentWriterIcon";
 
 export default {
     name: "Log",
-    components: {CommentWriterIcon},
+    components: { CommentWriterIcon },
     head() {
         return {
             title: `${process.env.NAME} : log`,
@@ -83,18 +102,21 @@ export default {
         return {
             tags: {},
             recentComments: {},
-            archive: {}
+            archive: {},
+            gitLog: {}
         };
     },
     async asyncData({ $axios, app }) {
         const tags = await $axios.$get(`${app.$baseUrl()}/api/tags`);
         const recentComments = await $axios.$get(`${app.$baseUrl()}/api/comments/recent`);
         const archive = await $axios.$get(`${app.$baseUrl()}/api/blogs/archive`);
+        const gitLog = await $axios.$get(`${app.$baseUrl()}/api/log/git`);
 
         return {
             tags: tags.contents,
             recentComments: recentComments.contents,
-            archive: archive
+            archive: archive,
+            gitLog: gitLog
         };
     }
 };
@@ -123,26 +145,42 @@ export default {
     }
 }
 
-#logs div#tags {
+#logs #tags {
     margin-top: 40px;
+
+    .item-header img{
+        height: 22px;
+        margin-bottom: -2px;
+        opacity: 0.9;
+    }
 
     > span.tag {
         cursor: pointer;
         display: inline-block;
-        margin: 5px;
+        margin: 4px;
         color: #333333;
+        border-bottom: 1px solid #ffffff;
 
         &:hover {
             color: #000000;
+            border-bottom: 1px solid #111111;
         }
     }
 }
 
-#logs div#recentComments {
-    > div.comment > a {
+#logs #gitLogs {
+    .item-header img{
+        height: 24px;
+        margin-bottom: -1px;
+        margin-left: -2px;
+        margin-right: -3px;
+        opacity: 0.9;
+    }
+
+    .git-event a {
         display: flex;
-        margin: 10px 0;
-        font-size: 0.95rem;
+        margin: 7px 0;
+        font-size: 0.9rem;
         cursor: pointer;
         color: #333333;
         padding-bottom: 3px;
@@ -153,7 +191,51 @@ export default {
             border-bottom: 1px solid #111111;
         }
 
-        > .writer-icon{
+        .create-at {
+            width: 110px;
+        }
+        .event-type {
+            width: 110px;
+            font-style: italic;
+        }
+
+        .contents {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-height: 1.45rem;
+
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            white-space: normal;
+            -webkit-line-clamp: 1;
+            word-break: break-all;
+        }
+    }
+}
+
+#logs #recentComments {
+    .item-header img{
+        height: 23px;
+        margin-bottom: -2px;
+        opacity: 0.9;
+    }
+
+    > div.comment > a {
+        display: flex;
+        margin: 10px 0;
+        font-size: 0.9rem;
+        cursor: pointer;
+        color: #333333;
+        padding-bottom: 3px;
+        border-bottom: 1px solid #ffffff;
+
+        &:hover {
+            color: #111111;
+            border-bottom: 1px solid #111111;
+        }
+
+        > .writer-icon {
             margin-right: 6px;
         }
 
@@ -193,6 +275,12 @@ export default {
 }
 
 #logs > div#archive {
+    .item-header img{
+        height: 22px;
+        margin-bottom: -2px;
+        opacity: 0.9;
+    }
+
     > .archive-group {
         margin-bottom: 35px;
 
@@ -203,42 +291,39 @@ export default {
         }
 
         > .values {
-            > .blog {
-                &.disabled {
-                    opacity: 0.5;
+            > .blog.disabled {
+                opacity: 0.5;
+            }
+            > .blog > a {
+                font-size: 0.95rem;
+                margin: 5px 0px;
+                display: flex;
+                cursor: pointer;
+                border-bottom: 1px solid #ffffff;
+                color: #333333;
+
+                &:hover {
+                    color: #111111;
+                    border-bottom: 1px solid #222222;
                 }
 
-                > a {
-                    font-size: 0.95rem;
-                    margin: 5px 0px;
-                    display: flex;
-                    cursor: pointer;
-                    border-bottom: 1px solid #ffffff;
-                    color: #333333;
+                > .title {
+                    flex: 1;
+                    display: -webkit-box;
 
-                    &:hover {
-                        color: #111111;
-                        border-bottom: 1px solid #222222;
-                    }
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    max-height: 1.45rem;
+                    -webkit-box-orient: vertical;
+                    white-space: normal;
+                    -webkit-line-clamp: 1;
+                    word-break: break-all;
+                }
 
-                    > .title {
-                        flex: 1;
-                        display: -webkit-box;
-
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        max-height: 1.45rem;
-                        -webkit-box-orient: vertical;
-                        white-space: normal;
-                        -webkit-line-clamp: 1;
-                        word-break: break-all;
-                    }
-
-                    > .publish-at {
-                        min-width: 150px;
-                        text-align: right;
-                        font-size: 0.9rem;
-                    }
+                > .publish-at {
+                    min-width: 150px;
+                    text-align: right;
+                    font-size: 0.9rem;
                 }
             }
         }

@@ -16,7 +16,7 @@ blog.relates.size: 5
 blog.comment:
   page.size: 5
   max.depth: 3
-  recent.size: 10
+  recent.size: 7
 
 
 ## File Save Config

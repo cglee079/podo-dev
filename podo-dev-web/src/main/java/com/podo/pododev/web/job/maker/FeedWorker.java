@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -18,7 +19,7 @@ public class FeedWorker implements Worker {
     private final BlogFeedService blogFeedService;
 
     @Override
-    public void doWork() {
+    public void doWork(LocalDateTime now) {
 
         if (!blogFeedService.existByFeeded(false)) {
             log.info("웹피드에 반영되지 않은 게시글이 없습니다");
