@@ -69,6 +69,10 @@ public class GitApiClient {
             final List<GHEventInfo> events = requestGetEvents(github);
 
             for (GHEventInfo event : events) {
+                if(event.getRepository().isPrivate()){
+                    continue;
+                }
+
                 final GitEventVo gitEventVo = parseGitEventDto(event);
 
                 if (Objects.nonNull(gitEventVo)) {

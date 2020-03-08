@@ -12,7 +12,7 @@
 
         <div id="gitLogs" class="item">
             <h2 class="item-header">
-                <a :href="gitLog.user.url">
+                <a :href="gitLog.user.url" target="_blank">
                     <img src="../../assets/icons/log/git-log.png" alt="git-log"/>
                     Git
                 </a>

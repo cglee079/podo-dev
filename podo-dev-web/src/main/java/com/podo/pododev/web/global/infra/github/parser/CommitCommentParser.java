@@ -15,6 +15,8 @@ import java.net.URL;
 public class CommitCommentParser implements GitResponseParser {
     @Override
     public GitEventVo parse(GHEventInfo event) throws IOException {
+        final boolean aPrivate = event.getRepository().isPrivate();
+
         final GHEventPayload.CommitComment payload = event.getPayload(GHEventPayload.CommitComment.class);
 
         final GHCommitComment comment = payload.getComment();
