@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.podo.pododev.web.global.util.exception.JsonParseException;
 import com.podo.pododev.web.global.util.exception.ObjectToJsonException;
 import lombok.experimental.UtilityClass;
+import org.json.JSONObject;
 
 @UtilityClass
 public class JsonUtil {
@@ -26,4 +27,5 @@ public class JsonUtil {
             throw new ObjectToJsonException(e, object.getClass());
         }
     }
+
 }

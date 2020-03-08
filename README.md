@@ -55,8 +55,15 @@ podo 개발 블로그
 
 ## Release
 
+##### 2.1.0
+- 2020.03.08
+- `log` 페이지 `git` 로그 추가
+    - 페이지 디자인 변경
+    - `git api` 연동
+
+
 ##### 2.0.0
-- 2020.03.24
+- 2020.03.04
 - OAuth2 추가 (Facebook, Github, Kakao, Naver)
 
 

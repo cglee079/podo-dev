@@ -10,22 +10,22 @@ import java.util.Objects;
 @UtilityClass
 public class DateTimeFormatUtil {
 
-    public static String dateTimeToDateTimeStr(LocalDateTime time) {
-        if (Objects.isNull(time)) {
+    public static String dateTimeToDateTimeStr(LocalDateTime dateTime) {
+        if (Objects.isNull(dateTime)) {
             return "";
         }
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        return time.format(dateTimeFormatter);
+        return dateTime.format(dateTimeFormatter);
     }
 
 
-    public static String dateTimeToBeautifulDate(LocalDateTime time) {
-        if (Objects.isNull(time)) {
+    public static String dateTimeToBeautifulDate(LocalDateTime dateTime) {
+        if (Objects.isNull(dateTime)) {
             return "";
         }
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy", Locale.US);
-        return time.format(dateTimeFormatter);
+        return dateTime.format(dateTimeFormatter);
     }
 }

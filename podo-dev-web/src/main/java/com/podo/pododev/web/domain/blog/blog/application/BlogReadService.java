@@ -81,9 +81,10 @@ public class BlogReadService {
 
                 List<String> tags = relate.getTags().stream()
                         .map(BlogTag::getTagValue)
+                        .map(String::toLowerCase)
                         .collect(toList());
 
-                if (tags.contains(tag)) {
+                if (tags.contains(tag.toLowerCase())) {
                     scores.merge(relate, 1, Integer::sum);
                 }
             }

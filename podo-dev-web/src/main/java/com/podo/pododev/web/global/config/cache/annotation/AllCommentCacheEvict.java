@@ -11,7 +11,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
 @Caching(evict = {
-        @CacheEvict(value = "getBlogComment", allEntries = true),
         @CacheEvict(value = "getRecentComments", allEntries = true),
         @CacheEvict(value = "pagingBlogs", allEntries = true)
 })

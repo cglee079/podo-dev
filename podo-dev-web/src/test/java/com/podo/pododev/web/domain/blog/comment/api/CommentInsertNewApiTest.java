@@ -1,6 +1,5 @@
 package com.podo.pododev.web.domain.blog.comment.api;
 
-import com.podo.pododev.core.rest.status.DefaultApiStatus;
 import com.podo.pododev.web.domain.blog.blog.Blog;
 import com.podo.pododev.web.domain.blog.blog.BlogSetup;
 import com.podo.pododev.web.domain.blog.comment.Comment;
@@ -23,7 +22,6 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @TestPropertySource(properties = {"blog.comment.recent.size=2"})
@@ -50,9 +48,7 @@ class CommentInsertNewApiTest extends IntegrationTest {
         mockMvc().perform(post("/api/blogs/" + blog.getId() + "/comments")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.toJson(insert)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(DefaultApiStatus.SUCCESS.getCode()))
-                .andExpect(jsonPath("$.message").value(DefaultApiStatus.SUCCESS.getMessage()));
+                .andExpect(status().isOk());
 
         //then
         final List<Comment> comments = commentRepository.findAll();
@@ -80,9 +76,7 @@ class CommentInsertNewApiTest extends IntegrationTest {
         mockMvc().perform(post("/api/blogs/" + blog.getId() + "/comments")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.toJson(insert)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(DefaultApiStatus.SUCCESS.getCode()))
-                .andExpect(jsonPath("$.message").value(DefaultApiStatus.SUCCESS.getMessage()));
+                .andExpect(status().isOk());
 
         //then
         final List<Comment> comments = commentRepository.findAll();

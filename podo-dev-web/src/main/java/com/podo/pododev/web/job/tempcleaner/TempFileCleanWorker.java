@@ -31,10 +31,10 @@ public class TempFileCleanWorker implements Worker {
 
     private final FileLocalWriter fileLocalWriter;
 
-    public void doWork() {
+    @Override
+    public void doWork(LocalDateTime now) {
         log.info("{} 일전, 임시 파일을 삭제합니다", DAYS_OF_EXPIRE);
 
-        final LocalDateTime now = LocalDateTime.now();
         final LocalDateTime expireDateTime = now.minusDays(DAYS_OF_EXPIRE);
 
         final String path = FilenameUtil.createPathByDate(expireDateTime);

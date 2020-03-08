@@ -82,13 +82,15 @@ export default {
 
     #loginIcon {
         margin-top: 5px;
-        height: 37px;
+        width : 35px;
+        height : 35px;
         border-radius: 20px;
         opacity: 0.9;
     }
 
     #userIcon {
         margin-top: 5px;
+        width : 35px;
         height: 35px;
         border-radius: 20px;
     }
