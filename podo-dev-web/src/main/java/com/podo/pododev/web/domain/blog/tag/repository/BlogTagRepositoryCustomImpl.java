@@ -14,10 +14,10 @@ public class BlogTagRepositoryCustomImpl implements BlogTagRepositoryCustom {
 
 
     @Override
-    public List<String> findDistinctTagValue(boolean enabled) {
+    public List<String> findDistinctTagValue(boolean blogEnabled) {
         return queryFactory.selectDistinct(blogTag.tagValue)
                 .from(blogTag)
-                .where(blogTag.blog.enabled.eq(enabled))
+                .where(blogTag.blog.enabled.eq(blogEnabled))
                 .orderBy(blogTag.tagValue.asc())
                 .fetch();
     }

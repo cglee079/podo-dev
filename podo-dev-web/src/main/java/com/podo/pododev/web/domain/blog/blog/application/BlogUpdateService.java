@@ -43,7 +43,7 @@ public class BlogUpdateService {
     private final BlogTagRepository blogTagRepository;
     private final BlogHistoryRepository blogHistoryRepository;
 
-    @CacheEvict(value = "getBlog", key = "T(String).valueOf(#blogId) + #isAdmin.toString()")
+    @AllBlogCacheEvict
     public void increaseHitCount(Long blogId, String userAgent, Boolean isAdmin) {
         if(isAdmin){
             return;

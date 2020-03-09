@@ -1,29 +1,22 @@
 package com.podo.pododev.web.domain.blog.comment.api;
 
-import com.podo.pododev.core.rest.status.DefaultApiStatus;
 import com.podo.pododev.web.domain.blog.blog.Blog;
 import com.podo.pododev.web.domain.blog.blog.BlogSetup;
 import com.podo.pododev.web.domain.blog.comment.Comment;
-import com.podo.pododev.web.domain.blog.comment.CommentDto;
 import com.podo.pododev.web.domain.blog.comment.repository.CommentRepository;
 import com.podo.pododev.web.domain.user.User;
 import com.podo.pododev.web.domain.user.UserSetup;
-import com.podo.pododev.web.global.util.JsonUtil;
 import com.podo.pododev.web.test.IntegrationTest;
 import com.podo.pododev.web.test.TestUtil;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @TestPropertySource(properties = {"blog.comment.recent.size=2"})
@@ -67,9 +60,7 @@ class CommentDeleteApiTest extends IntegrationTest {
 
         //when
         mockMvc().perform(delete("/api/blogs/" + blog.getId() + "/comments/" + comment.getId()))
-                .andExpect(status().isUnauthorized())
-                .andExpect(jsonPath("$.code").value(DefaultApiStatus.UNAUTHORIZED.getCode()))
-                .andExpect(jsonPath("$.message").value(DefaultApiStatus.UNAUTHORIZED.getMessage()));
+                .andExpect(status().isUnauthorized());
 
         //then
         assertThat(commentRepository.findById(comment.getId())).isPresent();

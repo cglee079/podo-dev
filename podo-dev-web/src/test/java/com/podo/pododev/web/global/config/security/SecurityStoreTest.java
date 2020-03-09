@@ -9,6 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.BDDMockito.given;
 
+@DisplayName("토큰 저장소")
 class SecurityStoreTest {
 
     @DisplayName("New Instance")

@@ -26,15 +26,16 @@ public class GitLogStoreUpdateWorker implements Worker {
 
         final List<GitEventVo> events = gitApiClient.getEvents();
         final LocalDateTime lastUpdateAt = gitLogStore.getLastUpdateAt();
-        final LocalDateTime lastedEventCreateAt = events.get(0).getCreateAt();
+        final LocalDateTime leastEventCreateAt = events.get(0).getCreateAt();
 
-        if(lastedEventCreateAt.compareTo(lastUpdateAt) <= 0){
+        if(leastEventCreateAt.compareTo(lastUpdateAt) <= 0){
             log.info("Git 변동 내역이 없습니다. 갱신을 진행하지 않습니다");
+            gitLogStore.updateLastCheckAt(now);
             return;
         }
 
         final GitUserVo user = gitApiClient.getUser();
-        gitLogStore.update(user, gitApiClient.getEvents(), lastedEventCreateAt);
+        gitLogStore.update(user, gitApiClient.getEvents(), leastEventCreateAt);
         gitLogStore.updateLastCheckAt(now);
     }
 }

@@ -1,10 +1,12 @@
 package com.podo.pododev.web.global.config.security.oauth;
 
 import com.podo.pododev.core.util.type.RequestHeader;
+import com.podo.pododev.web.domain.user.User;
 import com.podo.pododev.web.domain.user.UserDto;
 import com.podo.pododev.web.domain.user.application.UserReadService;
 import com.podo.pododev.web.domain.user.application.UserWriteService;
 import com.podo.pododev.web.global.config.security.SecurityStore;
+import com.podo.pododev.web.global.config.security.role.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -18,6 +20,8 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
 import java.util.List;
+
+import static com.podo.pododev.web.global.config.security.role.UserRole.USER;
 
 @RequiredArgsConstructor
 @Service
@@ -38,7 +42,7 @@ public class OAuth2Service implements OAuth2UserService<OAuth2UserRequest, OAuth
         final String registrationId = userRequest.getClientRegistration().getRegistrationId();
 
         final OAuthAttributes attributes = OAuthType.from(registrationId).createAttributes(oAuth2User.getAttributes());
-        attributes.setRole(userReadService.getRoleByKey(attributes.getUserKey()));
+        attributes.setRole(userReadService.getRoleByKey(attributes.getUserKey()).orElse(USER));
 
         final Long userId = userWriteService.writeUser(createUserInsertDto(attributes));
         final OAuthUserDetails oAuthUserDetails = createOAuthUserDetails(userId, attributes);

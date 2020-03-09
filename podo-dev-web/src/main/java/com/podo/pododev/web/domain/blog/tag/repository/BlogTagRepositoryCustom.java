@@ -6,5 +6,5 @@ import java.util.List;
 
 @Repository
 public interface BlogTagRepositoryCustom {
-    List<String> findDistinctTagValue(boolean enabled);
+    List<String> findDistinctTagValue(boolean blogEnabled);
 }

@@ -1,9 +1,11 @@
+import bus from '../../utils/bus';
+
 export default {
     async login(store, registrationId) {
         const isAllowed = await this.$axios.$get(`/api/login/enabled?oAuthType=${registrationId}`);
         if (isAllowed) {
-            window.location.href =
-                process.env.EXTERNAL_SERVER_URL + `/oauth2/authorization/${registrationId}`;
+            bus.$emit("spinner:start", "post-blog-comment");
+            window.location.href = process.env.EXTERNAL_SERVER_URL + `/oauth2/authorization/${registrationId}`;
         } else {
             this.$toast.show("다른 아이디로 로그인해주세요");
         }

@@ -1,4 +1,4 @@
-package com.podo.pododev.web.domain.blog.tag.service;
+package com.podo.pododev.web.domain.blog.tag.application;
 
 import com.podo.pododev.web.domain.blog.tag.repository.BlogTagRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ public class BlogTagReadService {
 
     private final BlogTagRepository blogTagRepository;
 
-    public List<String> getAllDistinctTagValues(boolean enabled) {
-        return blogTagRepository.findDistinctTagValue(enabled);
+    public List<String> getAllDistinctTagValues(boolean blogEnabled) {
+        return blogTagRepository.findDistinctTagValue(blogEnabled);
     }
 }

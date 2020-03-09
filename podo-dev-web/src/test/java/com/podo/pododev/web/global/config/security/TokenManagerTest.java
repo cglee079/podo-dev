@@ -6,6 +6,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@DisplayName("토큰 관리자")
 class TokenManagerTest {
 
     private static final String SECRET_KEY = "11111111111DFDFDFD1111111111AAAAAAAAAAAAAAABBBBBBBBBBCCCCCCCCCCC";

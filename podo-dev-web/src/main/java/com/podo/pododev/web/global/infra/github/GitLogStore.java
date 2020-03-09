@@ -19,14 +19,10 @@ public class GitLogStore {
     private LocalDateTime lastUpdateAt = LocalDateTime.MIN;
     private LocalDateTime lastCheckAt = LocalDateTime.now();
 
-    public void update(GitUserVo gitUserVo, List<GitEventVo> gitEvents, LocalDateTime lastedEventCreateAt) {
-        this.gitUser = gitUserVo;
+    public void update(GitUserVo gitUser, List<GitEventVo> gitEvents, LocalDateTime lastUpdateAt) {
+        this.gitUser = gitUser;
         this.gitEvents = gitEvents;
-        this.lastUpdateAt =  lastedEventCreateAt;
-    }
-
-    public LocalDateTime getLastUpdateAt(){
-        return lastUpdateAt;
+        this.lastUpdateAt =  lastUpdateAt;
     }
 
     public List<GitEventVo> getGitEvents() {

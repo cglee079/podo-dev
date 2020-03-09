@@ -17,11 +17,11 @@
                     Git
                 </a>
             </h2>
-            <div v-for="event in gitLog.events" :key="event.url" class="git-event">
+            <div v-for="(event, index) in gitLog.events" :key="index" class="git-event">
                 <a :href="event.url" target="_blank">
-                    <div class="create-at">{{ event.createAt }}</div>
                     <div class="event-type">{{ event.eventType }}</div>
                     <div class="contents">{{ event.contents }}</div>
+                    <div class="create-at">{{ event.createAt }}</div>
                 </a>
             </div>
         </div>
@@ -193,9 +193,11 @@ export default {
 
         .create-at {
             width: 110px;
+            text-align: right;
         }
+
         .event-type {
-            width: 110px;
+            width: 100px;
             font-style: italic;
         }
 
@@ -267,9 +269,8 @@ export default {
         }
 
         > .create-at {
-            min-width: 120px;
+            min-width: 110px;
             text-align: right;
-            font-size: 0.9rem;
         }
     }
 }
