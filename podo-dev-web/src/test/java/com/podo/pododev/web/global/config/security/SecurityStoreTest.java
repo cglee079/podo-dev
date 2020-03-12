@@ -1,5 +1,7 @@
 package com.podo.pododev.web.global.config.security;
 
+import com.podo.pododev.web.domain.user.User;
+import com.podo.pododev.web.domain.user.UserVo;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -26,7 +28,8 @@ class SecurityStoreTest {
         final TokenManager tokenManager = Mockito.mock(TokenManager.class);
         final SecurityStore securityStore = new SecurityStore(tokenManager);
         final Authentication authentication = Mockito.mock(Authentication.class);
-        final String token = securityStore.login(authentication);
+        final UserVo userVo = UserVo.createByUser(User.builder().build());
+        final String token = securityStore.login(authentication, userVo);
 
         given(tokenManager.authenticate(token)).willReturn(true);
 
@@ -40,12 +43,12 @@ class SecurityStoreTest {
     @DisplayName("Auth, 인증되지 않은 Token")
     @Test
     void testNoAuth(){
-
         //given
         final TokenManager tokenManager = Mockito.mock(TokenManager.class);
         final SecurityStore securityStore = new SecurityStore(tokenManager);
         final Authentication authentication = Mockito.mock(Authentication.class);
-        final String token = securityStore.login(authentication);
+        final UserVo userVo = UserVo.createByUser(User.builder().build());
+        final String token = securityStore.login(authentication, userVo);
 
         given(tokenManager.authenticate(token)).willReturn(false);
 
@@ -59,12 +62,12 @@ class SecurityStoreTest {
     @DisplayName("Logout")
     @Test
     void testLogout(){
-
         //given
         final TokenManager tokenManager = Mockito.mock(TokenManager.class);
         final SecurityStore securityStore = new SecurityStore(tokenManager);
         final Authentication authentication = Mockito.mock(Authentication.class);
-        final String token = securityStore.login(authentication);
+        final UserVo userVo = UserVo.createByUser(User.builder().build());
+        final String token = securityStore.login(authentication, userVo);
 
         given(tokenManager.authenticate(token)).willReturn(true);
 

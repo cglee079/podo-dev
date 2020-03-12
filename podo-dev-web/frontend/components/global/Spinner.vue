@@ -14,17 +14,21 @@ export default {
     name: "Spinner",
     methods: {
         on(type) {
-            if (process.client){
-                this.$refs.spinner.classList.add("on");
-                bus.$emit("scroll:prevent", type);
+            if (process.server) {
+                return;
             }
+
+            this.$refs.spinner.classList.add("on");
+            bus.$emit("scroll:prevent", type);
         },
 
         off(type) {
-            if (process.client) {
-                this.$refs.spinner.classList.remove("on");
-                bus.$emit("scroll:unset", type);
+            if (process.server) {
+                return;
             }
+
+            this.$refs.spinner.classList.remove("on");
+            bus.$emit("scroll:unset", type);
         }
     },
 

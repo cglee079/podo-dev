@@ -3,6 +3,7 @@ package com.podo.pododev.web.domain.user.application;
 import com.podo.pododev.web.domain.user.User;
 import com.podo.pododev.web.domain.user.UserDto;
 import com.podo.pododev.web.domain.user.UserRepository;
+import com.podo.pododev.web.domain.user.UserVo;
 import com.podo.pododev.web.global.config.security.oauth.OAuthType;
 import com.podo.pododev.web.global.config.security.role.UserRole;
 import lombok.RequiredArgsConstructor;
@@ -48,13 +49,13 @@ class UserReadServiceTest {
         final User savedUser = userRepository.save(user);
 
         //when
-        final UserDto.response currentUser = userReadService.getUser(savedUser.getId());
+        final UserVo userVo = userReadService.getUser(savedUser.getId());
 
         //then
-        assertThat(currentUser.getUsername()).isEqualTo(username);
-        assertThat(currentUser.getOAuthType()).isEqualTo(oAuthType);
-        assertThat(currentUser.getPicture()).isEqualTo(picture);
-        assertThat(currentUser.getIsAdmin()).isFalse();
+        assertThat(userVo.getUsername()).isEqualTo(username);
+        assertThat(userVo.getOAuthType()).isEqualTo(oAuthType);
+        assertThat(userVo.getPicture()).isEqualTo(picture);
+        assertThat(userVo.getIsAdmin()).isFalse();
     }
 
     @DisplayName("사용자 Role 조회, 사용자가 없을 때")

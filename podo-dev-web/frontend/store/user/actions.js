@@ -1,4 +1,5 @@
 import bus from '../../utils/bus';
+import jwt from 'jsonwebtoken';
 
 export default {
     async login(store, registrationId) {
@@ -11,7 +12,7 @@ export default {
         }
     },
 
-    async logout({ commit }, callback) {
+    async logout({commit}, callback) {
         await this.$axios.$post("/api/logout");
 
         delete this.$axios.defaults.headers.common["Authorization"];
@@ -24,18 +25,18 @@ export default {
         }
     },
 
-    async checkLogin({ commit }, token) {
+    async checkLogin({commit}, token) {
         if (token) {
             this.$axios.defaults.headers.common["Authorization"] = "Bearer " + token;
 
             try {
-                const user = await this.$axios.$get("/api/user");
-                commit("doLogin", user);
+                const tokenValue = jwt.decode(token);
+                commit("doLogin", JSON.parse(tokenValue.sub));
 
                 this.$storage.setLocalStorage("token", token);
 
                 return user;
-            } catch {
+            } catch{
                 this.$storage.removeLocalStorage("token");
                 delete this.$axios.defaults.headers.common["Authorization"];
             }

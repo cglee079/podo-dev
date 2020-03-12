@@ -1,9 +1,12 @@
 package com.podo.pododev.web.global.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.podo.pododev.web.domain.user.UserVo;
+import com.podo.pododev.web.global.util.JsonUtil;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.JacksonSerializer;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -12,20 +15,22 @@ import java.util.Date;
 import java.util.Map;
 
 @Slf4j
+@RequiredArgsConstructor
 @Component
 public class TokenManager {
 
     private static final JacksonSerializer<Map<String, ?>> SERIALIZER = new JacksonSerializer<>(new ObjectMapper());
 
     @Value("${security.expire.hour}")
-    private long expireHour;
+    private final Integer expireHour;
 
     @Value("${security.secret-key}")
-    private String secretKey;
+    private final String secretKey;
 
-    public String createToken() {
+    public String createToken(UserVo userVo) {
         return Jwts.builder()
                 .serializeToJsonWith(SERIALIZER)
+                .setSubject(JsonUtil.toJson(userVo))
                 .setExpiration(new Date(System.currentTimeMillis() + (expireHour * 60 * 60 * 1000)))
                 .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
                 .compact();

@@ -1,5 +1,5 @@
 <template>
-    <div id="wrapNav">
+    <div id="wrapNav" ref="wrapNav" class="on">
         <header id="nav" :class="$mq">
             <div id="logo">
                 <nuxt-link :to="{ name: 'index' }">
@@ -25,11 +25,7 @@
         </header>
 
         <client-only>
-            <vue-scroll-progress-bar
-                height="2px"
-                backgroundColor="#666666"
-                zIndex="0"
-            />
+            <vue-scroll-progress-bar height="2px" backgroundColor="#666666" zIndex="0" />
         </client-only>
     </div>
 </template>
@@ -52,9 +48,17 @@ export default {
             getUserinfo: "user/getUserinfo"
         })
     },
+    data() {
+        return {
+            scroll : {
+                before: 0, // 페이지 리로딩시 브라우져가 0으로 스크롤함.
+                doing: null
+            },
+        };
+    },
     methods: {
         ...mapActions({
-            logout: "user/logout",
+            logout: "user/logout"
         }),
 
         clickLogout() {
@@ -64,7 +68,27 @@ export default {
                     this.$router.push({ name: "index" });
                 });
             });
+        },
+        onScroll() {
+            if (process.server) {
+                return;
+            }
+
+            window.clearTimeout(this.scroll.doing);
+
+            this.scroll.doing = setTimeout(() => {
+                if (window.scrollY > this.scroll.before) {
+                    this.$refs.wrapNav.classList.remove("on");
+                } else {
+                    this.$refs.wrapNav.classList.add("on");
+                }
+                this.scroll.before = window.scrollY;
+            }, 20);
+
         }
+    },
+    mounted() {
+        window.addEventListener("scroll", this.onScroll);
     }
 };
 </script>
@@ -83,14 +107,20 @@ export default {
 
 #wrapNav {
     z-index: 9;
-    top: 0;
     left: 0;
     right: 0;
+    top: calc(var(--nav-height) * -1);
     position: sticky;
     background: #ffffff;
-    opacity: 0.95;
+    opacity: 0;
     height: var(--nav-height);
     border-bottom: 0.7px solid #eeeeee;
+    transition: top 0.5s cubic-bezier(0, 0, 0, 1), opacity 0.2s ease-in-out;
+
+    &.on {
+        top: 0;
+        opacity: 0.95;
+    }
 }
 
 #nav {
@@ -98,7 +128,7 @@ export default {
     justify-content: space-between;
     align-items: center;
     height: 100%;
-    padding: 0px 5%;
+    padding: 0 5%;
 
     #logo {
         z-index: 1;

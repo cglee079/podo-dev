@@ -1,11 +1,11 @@
 package com.podo.pododev.web.domain.blog.comment.api;
 
 import com.podo.pododev.web.domain.blog.blog.Blog;
-import com.podo.pododev.web.domain.blog.blog.BlogSetup;
+import com.podo.pododev.web.test.BlogSetup;
 import com.podo.pododev.web.domain.blog.comment.Comment;
 import com.podo.pododev.web.domain.blog.comment.repository.CommentRepository;
 import com.podo.pododev.web.domain.user.User;
-import com.podo.pododev.web.domain.user.UserSetup;
+import com.podo.pododev.web.test.UserSetup;
 import com.podo.pododev.web.test.IntegrationTest;
 import com.podo.pododev.web.test.TestUtil;
 import lombok.RequiredArgsConstructor;

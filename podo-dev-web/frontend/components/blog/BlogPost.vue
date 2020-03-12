@@ -476,7 +476,7 @@ export default {
             margin: unset;
             height: unset;
             background: #ffffff;
-            z-index: 10000000;
+            z-index: 10;
         }
     }
 
@@ -490,7 +490,7 @@ export default {
             bottom: 0;
             background: #ffffff;
             overflow-y: scroll;
-            z-index: 1000000000;
+            z-index: 10;
         }
     }
 

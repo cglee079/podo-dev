@@ -1,5 +1,6 @@
-package com.podo.pododev.web.domain.blog.blog;
+package com.podo.pododev.web.test;
 
+import com.podo.pododev.web.domain.blog.blog.Blog;
 import com.podo.pododev.web.domain.blog.blog.repository.BlogRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

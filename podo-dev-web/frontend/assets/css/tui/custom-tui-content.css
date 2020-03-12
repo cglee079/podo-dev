@@ -172,7 +172,6 @@
     width: auto;
     border-collapse: collapse;
     box-sizing: border-box;
-
 }
 
 .tui-editor-contents table th,
@@ -220,9 +219,25 @@
 .tui-editor-contents ul li,
 .tui-editor-contents ol li {
     position: relative;
+    margin-left: 0.4rem;
 }
 
-.tui-editor-contents ul p, ol p {
+.tui-editor-contents > ul > li > ul > li {
+    list-style-type: circle;
+}
+
+.tui-editor-contents > ul > li > ul > li > ul > li {
+    list-style-type: square;
+}
+
+.tui-editor-contents > ul ul,
+.tui-editor-contents > ol ol {
+    margin-top: 5px !important;
+    margin-bottom: 7px !important;
+}
+
+.tui-editor-contents ul p,
+ol p {
     margin: 0;
 }
 
@@ -264,14 +279,14 @@
     left: 0;
     top: 1px;
     cursor: pointer;
-    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAADdJREFUKBVjvHv37n8GMgALSI+SkhJJWu/du8fARJIOJMWjGpECA505GjjoIYLEB6dVUNojFQAA/1MJUFWet/4AAAAASUVORK5CYII=');
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAADdJREFUKBVjvHv37n8GMgALSI+SkhJJWu/du8fARJIOJMWjGpECA505GjjoIYLEB6dVUNojFQAA/1MJUFWet/4AAAAASUVORK5CYII=");
 }
 
 .tui-editor-contents .task-list-item.checked:before {
-    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAMpJREFUKBVjjJ/64D8DGYCJDD1gLbTVyM3OxJDiJMzAxcYIdyALnIWDAdJU7i/OICfCxsDMxMgwc88bwk5F1vTs/W+GFUffwY2H+1FBlI2hLliCQYCbGSyJrqlzwwuGj9//YWoMtRBgUBJnZ6gMEGeQFWaFOw9kE7omkG5GWDyCPF7mJ86gIMbO8P//fwZGRkYGXJpAGuFO/fbrP0PXppcMD179JKgJRSOIA9N8/NZXrM4DqYEBjOgAaYYFOUwRNhruVGyS+MTI1ggAx8NTGcUtFVQAAAAASUVORK5CYII=');
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAMpJREFUKBVjjJ/64D8DGYCJDD1gLbTVyM3OxJDiJMzAxcYIdyALnIWDAdJU7i/OICfCxsDMxMgwc88bwk5F1vTs/W+GFUffwY2H+1FBlI2hLliCQYCbGSyJrqlzwwuGj9//YWoMtRBgUBJnZ6gMEGeQFWaFOw9kE7omkG5GWDyCPF7mJ86gIMbO8P//fwZGRkYGXJpAGuFO/fbrP0PXppcMD179JKgJRSOIA9N8/NZXrM4DqYEBjOgAaYYFOUwRNhruVGyS+MTI1ggAx8NTGcUtFVQAAAAASUVORK5CYII=");
 }
 
-.tui-editor-contents .task-list-item input[type='checkbox'],
+.tui-editor-contents .task-list-item input[type="checkbox"],
 .tui-editor-contents .task-list-item .task-list-item-checkbox {
     margin-left: -17px;
     margin-right: 3.8px;

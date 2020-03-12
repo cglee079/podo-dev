@@ -16,7 +16,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
 
-@DisplayName("Git Update Job 테스트")
+@DisplayName("Git Update Job 단위 테스트")
 class GitLogStoreUpdateWorkerTest {
 
     @DisplayName("doWork 테스트, Git 서버 갱신 안됬을 때")

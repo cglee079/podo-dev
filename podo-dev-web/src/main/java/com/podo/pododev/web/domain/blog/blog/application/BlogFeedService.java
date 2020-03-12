@@ -13,8 +13,8 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
-@Service
 @Transactional
+@Service
 public class BlogFeedService {
 
     private final BlogRepository blogRepository;

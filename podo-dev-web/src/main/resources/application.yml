@@ -19,6 +19,11 @@ blog.comment:
   recent.size: 7
 
 
+job:
+  tempcleaner:
+    expire_hours : 48
+
+
 ## File Save Config
 local.static.dir: C://podo-dev/podo-dev-backend/static
 local.upload:

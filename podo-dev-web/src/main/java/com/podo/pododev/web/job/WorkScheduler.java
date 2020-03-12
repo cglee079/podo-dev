@@ -10,7 +10,7 @@ import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Profile("!test")
+@Profile("deploy")
 @Slf4j
 @RequiredArgsConstructor
 @Component

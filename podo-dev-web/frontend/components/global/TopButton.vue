@@ -8,7 +8,7 @@
 export default {
     name: "TheTopButton",
     methods: {
-        scroll() {
+        onScroll() {
             if (window.scrollY > 100) {
                 this.$refs.btnScrollTop.classList.add("on");
                 return;
@@ -18,7 +18,7 @@ export default {
         }
     },
     mounted() {
-        window.onscroll = this.scroll;
+        window.addEventListener("scroll", this.onScroll);
     }
 };
 </script>

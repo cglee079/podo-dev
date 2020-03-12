@@ -3,6 +3,7 @@ package com.podo.pododev.web.domain.user.application;
 import com.podo.pododev.web.domain.user.User;
 import com.podo.pododev.web.domain.user.UserDto;
 import com.podo.pododev.web.domain.user.UserRepository;
+import com.podo.pododev.web.domain.user.UserVo;
 import com.podo.pododev.web.domain.user.exception.InvalidUserIdApiException;
 import com.podo.pododev.web.global.config.security.role.UserRole;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ public class UserReadService {
 
     private final UserRepository userRepository;
 
-    public UserDto.response getUser(Long userId) {
+    public UserVo getUser(Long userId) {
 
         if(Objects.isNull(userId)){
             return null;
@@ -28,7 +29,7 @@ public class UserReadService {
         final Optional<User> userOptional = userRepository.findById(userId);
         final User user = userOptional.orElseThrow(() -> new InvalidUserIdApiException(userId));
 
-        return UserDto.response.createByUser(user);
+        return UserVo.createByUser(user);
     }
 
     public Optional<UserRole> getRoleByKey(String userKey) {

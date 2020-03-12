@@ -14,7 +14,7 @@ import java.util.List;
 @Component
 public class GitLogStore {
 
-    private GitUserVo gitUser = null;
+    private GitUserVo gitUser = new GitUserVo();
     private List<GitEventVo> gitEvents = new ArrayList<>();
     private LocalDateTime lastUpdateAt = LocalDateTime.MIN;
     private LocalDateTime lastCheckAt = LocalDateTime.now();
