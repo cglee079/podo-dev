@@ -2,6 +2,8 @@ module.exports = {
     mode: "spa",
     debug: true,
 
+    serverMiddleware: ["redirect-ssl"],
+
     server: {
         port: 8000,
         host: '0.0.0.0'
@@ -14,10 +16,9 @@ module.exports = {
 
     router: {
         base: "/",
-        middleware: "scroll-clear"
+        middleware: ["scroll-block-unset-all"]
     },
 
-    serverMiddleware: ["redirect-ssl"],
 
     env: {
         NAME: "podo-dev",
@@ -88,7 +89,10 @@ module.exports = {
         { src: "~plugins/autocomplete.js" },
         { src: "~plugins/combined-inject.js" },
         { src: "~plugins/scroll-progressbar.js" },
-        { src: "~plugins/toast-editor.js", ssr: false }
+        { src: "~plugins/classie.js", ssr: false },
+        { src: "~plugins/scroll-block.js", ssr: false },
+        { src: "~plugins/toast-editor.js", ssr: false },
+        { src: "~plugins/get-user.js", ssr: false }
     ],
 
     modules: [
@@ -115,8 +119,8 @@ module.exports = {
     ],
 
     axios: {
-        // baseURL: "https://server.podo-dev.com",
-        baseURL: 'http://localhost:28080',
+        baseURL: "https://server.podo-dev.com",
+        // baseURL: 'http://localhost:28080',
         proxyHeaders: false,
         credentials: false
     },

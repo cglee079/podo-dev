@@ -1,16 +1,16 @@
 <template>
     <div>
         <div id="navMenus">
-            <span>
+            <div>
                 <nuxt-link :to="{ name: 'resume' }">이력</nuxt-link>
-            </span>
-            <span>
+            </div>
+            <div>
                 <nuxt-link :to="{ name: 'blogs' }">블로그</nuxt-link>
-            </span>
-            <span><nuxt-link :to="{ name: 'log' }">로그</nuxt-link></span>
-            <span v-if="userinfo.isAdmin && isLogin">
+            </div>
+            <div><nuxt-link :to="{ name: 'log' }">로그</nuxt-link></div>
+            <div v-if="userinfo.isAdmin && isLogin">
                 <nuxt-link :to="{ name: 'blogs-post' }">글쓰기</nuxt-link>
-            </span>
+            </div>
         </div>
 
         <div id="search">
@@ -18,17 +18,17 @@
         </div>
 
         <div id="loginMenus">
-            <span v-if="!isLogin">
+            <div v-if="!isLogin">
                 <router-link :to="{name : 'login'}" v-tooltip="{ content: 'Login', class: 'tooltip' }">
                     <img src="../assets/btns/btn-login2.svg" id="loginIcon" alt="btn-login" />
                 </router-link>
-            </span>
+            </div>
 
-            <span v-if="isLogin" @click="logout">
-                <span v-tooltip="{ content: 'Logout', class: 'tooltip' }">
+            <div v-if="isLogin" @click="logout">
+                <div v-tooltip="{ content: 'Logout', class: 'tooltip' }">
                     <img :src="userinfo.picture" id="userIcon" alt="userIcon" />
-                </span>
-            </span>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -56,9 +56,11 @@ export default {
     position: absolute;
     left: 0;
     right: 0;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    span {
+    div {
         margin: 0px 20px;
         cursor: pointer;
     }
@@ -75,7 +77,7 @@ export default {
     justify-content: center;
     align-items: center;
 
-    span {
+    div {
         cursor: pointer;
         font-size: 0.9rem;
     }

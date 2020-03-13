@@ -23,7 +23,7 @@ public class UserVo {
         userVo.oAuthType = user.getOAuthType();
         userVo.username = user.getUsername();
         userVo.picture = user.getPicture();
-        userVo.isAdmin = user.getRole().equals(ADMIN);
+        userVo.isAdmin = ADMIN.equals(user.getRole());
         return userVo;
     }
 }

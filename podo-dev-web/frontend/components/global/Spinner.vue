@@ -19,7 +19,7 @@ export default {
             }
 
             this.$refs.spinner.classList.add("on");
-            bus.$emit("scroll:prevent", type);
+            this.$scrollBlock.block(type);
         },
 
         off(type) {
@@ -28,7 +28,7 @@ export default {
             }
 
             this.$refs.spinner.classList.remove("on");
-            bus.$emit("scroll:unset", type);
+            this.$scrollBlock.unblock(type);
         }
     },
 

@@ -31,7 +31,8 @@ export default {
 
             try {
                 const tokenValue = jwt.decode(token);
-                commit("doLogin", JSON.parse(tokenValue.sub));
+                const user = JSON.parse(tokenValue.sub);
+                commit("doLogin", user);
 
                 this.$storage.setLocalStorage("token", token);
 

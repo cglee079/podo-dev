@@ -1,5 +1,5 @@
 <template>
-    <div id="wrapNav" ref="wrapNav" class="on">
+    <div id="wrapNav" :class="nav.showing === true ? 'on' : ''">
         <header id="nav" :class="$mq">
             <div id="logo">
                 <nuxt-link :to="{ name: 'index' }">
@@ -50,6 +50,9 @@ export default {
     },
     data() {
         return {
+            nav: {
+                showing: true
+            },
             scroll : {
                 before: 0, // 페이지 리로딩시 브라우져가 0으로 스크롤함.
                 doing: null
@@ -77,11 +80,7 @@ export default {
             window.clearTimeout(this.scroll.doing);
 
             this.scroll.doing = setTimeout(() => {
-                if (window.scrollY > this.scroll.before) {
-                    this.$refs.wrapNav.classList.remove("on");
-                } else {
-                    this.$refs.wrapNav.classList.add("on");
-                }
+                this.nav.showing = !(window.scrollY > this.scroll.before);
                 this.scroll.before = window.scrollY;
             }, 20);
 
@@ -112,14 +111,12 @@ export default {
     top: calc(var(--nav-height) * -1);
     position: sticky;
     background: #ffffff;
-    opacity: 0;
     height: var(--nav-height);
     border-bottom: 0.7px solid #eeeeee;
-    transition: top 0.5s cubic-bezier(0, 0, 0, 1), opacity 0.2s ease-in-out;
+    transition: top 0.3s ease-in-out;
 
     &.on {
         top: 0;
-        opacity: 0.95;
     }
 }
 

@@ -75,6 +75,7 @@
 
 <script>
 import SearchMixins from "../mixins/SearchMixin";
+import bus from "../utils/bus";
 
 export default {
     name: "TheNavMobile",
@@ -87,14 +88,12 @@ export default {
 
         onExport() {
             this.$refs.bgMobileNavs.classList.add("on");
-            document.body.style.overflow = "hidden";
-            document.body.style.touchAction = "none";
+            this.$scrollBlock.block("search");
         },
 
         offExport() {
             this.$refs.bgMobileNavs.classList.remove("on");
-            document.body.style.overflow = "unset";
-            document.body.style.touchAction = "unset";
+            this.$scrollBlock.unblock("search");
         },
 
         clickSearch() {

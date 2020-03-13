@@ -12,12 +12,11 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 import TheFooter from "../components/TheFooter";
 import TopButton from "../components/global/TopButton";
 import TheNav from "../components/TheNav";
 import Spinner from "../components/global/Spinner";
-import ScrollPreventer from "../components/global/ScrollPreventer";
 
 
 export default {
@@ -35,7 +34,6 @@ export default {
     },
 
     components: {
-        ScrollPreventer,
         Spinner,
         TheNav,
         TheFooter,
@@ -52,31 +50,7 @@ export default {
         return {
             loading: false
         };
-    },
-    methods: {
-        ...mapActions({
-            checkLogin: "user/checkLogin"
-        }),
-    },
-
-    beforeMount() {
-        const query = this.$route.query;
-        if (query && query.accessToken) {
-            const accessToken = query.accessToken;
-            this.checkLogin(accessToken).then(() => {
-                this.$toast.show("로그인하였습니다");
-                this.$router.push({ name: "blogs" });
-            });
-        }
-
-        // 새로 고침 시
-        const tokenInStorage = this.$storage.getLocalStorage("token");
-        if (tokenInStorage) {
-            this.checkLogin(tokenInStorage);
-        }
-    },
-
-
+    }
 };
 </script>
 

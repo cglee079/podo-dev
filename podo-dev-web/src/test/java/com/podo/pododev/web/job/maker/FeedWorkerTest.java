@@ -49,7 +49,7 @@ class FeedWorkerTest {
         final FeedMakeExecutor feedMakeExecutorA = Mockito.mock(FeedMakeExecutor.class);
         final FeedMakeExecutor feedMakeExecutorB = Mockito.mock(FeedMakeExecutor.class);
         final BlogFeedService blogFeedService = Mockito.mock(BlogFeedService.class);
-        final List<BlogDto.feed> blogs = Mockito.anyList();
+        final List<BlogDto.feed> blogs = Mockito.any();
 
         given(blogFeedService.existByFeeded(false)).willReturn(true);
         given(blogFeedService.findByEnabledOrderByPublishDesc()).willReturn(blogs);

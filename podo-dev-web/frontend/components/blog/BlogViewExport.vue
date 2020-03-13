@@ -50,14 +50,12 @@ export default {
     methods: {
         onExport() {
             this.$refs.wrapExport.classList.add("on");
-            document.body.style.overflow = "hidden";
-            document.body.style.touchAction = "none";
+            this.$scrollBlock.block("blog-export");
         },
 
         offExport() {
             this.$refs.wrapExport.classList.remove("on");
-            document.body.style.overflow = "unset";
-            document.body.style.touchAction = "unset";
+            this.$scrollBlock.unblock("blog-export");
         },
 
         clickCopyUrl() {
