@@ -7,9 +7,13 @@
             <div>
                 <nuxt-link :to="{ name: 'blogs' }">블로그</nuxt-link>
             </div>
-            <div><nuxt-link :to="{ name: 'log' }">로그</nuxt-link></div>
+            <div>
+                <nuxt-link :to="{ name: 'log' }">로그</nuxt-link>
+            </div>
             <div v-if="userinfo.isAdmin && isLogin">
-                <nuxt-link :to="{ name: 'blogs-post' }">글쓰기</nuxt-link>
+                <nuxt-link :to="{ name: 'blogs-post' }">
+                    글쓰기
+                </nuxt-link>
             </div>
         </div>
 
@@ -18,23 +22,26 @@
         </div>
 
         <div id="loginMenus">
-            <div v-if="!isLogin">
-                <router-link :to="{name : 'login'}" v-tooltip="{ content: 'Login', class: 'tooltip' }">
-                    <img src="../assets/btns/btn-login2.svg" id="loginIcon" alt="btn-login" />
-                </router-link>
-            </div>
-
             <div v-if="isLogin" @click="logout">
                 <div v-tooltip="{ content: 'Logout', class: 'tooltip' }">
                     <img :src="userinfo.picture" id="userIcon" alt="userIcon" />
                 </div>
+            </div>
+
+            <div v-else>
+                <nuxt-link
+                    :to="{ name: 'login' }"
+                    v-tooltip="{ content: 'Login', class: 'tooltip' }"
+                >
+                    <img src="../assets/btns/btn-login2.svg" id="loginIcon" alt="btn-login" />
+                </nuxt-link>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import SearchMixin from "../mixins/SearchMixin";
+import SearchMixin from "../mixins/search-mixin";
 
 export default {
     name: "TheNavDesktop",
@@ -84,15 +91,15 @@ export default {
 
     #loginIcon {
         margin-top: 5px;
-        width : 35px;
-        height : 35px;
+        width: 35px;
+        height: 35px;
         border-radius: 20px;
         opacity: 0.9;
     }
 
     #userIcon {
         margin-top: 5px;
-        width : 35px;
+        width: 35px;
         height: 35px;
         border-radius: 20px;
     }

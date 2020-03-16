@@ -1,6 +1,6 @@
 module.exports = {
-    mode: "spa",
-    debug: true,
+    // mode: "spa",
+    // debug: true,
 
     serverMiddleware: ["redirect-ssl"],
 
@@ -16,16 +16,15 @@ module.exports = {
 
     router: {
         base: "/",
-        middleware: ["scroll-block-unset-all"]
+        middleware: ["get-user"]
     },
-
 
     env: {
         NAME: "podo-dev",
         STATIC_URL: "https://www.podo-dev.com",
         INTERNAL_SERVER_URL: "http://192.168.219.103:28080",
-        EXTERNAL_SERVER_URL: "http://localhost:28080",
-        // EXTERNAL_SERVER_URL: "https://server.podo-dev.com"
+        // EXTERNAL_SERVER_URL: "http://localhost:28080",
+        EXTERNAL_SERVER_URL: "https://server.podo-dev.com"
     },
 
     build: {
@@ -76,7 +75,7 @@ module.exports = {
             { rel: "icon", href: "/favicon.ico?v=2" },
             {
                 rel: "stylesheet",
-                href: "https://fonts.googleapis.com/earlyaccess/notosanskr.css"
+                href: "https://fonts.googleapis.com/css?family=Noto+Sans+KR:300,400,700&display=swap"
             }
         ]
     },
@@ -84,7 +83,7 @@ module.exports = {
     plugins: [
         { src: "~plugins/axios.js" },
         { src: "~plugins/vue-scrollto.js" },
-        { src: "~plugins/mixins.js" },
+        { src: "~plugins/custom-toast.js" },
         { src: "~plugins/tooltip.js" },
         { src: "~plugins/autocomplete.js" },
         { src: "~plugins/combined-inject.js" },
@@ -92,7 +91,6 @@ module.exports = {
         { src: "~plugins/classie.js", ssr: false },
         { src: "~plugins/scroll-block.js", ssr: false },
         { src: "~plugins/toast-editor.js", ssr: false },
-        { src: "~plugins/get-user.js", ssr: false }
     ],
 
     modules: [

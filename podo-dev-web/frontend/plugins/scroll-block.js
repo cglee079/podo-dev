@@ -1,4 +1,5 @@
 import Vue from "vue";
+import scrollBlackUnsetMixin from '../mixins/scroll-block-unset-mixin';
 
 const scrollBlock = {
     flag: [],
@@ -29,4 +30,5 @@ const plugin = {
     }
 };
 
+Vue.mixin(scrollBlackUnsetMixin);
 Vue.use(plugin);

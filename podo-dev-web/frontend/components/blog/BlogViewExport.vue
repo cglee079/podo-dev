@@ -49,12 +49,12 @@ export default {
     watch: {},
     methods: {
         onExport() {
-            this.$refs.wrapExport.classList.add("on");
+            this.$classie.add(this.$refs.wrapExport, "on");
             this.$scrollBlock.block("blog-export");
         },
 
         offExport() {
-            this.$refs.wrapExport.classList.remove("on");
+            this.$classie.remove(this.$refs.wrapExport, "on");
             this.$scrollBlock.unblock("blog-export");
         },
 

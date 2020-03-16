@@ -50,12 +50,13 @@
             </div>
 
             <div v-if="!isLogin" id="login" class="mobile-nav-menu">
-                <router-link :to="{ name: 'login' }">로그인
+                <nuxt-link :to="{ name: 'login' }">로그인
                     <img src="../assets/btns/btn-login2.svg" alt="btn-login" />
-                </router-link>
+                </nuxt-link>
             </div>
             <div v-if="isLogin" id="logout" class="mobile-nav-menu" @click="logout">
-                <a>로그아웃
+                <a>
+                    로그아웃
                     <img :src="userinfo.picture" alt="userIcon" />
                 </a>
             </div>
@@ -74,25 +75,24 @@
 </template>
 
 <script>
-import SearchMixins from "../mixins/SearchMixin";
-import bus from "../utils/bus";
+import SearchMixin from "../mixins/search-mixin";
 
 export default {
     name: "TheNavMobile",
     props: ["userinfo", "isAdmin", "isLogin"],
-    mixins: [SearchMixins],
+    mixins: [SearchMixin],
     methods: {
         logout() {
             this.$emit("logout");
         },
 
         onExport() {
-            this.$refs.bgMobileNavs.classList.add("on");
+            this.$classie.add(this.$refs.bgMobileNavs, "on");
             this.$scrollBlock.block("search");
         },
 
         offExport() {
-            this.$refs.bgMobileNavs.classList.remove("on");
+            this.$classie.remove(this.$refs.bgMobileNavs, "on");
             this.$scrollBlock.unblock("search");
         },
 
@@ -108,22 +108,22 @@ export default {
 
         onSearch() {
             this.onExport();
-            this.$refs.mobileSearch.classList.add("on");
+            this.$classie.add(this.$refs.mobileSearch, "on");
         },
 
         offSearch() {
             this.offExport();
-            this.$refs.mobileSearch.classList.remove("on");
+            this.$classie.remove(this.$refs.mobileSearch, "on");
         },
 
         onMobileMenu() {
             this.onExport();
-            this.$refs.mobileNavs.classList.add("on");
+            this.$classie.add(this.$refs.mobileNavs, "on");
         },
 
         offMobileMenu() {
             this.offExport();
-            this.$refs.mobileNavs.classList.remove("on");
+            this.$classie.remove(this.$refs.mobileNavs, "on");
         },
 
         clickBtnMobileNavIcon() {
@@ -141,7 +141,7 @@ export default {
     mounted() {
         const els = document.getElementsByClassName("mobile-nav-menu");
         for (let el of els) {
-            if (!el.classList.contains("search")) {
+            if (!this.$classie.hasClass(el, "search")) {
                 el.onclick = () => {
                     this.offMobileMenu();
                 };

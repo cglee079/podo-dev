@@ -76,7 +76,7 @@ export default {
                 this.page++;
             }
 
-            this.$refs.comments.classList.remove("on");
+            this.$classie.remove(this.$refs.comments, "on");
             this.comments = [];
 
             this.fetchBlogComments(0, this.page);
@@ -109,7 +109,7 @@ export default {
                     return;
                 }
 
-                this.$refs.comments.classList.add("on");
+                this.$classie.add(this.$refs.comments, "on");
             } catch (e) {
             } finally {
                 this.isLoading = false;

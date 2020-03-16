@@ -9,12 +9,16 @@ export default {
     name: "TheTopButton",
     methods: {
         onScroll() {
-            if (window.scrollY > 100) {
-                this.$refs.btnScrollTop.classList.add("on");
+            if (process.server) {
                 return;
             }
 
-            this.$refs.btnScrollTop.classList.remove("on");
+            if (window.scrollY > 100) {
+                this.$classie.add(this.$refs.btnScrollTop, "on");
+                return;
+            }
+
+            this.$classie.remove(this.$refs.btnScrollTop, "on");
         }
     },
     mounted() {

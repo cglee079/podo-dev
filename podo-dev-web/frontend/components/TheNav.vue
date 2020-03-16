@@ -7,21 +7,23 @@
                 </nuxt-link>
             </div>
 
-            <the-nav-desktop
-                id="theNavDesktop"
-                ref="theNavDesktop"
-                :userinfo="getUserinfo"
-                :is-login="isLogin"
-                @logout="clickLogout"
-            />
+            <client-only>
+                <the-nav-desktop
+                    id="theNavDesktop"
+                    ref="theNavDesktop"
+                    :userinfo="getUserinfo"
+                    :is-login="isLogin"
+                    @logout="clickLogout"
+                />
 
-            <the-nav-mobile
-                id="theNavMobile"
-                :userinfo="getUserinfo"
-                :is-admin="isAdmin"
-                :is-login="isLogin"
-                @logout="clickLogout"
-            />
+                <the-nav-mobile
+                    id="theNavMobile"
+                    :userinfo="getUserinfo"
+                    :is-admin="isAdmin"
+                    :is-login="isLogin"
+                    @logout="clickLogout"
+                />
+            </client-only>
         </header>
 
         <client-only>
@@ -53,10 +55,10 @@ export default {
             nav: {
                 showing: true
             },
-            scroll : {
+            scroll: {
                 before: 0, // 페이지 리로딩시 브라우져가 0으로 스크롤함.
                 doing: null
-            },
+            }
         };
     },
     methods: {
@@ -68,7 +70,7 @@ export default {
             this.toastConfirm("정말 로그아웃 하시겠습니까?", () => {
                 this.logout(() => {
                     this.$toast.show("로그아웃 되었습니다");
-                    this.$router.push({ name: "index" });
+                    this.$router.push({ name: "blogs" });
                 });
             });
         },
@@ -83,7 +85,6 @@ export default {
                 this.nav.showing = !(window.scrollY > this.scroll.before);
                 this.scroll.before = window.scrollY;
             }, 20);
-
         }
     },
     mounted() {

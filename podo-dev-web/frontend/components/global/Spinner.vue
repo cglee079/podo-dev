@@ -18,7 +18,7 @@ export default {
                 return;
             }
 
-            this.$refs.spinner.classList.add("on");
+            this.$classie.add(this.$refs.spinner, "on");
             this.$scrollBlock.block(type);
         },
 
@@ -27,7 +27,7 @@ export default {
                 return;
             }
 
-            this.$refs.spinner.classList.remove("on");
+            this.$classie.remove(this.$refs.spinner, "on");
             this.$scrollBlock.unblock(type);
         }
     },

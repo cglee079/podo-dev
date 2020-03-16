@@ -1,7 +1,6 @@
-export default ({ store, redirect }) => {
-    const isAdmin = store.state.user.userinfo.isAdmin;
 
-    if (!isAdmin) {
+export default ({ store, redirect }) => {
+    if (!store.getters["user/isAdmin"]) {
         redirect({ name: "blogs" });
     }
 };

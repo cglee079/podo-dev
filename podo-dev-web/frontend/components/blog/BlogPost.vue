@@ -174,16 +174,16 @@ export default {
     methods: {
         expandEditor() {
             this.config.editor.expand = true;
-            bus.$emit("scroll:prevent", "expand-editor");
-            this.$refs.wrapEditor.classList.add("expand");
-            this.$refs.editorSubMenu.classList.add("expand");
+            this.$scrollBlock.block("expand-editor");
+            this.$classie.add(this.$refs.wrapEditor, "expand");
+            this.$classie.add(this.$refs.editorSubMenu, "expand");
         },
 
         contractEditor() {
             this.config.editor.expand = false;
-            bus.$emit("scroll:unset", "expand-editor");
-            this.$refs.wrapEditor.classList.remove("expand");
-            this.$refs.editorSubMenu.classList.remove("expand");
+            this.$scrollBlock.unblock("expand-editor");
+            this.$classie.remove(this.$refs.wrapEditor, "expand");
+            this.$classie.remove(this.$refs.editorSubMenu, "expand");
         },
 
         //태그 Input 입력 시,

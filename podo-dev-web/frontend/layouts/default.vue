@@ -6,18 +6,16 @@
         </article>
         <the-footer />
         <top-button />
-        <spinner/>
-        <scroll-preventer/>
+        <spinner />
     </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import TheFooter from "../components/TheFooter";
 import TopButton from "../components/global/TopButton";
 import TheNav from "../components/TheNav";
 import Spinner from "../components/global/Spinner";
-
 
 export default {
     metaInfo: {
@@ -50,6 +48,30 @@ export default {
         return {
             loading: false
         };
+    },
+    methods: {
+        ...mapActions({
+            checkLogin: "user/checkLogin"
+        })
+    },
+
+    created() {
+        const query = this.$route.query;
+        if (query && query.accessToken) {
+            const accessToken = query.accessToken;
+            this.checkLogin(accessToken).then(() => {
+                this.$toast.show("로그인하였습니다");
+                this.$router.push({ name: "blogs" });
+            });
+        }
+    },
+
+    mounted() {
+        // 새로 고침 시
+        const tokenInStorage = this.$storage.getLocalStorage("token");
+        if (tokenInStorage) {
+            this.checkLogin(tokenInStorage);
+        }
     }
 };
 </script>

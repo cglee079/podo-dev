@@ -13,7 +13,10 @@
 <script>
 export default {
     props: ["error"],
-    layout: "default"
+    layout: "default",
+    created() {
+        console.log(this.error);
+    }
 };
 </script>
 

@@ -269,7 +269,7 @@ export default {
         }
     },
 
-    beforeMount() {
+    mounted() {
         this.filter.search = this.$route.query.search;
         this.filter.tag = this.$route.query.tag;
 
