@@ -15,6 +15,7 @@
 HELP.md
 .gradle
 build/
+libs/
 
 
 
