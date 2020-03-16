@@ -28,14 +28,18 @@
             </div>
 
             <div id="submenus">
-                <span v-if="isAdmin && isLogin" @click="clickModifyBlog(blog.id)">
+                <div v-if="isAdmin && isLogin" @click="clickModifyBlog(blog.id)">
                     수정
-                </span>
-                <span v-if="isAdmin && isLogin" @click="clickDeleteBlog(blog.id)">
+                </div>
+                <div v-else></div>
+
+                <div v-if="isAdmin && isLogin" @click="clickDeleteBlog(blog.id)">
                     삭제
-                </span>
-                <span @click="$refs.export.onExport()">공유하기</span>
-                <span>
+                </div>
+                <div v-else></div>
+
+                <div @click="$refs.export.onExport()">공유하기</div>
+                <div>
                     <nuxt-link
                         :to="{
                             name: 'blogs',
@@ -44,9 +48,9 @@
                     >
                         목록
                     </nuxt-link>
-                </span>
-                <span @click="clickBefore()">이전글</span>
-                <span @click="clickNext()">다음글</span>
+                </div>
+                <div @click="clickBefore()">이전글</div>
+                <div @click="clickNext()">다음글</div>
             </div>
 
             <div id="attachFiles">
@@ -218,8 +222,8 @@ export default {
             this.toastConfirm("정말 삭제하시겠습니까?", async () => {
                 try {
                     bus.$emit("spinner:start", "delete-blog");
-                    const response = await this.$axios.delete(`/api/blogs/${blogId}`);
-                    this.$router.push({ name: "index" });
+                    await this.$axios.delete(`/api/blogs/${blogId}`);
+                    this.$router.push({ name: "blogs" });
                 } catch (e) {
                 } finally {
                     bus.$emit("spinner:stop", "delete-blog");
@@ -367,7 +371,7 @@ export default {
         align-items: center;
         justify-content: flex-end;
 
-        span {
+        div {
             cursor: pointer;
             margin-left: 10px;
             font-size: 0.9rem;

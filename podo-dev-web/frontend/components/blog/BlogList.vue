@@ -18,11 +18,9 @@ export default {
         BlogListItem
     },
     watch: {
-        $route: {
-            handler() {
-                this.fetchBlogByFilter();
-            },
-            immediate: true
+        "$route.query"() {
+            console.log('ddd');
+            this.fetchBlogByFilter();
         }
     },
     data() {
@@ -53,7 +51,7 @@ export default {
             this.isLoading = true;
 
             try {
-                const response  = await this.$axios.$get(`${this.$baseUrl()}/api/blogs`, {
+                const response = await this.$axios.$get(`${this.$baseUrl()}/api/blogs`, {
                     params: {
                         page: page,
                         tag: this.filter.tag,
@@ -108,6 +106,7 @@ export default {
 
     mounted() {
         window.addEventListener("scroll", this.handleScroll);
+        this.fetchBlogByFilter();
     },
 
     beforeDestroy() {

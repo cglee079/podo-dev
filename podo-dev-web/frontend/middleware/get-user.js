@@ -1,7 +1,5 @@
 export default ({ app, store }) => {
-    if (process.server) {
-        return;
-    }
+    console.log('get-user');
 
     const tokenInStorage = app.$storage.getLocalStorage("token");
     if (tokenInStorage) {

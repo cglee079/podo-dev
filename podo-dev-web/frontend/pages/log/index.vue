@@ -6,7 +6,7 @@
                 Tag
             </h2>
             <span v-for="tag in tags" :key="tag" class="tag">
-                <nuxt-link :to="{ name: 'index', query: { tag: tag } }">#{{ tag }}</nuxt-link>
+                <nuxt-link :to="{ name: 'blogs', query: { tag: tag } }">#{{ tag }}</nuxt-link>
             </span>
         </div>
 

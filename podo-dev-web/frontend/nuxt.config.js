@@ -89,6 +89,7 @@ module.exports = {
         { src: "~plugins/combined-inject.js" },
         { src: "~plugins/scroll-progressbar.js" },
         { src: "~plugins/classie.js", ssr: false },
+        { src: "~plugins/get-user.js"},
         { src: "~plugins/scroll-block.js", ssr: false },
         { src: "~plugins/toast-editor.js", ssr: false },
     ],
