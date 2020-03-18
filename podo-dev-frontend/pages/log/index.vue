@@ -32,7 +32,7 @@
                 Comment
             </h2>
             <div v-for="comment in recentComments" :key="comment.id" class="comment">
-                <nuxt-link :to="{ name: 'blogs-id', params: { id: comment.blogId } }">
+                <nuxt-link :to="{ name: 'blogs-id', params: { id: comment.blogId } , hash : '#comment'}">
                     <div class="writer-icon">
                         <comment-writer-icon :writer="comment.writer" />
                     </div>

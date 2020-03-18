@@ -87,6 +87,7 @@ export default {
     --nav-height: 60px;
     --max-width: 770px;
     --wild-max-width: 900px;
+    --desktop-max-width: 1200px;
 }
 
 * {

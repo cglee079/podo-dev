@@ -40,10 +40,10 @@
                         <span>{{ blog.hitCnt }}</span>
                     </span>
 
-                    <span class="comment-count">
+                    <nuxt-link :to="{ name: 'blogs-id', params: { id: blog.id } , hash : '#comment'}"  class="comment-count">
                         <img src="../../assets/icons/icon-comment2.svg" alt="commentCount" />
                         <span>{{ blog.commentCount }}</span>
-                    </span>
+                    </nuxt-link>
                 </div>
             </div>
         </div>
@@ -198,7 +198,7 @@ $mobile-content-height: 70px;
                 margin-left: 3px;
             }
 
-            > span.hit-count {
+            > .hit-count {
                 display: none;
                 align-items: center;
 
@@ -210,7 +210,7 @@ $mobile-content-height: 70px;
                 }
             }
 
-            > span.comment-count {
+            > .comment-count {
                 display: flex;
                 align-items: center;
 

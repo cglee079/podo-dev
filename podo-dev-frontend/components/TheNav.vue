@@ -128,6 +128,9 @@ export default {
     height: 100%;
     padding: 0 5%;
 
+    max-width: var(--desktop-max-width);
+    margin: 0px auto;
+
     #logo {
         z-index: 1;
         margin-top: 5px;

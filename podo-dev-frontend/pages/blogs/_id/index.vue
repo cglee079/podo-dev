@@ -83,7 +83,9 @@
                 :relates="blog.relates"
             />
 
-            <blog-view-comment v-if="blog.id" :blog-id="blog.id" />
+            <div ref="comments">
+                <blog-view-comment v-if="blog.id" :blog-id="blog.id" />
+            </div>
         </div>
     </section>
 </template>
@@ -289,6 +291,10 @@ export default {
             hitBlogs.push(blogId);
             this.$storage.setLocalStorage(HIT_BLOGS_KEY, hitBlogs);
             this.increaseHitCount(blogId);
+        }
+
+        if (this.$route.hash === "#comment") {
+            setTimeout( () => window.scrollTo(0, this.$refs.comments.getBoundingClientRect().top), 1);
         }
     }
 };

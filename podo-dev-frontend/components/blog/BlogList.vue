@@ -119,7 +119,6 @@ export default {
 #wrapBlogs {
     max-width: var(--wild-max-width);
     margin: 0px auto;
-
     display: flex;
 
     &.mobile {

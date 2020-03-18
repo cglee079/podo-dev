@@ -85,8 +85,8 @@ export default {
     max-width: var(--max-width);
     margin: 0px auto;
 
-    background: #fcfcfc;
-    border: 1px solid #fafafa;
+    /*background: #fcfcfc;*/
+    /*border: 1px solid #fafafa;*/
     border-radius: 15px;
     padding: 100px;
 

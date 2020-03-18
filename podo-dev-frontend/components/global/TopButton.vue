@@ -1,5 +1,5 @@
 <template>
-    <a id="btnScrollTop" ref="btnScrollTop" href="#" v-scroll-to="'body'">
+    <a id="btnScrollTop" ref="btnScrollTop" href="#" v-scroll-to="'body'" :class="$mq">
         TOP
     </a>
 </template>
@@ -30,11 +30,11 @@ export default {
 <style lang="scss" scoped>
 #btnScrollTop {
     position: fixed;
-    right: 1rem;
-    bottom: 1rem;
-    width: 1.5rem;
+    right: 1vw;
+    bottom: 1.5rem;
     height: 1.5rem;
-    border-radius: 2rem;
+    margin-right: 10px;
+    border-radius: 3rem;
     background: #000000;
     color: #fff;
     font-size: 0.7rem;
@@ -47,6 +47,10 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+
+    &.desktop{
+        right: calc(((100vw - var(--wild-max-width))/2) - 8vw);
+    }
 
     &.on {
         opacity: 0.7;
