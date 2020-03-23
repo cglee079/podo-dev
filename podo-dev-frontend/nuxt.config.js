@@ -1,6 +1,6 @@
 module.exports = {
-    // mode: "spa",
-    // debug: true,
+    mode: "spa",
+    debug: true,
 
     serverMiddleware: ["redirect-ssl"],
 
@@ -21,6 +21,7 @@ module.exports = {
 
     env: {
         NAME: "podo-dev",
+        VERSION : "2.1.0",
         STATIC_URL: "https://www.podo-dev.com",
         INTERNAL_SERVER_URL: "http://192.168.219.103:28080",
         // EXTERNAL_SERVER_URL: "http://localhost:28080",
