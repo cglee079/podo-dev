@@ -1,5 +1,4 @@
-spring.profiles: deploy
-  include: app, ssl, core, jpa, infra, oauth, log
+spring.profiles.include: app, ssl, core, jpa, infra, oauth, log
 
 spring.application.name: podo-dev-web
 
