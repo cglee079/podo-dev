@@ -1,0 +1,10 @@
+spring.profiles: deploy
+  include: app, ssl, core, jpa, infra, oauth, log
+
+spring.application.name: podo-dev-web
+
+spring.cloud.config.uri: http://192.168.219.103:8888
+
+
+
+
