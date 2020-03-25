@@ -10,8 +10,6 @@ RUN echo "Asia/Seoul" > /etc/timezone
 CMD java \
     -jar \
     -Dspring.profiles.active=deploy \
-    -Dserver.ssl.key-store=file:./app/keystore.p12 \
-    -Dspring.config.additional-location=file:./app/ \
     -Xms3072m \
     -Xmx3072m \
     -XX:NewSize=2048m \
