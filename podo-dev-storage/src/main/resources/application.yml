@@ -1,6 +1,13 @@
 server.port: 38443
 server.http.port: 38080
 
+---
+
+spring.profiles: deploy
+
+server.port: 8443
+server.http.port: 8080
+
 
 
 
