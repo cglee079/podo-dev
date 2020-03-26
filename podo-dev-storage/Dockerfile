@@ -5,13 +5,17 @@ RUN mkdir -p /app
 COPY ./ /app/
 
 RUN echo "Asia/Seoul" > /etc/timezone
+# RUN  [cp \ /usr/share/zoneinfo/Asia/Seoul \ /etc/localtime]
 
 CMD java \
     -jar \
     -Dspring.profiles.active=deploy \
-    -Xms1024m \
-    -Xmx1024m \
-    -XX:NewSize=512m \
-    -XX:MaxNewSize=512m \
-    -XX:MetaspaceSize=100M \
-    podo-dev-storage.jar
+    -Xms3072m \
+    -Xmx3072m \
+    -XX:NewSize=2048m \
+    -XX:MaxNewSize=2048m \
+    -XX:MetaspaceSize=200M \
+    /app/$(ls /app | grep -E '.*\.jar')
+
+
+

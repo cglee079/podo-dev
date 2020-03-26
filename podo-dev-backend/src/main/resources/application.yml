@@ -2,14 +2,9 @@
 server.port: 28443
 server.http.port: 28080
 
-logging:
-  file.name: podo-dev-backend.%d{yyyy-MM-dd}-%i.log
-  file.path: c://podo-dev/podo-dev-backend/logs
 ---
 spring.profiles: deploy
 
 server.port: 8443
 server.http.port: 8080
 
-logging:
-  file.path: /data/logs

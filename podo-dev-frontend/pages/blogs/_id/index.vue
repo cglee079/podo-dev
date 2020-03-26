@@ -38,19 +38,25 @@
                 </div>
                 <div v-else></div>
 
-                <div @click="$refs.export.onExport()">공유하기</div>
                 <div>
-                    <nuxt-link
-                        :to="{
-                            name: 'blogs',
-                            query: { search: filter.search, tag: filter.tag }
-                        }"
-                    >
-                        목록
-                    </nuxt-link>
+                    <img src="../../../assets/icons/icon-comment2.svg" width="30px" style="opacity: 0.8;"/>
                 </div>
-                <div @click="clickBefore()">이전글</div>
-                <div @click="clickNext()">다음글</div>
+                <div>
+                    <img src="../../../assets/icons/icon-git.png" width="30px" style="opacity: 0.8;"/>
+                </div>
+<!--                <div @click="$refs.export.onExport()">공유하기</div>-->
+<!--                <div>-->
+<!--                    <nuxt-link-->
+<!--                        :to="{-->
+<!--                            name: 'blogs',-->
+<!--                            query: { search: filter.search, tag: filter.tag }-->
+<!--                        }"-->
+<!--                    >-->
+<!--                        목록-->
+<!--                    </nuxt-link>-->
+<!--                </div>-->
+<!--                <div @click="clickBefore()">이전글</div>-->
+<!--                <div @click="clickNext()">다음글</div>-->
             </div>
 
             <div id="attachFiles">
@@ -369,8 +375,8 @@ export default {
     }
 
     #submenus {
-        border-top: 1px solid #9199a4;
-        border-bottom: 1px solid #ecf0f5;
+        /*border-top: 1px solid #9199a4;*/
+        /*border-bottom: 1px solid #ecf0f5;*/
         padding: 8px 0;
 
         display: flex;
