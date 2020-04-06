@@ -1,0 +1,6 @@
+#Server Config
+server.ssl:
+  key-store: classpath:mock
+  key-store-password: mock
+  keyStoreType: mock
+  keyAlias: mock

@@ -14,7 +14,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class TokenAuthFilter implements Filter {
 
-    private static final String AUTH_HEADER_VALUE_PREFIX = "Bearer";
+    public static final String AUTH_HEADER_VALUE_PREFIX = "Bearer";
 
     private final SecurityStore securityStore;
 

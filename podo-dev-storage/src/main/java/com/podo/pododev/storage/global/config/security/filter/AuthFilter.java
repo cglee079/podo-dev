@@ -15,6 +15,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class AuthFilter implements Filter {
 
+    private static final String AUTH_HEADER_VALUE_PREFIX = "Bearer";
     private final List<String> validTokens;
 
     @Override
@@ -34,7 +35,7 @@ public class AuthFilter implements Filter {
         final String authorization = httpRequest.getHeader(RequestHeader.AUTHORIZATION.value());
 
         if (!Objects.isNull(authorization)) {
-            return authorization.replace("Bearer", "").trim();
+            return authorization.replace(AUTH_HEADER_VALUE_PREFIX, "").trim();
         }
 
         return null;

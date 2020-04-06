@@ -1,10 +1,14 @@
 package com.podo.pododev.web.domain.blog.comment.api;
 
+import com.podo.pododev.core.util.type.RequestHeader;
 import com.podo.pododev.web.domain.blog.blog.Blog;
 import com.podo.pododev.web.domain.blog.comment.Comment;
 import com.podo.pododev.web.domain.blog.comment.CommentDto;
 import com.podo.pododev.web.domain.blog.comment.repository.CommentRepository;
 import com.podo.pododev.web.domain.user.User;
+import com.podo.pododev.web.domain.user.UserVo;
+import com.podo.pododev.web.global.config.security.TokenManager;
+import com.podo.pododev.web.global.config.security.filter.TokenAuthFilter;
 import com.podo.pododev.web.global.util.JsonUtil;
 import com.podo.pododev.web.test.BlogSetup;
 import com.podo.pododev.web.test.IntegrationTest;
@@ -34,18 +38,21 @@ class CommentInsertNewApiTest extends IntegrationTest {
     private final CommentSetup commentSetup;
     private final CommentRepository commentRepository;
 
+    private final TokenManager tokenManager;
+
     @DisplayName("새로운 댓글 입력")
     @Test
     void testInsertComment01() throws Exception {
         //given
         final User user = userSetup.saveOne();
-        TestUtil.setAuth(user);
+        final String token = tokenManager.createToken(UserVo.createByUser(user));
 
         final Blog blog = blogSetup.saveOne();
         final CommentDto.insert insert = JsonUtil.toObject(TestUtil.getStringFromResource("data", "comment", "insert_comment.json"), CommentDto.insert.class);
 
         //when
         mockMvc().perform(post("/api/blogs/" + blog.getId() + "/comments")
+                .header(RequestHeader.AUTHORIZATION.value(), TokenAuthFilter.AUTH_HEADER_VALUE_PREFIX+ " " + token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.toJson(insert)))
                 .andExpect(status().isOk());
@@ -64,7 +71,7 @@ class CommentInsertNewApiTest extends IntegrationTest {
     void testInsertComment02() throws Exception {
         //given
         final User user = userSetup.saveOne();
-        TestUtil.setAuth(user);
+        final String token = tokenManager.createToken(UserVo.createByUser(user));
 
         final Blog blog = blogSetup.saveOne();
         final Comment existedComment = commentSetup.saveOne(user, blog);
@@ -74,6 +81,7 @@ class CommentInsertNewApiTest extends IntegrationTest {
 
         //when
         mockMvc().perform(post("/api/blogs/" + blog.getId() + "/comments")
+                .header(RequestHeader.AUTHORIZATION.value(), TokenAuthFilter.AUTH_HEADER_VALUE_PREFIX+ " " + token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.toJson(insert)))
                 .andExpect(status().isOk());

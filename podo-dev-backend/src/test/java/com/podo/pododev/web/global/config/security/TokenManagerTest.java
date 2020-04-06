@@ -26,14 +26,13 @@ class TokenManagerTest {
 
         //then
         assertThat(result).isTrue();
-        //TODO
     }
 
     @DisplayName("Authenticate, 시간 만료")
     @Test
     void testAuthenticate02() {
         //given
-        final TokenManager tokenManager = new TokenManager(24, SECRET_KEY);
+        final TokenManager tokenManager = new TokenManager(0, SECRET_KEY);
 
         final UserVo userVo = UserVo.createByUser(User.builder().build());
         final String token = tokenManager.createToken(userVo);

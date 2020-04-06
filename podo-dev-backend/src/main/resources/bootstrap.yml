@@ -1,13 +1,25 @@
 spring.application.name: podo-dev-web
-spring.profiles.include: app, ssl, core, jpa, infra, oauth
+
+spring.profiles: dev
+spring.profiles.include: dev-app, dev-jpa, dev-infra, dev-oauth, dev-ssl
 
 logging:
   file.name: podo-dev-backend.%d{yyyy-MM-dd}-%i.log
-  file.path: c://podo-dev/podo-dev-backend/logs
+  file.path: c://dev-log/podo-dev/podo-dev-backend/logs
+
+---
+
+spring.profiles: test
+spring.profiles.include: test-app, test-jpa, test-infra, test-oauth, test-ssl
+
+logging:
+  file.name: podo-dev-backend.%d{yyyy-MM-dd}-%i.log
+  file.path: /log/podo-dev/podo-dev-backend/logs
 
 ---
 
 spring.profiles: deploy
+spring.profiles.include: deploy-app, deploy-jpa, deploy-infra, deploy-oauth, deploy-ssl
 
 spring.cloud.config.uri: http://192.168.219.103:8888
 
