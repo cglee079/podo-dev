@@ -1,10 +1,14 @@
 spring.application.name: podo-dev-web
 
+logging:
+  file.name: podo-dev-backend.%d{yyyy-MM-dd}-%i.log
+
+---
+
 spring.profiles: dev
 spring.profiles.include: dev-app, dev-jpa, dev-infra, dev-oauth, dev-ssl
 
 logging:
-  file.name: podo-dev-backend.%d{yyyy-MM-dd}-%i.log
   file.path: c://dev-log/podo-dev/podo-dev-backend/logs
 
 ---
@@ -13,7 +17,6 @@ spring.profiles: test
 spring.profiles.include: test-app, test-jpa, test-infra, test-oauth, test-ssl
 
 logging:
-  file.name: podo-dev-backend.%d{yyyy-MM-dd}-%i.log
   file.path: /log/podo-dev/podo-dev-backend/logs
 
 ---
