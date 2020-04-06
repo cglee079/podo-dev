@@ -6,7 +6,7 @@ bootJar {
 }
 
 jar {
-    enabled = false
+    enabled = true
 }
 
 dependencies {
@@ -33,14 +33,12 @@ dependencies {
 
     implementation group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.10.7'
     implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.10.7'
-    runtime group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.10.7'
-
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.10.7'
     implementation "com.querydsl:querydsl-jpa"
-
-    runtimeOnly 'mysql:mysql-connector-java'
+    implementation 'mysql:mysql-connector-java'
 
     testImplementation 'org.springframework.security:spring-security-test'
-    testCompile group: 'com.h2database', name: 'h2', version: '1.4.200'
+    testImplementation group: 'com.h2database', name: 'h2', version: '1.4.200'
 }
 
 apply plugin: "com.ewerk.gradle.plugins.querydsl"

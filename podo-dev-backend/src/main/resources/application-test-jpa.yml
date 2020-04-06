@@ -6,7 +6,8 @@ spring.datasource:
 
 spring.jpa:
   hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
+
 decorator:
   datasource:
     p6spy:

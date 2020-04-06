@@ -30,8 +30,9 @@ import java.util.Objects;
 public class CommentWriteService {
 
     public static final String DELETED_CONTENTS = "삭제된 댓글입니다.";
+
     @Value("${blog.comment.max.depth}")
-    private Integer maxDepthOfComment;
+    private final Integer maxDepthOfComment;
 
     private final BlogRepository blogRepository;
     private final CommentRepository commentRepository;
