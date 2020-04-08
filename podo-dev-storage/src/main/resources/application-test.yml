@@ -1,0 +1,22 @@
+server.port: 8443
+server.http.port: 8080
+
+## Servlet
+spring.servlet:
+  multipart:
+    max-file-size: 100MB
+    max-request-size: 100MB
+
+## App
+storage.uploaded.dir: /uploaded
+
+## Auth
+uploader.security.client.tokens: 123123123123123123
+
+## ssl
+server:
+  ssl:
+    key-store: classpath:mock
+    key-store-password: mock
+    keyStoreType: mock
+    keyAlias: mock

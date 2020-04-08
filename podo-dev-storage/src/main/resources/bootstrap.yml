@@ -1,9 +1,21 @@
 spring.application.name: podo-dev-storage
-spring.profiles.include: app, auth, ssl
 
 logging:
   file.name: podo-dev-storage.%d{yyyy-MM-dd}-%i.log
-  file.path: c://podo-dev/podo-dev-storage/logs
+
+---
+
+spring.profiles: dev
+
+logging:
+  file.path: c://dev-logs/podo-dev/podo-dev-storage/logs
+
+---
+
+spring.profiles: test
+
+logging:
+  file.path: logs
 
 ---
 
