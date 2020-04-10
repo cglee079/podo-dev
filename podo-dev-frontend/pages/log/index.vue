@@ -2,7 +2,7 @@
     <section id="logs" :class="$mq">
         <div id="tags" class="item">
             <h2 class="item-header">
-                <img src="../../assets/icons/log/tag.png" alt="tag"/>
+                <img src="../../assets/icons/log/tag.png" alt="tag" />
                 Tag
             </h2>
             <span v-for="tag in tags" :key="tag" class="tag">
@@ -13,7 +13,7 @@
         <div id="gitLogs" class="item">
             <h2 class="item-header">
                 <a :href="gitLog.user.url" target="_blank">
-                    <img src="../../assets/icons/log/git-log.png" alt="git-log"/>
+                    <img src="../../assets/icons/log/git-log.png" alt="git-log" />
                     Git
                 </a>
             </h2>
@@ -28,11 +28,13 @@
 
         <div id="recentComments" class="item">
             <h2 class="item-header">
-                <img src="../../assets/icons/log/recent-comment.png" alt="comment"/>
+                <img src="../../assets/icons/log/recent-comment.png" alt="comment" />
                 Comment
             </h2>
             <div v-for="comment in recentComments" :key="comment.id" class="comment">
-                <nuxt-link :to="{ name: 'blogs-id', params: { id: comment.blogId } , hash : '#comment'}">
+                <nuxt-link
+                    :to="{ name: 'blogs-id', params: { id: comment.blogId }, hash: '#comment' }"
+                >
                     <div class="writer-icon">
                         <comment-writer-icon :writer="comment.writer" />
                     </div>
@@ -51,7 +53,7 @@
 
         <div id="archive" class="item">
             <h2 class="item-header">
-                <img src="../../assets/icons/log/archive.png" alt="archive"/>
+                <img src="../../assets/icons/log/archive.png" alt="archive" />
                 Archive
             </h2>
             <div
@@ -125,11 +127,11 @@ export default {
 <style lang="scss" scoped>
 #logs {
     max-width: 800px;
-    margin: 0px auto;
+    margin: 0 auto;
 
     &.tablet,
     &.mobile {
-        padding: 0px 20px;
+        padding: 0 20px;
     }
 }
 
@@ -148,7 +150,7 @@ export default {
 #logs #tags {
     margin-top: 40px;
 
-    .item-header img{
+    .item-header img {
         height: 22px;
         margin-bottom: -2px;
         opacity: 0.9;
@@ -169,7 +171,7 @@ export default {
 }
 
 #logs #gitLogs {
-    .item-header img{
+    .item-header img {
         height: 24px;
         margin-bottom: -1px;
         margin-left: -2px;
@@ -197,7 +199,7 @@ export default {
         }
 
         .event-type {
-            width: 100px;
+            width: 120px;
             font-style: italic;
         }
 
@@ -217,7 +219,7 @@ export default {
 }
 
 #logs #recentComments {
-    .item-header img{
+    .item-header img {
         height: 23px;
         margin-bottom: -2px;
         opacity: 0.9;
@@ -276,7 +278,7 @@ export default {
 }
 
 #logs > div#archive {
-    .item-header img{
+    .item-header img {
         height: 22px;
         margin-bottom: -2px;
         opacity: 0.9;
