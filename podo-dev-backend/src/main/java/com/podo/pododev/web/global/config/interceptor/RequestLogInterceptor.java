@@ -25,7 +25,7 @@ public class RequestLogInterceptor extends HandlerInterceptorAdapter {
 
         final String requestUrl = request.getRequestURI();
 
-        log.info("요청 확인, '{}'  << '{}',  '{}'", requestUrl, requestIP, requestUserAgent);
+        log.debug("요청 확인, '{}'  << '{}',  '{}'", requestUrl, requestIP, requestUserAgent);
 
         return true;
     }

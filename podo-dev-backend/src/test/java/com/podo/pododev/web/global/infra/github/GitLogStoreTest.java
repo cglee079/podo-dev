@@ -1,18 +1,17 @@
 package com.podo.pododev.web.global.infra.github;
 
-import com.podo.pododev.web.global.infra.github.vo.GitEventVo;
-import com.podo.pododev.web.global.infra.github.vo.GitUserVo;
+import com.podo.pododev.web.global.infra.git.GitLogStore;
+import com.podo.pododev.web.global.infra.git.value.GitEventVO;
+import com.podo.pododev.web.global.infra.git.value.GitUserVO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 
 @DisplayName("Git Log Store")
@@ -24,9 +23,9 @@ class GitLogStoreTest {
         //given
         final GitLogStore gitLogStore = new GitLogStore();
 
-        final GitUserVo gitUserVo = Mockito.mock(GitUserVo.class);
-        final GitEventVo gitEvent = Mockito.mock(GitEventVo.class);
-        final List<GitEventVo> gitEvents = Collections.singletonList(gitEvent);
+        final GitUserVO gitUserVo = Mockito.mock(GitUserVO.class);
+        final GitEventVO gitEvent = Mockito.mock(GitEventVO.class);
+        final List<GitEventVO> gitEvents = Collections.singletonList(gitEvent);
         final LocalDateTime lastUpdateAt = LocalDateTime.now();
 
         //when

@@ -1,8 +1,8 @@
 package com.podo.pododev.web.job.maker.sitemap;
 
 import com.podo.pododev.core.util.PathUtil;
-import com.podo.pododev.web.domain.blog.blog.BlogDto;
-import com.podo.pododev.web.global.util.FileCrudUtil;
+import com.podo.pododev.web.domain.blog.blog.dto.BlogFeed;
+import com.podo.pododev.web.global.util.FileCRUDUtil;
 import com.redfin.sitemapgenerator.WebSitemapGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,10 +23,10 @@ public class SitemapMaker {
     @Value("${local.static.dir}")
     private String staticDirectory;
 
-    public void makeSitemap(List<BlogDto.feed> blogs) {
-        log.info("Sitemap 생성을 시작합니다");
+    public void makeSitemap(List<BlogFeed> blogs) {
+        log.debug("Sitemap 생성을 시작합니다");
         try {
-            FileCrudUtil.writeForceDirectory(staticDirectory);
+            FileCRUDUtil.writeForceDirectory(staticDirectory);
             final WebSitemapGenerator sitemapGenerator = new WebSitemapGenerator(PODO_DEV_WEB_URL, new File(staticDirectory));
 
             addDefaultPages(sitemapGenerator);
@@ -46,8 +46,8 @@ public class SitemapMaker {
         sitemapGenerator.addUrl(mergeWithPodoDevWebUrl("/log"));
     }
 
-    private void addBlogPages(List<BlogDto.feed> blogs, WebSitemapGenerator sitemapGenerator) throws MalformedURLException {
-        for (BlogDto.feed blog : blogs) {
+    private void addBlogPages(List<BlogFeed> blogs, WebSitemapGenerator sitemapGenerator) throws MalformedURLException {
+        for (BlogFeed blog : blogs) {
             sitemapGenerator.addUrl(mergeWithPodoDevWebUrl("/blogs/" + blog.getId()));
         }
     }

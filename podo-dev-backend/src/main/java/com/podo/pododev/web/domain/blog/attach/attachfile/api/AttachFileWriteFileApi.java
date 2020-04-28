@@ -1,6 +1,6 @@
 package com.podo.pododev.web.domain.blog.attach.attachfile.api;
 
-import com.podo.pododev.web.domain.blog.attach.attachfile.AttachFileDto;
+import com.podo.pododev.web.domain.blog.attach.attachfile.dto.AttachFileResponse;
 import com.podo.pododev.web.domain.blog.attach.attachfile.application.AttachFileWriteFileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +17,7 @@ public class AttachFileWriteFileApi {
     private final AttachFileWriteFileService attachFileWriteFileService;
 
     @PostMapping("/api/blogs/files")
-    public AttachFileDto.response uploadFileByMultipartFile(@RequestParam("file") MultipartFile file) {
+    public AttachFileResponse uploadFileByMultipartFile(@RequestParam("file") MultipartFile file) {
         return attachFileWriteFileService.saveFileFromMultipartFile(file);
     }
 

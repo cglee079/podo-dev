@@ -1,13 +1,14 @@
 package com.podo.pododev.web.global.config.aop.notifier;
 
-import com.podo.pododev.web.global.config.aop.exception.CantFindArgumentException;
-import com.podo.pododev.web.global.util.HtmlDocumentUtil;
-import com.podo.pododev.web.domain.blog.comment.CommentDto;
-import com.podo.pododev.web.domain.blog.blog.application.BlogReadService;
-import com.podo.pododev.web.global.util.SecurityUtil;
-import com.podo.pododev.web.global.infra.telegram.TelegramClient;
 import com.podo.pododev.core.util.DateTimeFormatUtil;
+import com.podo.pododev.web.domain.blog.blog.application.BlogReadService;
+import com.podo.pododev.web.domain.blog.comment.dto.CommentInsert;
+import com.podo.pododev.web.global.config.aop.exception.CantFindArgumentException;
+import com.podo.pododev.web.global.infra.telegram.TelegramClient;
+import com.podo.pododev.web.global.util.HtmlDocumentUtil;
+import com.podo.pododev.web.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -17,9 +18,10 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-@Aspect
+@Slf4j
 @RequiredArgsConstructor
 @Component
+@Aspect
 public class CommentNotifier {
 
     private final TelegramClient telegramClient;
@@ -28,10 +30,12 @@ public class CommentNotifier {
 
     @AfterReturning("@annotation(com.podo.pododev.web.global.config.aop.notifier.CommentNotice)")
     public void commentNotify(JoinPoint joinPoint) {
-        CommentDto.insert comment = getCommentInsertDto(joinPoint);
+        log.debug("AOP :: COMMENT NOTIFIER :: 댓글 알림을 전송합니다");
+
+        final CommentInsert comment = getCommentInsert(joinPoint);
 
         if (Objects.isNull(comment)) {
-            throw new CantFindArgumentException(CommentDto.insert.class);
+            throw new CantFindArgumentException(CommentInsert.class);
         }
 
         if (SecurityUtil.isAdmin()) {
@@ -58,15 +62,8 @@ public class CommentNotifier {
                 .append(HtmlDocumentUtil.escapeHtml(contents));
 
         telegramClient.notifyAdmin(message.toString());
-
     }
 
-    /**
-     * PathVariable 에서 BlogId 가져옴
-     *
-     * @param joinPoint
-     * @return
-     */
     private Long getBlogId(JoinPoint joinPoint) {
         CodeSignature codeSignature = (CodeSignature) joinPoint.getSignature();
 
@@ -80,18 +77,12 @@ public class CommentNotifier {
         return null;
     }
 
-    /**
-     * RequestBody 에서 Insert 데이터 가져옴
-     *
-     * @param joinPoint
-     * @return
-     */
-    private CommentDto.insert getCommentInsertDto(JoinPoint joinPoint) {
+    private CommentInsert getCommentInsert(JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
 
         for (Object obj : args) {
-            if (obj instanceof CommentDto.insert) {
-                return (CommentDto.insert) obj;
+            if (obj instanceof CommentInsert) {
+                return (CommentInsert) obj;
             }
         }
 

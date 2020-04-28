@@ -1,8 +1,8 @@
 package com.podo.pododev.web.domain.user.application;
 
-import com.podo.pododev.web.domain.user.User;
-import com.podo.pododev.web.domain.user.UserDto;
-import com.podo.pododev.web.domain.user.UserRepository;
+import com.podo.pododev.web.domain.user.model.User;
+import com.podo.pododev.web.domain.user.dto.UserInsert;
+import com.podo.pododev.web.domain.user.repository.UserRepository;
 import com.podo.pododev.web.global.config.security.oauth.OAuthType;
 import com.podo.pododev.web.global.config.security.role.UserRole;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +40,7 @@ class UserWriteServiceTest {
         final OAuthType oAuthType = OAuthType.GOOGLE;
         final UserRole role = USER;
 
-        final UserDto.insert userInsert = UserDto.insert.builder()
+        final UserInsert userInsert = UserInsert.builder()
                 .role(role)
                 .userKey(userKey)
                 .name(username)
@@ -75,7 +75,7 @@ class UserWriteServiceTest {
         final String picture = "picture";
         final OAuthType oAuthType = OAuthType.GOOGLE;
 
-        final UserDto.insert userInsert = UserDto.insert.builder()
+        final UserInsert userInsert = UserInsert.builder()
                 .userKey(userKey)
                 .name(username)
                 .oAuthType(oAuthType)
@@ -108,7 +108,7 @@ class UserWriteServiceTest {
         final String picture = "picture";
         final OAuthType oAuthType = OAuthType.GOOGLE;
 
-        final UserDto.insert userInsert = UserDto.insert.builder()
+        final UserInsert userInsert = UserInsert.builder()
                 .userKey(userKey)
                 .name(username)
                 .oAuthType(oAuthType)

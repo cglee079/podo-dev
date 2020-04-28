@@ -49,7 +49,7 @@
 //        final String token = tokenManager.createToken(UserVo.createByUser(user));
 //
 //        final Blog blog = blogSetup.saveOne();
-//        final CommentDto.insert insert = JsonUtil.toObject(TestUtil.getStringFromResource("data", "comment", "insert_comment.json"), CommentDto.insert.class);
+//        final CommentInsert insert = JsonUtil.toObject(TestUtil.getStringFromResource("data", "comment", "insert_comment.json"), CommentInsert.class);
 //
 //        //when
 //        mockMvc().perform(post("/api/blogs/" + blog.getId() + "/comments")
@@ -76,7 +76,7 @@
 //
 //        final Blog blog = blogSetup.saveOne();
 //        final Comment existedComment = commentSetup.saveOne(user, blog);
-//        final CommentDto.insert insert = JsonUtil.toObject(TestUtil.getStringFromResource("data", "comment", "insert_comment.json"), CommentDto.insert.class);
+//        final CommentInsert insert = JsonUtil.toObject(TestUtil.getStringFromResource("data", "comment", "insert_comment.json"), CommentInsert.class);
 //        final BigDecimal childCommentSort = existedComment.getChildCommentSort();
 //        ReflectionTestUtils.setField(insert, "parentId", existedComment.getId());
 //

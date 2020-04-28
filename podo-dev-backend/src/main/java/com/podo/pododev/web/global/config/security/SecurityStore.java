@@ -1,7 +1,6 @@
 package com.podo.pododev.web.global.config.security;
 
-import com.podo.pododev.web.domain.user.UserVo;
-import com.podo.pododev.web.global.config.security.oauth.OAuthAuthentication;
+import com.podo.pododev.web.domain.user.value.UserVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;

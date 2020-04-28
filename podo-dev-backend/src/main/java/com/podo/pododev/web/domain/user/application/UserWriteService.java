@@ -1,8 +1,8 @@
 package com.podo.pododev.web.domain.user.application;
 
-import com.podo.pododev.web.domain.user.User;
-import com.podo.pododev.web.domain.user.UserDto;
-import com.podo.pododev.web.domain.user.UserRepository;
+import com.podo.pododev.web.domain.user.model.User;
+import com.podo.pododev.web.domain.user.dto.UserInsert;
+import com.podo.pododev.web.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ public class UserWriteService {
 
     private final UserRepository userRepository;
 
-    public Long writeUser(UserDto.insert insert) {
+    public Long writeUser(UserInsert insert) {
 
         final Optional<User> userOptional = userRepository.findByUserKey(insert.getUserKey());
 

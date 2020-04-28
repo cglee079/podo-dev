@@ -1,9 +1,9 @@
 package com.podo.pododev.web.job.git;
 
-import com.podo.pododev.web.global.infra.github.GitApiClient;
-import com.podo.pododev.web.global.infra.github.GitLogStore;
-import com.podo.pododev.web.global.infra.github.vo.GitEventVo;
-import com.podo.pododev.web.global.infra.github.vo.GitUserVo;
+import com.podo.pododev.web.global.infra.git.GitApiClient;
+import com.podo.pododev.web.global.infra.git.GitLogStore;
+import com.podo.pododev.web.global.infra.git.value.GitEventVO;
+import com.podo.pododev.web.global.infra.git.value.GitUserVO;
 import com.podo.pododev.web.job.Worker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,19 +22,19 @@ public class GitLogStoreUpdateWorker implements Worker {
 
     @Override
     public void doWork(LocalDateTime now) {
-        log.info("Git api 정보 갱신을 시작합니다");
+        log.debug("Git api 정보 갱신을 시작합니다");
 
-        final List<GitEventVo> events = gitApiClient.getEvents();
+        final List<GitEventVO> events = gitApiClient.getEvents();
         final LocalDateTime lastUpdateAt = gitLogStore.getLastUpdateAt();
         final LocalDateTime leastEventCreateAt = events.get(0).getCreateAt();
 
         if(leastEventCreateAt.compareTo(lastUpdateAt) <= 0){
-            log.info("Git 변동 내역이 없습니다. 갱신을 진행하지 않습니다");
+            log.debug("Git 변동 내역이 없습니다. 갱신을 진행하지 않습니다");
             gitLogStore.updateLastCheckAt(now);
             return;
         }
 
-        final GitUserVo user = gitApiClient.getUser();
+        final GitUserVO user = gitApiClient.getUser();
         gitLogStore.update(user, gitApiClient.getEvents(), leastEventCreateAt);
         gitLogStore.updateLastCheckAt(now);
     }

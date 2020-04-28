@@ -1,13 +1,13 @@
 package com.podo.pododev.web.domain.blog.comment.application;
 
-import com.podo.pododev.web.domain.blog.blog.Blog;
-import com.podo.pododev.web.domain.blog.comment.Comment;
-import com.podo.pododev.web.domain.blog.comment.CommentDto;
+import com.podo.pododev.web.domain.blog.blog.model.Blog;
+import com.podo.pododev.web.domain.blog.comment.dto.CommentInsert;
+import com.podo.pododev.web.domain.blog.comment.model.Comment;
 import com.podo.pododev.web.domain.blog.comment.api.CommentSetup;
 import com.podo.pododev.web.domain.blog.comment.exception.NoAuthorizedCommentApiException;
 import com.podo.pododev.web.domain.blog.comment.repository.CommentRepository;
-import com.podo.pododev.web.domain.user.User;
-import com.podo.pododev.web.global.util.JsonUtil;
+import com.podo.pododev.web.domain.user.model.User;
+import com.podo.pododev.web.global.util.JsonMapper;
 import com.podo.pododev.web.test.BlogSetup;
 import com.podo.pododev.web.test.IntegrationTest;
 import com.podo.pododev.web.test.TestUtil;
@@ -19,6 +19,7 @@ import org.springframework.test.context.TestConstructor;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -38,6 +39,7 @@ class CommentWriteServiceIntegrationTest extends IntegrationTest {
     @DisplayName("새로운 댓글 입력")
     @Test
     void testInsertComment01() {
+
         //given - user
         final User user = userSetup.saveOne();
         TestUtil.setAuth(user);
@@ -46,7 +48,7 @@ class CommentWriteServiceIntegrationTest extends IntegrationTest {
         final Blog blog = blogSetup.saveOne();
 
         //given - comment insert
-        final CommentDto.insert insert = JsonUtil.toObject(TestUtil.getStringFromResource("data", "comment", "insert_comment.json"), CommentDto.insert.class);
+        final CommentInsert insert = JsonMapper.toObject(TestUtil.getStringFromResource("data", "comment", "insert_comment.json"), CommentInsert.class);
 
         //when
         commentWriteService.insertNewComment(blog.getId(), insert);
@@ -74,7 +76,7 @@ class CommentWriteServiceIntegrationTest extends IntegrationTest {
         final Comment existedComment = commentSetup.saveOne(user, blog);
 
         //given - comment insert
-        final CommentDto.insert insert = JsonUtil.toObject(TestUtil.getStringFromResource("data", "comment", "insert_comment.json"), CommentDto.insert.class);
+        final CommentInsert insert = JsonMapper.toObject(TestUtil.getStringFromResource("data", "comment", "insert_comment.json"), CommentInsert.class);
         final BigDecimal childCommentSort = existedComment.getChildCommentSort();
         ReflectionTestUtils.setField(insert, "parentId", existedComment.getId());
 

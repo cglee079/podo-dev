@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-import static com.podo.pododev.web.domain.blog.tag.QBlogTag.blogTag;
+import static com.podo.pododev.web.domain.blog.tag.model.QBlogTag.blogTag;
 
 @RequiredArgsConstructor
 public class BlogTagRepositoryCustomImpl implements BlogTagRepositoryCustom {

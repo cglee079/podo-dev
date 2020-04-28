@@ -1,9 +1,9 @@
 package com.podo.pododev.web.domain.blog.attach.attachimage.application;
 
 import com.podo.pododev.web.domain.blog.attach.AttachStatus;
-import com.podo.pododev.web.domain.blog.attach.attachimage.AttachImageDto;
+import com.podo.pododev.web.domain.blog.attach.attachimage.dto.AttachImageResponse;
 import com.podo.pododev.web.domain.blog.attach.attachimage.AttachImageLocalWriter;
-import com.podo.pododev.web.domain.blog.attach.attachimage.vo.AttachImageSave;
+import com.podo.pododev.web.domain.blog.attach.attachimage.model.AttachImageSave;
 import com.podo.pododev.web.global.util.AttachLinkManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,13 +25,13 @@ public class AttachImageWriteFileService {
     private final AttachLinkManager attachLinkManager;
     private final AttachImageLocalWriter attachImageLocalWriter;
 
-    public AttachImageDto.response saveByBase64(String base64) {
+    public AttachImageResponse saveByBase64(String base64) {
         final String originFileExtension = "png";
         final String originFilename = BASE64_IMAGE_NAME + "." + originFileExtension;
 
         final Map<String, AttachImageSave> saves = attachImageLocalWriter.writeImageToMultipleSizeFromBase64(base64, originFileExtension);
 
-        return AttachImageDto.response.builder()
+        return AttachImageResponse.builder()
                 .originFilename(originFilename)
                 .uploadedUrl(attachLinkManager.getLocalSavedUrl())
                 .attachStatus(AttachStatus.NEW)
@@ -39,12 +39,12 @@ public class AttachImageWriteFileService {
                 .build();
     }
 
-    public AttachImageDto.response saveByImageUrl(String imageUrl) {
+    public AttachImageResponse saveByImageUrl(String imageUrl) {
         final String originFilename = FilenameUtils.getName(imageUrl);
 
         final Map<String, AttachImageSave> saves = attachImageLocalWriter.writeImageToMultipleSizeFromImageUrl(imageUrl);
 
-        return AttachImageDto.response.builder()
+        return AttachImageResponse.builder()
                 .originFilename(originFilename)
                 .uploadedUrl(attachLinkManager.getLocalSavedUrl())
                 .attachStatus(AttachStatus.NEW)
@@ -53,12 +53,12 @@ public class AttachImageWriteFileService {
     }
 
 
-    public AttachImageDto.response saveByMultipartFile(MultipartFile multipartFile) {
+    public AttachImageResponse saveByMultipartFile(MultipartFile multipartFile) {
         final String originName = multipartFile.getOriginalFilename();
 
         final Map<String, AttachImageSave> saves = attachImageLocalWriter.writeImageToMultipleSizeFromMultipartFile(multipartFile);
 
-        return AttachImageDto.response.builder()
+        return AttachImageResponse.builder()
                 .originFilename(originName)
                 .uploadedUrl(attachLinkManager.getLocalSavedUrl())
                 .attachStatus(AttachStatus.NEW)

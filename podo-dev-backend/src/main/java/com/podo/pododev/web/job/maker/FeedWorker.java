@@ -1,7 +1,7 @@
 package com.podo.pododev.web.job.maker;
 
-import com.podo.pododev.web.domain.blog.blog.BlogDto;
 import com.podo.pododev.web.domain.blog.blog.application.BlogFeedService;
+import com.podo.pododev.web.domain.blog.blog.dto.BlogFeed;
 import com.podo.pododev.web.job.Worker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,13 +22,13 @@ public class FeedWorker implements Worker {
     public void doWork(LocalDateTime now) {
 
         if (!blogFeedService.existByFeeded(false)) {
-            log.info("웹피드에 반영되지 않은 게시글이 없습니다");
+            log.debug("웹피드에 반영되지 않은 게시글이 없습니다");
             return;
         }
 
-        log.info("웹 피드에 반영되지 않은 게시글을 확인하였습니다. 웹피드 제작 작업을 수행합니다");
+        log.debug("웹 피드에 반영되지 않은 게시글을 확인하였습니다. 웹피드 제작 작업을 수행합니다");
 
-        final List<BlogDto.feed> blogs = blogFeedService.findByEnabledOrderByPublishDesc();
+        final List<BlogFeed> blogs = blogFeedService.findByEnabledOrderByPublishDesc();
 
         for (FeedMakeExecutor feedMakeExecutor : feedMakeExecutors) {
             feedMakeExecutor.doExecute(blogs);

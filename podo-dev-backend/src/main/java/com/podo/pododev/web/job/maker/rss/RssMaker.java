@@ -1,8 +1,8 @@
 package com.podo.pododev.web.job.maker.rss;
 
-import com.podo.pododev.web.domain.blog.blog.BlogDto;
-import com.podo.pododev.core.util.PathUtil;
 import com.podo.pododev.core.util.LocalDateTimeUtil;
+import com.podo.pododev.core.util.PathUtil;
+import com.podo.pododev.web.domain.blog.blog.dto.BlogFeed;
 import com.rometools.rome.feed.synd.*;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedOutput;
@@ -17,7 +17,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -33,7 +35,7 @@ public class RssMaker {
     @Value("${local.static.dir}")
     private String staticDirectory;
 
-    public void makeRss(List<BlogDto.feed> blogs) {
+    public void makeRss(List<BlogFeed> blogs) {
 
         final SyndFeed rssFeed = new SyndFeedImpl();
         final List<SyndEntry> blogEntries = createBlogEntries(blogs);
@@ -76,10 +78,10 @@ public class RssMaker {
     }
 
 
-    private List<SyndEntry> createBlogEntries(List<BlogDto.feed> reverseBlogs) {
+    private List<SyndEntry> createBlogEntries(List<BlogFeed> reverseBlogs) {
         List<SyndEntry> entries = new LinkedList<>();
 
-        for (BlogDto.feed blog : reverseBlogs) {
+        for (BlogFeed blog : reverseBlogs) {
 
             SyndEntry entry = new CustomEntryImpl();
 

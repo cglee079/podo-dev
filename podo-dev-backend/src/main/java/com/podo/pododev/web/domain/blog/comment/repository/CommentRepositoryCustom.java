@@ -1,6 +1,6 @@
 package com.podo.pododev.web.domain.blog.comment.repository;
 
-import com.podo.pododev.web.domain.blog.comment.Comment;
+import com.podo.pododev.web.domain.blog.comment.model.Comment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;

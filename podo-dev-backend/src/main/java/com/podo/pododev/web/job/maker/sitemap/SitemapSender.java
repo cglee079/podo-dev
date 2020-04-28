@@ -14,10 +14,10 @@ public class SitemapSender {
     private final RestTemplate restTemplate = new RestTemplate();
 
     public void requestSubmitSitemap(String submitUrl) {
-        log.info("Sitemap 제출을 요청합니다 >>>  '{}'", submitUrl);
+        log.debug("Sitemap 제출을 요청합니다 >>>  '{}'", submitUrl);
 
         final String response = restTemplate.exchange(submitUrl, HttpMethod.GET, new HttpEntity<>(new HttpHeaders()), String.class).getBody();
 
-        log.info("Sitemap 제출을 요청 응답 <<< '{}'", response.replace("\n", " "));
+        log.debug("Sitemap 제출을 요청 응답 <<< '{}'", response.replace("\n", " "));
     }
 }

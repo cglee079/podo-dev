@@ -14,12 +14,12 @@ public class ResumeExperienceReadService {
 
     private final ResumeExperienceRepository resumeRepository;
 
-    public List<ResumeExperienceDto.response> findAllOrderByExperienceAtDesc() {
+    public List<ResumeExperienceResponse> findAllOrderByExperienceAtDesc() {
 
         final List<ResumeExperience> resumeExperiences = resumeRepository.findAllByOrderByExperienceAtDesc();
 
         return resumeExperiences.stream()
-                .map(ResumeExperienceDto.response::new)
+                .map(ResumeExperienceResponse::new)
                 .collect(Collectors.toList());
     }
 

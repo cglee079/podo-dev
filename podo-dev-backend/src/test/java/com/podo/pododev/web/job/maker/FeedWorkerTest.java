@@ -1,7 +1,7 @@
 package com.podo.pododev.web.job.maker;
 
-import com.podo.pododev.web.domain.blog.blog.BlogDto;
 import com.podo.pododev.web.domain.blog.blog.application.BlogFeedService;
+import com.podo.pododev.web.domain.blog.blog.dto.BlogFeed;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -11,7 +11,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
@@ -49,7 +48,7 @@ class FeedWorkerTest {
         final FeedMakeExecutor feedMakeExecutorA = Mockito.mock(FeedMakeExecutor.class);
         final FeedMakeExecutor feedMakeExecutorB = Mockito.mock(FeedMakeExecutor.class);
         final BlogFeedService blogFeedService = Mockito.mock(BlogFeedService.class);
-        final List<BlogDto.feed> blogs = Mockito.any();
+        final List<BlogFeed> blogs = Mockito.any();
 
         given(blogFeedService.existByFeeded(false)).willReturn(true);
         given(blogFeedService.findByEnabledOrderByPublishDesc()).willReturn(blogs);

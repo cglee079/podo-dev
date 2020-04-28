@@ -1,17 +1,19 @@
 package com.podo.pododev.web.domain.blog.comment.application;
 
-import com.podo.pododev.web.domain.blog.blog.Blog;
+import com.podo.pododev.web.domain.blog.blog.model.Blog;
 import com.podo.pododev.web.domain.blog.blog.application.helper.BlogServiceHelper;
 import com.podo.pododev.web.domain.blog.blog.repository.BlogRepository;
-import com.podo.pododev.web.domain.blog.comment.Comment;
-import com.podo.pododev.web.domain.blog.comment.CommentDto;
+import com.podo.pododev.web.domain.blog.comment.model.Comment;
 import com.podo.pododev.web.domain.blog.comment.application.helper.CommentServiceHelper;
+import com.podo.pododev.web.domain.blog.comment.dto.CommentInsert;
 import com.podo.pododev.web.domain.blog.comment.exception.MaxDepthCommentApiException;
 import com.podo.pododev.web.domain.blog.comment.exception.NoAuthorizedCommentApiException;
 import com.podo.pododev.web.domain.blog.comment.repository.CommentRepository;
-import com.podo.pododev.web.domain.user.User;
-import com.podo.pododev.web.domain.user.UserRepository;
+import com.podo.pododev.web.domain.user.model.User;
+import com.podo.pododev.web.domain.user.repository.UserRepository;
 import com.podo.pododev.web.domain.user.application.helper.UserServiceHelper;
+import com.podo.pododev.web.global.config.aop.argschecker.AllArgsNotNull;
+import com.podo.pododev.web.global.config.aop.notifier.CommentNotice;
 import com.podo.pododev.web.global.config.cache.annotation.AllCommentCacheEvict;
 import com.podo.pododev.web.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Objects;
 
 @Slf4j
@@ -38,8 +41,10 @@ public class CommentWriteService {
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
 
+    @AllArgsNotNull
+    @CommentNotice
     @AllCommentCacheEvict
-    public void insertNewComment(Long blogId, CommentDto.insert insert) {
+    public void insertNewComment(Long blogId, CommentInsert insert) {
         SecurityUtil.validateIsAuth();
 
         final User currentUser = UserServiceHelper.getCurrentUser(SecurityUtil.getUserId(), userRepository);
@@ -57,7 +62,7 @@ public class CommentWriteService {
     }
 
     private void insertNewComment(User user, Blog blog, String contents) {
-        log.info("'{}' 게시글에 새로운 댓글이 등록되었습니다", blog.getTitle());
+        log.debug("'{}' 게시글에 새로운 댓글이 등록되었습니다", blog.getTitle());
 
         final Comment newComment = Comment.builder()
                 .writer(user)
@@ -75,7 +80,7 @@ public class CommentWriteService {
     }
 
     private void insertReplyComment(User user, Blog blog, String contents, Long parentCommentId) {
-        log.info("'{}' 게시글에 새로운 답글이 등록되었습니다", blog.getTitle());
+        log.debug("'{}' 게시글에 새로운 답글이 등록되었습니다", blog.getTitle());
 
         final Comment parentComment = CommentServiceHelper.findById(parentCommentId, commentRepository);
 
@@ -115,7 +120,7 @@ public class CommentWriteService {
             throw new NoAuthorizedCommentApiException(commentId);
         }
 
-        log.info("'{}' 댓글을 삭제합니다", comment.getId());
+        log.debug("'{}' 댓글을 삭제합니다", comment.getId());
 
         comment.erase(DELETED_CONTENTS);
 
@@ -143,7 +148,7 @@ public class CommentWriteService {
             return;
         }
 
-        log.info("'{}' 댓글은, 자식댓글이 없어 완전이 삭제합니다", commentId);
+        log.debug("'{}' 댓글은, 자식댓글이 없어 완전이 삭제합니다", commentId);
 
         commentRepository.delete(existedComment);
         decreaseChildCountAndRemoveIfCanDeleted(existedComment.getParentId());

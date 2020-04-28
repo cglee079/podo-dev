@@ -1,12 +1,12 @@
 package com.podo.pododev.web.domain.blog.history;
 
-import com.podo.pododev.web.domain.blog.blog.Blog;
+import com.podo.pododev.web.domain.blog.blog.model.Blog;
+import com.podo.pododev.web.domain.blog.history.model.BlogHistory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 
 @DisplayName("블로그 히스토리")

@@ -1,8 +1,8 @@
 package com.podo.pododev.web.global.config.security.oauth;
 
 import com.podo.pododev.core.util.type.RequestHeader;
-import com.podo.pododev.web.domain.user.UserDto;
-import com.podo.pododev.web.domain.user.UserVo;
+import com.podo.pododev.web.domain.user.dto.UserInsert;
+import com.podo.pododev.web.domain.user.value.UserVo;
 import com.podo.pododev.web.domain.user.application.UserReadService;
 import com.podo.pododev.web.domain.user.application.UserWriteService;
 import com.podo.pododev.web.global.config.security.SecurityStore;
@@ -58,8 +58,8 @@ public class OAuth2Service implements OAuth2UserService<OAuth2UserRequest, OAuth
         return attributes;
     }
 
-    private UserDto.insert createUserInsertDto(OAuthAttributes attributes) {
-        return UserDto.insert.builder()
+    private UserInsert createUserInsertDto(OAuthAttributes attributes) {
+        return UserInsert.builder()
                 .oAuthType(attributes.getOAuthType())
                 .userKey(attributes.getUserKey())
                 .name(attributes.getUsername())

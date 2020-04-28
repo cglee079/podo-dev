@@ -1,7 +1,8 @@
 package com.podo.pododev.web.domain.blog.comment;
 
-import com.podo.pododev.web.domain.blog.blog.Blog;
-import com.podo.pododev.web.domain.user.User;
+import com.podo.pododev.web.domain.blog.blog.model.Blog;
+import com.podo.pododev.web.domain.blog.comment.model.Comment;
+import com.podo.pododev.web.domain.user.model.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

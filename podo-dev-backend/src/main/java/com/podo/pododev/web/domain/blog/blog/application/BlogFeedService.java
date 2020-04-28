@@ -1,7 +1,7 @@
 package com.podo.pododev.web.domain.blog.blog.application;
 
-import com.podo.pododev.web.domain.blog.blog.Blog;
-import com.podo.pododev.web.domain.blog.blog.BlogDto;
+import com.podo.pododev.web.domain.blog.blog.model.Blog;
+import com.podo.pododev.web.domain.blog.blog.dto.BlogFeed;
 import com.podo.pododev.web.domain.blog.blog.repository.BlogRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,10 +19,10 @@ public class BlogFeedService {
 
     private final BlogRepository blogRepository;
 
-    public List<BlogDto.feed> findByEnabledOrderByPublishDesc() {
+    public List<BlogFeed> findByEnabledOrderByPublishDesc() {
         List<Blog> exitedBlogs = blogRepository.findByEnabledOrderByPublishAsc(true);
         return exitedBlogs.stream()
-                .map(BlogDto.feed::new)
+                .map(BlogFeed::new)
                 .collect(Collectors.toList());
     }
 
@@ -38,6 +38,5 @@ public class BlogFeedService {
             noWebFeededBlog.doWebFeeded();
         }
     }
-
 
 }

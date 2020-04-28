@@ -1,8 +1,8 @@
 package com.podo.pododev.web.job.git;
 
-import com.podo.pododev.web.global.infra.github.GitApiClient;
-import com.podo.pododev.web.global.infra.github.GitLogStore;
-import com.podo.pododev.web.global.infra.github.vo.GitEventVo;
+import com.podo.pododev.web.global.infra.git.GitApiClient;
+import com.podo.pododev.web.global.infra.git.GitLogStore;
+import com.podo.pododev.web.global.infra.git.value.GitEventVO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -28,7 +28,7 @@ class GitLogStoreUpdateWorkerTest {
 
         final GitLogStore gitLogStore = Mockito.spy(GitLogStore.class);
         final GitApiClient gitApiClient = Mockito.mock(GitApiClient.class);
-        final GitEventVo gitEventVo = Mockito.mock(GitEventVo.class);
+        final GitEventVO gitEventVo = Mockito.mock(GitEventVO.class);
 
         given(gitEventVo.getCreateAt()).willReturn(leastEventCreateAt);
         given(gitApiClient.getEvents()).willReturn(Collections.singletonList(gitEventVo));
@@ -55,7 +55,7 @@ class GitLogStoreUpdateWorkerTest {
 
         final GitLogStore gitLogStore = Mockito.spy(GitLogStore.class);
         final GitApiClient gitApiClient = Mockito.mock(GitApiClient.class);
-        final GitEventVo gitEventVo = Mockito.mock(GitEventVo.class);
+        final GitEventVO gitEventVo = Mockito.mock(GitEventVO.class);
 
         given(gitEventVo.getCreateAt()).willReturn(leastEventCreateAt);
         given(gitApiClient.getEvents()).willReturn(Collections.singletonList(gitEventVo));

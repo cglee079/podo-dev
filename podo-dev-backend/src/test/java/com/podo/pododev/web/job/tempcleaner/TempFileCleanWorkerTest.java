@@ -1,7 +1,7 @@
 package com.podo.pododev.web.job.tempcleaner;
 
 import com.podo.pododev.core.util.PathUtil;
-import com.podo.pododev.web.global.util.FilenameUtil;
+import com.podo.pododev.web.global.util.FilenameCreator;
 import com.podo.pododev.web.global.util.writer.FileLocalWriter;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,7 +29,7 @@ class TempFileCleanWorkerTest {
         tempFileCleanWorker.doWork(now);
 
         //then
-        final String pathByDate = FilenameUtil.createPathByDate(now.minusHours(hourOfExpire));
+        final String pathByDate = FilenameCreator.createPathByDate(now.minusHours(hourOfExpire));
 
         then(fileLocalWriter).should(times(1)).removeDirectory(PathUtil.merge(imageDir, pathByDate));
         then(fileLocalWriter).should(times(1)).removeDirectory(PathUtil.merge(fileDir, pathByDate));

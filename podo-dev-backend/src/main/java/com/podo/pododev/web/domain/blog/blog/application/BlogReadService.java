@@ -1,12 +1,15 @@
 package com.podo.pododev.web.domain.blog.blog.application;
 
 import com.podo.pododev.web.domain.blog.attach.AttachStatus;
-import com.podo.pododev.web.domain.blog.blog.Blog;
-import com.podo.pododev.web.domain.blog.blog.BlogDto;
+import com.podo.pododev.web.domain.blog.blog.model.Blog;
 import com.podo.pododev.web.domain.blog.blog.application.helper.BlogServiceHelper;
+import com.podo.pododev.web.domain.blog.blog.dto.BlogResponse;
 import com.podo.pododev.web.domain.blog.blog.repository.BlogRepository;
-import com.podo.pododev.web.domain.blog.tag.BlogTag;
+import com.podo.pododev.web.domain.blog.tag.model.BlogTag;
+import com.podo.pododev.web.global.config.aop.argschecker.AllArgsNotNull;
 import com.podo.pododev.web.global.util.AttachLinkManager;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +17,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -37,7 +39,7 @@ public class BlogReadService {
     }
 
     @Cacheable(value = "getBlog", key = "T(String).valueOf(#blogId) + #isAdmin.toString()")
-    public BlogDto.response getBlogById(Long blogId, Boolean isAdmin) {
+    public BlogResponse getBlogById(Long blogId, Boolean isAdmin) {
         final Blog blog = BlogServiceHelper.findByBlogId(blogId, blogRepository);
         final Boolean enabled = isAdmin ? null : true;
 
@@ -51,10 +53,11 @@ public class BlogReadService {
 
         final List<Blog> relateBlogs = getRelatesByTagValues(tagValues, enabled);
 
-        return new BlogDto.response(blog, beforeBlog, nextBlog, relateBlogs, attachLinkManager.getStorageStaticUrl(), AttachStatus.BE);
+        return new BlogResponse(blog, beforeBlog, nextBlog, relateBlogs, attachLinkManager.getStorageStaticUrl(), AttachStatus.BE);
     }
 
 
+    @AllArgsNotNull
     private List<Blog> getRelatesByTagValues(List<String> tagValues, Boolean enabled) {
         if (tagValues.isEmpty()) {
             return Collections.emptyList();

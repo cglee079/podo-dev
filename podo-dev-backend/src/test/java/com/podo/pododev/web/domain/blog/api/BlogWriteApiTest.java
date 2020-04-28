@@ -42,7 +42,7 @@
 //        final ObjectMapper objectMapper = new ObjectMapper();
 //
 //        final String data = TestUtil.getStringFromResource("data", "sample_insert_blog.json");
-//        final BlogDto.insert insert = objectMapper.readValue(data, BlogDto.insert.class);
+//        final BlogInsert insert = objectMapper.readValue(data, BlogInsert.class);
 //
 //        //when
 //        blogWriteService.insertNewBlog(insert);

@@ -2,12 +2,12 @@ package com.podo.pododev.web.domain.blog.blog.application;
 
 import com.podo.pododev.web.domain.blog.attach.AttachStatus;
 import com.podo.pododev.web.domain.blog.attach.AttachUploader;
-import com.podo.pododev.web.domain.blog.blog.Blog;
-import com.podo.pododev.web.domain.blog.blog.BlogDto;
+import com.podo.pododev.web.domain.blog.blog.model.Blog;
 import com.podo.pododev.web.domain.blog.blog.application.helper.BlogAttachHelper;
 import com.podo.pododev.web.domain.blog.blog.application.helper.BlogWriteServiceHelper;
+import com.podo.pododev.web.domain.blog.blog.dto.BlogInsert;
 import com.podo.pododev.web.domain.blog.blog.repository.BlogRepository;
-import com.podo.pododev.web.domain.blog.history.BlogHistoryRepository;
+import com.podo.pododev.web.domain.blog.history.repository.BlogHistoryRepository;
 import com.podo.pododev.web.domain.blog.tag.repository.BlogTagRepository;
 import com.podo.pododev.web.global.config.aop.solr.SolrDataImport;
 import com.podo.pododev.web.global.config.cache.annotation.AllBlogCacheEvict;
@@ -33,18 +33,18 @@ public class BlogInsertService {
 
     @AllBlogCacheEvict
     @SolrDataImport
-    public void insertNewBlog(BlogDto.insert insertBlog) {
-        final Blog newBlog = insertBlog.toEntity();
+    public void insertNewBlog(BlogInsert blogInsert) {
+        final Blog newBlog = blogInsert.toEntity();
 
-        attachUploader.uploadToStorage(BlogAttachHelper.extractAttachValuesFromImages(insertBlog.getAttachImages(), AttachStatus.NEW));
-        attachUploader.uploadToStorage(BlogAttachHelper.extractAttachValuesFromFiles(insertBlog.getAttachFiles(), AttachStatus.NEW));
+        attachUploader.uploadToStorage(BlogAttachHelper.extractAttachValuesFromImages(blogInsert.getAttachImages(), AttachStatus.NEW));
+        attachUploader.uploadToStorage(BlogAttachHelper.extractAttachValuesFromFiles(blogInsert.getAttachFiles(), AttachStatus.NEW));
 
         newBlog.changeContents(linkManager.replaceLocalUrlToStorageUrl(newBlog.getContents()));
 
         final Blog savedBlog = blogRepository.save(newBlog);
 
         blogHistoryRepository.save(savedBlog.createHistory());
-        BlogWriteServiceHelper.saveBlogTags(savedBlog, insertBlog.getTags(), blogTagRepository);
+        BlogWriteServiceHelper.saveBlogTags(savedBlog, blogInsert.getTags(), blogTagRepository);
     }
 
 

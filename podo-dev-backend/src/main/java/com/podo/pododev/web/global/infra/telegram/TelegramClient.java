@@ -1,44 +1,36 @@
 package com.podo.pododev.web.global.infra.telegram;
 
-import com.podo.pododev.web.global.infra.telegram.exception.TelegramException;
+import com.podo.pododev.web.global.infra.telegram.exception.TelegramServerException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.bots.DefaultAbsSender;
+import org.telegram.telegrambots.bots.DefaultBotOptions;
+import org.telegram.telegrambots.meta.ApiContext;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.updateshandlers.SentCallback;
 
 @Slf4j
 @Component
-public class TelegramClient extends TelegramLongPollingBot {
+public class TelegramClient extends DefaultAbsSender {
 
     @Value("${infra.telegram.bot.token}")
     private String botToken;
 
-    @Value("${infra.telegram.bot.name}")
-    private String botUsername;
-
     @Value("${infra.telegram.admin.telegram_id}")
     private String adminTelegramId;
 
-    @Override
-    public String getBotUsername() {
-        return botUsername;
+    protected TelegramClient() {
+        super(ApiContext.getInstance(DefaultBotOptions.class));
     }
 
     @Override
     public String getBotToken() {
         return botToken;
-    }
-
-    @Override
-    public void onUpdateReceived(Update update) {
-        //메세지 수신 시, 아무 로직도 수행하지 않음
     }
 
     public void notifyAdmin(String message) {
@@ -50,7 +42,7 @@ public class TelegramClient extends TelegramLongPollingBot {
             this.executeAsync(sendMessage, getDefaultCallback());
         } catch (TelegramApiException e) {
             log.error("관리자에게 알람을 전송 할 수 없습니다 {}", e.getMessage(), e);
-            throw new TelegramException(e);
+            throw new TelegramServerException(e);
         }
 
     }
@@ -65,13 +57,13 @@ public class TelegramClient extends TelegramLongPollingBot {
             @Override
             public void onError(BotApiMethod<Message> method, TelegramApiRequestException e) {
                 log.error("관리자에게 알람을 전송 할 수 없습니다 {}", e.getMessage(), e);
-                throw new TelegramException(e);
+                throw new TelegramServerException(e);
             }
 
             @Override
             public void onException(BotApiMethod<Message> method, Exception e) {
                 log.error("관리자에게 알람을 전송 할 수 없습니다 {}", e.getMessage(), e);
-                throw new TelegramException(e);
+                throw new TelegramServerException(e);
             }
         };
     }

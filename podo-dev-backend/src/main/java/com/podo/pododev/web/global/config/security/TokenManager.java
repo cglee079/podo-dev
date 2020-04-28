@@ -1,8 +1,8 @@
 package com.podo.pododev.web.global.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.podo.pododev.web.domain.user.UserVo;
-import com.podo.pododev.web.global.util.JsonUtil;
+import com.podo.pododev.web.domain.user.value.UserVo;
+import com.podo.pododev.web.global.util.JsonMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.JacksonSerializer;
 import io.jsonwebtoken.security.Keys;
@@ -30,7 +30,7 @@ public class TokenManager {
     public String createToken(UserVo userVo) {
         return Jwts.builder()
                 .serializeToJsonWith(SERIALIZER)
-                .setSubject(JsonUtil.toJson(userVo))
+                .setSubject(JsonMapper.toJson(userVo))
                 .setExpiration(new Date(System.currentTimeMillis() + (expireHour * 60 * 60 * 1000)))
                 .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
                 .compact();

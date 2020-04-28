@@ -14,12 +14,12 @@ public class ResumeReadService {
 
     private final ResumeRepository resumeRepository;
 
-    public List<ResumeDto.response> findAll() {
+    public List<ResumeResponse> findAll() {
 
         final List<Resume> resumes = resumeRepository.findAllByOrderByResumeSortAsc();
 
         return resumes.stream()
-                .map(ResumeDto.response::new)
+                .map(ResumeResponse::new)
                 .collect(Collectors.toList());
     }
 }

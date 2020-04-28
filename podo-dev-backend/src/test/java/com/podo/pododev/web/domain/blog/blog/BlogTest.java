@@ -1,10 +1,12 @@
 package com.podo.pododev.web.domain.blog.blog;
 
-import com.podo.pododev.web.domain.blog.attach.attachfile.AttachFile;
-import com.podo.pododev.web.domain.blog.attach.attachimage.AttachImage;
-import com.podo.pododev.web.domain.blog.comment.Comment;
-import com.podo.pododev.web.domain.blog.history.BlogHistory;
-import com.podo.pododev.web.domain.blog.tag.BlogTag;
+import com.podo.pododev.web.domain.blog.attach.attachfile.model.AttachFile;
+import com.podo.pododev.web.domain.blog.attach.attachimage.model.AttachImage;
+import com.podo.pododev.web.domain.blog.blog.model.Blog;
+import com.podo.pododev.web.domain.blog.blog.model.BlogStatus;
+import com.podo.pododev.web.domain.blog.comment.model.Comment;
+import com.podo.pododev.web.domain.blog.history.model.BlogHistory;
+import com.podo.pododev.web.domain.blog.tag.model.BlogTag;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

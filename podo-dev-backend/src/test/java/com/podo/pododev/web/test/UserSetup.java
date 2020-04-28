@@ -1,7 +1,7 @@
 package com.podo.pododev.web.test;
 
-import com.podo.pododev.web.domain.user.User;
-import com.podo.pododev.web.domain.user.UserRepository;
+import com.podo.pododev.web.domain.user.model.User;
+import com.podo.pododev.web.domain.user.repository.UserRepository;
 import com.podo.pododev.web.global.config.security.role.UserRole;
 import com.podo.pododev.web.global.util.HashUtil;
 import lombok.RequiredArgsConstructor;

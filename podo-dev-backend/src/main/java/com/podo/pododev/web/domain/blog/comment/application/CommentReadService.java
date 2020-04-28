@@ -1,8 +1,10 @@
 package com.podo.pododev.web.domain.blog.comment.application;
 
 import com.podo.pododev.core.rest.response.dto.PageDto;
-import com.podo.pododev.web.domain.blog.comment.Comment;
-import com.podo.pododev.web.domain.blog.comment.CommentDto;
+import com.podo.pododev.web.domain.blog.comment.model.Comment;
+import com.podo.pododev.web.domain.blog.comment.dto.CommentRequestPaging;
+import com.podo.pododev.web.domain.blog.comment.dto.CommentResponse;
+import com.podo.pododev.web.domain.blog.comment.dto.CommentSummary;
 import com.podo.pododev.web.domain.blog.comment.repository.CommentRepository;
 import com.podo.pododev.web.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
@@ -15,10 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -37,15 +36,15 @@ public class CommentReadService {
     private final CommentRepository commentRepository;
 
     @Cacheable(value = "getRecentComments")
-    public List<CommentDto.summary> getRecentComments() {
+    public List<CommentSummary> getRecentComments() {
         final List<Comment> comments = commentRepository.findRecentComments(recentCommentSize);
 
         return comments.stream()
-                .map(CommentDto.summary::new)
+                .map(CommentSummary::new)
                 .collect(toList());
     }
 
-    public PageDto<CommentDto.response> paging(Long blogId, CommentDto.requestPaging requestPaging) {
+    public PageDto<CommentResponse> paging(Long blogId, CommentRequestPaging requestPaging) {
         final Integer requestPage = requestPaging.getPage();
 
         final int newPage = reversePage(requestPage, commentRepository.countByBlogId(blogId));
@@ -53,13 +52,13 @@ public class CommentReadService {
         final Pageable pageable = PageRequest.of(newPage, pageSize);
         final Page<Comment> comments = commentRepository.paging(blogId, pageable);
 
-        final List<CommentDto.response> commentResponses = comments.stream()
-                .map(comment -> new CommentDto.response(comment, SecurityUtil.getUserId()))
+        final List<CommentResponse> commentResponses = comments.stream()
+                .map(comment -> new CommentResponse(comment, SecurityUtil.getUserId()))
                 .sorted((o1, o2) -> -1)
                 .collect(toList());
 
 
-        return PageDto.<CommentDto.response>builder()
+        return PageDto.<CommentResponse>builder()
                 .contents(commentResponses)
                 .currentPage(requestPage)
                 .pageSize(comments.getPageable().getPageSize())

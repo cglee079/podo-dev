@@ -26,7 +26,7 @@ public class BlogViewLogInterceptor extends HandlerInterceptorAdapter {
 
         final String requestUrl = request.getRequestURI();
 
-        log.info("블로그 조회, '{}'  << '{}',  '{}'", requestUrl, requestIP, requestUserAgent);
+        log.debug("블로그 조회, '{}'  << '{}',  '{}'", requestUrl, requestIP, requestUserAgent);
 
         return true;
     }

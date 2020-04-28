@@ -1,6 +1,6 @@
 package com.podo.pododev.web.job.maker.sitemap;
 
-import com.podo.pododev.web.domain.blog.blog.BlogDto;
+import com.podo.pododev.web.domain.blog.blog.dto.BlogFeed;
 import com.podo.pododev.web.job.maker.FeedMakeExecutor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,7 @@ public class SitemapMakeExecutor implements FeedMakeExecutor {
     private final SitemapSender sitemapSender;
 
     @Override
-    public void doExecute(List<BlogDto.feed> blogs) {
+    public void doExecute(List<BlogFeed> blogs) {
         sitemapMaker.makeSitemap(blogs);
         sitemapSender.requestSubmitSitemap(GOOGLE_SITEMAP_SUBMIT_URL + PODO_DEV_FRONT_SITEMAP_URL);
     }

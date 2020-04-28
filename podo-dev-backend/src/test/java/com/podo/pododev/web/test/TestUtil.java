@@ -1,6 +1,6 @@
 package com.podo.pododev.web.test;
 
-import com.podo.pododev.web.domain.user.User;
+import com.podo.pododev.web.domain.user.model.User;
 import com.podo.pododev.web.global.config.security.oauth.OAuthAuthentication;
 import com.podo.pododev.web.global.config.security.oauth.OAuthUserDetails;
 import org.apache.commons.io.FileUtils;

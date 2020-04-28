@@ -1,9 +1,9 @@
 package com.podo.pododev.web.domain.blog.comment.api;
 
-import com.podo.pododev.web.domain.blog.blog.Blog;
-import com.podo.pododev.web.domain.blog.comment.Comment;
+import com.podo.pododev.web.domain.blog.blog.model.Blog;
+import com.podo.pododev.web.domain.blog.comment.model.Comment;
 import com.podo.pododev.web.domain.blog.comment.repository.CommentRepository;
-import com.podo.pododev.web.domain.user.User;
+import com.podo.pododev.web.domain.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

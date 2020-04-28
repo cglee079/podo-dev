@@ -21,7 +21,7 @@ public class ResumeExperienceApi {
 
     @GetMapping(value = "/api/resumes/experiences")
     public ApiResponse findAllResumeExperiences() {
-        final List<ResumeExperienceDto.response> resumeExperiences = resumeExperienceReadService.findAllOrderByExperienceAtDesc();
+        final List<ResumeExperienceResponse> resumeExperiences = resumeExperienceReadService.findAllOrderByExperienceAtDesc();
         return CollectionResponse.ok(resumeExperiences);
     }
 

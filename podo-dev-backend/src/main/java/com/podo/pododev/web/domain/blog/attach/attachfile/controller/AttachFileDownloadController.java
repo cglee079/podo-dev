@@ -1,11 +1,11 @@
 package com.podo.pododev.web.domain.blog.attach.attachfile.controller;
 
-import com.podo.pododev.web.global.util.HttpRequestUtil;
-import com.podo.pododev.web.global.util.HttpResponseUtil;
-import com.podo.pododev.web.domain.blog.attach.attachfile.AttachFileDto;
-import com.podo.pododev.web.domain.blog.attach.attachfile.application.AttachReadService;
 import com.podo.pododev.core.util.PathUtil;
 import com.podo.pododev.core.util.type.RequestHeader;
+import com.podo.pododev.web.domain.blog.attach.attachfile.application.AttachReadService;
+import com.podo.pododev.web.domain.blog.attach.attachfile.dto.AttachFileDownload;
+import com.podo.pododev.web.global.util.HttpRequestUtil;
+import com.podo.pododev.web.global.util.HttpResponseUtil;
 import com.podo.pododev.web.global.util.writer.FileLocalWriter;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FileUtils;
@@ -17,7 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 
 @RequiredArgsConstructor
 @Controller
@@ -35,7 +36,7 @@ public class AttachFileDownloadController {
     @GetMapping("/api/blogs/{blogId}/files/{fileId}")
     public void downloadFile(@PathVariable Long fileId, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        final AttachFileDto.download downloadFile = attachReadService.getAttachFileByAttachFileId(fileId);
+        final AttachFileDownload downloadFile = attachReadService.getAttachFileByAttachFileId(fileId);
 
         final String downloadFileUrl = PathUtil.merge(storageStaticUrlAtInternal, downloadFile.getFilePath(), downloadFile.getFilename());
         final File tempDownloadFile = fileLocalWriter.writeFromUrl(downloadFileUrl, TEMP_DIRECTORY);

@@ -17,16 +17,16 @@ public class AttachUploader {
     private final LocalDirectoryManager localDirectoryManager;
     private final PodoStorageClient podoStorageClient;
 
-    public void uploadToStorage(List<AttachVo> attachVos){
-        for (AttachVo attach : attachVos) {
+    public void uploadToStorage(List<AttachVO> attachs){
+        for (AttachVO attach : attachs) {
             final String filePath = attach.getFilePath();
             final File savedFileOfAttachImageSave = new File(localDirectoryManager.mergeLocalSaveBasedDirectory(filePath), attach.getFilename());
             podoStorageClient.uploadFile(filePath, savedFileOfAttachImageSave);
         }
     }
 
-    public void deleteToStorage(List<AttachVo> attachVos) {
-        for (AttachVo attachVo : attachVos) {
+    public void deleteToStorage(List<AttachVO> attachs) {
+        for (AttachVO attachVo : attachs) {
             podoStorageClient.deleteFile(attachVo.getFilePath(), attachVo.getFilename());
         }
     }

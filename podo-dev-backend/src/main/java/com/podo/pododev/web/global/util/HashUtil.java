@@ -1,9 +1,7 @@
 package com.podo.pododev.web.global.util;
 
-import com.podo.pododev.core.rest.ApiException;
 import com.podo.pododev.web.global.util.exception.HashFailException;
 import lombok.experimental.UtilityClass;
-import org.apache.commons.codec.digest.DigestUtils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -22,7 +20,6 @@ public class HashUtil {
             throw new HashFailException(e);
         }
     }
-
 
     private static String bytesToHex(byte[] bytes) {
         StringBuilder builder = new StringBuilder();

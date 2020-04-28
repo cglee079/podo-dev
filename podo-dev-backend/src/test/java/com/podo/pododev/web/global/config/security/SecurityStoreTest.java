@@ -1,7 +1,7 @@
 package com.podo.pododev.web.global.config.security;
 
-import com.podo.pododev.web.domain.user.User;
-import com.podo.pododev.web.domain.user.UserVo;
+import com.podo.pododev.web.domain.user.model.User;
+import com.podo.pododev.web.domain.user.value.UserVo;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

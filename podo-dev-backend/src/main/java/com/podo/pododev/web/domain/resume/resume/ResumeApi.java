@@ -20,7 +20,7 @@ public class ResumeApi {
 
     @GetMapping(value = "/api/resumes")
     public ApiResponse findAllResumes() {
-        final List<ResumeDto.response> resumes = resumeReadService.findAll();
+        final List<ResumeResponse> resumes = resumeReadService.findAll();
         return CollectionResponse.ok(resumes);
     }
 
