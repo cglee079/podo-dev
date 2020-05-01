@@ -3,7 +3,9 @@ package com.podo.pododev.web.domain.blog.attach.attachfile.dto;
 import com.podo.pododev.web.domain.blog.attach.AttachStatus;
 import com.podo.pododev.web.domain.blog.attach.attachfile.model.AttachFile;
 import lombok.Builder;
+import lombok.Getter;
 
+@Getter
 public class AttachFileResponse {
 
     private Long id;

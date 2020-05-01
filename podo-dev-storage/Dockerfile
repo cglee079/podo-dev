@@ -14,7 +14,7 @@ CMD java \
     -Xmx512m \
     -XX:NewSize=256m \
     -XX:MaxNewSize=256m \
-    -XX:MetaspaceSize=200M \
+    -XX:MetaspaceSize=50M \
     /app/$(ls /app | grep -E '.*\.jar')
 
 
