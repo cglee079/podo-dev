@@ -10,10 +10,10 @@ RUN echo "Asia/Seoul" > /etc/timezone
 CMD java \
     -jar \
     -Dspring.profiles.active=deploy \
-    -Xms3072m \
-    -Xmx3072m \
-    -XX:NewSize=2048m \
-    -XX:MaxNewSize=2048m \
+    -Xms2048m \
+    -Xmx2048m \
+    -XX:NewSize=1024m \
+    -XX:MaxNewSize=1024m \
     -XX:MetaspaceSize=200M \
     /app/$(ls /app | grep -E '.*\.jar')
 
