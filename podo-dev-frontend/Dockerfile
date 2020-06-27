@@ -6,7 +6,7 @@ ENV HOST 0.0.0.0
 COPY ./app /app
 WORKDIR /app
 
-RUN npm install
+RUN npm install --silent
 RUN npm run build
 
 CMD npm \
