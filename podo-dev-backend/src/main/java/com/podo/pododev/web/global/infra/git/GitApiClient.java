@@ -6,6 +6,7 @@ import com.podo.pododev.web.global.infra.git.exception.GitApiConnectFailExceptio
 import com.podo.pododev.web.global.infra.git.parser.*;
 import com.podo.pododev.web.global.infra.git.value.GitEventVO;
 import com.podo.pododev.web.global.infra.git.value.GitUserVO;
+import lombok.extern.slf4j.Slf4j;
 import org.kohsuke.github.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,7 @@ import java.util.*;
 
 import static org.kohsuke.github.GHEvent.*;
 
+@Slf4j
 @Component
 public class GitApiClient {
 
@@ -28,7 +30,7 @@ public class GitApiClient {
                         @Value("${infra.git.user.id}") String userId,
                         @Value("${infra.git.event.max_length}") int maxEventLength
     ) {
-        this.token =token;
+        this.token = token;
         this.userId = userId;
         this.maxEvent = maxEventLength;
 
@@ -69,7 +71,13 @@ public class GitApiClient {
             final List<GHEventInfo> events = requestGetEvents(github);
 
             for (GHEventInfo event : events) {
-                if(event.getRepository().isPrivate()){
+                final GHRepository repository = requestGetRepository(event);
+                
+                if (Objects.isNull(repository)){
+                    continue;
+                };
+
+                if (repository.isPrivate()) {
                     continue;
                 }
 
@@ -88,6 +96,15 @@ public class GitApiClient {
 
         } catch (Exception e) {
             throw new GitApiConnectFailException(e);
+        }
+    }
+
+    private GHRepository requestGetRepository(GHEventInfo event) {
+        try {
+            return event.getRepository();
+        } catch (Exception e) {
+            log.warn("git event : {},  repository 를 가져 올수 없습니다", event.getId());
+            return null;
         }
     }
 
