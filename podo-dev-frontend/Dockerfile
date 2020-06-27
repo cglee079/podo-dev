@@ -1,4 +1,4 @@
-FROM node:10
+FROM node:12-alpine
 
 RUN mkdir -p /app
 ENV HOST 0.0.0.0
