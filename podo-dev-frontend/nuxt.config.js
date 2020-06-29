@@ -6,9 +6,8 @@ module.exports = {
 
     server: {
         port: 8000,
-        host: '0.0.0.0'
+        host: "0.0.0.0"
     },
-
 
     loading: {
         color: "#444444"
@@ -21,7 +20,7 @@ module.exports = {
 
     env: {
         NAME: "podo-dev",
-        VERSION : "2.1.0",
+        VERSION: "2.1.0",
         STATIC_URL: "https://www.podo-dev.com",
         INTERNAL_SERVER_URL: "http://192.168.219.103:28080",
         // EXTERNAL_SERVER_URL: "http://localhost:28080",
@@ -76,7 +75,8 @@ module.exports = {
             { rel: "icon", href: "/favicon.ico?v=2" },
             {
                 rel: "stylesheet",
-                href: "https://fonts.googleapis.com/css?family=Noto+Sans+KR:300,400,700&display=swap"
+                href:
+                    "https://fonts.googleapis.com/css?family=Noto+Sans+KR:300,400,700&display=swap"
             }
         ]
     },
@@ -90,10 +90,10 @@ module.exports = {
         { src: "~plugins/combined-inject.js" },
         { src: "~plugins/scroll-progressbar.js" },
         { src: "~plugins/classie.js", ssr: false },
-        { src: "~plugins/get-user.js"},
+        { src: "~plugins/get-user.js" },
         { src: "~plugins/scroll-block.js", ssr: false },
         { src: "~plugins/toast-editor.js", ssr: false },
-        { src: "~plugins/vue-google-adsense.js", ssr: false },
+        { src: "~plugins/vue-google-adsense.js", ssr: false }
     ],
 
     modules: [
@@ -103,6 +103,7 @@ module.exports = {
         "@nuxtjs/toast",
         "@nuxtjs/universal-storage",
         "@nuxtjs/google-analytics",
+        "@nuxtjs/google-adsense",
 
         [
             "nuxt-mq",
@@ -163,5 +164,10 @@ module.exports = {
 
     googleAnalytics: {
         id: "UA-155243224-1"
-    }
+    },
+
+    "google-adsense": {
+        id: "ca-pub-3301697379976707"
+    },
+
 };
