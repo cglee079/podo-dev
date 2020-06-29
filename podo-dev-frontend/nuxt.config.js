@@ -92,8 +92,7 @@ module.exports = {
         { src: "~plugins/classie.js", ssr: false },
         { src: "~plugins/get-user.js" },
         { src: "~plugins/scroll-block.js", ssr: false },
-        { src: "~plugins/toast-editor.js", ssr: false },
-        { src: "~plugins/vue-google-adsense.js", ssr: false }
+        { src: "~plugins/toast-editor.js", ssr: false }
     ],
 
     modules: [
@@ -168,6 +167,5 @@ module.exports = {
 
     "google-adsense": {
         id: "ca-pub-3301697379976707"
-    },
-
+    }
 };
