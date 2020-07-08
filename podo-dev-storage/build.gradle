@@ -1,5 +1,5 @@
 archivesBaseName = 'podo-dev-storage'
-version = ''
+version = '2.1.0'
 
 bootJar {
     enabled = true
@@ -14,10 +14,13 @@ dependencies {
     implementation project(':podo-dev-core')
     implementation project(':podo-dev-rest-client')
 
-    implementation group: 'commons-io', name: 'commons-io', version: '2.4'
-    
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
+
+    implementation group: 'commons-io', name: 'commons-io', version: '2.4'
+
     testImplementation 'org.springframework.security:spring-security-test'
 
 }

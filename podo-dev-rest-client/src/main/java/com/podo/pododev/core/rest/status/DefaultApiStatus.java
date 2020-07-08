@@ -1,7 +1,6 @@
 package com.podo.pododev.core.rest.status;
 
 import com.podo.pododev.core.rest.ApiStatus;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
