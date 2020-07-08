@@ -2,6 +2,7 @@ buildscript {
     ext {
         springBootVersion = '2.2.0.RELEASE'
         querydslPluginVersion = '1.0.10'
+        springCloudVersion = 'Hoxton.SR3'
     }
 
     repositories {
@@ -24,7 +25,6 @@ subprojects {
     apply plugin: 'io.spring.dependency-management'
 
     group = 'com.podo'
-    version = '1.0'
     sourceCompatibility = '1.8'
 
     bootJar {
@@ -49,8 +49,25 @@ subprojects {
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'
 
-        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        testImplementation('org.springframework.boot:spring-boot-starter-test') {
+            exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+        }
     }
+
+    test {
+        useJUnitPlatform()
+        dependsOn 'cleanTest'
+        testLogging {
+            events "passed", "skipped", "failed"
+        }
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        }
+    }
+
 }
 
 

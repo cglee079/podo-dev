@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class HttpServerConfig {
 
     @Value("${server.http.port}")
-    Integer httpPort;
+    private Integer httpPort;
 
     @Bean
     public ServletWebServerFactory servletContainer() {

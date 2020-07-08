@@ -1,0 +1,18 @@
+spring.datasource:
+  url: jdbc:h2:mem:testdb
+  username: sa
+  password: sa
+  driverClassName: org.h2.Driver
+
+spring.jpa:
+  hibernate:
+      ddl-auto: create
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
+      multiline: false
+      logging: slf4j
+      #log-file: spy.log
+      #log-format: # custom log format
