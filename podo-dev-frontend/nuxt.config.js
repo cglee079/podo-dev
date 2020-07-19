@@ -24,7 +24,7 @@ module.exports = {
         STATIC_URL: "https://www.podo-dev.com",
         INTERNAL_SERVER_URL: "http://192.168.219.103:28080",
         // EXTERNAL_SERVER_URL: "http://localhost:28080",
-        EXTERNAL_SERVER_URL: "https://server.podo-dev.com"
+        EXTERNAL_SERVER_URL: "https://server.podo-dev.com",
     },
 
     build: {
@@ -92,7 +92,8 @@ module.exports = {
         { src: "~plugins/classie.js", ssr: false },
         { src: "~plugins/get-user.js" },
         { src: "~plugins/scroll-block.js", ssr: false },
-        { src: "~plugins/toast-editor.js", ssr: false }
+        { src: "~plugins/toast-editor.js", ssr: false },
+        { src: "~plugins/vue-adsense.js", ssr: false }
     ],
 
     modules: [
@@ -102,8 +103,6 @@ module.exports = {
         "@nuxtjs/toast",
         "@nuxtjs/universal-storage",
         "@nuxtjs/google-analytics",
-        "@nuxtjs/google-adsense",
-
         [
             "nuxt-mq",
             {
@@ -163,9 +162,5 @@ module.exports = {
 
     googleAnalytics: {
         id: "UA-155243224-1"
-    },
-
-    "google-adsense": {
-        id: "ca-pub-3301697379976707"
     }
 };

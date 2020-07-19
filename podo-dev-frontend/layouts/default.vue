@@ -4,6 +4,7 @@
         <article id="main" :class="$mq">
             <nuxt />
         </article>
+        <the-footer-adsense/>
         <the-footer />
         <top-button />
         <spinner />
@@ -12,6 +13,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import TheFooterAdsense from "../components/TheFooterAdsense";
 import TheFooter from "../components/TheFooter";
 import TopButton from "../components/global/TopButton";
 import TheNav from "../components/TheNav";
@@ -35,7 +37,8 @@ export default {
         Spinner,
         TheNav,
         TheFooter,
-        TopButton
+        TopButton,
+        TheFooterAdsense
     },
 
     computed: {

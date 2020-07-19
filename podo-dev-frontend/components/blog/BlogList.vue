@@ -1,9 +1,14 @@
 <template>
     <div id="wrapBlogs" :class="$mq">
         <div id="blogs">
-            <div :key="blog.id" v-for="blog in contents" class="wrap-blog-row">
-                <blog-list-item :blog="blog" :filter="filter" />
-            </div>
+            <template v-for="(blog, index) in contents">
+                <div :key="blog.id" class="wrap-blog-row">
+                    <blog-list-item :blog="blog" :filter="filter" />
+                </div>
+                <div v-if="(index + 3) % 5 === 0" :key="blog.id + 'ad'" class="wrap-blog-row">
+                    <blog-list-adsense />
+                </div>
+            </template>
         </div>
     </div>
 </template>
@@ -11,15 +16,17 @@
 <script>
 import BlogListItem from "./BlogListItem";
 import bus from "../../utils/bus";
+import BlogListAdsense from "./BlogListAdsense";
 
 export default {
     name: "BlogList",
     components: {
+        BlogListAdsense,
         BlogListItem
     },
     watch: {
         "$route.query"() {
-            console.log('ddd');
+            console.log("ddd");
             this.fetchBlogByFilter();
         }
     },
