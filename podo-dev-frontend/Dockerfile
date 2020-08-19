@@ -9,5 +9,4 @@ WORKDIR /app
 RUN npm install --silent
 RUN npm run build
 
-CMD npm \
-    start
+CMD npm start
