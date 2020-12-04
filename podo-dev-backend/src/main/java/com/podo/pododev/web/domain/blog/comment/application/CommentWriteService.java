@@ -1,20 +1,21 @@
 package com.podo.pododev.web.domain.blog.comment.application;
 
-import com.podo.pododev.web.domain.blog.blog.model.Blog;
 import com.podo.pododev.web.domain.blog.blog.application.helper.BlogServiceHelper;
+import com.podo.pododev.web.domain.blog.blog.model.Blog;
 import com.podo.pododev.web.domain.blog.blog.repository.BlogRepository;
-import com.podo.pododev.web.domain.blog.comment.model.Comment;
 import com.podo.pododev.web.domain.blog.comment.application.helper.CommentServiceHelper;
 import com.podo.pododev.web.domain.blog.comment.dto.CommentInsert;
 import com.podo.pododev.web.domain.blog.comment.exception.MaxDepthCommentApiException;
 import com.podo.pododev.web.domain.blog.comment.exception.NoAuthorizedCommentApiException;
+import com.podo.pododev.web.domain.blog.comment.model.Comment;
 import com.podo.pododev.web.domain.blog.comment.repository.CommentRepository;
+import com.podo.pododev.web.domain.user.application.helper.UserServiceHelper;
 import com.podo.pododev.web.domain.user.model.User;
 import com.podo.pododev.web.domain.user.repository.UserRepository;
-import com.podo.pododev.web.domain.user.application.helper.UserServiceHelper;
 import com.podo.pododev.web.global.config.aop.argschecker.AllArgsNotNull;
-import com.podo.pododev.web.global.config.aop.notifier.CommentNotice;
 import com.podo.pododev.web.global.config.cache.annotation.AllCommentCacheEvict;
+import com.podo.pododev.web.global.event.notifier.CommentNotifyDto;
+import com.podo.pododev.web.global.event.notifier.CommentNotifyPublisher;
 import com.podo.pododev.web.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Slf4j
@@ -40,11 +41,11 @@ public class CommentWriteService {
     private final BlogRepository blogRepository;
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
+    private final CommentNotifyPublisher commentNotifyPublisher;
 
     @AllArgsNotNull
-    @CommentNotice
     @AllCommentCacheEvict
-    public void insertNewComment(Long blogId, CommentInsert insert) {
+    public void insertNewComment(Long blogId, CommentInsert insert, LocalDateTime now) {
         SecurityUtil.validateIsAuth();
 
         final User currentUser = UserServiceHelper.getCurrentUser(SecurityUtil.getUserId(), userRepository);
@@ -55,10 +56,12 @@ public class CommentWriteService {
 
         if (Objects.isNull(parentCommentId)) {
             insertNewComment(currentUser, existedBlog, commentContents);
+            notifyAdmin(existedBlog, insert.getContents(), now);
             return;
         }
 
         insertReplyComment(currentUser, existedBlog, commentContents, parentCommentId);
+        notifyAdmin(existedBlog, insert.getContents(), now);
     }
 
     private void insertNewComment(User user, Blog blog, String contents) {
@@ -109,6 +112,20 @@ public class CommentWriteService {
         blog.addComment(savedChildComment);
     }
 
+    private void notifyAdmin(Blog existedBlog, String commentContents, LocalDateTime now) {
+        if(SecurityUtil.isAdmin()){
+            return;
+        }
+
+        commentNotifyPublisher.publishCommentNotify(
+                CommentNotifyDto.builder()
+                        .blogTitle(existedBlog.getTitle())
+                        .username(SecurityUtil.getUsername())
+                        .content(commentContents)
+                        .writeAt(now)
+                        .build()
+        );
+    }
 
     @AllCommentCacheEvict
     public void removeByCommentId(Long commentId) {

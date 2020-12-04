@@ -72,7 +72,7 @@ public class GitApiClient {
 
             for (GHEventInfo event : events) {
                 final GHRepository repository = requestGetRepository(event);
-                
+
                 if (Objects.isNull(repository)){
                     continue;
                 };

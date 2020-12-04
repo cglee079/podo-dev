@@ -1,4 +1,4 @@
-FROM node:14
+FROM node:12
 
 RUN mkdir -p /app
 ENV HOST 0.0.0.0
@@ -9,5 +9,4 @@ WORKDIR /app
 RUN npm install --silent
 RUN npm run build
 
-CMD npm \
-    start
+CMD npm start
