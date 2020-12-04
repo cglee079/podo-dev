@@ -1,7 +1,7 @@
 package com.podo.pododev.web.domain.user.application;
 
-import com.podo.pododev.web.domain.user.model.User;
 import com.podo.pododev.web.domain.user.dto.UserInsert;
+import com.podo.pododev.web.domain.user.model.User;
 import com.podo.pododev.web.domain.user.repository.UserRepository;
 import com.podo.pododev.web.global.config.security.oauth.OAuthType;
 import com.podo.pododev.web.global.config.security.role.UserRole;

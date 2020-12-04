@@ -1,7 +1,7 @@
 package com.podo.pododev.web.global.config;
 
-import com.podo.pododev.web.global.util.SecurityUtil;
 import com.podo.pododev.web.global.config.security.oauth.OAuthUserDetails;
+import com.podo.pododev.web.global.util.SecurityUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;

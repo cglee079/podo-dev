@@ -2,8 +2,8 @@ package com.podo.pododev.web.domain.blog.comment.dto;
 
 import com.podo.pododev.core.util.DateTimeFormatUtil;
 import com.podo.pododev.web.domain.blog.blog.model.Blog;
-import com.podo.pododev.web.domain.blog.comment.model.Comment;
 import com.podo.pododev.web.domain.blog.comment.dto.value.Writer;
+import com.podo.pododev.web.domain.blog.comment.model.Comment;
 import com.podo.pododev.web.domain.user.model.User;
 import lombok.Getter;
 

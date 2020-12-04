@@ -1,9 +1,9 @@
 package com.podo.pododev.web.domain.blog.tag.application;
 
 import com.podo.pododev.web.domain.blog.blog.model.Blog;
-import com.podo.pododev.web.test.BlogSetup;
 import com.podo.pododev.web.domain.blog.tag.model.BlogTag;
 import com.podo.pododev.web.domain.blog.tag.repository.BlogTagRepository;
+import com.podo.pododev.web.test.BlogSetup;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

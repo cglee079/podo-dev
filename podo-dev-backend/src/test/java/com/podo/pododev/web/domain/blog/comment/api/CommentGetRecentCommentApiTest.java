@@ -1,11 +1,11 @@
 package com.podo.pododev.web.domain.blog.comment.api;
 
 import com.podo.pododev.web.domain.blog.blog.model.Blog;
-import com.podo.pododev.web.test.BlogSetup;
 import com.podo.pododev.web.domain.blog.comment.model.Comment;
 import com.podo.pododev.web.domain.user.model.User;
-import com.podo.pododev.web.test.UserSetup;
+import com.podo.pododev.web.test.BlogSetup;
 import com.podo.pododev.web.test.IntegrationTest;
+import com.podo.pododev.web.test.UserSetup;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
