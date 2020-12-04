@@ -37,7 +37,7 @@ public class ReplyCommentNotifyListener {
         final LocalDateTime originWriteAt = replyDto.getOriginWriteAt();
 
         String emailTitle = String.format("[podo-dev] '%s' 님께서 댓글의 답글을 작성하였습니다.", writer);
-        String emailContents = FileCRUDUtil.readFile(FileUtils.getFile("src/java/resources/reply_comment_notify.html"));
+        String emailContents = FileCRUDUtil.readFile(FileUtils.getFile("src/java/resources/form/reply_comment_notify.html"));
         emailContents = emailContents.replace("${contents}", HtmlDocumentUtil.line2br(contents));
         emailContents = emailContents.replace("${writer}", writer);
         emailContents = emailContents.replace("${writeAt}", DateTimeFormatUtil.dateTimeToBeautifulDate(writeAt));
