@@ -31,8 +31,9 @@ public class UserWriteService {
 
         final String newPicture = insert.getPicture();
         final String newUsername = insert.getUsername();
+        final String email = insert.getEmail();
 
-        existedUser.updateUserInfo(newUsername, newPicture);
+        existedUser.updateUserInfo(newUsername, newPicture, email);
 
         return existedUser.getId();
     }

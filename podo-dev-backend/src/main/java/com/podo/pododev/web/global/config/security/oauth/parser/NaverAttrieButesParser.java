@@ -13,6 +13,7 @@ public class NaverAttrieButesParser implements AttributesParser {
     private static final String ID_KEY = "id";
     private static final String USERNAME_KEY = "name";
     private static final String PICTURE_KEY = "profile_image";
+    private static final String EMAIL_KEY = "email";
 
     public OAuthAttributes of(OAuthType oAuthType, Map<String, Object> attributes) {
         @SuppressWarnings("unchecked")
@@ -22,8 +23,10 @@ public class NaverAttrieButesParser implements AttributesParser {
         final String userKey = HashUtil.hash(oAuthType.name(), id);
         final String username = response.get(USERNAME_KEY);
         final String picture = response.get(PICTURE_KEY);
+        final String email = response.get(EMAIL_KEY);
 
         return OAuthAttributes.builder()
+                .email(email)
                 .oAuthType(oAuthType)
                 .userKey(userKey)
                 .username(username)

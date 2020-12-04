@@ -7,8 +7,9 @@
             :disabled="!isLogin"
         ></textarea>
         <div id="sub">
-            <div id="username">
-                <input type="text" placeholder="이름" v-model="input.username" disabled />
+            <div id="userInfo">
+                <input class="username" type="text" placeholder="이름" v-model="input.username" disabled />
+                <p-check class="notified p-default p-curve" v-model="input.notified">알림받기</p-check>
             </div>
             <div id="submit" @click="clickCommentPost">등록</div>
         </div>
@@ -35,7 +36,8 @@ export default {
             },
             input: {
                 username: "",
-                contents: ""
+                contents: "",
+                notified: true,
             }
         };
     },
@@ -62,6 +64,7 @@ export default {
                 await this.$axios.$post(`/api/blogs/${this.blogId}/comments`, {
                     username: this.input.username,
                     contents: this.input.contents,
+                    notified: this.input.notified,
                     parentId: this.parentId
                 });
 
@@ -126,18 +129,24 @@ export default {
         justify-content: space-between;
         align-items: baseline;
 
-        #username {
+        #userInfo {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             margin-top: 5px;
 
-            input {
+            input.username {
                 width: 7rem;
                 height: 2rem;
                 font-size: 0.8rem;
                 padding-left: 5px;
                 border: 0.7px solid #e1e1e1;
                 border-radius: 3px;
+            }
+
+            .notified{
+                margin-left: 10px;
+                font-size: 0.9rem;
             }
         }
 

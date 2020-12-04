@@ -28,6 +28,8 @@ public class User extends BaseTimeEntity {
     @Column(unique = true)
     private String userKey;
 
+    private String email;
+
     private String username;
 
     private String picture;
@@ -36,8 +38,9 @@ public class User extends BaseTimeEntity {
     private UserRole role;
 
     @Builder
-    public User(OAuthType oAuthType, String username, String userKey, String picture, UserRole role) {
+    public User(OAuthType oAuthType, String email, String username, String userKey, String picture, UserRole role) {
         this.oAuthType = oAuthType;
+        this.email = email;
         this.userKey = userKey;
         this.username = username;
         this.picture = picture;
@@ -45,10 +48,11 @@ public class User extends BaseTimeEntity {
     }
 
     @AllArgsNotNull
-    public void updateUserInfo(String username, String picture) {
+    public void updateUserInfo(String username, String picture, String email) {
         if (!this.role.equals(UserRole.ADMIN)) {
             this.username = username;
             this.picture = picture;
+            this.email = email;
         }
     }
 
