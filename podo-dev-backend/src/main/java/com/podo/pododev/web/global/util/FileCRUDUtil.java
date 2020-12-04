@@ -23,21 +23,6 @@ import java.util.List;
 @Slf4j
 public class FileCRUDUtil {
 
-    public static String readFile(File file) {
-        StringBuilder contentBuilder = new StringBuilder();
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-
-            String sCurrentLine;
-            while ((sCurrentLine = br.readLine()) != null) {
-                contentBuilder.append(sCurrentLine).append("\n");
-            }
-        } catch (IOException e) {
-            log.error("파일 읽기 실패 : {}", file.getPath(), e);
-            throw new FileProcessFailApiException(file.getPath());
-        }
-        return contentBuilder.toString();
-    }
-
     public static File writeFile(String path, MultipartFile multipartFile) {
 
         try {
