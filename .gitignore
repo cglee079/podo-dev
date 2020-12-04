@@ -19,4 +19,7 @@ libs/
 ### IntelliJ IDEA ###
 .idea/
 out/
+
+## lOG
 logs/
+LOG_PATH_IS_UNDEFINED*
