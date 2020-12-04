@@ -22,8 +22,7 @@ module.exports = {
         NAME: "podo-dev",
         VERSION: "2.1.0",
         STATIC_URL: "https://www.podo-dev.com",
-        INTERNAL_SERVER_URL: "http://192.168.50.2:28080",
-        // EXTERNAL_SERVER_URL: "http://localhost:28080",
+        INTERNAL_SERVER_URL: "https://server.podo-dev.com",
         EXTERNAL_SERVER_URL: "https://server.podo-dev.com",
     },
 
@@ -93,7 +92,8 @@ module.exports = {
         { src: "~plugins/get-user.js" },
         { src: "~plugins/scroll-block.js", ssr: false },
         { src: "~plugins/toast-editor.js", ssr: false },
-        { src: "~plugins/vue-adsense.js", ssr: false }
+        { src: "~plugins/vue-adsense.js", ssr: false },
+        { src: "~plugins/vue-checkbox.js", ssr: false }
     ],
 
     modules: [

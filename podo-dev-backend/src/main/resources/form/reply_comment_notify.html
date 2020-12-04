@@ -1,0 +1,33 @@
+<html>
+    <body style="width: 500px; padding: 10px 20px;">
+
+
+        <div style="text-align: center; width: 100%;">
+            <img src="https://www.podo-dev.com/podo-dev.jpg" width="300px" style="margin: 10px auto;">
+        </div>
+
+
+        <div class="reply">
+            <div style="font-weight: bold; margin-bottom: 10px;">REPLY.</div>
+            <div class="reply-contents">${contents}</div>
+            <div class="writer" style="font-weight: bold; text-align: right;">by. ${writer}</div>
+            <div class="writer" style="font-weight: bold; text-align: right;">${writeAt}</div>
+            <div style="margin-top:15px; text-align: right">
+                <a href="${url}" target="_blank" style="color: unset; font-weight: bold">댓글 보러가기</a>
+            </div>
+        </div>
+
+        <div style="height: 1px; background: #EAEAEA; margin: 30px 0px;"></div>
+
+        <div class="origin" style="margin-left: 30px; opacity: 0.7;">
+            <div style="font-weight: bold; margin-bottom: 10px;">ORIGIN.</div>
+            <div class="origin-contents"> ${originContents}</div>
+            <div class="writer" style="font-weight: bold; text-align: right;">by. ${originWriter}</div>
+            <div class="writer" style="font-weight: bold; text-align: right;">${originWriteAt}</div>
+        </div>
+
+        <div style="height: 1px; background: #EAEAEA; margin: 30px 0;"></div>
+
+
+    </body>
+</html>

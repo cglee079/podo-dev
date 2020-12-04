@@ -60,6 +60,7 @@ public class OAuth2Service implements OAuth2UserService<OAuth2UserRequest, OAuth
 
     private UserInsert createUserInsertDto(OAuthAttributes attributes) {
         return UserInsert.builder()
+                .email(attributes.getEmail())
                 .oAuthType(attributes.getOAuthType())
                 .userKey(attributes.getUserKey())
                 .name(attributes.getUsername())

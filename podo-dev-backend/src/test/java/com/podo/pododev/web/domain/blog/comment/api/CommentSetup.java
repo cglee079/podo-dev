@@ -25,6 +25,7 @@ public class CommentSetup {
                 .writer(user)
                 .sort(BigDecimal.ONE)
                 .childCount(0)
+                .notified(false)
                 .enabled(true)
                 .build();
 

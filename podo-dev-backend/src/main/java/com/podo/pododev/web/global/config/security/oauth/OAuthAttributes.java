@@ -12,13 +12,15 @@ import java.util.List;
 public class OAuthAttributes {
 
     private OAuthType oAuthType;
+    private String email;
     private String userKey;
     private String username;
     private String picture;
     private UserRole role;
 
     @Builder
-    public OAuthAttributes(OAuthType oAuthType, String userKey, String username, String picture) {
+    public OAuthAttributes(OAuthType oAuthType, String email, String userKey, String username, String picture) {
+        this.email = email;
         this.oAuthType = oAuthType;
         this.userKey = userKey;
         this.username = username;

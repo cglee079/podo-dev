@@ -15,6 +15,7 @@ public class KakaoAttributeParser implements AttributesParser {
     private static final String USER_DETAIL_KEY = "profile";
     private static final String USERNAME_KEY = "nickname";
     private static final String PICTURE_KEY = "profile_image_url";
+    private static final String EMAIL_KEY = "email";
     private static final String DEFAULT_PICTURE = "https://www.podo-dev.com/user/default-kakao.png";
 
     @SuppressWarnings("unchecked")
@@ -26,8 +27,10 @@ public class KakaoAttributeParser implements AttributesParser {
         final String userKey = ParserUtil.encodeUserKey(oAuthType, id);
         final String username = userDetail.get(USERNAME_KEY);
         final String picture = getPicture(userDetail.get(PICTURE_KEY), DEFAULT_PICTURE);
+        final String email = (String) userDetailWrap.get(EMAIL_KEY);
 
         return OAuthAttributes.builder()
+                .email(email)
                 .oAuthType(oAuthType)
                 .userKey(userKey)
                 .username(username)

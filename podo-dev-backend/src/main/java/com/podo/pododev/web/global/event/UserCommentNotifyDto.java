@@ -1,4 +1,4 @@
-package com.podo.pododev.web.global.event.notifier;
+package com.podo.pododev.web.global.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class CommentNotifyDto {
+public class UserCommentNotifyDto {
 
     private String blogTitle;
     private String username;

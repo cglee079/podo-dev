@@ -11,13 +11,15 @@ public class UserInsert {
 
     private OAuthType oAuthType;
     private String userKey;
+    private String email;
     private String username;
     private String picture;
     private UserRole role;
 
     @Builder
-    public UserInsert(OAuthType oAuthType, String userKey, String name, String picture, UserRole role) {
+    public UserInsert(OAuthType oAuthType, String email, String userKey, String name, String picture, UserRole role) {
         this.oAuthType = oAuthType;
+        this.email = email;
         this.userKey = userKey;
         this.username = name;
         this.picture = picture;
@@ -27,6 +29,7 @@ public class UserInsert {
     public User toEntity() {
         return User.builder()
                 .oAuthType(oAuthType)
+                .email(email)
                 .userKey(userKey)
                 .username(username)
                 .picture(picture)

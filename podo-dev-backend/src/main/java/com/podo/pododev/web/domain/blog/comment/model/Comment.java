@@ -44,6 +44,8 @@ public class Comment {
 
     private BigDecimal sort;
 
+    private Boolean notified;
+
     private Boolean enabled;
 
     @CreatedDate
@@ -52,7 +54,7 @@ public class Comment {
     @Builder
     public Comment(User writer, String contents, Long cgroup,
                    Long parentId, Integer depth, BigDecimal sort,
-                   Boolean enabled, Integer childCount) {
+                   Boolean notified, Boolean enabled, Integer childCount) {
         this.writer = writer;
         this.contents = contents;
         this.cgroup = cgroup;
@@ -60,6 +62,7 @@ public class Comment {
         this.parentId = parentId;
         this.sort = sort;
         this.childCount = childCount;
+        this.notified = notified;
         this.enabled = enabled;
     }
 
@@ -105,6 +108,10 @@ public class Comment {
 
     public boolean isWrittenBy(Long userId) {
         return this.writer.getId().equals(userId);
+    }
+
+    public boolean isNotified(){
+        return notified;
     }
 
 
