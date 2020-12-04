@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 @Profile("deploy")
 @Slf4j
@@ -16,12 +19,13 @@ import java.util.List;
 @Component
 public class WorkScheduler {
 
+    private final ExecutorService threadPoolExecutor = Executors.newFixedThreadPool(3);
     private final List<Worker> workers;
 
     @Scheduled(cron = "0 */5 * * * *")
     public void doSchedule() {
         for (Worker work : workers) {
-            work.doWork(LocalDateTime.now());
+            threadPoolExecutor.submit(() -> work.doWork(LocalDateTime.now()));
         }
     }
 
