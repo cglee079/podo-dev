@@ -1,7 +1,6 @@
 package com.podo.pododev.web.global.config.aop.solr;
 
 import com.podo.pododev.web.global.infra.solr.SolrDataImportService;
-import com.podo.pododev.web.global.infra.solr.SolrSearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;

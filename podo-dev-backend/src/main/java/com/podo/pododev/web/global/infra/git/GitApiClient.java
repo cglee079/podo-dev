@@ -3,19 +3,39 @@ package com.podo.pododev.web.global.infra.git;
 
 import com.podo.pododev.core.util.LocalDateTimeUtil;
 import com.podo.pododev.web.global.infra.git.exception.GitApiConnectFailException;
-import com.podo.pododev.web.global.infra.git.parser.*;
+import com.podo.pododev.web.global.infra.git.parser.CommitCommentParser;
+import com.podo.pododev.web.global.infra.git.parser.IssueCommentParser;
+import com.podo.pododev.web.global.infra.git.parser.IssueParser;
+import com.podo.pododev.web.global.infra.git.parser.PullRequestCommentParser;
+import com.podo.pododev.web.global.infra.git.parser.PullRequestParser;
+import com.podo.pododev.web.global.infra.git.parser.PushParser;
 import com.podo.pododev.web.global.infra.git.value.GitEventVO;
 import com.podo.pododev.web.global.infra.git.value.GitUserVO;
 import lombok.extern.slf4j.Slf4j;
-import org.kohsuke.github.*;
+import org.kohsuke.github.GHEvent;
+import org.kohsuke.github.GHEventInfo;
+import org.kohsuke.github.GHRepository;
+import org.kohsuke.github.GHUser;
+import org.kohsuke.github.GitHub;
+import org.kohsuke.github.GitHubBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
-import static org.kohsuke.github.GHEvent.*;
+import static org.kohsuke.github.GHEvent.COMMIT_COMMENT;
+import static org.kohsuke.github.GHEvent.ISSUES;
+import static org.kohsuke.github.GHEvent.ISSUE_COMMENT;
+import static org.kohsuke.github.GHEvent.PULL_REQUEST;
+import static org.kohsuke.github.GHEvent.PULL_REQUEST_REVIEW_COMMENT;
+import static org.kohsuke.github.GHEvent.PUSH;
 
 @Slf4j
 @Component

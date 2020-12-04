@@ -1,7 +1,6 @@
 package com.podo.pododev.web.global.infra.solr.dto;
 
 import lombok.Getter;
-import lombok.Setter;
 import org.apache.solr.client.solrj.beans.Field;
 
 @Getter

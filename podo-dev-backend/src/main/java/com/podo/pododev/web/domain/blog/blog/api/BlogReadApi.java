@@ -10,14 +10,16 @@ import com.podo.pododev.web.domain.blog.blog.dto.BlogArchive;
 import com.podo.pododev.web.domain.blog.blog.dto.BlogRequestPaging;
 import com.podo.pododev.web.domain.blog.blog.dto.BlogResponse;
 import com.podo.pododev.web.domain.blog.blog.dto.BlogResponsePaging;
-import com.podo.pododev.web.domain.blog.blog.model.Blog;
 import com.podo.pododev.web.global.infra.solr.SolrSearchService;
 import com.podo.pododev.web.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

@@ -5,7 +5,6 @@ import com.podo.pododev.web.global.config.aop.argschecker.AllArgsNotNullChecker;
 import com.podo.pododev.web.global.config.aop.argschecker.NotAllArgsNullException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.aop.aspectj.annotation.AspectJProxyFactory;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;

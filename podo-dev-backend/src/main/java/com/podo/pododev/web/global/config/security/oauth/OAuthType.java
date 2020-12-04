@@ -1,7 +1,11 @@
 package com.podo.pododev.web.global.config.security.oauth;
 
-import com.podo.pododev.web.global.config.security.oauth.parser.*;
 import com.podo.pododev.web.global.config.security.oauth.exception.InvalidOAuthTypeException;
+import com.podo.pododev.web.global.config.security.oauth.parser.FacebookAttributesParser;
+import com.podo.pododev.web.global.config.security.oauth.parser.GithubAttributesParser;
+import com.podo.pododev.web.global.config.security.oauth.parser.GoogleAttributesParser;
+import com.podo.pododev.web.global.config.security.oauth.parser.KakaoAttributeParser;
+import com.podo.pododev.web.global.config.security.oauth.parser.NaverAttrieButesParser;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Map;

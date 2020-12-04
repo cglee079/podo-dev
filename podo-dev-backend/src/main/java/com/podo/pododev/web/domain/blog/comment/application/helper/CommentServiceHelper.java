@@ -1,7 +1,7 @@
 package com.podo.pododev.web.domain.blog.comment.application.helper;
 
-import com.podo.pododev.web.domain.blog.comment.model.Comment;
 import com.podo.pododev.web.domain.blog.comment.exception.InvalidCommentIdApiException;
+import com.podo.pododev.web.domain.blog.comment.model.Comment;
 import com.podo.pododev.web.domain.blog.comment.repository.CommentRepository;
 import lombok.experimental.UtilityClass;
 

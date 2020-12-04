@@ -1,12 +1,12 @@
 package com.podo.pododev.web.domain.blog.blog.application;
 
 import com.podo.pododev.core.rest.response.dto.PageDto;
-import com.podo.pododev.web.domain.blog.blog.model.Blog;
 import com.podo.pododev.web.domain.blog.blog.dto.BlogRequestPaging;
 import com.podo.pododev.web.domain.blog.blog.dto.BlogResponsePaging;
+import com.podo.pododev.web.domain.blog.blog.model.Blog;
 import com.podo.pododev.web.domain.blog.blog.repository.BlogRepository;
-import com.podo.pododev.web.global.infra.solr.dto.BlogSearchResult;
 import com.podo.pododev.web.global.infra.solr.SolrSearchService;
+import com.podo.pododev.web.global.infra.solr.dto.BlogSearchResult;
 import com.podo.pododev.web.global.util.AttachLinkManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

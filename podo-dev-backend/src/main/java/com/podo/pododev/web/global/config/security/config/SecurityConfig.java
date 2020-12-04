@@ -5,7 +5,6 @@ import com.podo.pododev.web.global.config.security.SecurityStore;
 import com.podo.pododev.web.global.config.security.filter.CorsFilter;
 import com.podo.pododev.web.global.config.security.filter.TokenAuthFilter;
 import com.podo.pododev.web.global.config.security.oauth.OAuth2Service;
-import com.podo.pododev.web.global.config.security.role.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
