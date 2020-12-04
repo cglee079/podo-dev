@@ -6,6 +6,7 @@ import com.podo.pododev.web.global.util.FileCRUDUtil;
 import com.podo.pododev.web.global.util.HtmlDocumentUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
@@ -36,7 +37,7 @@ public class ReplyCommentNotifyListener {
         final LocalDateTime originWriteAt = replyDto.getOriginWriteAt();
 
         String emailTitle = String.format("[podo-dev] '%s' 님께서 댓글의 답글을 작성하였습니다.", writer);
-        String emailContents = FileCRUDUtil.readFile(new ClassPathResource("form/reply_comment_notify.html").getURI().toString());
+        String emailContents = FileCRUDUtil.readFile(FileUtils.getFile("src/java/resources/reply_comment_notify.html"));
         emailContents = emailContents.replace("${contents}", HtmlDocumentUtil.line2br(contents));
         emailContents = emailContents.replace("${writer}", writer);
         emailContents = emailContents.replace("${writeAt}", DateTimeFormatUtil.dateTimeToBeautifulDate(writeAt));
