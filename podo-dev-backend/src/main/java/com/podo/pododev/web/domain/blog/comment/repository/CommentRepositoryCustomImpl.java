@@ -43,6 +43,7 @@ public class CommentRepositoryCustomImpl implements CommentRepositoryCustom {
                 .join(comment.writer, QUser.user).fetchJoin()
                 .where(comment.enabled.eq(true))
                 .where(comment.writer.role.ne(ADMIN))
+                .where(comment.blog.enabled.eq(true))
                 .orderBy(comment.createAt.desc())
                 .limit(size)
                 .fetch();
