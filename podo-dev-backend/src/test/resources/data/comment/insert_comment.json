@@ -1,4 +1,5 @@
 {
   "contents" : "HelloWorld",
-  "parentId" : null
+  "parentId" : null,
+  "notified" : false
 }

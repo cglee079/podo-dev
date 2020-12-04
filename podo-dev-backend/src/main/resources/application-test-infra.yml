@@ -26,3 +26,11 @@ infra.git:
   auth.token: mock
   user.id: cglee079
   event.max_length : 7
+
+infra.gmail:
+  send.timeout: 5000
+  admin:
+    name: mock
+    email: mock
+    id: mock
+    password: mock
