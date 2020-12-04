@@ -19,7 +19,7 @@ import org.springframework.test.context.TestConstructor;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -51,7 +51,7 @@ class CommentWriteServiceIntegrationTest extends IntegrationTest {
         final CommentInsert insert = JsonMapper.toObject(TestUtil.getStringFromResource("data", "comment", "insert_comment.json"), CommentInsert.class);
 
         //when
-        commentWriteService.insertNewComment(blog.getId(), insert);
+        commentWriteService.insertNewComment(blog.getId(), insert, LocalDateTime.now());
 
         //then
         final List<Comment> comments = commentRepository.findAll();
@@ -81,7 +81,7 @@ class CommentWriteServiceIntegrationTest extends IntegrationTest {
         ReflectionTestUtils.setField(insert, "parentId", existedComment.getId());
 
         //when
-        commentWriteService.insertNewComment(blog.getId(), insert);
+        commentWriteService.insertNewComment(blog.getId(), insert, LocalDateTime.now());
 
         //then
         final List<Comment> comments = commentRepository.findAll();
