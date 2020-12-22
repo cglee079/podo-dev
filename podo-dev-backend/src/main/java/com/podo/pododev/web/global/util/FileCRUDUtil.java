@@ -7,8 +7,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -20,17 +22,6 @@ import java.util.List;
 
 @Slf4j
 public class FileCRUDUtil {
-
-    public static String readFile(String path) {
-        try {
-            List<String> content = Files.readAllLines(Paths.get(URI.create(path)));
-            return String.join("", content);
-        } catch (Exception e) {
-            log.error("파일 읽기 실패 : {}", path, e);
-            throw new FileProcessFailApiException(path);
-        }
-    }
-
 
     public static File writeFile(String path, MultipartFile multipartFile) {
 

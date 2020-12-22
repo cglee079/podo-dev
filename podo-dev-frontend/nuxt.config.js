@@ -93,7 +93,7 @@ module.exports = {
         { src: "~plugins/scroll-block.js", ssr: false },
         { src: "~plugins/toast-editor.js", ssr: false },
         { src: "~plugins/vue-adsense.js", ssr: false },
-        { src: "~plugins/vue-checkbox.js", ssr: false }
+        { src: "~plugins/vue-checkbox.js" }
     ],
 
     modules: [

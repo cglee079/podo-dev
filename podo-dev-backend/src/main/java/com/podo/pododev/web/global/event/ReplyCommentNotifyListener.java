@@ -2,16 +2,19 @@ package com.podo.pododev.web.global.event;
 
 import com.podo.pododev.core.util.DateTimeFormatUtil;
 import com.podo.pododev.web.global.infra.email.EmailSender;
-import com.podo.pododev.web.global.util.FileCRUDUtil;
 import com.podo.pododev.web.global.util.HtmlDocumentUtil;
+import com.podo.pododev.web.global.util.ResourceFileUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
+import org.springframework.util.FileCopyUtils;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 
 @Slf4j
@@ -36,7 +39,7 @@ public class ReplyCommentNotifyListener {
         final LocalDateTime originWriteAt = replyDto.getOriginWriteAt();
 
         String emailTitle = String.format("[podo-dev] '%s' 님께서 댓글의 답글을 작성하였습니다.", writer);
-        String emailContents = FileCRUDUtil.readFile(new ClassPathResource("form/reply_comment_notify.html").getURI().toString());
+        String emailContents = ResourceFileUtil.readResourceFile("form/reply_comment_notify.html");
         emailContents = emailContents.replace("${contents}", HtmlDocumentUtil.line2br(contents));
         emailContents = emailContents.replace("${writer}", writer);
         emailContents = emailContents.replace("${writeAt}", DateTimeFormatUtil.dateTimeToBeautifulDate(writeAt));
@@ -47,6 +50,8 @@ public class ReplyCommentNotifyListener {
 
         emailSender.sendHtmlEmail(username, email, emailTitle, emailContents);
     }
+
+
 
 
 }

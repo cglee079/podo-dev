@@ -9,7 +9,7 @@
         <div id="sub">
             <div id="userInfo">
                 <input class="username" type="text" placeholder="이름" v-model="input.username" disabled />
-                <p-check class="notified p-default p-curve" v-model="input.notified">알림받기</p-check>
+                <p-check class="notified p-default p-curve" v-model="input.notified">알림</p-check>
             </div>
             <div id="submit" @click="clickCommentPost">등록</div>
         </div>
