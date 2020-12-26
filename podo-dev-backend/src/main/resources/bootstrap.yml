@@ -24,7 +24,7 @@ logging:
 spring.profiles: deploy
 spring.profiles.include: deploy-app, deploy-jpa, deploy-infra, deploy-oauth, deploy-ssl
 
-spring.cloud.config.uri: http://192.168.219.103:8888
+spring.cloud.config.uri: http://192.168.50.2:8888
 
 logging:
   file.path: /data/logs
