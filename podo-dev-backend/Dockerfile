@@ -9,7 +9,7 @@ RUN echo "Asia/Seoul" > /etc/timezone
 
 CMD java \
     -jar \
-    -Dspring.profiles.active=deploy \
+    -Dspring.profiles.active=prod \
     -Xms1024m \
     -Xmx1024m \
     -XX:NewSize=512m \
