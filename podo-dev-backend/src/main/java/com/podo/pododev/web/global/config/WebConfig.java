@@ -1,7 +1,7 @@
 package com.podo.pododev.web.global.config;
 
 import com.podo.pododev.web.global.config.filter.RequestLoggingFilter;
-import com.podo.pododev.web.global.config.interceptor.BlogViewLogInterceptor;
+import com.podo.pododev.web.global.config.interceptor.RequestLoggingInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -24,7 +24,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Value("${local.upload.base.dir}")
     private String uploadedLocation;
 
-    private final BlogViewLogInterceptor blogViewLogInterceptor;
+    private final RequestLoggingInterceptor requestLoggingInterceptor;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -43,9 +43,8 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(blogViewLogInterceptor)
-                .addPathPatterns("/api/blogs/*")
-                .excludePathPatterns("/api/blogs/archive");
+        registry.addInterceptor(requestLoggingInterceptor)
+                .addPathPatterns("/api/**");
     }
 
     @Bean

@@ -1,8 +1,12 @@
 package com.podo.pododev.web.global.config.interceptor;
 
 import com.podo.pododev.core.util.type.RequestHeader;
+import com.podo.pododev.web.global.config.filter.ThreadLocalContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -12,22 +16,14 @@ import java.util.Objects;
 
 @Slf4j
 @Component
-public class BlogViewLogInterceptor extends HandlerInterceptorAdapter {
+public class RequestLoggingInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        final String requestUserAgent = request.getHeader(RequestHeader.USER_AGENT.value());
-
-        String requestIP = request.getHeader(RequestHeader.X_REAL_IP.value());
-
-        if (Objects.isNull(requestIP)) {
-            requestIP = request.getRemoteAddr();
-        }
-
-        final String requestUrl = request.getRequestURI();
-
-        log.debug("블로그 조회, '{}'  << '{}',  '{}'", requestUrl, requestIP, requestUserAgent);
-
+        HandlerMethod method = (HandlerMethod) handler;
+        ThreadLocalContext.put("request.controller.mapping",  method.getMethodAnnotation(RequestMapping.class).value());
+        ThreadLocalContext.put("request.controller.method", method.getMethod().getName());
+        ThreadLocalContext.put("request.controller.class", method.getBeanType().getName());
         return true;
     }
 
