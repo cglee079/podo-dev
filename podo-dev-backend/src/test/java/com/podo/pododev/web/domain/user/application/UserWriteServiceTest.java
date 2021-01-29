@@ -3,8 +3,8 @@ package com.podo.pododev.web.domain.user.application;
 import com.podo.pododev.web.domain.user.dto.UserInsert;
 import com.podo.pododev.web.domain.user.model.User;
 import com.podo.pododev.web.domain.user.repository.UserRepository;
-import com.podo.pododev.web.global.config.security.oauth.OAuthType;
-import com.podo.pododev.web.global.config.security.role.UserRole;
+import com.podo.pododev.web.global.security.oauth.OAuthType;
+import com.podo.pododev.web.global.security.role.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,8 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static com.podo.pododev.web.global.config.security.role.UserRole.ADMIN;
-import static com.podo.pododev.web.global.config.security.role.UserRole.USER;
+import static com.podo.pododev.web.global.security.role.UserRole.ADMIN;
+import static com.podo.pododev.web.global.security.role.UserRole.USER;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RequiredArgsConstructor

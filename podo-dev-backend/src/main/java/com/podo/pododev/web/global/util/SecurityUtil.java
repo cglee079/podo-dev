@@ -1,8 +1,8 @@
 package com.podo.pododev.web.global.util;
 
 import com.podo.pododev.web.domain.user.exception.NoAuthenticatedApiException;
-import com.podo.pododev.web.global.config.security.oauth.OAuthUserDetails;
-import com.podo.pododev.web.global.config.security.role.UserRole;
+import com.podo.pododev.web.global.security.oauth.OAuthUserDetails;
+import com.podo.pododev.web.global.security.role.UserRole;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

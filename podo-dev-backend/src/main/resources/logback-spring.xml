@@ -1,32 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <appender name="FILE_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <springProperty scope="context" name="app" source="spring.application.name"/>
+    <springProperty scope="context" name="profile" source="spring.profiles"/>
 
-        <encoder>
-            <pattern>%d{yyyy:MM:dd HH:mm:ss.SSS} %-5level --- [%thread] %logger{35} : %msg %n</pattern>
-        </encoder>
-
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_PATH}/${LOG_FILE}</fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>5MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
-        </rollingPolicy>
-    </appender>
-
-
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %highlight(%-5level) %cyan(%logger{36}) - %msg %n</pattern>
         </encoder>
     </appender>
 
-    <root level="INFO">
-        <appender-ref ref="FILE_INFO"/>
-        <appender-ref ref="STDOUT"/>
-    </root>
+    <appender name="LOG_STASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>192.168.50.2:15000</destination>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <customFields>{"index":"${app}-${profile}"}</customFields>
+            <customFields>{"app":"${app}-${profile}"}</customFields>
+        </encoder>
+    </appender>
 
-    <logger name="com.podo.pododev" level="debug"/>
+    <springProfile name="dev">
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="prod">
+        <root level="ERROR">
+            <appender-ref ref="LOG_STASH"/>
+        </root>
+    </springProfile>
+
+    <logger name="ACCESS_LOGGER" additivity="false" level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="LOG_STASH"/>
+    </logger>
 
 </configuration>
 

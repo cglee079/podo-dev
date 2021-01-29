@@ -2,8 +2,8 @@ package com.podo.pododev.web.domain.user.model;
 
 import com.podo.pododev.web.domain.BaseTimeEntity;
 import com.podo.pododev.web.global.config.aop.argschecker.AllArgsNotNull;
-import com.podo.pododev.web.global.config.security.oauth.OAuthType;
-import com.podo.pododev.web.global.config.security.role.UserRole;
+import com.podo.pododev.web.global.security.oauth.OAuthType;
+import com.podo.pododev.web.global.security.role.UserRole;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

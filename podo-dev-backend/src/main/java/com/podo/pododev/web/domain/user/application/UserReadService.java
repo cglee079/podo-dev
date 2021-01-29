@@ -4,7 +4,7 @@ import com.podo.pododev.web.domain.user.exception.InvalidUserIdApiException;
 import com.podo.pododev.web.domain.user.model.User;
 import com.podo.pododev.web.domain.user.repository.UserRepository;
 import com.podo.pododev.web.domain.user.value.UserVo;
-import com.podo.pododev.web.global.config.security.role.UserRole;
+import com.podo.pododev.web.global.security.role.UserRole;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

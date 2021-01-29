@@ -7,8 +7,8 @@
 //import com.podo.pododev.web.domain.blog.comment.repository.CommentRepository;
 //import com.podo.pododev.web.domain.user.User;
 //import com.podo.pododev.web.domain.user.UserVo;
-//import com.podo.pododev.web.global.config.security.TokenManager;
-//import com.podo.pododev.web.global.config.security.filter.TokenAuthFilter;
+//import com.podo.pododev.web.global.security.TokenManager;
+//import com.podo.pododev.web.global.security.filter.TokenAuthFilter;
 //import com.podo.pododev.web.global.util.JsonUtil;
 //import com.podo.pododev.web.test.BlogSetup;
 //import com.podo.pododev.web.test.IntegrationTest;

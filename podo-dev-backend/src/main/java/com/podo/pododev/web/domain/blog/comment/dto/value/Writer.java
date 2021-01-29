@@ -1,8 +1,8 @@
 package com.podo.pododev.web.domain.blog.comment.dto.value;
 
 import com.podo.pododev.web.domain.user.model.User;
-import com.podo.pododev.web.global.config.security.oauth.OAuthType;
-import com.podo.pododev.web.global.config.security.role.UserRole;
+import com.podo.pododev.web.global.security.oauth.OAuthType;
+import com.podo.pododev.web.global.security.role.UserRole;
 import lombok.Getter;
 
 @Getter

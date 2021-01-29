@@ -1,12 +1,12 @@
 package com.podo.pododev.web.domain.user.value;
 
 import com.podo.pododev.web.domain.user.model.User;
-import com.podo.pododev.web.global.config.security.oauth.OAuthType;
+import com.podo.pododev.web.global.security.oauth.OAuthType;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import static com.podo.pododev.web.global.config.security.role.UserRole.ADMIN;
+import static com.podo.pododev.web.global.security.role.UserRole.ADMIN;
 
 
 @NoArgsConstructor

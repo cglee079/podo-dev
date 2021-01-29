@@ -1,30 +1,17 @@
 spring.application.name: podo-dev-web
 
-logging:
-  file.name: podo-dev-backend.%d{yyyy-MM-dd}-%i.log
-
 ---
 
 spring.profiles: dev
 spring.profiles.include: dev-app, dev-jpa, dev-infra, dev-oauth, dev-ssl
-
-logging:
-  file.path: c://dev-log/podo-dev/podo-dev-backend/logs
 
 ---
 
 spring.profiles: test
 spring.profiles.include: test-app, test-jpa, test-infra, test-oauth, test-ssl
 
-logging:
-  file.path: logs
-
 ---
 
-spring.profiles: deploy
-spring.profiles.include: deploy-app, deploy-jpa, deploy-infra, deploy-oauth, deploy-ssl
-
+spring.profiles: prod
+spring.profiles.include: prod-app, prod-jpa, prod-infra, prod-oauth, prod-ssl
 spring.cloud.config.uri: http://192.168.50.2:8888
-
-logging:
-  file.path: /data/logs

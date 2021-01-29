@@ -19,6 +19,15 @@ public class DateTimeFormatUtil {
         return dateTime.format(dateTimeFormatter);
     }
 
+    public static String toFullDateTime(LocalDateTime dateTime) {
+        if (Objects.isNull(dateTime)) {
+            return "";
+        }
+
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+        return dateTime.format(dateTimeFormatter);
+    }
+
 
     public static String dateTimeToBeautifulDate(LocalDateTime dateTime) {
         if (Objects.isNull(dateTime)) {

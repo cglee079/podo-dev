@@ -1,8 +1,8 @@
 package com.podo.pododev.web.domain.auth;
 
 import com.podo.pododev.core.util.type.RequestHeader;
-import com.podo.pododev.web.global.config.security.SecurityStore;
-import com.podo.pododev.web.global.config.security.oauth.OAuthType;
+import com.podo.pododev.web.global.security.SecurityStore;
+import com.podo.pododev.web.global.security.oauth.OAuthType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;

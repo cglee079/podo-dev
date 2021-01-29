@@ -13,7 +13,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 import static com.podo.pododev.web.domain.blog.comment.model.QComment.comment;
-import static com.podo.pododev.web.global.config.security.role.UserRole.ADMIN;
+import static com.podo.pododev.web.global.security.role.UserRole.ADMIN;
 
 @RequiredArgsConstructor
 public class CommentRepositoryCustomImpl implements CommentRepositoryCustom {
