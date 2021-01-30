@@ -66,7 +66,7 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
         log.put("headers.x-real-ip", headers.get("x-real-ip"));
         log.put("headers.x-forwarded-for", headers.get("x-forwarded-for"));
         log.put("remote-addr", request.getRemoteAddr());
-        log.put("headers", OBJECT_MAPPER.writeValueAsString(headers));
+        log.put("headers.all", OBJECT_MAPPER.writeValueAsString(headers));
         log.put("parameters", request.getParameterMap());
         log.put("body", OBJECT_MAPPER.readTree(request.getContentAsByteArray()).toString());
         log.put("bodySize", request.getContentLength());
