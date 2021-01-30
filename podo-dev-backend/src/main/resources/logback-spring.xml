@@ -10,10 +10,9 @@
     </appender>
 
     <appender name="LOG_STASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>192.168.50.2:15000</destination>
+        <destination>220.88.46.130:15000</destination>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
             <customFields>{"index":"${app}-${profile}"}</customFields>
-            <customFields>{"app":"${app}-${profile}"}</customFields>
         </encoder>
     </appender>
 
@@ -25,6 +24,7 @@
 
     <springProfile name="prod">
         <root level="ERROR">
+            <appender-ref ref="CONSOLE"/>
             <appender-ref ref="LOG_STASH"/>
         </root>
     </springProfile>
