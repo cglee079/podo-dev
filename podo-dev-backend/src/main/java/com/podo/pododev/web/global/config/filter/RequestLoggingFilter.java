@@ -89,7 +89,7 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
 
         log.put("headers", OBJECT_MAPPER.writeValueAsString(headers));
         log.put("status", response.getStatus());
-        log.put("body", OBJECT_MAPPER.readTree(response.getContentAsByteArray()).toString());
+        log.put("body", new String(response.getContentAsByteArray()));
         log.put("bodySize", response.getContentSize());
 
         return log;

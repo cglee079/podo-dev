@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Profile("deploy")
+@Profile("prod")
 @Slf4j
 @RequiredArgsConstructor
 @Component
