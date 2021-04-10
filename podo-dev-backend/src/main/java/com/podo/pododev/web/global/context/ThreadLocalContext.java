@@ -1,4 +1,4 @@
-package com.podo.pododev.web.global.config.filter;
+package com.podo.pododev.web.global.context;
 
 
 import com.podo.pododev.core.util.DateTimeFormatUtil;
@@ -12,9 +12,15 @@ import java.util.stream.Collectors;
 
 public class ThreadLocalContext {
 
-    private static ThreadLocal<Integer> sendMessageIndex = new ThreadLocal<>();
+    private static ThreadLocal<Integer> debugIndex = new ThreadLocal<>();
     private static ThreadLocal<Integer> exceptionIndex = new ThreadLocal<>();
     private static ThreadLocal<Map<String, Object>> values = new ThreadLocal<>();
+
+    public static void debug(String message) {
+        Integer index = debugIndex.get();
+        values.get().put("debug-" + index, DateTimeFormatUtil.toFullDateTime(LocalDateTime.now()) + " :: " + message);
+        debugIndex.set(index + 1);
+    }
 
     public static void put(String key, Object value) {
         values.get().put(key, value);
@@ -24,8 +30,10 @@ public class ThreadLocalContext {
         values.get().put(key, DateTimeFormatUtil.toFullDateTime(localDateTime));
     }
 
-    public static void removeAll() {
+    public static void clear() {
         values.set(new HashMap<>());
+        exceptionIndex.set(0);
+        debugIndex.set(0);
     }
 
     public static Map<String, Object> toLog() {
@@ -38,7 +46,7 @@ public class ThreadLocalContext {
         valuesInit.put("type", type);
         values.set(valuesInit);
         exceptionIndex.set(0);
-        sendMessageIndex.set(0);
+        debugIndex.set(0);
     }
 
     public static void putException(Exception e) {
@@ -46,7 +54,7 @@ public class ThreadLocalContext {
         values.get().put("stackTrace-" + exceptionIndex.get(), Arrays.stream(e.getStackTrace()).map(StackTraceElement::toString).collect(Collectors.joining("\n")));
         exceptionIndex.set(exceptionIndex.get() + 1);
     }
-    
+
 
     public static String id() {
         return String.valueOf(values.get().get("id"));

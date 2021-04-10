@@ -14,6 +14,7 @@ import com.podo.pododev.web.domain.user.model.User;
 import com.podo.pododev.web.domain.user.repository.UserRepository;
 import com.podo.pododev.web.global.config.aop.argschecker.AllArgsNotNull;
 import com.podo.pododev.web.global.config.cache.annotation.AllCommentCacheEvict;
+import com.podo.pododev.web.global.context.ThreadLocalContext;
 import com.podo.pododev.web.global.event.ReplyCommentNotifyDto;
 import com.podo.pododev.web.global.event.ReplyCommentNotifyPublisher;
 import com.podo.pododev.web.global.event.UserCommentNotifyDto;
@@ -70,8 +71,6 @@ public class CommentWriteService {
     }
 
     private void insertNewComment(User user, Blog blog, String contents, Boolean notified) {
-        log.debug("'{}' 게시글에 새로운 댓글이 등록되었습니다", blog.getTitle());
-
         final Comment newComment = Comment.builder()
                 .writer(user)
                 .contents(contents)
@@ -89,8 +88,6 @@ public class CommentWriteService {
     }
 
     private void insertReplyComment(User user, Blog blog, String contents, Long parentCommentId, Boolean notified, LocalDateTime now) {
-        log.debug("'{}' 게시글에 새로운 답글이 등록되었습니다", blog.getTitle());
-
         final Comment parentComment = CommentServiceHelper.findById(parentCommentId, commentRepository);
 
         final Long parentCommentCgroup = parentComment.getCgroup();
@@ -159,7 +156,7 @@ public class CommentWriteService {
             throw new NoAuthorizedCommentApiException(commentId);
         }
 
-        log.debug("'{}' 댓글을 삭제합니다", comment.getId());
+        ThreadLocalContext.debug(String.format("'%s' 댓글을 삭제합니다", comment.getId()));
 
         comment.erase(DELETED_CONTENTS);
 
@@ -187,7 +184,7 @@ public class CommentWriteService {
             return;
         }
 
-        log.debug("'{}' 댓글은, 자식댓글이 없어 완전이 삭제합니다", commentId);
+        ThreadLocalContext.debug(String.format("'%s' 댓글은, 자식댓글이 없어 완전이 삭제합니다", commentId));
 
         commentRepository.delete(existedComment);
         decreaseChildCountAndRemoveIfCanDeleted(existedComment.getParentId());

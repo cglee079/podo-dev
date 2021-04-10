@@ -1,5 +1,6 @@
 package com.podo.pododev.web.global.config.aop.solr;
 
+import com.podo.pododev.web.global.context.ThreadLocalContext;
 import com.podo.pododev.web.global.infra.solr.SolrDataImportService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +20,7 @@ public class SolrDataImportAspect {
 
     @AfterReturning("@annotation(com.podo.pododev.web.global.config.aop.solr.SolrDataImport)")
     public void requestDataImportToSolr(JoinPoint joinPoint) {
-        log.debug("AOP :: SOLR :: Solr 서버에 DataImport를 요청합니다. By '{}'", joinPoint.getSignature().getName());
+        ThreadLocalContext.debug(String.format("SOLR :: Solr 서버에 DataImport를 요청합니다. By '%s'", joinPoint.getSignature().getName()));
 
         solrDataImportService.requestDataImport();
     }

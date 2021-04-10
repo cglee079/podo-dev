@@ -1,5 +1,6 @@
 package com.podo.pododev.web.global.infra.storage;
 
+import com.podo.pododev.web.global.context.ThreadLocalContext;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,7 +28,7 @@ public class PodoStorageClient {
     private String serverUrl;
 
     public void uploadFile(String path, File file) {
-        log.debug("Storage 서버에 '{}' 파일 업로드를 요청합니다", file.getPath() + "/" + file.getName());
+        ThreadLocalContext.debug(String.format("Storage 서버에 '%s' 파일 업로드를 요청합니다", file.getPath() + "/" + file.getName()));
 
         final MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>();
         requestBody.add("path", path);
@@ -41,11 +42,11 @@ public class PodoStorageClient {
 
         ResponseEntity<String> response = new RestTemplate().exchange(serverUrl, HttpMethod.POST, request, String.class);
 
-        log.debug("Storage 파일 업로드 요청 응답 : '{}'", response.toString());
+        ThreadLocalContext.debug(String.format("Storage 파일 업로드 요청 응답 : '%s'", response.toString()));
     }
 
     public void deleteFile(String directory, String filename) {
-        log.debug("Storage 서버에 '{}' 파일 삭제를 요청합니다", directory + "/" + filename);
+        ThreadLocalContext.debug(String.format("Storage 서버에 '%s' 파일 삭제를 요청합니다", directory + "/" + filename));
 
         final JSONObject requestBody = new JSONObject();
         requestBody.put("path", directory);
@@ -59,7 +60,7 @@ public class PodoStorageClient {
 
         final ResponseEntity<String> response = new RestTemplate().exchange(serverUrl, HttpMethod.DELETE, request, String.class);
 
-        log.debug("Storage 파일 삭제 요청 응답 '{}'", response.toString());
+        ThreadLocalContext.debug(String.format("Storage 파일 삭제 요청 응답 '%s'", response.toString()));
 
     }
 }

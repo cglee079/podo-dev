@@ -34,5 +34,15 @@
         <appender-ref ref="LOG_STASH"/>
     </logger>
 
+    <logger name="WORKER_LOGGER" additivity="false" level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="LOG_STASH"/>
+    </logger>
+
+    <logger name="EMAIL_LOGGER" additivity="false" level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="LOG_STASH"/>
+    </logger>
+
 </configuration>
 

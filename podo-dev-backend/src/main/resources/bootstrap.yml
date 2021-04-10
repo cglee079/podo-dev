@@ -14,4 +14,4 @@ spring.profiles.include: test-app, test-jpa, test-infra, test-oauth, test-ssl
 
 spring.profiles: prod
 spring.profiles.include: prod-app, prod-jpa, prod-infra, prod-oauth, prod-ssl
-spring.cloud.config.uri: http://192.168.50.2:8888
+spring.cloud.config.uri: http://220.88.46.130:8888

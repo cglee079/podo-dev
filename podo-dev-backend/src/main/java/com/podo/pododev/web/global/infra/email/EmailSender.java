@@ -1,7 +1,12 @@
 package com.podo.pododev.web.global.infra.email;
 
+import com.podo.pododev.web.global.context.ThreadLocalContext;
+import io.sentry.Sentry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.logstash.logback.argument.StructuredArguments;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -11,6 +16,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDateTime;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -18,6 +24,8 @@ import java.util.concurrent.Executors;
 @RequiredArgsConstructor
 @Slf4j
 public class EmailSender {
+
+    private final static Logger LOGGER = LoggerFactory.getLogger("EMAIL_LOGGER");
 
     @Value("${infra.gmail.admin.name}")
     private final String adminName;
@@ -30,11 +38,22 @@ public class EmailSender {
 
     public void sendHtmlEmail(String username, String email, String title, String contents) {
         threadPoolExecutor.submit(() -> {
-            log.debug("EMAIL :: '{}({})'로 메일을 발송합니다, 메일제목 : {}", email, username, title);
+            ThreadLocalContext.init("send-email");
             try {
+                ThreadLocalContext.putDateTime("send.startAt", LocalDateTime.now());
+                ThreadLocalContext.put("receiver.email", email);
+                ThreadLocalContext.put("receiver.username", username);
+                ThreadLocalContext.put("receiver.title", title);
+                ThreadLocalContext.put("receiver.contents", contents);
+                ThreadLocalContext.debug(String.format("EMAIL :: '%s(%s)'로 메일을 발송합니다, 메일제목 : %s", email, username, title));
                 mailSender.send(createMessage(username, email, title, contents));
             } catch (Exception e) {
-                log.error("메일 전송에 문제가 발생하였습니다 {}", e.getMessage());
+                Sentry.captureException(e);
+                ThreadLocalContext.putException(e);
+            } finally {
+                ThreadLocalContext.putDateTime("send.endAt", LocalDateTime.now());
+                LOGGER.info("", StructuredArguments.value("context", ThreadLocalContext.toLog()));
+                ThreadLocalContext.clear();
             }
         });
     }
@@ -45,7 +64,7 @@ public class EmailSender {
         helper.setFrom(new InternetAddress(adminEmail, adminName));
         helper.setTo(new InternetAddress(userEmail, username));
         helper.setSubject(title);
-        helper.setText(contents,  true);
+        helper.setText(contents, true);
 
         return helper.getMimeMessage();
     }

@@ -1,5 +1,6 @@
 package com.podo.pododev.web.global.infra.solr;
 
+import com.podo.pododev.web.global.context.ThreadLocalContext;
 import com.podo.pododev.web.global.infra.solr.client.SolrSender;
 import com.podo.pododev.web.global.infra.solr.dto.BlogSearchResult;
 import com.podo.pododev.web.global.infra.solr.dto.SolrResponse;
@@ -42,7 +43,7 @@ public class SolrSearchService {
     private final SolrSender solrSender;
 
     public List<BlogSearchResult> search(String searchValue) {
-        log.debug("SOLR :: Solr 엔진 '{}' 검색", searchValue);
+        ThreadLocalContext.debug(String.format("SOLR :: Solr 엔진 '%s' 검색", searchValue));
 
         if (StringUtils.isEmpty(searchValue)) {
             return Collections.emptyList();
@@ -104,7 +105,7 @@ public class SolrSearchService {
     }
 
     public List<String> getIndexedWordsByKeyword(String keyword) {
-        log.debug("Solr 엔진, '{}' 관련 색인 단어 조회", keyword);
+        ThreadLocalContext.debug(String.format("Solr 엔진, '%s' 관련 색인 단어 조회", keyword));
 
         final Map<String, String[]> solrFacetRequestParam = SolrParameterCreator.createDefaultFacetParam(keyword);
 
