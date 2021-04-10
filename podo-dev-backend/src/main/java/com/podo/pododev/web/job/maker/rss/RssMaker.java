@@ -3,7 +3,7 @@ package com.podo.pododev.web.job.maker.rss;
 import com.podo.pododev.core.util.LocalDateTimeUtil;
 import com.podo.pododev.core.util.PathUtil;
 import com.podo.pododev.web.domain.blog.blog.dto.BlogFeed;
-import com.podo.pododev.web.global.config.filter.ThreadLocalContext;
+import com.podo.pododev.web.global.context.ThreadLocalContext;
 import com.rometools.rome.feed.synd.SyndCategory;
 import com.rometools.rome.feed.synd.SyndCategoryImpl;
 import com.rometools.rome.feed.synd.SyndContent;

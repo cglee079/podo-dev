@@ -1,6 +1,6 @@
 package com.podo.pododev.web.job.maker.sitemap;
 
-import com.podo.pododev.web.global.config.filter.ThreadLocalContext;
+import com.podo.pododev.web.global.context.ThreadLocalContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

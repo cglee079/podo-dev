@@ -1,6 +1,6 @@
 package com.podo.pododev.web.global.infra.storage;
 
-import com.podo.pododev.web.global.config.filter.ThreadLocalContext;
+import com.podo.pododev.web.global.context.ThreadLocalContext;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;

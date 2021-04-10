@@ -1,6 +1,7 @@
 package com.podo.pododev.web.global.infra.email;
 
-import com.podo.pododev.web.global.config.filter.ThreadLocalContext;
+import com.podo.pododev.web.global.context.ThreadLocalContext;
+import io.sentry.Sentry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.logstash.logback.argument.StructuredArguments;
@@ -47,6 +48,7 @@ public class EmailSender {
                 ThreadLocalContext.debug(String.format("EMAIL :: '%s(%s)'로 메일을 발송합니다, 메일제목 : %s", email, username, title));
                 mailSender.send(createMessage(username, email, title, contents));
             } catch (Exception e) {
+                Sentry.captureException(e);
                 ThreadLocalContext.putException(e);
             } finally {
                 ThreadLocalContext.putDateTime("send.endAt", LocalDateTime.now());

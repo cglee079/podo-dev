@@ -1,7 +1,7 @@
 package com.podo.pododev.web.job.tempcleaner;
 
 import com.podo.pododev.core.util.PathUtil;
-import com.podo.pododev.web.global.config.filter.ThreadLocalContext;
+import com.podo.pododev.web.global.context.ThreadLocalContext;
 import com.podo.pododev.web.global.util.FilenameCreator;
 import com.podo.pododev.web.global.util.writer.FileLocalWriter;
 import com.podo.pododev.web.job.Worker;

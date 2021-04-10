@@ -1,9 +1,10 @@
-package com.podo.pododev.core.rest.handler;
+package com.podo.pododev.web.global.handler;
 
 import com.podo.pododev.core.rest.ApiException;
 import com.podo.pododev.core.rest.response.ErrorResponse;
 import com.podo.pododev.core.rest.response.dto.ErrorDto;
 import com.podo.pododev.core.rest.status.DefaultApiStatus;
+import io.sentry.Sentry;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
@@ -18,8 +19,20 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity handleException(Exception e) {
+        Sentry.captureException(e);
+        final ErrorResponse response = ErrorResponse.singleError()
+                .status(DefaultApiStatus.ERR_SERVER_ERROR)
+                .error(new ErrorDto("", "", "죄송합니다. 알 수 없는 예외가 발생했습니다."))
+                .build();
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+    }
+
     @ExceptionHandler(ApiException.class)
     public ResponseEntity handleException(ApiException e) {
+        Sentry.captureException(e);
         final ErrorResponse response = ErrorResponse.singleError()
                 .status(e.getApiStatus())
                 .error(new ErrorDto(e.getField(), e.getValue(), e.getMessage()))
@@ -30,6 +43,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity handleBindingValidException(MethodArgumentNotValidException e) {
+        Sentry.captureException(e);
         final BindingResult result = e.getBindingResult();
 
         final List<ErrorDto> fieldErrors = result.getFieldErrors().stream()
@@ -46,7 +60,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({BindException.class})
     public ResponseEntity handleBindException(BindException e) {
-
+        Sentry.captureException(e);
         final BindingResult result = e.getBindingResult();
         final List<ErrorDto> fieldErrors = result.getFieldErrors().stream()
                 .map(fe -> new ErrorDto(fe.getField(), fe.getRejectedValue(), fe.getDefaultMessage()))

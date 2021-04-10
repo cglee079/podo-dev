@@ -1,6 +1,6 @@
 package com.podo.pododev.web.job.git;
 
-import com.podo.pododev.web.global.config.filter.ThreadLocalContext;
+import com.podo.pododev.web.global.context.ThreadLocalContext;
 import com.podo.pododev.web.global.infra.git.GitApiClient;
 import com.podo.pododev.web.global.infra.git.GitLogStore;
 import com.podo.pododev.web.global.infra.git.value.GitEventVO;

@@ -2,7 +2,7 @@ package com.podo.pododev.web.job.maker;
 
 import com.podo.pododev.web.domain.blog.blog.application.BlogFeedService;
 import com.podo.pododev.web.domain.blog.blog.dto.BlogFeed;
-import com.podo.pododev.web.global.config.filter.ThreadLocalContext;
+import com.podo.pododev.web.global.context.ThreadLocalContext;
 import com.podo.pododev.web.job.Worker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

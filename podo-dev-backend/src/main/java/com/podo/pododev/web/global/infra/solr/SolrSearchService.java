@@ -1,6 +1,6 @@
 package com.podo.pododev.web.global.infra.solr;
 
-import com.podo.pododev.web.global.config.filter.ThreadLocalContext;
+import com.podo.pododev.web.global.context.ThreadLocalContext;
 import com.podo.pododev.web.global.infra.solr.client.SolrSender;
 import com.podo.pododev.web.global.infra.solr.dto.BlogSearchResult;
 import com.podo.pododev.web.global.infra.solr.dto.SolrResponse;

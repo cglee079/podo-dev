@@ -1,7 +1,7 @@
 package com.podo.pododev.web.global.event;
 
 import com.podo.pododev.core.util.DateTimeFormatUtil;
-import com.podo.pododev.web.global.config.filter.ThreadLocalContext;
+import com.podo.pododev.web.global.context.ThreadLocalContext;
 import com.podo.pododev.web.global.infra.telegram.TelegramClient;
 import com.podo.pododev.web.global.util.HtmlDocumentUtil;
 import lombok.RequiredArgsConstructor;

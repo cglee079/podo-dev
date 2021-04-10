@@ -1,21 +1,17 @@
 package com.podo.pododev.web.global.event;
 
 import com.podo.pododev.core.util.DateTimeFormatUtil;
-import com.podo.pododev.web.global.config.filter.ThreadLocalContext;
+import com.podo.pododev.web.global.context.ThreadLocalContext;
 import com.podo.pododev.web.global.infra.email.EmailSender;
 import com.podo.pododev.web.global.util.HtmlDocumentUtil;
 import com.podo.pododev.web.global.util.ResourceFileUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
-import org.springframework.util.FileCopyUtils;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 
 @Slf4j

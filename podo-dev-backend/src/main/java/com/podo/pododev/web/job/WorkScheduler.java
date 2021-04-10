@@ -1,6 +1,7 @@
 package com.podo.pododev.web.job;
 
-import com.podo.pododev.web.global.config.filter.ThreadLocalContext;
+import com.podo.pododev.web.global.context.ThreadLocalContext;
+import io.sentry.Sentry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.logstash.logback.argument.StructuredArguments;
@@ -32,15 +33,16 @@ public class WorkScheduler {
 
         for (Worker worker : workers) {
             threadPoolExecutor.submit(() -> {
-                ThreadLocalContext.init("job"  + worker.getName());
+                ThreadLocalContext.init("job-"  + worker.getName());
                 LocalDateTime now = LocalDateTime.now();
                 try {
                     ThreadLocalContext.putDateTime("job.startAt", now);
                     worker.doWork(now);
                 } catch (Exception e) {
+                    Sentry.captureException(e);
                     ThreadLocalContext.putException(e);
                 } finally {
-                    ThreadLocalContext.putDateTime("job.endAt", now);
+                    ThreadLocalContext.putDateTime("job.endAt", LocalDateTime.now());
                     LOGGER.info("", StructuredArguments.value("context", ThreadLocalContext.toLog()));
                     ThreadLocalContext.clear();
                 }

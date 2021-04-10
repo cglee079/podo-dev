@@ -14,7 +14,7 @@ import com.podo.pododev.web.domain.user.model.User;
 import com.podo.pododev.web.domain.user.repository.UserRepository;
 import com.podo.pododev.web.global.config.aop.argschecker.AllArgsNotNull;
 import com.podo.pododev.web.global.config.cache.annotation.AllCommentCacheEvict;
-import com.podo.pododev.web.global.config.filter.ThreadLocalContext;
+import com.podo.pododev.web.global.context.ThreadLocalContext;
 import com.podo.pododev.web.global.event.ReplyCommentNotifyDto;
 import com.podo.pododev.web.global.event.ReplyCommentNotifyPublisher;
 import com.podo.pododev.web.global.event.UserCommentNotifyDto;

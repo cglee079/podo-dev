@@ -2,7 +2,7 @@ package com.podo.pododev.web.global.util.writer;
 
 import com.podo.pododev.core.util.PathUtil;
 import com.podo.pododev.web.domain.blog.attach.attachimage.exception.InvalidBase64ApiException;
-import com.podo.pododev.web.global.config.filter.ThreadLocalContext;
+import com.podo.pododev.web.global.context.ThreadLocalContext;
 import com.podo.pododev.web.global.util.FileCRUDUtil;
 import com.podo.pododev.web.global.util.FilenameCreator;
 import lombok.RequiredArgsConstructor;

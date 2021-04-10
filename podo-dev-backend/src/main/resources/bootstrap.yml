@@ -4,7 +4,6 @@ spring.application.name: podo-dev-web
 
 spring.profiles: dev
 spring.profiles.include: dev-app, dev-jpa, dev-infra, dev-oauth, dev-ssl
-
 ---
 
 spring.profiles: test
@@ -14,4 +13,3 @@ spring.profiles.include: test-app, test-jpa, test-infra, test-oauth, test-ssl
 
 spring.profiles: prod
 spring.profiles.include: prod-app, prod-jpa, prod-infra, prod-oauth, prod-ssl
-spring.cloud.config.uri: http://192.168.50.2:8888

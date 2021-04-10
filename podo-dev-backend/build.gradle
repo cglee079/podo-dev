@@ -21,7 +21,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-mail'
 
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.7'
+
     implementation 'net.logstash.logback:logstash-logback-encoder:6.3'
+    implementation 'io.sentry:sentry-spring-boot-starter:4.3.0'
+    implementation 'io.sentry:sentry-logback:4.3.0'
 
     implementation group: 'com.github.rjeschke', name: 'txtmark', version: '0.13'
     implementation group: 'org.jsoup', name: 'jsoup', version: '1.11.3'

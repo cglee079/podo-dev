@@ -2,7 +2,7 @@ package com.podo.pododev.web.job.maker.sitemap;
 
 import com.podo.pododev.core.util.PathUtil;
 import com.podo.pododev.web.domain.blog.blog.dto.BlogFeed;
-import com.podo.pododev.web.global.config.filter.ThreadLocalContext;
+import com.podo.pododev.web.global.context.ThreadLocalContext;
 import com.podo.pododev.web.global.util.FileCRUDUtil;
 import com.redfin.sitemapgenerator.WebSitemapGenerator;
 import lombok.RequiredArgsConstructor;
