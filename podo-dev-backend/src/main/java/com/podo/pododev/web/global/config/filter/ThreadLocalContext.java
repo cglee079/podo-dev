@@ -12,9 +12,15 @@ import java.util.stream.Collectors;
 
 public class ThreadLocalContext {
 
-    private static ThreadLocal<Integer> sendMessageIndex = new ThreadLocal<>();
+    private static ThreadLocal<Integer> debugIndex = new ThreadLocal<>();
     private static ThreadLocal<Integer> exceptionIndex = new ThreadLocal<>();
     private static ThreadLocal<Map<String, Object>> values = new ThreadLocal<>();
+
+    public static void debug(String message) {
+        Integer index = debugIndex.get();
+        values.get().put("debug-" + index, message);
+        debugIndex.set(index + 1);
+    }
 
     public static void put(String key, Object value) {
         values.get().put(key, value);
@@ -38,7 +44,7 @@ public class ThreadLocalContext {
         valuesInit.put("type", type);
         values.set(valuesInit);
         exceptionIndex.set(0);
-        sendMessageIndex.set(0);
+        debugIndex.set(0);
     }
 
     public static void putException(Exception e) {
@@ -46,7 +52,7 @@ public class ThreadLocalContext {
         values.get().put("stackTrace-" + exceptionIndex.get(), Arrays.stream(e.getStackTrace()).map(StackTraceElement::toString).collect(Collectors.joining("\n")));
         exceptionIndex.set(exceptionIndex.get() + 1);
     }
-    
+
 
     public static String id() {
         return String.valueOf(values.get().get("id"));
