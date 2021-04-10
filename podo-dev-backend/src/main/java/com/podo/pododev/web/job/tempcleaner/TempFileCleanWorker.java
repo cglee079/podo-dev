@@ -1,6 +1,7 @@
 package com.podo.pododev.web.job.tempcleaner;
 
 import com.podo.pododev.core.util.PathUtil;
+import com.podo.pododev.web.global.config.filter.ThreadLocalContext;
 import com.podo.pododev.web.global.util.FilenameCreator;
 import com.podo.pododev.web.global.util.writer.FileLocalWriter;
 import com.podo.pododev.web.job.Worker;
@@ -28,8 +29,13 @@ public class TempFileCleanWorker implements Worker {
     private final FileLocalWriter fileLocalWriter;
 
     @Override
+    public String getName() {
+        return "remove-temp-file";
+    }
+
+    @Override
     public void doWork(LocalDateTime now) {
-        log.debug("{} 시간 전, 임시 파일을 삭제합니다", hourOfExpire);
+        ThreadLocalContext.debug(String.format("%s 시간 전, 임시 파일을 삭제합니다", hourOfExpire));
 
         final String pathByDate = FilenameCreator.createPathByDate(now.minusHours(hourOfExpire));
 

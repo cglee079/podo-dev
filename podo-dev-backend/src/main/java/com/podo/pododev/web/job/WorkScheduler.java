@@ -1,7 +1,11 @@
 package com.podo.pododev.web.job;
 
+import com.podo.pododev.web.global.config.filter.ThreadLocalContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.logstash.logback.argument.StructuredArguments;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -18,18 +22,34 @@ import java.util.concurrent.Executors;
 @Component
 public class WorkScheduler {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger("WORKER_LOGGER");
+
     private final ExecutorService threadPoolExecutor = Executors.newFixedThreadPool(3);
     private final List<Worker> workers;
 
     @Scheduled(cron = "0 */5 * * * *")
     public void doSchedule() {
-        for (Worker work : workers) {
-            threadPoolExecutor.submit(() -> work.doWork(LocalDateTime.now()));
+
+        for (Worker worker : workers) {
+            threadPoolExecutor.submit(() -> {
+                ThreadLocalContext.init("job"  + worker.getName());
+                LocalDateTime now = LocalDateTime.now();
+                try {
+                    ThreadLocalContext.putDateTime("job.startAt", now);
+                    worker.doWork(now);
+                } catch (Exception e) {
+                    ThreadLocalContext.putException(e);
+                } finally {
+                    ThreadLocalContext.putDateTime("job.endAt", now);
+                    LOGGER.info("", StructuredArguments.value("context", ThreadLocalContext.toLog()));
+                    ThreadLocalContext.clear();
+                }
+            });
         }
     }
 
     @PostConstruct
-    public void workNow(){
+    public void workNow() {
         this.doSchedule();
     }
 

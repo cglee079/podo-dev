@@ -2,6 +2,7 @@ package com.podo.pododev.web.job.maker.sitemap;
 
 import com.podo.pododev.core.util.PathUtil;
 import com.podo.pododev.web.domain.blog.blog.dto.BlogFeed;
+import com.podo.pododev.web.global.config.filter.ThreadLocalContext;
 import com.podo.pododev.web.global.util.FileCRUDUtil;
 import com.redfin.sitemapgenerator.WebSitemapGenerator;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,8 @@ public class SitemapMaker {
     private String staticDirectory;
 
     public void makeSitemap(List<BlogFeed> blogs) {
-        log.debug("Sitemap 생성을 시작합니다");
+        ThreadLocalContext.debug("Sitemap 생성을 시작합니다");
+
         try {
             FileCRUDUtil.writeForceDirectory(staticDirectory);
             final WebSitemapGenerator sitemapGenerator = new WebSitemapGenerator(PODO_DEV_WEB_URL, new File(staticDirectory));
@@ -34,8 +36,8 @@ public class SitemapMaker {
 
             sitemapGenerator.write();
 
-        } catch (MalformedURLException e) {
-            log.error("잘못된 URL 입니다 , {}" + e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException("잘못된 URL 입니다.", e);
         }
 
     }

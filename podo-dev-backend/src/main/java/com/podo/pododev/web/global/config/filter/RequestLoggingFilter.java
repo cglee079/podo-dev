@@ -43,7 +43,7 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
             LOGGER.info("", StructuredArguments.value("context", ThreadLocalContext.toLog()));
 
             wrappingResponse.copyBodyToResponse();
-            ThreadLocalContext.removeAll();
+            ThreadLocalContext.clear();
         }
     }
 

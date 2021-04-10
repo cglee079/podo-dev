@@ -3,6 +3,7 @@ package com.podo.pododev.web.job.maker.rss;
 import com.podo.pododev.core.util.LocalDateTimeUtil;
 import com.podo.pododev.core.util.PathUtil;
 import com.podo.pododev.web.domain.blog.blog.dto.BlogFeed;
+import com.podo.pododev.web.global.config.filter.ThreadLocalContext;
 import com.rometools.rome.feed.synd.SyndCategory;
 import com.rometools.rome.feed.synd.SyndCategoryImpl;
 import com.rometools.rome.feed.synd.SyndContent;
@@ -45,23 +46,19 @@ public class RssMaker {
     private String staticDirectory;
 
     public void makeRss(List<BlogFeed> blogs) {
-
+        ThreadLocalContext.debug("feed 생성을 시작합니다.");
         final SyndFeed rssFeed = new SyndFeedImpl();
         final List<SyndEntry> blogEntries = createBlogEntries(blogs);
 
         setWebInfo(rssFeed);
         rssFeed.setEntries(blogEntries);
 
-
         try {
             final String rssFileLocation = PathUtil.merge(staticDirectory, "feed.xml");
             writeRss(rssFileLocation, rssFeed);
             rewriteRssGmtToNumberOfHour(rssFileLocation);
-
-        } catch (IOException e) {
-            log.error("RSS 파일을 저장하는데 실패하였습니다,  {}", e.getMessage());
-        } catch (FeedException e) {
-            log.error("Feed Error, {}", e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException("feed 파일을 저장하는데 실패하였습니다", e);
         }
 
 

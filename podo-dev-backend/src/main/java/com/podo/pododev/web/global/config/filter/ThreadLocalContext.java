@@ -18,7 +18,7 @@ public class ThreadLocalContext {
 
     public static void debug(String message) {
         Integer index = debugIndex.get();
-        values.get().put("debug-" + index, message);
+        values.get().put("debug-" + index, DateTimeFormatUtil.toFullDateTime(LocalDateTime.now()) + " :: " + message);
         debugIndex.set(index + 1);
     }
 
@@ -30,8 +30,10 @@ public class ThreadLocalContext {
         values.get().put(key, DateTimeFormatUtil.toFullDateTime(localDateTime));
     }
 
-    public static void removeAll() {
+    public static void clear() {
         values.set(new HashMap<>());
+        exceptionIndex.set(0);
+        debugIndex.set(0);
     }
 
     public static Map<String, Object> toLog() {

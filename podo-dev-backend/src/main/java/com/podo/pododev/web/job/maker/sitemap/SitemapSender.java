@@ -1,5 +1,6 @@
 package com.podo.pododev.web.job.maker.sitemap;
 
+import com.podo.pododev.web.global.config.filter.ThreadLocalContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -14,10 +15,10 @@ public class SitemapSender {
     private final RestTemplate restTemplate = new RestTemplate();
 
     public void requestSubmitSitemap(String submitUrl) {
-        log.debug("Sitemap 제출을 요청합니다 >>>  '{}'", submitUrl);
+        ThreadLocalContext.debug(String.format("Sitemap 제출을 요청합니다 >>>  '%s'", submitUrl));
 
         final String response = restTemplate.exchange(submitUrl, HttpMethod.GET, new HttpEntity<>(new HttpHeaders()), String.class).getBody();
 
-        log.debug("Sitemap 제출을 요청 응답 <<< '{}'", response.replace("\n", " "));
+        ThreadLocalContext.debug(String.format("Sitemap 제출을 요청 응답 <<< '%s'", response != null ? response.replace("\n", " ") : ""));
     }
 }

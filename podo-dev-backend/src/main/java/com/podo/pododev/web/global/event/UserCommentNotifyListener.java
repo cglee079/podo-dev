@@ -1,6 +1,7 @@
 package com.podo.pododev.web.global.event;
 
 import com.podo.pododev.core.util.DateTimeFormatUtil;
+import com.podo.pododev.web.global.config.filter.ThreadLocalContext;
 import com.podo.pododev.web.global.infra.telegram.TelegramClient;
 import com.podo.pododev.web.global.util.HtmlDocumentUtil;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ public class UserCommentNotifyListener {
 
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void notifyUserComment(UserCommentNotifyDto userCommentNotifyDto) {
-        log.debug("EVENT :: COMMENT NOTIFIER :: 댓글 알림을 전송합니다");
+        ThreadLocalContext.debug("EVENT :: COMMENT NOTIFIER :: 댓글 알림을 전송합니다");
 
         final String message = new StringBuilder().append("#게시글에 댓글이 등록되었습니다.\n")
                 .append("게시글 : ")

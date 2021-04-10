@@ -2,6 +2,7 @@ package com.podo.pododev.web.global.util.writer;
 
 import com.podo.pododev.core.util.PathUtil;
 import com.podo.pododev.web.domain.blog.attach.attachimage.exception.InvalidBase64ApiException;
+import com.podo.pododev.web.global.config.filter.ThreadLocalContext;
 import com.podo.pododev.web.global.util.FileCRUDUtil;
 import com.podo.pododev.web.global.util.FilenameCreator;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +31,7 @@ public class FileLocalWriter {
         final String randomFilename = FilenameCreator.createUUIDFilename(originFileExtension);
         final String savedFilePath = PathUtil.merge(savedDirectory, randomFilename);
 
-        log.debug("'{}' 파일을 URL로 부터 저장합니다. URL : '{}', ", savedFilePath, fileUrl);
+        ThreadLocalContext.debug(String.format("'%s' 파일을 URL로 부터 저장합니다. URL : '%s', ", savedFilePath, fileUrl));
 
         return FileCRUDUtil.writeFile(localDirectoryManager.mergeLocalSaveBasedDirectory(savedFilePath), fileUrl);
     }
@@ -41,7 +42,7 @@ public class FileLocalWriter {
         final String randomFilename = FilenameCreator.createUUIDFilename(originFileExtension);
         final String savedFilePath = PathUtil.merge(savedDirectory, randomFilename);
 
-        log.debug("'{}' 파일을 MultipartFile로부터 저장합니다", savedFilePath);
+        ThreadLocalContext.debug(String.format("'%s' 파일을 MultipartFile로부터 저장합니다", savedFilePath));
 
         return FileCRUDUtil.writeFile(localDirectoryManager.mergeLocalSaveBasedDirectory(savedFilePath), multipartFile);
     }
@@ -51,7 +52,7 @@ public class FileLocalWriter {
         final String randomFilename = FilenameCreator.createUUIDFilename(extension);
         final String savedFilePath = PathUtil.merge(savedDirectory, randomFilename);
 
-        log.debug("'{}' 파일을 BASE64로부터 저장합니다", randomFilename);
+        ThreadLocalContext.debug(String.format("'%s' 파일을 BASE64로부터 저장합니다", randomFilename));
 
         return FileCRUDUtil.writeFile(localDirectoryManager.mergeLocalSaveBasedDirectory(savedFilePath), extension, bufferedImageFromBase64);
     }
@@ -70,7 +71,7 @@ public class FileLocalWriter {
 
         final String dirPath = localDirectoryManager.mergeLocalSaveBasedDirectory(directory);
 
-        log.debug("'{}' 파일을 삭제합니다.", filename);
+        ThreadLocalContext.debug(String.format("'%s' 파일을 삭제합니다.", filename));
 
         FileCRUDUtil.deleteFile(dirPath, filename);
     }
@@ -78,7 +79,7 @@ public class FileLocalWriter {
     public void removeDirectory(String directory) {
         final String directoryPath = localDirectoryManager.mergeLocalSaveBasedDirectory(directory);
 
-        log.debug("'{}' 폴더를 삭제합니다", directory);
+        ThreadLocalContext.debug(String.format("'%s' 폴더를 삭제합니다", directory));
 
         FileCRUDUtil.deleteDirectory(directoryPath);
     }
