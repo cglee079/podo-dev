@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class FileCRUDService {
 
-    @Value("${storage.uploaded.dir}")
+    @Value("${storage.uploaded.dir:}")
     private String uploadedDirectory;
 
     public void writeFile(FileWrite write) {
