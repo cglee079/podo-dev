@@ -23,7 +23,7 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Value("${uploader.security.client.tokens}")
+    @Value("${uploader.security.client.tokens:}")
     private List<String> validTokens;
 
     @Override

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class HttpServerConfig {
 
-    @Value("${server.http.port}")
+    @Value("${server.http.port:8080}")
     private Integer httpPort;
 
     @Bean
