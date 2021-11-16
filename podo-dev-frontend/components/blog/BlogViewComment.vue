@@ -1,7 +1,7 @@
 <template>
     <div id="wrapComment" :class="$mq">
         <div id="count">
-            <img src="https://image.flaticon.com/icons/svg/134/134718.svg" alt="CommentCount" />
+            <img src="../../assets/icons/icon-comment.svg" alt="CommentCount" />
             <a class="comment-cnt">{{ this.totalElements }}</a>
             <div></div>
         </div>
