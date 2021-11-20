@@ -86,6 +86,13 @@
             <div ref="comments">
                 <blog-view-comment v-if="blog.id" :blog-id="blog.id" />
             </div>
+
+            <div id="coupangBanner">
+                <iframe src="https://ads-partners.coupang.com/widgets.html?id=530471&template=carousel&trackingCode=AF3217337&subId=&width=750&height=140" width="750" height="140" frameborder="0" scrolling="no" referrerpolicy="unsafe-url"></iframe>
+                <div id="description">
+                    이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.
+                </div>
+            </div>
         </div>
     </section>
 </template>
@@ -383,6 +390,24 @@ export default {
         margin-top: 70px;
         margin-bottom: 150px;
         font-size: 1rem !important;
+    }
+
+    #coupangBanner{
+        display: flex;
+        align-items: center;
+        flex-flow : column;
+        justify-content : space-between;
+        margin: 70px 10px 50px;
+        overflow: hidden;
+
+        #description{
+            font-size: 12px;
+            color: #5ca97d;
+        }
+
+        iframe{
+            padding: 5px;
+        }
     }
 }
 </style>
