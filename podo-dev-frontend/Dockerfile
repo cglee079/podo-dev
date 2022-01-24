@@ -7,6 +7,8 @@ COPY . /app
 
 WORKDIR /app
 
+RUN ls
+
 RUN npm install --silent
 RUN npm run build
 
