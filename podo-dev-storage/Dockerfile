@@ -5,16 +5,16 @@ FROM java:8 AS builder
 
 COPY . .
 
-ARG ROOT_DIRECTORY
+ARG SUB_MODULE
 
 RUN chmod 777 gradlew
-RUN ./gradlew :${ROOT_DIRECTORY}:clean
-RUN ./gradlew -x test :${ROOT_DIRECTORY}:build
+RUN ./gradlew :${SUB_MODULE}:clean
+RUN ./gradlew -x test :${SUB_MODULE}:build
 
 
 WORKDIR /
 RUN mkdir /app
-RUN cp -r ./${ROOT_DIRECTORY}/build/libs /app
+RUN cp -r ./${SUB_MODULE}/build/libs /app
 
 
 ###########################
