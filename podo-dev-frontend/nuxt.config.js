@@ -2,7 +2,7 @@ module.exports = {
     // mode: "spa",
     // debug: true,
 
-    serverMiddleware: ["redirect-ssl"],
+    // serverMiddleware: ["redirect-ssl"],
 
     server: {
         port: 8000,
