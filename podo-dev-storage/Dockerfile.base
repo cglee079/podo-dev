@@ -1,0 +1,14 @@
+###########################
+##### RUN BUILD #####
+###########################
+FROM java:8 AS builder
+
+COPY . .
+
+ARG SUB_MODULE
+
+RUN chmod 777 gradlew
+RUN ./gradlew :${SUB_MODULE}:clean
+RUN ./gradlew -x test :${SUB_MODULE}:dependencies
+
+
