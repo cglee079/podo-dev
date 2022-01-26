@@ -8,8 +8,8 @@ COPY . .
 ARG SUB_MODULE
 
 RUN chmod 777 gradlew
-RUN ./gradlew :${SUB_MODULE}:clean
-RUN ./gradlew -x test :${SUB_MODULE}:build
+RUN ./gradlew --no-daemon --debug :${SUB_MODULE}:clean
+RUN ./gradlew --no-daemon --debug -x test :${SUB_MODULE}:build
 
 
 WORKDIR /
