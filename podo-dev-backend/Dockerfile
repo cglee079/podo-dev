@@ -33,8 +33,10 @@ COPY --from=builder /app /app
 
 RUN echo "Asia/Seoul" > /etc/timezone
 
+
+
 CMD java \
-    -jar \
+    -jar --server \
     -Dspring.profiles.active=prod \
     -Xms${HEAP_SIZE} -Xmx${HEAP_SIZE} \
     -XX:NewSize=${NEW_SIZE} -XX:MaxNewSize=${NEW_SIZE} \
