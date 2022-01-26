@@ -3,13 +3,15 @@
 ###########################
 FROM gradle:6.8.2-jdk8
 
-COPY --chown=gradle:gradle . /home/gradle/src
+RUN mkdir -p  /home/gradle/src/temp
+COPY --chown=gradle:gradle . /home/gradle/src/temp
 
 ARG SUB_MODULE
 
-WORKDIR /home/gradle/src
+WORKDIR /home/gradle/src/temp
 
 RUN gradle --no-daemon --debug :${SUB_MODULE}:clean
 RUN gradle --no-daemon --debug -x test :${SUB_MODULE}:dependencies
 
+RUN rm -r /home/gradle/src/temp
 
