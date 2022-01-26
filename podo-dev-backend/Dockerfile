@@ -33,8 +33,6 @@ COPY --from=builder /app /app
 
 RUN echo "Asia/Seoul" > /etc/timezone
 
-
-
 CMD java \
     -jar \
     -Dspring.profiles.active=prod \

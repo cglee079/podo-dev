@@ -13,5 +13,6 @@ WORKDIR /home/gradle/src/temp
 RUN gradle --no-daemon --debug :${SUB_MODULE}:clean
 RUN gradle --no-daemon --debug -x test :${SUB_MODULE}:dependencies
 
+WORKDIR /
 RUN rm -r /home/gradle/src/temp
 
