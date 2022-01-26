@@ -19,7 +19,7 @@ logging:
 
 ---
 
-spring.profiles: deploy
+spring.profiles: prod
 
 spring.cloud.config.uri: http://192.168.50.2:8888
 
