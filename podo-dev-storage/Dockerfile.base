@@ -1,7 +1,7 @@
 ###########################
 ##### RUN BUILD #####
 ###########################
-FROM gradle:6.8.2-jdk8-openj9  AS builder
+FROM gradle:6.8.2-jdk8-openj9
 
 COPY --chown=gradle:gradle . /home/gradle/src
 
