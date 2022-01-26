@@ -1,27 +1,14 @@
 spring.application.name: podo-dev-storage
 
-logging:
-  file.name: podo-dev-storage.%d{yyyy-MM-dd}-%i.log
-
 ---
 
 spring.profiles: dev
-
-logging:
-  file.path: c://dev-logs/podo-dev/podo-dev-storage/logs
 
 ---
 
 spring.profiles: test
 
-logging:
-  file.path: logs
-
 ---
 
 spring.profiles: prod
-
-spring.cloud.config.uri: http://192.168.50.2:8888
-
-logging:
-  file.path: /data/logs
+spring.cloud.config.uri:  http://220.88.46.130:8888
