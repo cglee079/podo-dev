@@ -3,12 +3,13 @@
 ###########################
 FROM gradle:6.8.2-jdk8-openj9  AS builder
 
-COPY . .
+COPY --chown=gradle:gradle . /home/gradle/src
 
 ARG SUB_MODULE
 
-RUN chmod 777 gradlew
-RUN ./gradlew --no-daemon --debug :${SUB_MODULE}:clean
-RUN ./gradlew --no-daemon --debug -x test :${SUB_MODULE}:dependencies
+WORKDIR /home/gradle/src
+
+RUN gradle --no-daemon --debug :${SUB_MODULE}:clean
+RUN gradle --no-daemon --debug -x test :${SUB_MODULE}:dependencies
 
 
