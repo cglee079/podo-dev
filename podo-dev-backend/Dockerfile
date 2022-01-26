@@ -1,15 +1,14 @@
 ###########################
 ##### RUN BUILD #####
 ###########################
-FROM java:8 AS builder
+FROM gradle:6.9.2-jdk-alpine AS builder
 
 COPY . .
 
 ARG SUB_MODULE
 
-RUN chmod 777 gradlew
-RUN ./gradlew --no-daemon --debug :${SUB_MODULE}:clean
-RUN ./gradlew --no-daemon --debug -x test :${SUB_MODULE}:build
+RUN gradle --no-daemon --debug :${SUB_MODULE}:clean
+RUN gradle --no-daemon --debug -x test :${SUB_MODULE}:build
 
 
 WORKDIR /

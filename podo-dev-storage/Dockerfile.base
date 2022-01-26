@@ -1,14 +1,14 @@
 ###########################
 ##### RUN BUILD #####
 ###########################
-FROM java:8 AS builder
+FROM gradle:6.8.2-jdk8-openj9  AS builder
 
 COPY . .
 
 ARG SUB_MODULE
 
 RUN chmod 777 gradlew
-RUN ./gradlew :${SUB_MODULE}:clean
-RUN ./gradlew -x test :${SUB_MODULE}:dependencies
+RUN ./gradlew --no-daemon --debug :${SUB_MODULE}:clean
+RUN ./gradlew --no-daemon --debug -x test :${SUB_MODULE}:dependencies
 
 
