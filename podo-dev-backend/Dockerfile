@@ -25,7 +25,7 @@ RUN cp -r /home/gradle/src/${SUB_MODULE}/build/libs/* /app
 FROM java:8
 
 ARG HEAP_SIZE
-ENV HEAP_SIZE=${HEAP_SIZE:-512M}
+ENV HEAP_SIZE=${HEAP_SIZE:-756M}
 ARG NEW_SIZE
 ENV NEW_SIZE=${NEW_SIZE:-256M}
 
@@ -40,7 +40,6 @@ CMD java \
     -Dspring.profiles.active=prod \
     -Xms${HEAP_SIZE} -Xmx${HEAP_SIZE} \
     -XX:NewSize=${NEW_SIZE} -XX:MaxNewSize=${NEW_SIZE} \
-    -XX:MetaspaceSize=50M \
     /app/$(ls /app | grep -E '.*\.jar')
 
 
