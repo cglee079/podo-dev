@@ -16,7 +16,7 @@ RUN gradle --no-daemon --debug -x test :${SUB_MODULE}:build
 WORKDIR /
 RUN mkdir /app
 RUN mkdir ls
-RUN cp -r /home/gradle/src/${SUB_MODULE}/build/libs /app
+RUN cp -r /home/gradle/src/${SUB_MODULE}/build/libs/* /app
 
 
 ###########################
