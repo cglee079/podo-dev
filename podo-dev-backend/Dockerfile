@@ -1,11 +1,13 @@
 ###########################
 ##### RUN BUILD #####
 ###########################
-FROM gradle:6.9.2-jdk-alpine AS builder
+FROM cglee079/podo-dev-storage:base  AS builder
 
-COPY . .
+COPY --chown=gradle:gradle . /home/gradle/src
 
 ARG SUB_MODULE
+
+WORKDIR /home/gradle/src
 
 RUN gradle --no-daemon --debug :${SUB_MODULE}:clean
 RUN gradle --no-daemon --debug -x test :${SUB_MODULE}:build
@@ -13,7 +15,8 @@ RUN gradle --no-daemon --debug -x test :${SUB_MODULE}:build
 
 WORKDIR /
 RUN mkdir /app
-RUN cp -r ./${SUB_MODULE}/build/libs /app
+RUN mkdir ls
+RUN cp -r /home/gradle/src/${SUB_MODULE}/build/libs /app
 
 
 ###########################

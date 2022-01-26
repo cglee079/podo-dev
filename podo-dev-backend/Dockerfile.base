@@ -1,14 +1,15 @@
 ###########################
 ##### RUN BUILD #####
 ###########################
-FROM java:8 AS builder
+FROM gradle:6.8.2-jdk8
 
-COPY . .
+COPY --chown=gradle:gradle . /home/gradle/src
 
 ARG SUB_MODULE
 
-RUN chmod 777 gradlew
-RUN ./gradlew :${SUB_MODULE}:clean
-RUN ./gradlew -x test :${SUB_MODULE}:dependencies
+WORKDIR /home/gradle/src
+
+RUN gradle --no-daemon --debug :${SUB_MODULE}:clean
+RUN gradle --no-daemon --debug -x test :${SUB_MODULE}:dependencies
 
 
