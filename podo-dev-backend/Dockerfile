@@ -16,7 +16,7 @@ RUN gradle --no-daemon --debug -x test :${SUB_MODULE}:build
 WORKDIR /
 RUN mkdir /app
 RUN mkdir ls
-RUN cp -r /home/gradle/src/${SUB_MODULE}/build/libs /app
+RUN cp -r /home/gradle/src/${SUB_MODULE}/build/libs/* /app
 
 
 ###########################
@@ -35,7 +35,7 @@ RUN echo "Asia/Seoul" > /etc/timezone
 
 CMD java \
     -jar \
-    -Dspring.profiles.active=deploy \
+    -Dspring.profiles.active=prod \
     -Xms${HEAP_SIZE} -Xmx${HEAP_SIZE} \
     -XX:NewSize=${NEW_SIZE} -XX:MaxNewSize=${NEW_SIZE} \
     -XX:MetaspaceSize=50M \
