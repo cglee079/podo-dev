@@ -43,7 +43,7 @@ public class ThreadLocalContext {
     }
 
     public static Map<String, Object> toLog() {
-        return values.get();
+        return new HashMap<>(values.get());
     }
 
     public static void init(String type) {
