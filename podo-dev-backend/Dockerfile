@@ -22,7 +22,7 @@ RUN cp -r /home/gradle/src/${SUB_MODULE}/build/libs/* /app
 ###########################
 ##### RUN APPLICATION #####
 ###########################
-FROM java:8
+FROM openjdk:8u342-jdk
 
 ARG HEAP_SIZE
 ENV HEAP_SIZE=${HEAP_SIZE:-2048M}
