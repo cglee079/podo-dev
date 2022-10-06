@@ -11,4 +11,4 @@ spring.profiles: test
 ---
 
 spring.profiles: prod
-spring.cloud.config.uri:  http://220.88.46.130:8888
+spring.cloud.config.uri:  http://cloud-config-server-service.app-cloud-config-server.svc.cluster.local:8888
