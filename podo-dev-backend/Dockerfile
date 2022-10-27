@@ -25,9 +25,9 @@ RUN cp -r /home/gradle/src/${SUB_MODULE}/build/libs/* /app
 FROM openjdk:8u342-jdk
 
 ARG HEAP_SIZE
-ENV HEAP_SIZE=${HEAP_SIZE:-2048M}
+ENV HEAP_SIZE=${HEAP_SIZE:-1536M}
 ARG NEW_SIZE
-ENV NEW_SIZE=${NEW_SIZE:-1024M}
+ENV NEW_SIZE=${NEW_SIZE:-512M}
 
 COPY --from=builder /app /app
 
