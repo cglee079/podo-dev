@@ -9,10 +9,11 @@ WORKDIR /app
 
 RUN ls
 
-RUN rm -r node_modules
+RUN rm -r node_modules | true
 
 RUN git config --global http.sslverify "false"
 RUN git config --global url."https://".insteadOf git://
+
 RUN npm install
 RUN npm run build
 
