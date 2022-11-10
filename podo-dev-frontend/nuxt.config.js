@@ -27,13 +27,7 @@ module.exports = {
     },
 
     build: {
-        extend (config, { isDev, isClient }) {
-            config.module.rules.push({
-                test: /\.mjs$/,
-                include: /node_modules/,
-                type: 'javascript/auto',
-            })
-        }
+        standalone: true
     },
 
     head: {
