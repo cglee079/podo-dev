@@ -38,7 +38,7 @@ public class FileStorageClient {
 
         final MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>();
         requestBody.add("namespace", "podo-dev");
-        requestBody.add("path", path);
+        requestBody.add("path", path + "/" + file.getName());
         requestBody.add("file", new FileSystemResource(file));
 
         final HttpHeaders requestHeaders = new HttpHeaders();
