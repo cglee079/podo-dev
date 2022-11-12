@@ -19,12 +19,14 @@ import java.io.File;
 
 @Slf4j
 @Component
-public class PodoStorageClient {
+public class FileStorageClient {
     @Value("${external.storage.server.internal:}")
     private String serverUrl;
 
+    RestTemplate restTemplate = new RestTemplate();
+
     public void uploadFile(String path, File file) {
-        ThreadLocalContext.debug(String.format("Storage 서버에 '%s' 파일 업로드를 요청합니다", file.getPath() + "/" + file.getName()));
+        ThreadLocalContext.debug(String.format("Storage 서버에 '%s' 파일 업로드를 요청합니다", file.getPath()));
 
         final MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>();
         requestBody.add("namespace", "podo-dev");
@@ -36,9 +38,9 @@ public class PodoStorageClient {
 
         HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(requestBody, requestHeaders);
 
-        ResponseEntity<String> response = new RestTemplate().exchange(serverUrl, HttpMethod.POST, request, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(serverUrl, HttpMethod.POST, request, String.class);
 
-        ThreadLocalContext.debug(String.format("Storage 파일 업로드 요청 응답 : '%s'", response.toString()));
+        ThreadLocalContext.debug(String.format("Storage 파일 업로드 요청 응답 : '%s'", response));
     }
 
     public void deleteFile(String directory, String filename) {
@@ -54,7 +56,7 @@ public class PodoStorageClient {
 
         final HttpEntity<String> request = new HttpEntity<>(requestBody.toString(), requestHeaders);
 
-        final ResponseEntity<String> response = new RestTemplate().exchange(serverUrl, HttpMethod.DELETE, request, String.class);
+        final ResponseEntity<String> response = restTemplate.exchange(serverUrl, HttpMethod.DELETE, request, String.class);
 
         ThreadLocalContext.debug(String.format("Storage 파일 삭제 요청 응답 '%s'", response.toString()));
 

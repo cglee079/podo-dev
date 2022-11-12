@@ -1,5 +1,6 @@
 package com.podo.pododev.backend.global.web.handler;
 
+import com.podo.pododev.backend.global.context.ThreadLocalContext;
 import com.podo.pododev.core.rest.ApiException;
 import com.podo.pododev.core.rest.response.ErrorResponse;
 import com.podo.pododev.core.rest.response.dto.ErrorDto;
@@ -27,6 +28,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleException(Exception e) {
+        ThreadLocalContext.putException(e);
 
         if(NO_REPORT_EXCEPTION.stream().noneMatch(ex -> ex.isInstance(e))){
             Sentry.captureException(e);
@@ -42,6 +44,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ApiException.class)
     public ResponseEntity<ErrorResponse> handleException(ApiException e) {
+        ThreadLocalContext.putException(e);
+
         final ErrorResponse response = ErrorResponse.singleError()
                 .status(e.getApiStatus())
                 .error(new ErrorDto(e.getField(), e.getValue(), e.getMessage()))
@@ -52,6 +56,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleBindingValidException(MethodArgumentNotValidException e) {
+        ThreadLocalContext.putException(e);
+
         final BindingResult result = e.getBindingResult();
 
         final List<ErrorDto> fieldErrors = result.getFieldErrors().stream()
@@ -68,6 +74,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({BindException.class})
     public ResponseEntity<ErrorResponse> handleBindException(BindException e) {
+        ThreadLocalContext.putException(e);
+        
         final BindingResult result = e.getBindingResult();
         final List<ErrorDto> fieldErrors = result.getFieldErrors().stream()
                 .map(fe -> new ErrorDto(fe.getField(), fe.getRejectedValue(), fe.getDefaultMessage()))
