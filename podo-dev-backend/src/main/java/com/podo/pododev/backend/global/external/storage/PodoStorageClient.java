@@ -20,10 +20,6 @@ import java.io.File;
 @Slf4j
 @Component
 public class PodoStorageClient {
-
-    @Value("${external.storage.auth.token:}")
-    private String token;
-
     @Value("${external.storage.server.internal:}")
     private String serverUrl;
 
@@ -31,12 +27,12 @@ public class PodoStorageClient {
         ThreadLocalContext.debug(String.format("Storage 서버에 '%s' 파일 업로드를 요청합니다", file.getPath() + "/" + file.getName()));
 
         final MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>();
+        requestBody.add("namespace", "podo-dev");
         requestBody.add("path", path);
         requestBody.add("file", new FileSystemResource(file));
 
         final HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
-        requestHeaders.setBearerAuth(token);
 
         HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(requestBody, requestHeaders);
 
@@ -49,12 +45,12 @@ public class PodoStorageClient {
         ThreadLocalContext.debug(String.format("Storage 서버에 '%s' 파일 삭제를 요청합니다", directory + "/" + filename));
 
         final JSONObject requestBody = new JSONObject();
+        requestBody.put("namespace", "podo-dev");
         requestBody.put("path", directory);
         requestBody.put("filename", filename);
 
         final HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setContentType(MediaType.APPLICATION_JSON);
-        requestHeaders.setBearerAuth(token);
 
         final HttpEntity<String> request = new HttpEntity<>(requestBody.toString(), requestHeaders);
 
