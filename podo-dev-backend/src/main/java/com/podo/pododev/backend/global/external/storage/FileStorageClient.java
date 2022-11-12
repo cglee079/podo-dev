@@ -4,6 +4,9 @@ import com.podo.pododev.backend.global.context.ThreadLocalContext;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -16,6 +19,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 
 @Slf4j
 @Component
@@ -23,22 +28,25 @@ public class FileStorageClient {
     @Value("${external.storage.server.internal:}")
     private String serverUrl;
 
-    RestTemplate restTemplate = new RestTemplate();
+    RestTemplate restTemplate = new RestTemplateBuilder()
+            .setReadTimeout(Duration.of(30, ChronoUnit.SECONDS))
+            .setConnectTimeout(Duration.of(30, ChronoUnit.SECONDS))
+            .build();
 
     public void uploadFile(String path, File file) {
         ThreadLocalContext.debug(String.format("Storage 서버에 '%s' 파일 업로드를 요청합니다", file.getPath()));
 
         final MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>();
-        requestBody.add("namespace", "podo-dev");
+        requestBody.add("namespace", "helloprice");
         requestBody.add("path", path);
         requestBody.add("file", new FileSystemResource(file));
 
         final HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
 
-        HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(requestBody, requestHeaders);
+        HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<>(requestBody, requestHeaders);
 
-        ResponseEntity<String> response = restTemplate.exchange(serverUrl + "/api/write", HttpMethod.POST, request, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(serverUrl + "/api/write", HttpMethod.POST, httpEntity, String.class);
 
         ThreadLocalContext.debug(String.format("Storage 파일 업로드 요청 응답 : '%s'", response));
     }
@@ -58,7 +66,7 @@ public class FileStorageClient {
 
         final ResponseEntity<String> response = restTemplate.exchange(serverUrl + "/api/delete", HttpMethod.POST, request, String.class);
 
-        ThreadLocalContext.debug(String.format("Storage 파일 삭제 요청 응답 '%s'", response.toString()));
+        ThreadLocalContext.debug(String.format("Storage 파일 삭제 요청 응답 '%s'", response));
 
     }
 }
