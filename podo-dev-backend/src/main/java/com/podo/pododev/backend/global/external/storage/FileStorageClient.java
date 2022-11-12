@@ -37,7 +37,7 @@ public class FileStorageClient {
         ThreadLocalContext.debug(String.format("Storage 서버에 '%s' 파일 업로드를 요청합니다", file.getPath()));
 
         final MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>();
-        requestBody.add("namespace", "helloprice");
+        requestBody.add("namespace", "podo-dev");
         requestBody.add("path", path);
         requestBody.add("file", new FileSystemResource(file));
 
