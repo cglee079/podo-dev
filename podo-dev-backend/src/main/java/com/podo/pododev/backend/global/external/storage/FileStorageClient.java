@@ -38,7 +38,7 @@ public class FileStorageClient {
 
         HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(requestBody, requestHeaders);
 
-        ResponseEntity<String> response = restTemplate.exchange(serverUrl, HttpMethod.POST, request, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(serverUrl + "/api/write", HttpMethod.POST, request, String.class);
 
         ThreadLocalContext.debug(String.format("Storage 파일 업로드 요청 응답 : '%s'", response));
     }
@@ -56,7 +56,7 @@ public class FileStorageClient {
 
         final HttpEntity<String> request = new HttpEntity<>(requestBody.toString(), requestHeaders);
 
-        final ResponseEntity<String> response = restTemplate.exchange(serverUrl, HttpMethod.DELETE, request, String.class);
+        final ResponseEntity<String> response = restTemplate.exchange(serverUrl + "/api/delete", HttpMethod.POST, request, String.class);
 
         ThreadLocalContext.debug(String.format("Storage 파일 삭제 요청 응답 '%s'", response.toString()));
 
