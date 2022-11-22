@@ -46,7 +46,7 @@ public class FileCRUDUtil {
             final URLConnection connection = url.openConnection();
             final InputStream in = connection.getInputStream();
 
-            final byte[] buf = new byte[512];
+            final byte[] buf = new byte[4096];
             while (true) {
                 int len = in.read(buf);
                 if (len == -1) {
