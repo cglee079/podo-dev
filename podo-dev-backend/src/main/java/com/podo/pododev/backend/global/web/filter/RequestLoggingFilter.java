@@ -90,9 +90,13 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
 
         log.put("headers", OBJECT_MAPPER.writeValueAsString(headers));
         log.put("status", response.getStatus());
-        log.put("body", new String(response.getContentAsByteArray()));
-        log.put("bodySize", response.getContentSize());
+        int contentSize = response.getContentSize();
+        log.put("bodySize", contentSize);
 
+        // 파일 다운로드 이슈
+        if(contentSize < 3000) {
+            log.put("body", new String(response.getContentAsByteArray()));
+        }
         return log;
     }
 }
