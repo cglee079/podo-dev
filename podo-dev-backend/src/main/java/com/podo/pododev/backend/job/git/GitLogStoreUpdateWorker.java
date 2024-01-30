@@ -33,7 +33,11 @@ public class GitLogStoreUpdateWorker implements Worker {
 
         final List<GitEventVO> events = gitApiClient.getEvents();
         final LocalDateTime lastUpdateAt = gitLogStore.getLastUpdateAt();
-        final LocalDateTime leastEventCreateAt = events.get(0).getCreateAt();
+        LocalDateTime leastEventCreateAt = LocalDateTime.MIN;
+
+        if(!events.isEmpty()){
+            leastEventCreateAt = events.get(0).getCreateAt();
+        }
 
         if(leastEventCreateAt.compareTo(lastUpdateAt) <= 0){
             ThreadLocalContext.debug("Git 변동 내역이 없습니다. 갱신을 진행하지 않습니다");
