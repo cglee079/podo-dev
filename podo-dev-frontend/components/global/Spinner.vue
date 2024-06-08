@@ -32,7 +32,7 @@ export default {
         }
     },
 
-    created() {
+    mounted() {
         bus.$on("spinner:start", this.on);
         bus.$on("spinner:stop", this.off);
     },
