@@ -23,12 +23,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import static org.kohsuke.github.GHEvent.COMMIT_COMMENT;
 import static org.kohsuke.github.GHEvent.ISSUES;
@@ -115,7 +110,7 @@ public class GitApiClient {
             return gitEvents;
 
         } catch (Exception e) {
-            throw new GitApiConnectFailException(e);
+            return Collections.emptyList();
         }
     }
 
